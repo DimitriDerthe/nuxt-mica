@@ -97,4 +97,13 @@ pnpm site:generate   # static output in site/.output/public, ready for an S3 buc
 
 The component explorer lives at `/components`: one page per component with a live preview, prop controls inferred from the generated manifest, a usage snippet and the full API. Each preview is a small file in `site/app/examples/<MiName>.vue`; see `site/app/examples/README.md` for the contract. A new component shows its API page right away and a placeholder until its example is added.
 
+### GitHub Pages
+
+```bash
+pnpm pages:build     # site at /nuxt-mica/, playground demos at /nuxt-mica/demo/, output in pages-dist
+pnpm pages:preview   # serve pages-dist locally (mount it under /nuxt-mica/ to test the sub-path)
+```
+
+`.github/workflows/pages.yml` runs the docs check, the tests and `pages:build`, then deploys `pages-dist` on every push to `main`. In the repository settings, set Pages > Source to "GitHub Actions". The sub-path is the repository name; for a user or organisation site (or a custom domain) run `node scripts/build-pages.mjs ""` to build for the root. The site also serves the AI docs: `/llms.txt`, `/docs/<group>.md` and `/docs/api/<MiName>.md`.
+
 Set `NUXT_PUBLIC_I18N_BASE_URL` to the public origin (hreflang and canonical tags) and `NUXT_PUBLIC_SHOWCASE_URL` to where the playground showcase is served. The component catalog and the `llms.txt` excerpt on the page are read from the generated manifest at build time, so they never drift.

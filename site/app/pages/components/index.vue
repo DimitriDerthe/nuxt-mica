@@ -21,7 +21,9 @@
 
     <template v-for="g in visibleGroups" :key="g">
       <section :id="g.toLowerCase()" class="cx__group" :aria-labelledby="'g-' + g">
-        <h2 :id="'g-' + g" class="cx__gtitle">{{ t('explorer.groups.' + g) }} <span>{{ filtered.filter(c => c.group === g).length }}</span></h2>
+        <h2 :id="'g-' + g" class="cx__gtitle">{{ t('explorer.groups.' + g) }} <span>{{ filtered.filter(c => c.group === g).length }}</span>
+          <a :href="`${base}docs/${guideOf(g)}.md`" target="_blank" rel="noopener" class="cx__guide">{{ t('explorer.guide') }}</a>
+        </h2>
         <ul class="cx__grid">
           <li v-for="c in filtered.filter(x => x.group === g)" :key="c.name">
             <NuxtLink :to="localePath('/components/' + toSlug(c.name))" class="card">
@@ -51,6 +53,10 @@ const { data } = await useFetch('/api/components', { query: { lang: locale } })
 const list = computed(() => data.value ?? [])
 const groups = computed(() => [...new Set(list.value.map(c => c.group))])
 
+/** Guide file of a group (docs/<name>.md); Base is documented in foundations.md. */
+const guideOf = (g: string) => (g === 'Base' ? 'foundations' : g.toLowerCase())
+
+const base = useRuntimeConfig().app.baseURL
 const q = ref(typeof route.query.q === 'string' ? route.query.q : '')
 const group = ref(typeof route.query.group === 'string' ? route.query.group : '')
 const filtered = computed(() => {
@@ -78,6 +84,8 @@ useHead(() => ({ title: `${t('explorer.title')} · Mica` }))
 .cx__count { margin: 18px 0 0; font-size: 13px; color: var(--mi-label3); }
 .cx__group { padding-top: 40px; }
 .cx__gtitle { display: flex; align-items: baseline; gap: 10px; margin: 0 0 14px; font-size: 22px; letter-spacing: -.02em; }
+.cx__guide { margin-left: auto; font-size: 13px; font-weight: 500; color: var(--mi-p-text); text-decoration: none; }
+.cx__guide:hover { text-decoration: underline; }
 .cx__gtitle span { font-size: 13px; font-weight: 600; color: var(--mi-label3); font-variant-numeric: tabular-nums; }
 .cx__grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 270px), 1fr)); list-style: none; margin: 0; padding: 0; }
 .card { position: relative; display: flex; flex-direction: column; gap: 8px; height: 100%; box-sizing: border-box; padding: 18px 44px 18px 18px; border-radius: 18px; background: var(--mi-card); box-shadow: 0 0 0 1px var(--mi-sep); color: inherit; text-decoration: none; transition: transform var(--mi-dur-2) var(--mi-ease); }

@@ -16,7 +16,9 @@
     "docs:check": "node scripts/gen-manifest.mjs --check",
     "site:dev": "nuxt dev site --port 3010",
     "site:generate": "nuxt generate site",
-    "site:preview": "nuxt preview site"
+    "site:preview": "nuxt preview site",
+    "pages:build": "node scripts/build-pages.mjs",
+    "pages:preview": "npx serve pages-dist -l 4173"
   },
   "dependencies": {
     "nuxt": "^4.6.3",

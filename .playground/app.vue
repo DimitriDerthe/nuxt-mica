@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-useHead({ link: [{ rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }] })
+useHead({ link: [{ rel: 'icon', type: 'image/svg+xml', href: `${useRuntimeConfig().app.baseURL}favicon.svg` }] })
 
 const route = useRoute()
 const pages = ['index', 'buttons', 'controls', 'inputs', 'navigation', 'feedback', 'content', 'charts', 'showcase']

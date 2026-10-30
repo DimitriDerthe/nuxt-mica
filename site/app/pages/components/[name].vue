@@ -105,7 +105,7 @@
 
       <p class="ai">
         <MiIcon name="document" :size="16" />
-        <a :href="`/docs/api/${name}.md`" target="_blank" rel="noopener">{{ t('explorer.aiDoc') }}</a>
+        <a :href="`${useRuntimeConfig().app.baseURL}docs/api/${name}.md`" target="_blank" rel="noopener">{{ t('explorer.aiDoc') }}</a>
         <code>docs/api/{{ name }}.md</code>
       </p>
 

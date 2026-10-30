@@ -212,6 +212,7 @@
       "Chat": "Chat"
     },
     "partOf": "Élément de {name} : l’exemple ci-dessous le montre en contexte.",
-    "parts": "Éléments"
+    "parts": "Éléments",
+    "guide": "Guide du groupe"
   }
 }

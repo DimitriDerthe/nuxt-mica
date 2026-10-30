@@ -18,6 +18,18 @@
         "site:dev"
       ],
       "port": 3010
+    },
+    {
+      "name": "pages",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "4173",
+        "--directory",
+        "/private/tmp/claude-501/-Users-dimitriderthe-Documents-dev-nosync-nuxt-ui-layer/04499ec1-a4f2-43fe-ad46-7e339818e632/scratchpad/gh"
+      ],
+      "port": 4173
     }
   ]
 }

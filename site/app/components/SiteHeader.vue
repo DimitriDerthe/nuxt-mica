@@ -13,7 +13,7 @@
           {{ t('nav.switchShort') }}
         </NuxtLink>
         <MiThemeSwitcher icon-only :label="t('theme.label')" :labels="{ light: t('theme.light'), dark: t('theme.dark'), system: t('theme.system') }" />
-        <MiButton size="small" :href="localePath('/') + '#start'" class="hd__cta">{{ t('nav.start') }}</MiButton>
+        <MiButton size="small" :href="siteHref('/') + '#start'" class="hd__cta">{{ t('nav.start') }}</MiButton>
       </div>
     </div>
   </header>
@@ -22,6 +22,7 @@
 <script setup lang="ts">
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
+const siteHref = useSiteHref()
 const switchLocalePath = useSwitchLocalePath()
 const otherLocale = computed(() => (locale.value === 'en' ? 'fr' : 'en'))
 const links = [{ id: 'theming' }, { id: 'craft' }, { id: 'ai' }, { id: 'showcase' }]

@@ -212,6 +212,7 @@
       "Chat": "Chat"
     },
     "partOf": "Part of {name}: the live example below shows it in context.",
-    "parts": "Parts"
+    "parts": "Parts",
+    "guide": "Group guide"
   }
 }

@@ -16,7 +16,7 @@
           <p class="hero__lead rise" style="--d: 120ms">{{ t('hero.lead', { n: total, tag: '<MiButton>' }) }}</p>
           <div class="hero__ctas rise" style="--d: 180ms">
             <MiButton size="large" href="#start">{{ t('hero.primary') }}</MiButton>
-            <MiButton size="large" variant="gray" :href="localePath('/components')">{{ t('hero.secondary') }}</MiButton>
+            <MiButton size="large" variant="gray" :href="siteHref('/components')">{{ t('hero.secondary') }}</MiButton>
           </div>
           <div class="install rise" style="--d: 240ms">
             <code><span class="install__dollar" aria-hidden="true">$</span> {{ installCmd }}</code>
@@ -148,7 +148,7 @@
         </li>
       </ul>
       <div class="groups__more">
-        <MiButton variant="tinted" size="large" :href="localePath('/components')">{{ t('components.explore') }}</MiButton>
+        <MiButton variant="tinted" size="large" :href="siteHref('/components')">{{ t('components.explore') }}</MiButton>
       </div>
     </section>
 
@@ -304,6 +304,7 @@ import { toSlug } from '~/utils/explorer'
 
 const { t } = useI18n()
 const localePath = useLocalePath()
+const siteHref = useSiteHref()
 const config = useRuntimeConfig()
 const theme = useMiTheme()
 const toast = useMiToast()
