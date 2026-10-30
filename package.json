@@ -1,6 +1,7 @@
 {
   "name": "nuxt-mica",
   "version": "0.1.0",
+  "license": "MIT",
   "private": true,
   "type": "module",
   "main": "./nuxt.config.ts",
@@ -40,6 +41,7 @@
     "components.json",
     "docs/api",
     "AGENTS.md",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ]
 }
