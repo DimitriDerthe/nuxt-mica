@@ -25,7 +25,7 @@
   },
   "hero": {
     "badge": "Nuxt 4 layer",
-    "badgeNote": "v0.1 is out",
+    "badgeNote": "v{v} is out",
     "title": "Native calm,",
     "titleAccent": "for every Nuxt app.",
     "lead": "Mica is a UI layer of {n} components with light and dark themes, your brand colors and motion that holds 60 frames per second. Add one line to nuxt.config, no npm package needed, then write {tag}.",

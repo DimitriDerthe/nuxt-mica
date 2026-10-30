@@ -7,7 +7,7 @@
         <div class="hero__copy">
           <a href="#start" class="pill rise" style="--d: 0ms">
             <span class="pill__tag">{{ t('hero.badge') }}</span>
-            <span class="pill__note">{{ t('hero.badgeNote') }}</span>
+            <span class="pill__note">{{ t('hero.badgeNote', { v: config.public.version }) }}</span>
             <MiIcon name="chevron-right" :size="14" />
           </a>
           <h1 id="hero-title" class="hero__title rise" style="--d: 60ms">
@@ -312,7 +312,7 @@ const aiLinks: Record<number, string> = {
   2: `${config.public.repoUrl}/tree/main/docs/api`
 }
 const extendsLine = "extends: ['github:DimitriDerthe/nuxt-mica']"
-const configCode = "export default defineNuxtConfig({\n  extends: ['github:DimitriDerthe/nuxt-mica#v0.2.0']\n})"
+const configCode = `export default defineNuxtConfig({\n  extends: ['github:DimitriDerthe/nuxt-mica#v${config.public.version}']\n})`
 const usageCode = '<MiButton size="large">\n  Ship it\n</MiButton>'
 const themeCode = computed(() => `const { setPrimary, setMode } = useMiTheme()\nsetPrimary('${theme.primary.value}')\nsetMode('${theme.mode.value}')`)
 

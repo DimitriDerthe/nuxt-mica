@@ -27,6 +27,15 @@ Wrap your app root in an element with the `mi` class so tokens and typography ap
 </div>
 ```
 
+### Releasing
+
+The version lives in `package.json`; the git tag, the README pin and the version shown on the site all follow it. Never edit them by hand:
+
+```bash
+pnpm release patch --push   # or minor, major, x.y.z: bumps, commits, tags vX.Y.Z, pushes
+pnpm release:check          # also part of the test suite
+```
+
 ## Theming
 
 `useMiTheme()` (auto-imported) returns `mode`, `primary`, `secondary`, `resolved`, `isDark`, `setMode`, `setPrimary`, `setSecondary`, `apply`.

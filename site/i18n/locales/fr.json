@@ -25,7 +25,7 @@
   },
   "hero": {
     "badge": "Layer Nuxt 4",
-    "badgeNote": "la v0.1 est sortie",
+    "badgeNote": "la v{v} est sortie",
     "title": "Le calme du natif,",
     "titleAccent": "dans chaque app Nuxt.",
     "lead": "Mica est une couche UI de {n} composants, avec thèmes clair et sombre, vos couleurs de marque et des animations qui tiennent 60 images par seconde. Ajoutez une ligne à nuxt.config, sans paquet npm, puis écrivez {tag}.",

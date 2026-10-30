@@ -1,6 +1,6 @@
 {
   "name": "nuxt-mica",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "MIT",
   "private": true,
   "type": "module",
@@ -20,7 +20,9 @@
     "site:generate": "nuxt generate site",
     "site:preview": "nuxt preview site",
     "pages:build": "node scripts/build-pages.mjs",
-    "pages:preview": "npx serve pages-dist -l 4173"
+    "pages:preview": "npx serve pages-dist -l 4173",
+    "release": "node scripts/release.mjs",
+    "release:check": "node scripts/release.mjs --check"
   },
   "devDependencies": {
     "@nuxt/test-utils": "latest",

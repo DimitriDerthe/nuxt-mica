@@ -1,5 +1,8 @@
-import { readdirSync } from 'node:fs'
+import { readdirSync, readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
+
+// Layer version, read from package.json (bumped together with the git tag by scripts/release.mjs).
+const { version } = JSON.parse(readFileSync(fileURLToPath(new URL('../package.json', import.meta.url)), 'utf8')) as { version: string }
 
 // Sub-path when hosted on GitHub Pages project pages (NUXT_APP_BASE_URL=/nuxt-mica/); '/' everywhere else.
 const base = (process.env.NUXT_APP_BASE_URL ?? '/').replace(/\/?$/, '/')
@@ -25,7 +28,8 @@ export default defineNuxtConfig({
     public: {
       // Where the interactive demos (the layer playground) are served. Override with NUXT_PUBLIC_SHOWCASE_URL.
       showcaseUrl: 'http://localhost:3000/showcase',
-      repoUrl: 'https://github.com/DimitriDerthe/nuxt-mica'
+      repoUrl: 'https://github.com/DimitriDerthe/nuxt-mica',
+      version
     }
   },
   i18n: {
