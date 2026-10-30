@@ -26,8 +26,8 @@ const route = useRoute()
 const pages = ['index', 'buttons', 'controls', 'inputs', 'navigation', 'feedback', 'content', 'charts', 'showcase']
 const items = pages.map(id => ({ id, label: id === 'index' ? 'Foundations' : id[0]!.toUpperCase() + id.slice(1) }))
 
-// The product demos under /showcase/<name> are whole screens of their own: they keep the full viewport.
-const fullBleed = computed(() => /^\/showcase\/.+/.test(route.path))
+// The dashboard, landing and blog demos are whole screens of their own and keep the full viewport; the status page is a regular page.
+const fullBleed = computed(() => /^\/showcase\/(dashboard|landing|blog)/.test(route.path))
 
 const current = computed({
   get: () => (route.path === '/' ? 'index' : route.path.split('/')[1] ?? 'index'),
@@ -51,7 +51,7 @@ body { margin: 0; }
 @keyframes mi-rise { from { opacity: 0; transform: translate3d(0, 14px, 0) } }
 .shell-main { max-width: 1232px; margin: 0 auto; padding-inline: 16px; box-sizing: border-box; animation: mi-rise var(--mi-dur-4) var(--mi-ease) 80ms backwards; } /* backwards, not both: a filled transform would trap position:fixed children */
 /* Same measure as the site: a 1200px navbar over 1200px of content. */
-.shell > .shell-main > * { padding-inline: 0 !important; margin-inline: 0 !important; max-width: none !important; } /* the page gutter lives here, so every page lines up with the navbar */
+.shell > .shell-main:not(.shell-main--full) > * { padding-inline: 0 !important; margin-inline: 0 !important; max-width: none !important; } /* the page gutter lives here, so every page lines up with the navbar */
 .shell > .shell-main.shell-main--full { max-width: none; padding-inline: 0; }
 
 /* Route changes: native View Transitions (compositor-only), header stays put. */

@@ -112,9 +112,12 @@
 </template>
 
 <script setup lang="ts">
+import { components, rootOf } from '../../../site/server/utils/manifest'
+
+// Same count as the site and README: standalone components, read from the generated manifest.
 const facts = [
   { label: 'Demos', value: '4' },
-  { label: 'Components', value: '80' },
+  { label: 'Components', value: String(components.filter(c => !rootOf(c.name)).length) },
   { label: 'Appearances', value: 'Light & dark' },
   { label: 'Dependencies', value: '0' }
 ]
