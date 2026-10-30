@@ -120,7 +120,7 @@
   "ai": {
     "eyebrow": "Prêt pour l'IA",
     "title": "Une doc que votre assistant IA lit en 3k tokens.",
-    "lead": "Un assistant de code ne devrait pas avoir à lire 80 fichiers sources pour placer un bouton. Mica fournit un index compact et un court fichier par composant, générés depuis les sources et vérifiés en CI.",
+    "lead": "Un assistant de code ne devrait pas avoir à lire {n} fichiers sources pour placer un bouton. Mica fournit un index compact et un court fichier par composant, générés depuis les sources et vérifiés en CI.",
     "p1t": "llms.txt",
     "p1": "Chaque composant en une ligne, par groupe, avec le mémo des tokens.",
     "p2t": "docs/api",

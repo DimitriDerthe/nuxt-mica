@@ -10,6 +10,8 @@ export default defineEventHandler(async () => {
   for (const c of roots) groups.set(c.group, [...(groups.get(c.group) ?? []), c.name])
   return {
     total: roots.length,
+    // Every documented <Mi…> tag, sub-parts of compound components included.
+    all: (manifest as Entry[]).length,
     groups: [...groups].sort((a, b) => groupOrder.indexOf(a[0]) - groupOrder.indexOf(b[0])).map(([name, components]) => ({ name, components })),
     // The header plus the first component group: enough to show the shape of the file.
     llms: llms.split('\n## Buttons')[0]!.trim()

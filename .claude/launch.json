@@ -11,6 +11,19 @@
       "port": 3000
     },
     {
+      "name": "demo",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "exec",
+        "nuxt",
+        "dev",
+        ".playground",
+        "--port",
+        "3100"
+      ],
+      "port": 3100
+    },
+    {
       "name": "site",
       "runtimeExecutable": "pnpm",
       "runtimeArgs": [

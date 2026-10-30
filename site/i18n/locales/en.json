@@ -120,7 +120,7 @@
   "ai": {
     "eyebrow": "AI ready",
     "title": "Docs your AI assistant reads in 3k tokens.",
-    "lead": "Coding assistants should not have to parse 80 source files to place a button. Mica ships a compact index and one short file per component, generated from the sources and checked in CI.",
+    "lead": "Coding assistants should not have to parse {n} source files to place a button. Mica ships a compact index and one short file per component, generated from the sources and checked in CI.",
     "p1t": "llms.txt",
     "p1": "Every component in one line, grouped, with the token cheat sheet.",
     "p2t": "docs/api",

@@ -83,7 +83,7 @@
           <span class="step__n">2</span>
           <MiText variant="headline" as="h3">{{ t('start.s2') }}</MiText>
           <SiteCode file="app.vue" :text="usageCode" :copy-label="t('start.copy')" :copied-label="t('start.copied')" />
-          <div class="step__live"><MiButton size="large" @click="shipIt">Ship it</MiButton></div>
+          <div class="step__live"><MiButton size="large" @click="copy(extendsLine)">Ship it</MiButton></div>
         </li>
       </ol>
     </section>
@@ -245,10 +245,11 @@
         <div class="ai__copy">
           <p class="eyebrow">{{ t('ai.eyebrow') }}</p>
           <h2 id="ai-title" class="sec__title">{{ t('ai.title') }}</h2>
-          <p class="sec__lead">{{ t('ai.lead') }}</p>
+          <p class="sec__lead">{{ t('ai.lead', { n: catalog?.all ?? 0 }) }}</p>
           <ul class="ai__points">
             <li v-for="n in 3" :key="n">
-              <code>{{ t('ai.p' + n + 't') }}</code>
+              <a v-if="aiLinks[n]" :href="aiLinks[n]" class="ai__link"><code>{{ t('ai.p' + n + 't') }}</code></a>
+              <code v-else>{{ t('ai.p' + n + 't') }}</code>
               <MiText variant="subheadline" tone="label2" as="span">{{ t('ai.p' + n) }}</MiText>
             </li>
           </ul>
@@ -305,6 +306,11 @@ const theme = useMiTheme()
 const toast = useMiToast()
 const { data: catalog } = await useFetch('/api/catalog')
 
+// llms.txt is served by the site itself; docs/api has no index page, so it opens the folder on GitHub.
+const aiLinks: Record<number, string> = {
+  1: `${config.app.baseURL}llms.txt`,
+  2: `${config.public.repoUrl}/tree/main/docs/api`
+}
 const extendsLine = "extends: ['github:DimitriDerthe/nuxt-mica']"
 const configCode = "export default defineNuxtConfig({\n  extends: ['github:DimitriDerthe/nuxt-mica#v0.2.0']\n})"
 const usageCode = '<MiButton size="large">\n  Ship it\n</MiButton>'
@@ -316,7 +322,7 @@ const stats = computed(() => [
   { key: 'colors', value: '2' },
   { key: 'fps', value: '60' }
 ])
-const total = computed(() => catalog.value?.total ?? 80)
+const total = computed(() => catalog.value?.total ?? 0)
 const groups = computed(() => catalog.value?.groups ?? [])
 
 // Hero sample state
@@ -351,7 +357,6 @@ async function copy(text: string) {
     setTimeout(() => { copied.value = false }, 1600)
   } catch { /* clipboard denied */ }
 }
-function shipIt() { toast.success('Shipped. That was a real MiButton and a real MiToast.') }
 
 // Pointer tilt for the hero sample: rAF-throttled, writes two custom properties used by a transform.
 const stage = ref<HTMLElement>()
@@ -521,6 +526,9 @@ onBeforeUnmount(() => cancelAnimationFrame(raf))
 .ai__copy { display: grid; gap: 14px; }
 .ai__points { display: grid; gap: 14px; list-style: none; margin: 12px 0 0; padding: 0; }
 .ai__points li { display: grid; grid-template-columns: 96px 1fr; gap: 14px; align-items: baseline; padding-top: 14px; border-top: 1px solid var(--mi-sep); }
+.ai__link { text-decoration: none; border-radius: 4px; }
+.ai__link:hover code { text-decoration: underline; text-underline-offset: 3px; }
+.ai__link:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
 .ai__points code { font: 600 13px/1.4 ui-monospace, "SF Mono", Menlo, monospace; color: var(--mi-p-text); }
 .ai__file :deep(.code__pre) { max-height: 420px; font-size: 12px; white-space: pre-wrap; overflow-wrap: anywhere; }
 @media (max-width: 480px) { .ai__points li { grid-template-columns: 1fr; gap: 4px; } }
