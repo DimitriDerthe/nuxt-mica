@@ -9,6 +9,10 @@
           </NuxtLink>
         </template>
         <template #action>
+          <a class="shell-site" :href="siteUrl" aria-label="Back to the Mica site">
+            <MiIcon name="chevron-left" :size="16" />
+            <span class="shell-site__label">Mica site</span>
+          </a>
           <MiThemeSwitcher icon-only />
         </template>
       </MiLocalNav>
@@ -22,6 +26,8 @@
 <script setup lang="ts">
 useHead({ link: [{ rel: 'icon', type: 'image/svg+xml', href: `${useRuntimeConfig().app.baseURL}favicon.svg` }] })
 
+// Where the marketing site lives (NUXT_PUBLIC_SITE_URL; set by scripts/build-pages.mjs for GitHub Pages).
+const siteUrl = useRuntimeConfig().public.siteUrl as string
 const route = useRoute()
 const pages = ['index', 'buttons', 'controls', 'inputs', 'navigation', 'feedback', 'content', 'charts', 'showcase']
 const items = pages.map(id => ({ id, label: id === 'index' ? 'Foundations' : id[0]!.toUpperCase() + id.slice(1) }))
@@ -43,8 +49,12 @@ body { margin: 0; }
 .bar .nav { top: 0; view-transition-name: mi-bar; -webkit-backdrop-filter: blur(28px) saturate(190%); backdrop-filter: blur(28px) saturate(190%); animation: mi-drop var(--mi-dur-4) var(--mi-ease) backwards; }
 .shell-brand { display: inline-flex; align-items: center; min-height: 44px; border-radius: 8px; color: var(--mi-label); }
 .shell-brand:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 4px; }
+.shell-site { display: inline-flex; align-items: center; gap: 2px; height: 30px; padding: 0 10px 0 6px; margin-right: 6px; border-radius: 9px; font-size: 13px; font-weight: 500; color: var(--mi-label2); text-decoration: none; background: var(--mi-fill4); white-space: nowrap; }
+.shell-site:hover { color: var(--mi-label); }
+.shell-site:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
 .shell-brand .shell-logo--short { display: none; }
 @media (max-width: 640px) { .shell-brand .shell-logo { display: none; } .shell-brand .shell-logo--short { display: inline-block; } }
+@media (max-width: 1000px) { .shell-site { padding: 0 6px; } .shell-site__label { display: none; } }
 
 /* Load: header drops in, page content rises. Transform + opacity only. */
 @keyframes mi-drop { from { opacity: 0; transform: translate3d(0, -14px, 0) } }

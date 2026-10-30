@@ -12,7 +12,7 @@ const run = (cmd, env) => execSync(cmd, { stdio: 'inherit', env: { ...process.en
 rmSync('pages-dist', { recursive: true, force: true })
 
 // Demos first: the site links to them.
-run('pnpm exec nuxt generate .playground', { NUXT_APP_BASE_URL: `${base}demo/` })
+run('pnpm exec nuxt generate .playground', { NUXT_APP_BASE_URL: `${base}demo/`, NUXT_PUBLIC_SITE_URL: base })
 run('pnpm exec nuxt generate site', {
   NUXT_APP_BASE_URL: base,
   NUXT_PUBLIC_SHOWCASE_URL: `${base}demo/showcase`,
