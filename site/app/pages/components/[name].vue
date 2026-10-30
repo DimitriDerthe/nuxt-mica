@@ -152,8 +152,7 @@ useSeoMeta({ description: () => api.value?.summary ?? '' })
 </script>
 
 <style scoped>
-.wrap { max-width: 1320px; margin: 0 auto; padding: 0 24px; box-sizing: border-box; }
-@media (max-width: 480px) { .wrap { padding: 0 16px; } }
+.wrap { max-width: 1224px; margin: 0 auto; padding: 0 12px; box-sizing: border-box; }
 .cd { display: grid; gap: 40px; grid-template-columns: minmax(0, 1fr); padding-top: 32px; padding-bottom: 96px; }
 @media (min-width: 1024px) { .cd { grid-template-columns: 220px minmax(0, 1fr); } }
 

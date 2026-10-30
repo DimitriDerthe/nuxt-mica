@@ -70,8 +70,7 @@ useHead(() => ({ title: `${t('explorer.title')} · Mica` }))
 </script>
 
 <style scoped>
-.wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; box-sizing: border-box; }
-@media (max-width: 480px) { .wrap { padding: 0 16px; } }
+.wrap { max-width: 1224px; margin: 0 auto; padding: 0 12px; box-sizing: border-box; }
 .cx { padding-top: clamp(40px, 7vw, 88px); padding-bottom: 96px; }
 .cx__head { display: grid; gap: 12px; max-width: 720px; animation: cx-in var(--mi-dur-4) var(--mi-ease) backwards; }
 .eyebrow { margin: 0; font-size: 14px; font-weight: 600; color: var(--mi-p-text); }
