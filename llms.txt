@@ -55,8 +55,8 @@ Item shapes (options, items, columns, steps...), slot props and every named type
 - MiColorRamp: Nine-step tonal ramp (50-800) generated from one base color; use it to preview or document a brand color scale.
 - MiDirection: Provider that sets the reading direction (LTR or RTL) for its subtree and exposes it to descendants.
 - MiIcon: Inline SVG icon from the built-in set or raw SVG markup; decorative (aria-hidden) unless label is set; spin for loaders.
-- MiKbd: Keyboard key or short keyboard input, rendered as a small keycap.
-- MiKbdGroup: Groups several MiKbd keys in a row, e.g. a shortcut like Ctrl + K.
+- MiKbd: Keyboard key or short keyboard input, rendered as a small keycap; with `shortcut` it also listens for that key and presses down when it is hit.
+- MiKbdGroup: Groups several MiKbd keys in a row, e.g. a shortcut like Ctrl + K; with `shortcut` the whole group listens for the combination and presses down when it is hit.
 - MiLabel: Accessible form label bound to a control by id, with optional required marker and disabled styling.
 - MiLogo: Mica logo: lowercase "mica" wordmark, short "m." form or dot only; the full stop follows the brand color (--mi-p), optional breathing dot for loading states.
 - MiSeparator: Thin line that visually or semantically separates content, horizontal or vertical.

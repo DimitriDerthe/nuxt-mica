@@ -5,7 +5,7 @@ export interface MiContextMenuItem {
   id: string
   label?: string
   icon?: MiFbIconName
-  /** Right aligned hint such as `⌘D`. */
+  /** Right aligned hint such as `⌘D`; pressing it selects the item while the menu is open. Bare Enter, Space, Tab, Esc and arrows are ignored. */
   shortcut?: string
   type?: 'item' | 'checkbox' | 'separator'
   checked?: boolean
@@ -21,6 +21,7 @@ export interface MiContextMenuItem {
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import MiFbIcon from './MiFbIcon.vue'
 import { MI_OVERLAY_Z, miOverlayPosition, useMiOverlay, useMiPresence } from '../../utils/miOverlay'
+import { isNavigationShortcut, matchShortcut, parseShortcut } from '../../utils/miShortcut'
 
 defineOptions({ inheritAttrs: false })
 
@@ -155,12 +156,14 @@ function addGlobal() {
   window.addEventListener('resize', onViewportChange)
   window.addEventListener('scroll', onScrollAnywhere, { capture: true, passive: true })
   window.addEventListener('blur', onViewportChange)
+  document.addEventListener('keydown', onShortcut, true)
 }
 function removeGlobal() {
   if (typeof window === 'undefined') return
   window.removeEventListener('resize', onViewportChange)
   window.removeEventListener('scroll', onScrollAnywhere, { capture: true } as EventListenerOptions)
   window.removeEventListener('blur', onViewportChange)
+  document.removeEventListener('keydown', onShortcut, true)
 }
 onBeforeUnmount(() => {
   removeGlobal()
@@ -219,8 +222,27 @@ function activate(level: number, item: MiContextMenuItem, e: MouseEvent) {
     openSub(level, item, e.currentTarget as HTMLElement, true)
     return
   }
+  run(item)
+}
+function run(item: MiContextMenuItem) {
   emit('select', item.id, item)
   if (!props.inline) close()
+}
+
+/** Pressing an item's shortcut runs it; the deepest open submenu is searched first. */
+function onShortcut(e: KeyboardEvent) {
+  if (!open.value || props.inline) return
+  for (const level of [...levels.value].reverse()) {
+    for (const it of level.items) {
+      if (it.disabled || it.type === 'separator' || it.children?.length) continue
+      const s = parseShortcut(it.shortcut)
+      if (!s || isNavigationShortcut(s) || !matchShortcut(e, s)) continue
+      e.preventDefault()
+      e.stopPropagation()
+      run(it)
+      return
+    }
+  }
 }
 
 let typed = ''

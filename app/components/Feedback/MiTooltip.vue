@@ -7,13 +7,14 @@ let lastClosedAt = 0
 /** Hover and focus hint for an icon or short label, with optional shortcut text; opens after a delay, instant between neighbours. */
 import { nextTick, onBeforeUnmount, onMounted, onUpdated, ref, useId, useSlots, watch } from 'vue'
 import { MI_OVERLAY_Z, miOverlayPosition, miOverlayRaf, type MiOverlayPlacement, type MiOverlaySide } from '../../utils/miOverlay'
+import { isNavigationShortcut, matchShortcut, mayFireGlobally, parseShortcut } from '../../utils/miShortcut'
 
 defineOptions({ inheritAttrs: false })
 
 const props = withDefaults(defineProps<{
   /** Tooltip text. Use the `content` slot for rich content. */
   content?: string
-  /** Secondary text, usually a keyboard shortcut such as `⌘D`. */
+  /** Keyboard shortcut such as `⌘D` or `E`: shown next to the text, and pressing it clicks the trigger (plain keys are ignored while typing in a field). */
   shortcut?: string
   /** Side and alignment of the tooltip relative to the trigger; flips when it would leave the viewport. */
   placement?: MiOverlayPlacement
@@ -129,13 +130,25 @@ function describe() {
   if (!cur.includes(id)) el.setAttribute('aria-describedby', [...cur, id].join(' '))
 }
 
+/** Pressing the shortcut activates the trigger, as the hint promises. */
+function onShortcut(e: KeyboardEvent) {
+  const s = parseShortcut(props.shortcut)
+  if (!s || props.disabled || e.defaultPrevented || isNavigationShortcut(s) || !matchShortcut(e, s) || !mayFireGlobally(e, s)) return
+  const el = (anchor.value?.firstElementChild ?? anchor.value) as HTMLButtonElement | null
+  if (!el?.isConnected || el.disabled || el.getAttribute('aria-disabled') === 'true' || el.getClientRects().length === 0) return
+  e.preventDefault()
+  el.click()
+}
+
 onMounted(() => {
   mounted.value = true
   describe()
+  document.addEventListener('keydown', onShortcut)
   if (open.value) onOpened()
 })
 onUpdated(describe)
 onBeforeUnmount(() => {
+  if (typeof document !== 'undefined') document.removeEventListener('keydown', onShortcut)
   clearTimeout(openTimer)
   clearTimeout(closeTimer)
   if (typeof window !== 'undefined') {

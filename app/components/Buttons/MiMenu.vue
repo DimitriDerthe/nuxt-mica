@@ -1,7 +1,8 @@
 <script setup lang="ts">
 /** Dropdown trigger with a floating panel: popup picks a value (listbox), pulldown runs actions; keyboard and typeahead support. */
-import { computed, onBeforeUnmount, ref, useId, watch } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, useId, watch } from 'vue'
 import type { MiMenuItem, MiMenuPlacement, MiMenuVariant } from '../../utils/miMenu'
+import { isNavigationShortcut, matchShortcut, mayFireGlobally, parseShortcut } from '../../utils/miShortcut'
 
 const props = withDefaults(defineProps<{
   /** Entries of the menu as MiMenuItem objects. */
@@ -18,6 +19,8 @@ const props = withDefaults(defineProps<{
   offset?: number
   /** Blocks opening and dims the trigger. */
   disabled?: boolean
+  /** Also run item shortcuts while the menu is closed. By default they run only while it is open. */
+  globalShortcuts?: boolean
 }>(), { variant: 'pulldown', placement: 'bottom-start', offset: 6, label: '', ariaLabel: undefined })
 
 /** Value of the chosen item in `popup` mode. */
@@ -154,6 +157,22 @@ function onPanelKeydown(e: KeyboardEvent) {
   }
 }
 
+/** Items whose `shortcut` can be pressed: actionable, enabled, and not a bare navigation key (Enter, arrows, Esc...). */
+const shortcutItems = computed(() => actionable.value.flatMap((r) => {
+  const s = r.item.disabled || r.item.value === undefined ? null : parseShortcut(r.item.shortcut)
+  return s && !isNavigationShortcut(s) ? [{ item: r.item, s }] : []
+}))
+
+function onShortcut(e: KeyboardEvent) {
+  if (props.disabled || !shortcutItems.value.length || (!open.value && !props.globalShortcuts)) return
+  const hit = shortcutItems.value.find(({ s }) => matchShortcut(e, s))
+  if (!hit || (!open.value && !mayFireGlobally(e, hit.s))) return
+  e.preventDefault()
+  e.stopPropagation()
+  choose(hit.item)
+}
+onMounted(() => document.addEventListener('keydown', onShortcut, true))
+
 function choose(item: MiMenuItem) {
   if (item.disabled) return
   if (item.value !== undefined && (isListbox.value || model.value !== undefined) && item.checked === undefined) model.value = item.value
@@ -220,6 +239,7 @@ watch(open, (v) => {
 }, { flush: 'post' })
 
 onBeforeUnmount(() => {
+  document.removeEventListener('keydown', onShortcut, true)
   listen(false)
   if (raf) cancelAnimationFrame(raf)
   clearTimeout(typedTimer)

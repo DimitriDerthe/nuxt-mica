@@ -12,6 +12,8 @@ withDefaults(defineProps<{
   menus: MiMenubarMenu[]
   /** Accessible name of the bar. */
   ariaLabel?: string
+  /** Run item shortcuts (such as `⌘N`) even while every menu is closed, like a desktop menu bar. */
+  globalShortcuts?: boolean
 }>(), { ariaLabel: 'Menu bar' })
 
 const emit = defineEmits<{ select: [menuId: string, item: MiMenuItem] }>()
@@ -27,7 +29,7 @@ function onKey(e: KeyboardEvent) { miNavRoving(e, root.value, '[data-mi-menu-tri
 <template>
   <div ref="root" class="mi-menubar" role="menubar" :aria-label="ariaLabel" @keydown="onKey">
     <MiMenu
-      v-for="m in menus" :key="m.id" :open="active === m.id" :items="m.items" :aria-label="m.label" :disabled="m.disabled"
+      v-for="m in menus" :key="m.id" :open="active === m.id" :items="m.items" :aria-label="m.label" :disabled="m.disabled" :global-shortcuts="globalShortcuts"
       @update:open="setOpen(m.id, $event)" @select="emit('select', m.id, $event)"
     >
       <template #trigger="{ props: tp, open }">

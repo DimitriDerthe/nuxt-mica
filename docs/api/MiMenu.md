@@ -16,6 +16,7 @@ Use with v-model.
 | placement | "bottom-start" \| "bottom-end" \| "top-start" \| "top-end" | "bottom-start" | Side and alignment of the panel relative to the trigger. |
 | offset | number | 6 | Gap in px between the trigger and the panel. |
 | disabled | boolean |  | Blocks opening and dims the trigger. |
+| globalShortcuts | boolean |  | Also run item shortcuts while the menu is closed. By default they run only while it is open. |
 | modelValue | string \| number |  | Value of the chosen item in `popup` mode. |
 | open | boolean | false | Whether the menu panel is open. |
 
@@ -36,5 +37,5 @@ Use with v-model.
 Named types used above (import with `import type { Name } from` the source file when needed).
 
 ```ts
-interface MiMenuItem { /** Unique value. Required for actionable items. */ value?: string | number; label?: string; /** Keyboard shortcut hint, display only. */ shortcut?: string; disabled?: boolean; destructive?: boolean; /** Renders the item as a checkbox-like item. */ checked?: boolean; /** Renders a divider. */ separator?: boolean; /** Renders a non-interactive group heading. */ heading?: string }
+interface MiMenuItem { /** Unique value. Required for actionable items. */ value?: string | number; label?: string; /** Keyboard shortcut such as `⌘D`, `⇧⌘M` or `Cmd N`: shown as a hint and pressing it selects the item while the menu is open (always with `globalShortcuts`). Bare Enter, Space, Tab, Esc and arrows are ignored. */ shortcut?: string; disabled?: boolean; destructive?: boolean; /** Renders the item as a checkbox-like item. */ checked?: boolean; /** Renders a divider. */ separator?: boolean; /** Renders a non-interactive group heading. */ heading?: string }
 ```

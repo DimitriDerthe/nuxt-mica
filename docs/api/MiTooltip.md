@@ -10,7 +10,7 @@ Use with v-model.
 | prop | type | default | notes |
 |---|---|---|---|
 | content | string |  | Tooltip text. Use the `content` slot for rich content. |
-| shortcut | string |  | Secondary text, usually a keyboard shortcut such as `⌘D`. |
+| shortcut | string |  | Keyboard shortcut such as `⌘D` or `E`: shown next to the text, and pressing it clicks the trigger (plain keys are ignored while typing in a field). |
 | placement | MiOverlayPlacement | "top" | Side and alignment of the tooltip relative to the trigger; flips when it would leave the viewport. |
 | delay | number | 500 | Delay before opening on hover, in ms. Focus opens immediately. |
 | closeDelay | number | 0 | Delay before closing, in ms. |

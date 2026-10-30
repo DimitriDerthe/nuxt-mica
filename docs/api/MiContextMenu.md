@@ -33,7 +33,7 @@ Named types used above (import with `import type { Name } from` the source file 
 
 ```ts
 type MiFbIconName = 'info' | 'success' | 'warning' | 'danger' | 'calendar' | 'comment' | 'bell' | 'folder' | 'folder-plus' | 'document' | 'eye' | 'duplicate' | 'pencil' | 'check' | 'chevron-right' | 'trash' | 'close' | 'inbox' | 'share' | 'search' | 'link'
-interface MiContextMenuItem { id: string; label?: string; icon?: MiFbIconName; /** Right aligned hint such as `⌘D`. */ shortcut?: string; type?: 'item' | 'checkbox' | 'separator'; checked?: boolean; destructive?: boolean; disabled?: boolean; /** Nested items open a submenu. */ children?: MiContextMenuItem[] }
+interface MiContextMenuItem { id: string; label?: string; icon?: MiFbIconName; /** Right aligned hint such as `⌘D`; pressing it selects the item while the menu is open. Bare Enter, Space, Tab, Esc and arrows are ignored. */ shortcut?: string; type?: 'item' | 'checkbox' | 'separator'; checked?: boolean; destructive?: boolean; disabled?: boolean; /** Nested items open a submenu. */ children?: MiContextMenuItem[] }
 ```
 
 ## Exposed (template ref)
