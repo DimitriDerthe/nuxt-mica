@@ -1,0 +1,45 @@
+{
+  "name": "nuxt-mica",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./nuxt.config.ts",
+  "scripts": {
+    "dev": "nuxt dev .playground",
+    "build": "nuxt build .playground",
+    "generate": "nuxt generate .playground",
+    "prepare": "nuxt prepare .playground",
+    "typecheck": "nuxt typecheck .playground",
+    "test": "vitest run",
+    "docs:gen": "node scripts/gen-manifest.mjs",
+    "docs:check": "node scripts/gen-manifest.mjs --check",
+    "site:dev": "nuxt dev site --port 3010",
+    "site:generate": "nuxt generate site",
+    "site:preview": "nuxt preview site"
+  },
+  "dependencies": {
+    "nuxt": "^4.6.3",
+    "vue": "latest"
+  },
+  "devDependencies": {
+    "@nuxt/test-utils": "latest",
+    "@nuxtjs/i18n": "^10.6.0",
+    "@playwright/test": "latest",
+    "@vitejs/plugin-vue": "^6.0.10",
+    "@vue/test-utils": "latest",
+    "happy-dom": "latest",
+    "typescript": "~5.9.3",
+    "vitest": "latest",
+    "vue-component-meta": "^3.3.13",
+    "vue-tsc": "latest"
+  },
+  "files": [
+    "app",
+    "nuxt.config.ts",
+    "llms.txt",
+    "components.json",
+    "docs/api",
+    "AGENTS.md",
+    "README.md"
+  ]
+}

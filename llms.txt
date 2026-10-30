@@ -1,0 +1,188 @@
+# Mica UI layer for Nuxt 4 (components prefixed Mi)
+
+Auto-registered as <MiName>. No imports, no setup. Theme: useMiTheme() (mode, primary, secondary).
+Details of one component: read docs/api/<MiName>.md (props, defaults, slots, emits). Do not read .vue sources.
+All tokens are CSS vars --mi-*; never hardcode colors.
+Brand vars: --mi-p / --mi-s (solid), -on (text on solid), -hover, -tint, -tint2 (soft fills), -text (readable text).
+Neutrals: --mi-page --mi-card --mi-elev --mi-label --mi-label2 --mi-label3 --mi-sep --mi-fill(2-4). Status: --mi-red --mi-orange --mi-green (+ -t text shades).
+Icons: <MiIcon name> takes any name listed in docs/api/MiIcon.md. A component `icon` prop uses its group set (MiNavIconName, MiFbIconName), listed under "## Types" in that component file.
+Item shapes (options, items, columns, steps...), slot props and every named type (icon names, row/column/menu item interfaces) are expanded in each docs/api file. Template expressions are plain JS (no TS `!`).
+
+## Ai
+- MiAttachment: File or image attachment card with media, title, description, upload state and actions; compose parts or use the name/fileSize shortcut props.
+- MiAttachmentAction: Icon button inside attachment actions; give it an aria-label.
+- MiAttachmentActions: Container for attachment action buttons, kept above the full-card trigger.
+- MiAttachmentContent: Text column of an attachment holding the title and description.
+- MiAttachmentDescription: Secondary attachment text such as type, size or upload status.
+- MiAttachmentGroup: Scrollable snapping row of attachments.
+- MiAttachmentMedia: Media slot of an attachment: an icon tile, or a full image when variant is image.
+- MiAttachmentTitle: Attachment file name, truncated to one line.
+- MiAttachmentTrigger: Full-card overlay that opens a link or fires click, while actions stay independently clickable.
+- MiCodeBlock: Code, terminal output and diff display with optional header, line numbers and copy button; compose MiCodeBlock* parts or pass `code`.
+- MiCodeBlockActions: Action buttons of a code block header.
+- MiCodeBlockContent: Scrollable code body; give it a string (split into lines) or MiCodeBlockLine children.
+- MiCodeBlockCopyButton: Copy-to-clipboard button for a code block header.
+- MiCodeBlockFooter: Footer area of a code block.
+- MiCodeBlockHeader: Header row of a code block holding the title and actions.
+- MiCodeBlockLine: One code line with an optional highlighted, added or removed variant.
+- MiCodeBlockTitle: Title in a code block header, such as a filename or Terminal.
+- MiQuestionnaire [v-model]: Multi-step questionnaire form with single, multiple, freeform and skippable questions; compose MiQuestionnaire* parts or pass a `questions` shortcut. v-model holds answers by question name.
+- MiQuestionnaireActions: Row holding the questionnaire navigation buttons.
+- MiQuestionnaireChoice: Radio (single) or checkbox (multiple) choice inside a questionnaire item.
+- MiQuestionnaireChoices: Container for the choices and optional free-text input of a question.
+- MiQuestionnaireDescription: Helper text under a question title.
+- MiQuestionnaireError: Validation message of its item, announced as an alert.
+- MiQuestionnaireInput: Free-text answer alongside the choices; pass aria-label and placeholder.
+- MiQuestionnaireItem: One question step; only the active item is visible. Items register in render order.
+- MiQuestionnaireNext: Submit-on-Enter button that advances to the next question; hidden on the last one.
+- MiQuestionnairePrevious: Button that goes back one question; disabled on the first.
+- MiQuestionnaireProgress: Progress bar and "n of N" label for the questionnaire.
+- MiQuestionnaireSkip: Button that skips the current question; hidden for required questions.
+- MiQuestionnaireSubmit: Final button that validates and emits the questionnaire submit event; shown on the last question.
+- MiQuestionnaireTitle: Question title, rendered as the legend of its item.
+- MiTrace: Trace container for reasoning, tool calls and sources; compose MiTraceLine rows or pass a `steps` shortcut.
+- MiTraceCollapsible: Expandable trace row; v-model:open for controlled state or defaultOpen for uncontrolled.
+- MiTraceCollapsibleContent: Expandable detail of a trace row; unmounted while closed unless keepMounted.
+- MiTraceCollapsibleTrigger: Button that toggles its MiTraceCollapsible parent.
+- MiTraceDescription: Secondary trace text after the title, such as a count or duration.
+- MiTraceIcon: Decorative leading icon of a trace line, hidden from assistive tech.
+- MiTraceLine: Single trace row; status styles it as running, error or pending.
+- MiTraceTitle: Main text of a trace line.
+
+## Base
+- MiAspectRatio: Container that keeps its content at a fixed width-to-height ratio.
+- MiColorPicker: Hex color field plus preset swatches that edit the primary or secondary brand color and apply it to the theme live.
+- MiColorRamp: Nine-step tonal ramp (50-800) generated from one base color; use it to preview or document a brand color scale.
+- MiDirection: Provider that sets the reading direction (LTR or RTL) for its subtree and exposes it to descendants.
+- MiIcon: Inline SVG icon from the built-in set or raw SVG markup; decorative (aria-hidden) unless label is set; spin for loaders.
+- MiKbd: Keyboard key or short keyboard input, rendered as a small keycap.
+- MiKbdGroup: Groups several MiKbd keys in a row, e.g. a shortcut like Ctrl + K.
+- MiLabel: Accessible form label bound to a control by id, with optional required marker and disabled styling.
+- MiLogo: Mica logo: lowercase "mica" wordmark, short "m." form or dot only; the full stop follows the brand color (--mi-p), optional breathing dot for loading states.
+- MiSeparator: Thin line that visually or semantically separates content, horizontal or vertical.
+- MiSurface: Container surface (card, elevated or translucent material) with radius, padding and shadow presets; use it to group content.
+- MiText: Text with the system-style type scale (largeTitle to caption2), semantic tag, tone and optional line clamp; use it for all copy.
+- MiThemeSwitcher: Segmented control to switch the app appearance (light, dark or system) via useMiTheme; icon-only variant for tight toolbars.
+- MiTypography: Prose styles for headings, paragraphs, blockquotes, lists, inline code, lead and muted text.
+
+## Buttons
+- MiButton: Button for actions and CTAs: 6 variants (filled, tinted, gray, plain, bordered, destructive), renders an anchor when href is set.
+- MiButtonGroup [v-model]: Groups related buttons: attached strip, segmented selector bound to v-model, or split button with a primary action and menu.
+- MiIconButton: Icon-only button, always labelled, for toolbars and compact actions: 4 variants, 4 sizes, optional pressed toggle.
+- MiMenu [v-model]: Dropdown trigger with a floating panel: popup picks a value (listbox), pulldown runs actions; keyboard and typeahead support.
+- MiTextLink: Inline text link in brand colour with optional trailing chevron, for navigation in running text or CTAs.
+
+## Charts
+- MiBarChart: Column chart for comparing values across categories. Data is { label, value, color? }[]; valueLabels is peak, all or none.
+- MiChartCard: Titled wrapper for any chart: heading, subtitle and an elevated card surface that can be turned off.
+- MiChartLegend: Legend for chart series in inline, list, stat or ramp variants. Items are { label, color, value?, sub?, shape? }[].
+- MiChartTable: Accessible data table of chart values. Columns are { key, label, align? }[]; rows are objects keyed by column key.
+- MiHeatmap: Heatmap of daily counts by week, with a legend and keyboard navigation. Data is a flat number[], 7 values per week, Monday first.
+- MiLineChart: Line chart of series over shared categories, with area fills and a chart/table toggle. Series: { name, data, color?, area? }[].
+- MiMeter: Linear progress meter for one value between min and max, such as quota or budget use, with optional caption and hint.
+- MiRings: Concentric progress rings, one per item, with a legend. Rings are { label, sub?, value (0 to 1), color? }[].
+- MiSparkline: Tiny inline line chart for trends inside text or tiles. Decorative unless label is set. Values are number[], oldest first.
+- MiStackedBar: One horizontal bar split into shares of a total, with hover, keyboard and a legend. Segments are { label, value, color? }[].
+- MiStatTile: KPI tile for dashboards: headline value, colored change with trend direction, and optional sparkline.
+
+## Chat
+- MiBubble: Chat bubble: a framed message surface with variants, start/end alignment, optional link/button content and a reactions row.
+- MiBubbleGroup: Groups consecutive bubbles from one sender with tight spacing. Set `align` on each MiBubble, not here.
+- MiMarker: Conversation marker: inline status or note, or a labeled divider (date, unread) between messages; can be a link or button.
+- MiMessage: Conversation row: lays out an avatar, a header (sender), the message surface (usually MiBubble) and a footer (status, actions) on the start or end side.
+- MiMessageGroup: Stacks consecutive MiMessage rows with tight spacing; use an empty avatar slot on earlier rows to keep alignment.
+- MiMessageScroller: Scroll container for a message list: sticks to the bottom while streaming, keeps position when older rows are prepended, shows a jump-to-latest button.
+- MiMessageScrollerItem: Row boundary inside MiMessageScroller: gives a message a stable id and marks it as a turn anchor.
+
+## Content
+- MiAccordion [v-model]: Stacked expandable panels (disclosure). Use for FAQs or grouped settings; `single` or `multiple` open mode, optional `items` data.
+- MiAccordionItem: One panel of MiAccordion with its trigger and content. Use inside an accordion; standalone, it toggles on its own.
+- MiAvatar: User avatar: image, or initials from `name` on a tone background. Use for people; `tone="auto"` picks a stable color from the name.
+- MiAvatarGroup: Overlapping row of MiAvatar for team or member lists, collapsing the rest into "+N". Use with `items` and a `max` cap.
+- MiCard: Surface card with optional media, title, description and header/footer slots. Use for content tiles; `href` or `to` makes it a link.
+- MiCarousel [v-model]: Scroll-snap carousel with prev/next buttons, dots, optional loop and a v-model slide index. Each direct child of the default slot is one slide.
+- MiDataTable: Data table with global filter, sortable columns, pagination and row selection, built on MiTable and MiPagination. Cells are customised with `cell-<key>` slots.
+- MiDetails: Label/value definition list for key facts (order, profile, specs). Pass `items`; a value can be a link via `href`.
+- MiItem: Generic content row with media, title, description and actions slots; outline or muted variants. For settings-style rows prefer MiListItem.
+- MiList: Grouped list container with optional header and footer for MiListItem rows. Use for settings or menus; `grouped` false for a bare list.
+- MiListItem: Row for MiList or standalone: settings row, rich content row or profile row. Renders as div, link, NuxtLink or button by props.
+- MiResizable [v-model]: Resizable split panels with draggable, keyboard-operable handles; horizontal or vertical, with min/max sizes and a v-model of percentages.
+- MiScrollArea: Scrollable region with slim overlay scrollbars styled by tokens; the thumbs move with transform only.
+- MiSwipeRow: Row revealing trailing actions on swipe or arrow keys. Wrap a row; `action` is emitted with the chosen action id.
+- MiTable: Data table with sorting, row selection, sticky header, zebra rows and virtualization from 50 rows. Use for structured tabular data.
+
+## Controls
+- MiCheckbox [v-model]: Checkbox with optional description and mixed (indeterminate) state. Use standalone with v-model, or inside MiCheckboxGroup via `value`.
+- MiCheckboxGroup [v-model]: Checkboxes for multi-select, bound to an array v-model. Pass `options` or compose MiCheckbox children; `parentLabel` adds a select-all row.
+- MiChip [v-model]: Compact tag for labels or filters. `selectable` adds a v-model toggle, `removable` a remove button; tones primary, secondary, neutral.
+- MiCollapsible: Show/hide a region with a trigger button. v-model `open`; `trigger` and default (content) slots; chevron and reveal animate with transform/opacity.
+- MiRadio [v-model]: Single radio button for one choice, standalone via v-model or inside MiRadioGroup via `value`. Prefer MiRadioGroup for a set of options.
+- MiRadioGroup [v-model]: Radio group for one choice, bound to a v-model value with arrow-key navigation. Pass `options` or compose MiRadio children.
+- MiSegmented [v-model]: Segmented control to switch between a few mutually exclusive views or modes. Segments use text or icons; `tinted` variant for emphasis.
+- MiSlider [v-model]: Slider for a number or [low, high] range via tuple v-model. Keyboard and pointer input; use MiStepper for exact small changes.
+- MiStepper [v-model]: Numeric stepper with minus and plus buttons, press-and-hold repeat and keyboard support. Variants: `default` (pill) or `field` (value box).
+- MiSwatch [v-model]: Color swatch picker to choose one color from a palette via v-model. Defaults to brand and system colors; pass `options` for a custom set.
+- MiSwitch [v-model]: On/off toggle switch bound to a boolean v-model. Sizes `regular` (51x31) or `compact` (38x22); tones primary, secondary, success.
+- MiToggle: Two-state pressed button (bold, italic, mute) bound to a boolean v-model. Variants `default` or `outline`; sizes `sm`, `default`, `lg`.
+- MiToggleGroup [v-model]: Set of toggle buttons sharing one v-model. Single selection by default, `multiple` for an array; variants, sizes, orientation, spacing.
+
+## Feedback
+- MiActionSheet [v-model]: Bottom list of actions to choose from, modal by default; use `inline` to render it in place (docs, boards).
+- MiAlert [v-model]: Inline callout for a status or error message inside a page or form; tones info, success, warning, danger, neutral, secondary.
+- MiAlertDialog [v-model]: Modal that interrupts for an explicit confirm or cancel decision; Escape and outside clicks never dismiss it.
+- MiBadge: Status marker: a count, a dot or a label badge, optionally anchored to a `target` slot (`dotOnly` for a bare dot).
+- MiBanner: Page-level message bar for persistent notices, in `tint` or `solid` variant, optionally sticky and dismissible.
+- MiContextMenu [v-model]: Action menu opened from right-click, long-press or keyboard on its default slot; `inline` renders it in place.
+- MiDialog [v-model]: Modal for confirmations and blocking decisions: `alert` is a compact centred box, `dialog` a card with an icon tile.
+- MiDrawer [v-model]: Edge drawer (bottom, top, left or right) with a drag handle and swipe-to-dismiss; use MiSheet for detent-based bottom sheets.
+- MiEmptyState: Placeholder for an empty list or screen with a glyph, text and up to two actions; `card` wraps it in a surface.
+- MiHoverCard [v-model]: Rich preview card shown when a trigger is hovered or focused, with open and close delays; non-modal and never steals focus.
+- MiNotification: One notification row (app tile, title, message, time) for inbox-style feeds; `interactive` turns it into a button.
+- MiPopover [v-model]: Floating panel anchored to a trigger for rich contextual content; `click` or `manual` control, `inline` renders in flow.
+- MiProgress: Linear progress bar: determinate with `value`, indeterminate when `value` is null, or multi-part with `segments` and a legend.
+- MiProgressRing: Circular progress: `ring` shows a value or an indeterminate arc; `stop` adds a stop square and can emit `stop`.
+- MiSheet [v-model]: Bottom sheet with snap detents for drag-to-resize; modal by default, non-modal keeps the page usable, `inline` skips teleport.
+- MiSkeleton: Loading placeholder in `rect`, `circle` or `text` shape, with optional line list; shimmers unless `animated` is false.
+- MiSpinner: Small loading indicator: `ticks` for the 8-step activity spinner or `arc` for a rotating arc, in a preset or pixel size.
+- MiToast: Single transient message pill with tone, optional description and action; rendered by MiToaster, show one via useMiToast.
+- MiToaster: Region that renders the toasts queued by useMiToast; mount it once in the app layout, pinned to one of six positions.
+- MiTooltip [v-model]: Hover and focus hint for an icon or short label, with optional shortcut text; opens after a delay, instant between neighbours.
+
+## Inputs
+- MiCalendar [v-model]: Single-date calendar grid with day and month views; use it inline or as the MiDatePicker popup. v-model is a Date or null.
+- MiCodeInput [v-model]: One-time code input with one cell per character; numeric or alphanumeric mode, emits complete when every cell is filled.
+- MiCombobox [v-model]: Searchable single or multiple choice dropdown; v-model holds the option value (or an array when multiple).
+- MiCommand: Command palette: search input over a filtered, grouped list with keyboard navigation; place it inside MiDialog for a modal palette.
+- MiDatePicker [v-model]: Date field that opens an MiCalendar popup, with an optional time picker (time prop); v-model is a Date or null.
+- MiField: Field wrapper that renders the label, hint, error and success messages and provides id and state to the control inside it.
+- MiForm: Form container with optional title and description; emits the native submit event. Its body is a label/control grid for MiFormRow rows; wrap MiField children in one element so they span both columns.
+- MiFormRow: Label, hint and error wrapper around one form control, laid out on MiForm's two-column grid (use it inside MiForm); the label sits beside the control unless top is set.
+- MiInput [v-model]: Single-line text input with optional prefix and suffix add-ons, clear button and password reveal toggle; v-model is a string.
+- MiInputGroup [v-model]: Input or textarea with addons (icons, text, buttons) on any side, sharing one field surface.
+- MiNativeSelect [v-model]: Styled native select element with optional option groups; v-model holds the chosen option value.
+- MiSearch [v-model]: Search input with optional cancel button and Cmd/Ctrl+letter focus hotkey; default or compact size. v-model is the query.
+- MiSelect [v-model]: Single-choice dropdown over an options array; v-model holds the chosen option value.
+- MiTagInput [v-model]: Tag entry field that commits typed text with delimiter keys into a string[] v-model; supports max, duplicate and validate rules.
+- MiTextarea [v-model]: Multi-line text field that can auto-grow up to maxRows, with an optional character counter; v-model is a string.
+
+## Navigation
+- MiBreadcrumb: Breadcrumb trail or Finder-style path bar (variant "path"); the last item is the current page and is not a link.
+- MiLocalNav [v-model]: Sticky in-page section tabs with v-model selection, arrow-key navigation and an optional call-to-action pill.
+- MiMenubar: Horizontal application menu bar (File, Edit, View...) whose entries open MiMenu dropdowns; once one is open, hovering another trigger switches to it; Left/Right/Home/End move between menus.
+- MiNavBar: iOS-style sticky header with a back link, a trailing action and an optional large title that collapses into the bar on scroll.
+- MiNavigationMenu [v-model]: Top navigation bar whose entries are plain links or triggers for flyout panels of titled links, opened on hover or click and shown in a shared viewport; v-model is the open item id.
+- MiPageControl [v-model]: Dot pager for carousels and onboarding: one tab per item, v-model is the zero-based active index.
+- MiPagination [v-model]: Page navigator with arrows, windowed page numbers and ellipses; v-model is the 1-based current page.
+- MiSidebar [v-model]: Vertical sidebar with grouped, optionally collapsible sections, icon/colour/badge rows; v-model is the selected item id.
+- MiSteps [v-model]: Step progress indicator, vertical or horizontal; v-model is the zero-based current step (earlier steps show as done).
+- MiTabBar [v-model]: Tab switcher: a bottom tab bar with icons (variant "bar") or a floating pill (variant "capsule"); v-model is the selected item id.
+- MiTabs [v-model]: Tabbed panels: compose MiTabsList/MiTabsTrigger/MiTabsContent in the default slot, or pass `items` and fill panel slots named after each value; v-model is the selected tab value.
+- MiTabsContent: Compound part of MiTabs: the panel shown when its value is the selected tab.
+- MiTabsList: Compound part of MiTabs: the tab list that holds MiTabsTrigger children; arrows/Home/End move between triggers.
+- MiTabsTrigger: Compound part of MiTabs: a tab button that selects the panel with the same value.
+- MiToolbar: Window-style toolbar with sidebar toggle, history, title, view switcher, search, share and primary action.
+
+## Composables
+- useMiTheme(): { mode, primary, secondary, resolved, isDark, setMode(m), setPrimary(hex), setSecondary(hex) }
+- useMiToast(): { show(opts), success|error|warning|info|loading(message, opts?), update(id, opts), dismiss(id), clear, pause, resume }; mount <MiToaster /> once (docs/api/MiToaster.md, docs/api/MiToast.md)
+  toast opts: { message, description?, tone?, variant? (solid or material), action?: { label, onClick? }, duration? (ms, 0 = until dismissed, default 4000), dismissible?, onDismiss?, id? }

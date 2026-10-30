@@ -1,0 +1,7 @@
+{
+  "compilerOptions": {
+    "target": "ESNext", "module": "ESNext", "moduleResolution": "Bundler", "strict": true,
+    "skipLibCheck": true, "jsx": "preserve", "noEmit": true, "types": [], "lib": ["ESNext", "DOM", "DOM.Iterable"]
+  },
+  "include": ["app/**/*.ts", "app/**/*.vue"]
+}

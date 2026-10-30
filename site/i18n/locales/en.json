@@ -1,0 +1,217 @@
+{
+  "meta": {
+    "title": "Mica, the native-feeling UI layer for Nuxt",
+    "description": "Native-feeling Vue components for Nuxt 4: light and dark themes, your brand colors, motion tuned for 60fps and docs your AI assistant can read. One line in nuxt.config."
+  },
+  "nav": {
+    "label": "Main",
+    "components": "Components",
+    "theming": "Theming",
+    "craft": "Craft",
+    "ai": "AI ready",
+    "showcase": "Showcase",
+    "github": "GitHub",
+    "start": "Get started",
+    "language": "Language",
+    "switchTo": "Français",
+    "switchShort": "FR"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "Auto",
+    "label": "Appearance"
+  },
+  "hero": {
+    "badge": "Nuxt 4 layer",
+    "badgeNote": "v0.1 is out",
+    "title": "Native calm,",
+    "titleAccent": "for every Nuxt app.",
+    "lead": "Mica is a UI layer of {n} components with light and dark themes, your brand colors and motion that holds 60 frames per second. Add one line to nuxt.config, then write {tag}.",
+    "primary": "Get started",
+    "secondary": "Browse components",
+    "copy": "Copy install command",
+    "copied": "Copied to clipboard",
+    "stageLabel": "A live sample of Mica components. Tilt follows your pointer."
+  },
+  "sample": {
+    "revenue": "Monthly revenue",
+    "vsLast": "vs last month",
+    "chart": "Weekly active users",
+    "settings": "Settings",
+    "sync": "iCloud sync",
+    "alerts": "Release alerts",
+    "radius": "Corner radius",
+    "notifTitle": "Deploy finished",
+    "notifBody": "mica-site is live on 3 regions in 41 s.",
+    "now": "now"
+  },
+  "stats": {
+    "components": "components, auto-registered",
+    "deps": "runtime dependencies",
+    "colors": "brand colors, every shade derived",
+    "fps": "fps, transform and opacity only"
+  },
+  "start": {
+    "eyebrow": "Get started",
+    "title": "From install to interface in a minute.",
+    "lead": "Mica is a Nuxt layer, so there is no plugin to register and nothing to import. Components, theme tokens and composables are simply there.",
+    "s1": "Install the package",
+    "s2": "Extend the layer",
+    "s3": "Write components",
+    "copy": "Copy",
+    "copied": "Copied to clipboard"
+  },
+  "components": {
+    "eyebrow": "Components",
+    "title": "{n} components. One steady hand.",
+    "lead": "Every control shares the same type scale, radii, spacing and motion, so screens built months apart still feel like one product.",
+    "count": "{n} components",
+    "groups": {
+      "Base": "Type, icons, surfaces, logo and the theme switcher.",
+      "Buttons": "Actions, icon buttons, groups, menus and links.",
+      "Controls": "Switches, sliders, segments, chips and choices.",
+      "Inputs": "Fields, search, tags, codes, dates and forms.",
+      "Navigation": "Sidebars, tab bars, toolbars, steps and pagers.",
+      "Feedback": "Dialogs, sheets, toasts, menus and progress.",
+      "Content": "Cards, lists, tables, avatars and accordions.",
+      "Charts": "Lines, bars, rings, heatmaps and KPI tiles.",
+      "Ai": "Attachments, code blocks, questionnaires and agent traces.",
+      "Chat": "Messages, bubbles, markers and scrolling threads."
+    },
+    "explore": "Explore every component"
+  },
+  "theming": {
+    "eyebrow": "Theming",
+    "title": "Two colors in. A whole palette out.",
+    "lead": "Pick a primary and a secondary color. Mica derives hover states, soft tints, readable text shades and dark-mode variants, checks contrast, and remembers the choice without a flash on reload.",
+    "primary": "Primary",
+    "secondary": "Secondary",
+    "appearance": "Appearance",
+    "previewTitle": "Team plan",
+    "previewSub": "Billed yearly, renews 12 Nov",
+    "seats": "Seats used",
+    "autopay": "Automatic renewal",
+    "chip1": "Design",
+    "chip2": "Product",
+    "chip3": "Research",
+    "upgrade": "Upgrade",
+    "manage": "Manage",
+    "invoices": "View invoices",
+    "new": "New"
+  },
+  "craft": {
+    "eyebrow": "Craft",
+    "title": "The details you would have built yourself.",
+    "motionTitle": "Motion that never drops a frame",
+    "motionBody": "Springs written as CSS linear() curves, compositor-only properties and a frame probe in CI: p95 under 20 ms on mobile, tablet and desktop, light and dark.",
+    "motionTry": "Try the spring",
+    "a11yTitle": "Accessible by default",
+    "a11yBody": "Keyboard paths, roving focus, ARIA roles, visible focus rings and reduced-motion fallbacks on every component.",
+    "darkTitle": "Dark mode, designed",
+    "darkBody": "Its own elevated surfaces and text shades, not an inverted light theme.",
+    "ssrTitle": "No flash on load",
+    "ssrBody": "Theme and brand colors are resolved on the server and in a tiny inline script.",
+    "typedTitle": "Typed end to end",
+    "typedBody": "Props, item shapes, emits and slot props are TypeScript types your editor completes.",
+    "zeroTitle": "Zero runtime dependencies",
+    "zeroBody": "Vue, Nuxt and plain CSS. Nothing else ships to your users."
+  },
+  "ai": {
+    "eyebrow": "AI ready",
+    "title": "Docs your AI assistant reads in 3k tokens.",
+    "lead": "Coding assistants should not have to parse 80 source files to place a button. Mica ships a compact index and one short file per component, generated from the sources and checked in CI.",
+    "p1t": "llms.txt",
+    "p1": "Every component in one line, grouped, with the token cheat sheet.",
+    "p2t": "docs/api",
+    "p2": "Props, defaults, slots, emits and every named type, about 200 tokens each.",
+    "p3t": "Drift check",
+    "p3": "CI fails when a component changes and its docs do not.",
+    "file": "llms.txt"
+  },
+  "showcase": {
+    "eyebrow": "Showcase",
+    "title": "Four products, built only with Mica.",
+    "lead": "Complete, working screens. Open one, then switch the theme or the brand colors.",
+    "open": "Open demo",
+    "demos": {
+      "landing": {
+        "title": "Landing page",
+        "body": "Hero mockup, bento features, pricing with a billing toggle."
+      },
+      "dashboard": {
+        "title": "Analytics dashboard",
+        "body": "App shell, KPIs, charts, a sortable table and undo toasts."
+      },
+      "status": {
+        "title": "Status page",
+        "body": "Live service health, 90-day uptime and an incident timeline."
+      },
+      "blog": {
+        "title": "Editorial magazine",
+        "body": "A reading-first front page and article view."
+      }
+    }
+  },
+  "cta": {
+    "title": "Start with one line.",
+    "lead": "Free and open source under the MIT license.",
+    "primary": "Read the guide",
+    "secondary": "Star on GitHub"
+  },
+  "footer": {
+    "tagline": "The native-feeling UI layer for Nuxt.",
+    "product": "Product",
+    "resources": "Resources",
+    "license": "MIT license",
+    "built": "This site is built with Mica.",
+    "rights": "© 2026 Mica contributors"
+  },
+  "explorer": {
+    "title": "Components",
+    "lead": "Every Mica component with a live preview, adjustable props, a usage snippet and its full API.",
+    "search": "Filter components",
+    "all": "All",
+    "count": "{n} components",
+    "noMatch": "No component matches “{q}”.",
+    "preview": "Live preview",
+    "props": "Props",
+    "reset": "Reset",
+    "noExample": "No live example yet",
+    "noExampleBody": "The API below is complete; a live example is on its way.",
+    "api": "API",
+    "propsTitle": "Props",
+    "slots": "Slots",
+    "events": "Events",
+    "types": "Types",
+    "exposed": "Exposed through a template ref",
+    "prop": "Prop",
+    "type": "Type",
+    "default": "Default",
+    "description": "Description",
+    "required": "required",
+    "none": "None",
+    "vmodel": "v-model",
+    "prev": "Previous",
+    "next": "Next",
+    "aiDoc": "Plain-text doc for AI assistants",
+    "back": "All components",
+    "usage": "Usage",
+    "group": "Group",
+    "notFound": "This component does not exist.",
+    "groups": {
+      "Base": "Base",
+      "Buttons": "Buttons",
+      "Controls": "Controls",
+      "Inputs": "Inputs",
+      "Navigation": "Navigation",
+      "Feedback": "Feedback",
+      "Content": "Content",
+      "Charts": "Charts",
+      "Ai": "AI",
+      "Chat": "Chat"
+    },
+    "partOf": "Part of {name}: the live example below shows it in context.",
+    "parts": "Parts"
+  }
+}

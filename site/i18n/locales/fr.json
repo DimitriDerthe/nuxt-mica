@@ -1,0 +1,217 @@
+{
+  "meta": {
+    "title": "Mica, la couche UI au toucher natif pour Nuxt",
+    "description": "Des composants Vue au toucher natif pour Nuxt 4 : thèmes clair et sombre, vos couleurs de marque, des animations à 60 ips et une documentation lisible par votre assistant IA. Une ligne dans nuxt.config."
+  },
+  "nav": {
+    "label": "Principale",
+    "components": "Composants",
+    "theming": "Thème",
+    "craft": "Finitions",
+    "ai": "Prêt pour l'IA",
+    "showcase": "Démos",
+    "github": "GitHub",
+    "start": "Commencer",
+    "language": "Langue",
+    "switchTo": "English",
+    "switchShort": "EN"
+  },
+  "theme": {
+    "light": "Clair",
+    "dark": "Sombre",
+    "system": "Auto",
+    "label": "Apparence"
+  },
+  "hero": {
+    "badge": "Layer Nuxt 4",
+    "badgeNote": "la v0.1 est sortie",
+    "title": "Le calme du natif,",
+    "titleAccent": "dans chaque app Nuxt.",
+    "lead": "Mica est une couche UI de {n} composants, avec thèmes clair et sombre, vos couleurs de marque et des animations qui tiennent 60 images par seconde. Ajoutez une ligne à nuxt.config, puis écrivez {tag}.",
+    "primary": "Commencer",
+    "secondary": "Voir les composants",
+    "copy": "Copier la commande d'installation",
+    "copied": "Copié dans le presse-papiers",
+    "stageLabel": "Un échantillon vivant de composants Mica. L'inclinaison suit votre pointeur."
+  },
+  "sample": {
+    "revenue": "Revenu mensuel",
+    "vsLast": "vs mois dernier",
+    "chart": "Utilisateurs actifs par semaine",
+    "settings": "Réglages",
+    "sync": "Synchro iCloud",
+    "alerts": "Alertes de version",
+    "radius": "Rayon des angles",
+    "notifTitle": "Déploiement terminé",
+    "notifBody": "mica-site est en ligne sur 3 régions en 41 s.",
+    "now": "maintenant"
+  },
+  "stats": {
+    "components": "composants, enregistrés automatiquement",
+    "deps": "dépendance à l'exécution",
+    "colors": "couleurs de marque, toutes les nuances dérivées",
+    "fps": "ips, uniquement transform et opacity"
+  },
+  "start": {
+    "eyebrow": "Commencer",
+    "title": "De l'installation à l'interface en une minute.",
+    "lead": "Mica est un layer Nuxt : aucun plugin à déclarer, rien à importer. Composants, tokens de thème et composables sont simplement là.",
+    "s1": "Installer le paquet",
+    "s2": "Étendre le layer",
+    "s3": "Écrire des composants",
+    "copy": "Copier",
+    "copied": "Copié dans le presse-papiers"
+  },
+  "components": {
+    "eyebrow": "Composants",
+    "title": "{n} composants. Une seule main.",
+    "lead": "Tous partagent la même échelle typographique, les mêmes rayons, espacements et animations : des écrans conçus à des mois d'écart forment toujours un seul produit.",
+    "count": "{n} composants",
+    "groups": {
+      "Base": "Texte, icônes, surfaces, logo et sélecteur de thème.",
+      "Buttons": "Actions, boutons icône, groupes, menus et liens.",
+      "Controls": "Interrupteurs, curseurs, segments, puces et choix.",
+      "Inputs": "Champs, recherche, tags, codes, dates et formulaires.",
+      "Navigation": "Barres latérales, onglets, barres d'outils, étapes et pagination.",
+      "Feedback": "Dialogues, feuilles, toasts, menus et progression.",
+      "Content": "Cartes, listes, tableaux, avatars et accordéons.",
+      "Charts": "Courbes, barres, anneaux, heatmaps et tuiles KPI.",
+      "Ai": "Pièces jointes, blocs de code, questionnaires et traces d’agent.",
+      "Chat": "Messages, bulles, repères et fils de discussion."
+    },
+    "explore": "Explorer tous les composants"
+  },
+  "theming": {
+    "eyebrow": "Thème",
+    "title": "Deux couleurs en entrée. Une palette complète en sortie.",
+    "lead": "Choisissez une couleur primaire et une secondaire. Mica en dérive les survols, les teintes douces, les nuances de texte lisibles et les variantes sombres, vérifie le contraste et retient le choix sans flash au rechargement.",
+    "primary": "Primaire",
+    "secondary": "Secondaire",
+    "appearance": "Apparence",
+    "previewTitle": "Offre Équipe",
+    "previewSub": "Facturée à l'année, renouvelée le 12 nov.",
+    "seats": "Places utilisées",
+    "autopay": "Renouvellement automatique",
+    "chip1": "Design",
+    "chip2": "Produit",
+    "chip3": "Recherche",
+    "upgrade": "Passer à l'offre supérieure",
+    "manage": "Gérer",
+    "invoices": "Voir les factures",
+    "new": "Nouveau"
+  },
+  "craft": {
+    "eyebrow": "Finitions",
+    "title": "Les détails que vous auriez codés vous-même.",
+    "motionTitle": "Des animations qui ne perdent aucune image",
+    "motionBody": "Des ressorts écrits en courbes CSS linear(), uniquement des propriétés gérées par le compositeur, et une sonde d'images en CI : p95 sous 20 ms sur mobile, tablette et desktop, en clair et en sombre.",
+    "motionTry": "Tester le ressort",
+    "a11yTitle": "Accessible par défaut",
+    "a11yBody": "Parcours clavier, focus itinérant, rôles ARIA, anneaux de focus visibles et repli sans mouvement sur chaque composant.",
+    "darkTitle": "Un vrai mode sombre",
+    "darkBody": "Ses propres surfaces surélevées et nuances de texte, pas un thème clair inversé.",
+    "ssrTitle": "Aucun flash au chargement",
+    "ssrBody": "Le thème et les couleurs sont résolus côté serveur et par un minuscule script en ligne.",
+    "typedTitle": "Typé de bout en bout",
+    "typedBody": "Props, formes des éléments, événements et props de slots sont des types TypeScript que votre éditeur complète.",
+    "zeroTitle": "Zéro dépendance à l'exécution",
+    "zeroBody": "Vue, Nuxt et du CSS. Rien d'autre n'est envoyé à vos utilisateurs."
+  },
+  "ai": {
+    "eyebrow": "Prêt pour l'IA",
+    "title": "Une doc que votre assistant IA lit en 3k tokens.",
+    "lead": "Un assistant de code ne devrait pas avoir à lire 80 fichiers sources pour placer un bouton. Mica fournit un index compact et un court fichier par composant, générés depuis les sources et vérifiés en CI.",
+    "p1t": "llms.txt",
+    "p1": "Chaque composant en une ligne, par groupe, avec le mémo des tokens.",
+    "p2t": "docs/api",
+    "p2": "Props, valeurs par défaut, slots, événements et chaque type nommé, environ 200 tokens par fichier.",
+    "p3t": "Contrôle de dérive",
+    "p3": "La CI échoue si un composant change sans que sa doc suive.",
+    "file": "llms.txt"
+  },
+  "showcase": {
+    "eyebrow": "Démos",
+    "title": "Quatre produits, construits uniquement avec Mica.",
+    "lead": "Des écrans complets et fonctionnels. Ouvrez-en un, puis changez le thème ou les couleurs de marque.",
+    "open": "Ouvrir la démo",
+    "demos": {
+      "landing": {
+        "title": "Landing page",
+        "body": "Maquette produit, fonctionnalités en bento, tarifs avec bascule de facturation."
+      },
+      "dashboard": {
+        "title": "Dashboard analytique",
+        "body": "Coquille d'app, KPI, graphiques, tableau triable et toasts d'annulation."
+      },
+      "status": {
+        "title": "Page de statut",
+        "body": "Santé des services en direct, disponibilité sur 90 jours et historique des incidents."
+      },
+      "blog": {
+        "title": "Magazine éditorial",
+        "body": "Une première page pensée pour la lecture, et une vue article."
+      }
+    }
+  },
+  "cta": {
+    "title": "Commencez par une ligne.",
+    "lead": "Gratuit et open source sous licence MIT.",
+    "primary": "Lire le guide",
+    "secondary": "Étoiler sur GitHub"
+  },
+  "footer": {
+    "tagline": "La couche UI au toucher natif pour Nuxt.",
+    "product": "Produit",
+    "resources": "Ressources",
+    "license": "Licence MIT",
+    "built": "Ce site est construit avec Mica.",
+    "rights": "© 2026 Contributeurs Mica"
+  },
+  "explorer": {
+    "title": "Composants",
+    "lead": "Chaque composant Mica avec un aperçu vivant, des props modifiables, un extrait d'utilisation et son API complète.",
+    "search": "Filtrer les composants",
+    "all": "Tous",
+    "count": "{n} composants",
+    "noMatch": "Aucun composant ne correspond à « {q} ».",
+    "preview": "Aperçu en direct",
+    "props": "Props",
+    "reset": "Réinitialiser",
+    "noExample": "Pas encore d'exemple en direct",
+    "noExampleBody": "L'API ci-dessous est complète ; un exemple en direct arrive.",
+    "api": "API",
+    "propsTitle": "Props",
+    "slots": "Slots",
+    "events": "Événements",
+    "types": "Types",
+    "exposed": "Exposé via une ref de template",
+    "prop": "Prop",
+    "type": "Type",
+    "default": "Défaut",
+    "description": "Description",
+    "required": "requis",
+    "none": "Aucun",
+    "vmodel": "v-model",
+    "prev": "Précédent",
+    "next": "Suivant",
+    "aiDoc": "Doc texte pour les assistants IA",
+    "back": "Tous les composants",
+    "usage": "Utilisation",
+    "group": "Groupe",
+    "notFound": "Ce composant n'existe pas.",
+    "groups": {
+      "Base": "Base",
+      "Buttons": "Boutons",
+      "Controls": "Contrôles",
+      "Inputs": "Saisie",
+      "Navigation": "Navigation",
+      "Feedback": "Retours",
+      "Content": "Contenu",
+      "Charts": "Graphiques",
+      "Ai": "IA",
+      "Chat": "Chat"
+    },
+    "partOf": "Élément de {name} : l’exemple ci-dessous le montre en contexte.",
+    "parts": "Éléments"
+  }
+}
