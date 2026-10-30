@@ -1,7 +1,8 @@
 {
   "meta": {
     "title": "Mica, la couche UI au toucher natif pour Nuxt",
-    "description": "Des composants Vue au toucher natif pour Nuxt 4 : thèmes clair et sombre, vos couleurs de marque, des animations à 60 ips et une documentation lisible par votre assistant IA. Une ligne dans nuxt.config."
+    "description": "Des composants Vue au toucher natif pour Nuxt 4 : thèmes clair et sombre, vos couleurs de marque, des animations à 60 ips et une documentation lisible par votre assistant IA. Une ligne dans nuxt.config.",
+    "ogImageAlt": "Le logo mica. au-dessus du titre « Native calm, for every Nuxt app. » et de la ligne extends de nuxt.config, à côté d'un grand point bleu."
   },
   "nav": {
     "label": "Principale",

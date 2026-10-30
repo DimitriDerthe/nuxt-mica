@@ -66,7 +66,7 @@ const filtered = computed(() => {
 })
 const visibleGroups = computed(() => groups.value.filter(g => filtered.value.some(c => c.group === g)))
 
-useHead(() => ({ title: `${t('explorer.title')} · Mica` }))
+useSiteSeo(() => `${t('explorer.title')} · Mica`, () => t('explorer.lead'))
 </script>
 
 <style scoped>

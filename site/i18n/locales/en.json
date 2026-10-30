@@ -1,7 +1,8 @@
 {
   "meta": {
     "title": "Mica, the native-feeling UI layer for Nuxt",
-    "description": "Native-feeling Vue components for Nuxt 4: light and dark themes, your brand colors, motion tuned for 60fps and docs your AI assistant can read. One line in nuxt.config."
+    "description": "Native-feeling Vue components for Nuxt 4: light and dark themes, your brand colors, motion tuned for 60fps and docs your AI assistant can read. One line in nuxt.config.",
+    "ogImageAlt": "The mica. logo above the headline \"Native calm, for every Nuxt app.\" and the nuxt.config extends line, next to a large blue dot."
   },
   "nav": {
     "label": "Main",
