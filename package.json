@@ -4,7 +4,6 @@
   "license": "MIT",
   "private": true,
   "type": "module",
-  "main": "./nuxt.config.ts",
   "scripts": {
     "dev": "nuxt dev .playground",
     "build": "nuxt build .playground",
@@ -20,10 +19,6 @@
     "pages:build": "node scripts/build-pages.mjs",
     "pages:preview": "npx serve pages-dist -l 4173"
   },
-  "dependencies": {
-    "nuxt": "^4.6.3",
-    "vue": "latest"
-  },
   "devDependencies": {
     "@nuxt/test-utils": "latest",
     "@nuxtjs/i18n": "^10.6.0",
@@ -31,19 +26,11 @@
     "@vitejs/plugin-vue": "^6.0.10",
     "@vue/test-utils": "latest",
     "happy-dom": "latest",
+    "nuxt": "^4.6.3",
     "typescript": "~5.9.3",
     "vitest": "latest",
+    "vue": "latest",
     "vue-component-meta": "^3.3.13",
     "vue-tsc": "latest"
-  },
-  "files": [
-    "app",
-    "nuxt.config.ts",
-    "llms.txt",
-    "components.json",
-    "docs/api",
-    "AGENTS.md",
-    "README.md",
-    "LICENSE"
-  ]
+  }
 }

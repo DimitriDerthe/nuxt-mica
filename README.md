@@ -4,16 +4,18 @@ A Nuxt 4 layer shipping 82 SSR-safe UI components (buttons, controls, inputs, na
 
 ## Consume it
 
-In the consuming project's `nuxt.config.ts`:
+Mica is a native Nuxt layer. There is no npm package to publish or install: Nuxt fetches the layer from GitHub. In the consuming project's `nuxt.config.ts`:
 
 ```ts
 export default defineNuxtConfig({
-  // from GitHub
-  extends: ['github:DimitriDerthe/nuxt-mica'],
-  // or from a local path
-  // extends: ['../nuxt-mica'],
+  // pin a release tag for reproducible builds
+  extends: ['github:DimitriDerthe/nuxt-mica#v0.2.0'],
+  // or follow main: 'github:DimitriDerthe/nuxt-mica'
+  // or a local path: '../nuxt-mica'
 })
 ```
+
+For a private repository, set `GIGET_AUTH` to a GitHub token in the consuming project's environment.
 
 Components are auto-imported with no path prefix (`<MiButton>`, `<MiTable>`, ...). The layer registers its stylesheet, theme plugin, composables and utils automatically. Component imports inside the layer are relative, so they do not depend on the consumer's `~` alias.
 
@@ -75,7 +77,7 @@ Binding rules for contributors: [docs/CONVENTIONS.md](docs/CONVENTIONS.md).
 ## Testing and development
 
 ```bash
-pnpm install
+pnpm install                                # development only, consumers install nothing
 pnpm dev                                   # playground on .playground
 npx vitest run                             # unit tests (tests/*.spec.ts)
 node scripts/lint-motion.mjs               # motion rules

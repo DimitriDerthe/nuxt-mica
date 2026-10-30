@@ -27,10 +27,10 @@
     "badgeNote": "v0.1 is out",
     "title": "Native calm,",
     "titleAccent": "for every Nuxt app.",
-    "lead": "Mica is a UI layer of {n} components with light and dark themes, your brand colors and motion that holds 60 frames per second. Add one line to nuxt.config, then write {tag}.",
+    "lead": "Mica is a UI layer of {n} components with light and dark themes, your brand colors and motion that holds 60 frames per second. Add one line to nuxt.config, no npm package needed, then write {tag}.",
     "primary": "Get started",
     "secondary": "Browse components",
-    "copy": "Copy install command",
+    "copy": "Copy the extends line",
     "copied": "Copied to clipboard",
     "stageLabel": "A live sample of Mica components. Tilt follows your pointer."
   },
@@ -54,11 +54,10 @@
   },
   "start": {
     "eyebrow": "Get started",
-    "title": "From install to interface in a minute.",
-    "lead": "Mica is a Nuxt layer, so there is no plugin to register and nothing to import. Components, theme tokens and composables are simply there.",
-    "s1": "Install the package",
-    "s2": "Extend the layer",
-    "s3": "Write components",
+    "title": "From one line to interface in a minute.",
+    "lead": "Mica is a native Nuxt layer: there is no npm package to install, no plugin to register and nothing to import. Nuxt fetches it from GitHub. Components, theme tokens and composables are simply there.",
+    "s1": "Extend the layer",
+    "s2": "Write components",
     "copy": "Copy",
     "copied": "Copied to clipboard"
   },

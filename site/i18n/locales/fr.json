@@ -27,10 +27,10 @@
     "badgeNote": "la v0.1 est sortie",
     "title": "Le calme du natif,",
     "titleAccent": "dans chaque app Nuxt.",
-    "lead": "Mica est une couche UI de {n} composants, avec thèmes clair et sombre, vos couleurs de marque et des animations qui tiennent 60 images par seconde. Ajoutez une ligne à nuxt.config, puis écrivez {tag}.",
+    "lead": "Mica est une couche UI de {n} composants, avec thèmes clair et sombre, vos couleurs de marque et des animations qui tiennent 60 images par seconde. Ajoutez une ligne à nuxt.config, sans paquet npm, puis écrivez {tag}.",
     "primary": "Commencer",
     "secondary": "Voir les composants",
-    "copy": "Copier la commande d'installation",
+    "copy": "Copier la ligne extends",
     "copied": "Copié dans le presse-papiers",
     "stageLabel": "Un échantillon vivant de composants Mica. L'inclinaison suit votre pointeur."
   },
@@ -54,11 +54,10 @@
   },
   "start": {
     "eyebrow": "Commencer",
-    "title": "De l'installation à l'interface en une minute.",
-    "lead": "Mica est un layer Nuxt : aucun plugin à déclarer, rien à importer. Composants, tokens de thème et composables sont simplement là.",
-    "s1": "Installer le paquet",
-    "s2": "Étendre le layer",
-    "s3": "Écrire des composants",
+    "title": "D'une ligne à l'interface en une minute.",
+    "lead": "Mica est un layer Nuxt natif : aucun paquet npm à installer, aucun plugin à déclarer, rien à importer. Nuxt le récupère depuis GitHub. Composants, tokens de thème et composables sont simplement là.",
+    "s1": "Étendre le layer",
+    "s2": "Écrire des composants",
     "copy": "Copier",
     "copied": "Copié dans le presse-papiers"
   },

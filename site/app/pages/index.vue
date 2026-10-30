@@ -19,8 +19,8 @@
             <MiButton size="large" variant="gray" :href="siteHref('/components')">{{ t('hero.secondary') }}</MiButton>
           </div>
           <div class="install rise" style="--d: 240ms">
-            <code><span class="install__dollar" aria-hidden="true">$</span> {{ installCmd }}</code>
-            <MiIconButton size="small" variant="plain" :label="t('hero.copy')" @click="copy(installCmd)">
+            <code>{{ extendsLine }}</code>
+            <MiIconButton size="small" variant="plain" :label="t('hero.copy')" @click="copy(extendsLine)">
               <MiIcon :name="copied ? 'check' : 'copy'" :size="15" />
             </MiIconButton>
           </div>
@@ -77,16 +77,11 @@
         <li class="step">
           <span class="step__n">1</span>
           <MiText variant="headline" as="h3">{{ t('start.s1') }}</MiText>
-          <SiteCode file="terminal" :text="installCmd" prompt :copy-label="t('start.copy')" :copied-label="t('start.copied')" />
+          <SiteCode file="nuxt.config.ts" :text="configCode" :copy-label="t('start.copy')" :copied-label="t('start.copied')" />
         </li>
         <li class="step">
           <span class="step__n">2</span>
           <MiText variant="headline" as="h3">{{ t('start.s2') }}</MiText>
-          <SiteCode file="nuxt.config.ts" :text="configCode" :copy-label="t('start.copy')" :copied-label="t('start.copied')" />
-        </li>
-        <li class="step">
-          <span class="step__n">3</span>
-          <MiText variant="headline" as="h3">{{ t('start.s3') }}</MiText>
           <SiteCode file="app.vue" :text="usageCode" :copy-label="t('start.copy')" :copied-label="t('start.copied')" />
           <div class="step__live"><MiButton size="large" @click="shipIt">Ship it</MiButton></div>
         </li>
@@ -288,7 +283,7 @@
       <div class="cta__in wrap">
         <MiLogo variant="dot" :size="44" decorative />
         <h2 id="cta-title" class="cta__title">{{ t('cta.title') }}</h2>
-        <code class="cta__code">extends: ['nuxt-mica']</code>
+        <code class="cta__code">{{ extendsLine }}</code>
         <p class="cta__lead">{{ t('cta.lead') }}</p>
         <div class="hero__ctas">
           <MiButton size="large" href="#start">{{ t('cta.primary') }}</MiButton>
@@ -310,8 +305,8 @@ const theme = useMiTheme()
 const toast = useMiToast()
 const { data: catalog } = await useFetch('/api/catalog')
 
-const installCmd = 'pnpm add nuxt-mica'
-const configCode = "export default defineNuxtConfig({\n  extends: ['nuxt-mica']\n})"
+const extendsLine = "extends: ['github:DimitriDerthe/nuxt-mica']"
+const configCode = "export default defineNuxtConfig({\n  extends: ['github:DimitriDerthe/nuxt-mica#v0.2.0']\n})"
 const usageCode = '<MiButton size="large">\n  Ship it\n</MiButton>'
 const themeCode = computed(() => `const { setPrimary, setMode } = useMiTheme()\nsetPrimary('${theme.primary.value}')\nsetMode('${theme.mode.value}')`)
 
@@ -409,7 +404,6 @@ onBeforeUnmount(() => cancelAnimationFrame(raf))
 .hero__ctas { display: flex; flex-wrap: wrap; gap: 10px; }
 .install { display: inline-flex; align-items: center; gap: 10px; padding: 4px 4px 4px 14px; border-radius: 12px; background: var(--mi-fill4); }
 .install code { font: 13px/1 ui-monospace, "SF Mono", Menlo, monospace; color: var(--mi-label); }
-.install__dollar { color: var(--mi-label3); }
 
 /* Hero stage: sheets of real components on a tilting rig (no overlap; depth via translateZ). */
 .stage { perspective: 1600px; --rx: 0deg; --ry: 0deg; }
@@ -453,7 +447,7 @@ onBeforeUnmount(() => cancelAnimationFrame(raf))
 
 /* Steps */
 .steps { display: grid; gap: 16px; list-style: none; margin: 0; padding: 0; }
-@media (min-width: 900px) { .steps { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 900px) { .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .step { position: relative; display: flex; flex-direction: column; gap: 14px; padding: 22px; border-radius: 22px; background: var(--mi-card); box-shadow: 0 0 0 1px var(--mi-sep); min-width: 0; }
 .step__n { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--mi-p); color: var(--mi-p-on); font-size: 14px; font-weight: 700; }
 .step :deep(.code) { background: var(--mi-page); }
