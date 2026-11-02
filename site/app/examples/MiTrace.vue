@@ -31,7 +31,7 @@ defineProps<{ p: Record<string, unknown> }>()
         </MiTraceCollapsibleContent>
       </MiTraceCollapsible>
       <MiTraceLine status="running">
-        <MiTraceIcon><MiIcon name="spinner-arc" :size="16" spin /></MiTraceIcon>
+        <MiTraceIcon><MiOrb state="working" :size="16" label="" /></MiTraceIcon>
         <MiTraceTitle>Running tests</MiTraceTitle>
       </MiTraceLine>
       <MiTraceLine status="error">

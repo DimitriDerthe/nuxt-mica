@@ -4798,5 +4798,61 @@
 "MiEditor#summary": [
 "Lightweight rich-text editor with a formatting toolbar and shortcuts; v-model is a sanitized HTML string limited to basic text formatting, lists, headings, quotes, code and links.",
 "Éditeur de texte riche léger avec barre d'outils et raccourcis ; le v-model est une chaîne HTML assainie limitée au formatage de base, aux listes, titres, citations, code et liens."
+],
+"MiOrb#summary": [
+"Dotted 3D thinking orb for AI and agent states (thinking, searching, working, listening, composing, connecting, idle); one shared canvas loop, paused offscreen, static under reduced motion.",
+"Orbe 3D en points pour les états d'IA et d'agent (réflexion, recherche, travail, écoute, rédaction, connexion, repos) ; une seule boucle canvas partagée, en pause hors écran, figée si les animations sont réduites."
+],
+"MiOrb.prop.state": [
+"What the agent is doing; switching state morphs the dots into the new shape.",
+"Ce que fait l'agent ; changer d'état transforme les points vers la nouvelle forme."
+],
+"MiOrb.prop.size": [
+"Preset: sm 20px (inline with text), md 32px, lg 64px (avatar). A number is an exact size in px.",
+"Préréglage : sm 20 px (dans le texte), md 32 px, lg 64 px (avatar). Un nombre donne une taille exacte en px."
+],
+"MiOrb.prop.tone": [
+"Ink colour: brand `primary` or `secondary`, or `inherit` to follow the text colour.",
+"Couleur de l'encre : `primary` ou `secondary` de la marque, ou `inherit` pour suivre la couleur du texte."
+],
+"MiOrb.prop.speed": [
+"Animation speed multiplier.",
+"Multiplicateur de vitesse de l'animation."
+],
+"MiOrb.prop.density": [
+"Dot density multiplier (1 is the tuned look).",
+"Multiplicateur de densité des points (1 correspond au réglage d'origine)."
+],
+"MiOrb.prop.paused": [
+"Freeze on the current frame.",
+"Fige l'animation sur l'image en cours."
+],
+"MiOrb.prop.label": [
+"Accessible name; defaults to the state name (\"Thinking\"). An empty string hides the orb from assistive tech.",
+"Nom accessible ; par défaut le nom de l'état (« Thinking »). Une chaîne vide masque l'orbe aux technologies d'assistance."
+],
+"MiShimmerText#summary": [
+"Status text with a light sweeping across it, for \"Thinking…\" style labels next to MiOrb; the sweep moves with transforms only.",
+"Texte d'état parcouru par un reflet, pour les libellés du type « Thinking… » à côté de MiOrb ; le reflet ne bouge qu'avec des transforms."
+],
+"MiShimmerText.prop.text": [
+"Text to show; the default slot overrides it.",
+"Texte à afficher ; le slot par défaut le remplace."
+],
+"MiShimmerText.prop.duration": [
+"Seconds per sweep.",
+"Durée d'un passage du reflet, en secondes."
+],
+"MiShimmerText.prop.paused": [
+"Stop the sweep and show plain text, e.g. once the work is done.",
+"Arrête le reflet et affiche le texte simple, par exemple une fois le travail terminé."
+],
+"MiShimmerText.prop.as": [
+"Element to render.",
+"Élément à rendre."
+],
+"MiShimmerText.slot.default": [
+"Label content; plain inline text reads best.",
+"Contenu du libellé ; du texte simple en ligne se lit le mieux."
 ]
 }
