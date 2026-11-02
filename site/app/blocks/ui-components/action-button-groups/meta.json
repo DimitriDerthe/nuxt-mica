@@ -1,0 +1,11 @@
+[
+  {
+    "file": "ReviewActionGroups",
+    "title": { "en": "Code review action groups", "fr": "Groupes d'actions de revue de code" },
+    "summary": {
+      "en": "A pull request toolbar built from button groups: an attached file pager, a unified or split diff switch, a verdict strip and a split merge button whose strategy you pick.",
+      "fr": "Une barre de revue de pull request faite de groupes de boutons : pagination de fichiers accolée, bascule diff unifié ou côte à côte, choix du verdict et bouton de fusion scindé avec sa stratégie."
+    },
+    "height": 520
+  }
+]

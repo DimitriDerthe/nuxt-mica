@@ -1,0 +1,11 @@
+[
+  {
+    "file": "FocalPointUpload",
+    "title": { "en": "Cover upload with focal point", "fr": "Couverture avec point focal" },
+    "summary": {
+      "en": "Upload a cover, then set its focal point on the image: the header, feed card and badge crops re-frame live, with alt text validated before saving.",
+      "fr": "Envoyez une couverture puis placez son point focal sur l'image : les recadrages en-tête, carte et badge suivent en direct, avec un texte alternatif validé avant l'enregistrement."
+    },
+    "height": 560
+  }
+]

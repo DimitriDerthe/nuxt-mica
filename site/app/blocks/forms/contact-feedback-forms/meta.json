@@ -1,0 +1,11 @@
+[
+  {
+    "file": "AdaptiveFeedbackForm",
+    "title": { "en": "Adaptive feedback form", "fr": "Formulaire de retour adaptatif" },
+    "summary": {
+      "en": "A five-face mood scale that rewrites the follow-up question, its topic chips and the placeholder; a rough answer offers a support callback, a happy one asks to quote you.",
+      "fr": "Une échelle de cinq visages qui réécrit la question suivante, ses puces de sujets et le texte d'aide ; une réponse difficile propose un rappel du support, une réponse enthousiaste demande à vous citer."
+    },
+    "height": 520
+  }
+]

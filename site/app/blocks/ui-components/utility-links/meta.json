@@ -1,0 +1,11 @@
+[
+  {
+    "file": "ResourceLinksPanel",
+    "title": { "en": "Developer resource links", "fr": "Liens de ressources développeur" },
+    "summary": {
+      "en": "Back, inline, chevron, external, download, copy, shortcut and footer links on an API keys page; each trailing glyph nudges toward where the link goes.",
+      "fr": "Liens retour, en ligne, à chevron, externes, de téléchargement, de copie, de raccourci et de pied de page sur une page de clés d'API ; chaque glyphe glisse vers la destination."
+    },
+    "height": 440
+  }
+]

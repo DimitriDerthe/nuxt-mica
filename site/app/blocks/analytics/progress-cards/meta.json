@@ -1,0 +1,20 @@
+[
+  {
+    "file": "OkrPaceBoard",
+    "title": { "en": "OKR pace board", "fr": "Tableau de rythme des OKR" },
+    "summary": {
+      "en": "Objectives with key results read against the quarter clock: each bar carries a pace tick for where it should be today, statuses follow from the gap, and a check-in stepper updates progress in place.",
+      "fr": "Des objectifs et résultats clés lus face à l'horloge du trimestre : chaque barre porte un repère de rythme indiquant où elle devrait être aujourd'hui, les statuts découlent de l'écart, et un pas-à-pas de point d'étape met à jour la progression sur place."
+    },
+    "height": 560
+  },
+  {
+    "file": "QuotaRunwayCards",
+    "title": { "en": "Plan usage runway", "fr": "Autonomie des quotas du forfait" },
+    "summary": {
+      "en": "Quota cards that project usage to the reset date: a hatched forecast runs past the limit line when a quota will run out, with the day it happens and a one-click request.",
+      "fr": "Des cartes de quotas qui projettent la consommation jusqu'à la remise à zéro : une prévision hachurée dépasse la ligne de limite quand un quota va s'épuiser, avec le jour concerné et une demande en un clic."
+    },
+    "height": 380
+  }
+]

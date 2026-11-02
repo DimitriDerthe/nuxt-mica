@@ -1,0 +1,11 @@
+[
+  {
+    "file": "EnvImportTextarea",
+    "title": { "en": "Environment variable import", "fr": "Import de variables d'environnement" },
+    "summary": {
+      "en": "Paste a .env file and every line is parsed as you type: invalid names, duplicates, empty values and overwritten keys are flagged per line, and detected secrets are masked before import.",
+      "fr": "Collez un fichier .env et chaque ligne est analysée à la frappe : noms invalides, doublons, valeurs vides et clés remplacées sont signalés ligne par ligne, et les secrets détectés sont masqués avant l'import."
+    },
+    "height": 520
+  }
+]

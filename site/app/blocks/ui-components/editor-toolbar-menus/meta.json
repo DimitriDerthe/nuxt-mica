@@ -1,0 +1,11 @@
+[
+  {
+    "file": "DocEditorToolbar",
+    "title": { "en": "Editor toolbar and slash menu", "fr": "Barre d'édition et menu slash" },
+    "summary": {
+      "en": "A formatting toolbar with a block-style menu, mark toggles, alignment and an insert menu that restyle the selected paragraph live, plus a slash command menu open at the caret.",
+      "fr": "Une barre de mise en forme avec menu de style de bloc, bascules, alignement et menu d'insertion qui transforment le paragraphe sélectionné, plus un menu de commandes slash ouvert au curseur."
+    },
+    "height": 500
+  }
+]

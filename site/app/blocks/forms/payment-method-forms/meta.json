@@ -1,0 +1,11 @@
+[
+  {
+    "file": "CardPaymentForm",
+    "title": { "en": "Card and SEPA payment form", "fr": "Formulaire carte et prélèvement SEPA" },
+    "summary": {
+      "en": "A live card that recolors with the detected brand and flips to its back for the security code, a number mask grouped per brand with a Luhn check, and a SEPA tab that validates IBAN length and checksum. UI only, with test numbers.",
+      "fr": "Une carte en direct qui prend la couleur de la marque détectée et se retourne pour le code de sécurité, un masque de numéro groupé par marque avec contrôle de Luhn, et un onglet SEPA qui vérifie la longueur et la clé de l'IBAN. Interface seule, avec numéros de test."
+    },
+    "height": 520
+  }
+]

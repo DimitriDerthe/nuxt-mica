@@ -1,0 +1,11 @@
+[
+  {
+    "file": "WorkspaceSwitcherMenu",
+    "title": { "en": "Workspace switcher", "fr": "Sélecteur d'espace de travail" },
+    "summary": {
+      "en": "An open workspace switcher with plans, member counts and unread badges, beside a live account menu; switching repaints the workspace card with its own hue, seats and team.",
+      "fr": "Un sélecteur d'espace ouvert avec offres, nombre de membres et badges non lus, à côté d'un vrai menu de compte ; changer d'espace repeint la carte avec sa teinte, ses sièges et son équipe."
+    },
+    "height": 480
+  }
+]

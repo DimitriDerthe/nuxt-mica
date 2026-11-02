@@ -1,0 +1,15 @@
+[
+  {
+    "file": "InboxReplyDebt",
+    "title": {
+      "en": "Reply-debt inbox",
+      "fr": "Boîte de réception par dette de réponse"
+    },
+    "summary": {
+      "en": "Three-pane inbox sorted by who owes the next move, with a waiting-time bar per sender; replying moves the thread to Waiting.",
+      "fr": "Boîte de réception à trois volets triée selon qui doit répondre, avec une barre d'attente par expéditeur ; répondre déplace le fil vers En attente."
+    },
+    "height": 660,
+    "stage": "bleed"
+  }
+]

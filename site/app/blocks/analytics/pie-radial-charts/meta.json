@@ -1,0 +1,11 @@
+[
+  {
+    "file": "CloudSpendDonut",
+    "title": { "en": "Cloud bill breakdown", "fr": "Répartition de la facture cloud" },
+    "summary": {
+      "en": "A donut of monthly cloud spend whose legend is also a selector: hover previews a service, a click pins it, and the side panel shows its budget meter and top line items.",
+      "fr": "Un anneau des dépenses cloud mensuelles dont la légende sert aussi de sélecteur : le survol prévisualise un service, le clic l'épingle, et le panneau affiche sa jauge de budget et ses principales lignes."
+    },
+    "height": 460
+  }
+]

@@ -1,0 +1,11 @@
+[
+  {
+    "file": "MemberRecordEditor",
+    "title": { "en": "Member record editor", "fr": "Éditeur de fiche membre" },
+    "summary": {
+      "en": "One record that reads as details, edits in place or starts blank for a new member; contractors reveal an end date, and saving goes through a field-by-field diff review with undo afterwards.",
+      "fr": "Une fiche qui s'affiche en détails, se modifie sur place ou démarre vide pour un nouveau membre ; les prestataires font apparaître une date de fin, et l'enregistrement passe par une revue des différences avec annulation possible."
+    },
+    "height": 560
+  }
+]

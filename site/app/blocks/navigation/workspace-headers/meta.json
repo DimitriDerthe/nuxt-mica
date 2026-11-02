@@ -1,0 +1,22 @@
+[
+  {
+    "file": "ProjectWorkspaceHeader",
+    "title": { "en": "Project workspace header", "fr": "En-tête d'espace projet" },
+    "summary": {
+      "en": "A project header with trail, favorite and share, a property strip whose status menu recolors the pill, and tabs with counts that switch the page below.",
+      "fr": "Un en-tête de projet avec fil d'Ariane, favori et partage, une bande de propriétés dont le menu de statut recolore la pastille, et des onglets avec compteurs qui changent la page."
+    },
+    "height": 560,
+    "stage": "bleed"
+  },
+  {
+    "file": "DocWorkspaceHeader",
+    "title": { "en": "Document workspace header", "fr": "En-tête d'espace document" },
+    "summary": {
+      "en": "A collaborative document header: editable title with save state, live presence, comments and publish, plus an editing mode switch that recolors the header line and shows suggestions in the page.",
+      "fr": "Un en-tête de document collaboratif : titre modifiable avec état d'enregistrement, présence en direct, commentaires et publication, et un mode d'édition qui recolore la ligne d'en-tête et affiche les suggestions."
+    },
+    "height": 520,
+    "stage": "bleed"
+  }
+]

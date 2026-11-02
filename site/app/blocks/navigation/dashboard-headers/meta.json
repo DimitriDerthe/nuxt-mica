@@ -1,0 +1,12 @@
+[
+  {
+    "file": "FleetDashboardHeader",
+    "title": { "en": "Fleet dashboard header", "fr": "En-tête de tableau de bord de flotte" },
+    "summary": {
+      "en": "A three-tier dashboard header: workspace switcher, trail and global tools, a title with a live freshness pill and range actions, then a pulse rail of four figures that follows the range.",
+      "fr": "Un en-tête de tableau de bord en trois niveaux : sélecteur d'espace, fil d'Ariane et outils, un titre avec pastille de fraîcheur et actions de période, puis un rail de quatre chiffres qui suit la période."
+    },
+    "height": 600,
+    "stage": "bleed"
+  }
+]

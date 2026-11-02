@@ -1,0 +1,11 @@
+[
+  {
+    "file": "StatusStripFooter",
+    "title": { "en": "Status strip dashboard footer", "fr": "Pied de tableau de bord à bande de statut" },
+    "summary": {
+      "en": "An app footer that doubles as a status page: a 60-day uptime strip you can walk with the arrow keys, the build id with copy, a region switch with latency, links and a shortcut hint.",
+      "fr": "Un pied d'application qui sert aussi de page de statut : bande de disponibilité sur 60 jours parcourable aux flèches, identifiant de build copiable, choix de région avec latence, liens et raccourci clavier."
+    },
+    "height": 380
+  }
+]

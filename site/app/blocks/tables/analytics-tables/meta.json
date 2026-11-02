@@ -1,0 +1,11 @@
+[
+  {
+    "file": "ChannelPerformanceTable",
+    "title": { "en": "Channel performance table", "fr": "Tableau de performance des canaux" },
+    "summary": {
+      "en": "Acquisition channels with in-cell data bars that keep a ghost tick at last period's sessions, conversion chips tinted by rate, revenue deltas and trend sparklines; the period switch rescales every figure and the totals above.",
+      "fr": "Les canaux d'acquisition avec des barres de données gardant un repère fantôme des sessions de la période précédente, des pastilles de conversion teintées selon le taux, les écarts de revenu et des micro-courbes ; le sélecteur de période recalcule tout, totaux compris."
+    },
+    "height": 520
+  }
+]

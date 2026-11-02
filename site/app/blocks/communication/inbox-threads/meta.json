@@ -1,0 +1,14 @@
+[
+  {
+    "file": "CollapsedThreadStack",
+    "title": {
+      "en": "Email thread with folded replies",
+      "fr": "Fil d’e-mails avec réponses repliées"
+    },
+    "summary": {
+      "en": "Long email thread with pinned key points; middle replies fold into a paper stack, each message expands on its own, replies append.",
+      "fr": "Long fil d’e-mails avec points clés épinglés ; les réponses intermédiaires se replient en pile, chaque message se déplie, les réponses s’ajoutent."
+    },
+    "height": 640
+  }
+]

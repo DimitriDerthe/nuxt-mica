@@ -1,0 +1,11 @@
+[
+  {
+    "file": "SidebarModuleRack",
+    "title": { "en": "Sidebar module rack", "fr": "Présentoir de modules de barre latérale" },
+    "summary": {
+      "en": "Workspace switcher, setup checklist with progress ring, plan usage meters, a dismissible changelog card and a presence picker, each shown in the sidebar slice it belongs to.",
+      "fr": "Sélecteur d'espace, liste de démarrage avec anneau de progression, jauges d'usage du forfait, carte de nouveautés masquable et sélecteur de présence, chacun dans la tranche de barre latérale où il vit."
+    },
+    "height": 560
+  }
+]

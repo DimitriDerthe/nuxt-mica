@@ -1,0 +1,11 @@
+[
+  {
+    "file": "WeekFocusCalendar",
+    "title": { "en": "Week view with focus windows", "fr": "Vue semaine avec créneaux de concentration" },
+    "summary": {
+      "en": "A week grid with positioned, side-by-side events, a now line and a meeting-load meter per day; each day's longest free stretch becomes a one-click focus block.",
+      "fr": "Une grille semaine avec événements positionnés côte à côte, ligne de l'heure et jauge de charge par jour ; le plus long créneau libre devient un bloc de concentration en un clic."
+    },
+    "height": 680
+  }
+]

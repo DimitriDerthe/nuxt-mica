@@ -1,0 +1,11 @@
+[
+  {
+    "file": "RoadmapGanttTable",
+    "title": { "en": "Roadmap table with inline Gantt", "fr": "Tableau de roadmap avec Gantt intégré" },
+    "summary": {
+      "en": "A sortable project table whose schedule column is a Gantt chart: month lines and today's line run through every row, bars are clipped to the chosen range (quarter or six weeks), and budget burn sits beside each project.",
+      "fr": "Un tableau de projets triable dont la colonne planning est un Gantt : les lignes de mois et d'aujourd'hui traversent chaque ligne, les barres sont coupées à la plage choisie (trimestre ou six semaines), et la consommation du budget accompagne chaque projet."
+    },
+    "height": 560
+  }
+]

@@ -1,0 +1,11 @@
+[
+  {
+    "file": "ProjectPaceBoard",
+    "title": { "en": "Project pace board", "fr": "Tableau de rythme des projets" },
+    "summary": {
+      "en": "Client project cards where a tick on each progress bar marks where the work should be today, turning every card into an ahead or behind verdict; filter by pace and sort by due date or lag.",
+      "fr": "Cartes de projets client où un repère sur chaque barre indique où le travail devrait en être aujourd'hui, pour lire d'un coup d'œil l'avance ou le retard ; filtre par rythme et tri par échéance ou retard."
+    },
+    "height": 560
+  }
+]

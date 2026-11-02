@@ -1,0 +1,11 @@
+[
+  {
+    "file": "WorkspaceSettingsSheet",
+    "title": { "en": "Workspace settings sheet", "fr": "Feuille de réglages d'espace" },
+    "summary": {
+      "en": "A settings modal with its own section nav, shown open on a backdrop; edits mark their section with a dot, and the footer counts unsaved changes with save and discard.",
+      "fr": "Une modale de réglages avec sa navigation de sections, ouverte sur un fond ; chaque modification marque sa section, et le pied compte les changements à enregistrer ou annuler."
+    },
+    "height": 600
+  }
+]

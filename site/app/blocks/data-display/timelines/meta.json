@@ -1,0 +1,11 @@
+[
+  {
+    "file": "IncidentTimeline",
+    "title": { "en": "Incident timeline", "fr": "Chronologie d'incident" },
+    "summary": {
+      "en": "A postmortem view where a ribbon sized by real phase durations (detect, triage, mitigate, monitor) filters the timeline below, with the alert's error spike and the key decision quoted in place.",
+      "fr": "Une vue de postmortem où un ruban proportionnel à la durée réelle des phases (détection, tri, atténuation, surveillance) filtre la chronologie, avec le pic d'erreurs de l'alerte et la décision clé citée sur place."
+    },
+    "height": 640
+  }
+]

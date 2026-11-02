@@ -1,0 +1,11 @@
+[
+  {
+    "file": "OrderLookupJourney",
+    "title": { "en": "Guest order lookup with delivery rail", "fr": "Suivi de commande invité avec parcours de livraison" },
+    "summary": {
+      "en": "Find an order with its number and postcode, then follow it along a delivery rail with glaze-painted items and an offer to save it to an account.",
+      "fr": "Retrouvez une commande avec son numéro et son code postal, puis suivez-la sur un rail de livraison, avec ses articles et une invitation à créer un compte."
+    },
+    "height": 540
+  }
+]

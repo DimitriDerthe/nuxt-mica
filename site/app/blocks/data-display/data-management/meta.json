@@ -1,0 +1,11 @@
+[
+  {
+    "file": "DatasetInventory",
+    "title": { "en": "Warehouse table inventory", "fr": "Inventaire des tables d'entrepôt" },
+    "summary": {
+      "en": "Warehouse tables ranked by freshness against their SLA, with a detail pane that lists columns with null shares and PII masking switches, or switches to a lineage view from sources to the dashboards that depend on the table.",
+      "fr": "Les tables de l'entrepôt avec leur fraîcheur rapportée au SLA, et un panneau de détail listant les colonnes avec leur part de valeurs nulles et des interrupteurs de masquage des données personnelles, ou une vue de lignage des sources jusqu'aux tableaux de bord."
+    },
+    "height": 600
+  }
+]

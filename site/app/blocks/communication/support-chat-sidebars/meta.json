@@ -1,0 +1,15 @@
+[
+  {
+    "file": "HelpDeflectSidebar",
+    "title": {
+      "en": "Help sidebar that answers first",
+      "fr": "Panneau d’aide qui répond d’abord"
+    },
+    "summary": {
+      "en": "Docked help panel beside the app: while you type, matching guides appear above the composer; guides open in their own tab.",
+      "fr": "Panneau d’aide ancré à côté de l’app : pendant la saisie, les guides correspondants apparaissent au-dessus du champ."
+    },
+    "height": 620,
+    "stage": "bleed"
+  }
+]

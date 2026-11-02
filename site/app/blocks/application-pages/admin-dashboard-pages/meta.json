@@ -1,0 +1,12 @@
+[
+  {
+    "file": "StudioOpsDashboard",
+    "title": { "en": "Studio back-office dashboard", "fr": "Tableau de bord back-office d'atelier" },
+    "summary": {
+      "en": "A full admin shell for a ceramics shop: sidebar, header with search, KPI tiles, a week-over-week sales chart, a low-stock panel and a searchable orders table.",
+      "fr": "Un back-office complet pour une boutique de céramique : barre latérale, en-tête avec recherche, tuiles KPI, ventes comparées, stock bas et tableau de commandes filtrable."
+    },
+    "height": 720,
+    "stage": "bleed"
+  }
+]

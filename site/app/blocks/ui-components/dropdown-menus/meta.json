@@ -1,0 +1,11 @@
+[
+  {
+    "file": "IssueActionsDropdown",
+    "title": { "en": "Issue row actions", "fr": "Actions de ligne d'issue" },
+    "summary": {
+      "en": "Every issue row owns a live action menu whose entries follow its state (reopen, unassign, checked priority), shown pinned open beside its trigger, with undo for archive.",
+      "fr": "Chaque ligne d'issue a un vrai menu d'actions qui suit son état (rouvrir, désassigner, priorité cochée), affiché ouvert à côté de son déclencheur, avec annulation de l'archivage."
+    },
+    "height": 440
+  }
+]

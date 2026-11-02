@@ -1,0 +1,11 @@
+[
+  {
+    "file": "OnboardingLivePreview",
+    "title": { "en": "Onboarding with a live workspace preview", "fr": "Accueil avec aperçu d'espace en direct" },
+    "summary": {
+      "en": "Role cards, space chips and team size on one side; a miniature of the future workspace assembles itself on the other as each answer lands.",
+      "fr": "Cartes de rôle, puces d'espaces et taille d'équipe d'un côté ; de l'autre, une miniature du futur espace se construit à chaque réponse."
+    },
+    "height": 620
+  }
+]

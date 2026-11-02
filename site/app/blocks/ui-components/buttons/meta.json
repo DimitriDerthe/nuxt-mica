@@ -1,0 +1,11 @@
+[
+  {
+    "file": "ReleaseButtonDeck",
+    "title": { "en": "Release action deck", "fr": "Pupitre d'actions de release" },
+    "summary": {
+      "en": "Every button style on one release page: icon toggles, a ladder from plain to filled, a loading promote action and a press-and-hold rollback.",
+      "fr": "Tous les styles de bouton sur une page de release : bascules en icône, une échelle du simple au plein, une promotion avec chargement et un retour arrière à maintenir."
+    },
+    "height": 560
+  }
+]

@@ -1,0 +1,12 @@
+[
+  {
+    "file": "DualRailSidebar",
+    "title": { "en": "Dual-rail application sidebar", "fr": "Barre latérale d'application à double rail" },
+    "summary": {
+      "en": "An editorial workspace with an icon rail and a context panel whose folder tree follows the chosen area; tap the active area to tuck the panel, and on phones the rail turns into a bottom tab bar.",
+      "fr": "Un espace éditorial avec un rail d'icônes et un panneau contextuel dont l'arborescence suit la zone choisie ; toucher la zone active replie le panneau, et sur mobile le rail devient une barre d'onglets."
+    },
+    "height": 640,
+    "stage": "bleed"
+  }
+]

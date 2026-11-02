@@ -1,0 +1,11 @@
+[
+  {
+    "file": "QuickActionsLaunchpad",
+    "title": { "en": "Quick actions launchpad", "fr": "Lanceur d'actions rapides" },
+    "summary": {
+      "en": "Six action cards with single-key shortcuts that work while the panel has focus, a pinnable list of places to jump back into, and a trail of what you just used.",
+      "fr": "Six cartes d'action avec des raccourcis à une touche actifs quand le panneau a le focus, une liste épinglable d'endroits où reprendre, et l'historique de ce que vous venez d'utiliser."
+    },
+    "height": 460
+  }
+]

@@ -1,0 +1,11 @@
+[
+  {
+    "file": "SearchResultsWorkspace",
+    "title": { "en": "Workspace search results", "fr": "Résultats de recherche d'espace de travail" },
+    "summary": {
+      "en": "Docs, issues, people and code for one query: a best-match card, highlighted terms, a relevance spine on every row, and type, date and sort filters with live counts.",
+      "fr": "Docs, tickets, personnes et code pour une requête : une carte meilleure correspondance, des termes surlignés, une jauge de pertinence par ligne et des filtres de type, de date et de tri aux compteurs en direct."
+    },
+    "height": 640
+  }
+]

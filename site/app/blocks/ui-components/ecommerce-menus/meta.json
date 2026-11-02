@@ -1,0 +1,11 @@
+[
+  {
+    "file": "StorefrontCartMenus",
+    "title": { "en": "Storefront menus and mini bag", "fr": "Menus de boutique et mini panier" },
+    "summary": {
+      "en": "A shop menu open in place with aisles and a featured box, plus an open mini bag whose steppers, free-shipping meter and totals reprice live with the currency menu.",
+      "fr": "Un menu de boutique ouvert avec rayons et coffret mis en avant, et un mini panier ouvert dont quantités, jauge de livraison offerte et totaux suivent le menu de devise."
+    },
+    "height": 520
+  }
+]

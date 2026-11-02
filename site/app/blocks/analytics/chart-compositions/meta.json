@@ -1,0 +1,11 @@
+[
+  {
+    "file": "ActivationReview",
+    "title": { "en": "Activation review", "fr": "Revue d'activation" },
+    "summary": {
+      "en": "A quarterly board that opens with a generated one-paragraph story, then backs it with a trend against target, a first-action mix and a time-to-value histogram; the platform switch rewrites everything.",
+      "fr": "Un tableau trimestriel qui s'ouvre sur un récit d'un paragraphe généré, appuyé par une tendance face à l'objectif, la répartition des premières actions et un histogramme du délai de valeur ; le sélecteur de plateforme réécrit l'ensemble."
+    },
+    "height": 620
+  }
+]

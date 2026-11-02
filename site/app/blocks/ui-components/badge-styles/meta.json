@@ -1,0 +1,11 @@
+[
+  {
+    "file": "ChangelogBadgeStyles",
+    "title": { "en": "Changelog badge styles", "fr": "Styles de badge d'un journal des versions" },
+    "summary": {
+      "en": "Solid, tinted, outline, dot, count and anchored badges in a release feed where each style means one thing; count badges drive the filters and unread dots clear on demand.",
+      "fr": "Badges pleins, teintés, contour, à point, compteurs et ancrés dans un journal de versions où chaque style a un sens ; les compteurs pilotent les filtres et les points non lus s'effacent."
+    },
+    "height": 560
+  }
+]

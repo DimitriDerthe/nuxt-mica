@@ -1,0 +1,12 @@
+[
+  {
+    "file": "TransactionFilterDrawer",
+    "title": { "en": "Staged transaction filter drawer", "fr": "Tiroir de filtres de transactions en brouillon" },
+    "summary": {
+      "en": "A right drawer that edits a draft of the filters: period, amount range, type with counts, categories, cards and missing receipts, previewed as a count, a total and a daily spend sparkline before Show applies them to the list.",
+      "fr": "Un tiroir à droite qui modifie un brouillon des filtres : période, montant, type avec compteurs, catégories, cartes et justificatifs manquants, prévisualisés en nombre, total et courbe de dépenses avant que Afficher ne les applique."
+    },
+    "height": 700,
+    "stage": "bleed"
+  }
+]

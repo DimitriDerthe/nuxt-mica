@@ -1,0 +1,14 @@
+[
+  {
+    "file": "DeviceCheckPanel",
+    "title": {
+      "en": "Pre-call device check",
+      "fr": "Vérification des appareils avant appel"
+    },
+    "summary": {
+      "en": "Camera preview with mirror and blur, a mic level ladder that follows device and volume, speaker test and audio effects.",
+      "fr": "Aperçu caméra avec miroir et flou, niveau micro selon l’appareil et le volume, test des haut-parleurs et effets audio."
+    },
+    "height": 640
+  }
+]

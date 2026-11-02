@@ -1,0 +1,11 @@
+[
+  {
+    "file": "RegionSelectCards",
+    "title": { "en": "Region selection cards", "fr": "Cartes de choix de région" },
+    "summary": {
+      "en": "Radio cards compare latency, grid carbon and price per region with a best-balance badge, sortable and filterable by area; an EU residency switch locks other regions, and a checkbox list picks backup replicas.",
+      "fr": "Des cartes radio comparent latence, carbone du réseau et prix par région avec un badge du meilleur compromis, triables et filtrables ; un interrupteur de résidence UE verrouille les autres régions et une liste à cocher choisit les répliques."
+    },
+    "height": 640
+  }
+]

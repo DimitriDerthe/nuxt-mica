@@ -1,0 +1,22 @@
+[
+  {
+    "file": "NewProjectSheet",
+    "title": { "en": "New project sheet", "fr": "Feuille de nouveau projet" },
+    "summary": {
+      "en": "A create form in a sheet over the project board: the key follows the name until edited, the color and template cards update a live identity preview, and Create stays off until the key is valid and free.",
+      "fr": "Un formulaire de création dans une feuille au-dessus du tableau : la clé suit le nom jusqu'à sa saisie, couleur et modèles mettent à jour un aperçu en direct, et Créer reste inactif tant que la clé n'est pas valide et libre."
+    },
+    "height": 620,
+    "stage": "bleed"
+  },
+  {
+    "file": "InviteMembersDialog",
+    "title": { "en": "Invite members dialog", "fr": "Dialogue d'invitation de membres" },
+    "summary": {
+      "en": "A compact dialog that turns pasted emails into tags, tells teammates from free external guests, and shows on a seat bar whether the invite fits the plan.",
+      "fr": "Un dialogue compact qui transforme les e-mails collés en étiquettes, distingue coéquipiers et invités externes gratuits, et montre sur une jauge si l'invitation tient dans l'offre."
+    },
+    "height": 540,
+    "stage": "bleed"
+  }
+]

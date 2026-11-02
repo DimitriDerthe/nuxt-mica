@@ -1,0 +1,11 @@
+[
+  {
+    "file": "FileShelf",
+    "title": { "en": "Drawn file shelf", "fr": "Étagère de fichiers dessinés" },
+    "summary": {
+      "en": "A shared folder in grid or list view where every preview (page, sheet, photo, video, waveform, design) is drawn from tokens; filter by type, search, and pick files to get a selection bar with their combined size.",
+      "fr": "Un dossier partagé en grille ou en liste dont chaque aperçu (page, tableur, photo, vidéo, onde, maquette) est dessiné avec les tokens ; filtre par type, recherche, et sélection avec une barre indiquant la taille cumulée."
+    },
+    "height": 600
+  }
+]

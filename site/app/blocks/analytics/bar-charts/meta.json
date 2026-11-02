@@ -1,0 +1,11 @@
+[
+  {
+    "file": "SupportLoadBars",
+    "title": { "en": "Support load by hour", "fr": "Charge du support par heure" },
+    "summary": {
+      "en": "Tickets per 2-hour window against staffed capacity: windows over capacity turn to the accent color and the panel suggests the rota move that closes the worst gap.",
+      "fr": "Tickets par créneau de 2 heures face à la capacité staffée : les créneaux en dépassement passent en couleur d'accent et le panneau propose le changement de planning qui comble le pire écart."
+    },
+    "height": 440
+  }
+]

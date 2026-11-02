@@ -1,0 +1,12 @@
+[
+  {
+    "file": "PulseSidebar",
+    "title": { "en": "Live-pulse dashboard sidebar", "fr": "Barre latérale à pouls en direct" },
+    "summary": {
+      "en": "A bike-share operations sidebar whose rows carry live micro-stats, with a jump filter, collapsible sections, an icon-rail mode on wide screens and an off-canvas panel on narrow ones.",
+      "fr": "Une barre latérale d'exploitation de vélos partagés dont les lignes portent des micro-stats en direct, avec filtre, sections repliables, mode rail d'icônes en grand écran et panneau hors champ en petit écran."
+    },
+    "height": 660,
+    "stage": "bleed"
+  }
+]

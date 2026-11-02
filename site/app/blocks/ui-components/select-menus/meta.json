@@ -1,0 +1,11 @@
+[
+  {
+    "file": "TimezoneOverlapSelect",
+    "title": { "en": "Timezone overlap select", "fr": "Sélecteur de fuseaux et chevauchement" },
+    "summary": {
+      "en": "Two city selects with live local times, one drawn open as a listbox; both workdays line up on a half-hour strip that lights the shared hours and suggests a standup slot.",
+      "fr": "Deux sélecteurs de ville avec l'heure locale, dont un affiché ouvert ; les deux journées s'alignent sur une bande à la demi-heure qui éclaire les heures communes et propose un créneau."
+    },
+    "height": 500
+  }
+]

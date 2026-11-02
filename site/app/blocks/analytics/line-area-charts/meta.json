@@ -1,0 +1,11 @@
+[
+  {
+    "file": "SignupForecastArea",
+    "title": { "en": "Sign-ups against forecast", "fr": "Inscriptions face aux prévisions" },
+    "summary": {
+      "en": "An area chart of trial sign-ups with forecast and last year as optional overlays, a beat-or-miss strip per period and the moments that moved the line.",
+      "fr": "Une courbe en aire des inscriptions d'essai avec prévision et année précédente en surimpression, une bande « au-dessus / en dessous » par période et les événements qui ont fait bouger la courbe."
+    },
+    "height": 460
+  }
+]

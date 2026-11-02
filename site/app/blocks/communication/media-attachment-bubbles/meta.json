@@ -1,0 +1,14 @@
+[
+  {
+    "file": "MediaMosaicBubbles",
+    "title": {
+      "en": "Photo mosaic and file bubbles",
+      "fr": "Bulles mosaïque photo et fichiers"
+    },
+    "summary": {
+      "en": "A photo mosaic that opens an inline viewer, file cards, a drawn location pin and attachments that upload with live progress.",
+      "fr": "Mosaïque de photos avec visionneuse intégrée, cartes de fichiers, épingle de lieu dessinée et pièces jointes avec progression en direct."
+    },
+    "height": 620
+  }
+]

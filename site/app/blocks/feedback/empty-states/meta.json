@@ -1,0 +1,11 @@
+[
+  {
+    "file": "EmptyInboxFirstRun",
+    "title": { "en": "First-run inbox", "fr": "Boîte de réception au premier lancement" },
+    "summary": {
+      "en": "An empty inbox that teaches: three ways to start, each with its real setup step, and the empty state gives way to the first conversations once a channel connects.",
+      "fr": "Une boîte vide qui guide : trois façons de commencer, chacune avec sa vraie étape de configuration, et l'état vide laisse place aux premières conversations dès qu'un canal est connecté."
+    },
+    "height": 600
+  }
+]

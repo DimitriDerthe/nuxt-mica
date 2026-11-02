@@ -1,0 +1,11 @@
+[
+  {
+    "file": "ReleaseNotesEditor",
+    "title": { "en": "Release notes editor", "fr": "Éditeur de notes de version" },
+    "summary": {
+      "en": "A rich-text document with an inline title, autosave status, live word count and reading time, an outline built from its headings and a readiness ring that gates publishing.",
+      "fr": "Un document en texte riche avec titre en ligne, état d'enregistrement automatique, compteur de mots et temps de lecture, un plan tiré des titres et un anneau de préparation qui conditionne la publication."
+    },
+    "height": 560
+  }
+]

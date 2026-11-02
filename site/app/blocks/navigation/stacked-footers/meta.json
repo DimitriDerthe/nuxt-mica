@@ -1,0 +1,11 @@
+[
+  {
+    "file": "StackedWordmarkFooter",
+    "title": { "en": "Stacked footer with outlined wordmark", "fr": "Pied de page empilé à logotype détouré" },
+    "summary": {
+      "en": "Four tiers: a validated newsletter sign-up, link columns that fold into disclosures on phones, a legal bar with language and appearance switches, and an oversized outlined wordmark cropped by the edge.",
+      "fr": "Quatre niveaux : inscription à la newsletter validée, colonnes de liens repliables sur mobile, barre légale avec choix de langue et d'apparence, et un grand logotype détouré rogné par le bord."
+    },
+    "height": 560
+  }
+]

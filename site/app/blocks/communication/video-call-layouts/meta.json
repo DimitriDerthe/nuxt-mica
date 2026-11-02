@@ -1,0 +1,15 @@
+[
+  {
+    "file": "SpeakerStageCall",
+    "title": {
+      "en": "Speaker stage call",
+      "fr": "Appel avec scène orateur"
+    },
+    "summary": {
+      "en": "Video call with a pinned stage, a filmstrip you can pin from, a moving speaking ring, call controls and an in-call chat.",
+      "fr": "Appel vidéo avec scène épinglée, bandeau de participants à épingler, anneau de parole, commandes et chat d’appel."
+    },
+    "height": 680,
+    "stage": "bleed"
+  }
+]

@@ -1,0 +1,14 @@
+[
+  {
+    "file": "AnswerDraftsBubble",
+    "title": {
+      "en": "Assistant answer with drafts",
+      "fr": "Réponse d’assistant avec brouillons"
+    },
+    "summary": {
+      "en": "Assistant bubble with a reasoning trace, a diff code block and feedback; “try another approach” keeps earlier drafts behind a pager.",
+      "fr": "Bulle d’assistant avec trace de raisonnement, bloc de code en diff et retours ; « autre approche » conserve les brouillons précédents."
+    },
+    "height": 640
+  }
+]

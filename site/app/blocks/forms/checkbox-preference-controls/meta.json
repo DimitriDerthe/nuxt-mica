@@ -1,0 +1,11 @@
+[
+  {
+    "file": "NotificationMatrix",
+    "title": { "en": "Notification channel matrix", "fr": "Matrice des canaux de notification" },
+    "summary": {
+      "en": "Events by channel in one checkbox matrix with mixed-state column toggles, a locked security row and presets that light up only while they match; a live estimate shows weekly volume per channel.",
+      "fr": "Événements par canal dans une matrice de cases avec en-têtes à état mixte, une ligne sécurité verrouillée et des préréglages qui ne s'allument que s'ils correspondent ; une estimation en direct montre le volume hebdomadaire par canal."
+    },
+    "height": 560
+  }
+]

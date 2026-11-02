@@ -1,0 +1,12 @@
+[
+  {
+    "file": "DetachedStudioLayout",
+    "title": { "en": "Floating studio sidebar", "fr": "Barre latérale flottante de studio" },
+    "summary": {
+      "en": "A podcast studio layout whose sidebar floats as an inset card over a tinted backdrop, with collapsible show lists and a mini player whose waveform plays; it slides in from the edge on narrow screens.",
+      "fr": "Une mise en page de studio de podcast dont la barre latérale flotte en carte détachée sur un fond teinté, avec listes d'émissions repliables et mini-lecteur à forme d'onde animée ; elle glisse depuis le bord sur petit écran."
+    },
+    "height": 640,
+    "stage": "bleed"
+  }
+]
