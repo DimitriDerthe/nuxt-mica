@@ -7,5 +7,32 @@
       "fr": "Une métrique principale avec jauge d'objectif et tendance, entourée de tuiles de stats et d'une carte MRR scindée ; le sélecteur de période met tout à jour."
     },
     "height": 420
+  },
+  {
+    "file": "KpiTargetBands",
+    "title": { "en": "KPIs against target bands", "fr": "KPI face aux fourchettes cibles" },
+    "summary": {
+      "en": "Each card draws twelve weeks against its shaded target band, so on or off plan reads at a glance; open a card to see the larger chart and where each segment sits in the band.",
+      "fr": "Chaque carte trace douze semaines sur sa fourchette cible ombrée : dans ou hors du plan se lit d'un coup d'œil ; ouvrez une carte pour la courbe en grand et la position de chaque segment."
+    },
+    "height": 520
+  },
+  {
+    "file": "KpiNarrativeBento",
+    "title": { "en": "Narrative bento", "fr": "Bento narratif" },
+    "summary": {
+      "en": "A bento of metric tiles led by a paragraph written from the numbers; every figure in the text cites its tile, and pointing at either one lights up the other.",
+      "fr": "Un bento de tuiles de métriques ouvert par un paragraphe rédigé à partir des chiffres ; chaque valeur du texte cite sa tuile, et survoler l'une illumine l'autre."
+    },
+    "height": 520
+  },
+  {
+    "file": "KpiBulletRow",
+    "title": { "en": "Bullet chart KPI strip", "fr": "Bandeau de KPI en bullet charts" },
+    "summary": {
+      "en": "A dense strip for the top of a dashboard: each metric is a bullet chart with qualitative ranges, target tick and last-period marker, plus a delta chip; the period switch moves every mark.",
+      "fr": "Un bandeau dense pour le haut d'un tableau de bord : chaque métrique est un bullet chart avec zones qualitatives, repère d'objectif et marque de la période précédente, plus une pastille d'écart ; le sélecteur de période déplace chaque repère."
+    },
+    "height": 360
   }
 ]

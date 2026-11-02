@@ -7,5 +7,32 @@
       "fr": "Une page de réglages par sections dont la navigation signale les modifications non enregistrées ou les erreurs ; une barre unique liste chaque changement et permet de tout annuler ou enregistrer."
     },
     "height": 600
+  },
+  {
+    "file": "ProfileLivePreview",
+    "title": { "en": "Profile with live preview", "fr": "Profil avec aperçu en direct" },
+    "summary": {
+      "en": "Profile fields beside the card teammates will see, updating as you type: the handle is checked for availability with free suggestions, and the preview shrinks to a sticky strip on narrow screens.",
+      "fr": "Les champs du profil à côté de la carte que verront vos collègues, mise à jour à la frappe : la disponibilité du pseudo est vérifiée avec des suggestions libres, et l'aperçu devient une bande collante sur petit écran."
+    },
+    "height": 640
+  },
+  {
+    "file": "NotificationMatrix",
+    "title": { "en": "Notification matrix", "fr": "Matrice de notifications" },
+    "summary": {
+      "en": "Events against channels in one grid, with row and column toggles that go mixed when partly on, a weekly volume forecast per channel, quiet hours on a 24-hour strip and a digest choice.",
+      "fr": "Événements et canaux dans une seule grille, avec des cases de ligne et de colonne à l'état mixte quand elles sont partielles, une prévision du volume hebdomadaire par canal, des heures calmes sur une frise de 24 heures et un choix de résumé."
+    },
+    "height": 620
+  },
+  {
+    "file": "SecurityCenter",
+    "title": { "en": "Security center", "fr": "Centre de sécurité" },
+    "summary": {
+      "en": "A protection score that climbs as you set up two-step login, store recovery codes and revoke an unrecognised device, each with an inline flow and confirmation.",
+      "fr": "Un score de protection qui monte à mesure que vous activez la connexion en deux étapes, conservez les codes de secours et révoquez un appareil inconnu, chacun avec son parcours et sa confirmation en place."
+    },
+    "height": 660
   }
 ]

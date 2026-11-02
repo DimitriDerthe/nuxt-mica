@@ -1,11 +1,50 @@
 [
   {
     "file": "CommandPaletteScopes",
-    "title": { "en": "Scoped command palette", "fr": "Palette de commandes à portées" },
+    "title": {
+      "en": "Scoped command palette",
+      "fr": "Palette de commandes à portées"
+    },
     "summary": {
       "en": "A palette shown open over a blurred app: scope tabs narrow it to actions, projects or people, and a preview pane describes the top match before you run it.",
       "fr": "Une palette ouverte sur une application floutée : des onglets de portée la limitent aux actions, projets ou personnes, et un volet d'aperçu décrit le meilleur résultat avant de l'exécuter."
     },
     "height": 560
+  },
+  {
+    "file": "NestedPalette",
+    "title": {
+      "en": "Nested command palette",
+      "fr": "Palette de commandes imbriquée"
+    },
+    "summary": {
+      "en": "A palette that acts on one issue and drills down: “Move to project…” pushes a page, breadcrumb chips show the path and jump back, Backspace on an empty query pops a level, and faint sheets stacked above the palette show how deep you are. Full keyboard support with an announced active option.",
+      "fr": "Une palette qui agit sur un ticket et descend par niveaux : « Déplacer vers un projet… » ouvre une page, des puces de fil d'Ariane montrent le chemin et permettent de revenir, Retour arrière sur une recherche vide remonte d'un niveau, et des feuilles empilées au-dessus de la palette montrent la profondeur. Clavier complet avec option active annoncée."
+    },
+    "height": 560
+  },
+  {
+    "file": "AskPalette",
+    "title": {
+      "en": "Ask AI palette",
+      "fr": "Palette avec question à l'IA"
+    },
+    "summary": {
+      "en": "Search that understands questions: as you type, an Ask AI row with a thinking orb drafts a short answer with steps and cited sources, while docs, settings and people stay listed below; recent queries and suggested actions fill the empty state.",
+      "fr": "Une recherche qui comprend les questions : pendant la saisie, une ligne « Demander à l'IA » avec un orbe qui réfléchit rédige une réponse courte avec étapes et sources citées, tandis que docs, réglages et personnes restent listés dessous ; recherches récentes et actions suggérées remplissent l'état vide."
+    },
+    "height": 580
+  },
+  {
+    "file": "SpotlightPalette",
+    "title": {
+      "en": "Spotlight with instant answers",
+      "fr": "Spotlight avec réponses instantanées"
+    },
+    "summary": {
+      "en": "A minimal, centered search over a frosted wallpaper that answers before you open anything: percentages, arithmetic, unit and temperature conversions and time zones (“3pm PST in Paris”), with the result set large, the working shown like a receipt, related apps below and a keyboard-hint footer.",
+      "fr": "Une recherche minimale et centrée sur un fond dépoli, qui répond avant d'ouvrir quoi que ce soit : pourcentages, calculs, conversions d'unités et de températures et fuseaux horaires (« 3pm PST in Paris »), avec le résultat en grand, le calcul détaillé comme un ticket, les apps liées dessous et un pied de page de raccourcis."
+    },
+    "height": 540
   }
 ]

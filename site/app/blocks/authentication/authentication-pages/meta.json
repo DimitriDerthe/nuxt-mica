@@ -8,5 +8,35 @@
     },
     "height": 680,
     "stage": "bleed"
+  },
+  {
+    "file": "SignUpStrength",
+    "title": { "en": "Sign-up with a faceted strength gem", "fr": "Inscription avec gemme de robustesse à facettes" },
+    "summary": {
+      "en": "Password strength drawn as a five-facet gem: each rule met slides a facet into place, and the stone settles once all are set. SSO, terms and real validation included.",
+      "fr": "La robustesse du mot de passe dessinée en gemme à cinq facettes : chaque règle remplie met une facette en place, et la pierre se pose quand tout est réglé. SSO, conditions et validation réelle inclus."
+    },
+    "height": 700,
+    "stage": "bleed"
+  },
+  {
+    "file": "MagicLinkFlow",
+    "title": { "en": "Passwordless magic link flow", "fr": "Parcours de connexion par lien magique" },
+    "summary": {
+      "en": "One card that moves from email to inbox to code: mail app shortcuts, a resend countdown, a link lifetime draining along the top edge and a pasteable 6-digit fallback.",
+      "fr": "Une carte qui passe de l'e-mail à la boîte de réception puis au code : raccourcis vers la messagerie, délai de renvoi, durée de vie du lien qui s'écoule en haut et code à 6 chiffres collable en secours."
+    },
+    "height": 640,
+    "stage": "bleed"
+  },
+  {
+    "file": "ReturningAccountChooser",
+    "title": { "en": "Returning account chooser with changelog", "fr": "Choix de compte au retour avec nouveautés" },
+    "summary": {
+      "en": "Saved accounts as cards with last use, workspace and SSO badges; the sign-in method follows the pick, and the changelog shows only what shipped since that account's last visit.",
+      "fr": "Comptes enregistrés en cartes avec dernière utilisation, espace et badge SSO ; la méthode de connexion suit le choix, et les nouveautés ne montrent que ce qui est sorti depuis la dernière visite de ce compte."
+    },
+    "height": 680,
+    "stage": "bleed"
   }
 ]

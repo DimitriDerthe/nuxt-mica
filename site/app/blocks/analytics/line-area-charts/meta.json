@@ -7,5 +7,32 @@
       "fr": "Une courbe en aire des inscriptions d'essai avec prévision et année précédente en surimpression, une bande « au-dessus / en dessous » par période et les événements qui ont fait bouger la courbe."
     },
     "height": 460
+  },
+  {
+    "file": "MultiSeriesCrosshair",
+    "title": { "en": "Multi-series crosshair", "fr": "Multi-séries avec réticule" },
+    "summary": {
+      "en": "Latency by region with a pointer and keyboard crosshair whose readout ranks every visible series, legend toggles that hide a line, and incidents pinned to the time axis.",
+      "fr": "La latence par région avec un réticule au pointeur et au clavier dont la lecture classe chaque série visible, une légende qui masque les courbes et des incidents épinglés sur l'axe du temps."
+    },
+    "height": 520
+  },
+  {
+    "file": "StackedChannelArea",
+    "title": { "en": "Stacked channel area", "fr": "Aires empilées par canal" },
+    "summary": {
+      "en": "Sign-ups stacked by acquisition channel, switching between counts and 100% with a crossfade, beside share bars for the month under the cursor; the channel the story is about carries the only accent.",
+      "fr": "Les inscriptions empilées par canal d'acquisition, en volumes ou en 100 % avec un fondu, à côté des parts du mois sous le curseur ; seul le canal dont parle l'histoire porte la couleur d'accent."
+    },
+    "height": 460
+  },
+  {
+    "file": "PeriodDeltaLine",
+    "title": { "en": "Period over period gap", "fr": "Écart d'une période à l'autre" },
+    "summary": {
+      "en": "This period against the previous one, the gap between the lines shaded as gain or loss segment by segment, with a running difference strip and figure that follow the cursor.",
+      "fr": "La période en cours face à la précédente, l'écart entre les courbes ombré en gain ou en perte segment par segment, avec une bande et un chiffre de différence cumulée qui suivent le curseur."
+    },
+    "height": 520
   }
 ]
