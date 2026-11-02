@@ -1,6 +1,7 @@
 <script setup lang="ts">
 /** Surface card with optional media, title, description and header/footer slots. Use for content tiles; `href` or `to` makes it a link. */
 import { computed, resolveComponent, useSlots } from 'vue'
+import { miSafeHref } from '../../utils/miSafe'
 
 defineSlots<{
   /** Custom media area replacing the `image`; shown full-bleed on top. */
@@ -43,7 +44,7 @@ const props = withDefaults(defineProps<{
 const slots = useSlots()
 const hasMedia = computed(() => !!(props.image || slots.media))
 const tag = computed(() => (props.to ? resolveComponent('NuxtLink') : props.href ? 'a' : 'article'))
-const link = computed(() => (props.to ? { to: props.to } : props.href ? { href: props.href } : {}))
+const link = computed(() => (props.to ? { to: props.to } : props.href ? { href: miSafeHref(props.href) } : {}))
 const hasText = computed(() => !!(props.eyebrow || props.title || props.description))
 const hasHead = computed(() => !!slots.header)
 const hasFoot = computed(() => !!slots.footer)

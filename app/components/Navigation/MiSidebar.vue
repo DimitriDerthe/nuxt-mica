@@ -3,6 +3,7 @@
 import { reactive, ref } from 'vue'
 import MiNavGlyph from './MiNavGlyph.vue'
 import { miNavRoving, type MiNavIconName } from '../../utils/miNav'
+import { miSafeHref } from '../../utils/miSafe'
 
 export type MiSidebarColor = 'red' | 'orange' | 'yellow' | 'green' | 'mint' | 'teal' | 'blue' | 'indigo' | 'purple' | 'pink'
 export interface MiSidebarItem {
@@ -67,7 +68,7 @@ defineSlots<{
           <li v-for="it in g.items" :key="it.id">
             <component
               :is="it.href ? 'a' : 'button'" class="mi-sb__row" :class="{ 'is-on': model === it.id, 'is-tag': !!it.color }"
-              v-bind="it.href ? { href: it.href } : { type: 'button' }" :aria-current="model === it.id ? 'page' : undefined"
+              v-bind="it.href ? { href: miSafeHref(it.href) } : { type: 'button' }" :aria-current="model === it.id ? 'page' : undefined"
               :aria-disabled="it.disabled || undefined" @click="pick(it, $event)"
             >
               <span v-if="it.color" class="mi-sb__dot" :style="{ background: `var(--mi-${it.color})` }" aria-hidden="true" />

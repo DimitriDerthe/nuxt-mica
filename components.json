@@ -1198,7 +1198,7 @@
     "name": "svg",
     "type": "string",
     "required": false,
-    "doc": "Raw inner SVG markup (24x24 grid). Trusted, static markup only. Takes precedence over `name`."
+    "doc": "Raw inner SVG markup (24x24 grid), injected with v-html and never sanitized: pass only trusted static markup, never user or CMS content (XSS risk). Takes precedence over `name`."
    },
    {
     "name": "size",

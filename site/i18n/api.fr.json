@@ -516,8 +516,8 @@
 "Nom issu du jeu intégré."
 ],
 "MiIcon.prop.svg": [
-"Raw inner SVG markup (24x24 grid). Trusted, static markup only. Takes precedence over `name`.",
-"Balisage SVG interne brut (grille 24x24). Balisage statique de confiance uniquement. Prime sur `name`."
+"Raw inner SVG markup (24x24 grid), injected with v-html and never sanitized: pass only trusted static markup, never user or CMS content (XSS risk). Takes precedence over `name`.",
+"Balisage SVG interne brut (grille 24x24), injecté via v-html sans aucun assainissement : ne passez que du balisage statique de confiance, jamais de contenu utilisateur ou de CMS (risque XSS). Prime sur `name`."
 ],
 "MiIcon.prop.size": [
 "Width and height: a number in px or a CSS length string (e.g. '1.25em').",

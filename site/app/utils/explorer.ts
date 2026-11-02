@@ -7,7 +7,7 @@ export const toSlug = (name: string) => name.replace(/^Mi/, '').replace(/([a-z0-
 /** MiIconButton -> Icon Button */
 export const toTitle = (name: string) => name.replace(/^Mi/, '').replace(/([a-z0-9])([A-Z])/g, '$1 $2')
 /** icon-button -> MiIconButton */
-export const fromSlug = (slug: string) => 'Mi' + slug.split('-').map(s => s[0]!.toUpperCase() + s.slice(1)).join('')
+export const fromSlug = (slug: string) => 'Mi' + slug.split('-').filter(Boolean).map(s => s[0]!.toUpperCase() + s.slice(1)).join('')
 
 export type Control =
   /** `bools`: the union also takes true and false, offered as the options "true" and "false". */

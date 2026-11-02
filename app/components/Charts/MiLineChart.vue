@@ -8,6 +8,7 @@ import type { MiLegendItem } from './MiChartLegend.vue'
 import type { MiTableColumn } from './MiChartTable.vue'
 import { miChartColor, miChartNeutral } from '../../utils/miChartPalette'
 import { miDodge, miLinePath, miNiceScale, miRound1 } from '../../utils/miChartMath'
+import { miSafeColor } from '../../utils/miSafe'
 
 export interface MiLineSeries {
   name: string
@@ -114,7 +115,7 @@ const Y = (v: number) => {
 }
 
 const fmt = (v: number, s: MiLineSeries) => (props.formatValue ? props.formatValue(v, s) : `${v}${props.unit}`)
-const colorOf = (i: number) => props.series[i]?.color ?? miChartColor(i)
+const colorOf = (i: number) => miSafeColor(props.series[i]?.color, miChartColor(i))
 const tickRows = computed(() => scale.value.ticks.map(v => ({ y: Y(v), ty: Y(v) + 4, label: v ? `${v}${props.unit}` : '0' })))
 const catX = computed(() => {
   const every = Math.max(1, Math.ceil(40 / (step.value || 40)))

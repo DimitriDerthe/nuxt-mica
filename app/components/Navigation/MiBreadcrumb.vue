@@ -1,6 +1,7 @@
 <script setup lang="ts">
 /** Breadcrumb trail or Finder-style path bar (variant "path"); the last item is the current page and is not a link. */
 import MiNavGlyph from './MiNavGlyph.vue'
+import { miSafeHref } from '../../utils/miSafe'
 
 export interface MiBreadcrumbItem { label: string, href?: string, icon?: boolean }
 
@@ -28,7 +29,7 @@ const isLast = (i: number) => i === props.items.length - 1
       <li v-for="(it, i) in items" :key="i" class="mi-bc__item">
         <span v-if="isLast(i)" class="mi-bc__current" aria-current="page">{{ it.label }}</span>
         <template v-else>
-          <a class="mi-bc__link" :href="it.href ?? '#'" @click="go($event, it, i)">{{ it.label }}</a>
+          <a class="mi-bc__link" :href="miSafeHref(it.href) ?? '#'" @click="go($event, it, i)">{{ it.label }}</a>
           <MiNavGlyph name="chevron-right" :size="12" :stroke="2.6" class="mi-bc__sep" />
         </template>
       </li>
@@ -38,7 +39,7 @@ const isLast = (i: number) => i === props.items.length - 1
     <ol class="mi-path__list">
       <li v-for="(it, i) in items" :key="i" class="mi-path__item">
         <span v-if="isLast(i)" class="mi-path__current" aria-current="page">{{ it.label }}</span>
-        <a v-else class="mi-path__link" :href="it.href ?? '#'" @click="go($event, it, i)">
+        <a v-else class="mi-path__link" :href="miSafeHref(it.href) ?? '#'" @click="go($event, it, i)">
           <MiNavGlyph v-if="it.icon !== false" name="folder" :size="14" :stroke="2" class="mi-path__ic" />{{ it.label }}
         </a>
         <span v-if="!isLast(i)" class="mi-path__sep" aria-hidden="true">›</span>

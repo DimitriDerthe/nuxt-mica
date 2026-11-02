@@ -40,7 +40,7 @@ defineSlots<{
 <template>
   <div class="mi-es" :class="{ 'is-card': card }">
     <span class="mi-es-icon"><slot name="icon"><MiFbIcon :name="icon" :size="30" :stroke="1.8" /></slot></span>
-    <component :is="as" class="mi-es-title">{{ title }}</component>
+    <component :is="['h2', 'h3', 'h4'].includes(as) ? as : 'h3'" class="mi-es-title">{{ title }}</component>
     <p v-if="description || $slots.default" class="mi-es-desc"><slot>{{ description }}</slot></p>
     <div v-if="primaryLabel || secondaryLabel || $slots.actions" class="mi-es-actions">
       <slot name="actions">

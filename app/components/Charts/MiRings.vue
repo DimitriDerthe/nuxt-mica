@@ -6,6 +6,7 @@ import MiChartLegend from './MiChartLegend.vue'
 import type { MiLegendItem } from './MiChartLegend.vue'
 import { miChartColor } from '../../utils/miChartPalette'
 import { miRound1 } from '../../utils/miChartMath'
+import { miSafeColor } from '../../utils/miSafe'
 
 export interface MiRing {
   label: string
@@ -43,7 +44,7 @@ const props = withDefaults(defineProps<{
 const active = defineModel<number>('active', { default: -1 })
 
 const clamp = (v: number) => Math.max(0, Math.min(1, v))
-const colors = computed(() => props.rings.map((r, i) => r.color ?? miChartColor(i)))
+const colors = computed(() => props.rings.map((r, i) => miSafeColor(r.color, miChartColor(i))))
 const geo = computed(() => props.rings.map((r, i) => {
   const radius = props.size / 2 - props.strokeWidth / 2 - 5 - i * (props.strokeWidth + props.gap)
   const c = 2 * Math.PI * Math.max(radius, 1)

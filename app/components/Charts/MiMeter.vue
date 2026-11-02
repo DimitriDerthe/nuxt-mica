@@ -2,6 +2,7 @@
 /** Linear progress meter for one value between min and max, such as quota or budget use, with optional caption and hint. */
 import { computed, useId } from 'vue'
 import { miChartColor } from '../../utils/miChartPalette'
+import { miSafeColor } from '../../utils/miSafe'
 
 const props = withDefaults(defineProps<{
   /** Current value, clamped to the min to max range. */
@@ -31,7 +32,8 @@ const pct = computed(() => {
   const span = props.max - props.min || 1
   return Math.max(0, Math.min(100, ((props.value - props.min) / span) * 100))
 })
-const tint = computed(() => props.color ? `color-mix(in srgb, ${props.color} 16%, transparent)` : 'var(--mi-p-tint)')
+const safeColor = computed(() => miSafeColor(props.color, undefined))
+const tint = computed(() => safeColor.value ? `color-mix(in srgb, ${safeColor.value} 16%, transparent)` : 'var(--mi-p-tint)')
 
 const _slots = defineSlots<{
   /** Replaces the footer; defaults to the caption on the left and the hint on the right. */
@@ -54,7 +56,7 @@ const _slots = defineSlots<{
       :aria-valuetext="valueText ?? `${Math.round(pct)}%`"
       :style="{ background: tint }"
     >
-      <span class="mi-mt-fill" :style="{ background: color ?? miChartColor(0), transform: `translate3d(${pct - 100}%,0,0)` }" />
+      <span class="mi-mt-fill" :style="{ background: safeColor ?? miChartColor(0), transform: `translate3d(${pct - 100}%,0,0)` }" />
     </span>
     <span v-if="caption || hint || $slots.default" class="mi-mt-foot">
       <slot><span>{{ caption }}</span><span>{{ hint }}</span></slot>

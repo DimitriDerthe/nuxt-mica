@@ -4,6 +4,7 @@ import { computed, onBeforeUnmount, ref } from 'vue'
 import MiChartLegend from './MiChartLegend.vue'
 import type { MiLegendItem } from './MiChartLegend.vue'
 import { miChartColor } from '../../utils/miChartPalette'
+import { miSafeColor } from '../../utils/miSafe'
 
 export interface MiStackSegment {
   label: string
@@ -34,7 +35,7 @@ const active = defineModel<number>('active', { default: -1 })
 const total = computed(() => props.segments.reduce((a, s) => a + Math.max(0, s.value), 0) || 1)
 const shares = computed(() => props.segments.map(s => Math.round((Math.max(0, s.value) / total.value) * 100)))
 const fmt = (i: number) => props.formatShare ? props.formatShare(shares.value[i]!, props.segments[i]!) : `${shares.value[i]}%`
-const colors = computed(() => props.segments.map((s, i) => s.color ?? miChartColor(i)))
+const colors = computed(() => props.segments.map((s, i) => miSafeColor(s.color, miChartColor(i))))
 const label = computed(() => props.ariaLabel ?? props.segments.map((s, i) => `${s.label} ${fmt(i)}`).join(', '))
 const items = computed<MiLegendItem[]>(() => props.segments.map((s, i) => ({ label: s.label, color: colors.value[i]!, value: fmt(i) })))
 const live = ref('')

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 /** @internal Internal field surface: border, focus ring (opacity only), error / success / disabled states. */
+import { miSafeTag } from '../../utils/miSafe'
 withDefaults(defineProps<{
   /** Root element tag. Defaults to span. */
   tag?: string
@@ -20,7 +21,7 @@ defineSlots<{
 
 <template>
   <component
-    :is="tag"
+    :is="miSafeTag(tag, 'span')"
     class="mi-box"
     :disabled="tag === 'button' && disabled ? true : undefined"
     :class="[`mi-box--${size}`, { 'is-invalid': invalid, 'is-success': success && !invalid, 'is-disabled': disabled }]"

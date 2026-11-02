@@ -1,6 +1,7 @@
 <script setup lang="ts">
 /** Prose styles for headings, paragraphs, blockquotes, lists, inline code, lead and muted text. */
 import { computed } from 'vue'
+import { miSafeTag } from '../../utils/miSafe'
 
 export type MiTypographyVariant = 'h1' | 'h2' | 'h3' | 'h4' | 'p' | 'blockquote' | 'ul' | 'ol' | 'table' | 'code' | 'lead' | 'large' | 'small' | 'muted'
 
@@ -15,7 +16,7 @@ const TAGS: Record<MiTypographyVariant, string> = {
   h1: 'h1', h2: 'h2', h3: 'h3', h4: 'h4', p: 'p', blockquote: 'blockquote', ul: 'ul', ol: 'ol', table: 'table',
   code: 'code', lead: 'p', large: 'div', small: 'small', muted: 'p'
 }
-const tag = computed(() => props.as ?? TAGS[props.variant])
+const tag = computed(() => miSafeTag(props.as, TAGS[props.variant]))
 
 defineSlots<{
   /** Content styled with the chosen prose variant. */
