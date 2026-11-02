@@ -202,7 +202,8 @@ function addCard(col: Column) {
 .kb__list { min-width: 0; }
 .kb__empty { margin: 0; padding: 18px 0; text-align: center; font-size: 13px; color: var(--mi-label3); border: 1.5px dashed var(--mi-sep); border-radius: var(--mi-radius-l); }
 
-.kb__card { display: grid; gap: 8px; padding: 12px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); transition: opacity var(--mi-dur-2) var(--mi-ease); min-width: 0; }
+/* The sortable row is already the card shell; the card only lays out its content. */
+.kb__card { display: grid; gap: 8px; padding: 2px 0; transition: opacity var(--mi-dur-2) var(--mi-ease); min-width: 0; }
 .kb__card.is-dim { opacity: .35; }
 .kb__card-top { display: flex; align-items: center; gap: 8px; }
 .kb__type { padding: 1px 7px; border-radius: 6px; font-size: 11px; font-weight: 600; text-transform: capitalize; }

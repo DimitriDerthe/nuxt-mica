@@ -245,7 +245,6 @@ function pickItem(id: string) {
 .dr__lines { display: grid; gap: 10px; width: 100%; margin-top: 6px; }
 .dr__lines span { display: block; height: 9px; border-radius: 5px; background: var(--mi-fill4); transform-origin: left; transform: scaleX(var(--w)); }
 
-.dr__tabs { border-top: 1px solid var(--mi-sep); }
 
 .dr-swap-enter-active, .dr-swap-leave-active { transition: opacity var(--mi-dur-2) var(--mi-ease), transform var(--mi-dur-2) var(--mi-ease); }
 .dr-swap-enter-from { opacity: 0; transform: translateY(8px); }

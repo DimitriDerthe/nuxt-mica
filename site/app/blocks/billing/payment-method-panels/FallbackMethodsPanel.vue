@@ -11,7 +11,7 @@
       </MiButton>
     </header>
 
-    <MiSortable :model-value="methods" handle :gap="0" aria-label="Payment methods, in charge order" :item-label="labelOf" class="fmp__list" @update:model-value="reorder">
+    <MiSortable :model-value="methods" handle bare :gap="0" aria-label="Payment methods, in charge order" :item-label="labelOf" class="fmp__list" @update:model-value="reorder">
       <template #default="{ item, index }">
         <div class="fmp__row" :class="{ 'is-first': index === 0, 'is-confirming': confirming === item.id }">
           <span class="fmp__step" aria-hidden="true">{{ index + 1 }}</span>
@@ -73,11 +73,14 @@ function remove(id: string) {
 </script>
 
 <style scoped>
-.fmp { container-type: inline-size; display: grid; gap: 16px; padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); font-family: var(--mi-font); color: var(--mi-label); }
+/* Flex column, not grid: a grid row here was sized for the list's narrow layout and left an empty band under it. */
+.fmp { container-type: inline-size; display: flex; flex-direction: column; gap: 16px; padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); font-family: var(--mi-font); color: var(--mi-label); }
 .fmp__head { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 12px; }
 
-.fmp__list { border-radius: var(--mi-radius-l); box-shadow: inset 0 0 0 1px var(--mi-sep); }
-.fmp__row { position: relative; display: grid; grid-template-columns: auto auto minmax(0, 1fr); align-items: center; gap: 6px 12px; padding: 12px 12px 12px 4px; background: var(--mi-card); border-radius: var(--mi-radius-l); }
+.fmp__list { border-radius: var(--mi-radius-l); border: 1px solid var(--mi-sep); }
+/* One bordered list with hairlines between rows; the rows themselves are bare. */
+.fmp__list :deep(.mi-sort__item + .mi-sort__item) { border-top: 1px solid var(--mi-sep); }
+.fmp__row { position: relative; display: grid; grid-template-columns: auto auto minmax(0, 1fr); align-items: center; gap: 6px 12px; padding: 2px 0 2px 4px; border-radius: var(--mi-radius-m); }
 .fmp__row.is-confirming { background: color-mix(in srgb, var(--mi-red) 7%, var(--mi-card)); }
 .fmp__end, .fmp__confirm { grid-column: 2 / -1; display: flex; align-items: center; gap: 8px; }
 .fmp__confirm { justify-content: flex-end; }

@@ -207,7 +207,8 @@ function fmtSize(b: number) {
 }
 .fp__crop {
   position: absolute; top: 0; left: 0; z-index: 1; pointer-events: none; border-radius: 6px;
-  box-shadow: 0 0 0 2px var(--mi-p-on), 0 0 0 999px color-mix(in srgb, var(--mi-page) 46%, transparent);
+  /* Inset outline: the crop often spans the whole stage width, where an outer ring would be clipped. */
+  box-shadow: inset 0 0 0 2px var(--mi-p-on), 0 0 0 999px color-mix(in srgb, var(--mi-page) 46%, transparent);
   transition: transform var(--mi-dur-3) var(--mi-spring);
 }
 .fp__hits { position: absolute; inset: 0; z-index: 2; display: grid; grid-template-columns: repeat(10, 1fr); grid-template-rows: repeat(6, 1fr); }

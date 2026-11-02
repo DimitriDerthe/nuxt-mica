@@ -25,6 +25,8 @@ const props = withDefaults(defineProps<{
   autoScroll?: boolean
   /** Turns off dragging and keyboard reordering. */
   disabled?: boolean
+  /** Rows without their card shell (no background, shadow or rounding) so the slot draws its own row; the dragged row still lifts. */
+  bare?: boolean
   /** Accessible name of the list. */
   ariaLabel?: string
   /** Returns the spoken name of an item in announcements and handle labels. Defaults to "Item N". */
@@ -262,7 +264,7 @@ onBeforeUnmount(detach)
 </script>
 
 <template>
-  <div class="mi-sort" :class="[`is-${orientation}`, { 'is-sorting': dragIndex !== null, 'is-disabled': disabled }]" :style="{ '--mi-sort-gap': `${gap}px` }">
+  <div class="mi-sort" :class="[`is-${orientation}`, { 'is-sorting': dragIndex !== null, 'is-disabled': disabled, 'is-bare': bare }]" :style="{ '--mi-sort-gap': `${gap}px` }">
     <ul ref="list" class="mi-sort__list" role="list" :aria-label="ariaLabel" @focusout="onFocusOut">
       <li
         v-for="(item, i) in model"
@@ -311,6 +313,8 @@ onBeforeUnmount(detach)
 .mi-sort__item:not(.has-handle){cursor:grab}
 .mi-sort__item:not(.has-handle){touch-action:none}
 .mi-sort__item.has-handle{padding-left:6px}
+.is-bare .mi-sort__item{background:transparent;box-shadow:none;border-radius:0}
+.is-bare .mi-sort__item.is-dragging{border-radius:var(--mi-radius-m,14px)}
 .mi-sort__content{min-width:0;flex:1}
 .mi-sort__handle{flex:none;display:flex;align-items:center;justify-content:center;width:32px;height:36px;margin:-4px 0;border:0;border-radius:10px;background:transparent;color:var(--mi-label3);cursor:grab;touch-action:none}
 .mi-sort__handle:hover{background:var(--mi-fill3);color:var(--mi-label2)}
