@@ -4,6 +4,8 @@ export interface ApiProp { name: string, type: string, required: boolean, defaul
 
 /** MiIconButton -> icon-button */
 export const toSlug = (name: string) => name.replace(/^Mi/, '').replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()
+/** MiIconButton -> Icon Button */
+export const toTitle = (name: string) => name.replace(/^Mi/, '').replace(/([a-z0-9])([A-Z])/g, '$1 $2')
 /** icon-button -> MiIconButton */
 export const fromSlug = (slug: string) => 'Mi' + slug.split('-').map(s => s[0]!.toUpperCase() + s.slice(1)).join('')
 
