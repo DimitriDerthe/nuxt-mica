@@ -1,0 +1,11 @@
+[
+  {
+    "file": "YearLeavePlanner",
+    "title": { "en": "Year and month leave planner", "fr": "Planificateur de congés annuel et mensuel" },
+    "summary": {
+      "en": "Twelve compact months where every weekday toggles a day off against a 25-day allowance, holidays and company events marked; bridge days are suggested, and any month opens as a labelled month view.",
+      "fr": "Douze mois compacts où chaque jour ouvré se coche comme congé sur un solde de 25 jours, jours fériés et événements marqués ; les ponts sont suggérés et chaque mois s'ouvre en vue mensuelle détaillée."
+    },
+    "height": 720
+  }
+]

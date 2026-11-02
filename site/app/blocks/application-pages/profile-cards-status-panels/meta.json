@@ -1,0 +1,11 @@
+[
+  {
+    "file": "TeamPresencePanel",
+    "title": { "en": "Team presence with time-zone overlap", "fr": "Présence d'équipe et chevauchement horaire" },
+    "summary": {
+      "en": "Set your presence and status with a live preview, next to teammate cards whose 24-hour strips show exactly when your working days overlap.",
+      "fr": "Définissez présence et statut avec aperçu en direct, à côté de cartes coéquipiers dont la bande de 24 heures montre quand vos journées se recouvrent."
+    },
+    "height": 480
+  }
+]

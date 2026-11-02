@@ -1,6 +1,7 @@
 <script setup lang="ts">
 /** Chat bubble: a framed message surface with variants, start/end alignment, optional link/button content and a reactions row. */
 import { computed } from 'vue'
+import { miSafeHref } from '../../utils/miSafe'
 
 export type MiBubbleVariant = 'default' | 'secondary' | 'muted' | 'tinted' | 'outline' | 'ghost' | 'destructive'
 
@@ -19,8 +20,10 @@ const props = withDefaults(defineProps<{
   reactionsAlign?: 'start' | 'end'
 }>(), { variant: 'default', align: 'start', as: 'div', reactionsSide: 'bottom', reactionsAlign: 'end' })
 
-const tag = computed(() => (props.href && props.as === 'div' ? 'a' : props.as))
-const attrs = computed(() => (tag.value === 'a' ? { href: props.href } : tag.value === 'button' ? { type: 'button' } : {}))
+// `as` is a union at type level only; anything else renders the default div.
+const as = computed(() => (['div', 'a', 'button'].includes(props.as) ? props.as : 'div'))
+const tag = computed(() => (props.href && as.value === 'div' ? 'a' : as.value))
+const attrs = computed(() => (tag.value === 'a' ? { href: miSafeHref(props.href) } : tag.value === 'button' ? { type: 'button' } : {}))
 
 defineSlots<{
   /** Message content shown inside the bubble. */

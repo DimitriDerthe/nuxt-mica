@@ -1,0 +1,12 @@
+[
+  {
+    "file": "AnalystAgentWorkbench",
+    "title": { "en": "Analyst agent workbench", "fr": "Atelier d'agent analyste" },
+    "summary": {
+      "en": "An AI analysis workspace: threads, a cited answer with its reasoning trace, findings and SQL, and a composer with attachments and a live context-budget meter.",
+      "fr": "Un espace d'analyse IA : fils, réponse sourcée avec sa trace de raisonnement, constats et SQL, et un compositeur avec pièces jointes et jauge de contexte en direct."
+    },
+    "height": 700,
+    "stage": "bleed"
+  }
+]

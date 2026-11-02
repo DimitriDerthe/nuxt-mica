@@ -1,0 +1,11 @@
+[
+  {
+    "file": "CommandPaletteScopes",
+    "title": { "en": "Scoped command palette", "fr": "Palette de commandes à portées" },
+    "summary": {
+      "en": "A palette shown open over a blurred app: scope tabs narrow it to actions, projects or people, and a preview pane describes the top match before you run it.",
+      "fr": "Une palette ouverte sur une application floutée : des onglets de portée la limitent aux actions, projets ou personnes, et un volet d'aperçu décrit le meilleur résultat avant de l'exécuter."
+    },
+    "height": 560
+  }
+]

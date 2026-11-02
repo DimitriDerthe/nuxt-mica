@@ -1,6 +1,7 @@
 <script setup lang="ts">
 /** Container surface (card, elevated or translucent material) with radius, padding and shadow presets; use it to group content. */
 import { computed } from 'vue'
+import { miSafeTag } from '../../utils/miSafe'
 
 export type MiSurfaceVariant = 'card' | 'elevated' | 'material'
 export type MiSurfaceMaterial = 'ultra-thin' | 'thin' | 'regular' | 'thick'
@@ -32,7 +33,7 @@ defineSlots<{
 
 <template>
   <component
-    :is="as"
+    :is="miSafeTag(as, 'div')"
     class="mi-surface"
     :class="[`mi-surface--${variant}`, `mi-surface--r-${radius}`, `mi-surface--p-${padding}`, `mi-surface--e${level}`, variant === 'material' && `mi-surface--m-${material}`]"
   >

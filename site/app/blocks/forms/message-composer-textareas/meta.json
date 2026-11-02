@@ -1,0 +1,11 @@
+[
+  {
+    "file": "SupportReplyComposer",
+    "title": { "en": "Support reply composer", "fr": "Éditeur de réponse support" },
+    "summary": {
+      "en": "A ticket composer that switches between customer reply and internal note (the field turns into a sticky note), inserts saved replies, attaches files and catches a mentioned but missing attachment before sending.",
+      "fr": "Un éditeur de ticket qui bascule entre réponse client et note interne (le champ devient un post-it), insère des réponses enregistrées, joint des fichiers et repère une pièce jointe annoncée mais absente avant l'envoi."
+    },
+    "height": 600
+  }
+]

@@ -1,0 +1,11 @@
+[
+  {
+    "file": "VerifyCodeRecovery",
+    "title": { "en": "Verification code with recovery fallback", "fr": "Code de vérification avec secours" },
+    "summary": {
+      "en": "A one-time code screen with email, SMS or authenticator delivery, an attempts meter, resend cooldown and a switch to single-use recovery codes.",
+      "fr": "Un écran de code à usage unique par e-mail, SMS ou application, avec compteur d'essais, délai de renvoi et bascule vers les codes de secours."
+    },
+    "height": 520
+  }
+]

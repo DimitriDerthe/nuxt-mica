@@ -1,0 +1,11 @@
+[
+  {
+    "file": "PriceRangeHistogram",
+    "title": { "en": "Price range over a histogram", "fr": "Plage de prix sur histogramme" },
+    "summary": {
+      "en": "A dual price slider under a histogram of bookable stays, synced min and max fields, presets, plus distance and rating sliders that reshape the histogram and the live count.",
+      "fr": "Un curseur de prix double sous l'histogramme des logements disponibles, des champs min et max synchronisés, des préréglages, et des curseurs de distance et de note qui redessinent l'histogramme et le compte."
+    },
+    "height": 440
+  }
+]

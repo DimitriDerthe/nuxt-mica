@@ -1,0 +1,12 @@
+[
+  {
+    "file": "CoopEnergyDashboard",
+    "title": { "en": "Community energy dashboard", "fr": "Tableau de bord d'énergie citoyenne" },
+    "summary": {
+      "en": "A complete co-op dashboard: sidebar, top bar and a sun-path hero that places the sun on its arc, with KPI tiles, a generation chart, live site bars and working views for sites, members, payouts and settings.",
+      "fr": "Un tableau de bord coopératif complet : barre latérale, barre supérieure et en-tête traçant la course du soleil, avec tuiles KPI, graphique de production, barres de sites en direct et vues sites, membres, dividendes et réglages."
+    },
+    "height": 700,
+    "stage": "bleed"
+  }
+]

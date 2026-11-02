@@ -1,0 +1,11 @@
+[
+  {
+    "file": "IntegrationHub",
+    "title": { "en": "Integration hub with sync pulse", "fr": "Hub d'intégrations avec pouls de synchro" },
+    "summary": {
+      "en": "Connected apps show a 24-hour sync pulse with failed deliveries in red and a pause switch; the catalog below filters by category and search, and Connect moves an app into the live section.",
+      "fr": "Les apps connectées affichent un pouls de synchronisation sur 24 h avec les échecs en rouge et un interrupteur de pause ; le catalogue se filtre par catégorie et recherche, et Connecter fait passer l'app dans la section active."
+    },
+    "height": 620
+  }
+]

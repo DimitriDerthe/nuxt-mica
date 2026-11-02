@@ -1,0 +1,11 @@
+[
+  {
+    "file": "IncidentDeclareForm",
+    "title": { "en": "Incident declaration form", "fr": "Formulaire de déclaration d'incident" },
+    "summary": {
+      "en": "A conditional incident form: severity drives the accent and locks paging, the status page message appears only when public, and a live preview plus readiness list track what is still missing.",
+      "fr": "Un formulaire d'incident conditionnel : la sévérité pilote l'accent et verrouille l'astreinte, le message public n'apparaît que s'il est publié, et un aperçu en direct avec une liste de préparation suit ce qui manque."
+    },
+    "height": 640
+  }
+]

@@ -1,0 +1,11 @@
+[
+  {
+    "file": "AudienceChipBuilder",
+    "title": { "en": "Audience chip builder", "fr": "Constructeur d'audience en puces" },
+    "summary": {
+      "en": "Selectable, removable and suggestion chips plus a tag input that shape a campaign audience, read back as one plain sentence with a live estimate.",
+      "fr": "Puces sélectionnables, supprimables et suggérées, plus un champ d'étiquettes, qui composent une audience relue en une phrase claire avec une estimation en direct."
+    },
+    "height": 520
+  }
+]

@@ -1,0 +1,11 @@
+[
+  {
+    "file": "ShiftRosterPlanner",
+    "title": { "en": "Shift roster with coverage", "fr": "Planning d'équipe avec couverture" },
+    "summary": {
+      "en": "Paint early and late shifts onto a weekly roster while coverage rows count the gaps, hours meters flag overtime and short rest is marked; one click fills the gaps, then publish.",
+      "fr": "Peignez les services du matin et du soir sur le planning pendant que les lignes de couverture comptent les manques, que les jauges signalent les heures sup et le repos trop court ; un clic comble les trous, puis publiez."
+    },
+    "height": 560
+  }
+]

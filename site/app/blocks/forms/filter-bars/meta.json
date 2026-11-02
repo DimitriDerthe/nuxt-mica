@@ -1,0 +1,20 @@
+[
+  {
+    "file": "IssueQueryBar",
+    "title": { "en": "Query token filter bar", "fr": "Barre de filtres à jetons" },
+    "summary": {
+      "en": "Filters as tokens you can read: flip is / is not in one click, change values from a menu, switch match all or any, and see the whole query read back as a sentence over the issue list.",
+      "fr": "Des filtres sous forme de jetons lisibles : basculez est / n'est pas d'un clic, changez la valeur dans un menu, choisissez tous ou au moins un, et relisez la requête en une phrase au-dessus des tickets."
+    },
+    "height": 520
+  },
+  {
+    "file": "OrderStatusBar",
+    "title": { "en": "Order status filter bar", "fr": "Barre de filtres par statut de commande" },
+    "summary": {
+      "en": "Status pills with live counts and a clickable distribution strip, followed by search, channel, flagged and sort controls that recount every pill as they change.",
+      "fr": "Des pastilles de statut avec compteurs et une bande de répartition cliquable, suivies de la recherche, du canal, du filtre signalé et du tri qui recalculent chaque pastille."
+    },
+    "height": 560
+  }
+]

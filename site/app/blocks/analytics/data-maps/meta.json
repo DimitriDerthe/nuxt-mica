@@ -1,0 +1,11 @@
+[
+  {
+    "file": "MarketTileMap",
+    "title": { "en": "Market tile map", "fr": "Carte des marchés en tuiles" },
+    "summary": {
+      "en": "A world tile map with one tile per market and no geodata: tiles shade by fifths of the chosen metric, a region filter dims the rest, and a ranked legend and readout follow the tile you point at.",
+      "fr": "Une carte du monde en tuiles, une par marché, sans données géographiques : les tuiles se teintent par quintile de la métrique choisie, un filtre de région estompe le reste, et un classement et un encart suivent la tuile pointée."
+    },
+    "height": 520
+  }
+]

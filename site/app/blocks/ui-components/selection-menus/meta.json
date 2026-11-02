@@ -1,0 +1,11 @@
+[
+  {
+    "file": "TableViewOptionsMenu",
+    "title": { "en": "Table display options", "fr": "Options d'affichage de tableau" },
+    "summary": {
+      "en": "An open display panel with group-by, density and column checkboxes, mirrored by a live checked-item pulldown; the renewals table beside it re-renders with every choice.",
+      "fr": "Un panneau d'affichage ouvert avec regroupement, densité et colonnes à cocher, doublé d'un vrai menu à cases ; le tableau des renouvellements se met à jour à chaque choix."
+    },
+    "height": 500
+  }
+]

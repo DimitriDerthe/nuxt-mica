@@ -464,6 +464,67 @@
   "types": []
  },
  {
+  "name": "MiOrb",
+  "group": "Ai",
+  "path": "app/components/Ai/MiOrb.vue",
+  "summary": "Dotted 3D thinking orb for AI and agent states (thinking, searching, working, listening, composing, connecting, idle); one shared canvas loop, paused offscreen, static under reduced motion.",
+  "props": [
+   {
+    "name": "state",
+    "type": "\"idle\" | \"thinking\" | \"searching\" | \"working\" | \"listening\" | \"composing\" | \"connecting\"",
+    "required": false,
+    "default": "\"thinking\"",
+    "doc": "What the agent is doing; switching state morphs the dots into the new shape."
+   },
+   {
+    "name": "size",
+    "type": "number | \"sm\" | \"lg\" | \"md\"",
+    "required": false,
+    "default": "\"md\"",
+    "doc": "Preset: sm 20px (inline with text), md 32px, lg 64px (avatar). A number is an exact size in px."
+   },
+   {
+    "name": "tone",
+    "type": "\"primary\" | \"secondary\" | \"inherit\"",
+    "required": false,
+    "default": "\"primary\"",
+    "doc": "Ink colour: brand `primary` or `secondary`, or `inherit` to follow the text colour."
+   },
+   {
+    "name": "speed",
+    "type": "number",
+    "required": false,
+    "default": "1",
+    "doc": "Animation speed multiplier."
+   },
+   {
+    "name": "density",
+    "type": "number",
+    "required": false,
+    "default": "1",
+    "doc": "Dot density multiplier (1 is the tuned look)."
+   },
+   {
+    "name": "paused",
+    "type": "boolean",
+    "required": false,
+    "default": "false",
+    "doc": "Freeze on the current frame."
+   },
+   {
+    "name": "label",
+    "type": "string",
+    "required": false,
+    "doc": "Accessible name; defaults to the state name (\"Thinking\"). An empty string hides the orb from assistive tech."
+   }
+  ],
+  "slots": [],
+  "emits": [],
+  "exposed": [],
+  "internal": false,
+  "types": []
+ },
+ {
   "name": "MiQuestionnaire",
   "group": "Ai",
   "path": "app/components/Ai/MiQuestionnaire.vue",
@@ -744,6 +805,52 @@
    {
     "name": "default",
     "doc": "Question text."
+   }
+  ],
+  "emits": [],
+  "exposed": [],
+  "internal": false,
+  "types": []
+ },
+ {
+  "name": "MiShimmerText",
+  "group": "Ai",
+  "path": "app/components/Ai/MiShimmerText.vue",
+  "summary": "Status text with a light sweeping across it, for \"Thinking…\" style labels next to MiOrb; the sweep moves with transforms only.",
+  "props": [
+   {
+    "name": "text",
+    "type": "string",
+    "required": false,
+    "default": "\"\"",
+    "doc": "Text to show; the default slot overrides it."
+   },
+   {
+    "name": "duration",
+    "type": "number",
+    "required": false,
+    "default": "2.2",
+    "doc": "Seconds per sweep."
+   },
+   {
+    "name": "paused",
+    "type": "boolean",
+    "required": false,
+    "default": "false",
+    "doc": "Stop the sweep and show plain text, e.g. once the work is done."
+   },
+   {
+    "name": "as",
+    "type": "string",
+    "required": false,
+    "default": "\"span\"",
+    "doc": "Element to render."
+   }
+  ],
+  "slots": [
+   {
+    "name": "default",
+    "doc": "Label content; plain inline text reads best."
    }
   ],
   "emits": [],
@@ -1198,7 +1305,7 @@
     "name": "svg",
     "type": "string",
     "required": false,
-    "doc": "Raw inner SVG markup (24x24 grid). Trusted, static markup only. Takes precedence over `name`."
+    "doc": "Raw inner SVG markup (24x24 grid), injected with v-html and never sanitized: pass only trusted static markup, never user or CMS content (XSS risk). Takes precedence over `name`."
    },
    {
     "name": "size",
@@ -1449,7 +1556,7 @@
    },
    {
     "name": "padding",
-    "type": "\"sm\" | \"lg\" | \"none\" | \"md\"",
+    "type": "\"sm\" | \"lg\" | \"md\" | \"none\"",
     "required": false,
     "default": "\"none\"",
     "doc": "Inner spacing: none, sm (12px), md (18px) or lg (24px)."
@@ -7714,7 +7821,7 @@
   "props": [
    {
     "name": "variant",
-    "type": "\"circle\" | \"rect\" | \"text\"",
+    "type": "\"text\" | \"circle\" | \"rect\"",
     "required": false,
     "default": "\"rect\"",
     "doc": "Shape of the placeholder: block, circle or lines of text."

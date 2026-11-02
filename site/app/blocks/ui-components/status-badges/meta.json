@@ -1,0 +1,11 @@
+[
+  {
+    "file": "ServiceStatusBoard",
+    "title": { "en": "Service status board", "fr": "Tableau d'état des services" },
+    "summary": {
+      "en": "Operational, degraded, outage, maintenance and deploying badges on a platform status board, each row with a 30-day uptime ribbon and an incident note that unfolds.",
+      "fr": "Badges opérationnel, dégradé, panne, maintenance et déploiement sur un tableau d'état, chaque ligne avec un ruban de disponibilité sur 30 jours et une note d'incident dépliable."
+    },
+    "height": 560
+  }
+]

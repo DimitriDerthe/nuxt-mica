@@ -1,0 +1,12 @@
+[
+  {
+    "file": "OffTheMapError",
+    "title": { "en": "Off-the-map 404 page", "fr": "Page 404 hors de la carte" },
+    "summary": {
+      "en": "A not-found page for a route planner: a contour-map illustration whose trail runs off the torn edge, the missing path spelled out, a search that suggests live pages and a broken-link report.",
+      "fr": "Une page introuvable pour un planificateur d'itinéraires : carte en courbes de niveau dont le sentier sort par le bord déchiré, chemin manquant affiché, recherche suggérant des pages et signalement de lien cassé."
+    },
+    "height": 620,
+    "stage": "bleed"
+  }
+]

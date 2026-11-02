@@ -1,0 +1,11 @@
+[
+  {
+    "file": "ReceivablesAgingTable",
+    "title": { "en": "Receivables aging table", "fr": "Tableau d'ancienneté des créances" },
+    "summary": {
+      "en": "Open invoices under an aging strip that splits the outstanding total by lateness; each bucket filters the table, overdue rows show how late they are and can be reminded, and the list turns into cards on small screens.",
+      "fr": "Les factures ouvertes sous une bande d'ancienneté qui répartit l'encours par retard ; chaque tranche filtre le tableau, les lignes en retard indiquent leur retard et permettent une relance, et la liste passe en cartes sur petit écran."
+    },
+    "height": 600
+  }
+]

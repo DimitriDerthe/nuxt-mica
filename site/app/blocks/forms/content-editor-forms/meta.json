@@ -1,0 +1,11 @@
+[
+  {
+    "file": "ArticleComposer",
+    "title": { "en": "Article composer with publishing checks", "fr": "Éditeur d'article avec contrôles de publication" },
+    "summary": {
+      "en": "A headline, excerpt, rich-text body and tags beside a live search snippet, a length meter and a checklist that unlocks Publish once every check passes.",
+      "fr": "Titre, chapeau, corps en texte riche et étiquettes à côté d'un aperçu de résultat de recherche, d'une jauge de longueur et d'une liste qui débloque Publier quand tout est validé."
+    },
+    "height": 620
+  }
+]

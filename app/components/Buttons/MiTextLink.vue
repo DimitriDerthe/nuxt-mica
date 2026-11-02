@@ -1,6 +1,7 @@
 <script setup lang="ts">
 /** Inline text link in brand colour with optional trailing chevron, for navigation in running text or CTAs. */
 import type { MiBrand } from '../../utils/miButtons'
+import { miSafeHref } from '../../utils/miSafe'
 
 withDefaults(defineProps<{
   /** Destination of the link. */
@@ -18,7 +19,7 @@ const _slots = defineSlots<{
 </script>
 
 <template>
-  <a class="mi-link" :class="`mi-link--${brand}`" :href="href">
+  <a class="mi-link" :class="`mi-link--${brand}`" :href="miSafeHref(href)">
     <slot />
     <svg v-if="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg>
   </a>

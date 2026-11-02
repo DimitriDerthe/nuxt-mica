@@ -1,0 +1,12 @@
+[
+  {
+    "file": "TicketDetailDrawer",
+    "title": { "en": "Support ticket detail drawer", "fr": "Tiroir de détail de ticket" },
+    "summary": {
+      "en": "A right drawer over the support inbox: customer card, SLA countdown meter, status, assignee and priority, the conversation as a timeline and a reply box that can solve the ticket. Rows open it, arrows step through tickets.",
+      "fr": "Un tiroir à droite au-dessus de la boîte de support : fiche client, jauge de délai SLA, statut, responsable et priorité, conversation en chronologie et réponse qui peut clore le ticket. Les lignes l'ouvrent, les flèches passent d'un ticket à l'autre."
+    },
+    "height": 660,
+    "stage": "bleed"
+  }
+]

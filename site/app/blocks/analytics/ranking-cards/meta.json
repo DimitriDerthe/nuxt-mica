@@ -1,0 +1,11 @@
+[
+  {
+    "file": "QuarterLeaderboard",
+    "title": { "en": "Quarter leaderboard", "fr": "Classement du trimestre" },
+    "summary": {
+      "en": "A leader card with the margin they hold, then every other rep with movement since last quarter, a bar against the leader and the gap to the person above; the metric switch re-ranks the list with a sliding transition.",
+      "fr": "Une carte pour le premier avec son avance, puis chaque commercial avec son évolution depuis le trimestre dernier, une barre face au leader et l'écart avec la personne au-dessus ; le choix de la métrique reclasse la liste avec une transition glissée."
+    },
+    "height": 500
+  }
+]

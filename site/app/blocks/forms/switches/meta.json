@@ -1,0 +1,11 @@
+[
+  {
+    "file": "FeatureFlagSwitchboard",
+    "title": { "en": "Feature flag switchboard", "fr": "Tableau d'interrupteurs de fonctionnalités" },
+    "summary": {
+      "en": "Per-environment switches for each flag, with stale-flag hints and a filter; turning one on in production opens an inline rollout slider and a required audit reason, while turning it off acts instantly as a kill switch.",
+      "fr": "Des interrupteurs par environnement pour chaque drapeau, avec repérage des drapeaux inutilisés et un filtre ; l'activation en production ouvre un curseur de déploiement et une raison obligatoire, la désactivation agit aussitôt."
+    },
+    "height": 560
+  }
+]

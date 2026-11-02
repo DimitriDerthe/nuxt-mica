@@ -1,0 +1,11 @@
+[
+  {
+    "file": "SeatPlanPicker",
+    "title": { "en": "Seat-based plan picker", "fr": "Choix d'offre par licence" },
+    "summary": {
+      "en": "Monthly or yearly billing and a team-size slider recompute every price, total and saving; plans outside their seat range step aside and the best fit moves with the team.",
+      "fr": "Facturation mensuelle ou annuelle et curseur de taille d'équipe recalculent prix, totaux et économies ; les offres hors limites s'effacent et la meilleure option suit l'équipe."
+    },
+    "height": 600
+  }
+]

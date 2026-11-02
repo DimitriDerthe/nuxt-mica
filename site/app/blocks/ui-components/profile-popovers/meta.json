@@ -1,0 +1,11 @@
+[
+  {
+    "file": "MentionProfilePopover",
+    "title": { "en": "Mention profile popover", "fr": "Popover de profil sur mention" },
+    "summary": {
+      "en": "Mentions in a comment thread open quick profile popovers, while the full card stays pinned open: status, local time on a working-day track with advice on when to reach out, stats and a follow toggle.",
+      "fr": "Les mentions d'un fil ouvrent un aperçu de profil, tandis que la carte complète reste ouverte : statut, heure locale sur une piste de journée avec conseil de contact, statistiques et bouton suivre."
+    },
+    "height": 460
+  }
+]

@@ -1,0 +1,11 @@
+[
+  {
+    "file": "BookSlotDialog",
+    "title": { "en": "Book a slot with shared availability", "fr": "Réserver un créneau selon les disponibilités" },
+    "summary": {
+      "en": "A scheduling dialog shown open over its page: pick a duration and a day, then a start time whose dots show who is free; one button jumps to the first time everyone can make it.",
+      "fr": "Une modale de planification ouverte sur sa page : choisissez une durée et un jour, puis une heure dont les points montrent qui est libre ; un bouton saute au premier créneau où tout le monde est disponible."
+    },
+    "height": 760
+  }
+]

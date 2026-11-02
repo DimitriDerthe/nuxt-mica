@@ -25,17 +25,17 @@
     "release:check": "node scripts/release.mjs --check"
   },
   "devDependencies": {
-    "@nuxt/test-utils": "latest",
+    "@nuxt/test-utils": "^4.3.4",
     "@nuxtjs/i18n": "^10.6.0",
-    "@playwright/test": "latest",
+    "@playwright/test": "^1.64.1",
     "@vitejs/plugin-vue": "^6.0.10",
-    "@vue/test-utils": "latest",
-    "happy-dom": "latest",
+    "@vue/test-utils": "^2.5.1",
+    "happy-dom": "^21.0.4",
     "nuxt": "^4.6.3",
     "typescript": "~5.9.3",
-    "vitest": "latest",
-    "vue": "latest",
+    "vitest": "^5.0.5",
+    "vue": "^3.5.44",
     "vue-component-meta": "^3.3.13",
-    "vue-tsc": "latest"
+    "vue-tsc": "^3.3.13"
   }
 }

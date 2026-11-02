@@ -1,0 +1,11 @@
+[
+  {
+    "file": "AccountRenewalHeader",
+    "title": { "en": "Account header with contract runway", "fr": "En-tête de compte avec échéancier de contrat" },
+    "summary": {
+      "en": "A CRM account header: identity, owner and actions, a facts strip for revenue, seats, health and renewal, and a runway placing today between signature and renewal.",
+      "fr": "Un en-tête de compte CRM : identité, responsable et actions, bandeau de chiffres (revenu, licences, santé, renouvellement) et un échéancier situant aujourd'hui dans le contrat."
+    },
+    "height": 520
+  }
+]

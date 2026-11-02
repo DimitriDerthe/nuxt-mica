@@ -1,0 +1,11 @@
+[
+  {
+    "file": "WorkspaceSettingsPage",
+    "title": { "en": "Workspace settings page", "fr": "Page de réglages de l'espace" },
+    "summary": {
+      "en": "A sectioned settings page whose nav marks sections with unsaved edits or errors; one save bar lists every pending change and can discard or save them together.",
+      "fr": "Une page de réglages par sections dont la navigation signale les modifications non enregistrées ou les erreurs ; une barre unique liste chaque changement et permet de tout annuler ou enregistrer."
+    },
+    "height": 600
+  }
+]

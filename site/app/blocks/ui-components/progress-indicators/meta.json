@@ -1,0 +1,11 @@
+[
+  {
+    "file": "ImportProgressConsole",
+    "title": { "en": "Import progress console", "fr": "Console de progression d'import" },
+    "summary": {
+      "en": "One running import told by every progress primitive: stage steps, an overall ring, per-entity bars, a segmented outcome bar, an API budget meter and an indeterminate reindex, with pause and resume.",
+      "fr": "Un import en cours raconté par chaque indicateur : étapes, anneau global, barres par entité, barre segmentée des résultats, jauge de quota d'API et réindexation indéterminée, avec pause et reprise."
+    },
+    "height": 520
+  }
+]

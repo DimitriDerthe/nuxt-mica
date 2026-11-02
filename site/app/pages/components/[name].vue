@@ -130,8 +130,10 @@ const localePath = useLocalePath()
 const route = useRoute()
 
 const name = computed(() => fromSlug(String(route.params.name)))
+// The slug is visitor input: only a component name may reach the API path.
+if (!/^Mi[A-Za-z]+$/.test(name.value)) throw createError({ statusCode: 404, statusMessage: t('explorer.notFound'), fatal: true })
 const { data: list } = await useFetch('/api/components', { query: { lang: locale } })
-const { data: api, error } = await useFetch(() => `/api/components/${name.value}`, { query: { lang: locale } })
+const { data: api, error } = await useFetch(() => `/api/components/${encodeURIComponent(name.value)}`, { query: { lang: locale } })
 if (error.value) throw createError({ statusCode: 404, statusMessage: t('explorer.notFound'), fatal: true })
 
 const vmodel = computed(() => !!api.value?.props.some(p => p.name === 'modelValue'))

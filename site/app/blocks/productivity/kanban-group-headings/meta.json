@@ -1,0 +1,11 @@
+[
+  {
+    "file": "FlowColumnHeadings",
+    "title": { "en": "Stage headings with capacity slots", "fr": "En-têtes d'étape avec cases de capacité" },
+    "summary": {
+      "en": "Kanban column headings that show work in progress as slots, overflow striped past the limit, with cycle time and its trend, owners and a working actions menu; columns collapse into slim vertical spines.",
+      "fr": "Des en-têtes de colonne kanban qui montrent l'encours sous forme de cases, le dépassement hachuré au-delà de la limite, avec temps de cycle et tendance, responsables et menu d'actions fonctionnel ; les colonnes se replient en fines tranches verticales."
+    },
+    "height": 440
+  }
+]

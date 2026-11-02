@@ -1,0 +1,11 @@
+[
+  {
+    "file": "TransactionMoneyTrail",
+    "title": { "en": "Payment detail with money trail", "fr": "Détail de paiement et parcours de l'argent" },
+    "summary": {
+      "en": "One card payment end to end: amount and status, a bar splitting gross into net, fees and refunds, details, lifecycle timeline and a validated partial refund that updates it all.",
+      "fr": "Un paiement par carte de bout en bout : montant et statut, barre répartissant brut, net, frais et remboursements, détails, chronologie et remboursement partiel validé qui met tout à jour."
+    },
+    "height": 640
+  }
+]

@@ -1,0 +1,11 @@
+[
+  {
+    "file": "AuthSnippetTrio",
+    "title": { "en": "Magic link, password and passkey snippets", "fr": "Fragments lien magique, mot de passe et clé d'accès" },
+    "summary": {
+      "en": "Three drop-in cards: a sign-in link that becomes its own confirmation, a password setter with live strength and match checks, and a one-tap passkey return.",
+      "fr": "Trois cartes prêtes à l'emploi : un lien de connexion qui devient sa confirmation, un choix de mot de passe avec force et correspondance en direct, et un retour par clé d'accès."
+    },
+    "height": 460
+  }
+]

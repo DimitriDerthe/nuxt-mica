@@ -1,0 +1,11 @@
+[
+  {
+    "file": "StepUpAuthDialog",
+    "title": { "en": "Step-up re-authentication dialog", "fr": "Dialogue de ré-authentification renforcée" },
+    "summary": {
+      "en": "A sensitive action asks for a fresh sign-in: password or passkey in a dialog over the API keys page, which then unlocks for ten minutes.",
+      "fr": "Une action sensible demande une nouvelle connexion : mot de passe ou clé d'accès dans un dialogue au-dessus de la page des clés API, déverrouillée ensuite dix minutes."
+    },
+    "height": 580
+  }
+]

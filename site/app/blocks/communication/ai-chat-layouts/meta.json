@@ -1,0 +1,15 @@
+[
+  {
+    "file": "AiCitedAnswers",
+    "title": {
+      "en": "Research chat with cited answers",
+      "fr": "Chat de recherche avec réponses sourcées"
+    },
+    "summary": {
+      "en": "AI research workspace: history, reasoning trace and numbered citations that light up their source cards; follow-ups stream in.",
+      "fr": "Espace de recherche IA : historique, trace de raisonnement et citations numérotées qui éclairent leurs sources ; les relances arrivent en flux."
+    },
+    "height": 700,
+    "stage": "bleed"
+  }
+]

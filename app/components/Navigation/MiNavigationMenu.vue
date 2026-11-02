@@ -2,6 +2,7 @@
 /** Top navigation bar whose entries are plain links or triggers for flyout panels of titled links, opened on hover or click and shown in a shared viewport; v-model is the open item id. */
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { miNavRoving } from '../../utils/miNav'
+import { miSafeHref } from '../../utils/miSafe'
 
 export interface MiNavigationLink { title: string, description?: string, href: string }
 export interface MiNavigationItem { id: string, label: string, href?: string, links?: MiNavigationLink[] }
@@ -79,12 +80,12 @@ onBeforeUnmount(() => { document.removeEventListener('pointerdown', onOutside, t
           {{ it.label }}
           <svg class="mi-nm__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
         </button>
-        <a v-else class="mi-nm__top" :href="it.href">{{ it.label }}</a>
+        <a v-else class="mi-nm__top" :href="miSafeHref(it.href)">{{ it.label }}</a>
         <div
           v-if="it.links && !viewport" :id="`mi-nm-${it.id}`" class="mi-nm__panel mi-nm__panel--anchored"
           :class="{ 'is-open': model === it.id }" :inert="model !== it.id || undefined" @pointerenter="enter(it.id, true)"
         >
-          <a v-for="l in it.links" :key="l.href" class="mi-nm__link" :href="l.href" @click="emit('navigate', l)">
+          <a v-for="l in it.links" :key="l.href" class="mi-nm__link" :href="miSafeHref(l.href)" @click="emit('navigate', l)">
             <span class="mi-nm__title">{{ l.title }}</span>
             <span v-if="l.description" class="mi-nm__desc">{{ l.description }}</span>
           </a>
@@ -95,7 +96,7 @@ onBeforeUnmount(() => { document.removeEventListener('pointerdown', onOutside, t
       v-if="viewport && last?.links" :id="`mi-nm-${last.id}`" class="mi-nm__panel mi-nm__viewport"
       :class="{ 'is-open': !!active }" :inert="!active || undefined" @pointerenter="cancelClose"
     >
-      <a v-for="l in last.links" :key="l.href" class="mi-nm__link" :href="l.href" @click="emit('navigate', l)">
+      <a v-for="l in last.links" :key="l.href" class="mi-nm__link" :href="miSafeHref(l.href)" @click="emit('navigate', l)">
         <span class="mi-nm__title">{{ l.title }}</span>
         <span v-if="l.description" class="mi-nm__desc">{{ l.description }}</span>
       </a>

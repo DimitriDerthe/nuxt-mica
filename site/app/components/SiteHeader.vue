@@ -6,6 +6,7 @@
       </NuxtLink>
       <nav class="hd__nav" :aria-label="t('nav.label')">
         <NuxtLink :to="localePath('/components')" :class="{ on: inExplorer }" :aria-current="inExplorer ? 'page' : undefined">{{ t('nav.components') }}</NuxtLink>
+        <NuxtLink :to="localePath('/blocks')" :class="{ on: inBlocks }" :aria-current="inBlocks ? 'page' : undefined">{{ t('nav.blocks') }}</NuxtLink>
         <NuxtLink v-for="l in links" :key="l.id" :to="localePath('/') + '#' + l.id">{{ t('nav.' + l.id) }}</NuxtLink>
       </nav>
       <div class="hd__end">
@@ -28,6 +29,7 @@ const otherLocale = computed(() => (locale.value === 'en' ? 'fr' : 'en'))
 const links = [{ id: 'theming' }, { id: 'craft' }, { id: 'ai' }, { id: 'showcase' }]
 const route = useRoute()
 const inExplorer = computed(() => /^\/(fr\/)?components/.test(route.path))
+const inBlocks = computed(() => /^\/(fr\/)?blocks/.test(route.path))
 </script>
 
 <style scoped>

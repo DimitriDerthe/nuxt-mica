@@ -1,0 +1,12 @@
+[
+  {
+    "file": "SettingsSecondaryNav",
+    "title": { "en": "Settings secondary nav", "fr": "Navigation secondaire de réglages" },
+    "summary": {
+      "en": "One settings nav in two shapes, a grouped column when wide and a scrolling strip when narrow, with counts, a New badge and an unsaved-changes dot that follows your edits.",
+      "fr": "Une navigation de réglages sous deux formes, colonne groupée en large et bande défilante en étroit, avec compteurs, badge Nouveau et un point de modifications non enregistrées qui suit vos changements."
+    },
+    "height": 520,
+    "stage": "bleed"
+  }
+]

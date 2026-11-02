@@ -1,6 +1,6 @@
 # Mica, a Nuxt UI layer
 
-A Nuxt 4 layer shipping 132 SSR-safe UI components, 175 `<Mi…>` tags counting the parts of compound components (buttons, controls, inputs, navigation, feedback, content, charts and foundations) built on a single set of `--mi-*` CSS tokens. Every component targets 60 fps: motion is limited to `transform` and `opacity`, enforced by a lint script and measured by a frame-time probe. Light and dark modes are built in, with a runtime-configurable brand color pair.
+A Nuxt 4 layer shipping 134 SSR-safe UI components, 177 `<Mi…>` tags counting the parts of compound components (buttons, controls, inputs, navigation, feedback, content, charts and foundations) built on a single set of `--mi-*` CSS tokens. Every component targets 60 fps: motion is limited to `transform` and `opacity`, enforced by a lint script and measured by a frame-time probe. Light and dark modes are built in, with a runtime-configurable brand color pair.
 
 ## Consume it
 
@@ -107,6 +107,8 @@ pnpm site:generate   # static output in site/.output/public, ready for an S3 buc
 ```
 
 The component explorer lives at `/components`: one page per component with a live preview, prop controls inferred from the generated manifest, a usage snippet and the full API. Each preview is a small file in `site/app/examples/<MiName>.vue`; see `site/app/examples/README.md` for the contract. A new component shows its API page right away and a placeholder until its example is added.
+
+Application UI blocks live at `/blocks`: ready-made sections (dashboards, tables, forms, chat, calendars, navigation…) built only with Mica components, each with a live preview at mobile, tablet and desktop widths and its source. One SFC per block in `site/app/blocks/<family>/<category>/`, described by the `meta.json` next to it; rules in `site/app/blocks/README.md`, inventory in [docs/blocks.md](docs/blocks.md).
 
 ### GitHub Pages
 

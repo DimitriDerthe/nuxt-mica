@@ -1,0 +1,11 @@
+[
+  {
+    "file": "JobFacetPanel",
+    "title": { "en": "Faceted filter panel", "fr": "Panneau de filtres à facettes" },
+    "summary": {
+      "en": "A job board side panel whose counts are true facets: each number shows what you would get with every other filter applied, empty options turn off, and active filters become removable chips.",
+      "fr": "Un panneau latéral d'offres d'emploi aux vraies facettes : chaque nombre indique le résultat avec les autres filtres appliqués, les options vides se désactivent et les filtres actifs deviennent des puces amovibles."
+    },
+    "height": 620
+  }
+]

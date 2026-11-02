@@ -1,0 +1,14 @@
+[
+  {
+    "file": "NewChatPicker",
+    "title": {
+      "en": "New conversation picker",
+      "fr": "Sélecteur de nouvelle conversation"
+    },
+    "summary": {
+      "en": "Pick people as chips from suggested, team and external groups; a group takes shape with a suggested name and a guest notice.",
+      "fr": "Choisissez des personnes en puces parmi suggestions, équipe et externes ; le groupe se forme avec un nom suggéré et un avis invité."
+    },
+    "height": 620
+  }
+]

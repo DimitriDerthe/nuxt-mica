@@ -1,0 +1,11 @@
+[
+  {
+    "file": "PaymentSentReceipt",
+    "title": { "en": "Payment sent receipt", "fr": "Reçu de paiement envoyé" },
+    "summary": {
+      "en": "A calm success screen: a check that bursts once, a receipt that prints out of a slot with a torn edge, a delivery tracker and two follow-up switches.",
+      "fr": "Un écran de réussite apaisé : une coche qui éclate une fois, un reçu qui sort d'une fente au bord déchiré, un suivi de livraison et deux interrupteurs de suivi."
+    },
+    "height": 600
+  }
+]

@@ -1,0 +1,11 @@
+[
+  {
+    "file": "FallbackMethodsPanel",
+    "title": { "en": "Payment methods as a fallback chain", "fr": "Moyens de paiement en chaîne de secours" },
+    "summary": {
+      "en": "Saved cards and a direct debit ordered by drag: the first is charged, the rest are numbered fallbacks; expiring cards are flagged and removal asks in place.",
+      "fr": "Cartes et prélèvement enregistrés, ordonnés par glisser : le premier est débité, les suivants sont des secours numérotés ; les cartes qui expirent sont signalées et la suppression se confirme sur place."
+    },
+    "height": 460
+  }
+]

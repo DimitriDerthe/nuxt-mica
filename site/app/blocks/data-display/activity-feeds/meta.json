@@ -1,0 +1,11 @@
+[
+  {
+    "file": "ActivityDigest",
+    "title": { "en": "Activity digest", "fr": "Résumé d'activité" },
+    "summary": {
+      "en": "A team feed grouped by day under a week of density bars you can click to jump to a day; type chips filter it, and bursts of commits fold into one line that expands to the hashes.",
+      "fr": "Un flux d'équipe groupé par jour sous une semaine de barres de densité cliquables pour aller à un jour ; des puces filtrent par type, et les rafales de commits se replient en une ligne qui se déplie sur les empreintes."
+    },
+    "height": 620
+  }
+]

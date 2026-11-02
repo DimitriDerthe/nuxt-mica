@@ -1,0 +1,15 @@
+[
+  {
+    "file": "SupportQueueWidget",
+    "title": {
+      "en": "Support widget with live queue",
+      "fr": "Widget de support avec file d’attente"
+    },
+    "summary": {
+      "en": "Floating support chat over a storefront: topic shortcuts, queue position, a typing agent and an unread badge on the launcher.",
+      "fr": "Chat de support flottant sur une boutique : sujets rapides, position dans la file, agent en train d’écrire et badge sur le lanceur."
+    },
+    "height": 640,
+    "stage": "bleed"
+  }
+]

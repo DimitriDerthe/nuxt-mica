@@ -1,0 +1,11 @@
+[
+  {
+    "file": "SeatUpgradeForm",
+    "title": { "en": "Plan and seat upgrade", "fr": "Changement d'offre et de sièges" },
+    "summary": {
+      "en": "Pick a plan, cycle and seat count while a summary prorates the change: a bar shows the unused part of the current cycle turned into credit, and the pay button carries the exact amount due today.",
+      "fr": "Choisissez l'offre, la périodicité et le nombre de sièges pendant que le récapitulatif calcule le prorata : une barre montre la part inutilisée du cycle convertie en crédit, et le bouton affiche le montant exact dû aujourd'hui."
+    },
+    "height": 520
+  }
+]

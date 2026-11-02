@@ -1,0 +1,11 @@
+[
+  {
+    "file": "ViewModeSegments",
+    "title": { "en": "Task view segments", "fr": "Segments de vue des tâches" },
+    "summary": {
+      "en": "Icon, text and tinted segmented controls driving a live task list: switch list, grid or board, density and sort order, with the sorted field highlighted on every card.",
+      "fr": "Contrôles segmentés en icônes, texte et teinté qui pilotent une liste de tâches : liste, grille ou tableau, densité et tri, avec le champ trié mis en valeur sur chaque carte."
+    },
+    "height": 520
+  }
+]

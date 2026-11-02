@@ -1,5 +1,6 @@
 <script setup lang="ts">
 /** Full-card overlay that opens a link or fires click, while actions stay independently clickable. */
+import { miSafeHref } from '../../utils/miSafe'
 defineProps<{
   /** Renders an anchor when set, otherwise a button. */
   href?: string
@@ -16,5 +17,5 @@ defineSlots<{
 </script>
 
 <template>
-  <component :is="href ? 'a' : 'button'" class="mi-att__trigger" :href="href" :type="href ? undefined : 'button'" @click="$emit('click', $event)"><slot /></component>
+  <component :is="href ? 'a' : 'button'" class="mi-att__trigger" :href="miSafeHref(href)" :type="href ? undefined : 'button'" @click="$emit('click', $event)"><slot /></component>
 </template>

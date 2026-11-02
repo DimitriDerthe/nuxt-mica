@@ -1,5 +1,6 @@
 <script setup lang="ts">
 /** Label/value definition list for key facts (order, profile, specs). Pass `items`; a value can be a link via `href`. */
+import { miSafeHref } from '../../utils/miSafe'
 export interface MiDetailsItem {
   /** Unique key, also used for the `label-<key>` / `value-<key>` slots. */
   key: string
@@ -33,7 +34,7 @@ withDefaults(defineProps<{
       <dd class="mi-dl__d">
         <slot :name="`value-${it.key}`" :item="it">
           <slot name="value" :item="it">
-            <a v-if="it.href" class="mi-dl__a" :href="it.href">{{ it.value }}</a>
+            <a v-if="it.href" class="mi-dl__a" :href="miSafeHref(it.href)">{{ it.value }}</a>
             <template v-else>{{ it.value }}</template>
           </slot>
         </slot>

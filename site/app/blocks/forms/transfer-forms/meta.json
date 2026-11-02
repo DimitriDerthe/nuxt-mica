@@ -1,0 +1,11 @@
+[
+  {
+    "file": "ApiScopeTransfer",
+    "title": { "en": "API key scope transfer", "fr": "Transfert de portées de clé API" },
+    "summary": {
+      "en": "Two filterable lists move scopes onto a restricted key; a blast-radius meter and a plain-English sentence say what the key can do, and admin scopes require an explicit acknowledgement.",
+      "fr": "Deux listes filtrables transfèrent des portées vers une clé restreinte ; une jauge de rayon d'impact et une phrase claire disent ce que la clé peut faire, et les portées admin exigent une confirmation."
+    },
+    "height": 620
+  }
+]

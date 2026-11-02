@@ -1,0 +1,12 @@
+[
+  {
+    "file": "WorkspaceFlowHeader",
+    "title": { "en": "Workspace setup flow header", "fr": "En-tête de parcours de création d'espace" },
+    "summary": {
+      "en": "A focused flow header with steps that only jump back, a time-left estimate, save and exit, and a progress hairline; narrow widths swap the steps for one compact line.",
+      "fr": "Un en-tête de parcours épuré avec des étapes qui ne permettent que le retour, une estimation du temps restant, enregistrer et quitter, et un filet de progression ; en largeur réduite, une ligne compacte remplace les étapes."
+    },
+    "height": 560,
+    "stage": "bleed"
+  }
+]

@@ -9,22 +9,22 @@ importers:
   .:
     devDependencies:
       '@nuxt/test-utils':
-        specifier: latest
+        specifier: ^4.3.4
         version: 4.3.4(2191b47a7cb3828591b1a5c4906e677e)
       '@nuxtjs/i18n':
         specifier: ^10.6.0
         version: 10.6.0(@nuxt/schema@4.6.3)(@vue/compiler-dom@3.5.44)(db0@0.3.4)(dotenv@17.4.2)(esbuild@0.28.2)(giget@3.3.1)(ioredis@5.11.1(supports-color@10.2.2))(jiti@2.7.0)(rolldown@1.2.15)(rollup@4.66.0)(supports-color@10.2.2)(typescript@5.9.3)(vite@8.3.5(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(vue@3.5.44(typescript@5.9.3))
       '@playwright/test':
-        specifier: latest
+        specifier: ^1.64.1
         version: 1.64.1
       '@vitejs/plugin-vue':
         specifier: ^6.0.10
         version: 6.0.10(vite@8.3.5(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(vue@3.5.44(typescript@5.9.3))
       '@vue/test-utils':
-        specifier: latest
+        specifier: ^2.5.1
         version: 2.5.1(@vue/compiler-dom@3.5.44)(@vue/server-renderer@3.5.44)(vue@3.5.44(typescript@5.9.3))
       happy-dom:
-        specifier: latest
+        specifier: ^21.0.4
         version: 21.0.4
       nuxt:
         specifier: ^4.6.3
@@ -33,16 +33,16 @@ importers:
         specifier: ~5.9.3
         version: 5.9.3
       vitest:
-        specifier: latest
+        specifier: ^5.0.5
         version: 5.0.5(@types/node@26.6.6)(happy-dom@21.0.4)(vite@8.3.5(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))
       vue:
-        specifier: latest
+        specifier: ^3.5.44
         version: 3.5.44(typescript@5.9.3)
       vue-component-meta:
         specifier: ^3.3.13
         version: 3.3.13(typescript@5.9.3)
       vue-tsc:
-        specifier: latest
+        specifier: ^3.3.13
         version: 3.3.13(typescript@5.9.3)
 
 packages:

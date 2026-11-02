@@ -1,0 +1,20 @@
+[
+  {
+    "file": "ConsentCornerCard",
+    "title": { "en": "Fair consent card", "fr": "Carte de consentement équitable" },
+    "summary": {
+      "en": "A compact prompt over a storefront where Reject all weighs as much as Accept all, Choose unfolds per-kind switches in place, and the decision folds into a pill that reopens it.",
+      "fr": "Une invite compacte sur une boutique où Tout refuser pèse autant que Tout accepter, Choisir déplie des interrupteurs par type sur place, et la décision se replie en une pastille qui la rouvre."
+    },
+    "height": 460
+  },
+  {
+    "file": "ConsentPreferencesPanel",
+    "title": { "en": "Privacy preferences panel", "fr": "Panneau de préférences de confidentialité" },
+    "summary": {
+      "en": "A full preferences dialog shown open in place: category switches with their services and retention, a Global Privacy Control notice, and a plain-words summary that rewrites itself as you toggle.",
+      "fr": "Une modale de préférences complète ouverte sur place : interrupteurs par catégorie avec services et durées de conservation, un avis Global Privacy Control et un résumé en clair qui se réécrit à chaque bascule."
+    },
+    "height": 620
+  }
+]

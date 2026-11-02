@@ -7,6 +7,7 @@
   "nav": {
     "label": "Main",
     "components": "Components",
+    "blocks": "Blocks",
     "theming": "Theming",
     "craft": "Craft",
     "ai": "AI ready",
@@ -214,5 +215,30 @@
     "partOf": "Part of {name}: the live example below shows it in context.",
     "parts": "Parts",
     "guide": "Group guide"
+  },
+  "blocks": {
+    "eyebrow": "Application UI",
+    "title": "Blocks",
+    "lead": "Ready-made application sections built only with Mica components: dashboards, tables, forms, chat, calendars, navigation and more. Every block adapts to its container, works in light and dark, and animates only transform and opacity.",
+    "statBlocks": "blocks",
+    "statCategories": "categories",
+    "statFamilies": "families",
+    "search": "Filter blocks",
+    "family": "Family",
+    "all": "All",
+    "n": "{n} block | {n} blocks",
+    "noMatch": "No block matches “{q}”.",
+    "empty": "Blocks for this category are on their way.",
+    "notFound": "This block category does not exist.",
+    "breadcrumb": "Breadcrumb",
+    "pager": "Categories",
+    "preview": "Preview",
+    "code": "Code",
+    "view": "View",
+    "width": "Preview width",
+    "mobile": "Mobile",
+    "tablet": "Tablet",
+    "desktop": "Desktop",
+    "resize": "Resize the preview"
   }
 }

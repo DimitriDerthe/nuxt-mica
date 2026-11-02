@@ -1,0 +1,12 @@
+[
+  {
+    "file": "HandbookNav",
+    "title": { "en": "Handbook navigation with reading trail", "fr": "Navigation de manuel avec suivi de lecture" },
+    "summary": {
+      "en": "A nested company-handbook sidebar that tracks what you have read: marks on a guide line, per-section counts, an overall meter, a highlighting filter and recently viewed pages.",
+      "fr": "Une barre latérale imbriquée de manuel d'entreprise qui suit votre lecture : repères sur une ligne guide, compteurs par section, jauge globale, filtre surligné et pages récemment consultées."
+    },
+    "height": 620,
+    "stage": "bleed"
+  }
+]
