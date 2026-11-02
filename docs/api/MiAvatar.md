@@ -12,7 +12,7 @@ Group: Content. Source: app/components/Content/MiAvatar.vue
 | initials | string |  | Explicit initials, overrides the ones derived from `name`. |
 | src | string |  | Image URL; falls back to initials if it fails to load. |
 | alt | string |  | Image alt text. Defaults to `name`. |
-| size | number \| "sm" \| "lg" \| "xs" \| "md" \| "xl" | "md" | Preset xs 24px, sm 32px, md 44px, lg 64px, xl 80px, or a number of px. |
+| size | number \| "sm" \| "lg" \| "md" \| "xs" \| "xl" | "md" | Preset xs 24px, sm 32px, md 44px, lg 64px, xl 80px, or a number of px. |
 | shape | "circle" \| "square" | "circle" | Circle or rounded square outline. |
 | tone | MiAvatarTone | "primary" | Background color. `auto` picks a stable color from `name`. |
 | decorative | boolean | false | Hide from assistive tech when the name is rendered next to the avatar. |

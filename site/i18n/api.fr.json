@@ -4714,5 +4714,89 @@
 "MiToolbar.slot.default": [
 "Replaces the share button; place extra trailing actions here.",
 "Remplace le bouton de partage ; placez ici les actions finales supplémentaires."
+],
+"MiFileUpload#summary": [
+"Drag-and-drop file zone with a file list, per-file removal and progress, type, size and count validation, and keyboard access.",
+"Zone de dépôt par glisser-déposer avec liste de fichiers, suppression et progression par fichier, validation du type, de la taille et du nombre, et accès au clavier."
+],
+"MiFileInput#summary": [
+"Compact field-style file input: a choose button next to the file name, with the same type, size and count validation as MiFileUpload.",
+"Champ de fichier compact avec bouton de choix et nom du fichier, avec la même validation de type, de taille et de nombre que MiFileUpload."
+],
+"MiTimePicker#summary": [
+"Standalone time field with hour, minute and optional second spinbuttons, 12 or 24 hour display, step, min and max, and an AM/PM toggle.",
+"Champ d'heure autonome avec boutons rotatifs pour les heures, les minutes et les secondes en option, affichage 12 ou 24 heures, pas, min et max, et bascule AM/PM."
+],
+"MiRating#summary": [
+"Star rating slider with whole or half values, hover preview, keyboard control, optional clear on re-click, and read-only display.",
+"Notation par étoiles avec valeurs entières ou demi-étoiles, aperçu au survol, contrôle au clavier, effacement optionnel au re-clic et mode lecture seule."
+],
+"MiPasswordStrength#summary": [
+"Password strength meter for a given string: four-segment bar, a Weak to Strong label and an optional requirements checklist; pairs with MiInput.",
+"Indicateur de robustesse d'un mot de passe : barre à quatre segments, libellé de Faible à Fort et liste d'exigences optionnelle, à associer à MiInput."
+],
+"MiRepeater#summary": [
+"Repeatable block of fields: add and remove rows, min and max rows, a row factory, focus management and stable keys; rows render through the default slot.",
+"Bloc de champs répétable : ajout et suppression de lignes, nombre min et max, fabrique de ligne, gestion du focus et clés stables, les lignes étant rendues par le slot par défaut."
+],
+"MiTree#summary": [
+"Hierarchical tree view with expandable branches, single or multiple selection, optional checkboxes with mixed parents, and full WAI-ARIA keyboard support with type-ahead.",
+"Arborescence hiérarchique avec branches dépliables, sélection simple ou multiple, cases à cocher optionnelles avec état mixte pour les parents, et navigation clavier WAI-ARIA complète avec recherche au clavier."
+],
+"MiTreeNode#summary": [
+"Internal recursive row of MiTree: one treeitem with its toggle, optional checkbox, icon and label, plus its animated child group.",
+"Ligne récursive interne de MiTree : un élément d'arbre avec son bouton de dépliage, sa case à cocher optionnelle, son icône, son libellé et son groupe d'enfants animé."
+],
+"MiTimeline#summary": [
+"Vertical activity or history feed: a semantic ordered list of entries on a connecting line, from the `items` shortcut or composed MiTimelineItem parts, optionally alternating sides at wide widths.",
+"Fil d'activité ou d'historique vertical : une liste ordonnée sémantique d'entrées reliées par une ligne, à partir de `items` ou de parties MiTimelineItem, avec une disposition alternée possible sur grand écran."
+],
+"MiTimelineItem#summary": [
+"One entry of a MiTimeline: a marker (dot or icon) on the connecting line, a title, an optional time and description, and free content in the default slot.",
+"Une entrée de MiTimeline : un repère (point ou icône) sur la ligne, un titre, une date et une description optionnelles, et un contenu libre dans le slot par défaut."
+],
+"MiSortable#summary": [
+"Drag-and-drop reorderable list with no dependencies: pointer drag with a placeholder and auto-scroll, plus keyboard reordering with live announcements; v-model is the array of items.",
+"Liste réordonnable par glisser-déposer sans dépendance : glissement au pointeur avec emplacement fantôme et défilement automatique, réordonnancement au clavier avec annonces vocales ; v-model est le tableau d'éléments."
+],
+"MiMarquee#summary": [
+"Infinite scrolling strip for logos or short text: the content is repeated into a seamless track moved with a transform-only CSS animation, with edge fade, pause on hover and reduced-motion support.",
+"Bandeau défilant infini pour logos ou textes courts : le contenu est répété en piste continue animée uniquement par transform, avec fondu aux bords, pause au survol et respect de prefers-reduced-motion."
+],
+"MiBlockquote#summary": [
+"Quotation as a semantic figure with blockquote and figcaption, with an optional author, role, avatar and source link; plain, bordered or card look.",
+"Citation sémantique (figure, blockquote, figcaption) avec auteur, rôle, avatar et lien source optionnels ; styles simple, bordé ou carte."
+],
+"MiSiteHeader#summary": [
+"Marketing site header: logo, primary links (with dropdowns), actions and a mobile burger that opens an inline panel; collapses under 820px of its own width, optionally sticky.",
+"En-tête de site marketing : logo, liens principaux (avec menus déroulants), actions et burger mobile ouvrant un panneau en ligne ; se replie sous 820px de sa propre largeur, collant en option."
+],
+"MiScrollspy#summary": [
+"\"On this page\" outline: anchor links for page sections that highlight the one in view (scrollspy), with a sliding indicator and smooth scrolling on click; v-model:active is the active section id.",
+"Sommaire « Sur cette page » : liens d'ancrage vers les sections qui met en évidence celle visible (scrollspy), avec indicateur glissant et défilement doux au clic ; v-model:active est l'id de la section active."
+],
+"MiDonutChart#summary": [
+"Donut or pie chart of labelled values with a center readout, legend, hover and keyboard highlighting, and a chart/table toggle. Data: { label, value, color? }[].",
+"Graphique en anneau ou en camembert avec valeur centrale, légende, survol et navigation clavier, et bascule graphique/tableau. Données : { label, value, color? }[]."
+],
+"MiScatterChart#summary": [
+"Scatter or bubble chart of points on two numeric axes, with nice ticks, optional bubble size, tooltip, keyboard reading and a chart/table toggle. Series: { name, points: { x, y, r? }[], color? }[].",
+"Nuage de points ou de bulles sur deux axes numériques, avec graduations lisibles, taille de bulle optionnelle, infobulle, lecture au clavier et bascule graphique/tableau. Séries : { name, points: { x, y, r? }[], color? }[]."
+],
+"MiCopyButton#summary": [
+"Button that copies a string to the clipboard, swaps its icon and label to a confirmation, and announces it to screen readers.",
+"Bouton qui copie un texte dans le presse-papiers, passe à une confirmation avec changement d'icône et l'annonce aux lecteurs d'écran."
+],
+"MiDevice#summary": [
+"Pure CSS device frame (phone, tablet, laptop or browser window) that scales with its container and shows the default slot as the screen.",
+"Cadre d'appareil en CSS pur (téléphone, tablette, ordinateur portable ou fenêtre de navigateur) qui s'adapte à son conteneur et affiche le slot par défaut comme écran."
+],
+"MiConfetti#summary": [
+"Full-viewport, click-through canvas that draws confetti bursts fired with useMiConfetti(); mount it once near the app root.",
+"Canvas plein écran, transparent aux clics, qui dessine les explosions de confettis déclenchées avec useMiConfetti() ; à monter une seule fois près de la racine de l'app."
+],
+"MiEditor#summary": [
+"Lightweight rich-text editor with a formatting toolbar and shortcuts; v-model is a sanitized HTML string limited to basic text formatting, lists, headings, quotes, code and links.",
+"Éditeur de texte riche léger avec barre d'outils et raccourcis ; le v-model est une chaîne HTML assainie limitée au formatage de base, aux listes, titres, citations, code et liens."
 ]
 }

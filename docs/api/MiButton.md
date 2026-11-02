@@ -8,7 +8,7 @@ Group: Buttons. Source: app/components/Buttons/MiButton.vue
 
 | prop | type | default | notes |
 |---|---|---|---|
-| variant | "destructive" \| "filled" \| "tinted" \| "gray" \| "plain" \| "bordered" | "filled" | Visual style of the button, from the most to the least emphasized. |
+| variant | "destructive" \| "plain" \| "bordered" \| "filled" \| "tinted" \| "gray" | "filled" | Visual style of the button, from the most to the least emphasized. |
 | brand | "primary" \| "secondary" | "primary" | Color family used by the button: primary, secondary or a semantic one. |
 | size | "small" \| "regular" \| "capsule" \| "large" \| "mini" \| "xlarge" | "regular" | Height and padding of the button. |
 | loading | boolean |  | Shows a busy state, sets aria-busy and blocks clicks like disabled. |
