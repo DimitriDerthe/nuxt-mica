@@ -262,7 +262,7 @@ const prefs = reactive([
 .ce__pref { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 0; }
 .ce__pref + .ce__pref { border-top: 1px solid var(--mi-sep); }
 
-.ce__tabs { border-top: 1px solid var(--mi-sep); background: var(--mi-card); }
+.ce__tabs { background: var(--mi-card); }
 
 .ce-swap-enter-active, .ce-swap-leave-active { transition: opacity var(--mi-dur-2) var(--mi-ease), transform var(--mi-dur-2) var(--mi-ease); }
 .ce-swap-enter-from { opacity: 0; transform: translateY(8px); }

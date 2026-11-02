@@ -15,6 +15,7 @@ Use with v-model.
 | gap | number | 8 | Gap between rows in px. |
 | autoScroll | boolean | true | Scroll the nearest scrollable ancestor while dragging near its edge. |
 | disabled | boolean |  | Turns off dragging and keyboard reordering. |
+| bare | boolean |  | Rows without their card shell (no background, shadow or rounding) so the slot draws its own row; the dragged row still lifts. |
 | ariaLabel | string | "Sortable list" | Accessible name of the list. |
 | itemLabel | (item: MiSortableItem, index: number): string |  | Returns the spoken name of an item in announcements and handle labels. Defaults to "Item N". |
 | modelValue | MiSortableItem[] | [] | The ordered items. Updated on drop (pointer) or on every step (keyboard). |

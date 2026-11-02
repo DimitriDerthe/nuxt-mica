@@ -180,8 +180,9 @@ const filtered = computed(() => {
 .sod__chart :deep(.mi-lc-svg) { overflow: hidden; }
 .sod__chart-head, .sod__stock-head, .sod__orders-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
 .sod__stock ul { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; }
-.sod__table { overflow-x: auto; margin-inline: -4px; }
-.sod__table > * { min-width: 560px; }
+.sod__table { min-width: 0; }
+/* MiTable scrolls on its own; forcing it wider than this wrapper would cut its rounded edge. */
+.sod__table :deep(table) { min-width: 560px; }
 
 @container (min-width: 440px) {
   .sod__kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
