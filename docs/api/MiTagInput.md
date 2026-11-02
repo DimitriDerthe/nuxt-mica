@@ -24,8 +24,8 @@ Use with v-model.
 
 - remove [tag: string]
 - update:modelValue [value: string[]]
-- add [tag: string]
 - reject [tag: string]
+- add [tag: string]
 
 ## Exposed (template ref)
 

@@ -1,6 +1,6 @@
 # Mica, a Nuxt UI layer
 
-A Nuxt 4 layer shipping 111 SSR-safe UI components, 154 `<Mi…>` tags counting the parts of compound components (buttons, controls, inputs, navigation, feedback, content, charts and foundations) built on a single set of `--mi-*` CSS tokens. Every component targets 60 fps: motion is limited to `transform` and `opacity`, enforced by a lint script and measured by a frame-time probe. Light and dark modes are built in, with a runtime-configurable brand color pair.
+A Nuxt 4 layer shipping 132 SSR-safe UI components, 175 `<Mi…>` tags counting the parts of compound components (buttons, controls, inputs, navigation, feedback, content, charts and foundations) built on a single set of `--mi-*` CSS tokens. Every component targets 60 fps: motion is limited to `transform` and `opacity`, enforced by a lint script and measured by a frame-time probe. Light and dark modes are built in, with a runtime-configurable brand color pair.
 
 ## Consume it
 

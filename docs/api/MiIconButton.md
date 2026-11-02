@@ -9,7 +9,7 @@ Group: Buttons. Source: app/components/Buttons/MiIconButton.vue
 | prop | type | default | notes |
 |---|---|---|---|
 | label* | string |  | Accessible name. Icon buttons are always labelled. |
-| variant | "filled" \| "tinted" \| "gray" \| "plain" | "filled" | Visual style of the button, from the most to the least emphasized. |
+| variant | "plain" \| "filled" \| "tinted" \| "gray" | "filled" | Visual style of the button, from the most to the least emphasized. |
 | brand | "primary" \| "secondary" | "primary" | Color family used by the button: primary, secondary or a semantic one. |
 | size | "small" \| "regular" \| "large" \| "toolbar" | "large" | Diameter or height of the button, including the toolbar size. |
 | shape | "circle" \| "rounded" |  | Defaults to circle, or rounded for the toolbar size. |
