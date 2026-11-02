@@ -6,7 +6,7 @@ import { miIconMarkup, miSteppedIcons, type MiIconName } from '../../utils/miIco
 const props = withDefaults(defineProps<{
   /** Name from the built-in set. */
   name?: MiIconName
-  /** Raw inner SVG markup (24x24 grid). Trusted, static markup only. Takes precedence over `name`. */
+  /** Raw inner SVG markup (24x24 grid), injected with v-html and never sanitized: pass only trusted static markup, never user or CMS content (XSS risk). Takes precedence over `name`. */
   svg?: string
   /** Width and height: a number in px or a CSS length string (e.g. '1.25em'). */
   size?: number | string

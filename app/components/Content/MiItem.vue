@@ -1,6 +1,7 @@
 <script setup lang="ts">
 /** Generic content row with media, title, description and actions slots; outline or muted variants. For settings-style rows prefer MiListItem. */
 import { computed } from 'vue'
+import { miSafeHref } from '../../utils/miSafe'
 
 defineSlots<{
   /** Content above the row, e.g. a banner or badge. */
@@ -38,7 +39,7 @@ const tag = computed(() => (props.href ? 'a' : 'div'))
 </script>
 
 <template>
-  <component :is="tag" :href="href" class="mi-item" :class="[`mi-item--${variant}`, `mi-item--${size}`, { 'mi-item--link': href }]" role="listitem">
+  <component :is="tag" :href="miSafeHref(href)" class="mi-item" :class="[`mi-item--${variant}`, `mi-item--${size}`, { 'mi-item--link': href }]" role="listitem">
     <div v-if="$slots.header" class="mi-item__header"><slot name="header" /></div>
     <div v-if="$slots.media" class="mi-item__media" :class="`mi-item__media--${mediaVariant}`"><slot name="media" /></div>
     <div class="mi-item__body">

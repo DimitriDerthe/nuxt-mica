@@ -5,10 +5,9 @@ on:
     branches: [main]
   workflow_dispatch:
 
+# Least privilege: the build job only reads; the deploy job alone may publish.
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
   group: pages
@@ -18,11 +17,12 @@ jobs:
   build:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v5
-      - uses: pnpm/action-setup@v6
+      # Third-party actions are pinned to commit SHAs; the comment gives the tag they resolve to.
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
         with:
           version: 11
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: 26
           cache: pnpm
@@ -32,17 +32,24 @@ jobs:
           pnpm docs:check
           pnpm test
       # Site at /<repo>/ and the playground demos at /<repo>/demo/.
-      - run: pnpm pages:build ${{ github.event.repository.name }}
-      - uses: actions/upload-pages-artifact@v5
+      - run: pnpm pages:build "$REPO_NAME"
+        env:
+          REPO_NAME: ${{ github.event.repository.name }}
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5
         with:
           path: pages-dist
 
   deploy:
     needs: build
+    # A manual run from another branch builds but never publishes.
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v5
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5

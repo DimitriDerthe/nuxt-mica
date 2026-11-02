@@ -3,6 +3,7 @@
 import { computed } from 'vue'
 import { miLinePath, miSparkPoints } from '../../utils/miChartMath'
 import { miChartColor, miChartNeutral } from '../../utils/miChartPalette'
+import { miSafeColor } from '../../utils/miSafe'
 
 const props = withDefaults(defineProps<{
   /** Numbers drawn left to right, oldest first. */
@@ -61,7 +62,7 @@ const end = computed(() => points.value[points.value.length - 1])
       :cy="end[1]"
       r="4"
       stroke-width="2"
-      :style="{ fill: color ?? miChartColor(0), stroke: 'var(--mi-card)' }"
+      :style="{ fill: miSafeColor(color, miChartColor(0)), stroke: 'var(--mi-card)' }"
     />
   </svg>
 </template>

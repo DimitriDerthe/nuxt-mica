@@ -4,6 +4,7 @@ import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import MiChartCard from './MiChartCard.vue'
 import { miChartColor } from '../../utils/miChartPalette'
 import { miBarPath, miNiceScale, miRound1 } from '../../utils/miChartMath'
+import { miSafeColor } from '../../utils/miSafe'
 
 export interface MiBarDatum {
   label: string
@@ -91,7 +92,7 @@ const bars = computed(() => props.data.map((d, i) => {
     y,
     label: d.label,
     text: fmt(d),
-    color: d.color ?? miChartColor(0),
+    color: miSafeColor(d.color, miChartColor(0)),
     path: miBarPath(miRound1(cx - w / 2), y, miRound1(w), base.value, props.radius),
     hx: miRound1(LEFT + slot.value * i),
     hw: miRound1(slot.value)

@@ -2,6 +2,7 @@
 /** Button for actions and CTAs: 6 variants (filled, tinted, gray, plain, bordered, destructive), renders an anchor when href is set. */
 import { computed } from 'vue'
 import type { MiBrand, MiButtonSize, MiButtonState, MiButtonVariant } from '../../utils/miButtons'
+import { miSafeHref } from '../../utils/miSafe'
 
 defineOptions({ inheritAttrs: true })
 
@@ -81,7 +82,7 @@ const _slots = defineSlots<{
       }
     ]"
     :type="isLink ? undefined : type"
-    :href="isLink && !disabled ? href : undefined"
+    :href="isLink && !disabled ? miSafeHref(href) : undefined"
     :disabled="!isLink && disabled ? true : undefined"
     :aria-disabled="isLink && disabled ? 'true' : undefined"
     :aria-busy="loading ? 'true' : undefined"

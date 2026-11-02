@@ -1,6 +1,7 @@
 <script setup lang="ts">
 /** Conversation marker: inline status or note, or a labeled divider (date, unread) between messages; can be a link or button. */
 import { computed } from 'vue'
+import { miSafeHref } from '../../utils/miSafe'
 
 const props = withDefaults(defineProps<{
   /** `default` inline marker, `border` adds a bottom border, `separator` centers the label between divider lines. */
@@ -13,8 +14,10 @@ const props = withDefaults(defineProps<{
   role?: string
 }>(), { variant: 'default', as: 'div' })
 
-const tag = computed(() => (props.href && props.as === 'div' ? 'a' : props.as))
-const attrs = computed(() => (tag.value === 'a' ? { href: props.href } : tag.value === 'button' ? { type: 'button' } : {}))
+// `as` is a union at type level only; anything else renders the default div.
+const as = computed(() => (['div', 'a', 'button'].includes(props.as) ? props.as : 'div'))
+const tag = computed(() => (props.href && as.value === 'div' ? 'a' : as.value))
+const attrs = computed(() => (tag.value === 'a' ? { href: miSafeHref(props.href) } : tag.value === 'button' ? { type: 'button' } : {}))
 
 defineSlots<{
   /** Marker label such as a date, status text or "New messages". */

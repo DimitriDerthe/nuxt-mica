@@ -1,6 +1,7 @@
 <script setup lang="ts">
 /** Text with the system-style type scale (largeTitle to caption2), semantic tag, tone and optional line clamp; use it for all copy. */
 import { computed } from 'vue'
+import { miSafeTag } from '../../utils/miSafe'
 
 export type MiTextVariant = 'largeTitle' | 'title1' | 'title2' | 'title3' | 'headline' | 'body' | 'callout' | 'subheadline' | 'footnote' | 'caption' | 'caption2'
 export type MiTextTone = 'inherit' | 'label' | 'label2' | 'label3' | 'primary' | 'secondary' | 'red' | 'orange' | 'green'
@@ -31,7 +32,7 @@ const TAGS: Record<MiTextVariant, string> = {
 }
 const WEIGHTS: Record<MiTextWeight, number> = { regular: 400, medium: 500, semibold: 600, bold: 700 }
 
-const tag = computed(() => props.as ?? TAGS[props.variant])
+const tag = computed(() => miSafeTag(props.as, TAGS[props.variant]))
 const style = computed(() => {
   const s: Record<string, string | number> = {}
   if (props.weight) s.fontWeight = WEIGHTS[props.weight]

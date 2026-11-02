@@ -1,6 +1,7 @@
 <script setup lang="ts">
 /** Row for MiList or standalone: settings row, rich content row or profile row. Renders as div, link, NuxtLink or button by props. */
 import { computed, resolveComponent, useSlots } from 'vue'
+import { miSafeHref } from '../../utils/miSafe'
 
 export type MiListTile = 'primary' | 'secondary' | 'red' | 'orange' | 'yellow' | 'green' | 'mint' | 'teal' | 'blue' | 'indigo' | 'purple' | 'pink'
 
@@ -60,7 +61,7 @@ const tag = computed(() => {
 const interactive = computed(() => !!(props.to || props.href || props.button) && !props.disabled)
 const bind = computed(() => {
   if (props.to) return { to: props.to }
-  if (props.href) return { href: props.disabled ? undefined : props.href, 'aria-disabled': props.disabled ? 'true' : undefined }
+  if (props.href) return { href: props.disabled ? undefined : miSafeHref(props.href), 'aria-disabled': props.disabled ? 'true' : undefined }
   if (props.button) return { type: 'button', disabled: props.disabled }
   return {}
 })

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 /** Legend for chart series in inline, list, stat or ramp variants. Items are { label, color, value?, sub?, shape? }[]. */
+import { miSafeColor } from '../../utils/miSafe'
 export interface MiLegendItem {
   label: string
   color: string
@@ -36,24 +37,24 @@ function leave() { active.value = -1 }
 <template>
   <div v-if="variant === 'ramp'" class="mi-lg-ramp" role="img" :aria-label="ariaLabel ?? `${lessLabel} to ${moreLabel}`">
     {{ lessLabel }}
-    <span v-for="(it, i) in items" :key="i" class="mi-lg-step" :style="{ background: it.color }" />
+    <span v-for="(it, i) in items" :key="i" class="mi-lg-step" :style="{ background: miSafeColor(it.color, 'var(--mi-label3)') }" />
     {{ moreLabel }}
   </div>
   <ul v-else-if="variant === 'inline'" class="mi-lg-inline" :aria-label="ariaLabel ?? 'Legend'">
     <li v-for="(it, i) in items" :key="i">
-      <span class="mi-lg-sw" :class="`mi-lg-sw--${it.shape ?? 'line'}`" :style="{ background: it.color }" />{{ it.label }}
+      <span class="mi-lg-sw" :class="`mi-lg-sw--${it.shape ?? 'line'}`" :style="{ background: miSafeColor(it.color, 'var(--mi-label3)') }" />{{ it.label }}
     </li>
   </ul>
   <ul v-else-if="variant === 'list'" class="mi-lg-list" :style="{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }" :aria-label="ariaLabel ?? 'Legend'" @pointerleave="leave">
     <li v-for="(it, i) in items" :key="i" class="mi-lg-row" :class="{ 'is-on': active === i }" @pointerenter="enter(i)">
-      <span class="mi-lg-sw mi-lg-sw--square" :style="{ background: it.color }" />
+      <span class="mi-lg-sw mi-lg-sw--square" :style="{ background: miSafeColor(it.color, 'var(--mi-label3)') }" />
       <span class="mi-lg-name">{{ it.label }}</span>
       <span v-if="it.value" class="mi-lg-val">{{ it.value }}</span>
     </li>
   </ul>
   <ul v-else class="mi-lg-stat" :aria-label="ariaLabel ?? 'Legend'" @pointerleave="leave">
     <li v-for="(it, i) in items" :key="i" class="mi-lg-srow" :class="{ 'is-on': active === i }" @pointerenter="enter(i)">
-      <span class="mi-lg-sw mi-lg-sw--dot" :style="{ background: it.color }" />
+      <span class="mi-lg-sw mi-lg-sw--dot" :style="{ background: miSafeColor(it.color, 'var(--mi-label3)') }" />
       <span class="mi-lg-txt"><span class="mi-lg-name">{{ it.label }}</span><span v-if="it.sub" class="mi-lg-subline">{{ it.sub }}</span></span>
       <span v-if="it.value" class="mi-lg-big">{{ it.value }}</span>
     </li>

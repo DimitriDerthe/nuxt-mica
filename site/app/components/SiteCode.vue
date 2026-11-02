@@ -15,12 +15,12 @@
 const props = defineProps<{ file: string, text: string, copyLabel: string, copiedLabel: string, plain?: boolean, prompt?: boolean }>()
 
 // Tiny highlighter for the snippets on this page: escape first, then tint strings, keywords and Mi tags.
-const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;')
 const html = computed(() => {
   const e = esc((props.prompt ? '$ ' : '') + props.text)
   if (props.plain) return e
   return e
-    .replace(/('[^'\n]*'|"[^"\n]*")/g, '<span class="s">$1</span>')
+    .replace(/(&#39;(?:(?!&#39;)[^\n])*&#39;|&quot;(?:(?!&quot;)[^\n])*&quot;)/g, '<span class="s">$1</span>')
     .replace(/\b(export|default|const|import|from)\b/g, '<span class="k">$1</span>')
     .replace(/(&lt;\/?)(Mi\w+)/g, '$1<span class="k">$2</span>')
     .replace(/^(\$)/gm, '<span class="c">$1</span>')
