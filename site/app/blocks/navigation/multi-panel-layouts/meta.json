@@ -1,0 +1,12 @@
+[
+  {
+    "file": "TriageWorkspace",
+    "title": { "en": "Three-panel triage workspace", "fr": "Espace de tri à trois panneaux" },
+    "summary": {
+      "en": "A support desk split into a queue, a live thread and a customer panel with resizable handles; replies, macros and solve all work, and on phones the panels become a sliding stack.",
+      "fr": "Un support client découpé en file, fil de discussion et panneau client redimensionnables ; réponses, modèles et résolution fonctionnent, et sur mobile les panneaux deviennent une pile coulissante."
+    },
+    "height": 640,
+    "stage": "bleed"
+  }
+]

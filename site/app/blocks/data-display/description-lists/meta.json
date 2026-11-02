@@ -1,0 +1,11 @@
+[
+  {
+    "file": "ContractDetails",
+    "title": { "en": "Editable contract details", "fr": "Détails de contrat modifiables" },
+    "summary": {
+      "en": "Two description lists for a customer contract with copyable IDs and inline editing; edits are highlighted with their previous value, derived figures recalculate, and a change tray collects them until saved or discarded.",
+      "fr": "Deux listes de description pour un contrat client, avec identifiants copiables et édition en place ; les modifications sont surlignées avec l'ancienne valeur, les montants dérivés se recalculent et un plateau les regroupe jusqu'à l'enregistrement ou l'abandon."
+    },
+    "height": 560
+  }
+]

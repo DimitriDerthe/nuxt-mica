@@ -1,0 +1,11 @@
+[
+  {
+    "file": "ArticleFeedbackGroup",
+    "title": { "en": "Guide feedback group", "fr": "Groupe de retour sur un guide" },
+    "summary": {
+      "en": "A metadata label group and a helpful vote on a docs guide: the vote moves the live score, then opens reason chips and an optional note in place.",
+      "fr": "Un groupe de libellés de métadonnées et un vote d'utilité sur un guide : le vote met à jour le score, puis ouvre sur place des puces de raisons et une note facultative."
+    },
+    "height": 380
+  }
+]

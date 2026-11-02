@@ -1,0 +1,11 @@
+[
+  {
+    "file": "EditorialPipelineTable",
+    "title": { "en": "Editorial pipeline table", "fr": "Tableau du pipeline éditorial" },
+    "summary": {
+      "en": "Articles from draft to live with four readiness checks (copy, images, SEO, legal) that editors tick in place; once all pass, a draft offers to schedule itself into the next slot. Status filter with counts, search, sorting and pagination.",
+      "fr": "Les articles du brouillon à la publication avec quatre contrôles (relecture, images, SEO, juridique) que l'on coche sur place ; quand tout est validé, le brouillon propose de se programmer sur le prochain créneau. Filtre par statut avec compteurs, recherche, tri et pagination."
+    },
+    "height": 580
+  }
+]

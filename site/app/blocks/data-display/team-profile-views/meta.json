@@ -1,0 +1,11 @@
+[
+  {
+    "file": "TeamTimeZones",
+    "title": { "en": "Team across time zones", "fr": "Équipe sur plusieurs fuseaux" },
+    "summary": {
+      "en": "A distributed team directory with an overlap ribbon: each bar is a UTC hour sized by who is at work, and picking one updates every card's local time, day strip and availability; one tap finds the best meeting slot.",
+      "fr": "Un annuaire d'équipe distribuée avec un ruban de chevauchement : chaque barre est une heure UTC dimensionnée par le nombre de personnes au travail, et en choisir une met à jour l'heure locale, la bande horaire et la disponibilité de chaque carte ; un bouton trouve le meilleur créneau."
+    },
+    "height": 620
+  }
+]

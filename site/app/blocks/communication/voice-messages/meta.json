@@ -1,0 +1,14 @@
+[
+  {
+    "file": "VoiceTranscriptNotes",
+    "title": {
+      "en": "Voice notes with live transcript",
+      "fr": "Messages vocaux avec transcription"
+    },
+    "summary": {
+      "en": "Voice bubbles with a seekable waveform, playback speed and a transcript that follows playback; record and send a new note.",
+      "fr": "Bulles vocales avec forme d’onde navigable, vitesse de lecture et transcription qui suit la lecture ; enregistrez et envoyez une note."
+    },
+    "height": 600
+  }
+]

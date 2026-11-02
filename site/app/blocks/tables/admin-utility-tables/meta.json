@@ -1,0 +1,11 @@
+[
+  {
+    "file": "ApiKeysTable",
+    "title": { "en": "API keys table", "fr": "Tableau des clés d'API" },
+    "summary": {
+      "en": "API keys with masked tokens, read and write scopes, a week of usage, and an expiry bar measured against each key's own lifetime; idle and expiring keys are flagged, rotation is one click and revoking asks for an inline confirmation.",
+      "fr": "Les clés d'API avec jetons masqués, portées lecture et écriture, une semaine d'utilisation et une barre d'expiration rapportée à la durée de vie de chaque clé ; les clés inactives ou bientôt expirées sont signalées, la rotation se fait en un clic et la révocation demande une confirmation sur place."
+    },
+    "height": 560
+  }
+]

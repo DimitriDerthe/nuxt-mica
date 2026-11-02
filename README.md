@@ -108,6 +108,8 @@ pnpm site:generate   # static output in site/.output/public, ready for an S3 buc
 
 The component explorer lives at `/components`: one page per component with a live preview, prop controls inferred from the generated manifest, a usage snippet and the full API. Each preview is a small file in `site/app/examples/<MiName>.vue`; see `site/app/examples/README.md` for the contract. A new component shows its API page right away and a placeholder until its example is added.
 
+Application UI blocks live at `/blocks`: ready-made sections (dashboards, tables, forms, chat, calendars, navigation…) built only with Mica components, each with a live preview at mobile, tablet and desktop widths and its source. One SFC per block in `site/app/blocks/<family>/<category>/`, described by the `meta.json` next to it; rules in `site/app/blocks/README.md`, inventory in [docs/blocks.md](docs/blocks.md).
+
 ### GitHub Pages
 
 ```bash

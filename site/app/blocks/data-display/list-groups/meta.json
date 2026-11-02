@@ -1,0 +1,11 @@
+[
+  {
+    "file": "ReleaseChecklist",
+    "title": { "en": "Release checklist groups", "fr": "Groupes de checklist de release" },
+    "summary": {
+      "en": "Grouped task lists for an app release under a segmented gauge where each group fills on its own; finished groups fold into a single line, and the scope switch shows all, open or only your tasks.",
+      "fr": "Listes de tâches groupées pour une release d'app, sous une jauge segmentée où chaque groupe se remplit séparément ; les groupes terminés se replient en une ligne, et le sélecteur montre tout, l'ouvert ou vos seules tâches."
+    },
+    "height": 600
+  }
+]

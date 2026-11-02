@@ -1,0 +1,11 @@
+[
+  {
+    "file": "TiltCardStudio",
+    "title": { "en": "Tilting payment card with controls", "fr": "Carte de paiement inclinable avec réglages" },
+    "summary": {
+      "en": "A CSS-drawn card that tilts toward the pointer through nine hover zones and transforms only, flips to its back, freezes under frost, and changes colourway beside its spending limit.",
+      "fr": "Une carte dessinée en CSS qui s'incline vers le pointeur grâce à neuf zones de survol et des transformations seules, se retourne, se fige sous le givre et change de coloris à côté de son plafond."
+    },
+    "height": 440
+  }
+]

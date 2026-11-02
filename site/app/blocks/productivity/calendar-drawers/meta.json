@@ -1,0 +1,11 @@
+[
+  {
+    "file": "EventDetailDrawer",
+    "title": { "en": "Event drawer with leave-by time", "fr": "Tiroir d'événement avec heure de départ" },
+    "summary": {
+      "en": "A day agenda behind an open side drawer that works back from the start time to when you should leave, with RSVP, guest statuses, a reminder and notes; picking a row swaps the event.",
+      "fr": "Un agenda du jour derrière un tiroir latéral ouvert qui calcule l'heure de départ à partir du début, avec réponse, statut des invités, rappel et notes ; choisir une ligne change l'événement."
+    },
+    "height": 640
+  }
+]

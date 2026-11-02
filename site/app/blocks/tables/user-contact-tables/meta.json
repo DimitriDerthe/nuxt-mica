@@ -1,0 +1,11 @@
+[
+  {
+    "file": "MemberAccessTable",
+    "title": { "en": "Member access table", "fr": "Tableau des accès membres" },
+    "summary": {
+      "en": "Workspace members with a seat meter, inline role selects, 2FA status and a 12-week activity strip that makes dormant accounts fade out; search, role filter, sorting and bulk role changes, stacked as cards at narrow widths.",
+      "fr": "Les membres d'un espace avec une jauge de sièges, des rôles modifiables en ligne, l'état 2FA et une bande d'activité sur 12 semaines où les comptes dormants s'effacent ; recherche, filtre par rôle, tri et changement de rôle groupé, en cartes sur petite largeur."
+    },
+    "height": 620
+  }
+]

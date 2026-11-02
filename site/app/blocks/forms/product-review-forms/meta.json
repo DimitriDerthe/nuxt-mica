@@ -1,0 +1,11 @@
+[
+  {
+    "file": "ProductReviewForm",
+    "title": { "en": "Product review with live preview", "fr": "Avis produit avec aperçu en direct" },
+    "summary": {
+      "en": "Star rating, a runs-small to runs-large fit scale, aspect stars, pros and cons tags, photos and a length meter, mirrored in a preview of the card shoppers will see.",
+      "fr": "Note en étoiles, échelle de taille de « petit » à « grand », notes par critère, points forts et faibles, photos et jauge de longueur, reflétés dans l'aperçu de la carte vue par les acheteurs."
+    },
+    "height": 620
+  }
+]

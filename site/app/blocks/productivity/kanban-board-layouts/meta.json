@@ -1,0 +1,12 @@
+[
+  {
+    "file": "ReleaseKanbanBoard",
+    "title": { "en": "Release board with WIP limits", "fr": "Tableau de version avec limites d'encours" },
+    "summary": {
+      "en": "A full release board: cards drag to reorder within a column and step between stages with move buttons, columns push back when over their work-in-progress limit, stale cards show their age and the header burns down the points.",
+      "fr": "Un tableau de version complet : les cartes se réordonnent par glisser dans une colonne et changent d'étape avec des boutons, les colonnes alertent au-delà de leur limite d'encours, les cartes anciennes affichent leur âge et l'en-tête suit les points livrés."
+    },
+    "height": 680,
+    "stage": "bleed"
+  }
+]

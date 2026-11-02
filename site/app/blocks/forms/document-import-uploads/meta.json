@@ -1,0 +1,11 @@
+[
+  {
+    "file": "ContactImportMapper",
+    "title": { "en": "CSV import with column matching", "fr": "Import CSV avec correspondance des colonnes" },
+    "summary": {
+      "en": "Upload a CSV (or the sample), match its columns to contact fields with automatic guesses, then review a health bar of ready, invalid and duplicate rows before importing.",
+      "fr": "Envoyez un CSV (ou l'exemple), associez ses colonnes aux champs avec des suggestions automatiques, puis vérifiez la jauge des lignes prêtes, invalides et en double avant d'importer."
+    },
+    "height": 460
+  }
+]

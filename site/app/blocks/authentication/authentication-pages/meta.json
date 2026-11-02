@@ -1,0 +1,12 @@
+[
+  {
+    "file": "SignInContours",
+    "title": { "en": "Split sign-in with contour art", "fr": "Connexion scindée avec art topographique" },
+    "summary": {
+      "en": "Passkey-first sign-in beside a generative contour map seeded by the email domain, so each workspace gets its own terrain.",
+      "fr": "Connexion par clé d'accès en priorité, à côté d'une carte topographique générative issue du domaine e-mail : chaque espace a son propre relief."
+    },
+    "height": 680,
+    "stage": "bleed"
+  }
+]

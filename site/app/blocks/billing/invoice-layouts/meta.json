@@ -1,0 +1,11 @@
+[
+  {
+    "file": "PerforatedInvoice",
+    "title": { "en": "Printable invoice with tear-off slip", "fr": "Facture imprimable avec talon détachable" },
+    "summary": {
+      "en": "A paper-like invoice: sender and client facts, line items, totals that recompute with an early-payment discount, a paid stamp and a perforated payment slip with a barcode.",
+      "fr": "Une facture façon papier : émetteur et client, lignes, totaux recalculés avec escompte, tampon payé et talon de paiement perforé avec code-barres."
+    },
+    "height": 700
+  }
+]

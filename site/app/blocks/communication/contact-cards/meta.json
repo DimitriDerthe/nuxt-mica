@@ -1,0 +1,14 @@
+[
+  {
+    "file": "TimezoneOverlapCards",
+    "title": {
+      "en": "Contacts with working-hour overlap",
+      "fr": "Contacts avec chevauchement horaire"
+    },
+    "summary": {
+      "en": "Contact cards showing local time, availability and how their working day overlaps yours; sort by overlap or name.",
+      "fr": "Cartes de contact avec heure locale, disponibilité et chevauchement de la journée de travail ; tri par chevauchement ou par nom."
+    },
+    "height": 460
+  }
+]

@@ -1,0 +1,11 @@
+[
+  {
+    "file": "SentenceFilterSelects",
+    "title": { "en": "Sentence filter selects", "fr": "Filtre en phrase" },
+    "summary": {
+      "en": "A receivables filter written as a sentence whose underlined words are compact selects, with live totals, next to an amount field whose embedded currency list is shown open.",
+      "fr": "Un filtre de créances rédigé comme une phrase dont les mots soulignés sont des sélecteurs compacts, avec totaux en direct, à côté d'un champ montant dont la liste de devises intégrée est ouverte."
+    },
+    "height": 520
+  }
+]

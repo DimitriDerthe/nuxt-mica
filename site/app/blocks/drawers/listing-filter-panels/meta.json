@@ -1,0 +1,12 @@
+[
+  {
+    "file": "RentalFilterDrawer",
+    "title": { "en": "Live rental filter drawer", "fr": "Tiroir de filtres de locations en direct" },
+    "summary": {
+      "en": "A left drawer over a rental listing: rent range, rooms, size, neighbourhoods with counts, must-haves and move-in date. Behind a light scrim, homes that stop matching fade back as you filter; closing keeps only the matches.",
+      "fr": "Un tiroir à gauche au-dessus d'annonces de location : loyer, pièces, surface, quartiers avec compteurs, équipements et date d'entrée. Derrière un voile léger, les logements qui ne correspondent plus s'estompent ; à la fermeture, seuls les résultats restent."
+    },
+    "height": 740,
+    "stage": "bleed"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "file": "MeetingSlotPicker",
+    "title": {
+      "en": "Meeting slot picker",
+      "fr": "Sélecteur de créneau de réunion"
+    },
+    "summary": {
+      "en": "Length, place and time zone pickers drive a day strip with availability pips and a slot grid that shows each start in both your time and the host's; longer meetings drop slots that no longer fit.",
+      "fr": "Les sélecteurs de durée, de lieu et de fuseau pilotent une bande de jours avec des repères de disponibilité et une grille de créneaux affichant votre heure et celle de l'hôte ; une réunion plus longue retire les créneaux qui ne tiennent plus."
+    },
+    "height": 520
+  },
+  {
+    "file": "IssuePropertyPicker",
+    "title": {
+      "en": "Issue property pickers",
+      "fr": "Sélecteurs de propriétés de ticket"
+    },
+    "summary": {
+      "en": "An issue's status, priority, assignees and labels, each opening its own inline picker: single choice closes on pick, multi-select stays open, and labels can be created from the search with validation.",
+      "fr": "Statut, priorité, assignés et étiquettes d'un ticket, chacun ouvrant son propre sélecteur en ligne : le choix unique se ferme, le multiple reste ouvert, et une étiquette peut être créée depuis la recherche avec validation."
+    },
+    "height": 520
+  }
+]

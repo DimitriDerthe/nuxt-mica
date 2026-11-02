@@ -7,6 +7,7 @@
   "nav": {
     "label": "Principale",
     "components": "Composants",
+    "blocks": "Blocks",
     "theming": "Thème",
     "craft": "Finitions",
     "ai": "Prêt pour l'IA",
@@ -214,5 +215,30 @@
     "partOf": "Élément de {name} : l’exemple ci-dessous le montre en contexte.",
     "parts": "Éléments",
     "guide": "Guide du groupe"
+  },
+  "blocks": {
+    "eyebrow": "Interface d'application",
+    "title": "Blocks",
+    "lead": "Des sections d'application prêtes à l'emploi, construites uniquement avec les composants Mica : tableaux de bord, tableaux, formulaires, chat, calendriers, navigation et plus. Chaque block s'adapte à son conteneur, fonctionne en clair et en sombre, et n'anime que transform et opacity.",
+    "statBlocks": "blocks",
+    "statCategories": "catégories",
+    "statFamilies": "familles",
+    "search": "Filtrer les blocks",
+    "family": "Famille",
+    "all": "Tous",
+    "n": "{n} block | {n} blocks",
+    "noMatch": "Aucun block ne correspond à « {q} ».",
+    "empty": "Les blocks de cette catégorie arrivent bientôt.",
+    "notFound": "Cette catégorie de blocks n'existe pas.",
+    "breadcrumb": "Fil d'Ariane",
+    "pager": "Catégories",
+    "preview": "Aperçu",
+    "code": "Code",
+    "view": "Affichage",
+    "width": "Largeur de l'aperçu",
+    "mobile": "Mobile",
+    "tablet": "Tablette",
+    "desktop": "Ordinateur",
+    "resize": "Redimensionner l'aperçu"
   }
 }

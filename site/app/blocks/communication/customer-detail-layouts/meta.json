@@ -1,0 +1,15 @@
+[
+  {
+    "file": "CustomerDossier",
+    "title": {
+      "en": "Customer dossier",
+      "fr": "Dossier client"
+    },
+    "summary": {
+      "en": "Support conversation beside the customer’s health, seats and relationship timeline; internal notes stay in the flow and land on the timeline.",
+      "fr": "Conversation de support à côté de la santé du compte, des sièges et de la chronologie ; les notes internes restent dans le fil et s’ajoutent à la chronologie."
+    },
+    "height": 680,
+    "stage": "bleed"
+  }
+]

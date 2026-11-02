@@ -1,0 +1,15 @@
+[
+  {
+    "file": "DecisionLogWorkspace",
+    "title": {
+      "en": "Team chat with decision log",
+      "fr": "Chat d’équipe avec journal des décisions"
+    },
+    "summary": {
+      "en": "Channels, conversation and a decision log: mark any message as a decision and jump back to it from the side panel.",
+      "fr": "Canaux, conversation et journal des décisions : marquez un message comme décision et retrouvez-le depuis le panneau latéral."
+    },
+    "height": 660,
+    "stage": "bleed"
+  }
+]

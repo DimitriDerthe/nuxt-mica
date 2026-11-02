@@ -1,0 +1,14 @@
+[
+  {
+    "file": "QuoteReplyBubbles",
+    "title": {
+      "en": "Bubbles with quoted replies",
+      "fr": "Bulles avec réponses citées"
+    },
+    "summary": {
+      "en": "Grouped bubbles with reactions, read receipts and an unread divider; quoted replies jump back to the original and flash it.",
+      "fr": "Bulles groupées avec réactions, accusés de lecture et séparateur non lus ; les réponses citées ramènent au message d’origine."
+    },
+    "height": 560
+  }
+]

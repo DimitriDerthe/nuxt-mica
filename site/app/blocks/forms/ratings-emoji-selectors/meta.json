@@ -1,0 +1,11 @@
+[
+  {
+    "file": "SessionFeedbackCard",
+    "title": { "en": "Session feedback card", "fr": "Carte d'avis sur une session" },
+    "summary": {
+      "en": "Five drawn faces whose mouths curve from frown to grin set the card's tint and the follow-up chips, then half-star ratings for three aspects and an optional note; it ends on a thank-you with the running average.",
+      "fr": "Cinq visages dessinés, de la moue au sourire, donnent la teinte de la carte et les puces de suivi, puis des notes en demi-étoiles sur trois aspects et un commentaire facultatif ; la fin remercie avec la moyenne en cours."
+    },
+    "height": 620
+  }
+]

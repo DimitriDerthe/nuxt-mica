@@ -1,0 +1,20 @@
+[
+  {
+    "file": "MetricCardTabs",
+    "title": { "en": "Metric card tabs", "fr": "Onglets en cartes de métriques" },
+    "summary": {
+      "en": "Four metric cards that are the tabs themselves: picking one lights its edge and redraws the daily chart against last week, with full arrow-key support.",
+      "fr": "Quatre cartes de métriques qui sont les onglets eux-mêmes : en choisir une allume son bord et redessine le graphique quotidien face à la semaine passée, avec navigation complète aux flèches."
+    },
+    "height": 460
+  },
+  {
+    "file": "FolderCodeTabs",
+    "title": { "en": "Folder code tabs", "fr": "Onglets de code en dossier" },
+    "summary": {
+      "en": "Folder-style language tabs cut from the same sheet as the code card below, with a test event you can send and a response line that appears in place.",
+      "fr": "Des onglets de langage façon dossier découpés dans la même feuille que la carte de code, avec un événement de test à envoyer et une ligne de réponse qui apparaît sur place."
+    },
+    "height": 440
+  }
+]

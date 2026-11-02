@@ -1,0 +1,12 @@
+[
+  {
+    "file": "AppNavbarFlyout",
+    "title": { "en": "App navbar with flyouts", "fr": "Barre d'application à menus déroulants" },
+    "summary": {
+      "en": "An application navbar with a cycle capsule, flyout menus for projects and insights, a find button, create and account menus, and an inline sheet behind a burger at narrow widths.",
+      "fr": "Une barre d'application avec capsule de cycle, menus déroulants pour projets et analyses, bouton de recherche, menus de création et de compte, et un panneau en ligne derrière un burger en largeur réduite."
+    },
+    "height": 560,
+    "stage": "bleed"
+  }
+]

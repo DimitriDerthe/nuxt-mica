@@ -1,0 +1,11 @@
+[
+  {
+    "file": "VendorDocsUpload",
+    "title": { "en": "Compliance document upload", "fr": "Envoi de documents de conformité" },
+    "summary": {
+      "en": "A drop zone with simulated per-file progress feeds a checklist of required documents, auto-matched from file names; the insurance certificate asks for its expiry, and a ring counts what is still missing.",
+      "fr": "Une zone de dépôt avec progression simulée par fichier alimente une liste de documents requis, appariés d'après le nom des fichiers ; l'attestation d'assurance demande sa date d'expiration et un anneau compte ce qui manque."
+    },
+    "height": 560
+  }
+]

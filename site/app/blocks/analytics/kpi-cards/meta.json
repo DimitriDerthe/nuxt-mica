@@ -1,0 +1,11 @@
+[
+  {
+    "file": "KpiPulseBoard",
+    "title": { "en": "Revenue pulse board", "fr": "Tableau pouls du revenu" },
+    "summary": {
+      "en": "A hero metric with its goal meter and trend, framed by stat tiles and a split MRR card; the period switch swaps every figure.",
+      "fr": "Une métrique principale avec jauge d'objectif et tendance, entourée de tuiles de stats et d'une carte MRR scindée ; le sélecteur de période met tout à jour."
+    },
+    "height": 420
+  }
+]

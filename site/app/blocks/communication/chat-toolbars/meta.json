@@ -1,0 +1,14 @@
+[
+  {
+    "file": "MorphingChatToolbar",
+    "title": {
+      "en": "Morphing chat toolbar",
+      "fr": "Barre de chat adaptative"
+    },
+    "summary": {
+      "en": "One conversation toolbar with three modes: default actions, in-chat search with match stepping, and multi-select with bulk actions.",
+      "fr": "Une barre de conversation à trois modes : actions par défaut, recherche avec navigation entre résultats, et sélection multiple avec actions groupées."
+    },
+    "height": 520
+  }
+]

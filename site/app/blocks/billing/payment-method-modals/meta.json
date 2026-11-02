@@ -1,0 +1,11 @@
+[
+  {
+    "file": "AddCardDialog",
+    "title": { "en": "Add card dialog with live preview", "fr": "Dialogue d'ajout de carte avec aperçu" },
+    "summary": {
+      "en": "A card form in a dialog over the billing page: the number formats and detects the network as you type, a mini card mirrors it, and expiry, CVC and checksum are validated.",
+      "fr": "Un formulaire de carte dans un dialogue sur la page de facturation : le numéro se met en forme et détecte le réseau, une mini carte le reflète, et date, CVC et somme de contrôle sont validés."
+    },
+    "height": 660
+  }
+]

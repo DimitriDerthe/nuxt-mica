@@ -1,0 +1,11 @@
+[
+  {
+    "file": "DomainSetupFlow",
+    "title": { "en": "Workspace and domain setup flow", "fr": "Parcours de configuration d'espace et de domaine" },
+    "summary": {
+      "en": "Four validated steps with working back and next: name and address, DNS records to copy and verify, invitations as tags, then a review before launch.",
+      "fr": "Quatre étapes validées avec retour et suite : nom et adresse, enregistrements DNS à copier et vérifier, invitations en étiquettes, puis revue avant lancement."
+    },
+    "height": 560
+  }
+]

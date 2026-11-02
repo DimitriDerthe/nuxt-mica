@@ -1,0 +1,11 @@
+[
+  {
+    "file": "PostmortemScrollNav",
+    "title": { "en": "Postmortem scroll navigation", "fr": "Navigation au défilement d'un post-mortem" },
+    "summary": {
+      "en": "A long incident report in its own scroll pane: the outline follows the section in view with a sliding marker, turns into a chip strip when narrow, and a scroll-driven hairline shows reading progress.",
+      "fr": "Un long rapport d'incident dans son propre panneau défilant : le sommaire suit la section visible avec un repère glissant, devient une bande de puces en étroit, et un filet piloté par le défilement montre la progression."
+    },
+    "height": 560
+  }
+]

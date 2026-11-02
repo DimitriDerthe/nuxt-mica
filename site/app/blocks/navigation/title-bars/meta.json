@@ -1,0 +1,20 @@
+[
+  {
+    "file": "RecordTitleBar",
+    "title": { "en": "Record title bar with phase ribbon", "fr": "Barre de titre d'enregistrement avec ruban de phases" },
+    "summary": {
+      "en": "A project header with breadcrumb, inline rename, status menu, follow and share actions, key facts, a one-line phase timeline marking today, and counted tabs.",
+      "fr": "Un en-tête de projet avec fil d'Ariane, renommage en ligne, menu de statut, suivi et partage, faits clés, frise des phases marquant aujourd'hui et onglets avec compteurs."
+    },
+    "height": 400
+  },
+  {
+    "file": "SelectionTitleBar",
+    "title": { "en": "Collection title bar with selection mode", "fr": "Barre de titre de collection avec mode sélection" },
+    "summary": {
+      "en": "An invoices header with live totals, search, quick filters and a list or card view; selecting rows cross-fades it into a contextual bar whose bulk actions really apply.",
+      "fr": "Un en-tête de factures avec totaux en direct, recherche, filtres rapides et vue liste ou cartes ; sélectionner des lignes le transforme en barre contextuelle dont les actions groupées s'appliquent vraiment."
+    },
+    "height": 520
+  }
+]

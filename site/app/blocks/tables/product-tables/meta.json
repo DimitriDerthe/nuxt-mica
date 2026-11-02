@@ -1,0 +1,11 @@
+[
+  {
+    "file": "StockCoverTable",
+    "title": { "en": "Stock cover table", "fr": "Tableau de couverture de stock" },
+    "summary": {
+      "en": "A product catalog where each row shows days of stock left against the supplier's lead time, so items that will sell out before a restock stand out and can be reordered; listing switches, search and views, cards on small screens.",
+      "fr": "Un catalogue produit où chaque ligne montre les jours de stock restants face au délai fournisseur, pour repérer et recommander ce qui sera épuisé avant réassort ; interrupteurs de mise en vente, recherche et vues, en cartes sur petit écran."
+    },
+    "height": 580
+  }
+]
