@@ -44,7 +44,7 @@
                 <span class="gh__stat-val">{{ col.metric }}</span>
               </div>
               <MiSparkline :values="col.trend" :width="88" :height="28" :label="col.name + ' ' + col.metricLabel.toLowerCase() + ', last 8 weeks'" class="gh__spark" />
-              <MiAvatarGroup :items="ownerItems(col.owners)" :max="3" :size="24" class="gh__owners" />
+              <MiAvatarGroup :items="ownerItems(col.owners)" :max="2" :size="24" class="gh__owners" />
             </div>
           </header>
 
@@ -130,12 +130,13 @@ function act(col: Col, action: string | number | undefined) {
 
 .gh__row { display: flex; gap: 12px; align-items: stretch; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; padding: 2px 2px 8px; }
 .gh__row:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; border-radius: var(--mi-radius-l); }
-.gh__col { flex: 0 0 min(276px, 86%); display: grid; align-content: start; gap: 10px; scroll-snap-align: start; min-width: 0; }
+/* Explicit track: an implicit one grows to the widest card and spills over the next column. */
+.gh__col { flex: 0 0 min(276px, 86%); display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: 10px; scroll-snap-align: start; min-width: 0; }
 @container (min-width: 1120px) { .gh__col { flex: 1 1 0; } }
 .gh__col.is-collapsed { flex: 0 0 52px; }
 
 .gh__card {
-  position: relative; display: grid; gap: 10px; padding: 14px 14px 12px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); overflow: hidden;
+  position: relative; display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; padding: 14px 14px 12px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); overflow: hidden;
 }
 /* Stage colour as a soft wash along the top edge. */
 .gh__card::before { content: ""; position: absolute; inset: 0 0 auto; height: 3px; background: var(--c); }
@@ -150,14 +151,14 @@ function act(col: Col, action: string | number | undefined) {
 .gh__slots span.is-full { background: var(--c); }
 .gh__slots span.is-over { background: repeating-linear-gradient(135deg, var(--mi-orange) 0 4px, color-mix(in srgb, var(--mi-orange) 45%, transparent) 4px 8px); }
 
-.gh__stats { display: flex; align-items: center; gap: 10px; padding-top: 10px; border-top: 1px solid var(--mi-sep); }
+.gh__stats { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 10px; padding-top: 10px; border-top: 1px solid var(--mi-sep); }
 .gh__stat { display: grid; min-width: 0; }
 .gh__stat-label { text-transform: uppercase; letter-spacing: .05em; white-space: nowrap; }
 .gh__stat-val { font-size: 18px; font-weight: 700; letter-spacing: -.02em; font-variant-numeric: tabular-nums; white-space: nowrap; }
-.gh__spark { flex: none; color: var(--c); }
-.gh__owners { margin-inline-start: auto; }
+.gh__spark { justify-self: center; width: 100%; max-width: 88px; height: auto; color: var(--c); }
+.gh__owners { justify-self: end; }
 
-.gh__cards { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.gh__cards { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; margin: 0; padding: 0; list-style: none; }
 .gh__stub { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 12px; border-radius: var(--mi-radius-m); background: color-mix(in srgb, var(--mi-card) 70%, transparent); box-shadow: inset 0 0 0 1px var(--mi-sep); font-size: 13px; }
 .gh__stub-title { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .gh__stub-age { flex: none; font-size: 11px; font-weight: 600; color: var(--mi-label3); font-variant-numeric: tabular-nums; }
