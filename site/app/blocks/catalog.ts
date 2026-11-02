@@ -72,7 +72,7 @@ export const families: BlockFamily[] = [
       c('user-contact-tables', 'User & Contact Tables', 'Utilisateurs et contacts'),
       c('order-billing-tables', 'Order & Billing Tables', 'Commandes et facturation'),
       c('product-tables', 'Product Tables', 'Produits'),
-      c('project-tables', 'Project Tables', 'Projets'),
+      c('project-tables', 'Project Tables', 'Tableaux de projets'),
       c('analytics-tables', 'Analytics Tables', 'Tableaux analytiques'),
       c('content-tables', 'Content Tables', 'Contenus'),
       c('admin-utility-tables', 'Admin Utility Tables', "Utilitaires d'administration")

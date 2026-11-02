@@ -205,6 +205,10 @@ Item shapes (options, items, columns, steps...), slot props and every named type
 - MiTabsTrigger: Compound part of MiTabs: a tab button that selects the panel with the same value.
 - MiToolbar: Window-style toolbar with sidebar toggle, history, title, view switcher, search, share and primary action.
 
+## Blocks
+- 183 ready-made application sections (dashboards, tables, forms, auth, billing, navigation...) built only with Mi components, one copy-pasteable SFC each at site/app/blocks/<family>/<category>/<Name>.vue.
+- Pick one from docs/blocks.md (one line per block: path, title, summary), then read only that .vue file. Families: analytics, data-display, tables, forms, authentication, application-pages, billing, communication, productivity, feedback, search, modals, drawers, ui-components, navigation.
+
 ## Composables
 - useMiTheme(): { mode, primary, secondary, resolved, isDark, setMode(m), setPrimary(hex), setSecondary(hex) }
 - useMiToast(): { show(opts), success|error|warning|info|loading(message, opts?), update(id, opts), dismiss(id), clear, pause, resume }; mount <MiToaster /> once (docs/api/MiToaster.md, docs/api/MiToast.md)
