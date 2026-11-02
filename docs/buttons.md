@@ -67,6 +67,20 @@ Keyboard: Arrow Down/Up open, move (wraps); Home/End; typeahead; Enter/Space sel
 
 Props: `href` (default `#`), `brand`, `chevron` (default `true`). Slot: `default`.
 
+## MiCopyButton
+
+| Prop | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `value` | `string` | | ignored when `getValue` is set |
+| `getValue` | `() => string \| Promise<string>` | | evaluated at click time |
+| `label`, `copiedLabel` | `string` | `'Copy'`, `'Copied'` | |
+| `timeout` | `number` | `1800` | ms the confirmation stays |
+| `variant` | `'tinted' \| 'outline' \| 'ghost'` | `'tinted'` | |
+| `iconOnly` | `boolean` | `false` | keeps `aria-label` |
+| `disabled` | `boolean` | `false` | |
+
+Events `copy(text)`, `error(error)`. Uses `navigator.clipboard`, falls back to a hidden textarea and `execCommand('copy')`. A polite live region announces the confirmation.
+
 ## Performance
 
 Only `transform` and `opacity` are animated. Hover is an opacity overlay, press a scale, menu open a spring scale/fade, segmented thumb a scale/fade. Menu placement is measured once per open/scroll/resize (rAF throttled) and applied with one transform write. `will-change` is set only during menu enter/leave and on the active spinner.

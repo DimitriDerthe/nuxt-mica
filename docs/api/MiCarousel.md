@@ -14,7 +14,7 @@ Use with v-model.
 | dots | boolean | true | Show the dot indicators. |
 | orientation | "horizontal" \| "vertical" | "horizontal" | Scroll axis. |
 | align | "start" \| "center" | "start" | Slide alignment inside the viewport (Embla `align`). |
-| basis | string | "100%" | CSS flex-basis of each slide, e.g. `50%` or `33.333%` (shadcn `basis-*`). |
+| basis | string | "100%" | CSS flex-basis of each slide, e.g. `50%` or `33.333%`. |
 | label | string | "Carousel" | Accessible name of the carousel. |
 | modelValue | number | 0 | Current slide index (0-based). |
 

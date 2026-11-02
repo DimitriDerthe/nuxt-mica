@@ -94,7 +94,7 @@ Keyboard (selectable): roving tabindex, Up/Down/Home/End move, Space/Enter toggl
 `MiAccordionItem`: `value`, `title`, `disabled`; slots `title`, `default`. Works standalone too. Panels are labelled regions and `inert` while closed.
 
 ## MiCarousel
-Scroll-snap carousel; each direct child of the default slot is a slide. Props: `loop` (false), `arrows` (true), `dots` (true), `orientation` (`horizontal` \| `vertical`), `align` (`start` \| `center`), `basis` (`100%`, shadcn `basis-*`, e.g. `33.333%`), `label`. Event `select` (index). `v-model`: 0-based slide index. Exposes `prev`, `next`, `goTo`. Arrow keys, Home/End navigate; region has `aria-roledescription="carousel"`.
+Scroll-snap carousel; each direct child of the default slot is a slide. Props: `loop` (false), `arrows` (true), `dots` (true), `orientation` (`horizontal` \| `vertical`), `align` (`start` \| `center`), `basis` (`100%`, e.g. `33.333%`), `label`. Event `select` (index). `v-model`: 0-based slide index. Exposes `prev`, `next`, `goTo`. Arrow keys, Home/End navigate; region has `aria-roledescription="carousel"`.
 
 ## MiScrollArea
 Scroll region with overlay scrollbars (thumbs move via `transform`, draggable). Props: `orientation` (`vertical` \| `horizontal` \| `both`), `maxHeight`, `label`. Native scrolling and keyboard preserved (focusable region).
@@ -107,3 +107,87 @@ Generic row. Props: `variant` (`default` \| `outline` \| `muted`), `size` (`defa
 
 ## MiDataTable
 MiTable plus filter, pagination and selection. Props: `columns`, `rows`, `rowKey`, `filterable` (true), `filterPlaceholder`, `filterKey` (single-column filter), `filterKeys`, `columnToggle` (Columns menu), `pageSize` (10), `selectable`, `emptyText`, `caption`. Models: `selected`, `sort`, `filter`, `page`, `hidden` (hidden column keys). Filter uses MiInput. Slots: `cell-<key>` (scoped `{ row, value, ... }`), `toolbar`, `empty`.
+
+## MiTree
+
+Tree view with the WAI-ARIA tree pattern (`tree`, `treeitem`, `group`, roving tabindex). Branches animate with `grid-template-rows`; children mount on first expansion. Rendered recursively through the internal `MiTreeNode`.
+
+| Prop / model | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `items` | `MiTreeItem[]` | | `{ id, label, icon?, children?, disabled? }` |
+| `v-model:selected` | `id \| id[] \| null` | | single id, or an array with `multiple` / `checkable` |
+| `v-model:expanded` | `id[]` | `[]` | open branches |
+| `multiple` | `boolean` | `false` | several selected nodes |
+| `checkable` | `boolean` | `false` | checkboxes; parents show a mixed state; the model holds checked leaves |
+| `ariaLabel` | `string` | `'Tree'` | |
+
+Keyboard: Up/Down, Home/End, Right (expand, then first child), Left (collapse, then parent), Enter/Space (select or check), `*` (expand siblings), type-ahead by label. Disabled nodes are skipped.
+
+`MiTreeNode` (internal): props `item`, `level`, `ctx`, `setSize`, `posInSet`.
+
+## MiTimeline / MiTimelineItem
+
+Semantic `<ol>` feed. Use the `items` shortcut or compose `MiTimelineItem` parts in the default slot.
+
+| MiTimeline prop | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `items` | `MiTimelineEntry[]` | `[]` | `{ title, description?, time?, icon?, tone?, status? }` |
+| `align` | `'start' \| 'alternate'` | `'start'` | `alternate` splits sides when the container is at least 640px wide |
+| `ariaLabel` | `string` | `'Timeline'` | |
+
+| MiTimelineItem prop / slot | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `title`, `description` | `string` | | |
+| `time` | `string \| Date` | | `<time>` element; a Date shows as `YYYY-MM-DD` |
+| `datetime` | `string` | derived | machine-readable value |
+| `icon` | icon name | | marker glyph, a dot when omitted |
+| `tone` | `'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | `'primary'` | marker color |
+| `status` | `'done' \| 'current' \| 'upcoming'` | `'done'` | `current` gets `aria-current="step"` and a pulse (off under reduced motion) |
+| slots | | | default (extra content), `title`, `time`, `marker` |
+
+## MiSortable
+
+Dependency-free drag-and-drop reordering. Pointer drag uses one rAF that writes `transform` through CSS variables, a dashed placeholder and optional auto-scroll; the order is committed on drop.
+
+| Prop / model | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `v-model` | `object[]` | `[]` | ordered items |
+| `itemKey` | `string` | `'id'` | key field (primitive items use themselves) |
+| `handle` | `boolean` | `false` | dedicated drag handle; only it drags and takes focus (best for touch) |
+| `orientation` | `'vertical' \| 'horizontal'` | `'vertical'` | |
+| `gap` | `number` | `8` | px |
+| `autoScroll` | `boolean` | `true` | scroll the nearest scrollable ancestor near its edge |
+| `disabled` | `boolean` | `false` | |
+| `itemLabel` | `(item, index) => string` | `Item N` | spoken names |
+| `ariaLabel` | `string` | `'Sortable list'` | |
+
+Slots: default `{ item, index, dragging }`, `handle` `{ item, index, dragging }`. Event: `reorder` `{ from, to }`.
+Keyboard (on the row, or the handle): Space grabs, Arrow keys (Left/Right when horizontal) move, Home/End jump, Space/Enter drops, Escape restores the original order. Every step is announced in an `aria-live` region.
+
+## MiMarquee
+
+| Prop | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `speed` | `number` | `40` | px per second |
+| `direction` | `'left' \| 'right' \| 'up' \| 'down'` | `'left'` | per axis, `right`/`down` reverse |
+| `pauseOnHover` | `boolean` | `true` | also on focus within |
+| `gap` | `number` | `32` | px |
+| `vertical` | `boolean` | `false` | needs a height (default 16rem) |
+| `fade` | `boolean` | `true` | edge mask |
+| `ariaLabel` | `string` | | makes the strip a labelled region |
+
+The content is repeated to fill the track and cloned once for a seamless loop; clones are `aria-hidden`. Under `prefers-reduced-motion` it stops, hides the clone and scrolls manually.
+
+## MiBlockquote
+
+`<figure><blockquote><figcaption>`.
+
+| Prop / slot | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `variant` | `'plain' \| 'bordered' \| 'card'` | `'plain'` | |
+| `size` | `'md' \| 'lg'` | `'md'` | |
+| `quote` | `string` | | alternative to the default slot |
+| `cite` | `string` | | author |
+| `role` | `string` | | caption second line |
+| `source` | `string` | | URL for the `cite` attribute |
+| slots | | | default, `cite`, `avatar` |

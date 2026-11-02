@@ -6,7 +6,7 @@ export type MiDirectionValue = 'ltr' | 'rtl'
 /** Injection key holding the current reading direction. */
 export const MI_DIRECTION_KEY: InjectionKey<Ref<MiDirectionValue>> = Symbol('mi-direction')
 
-/** Returns the current reading direction (defaults to a `ltr` ref outside a provider); shadcn `useDirection`. */
+/** Returns the current reading direction (defaults to a `ltr` ref outside a provider). */
 export function useMiDirection(): Ref<MiDirectionValue> {
   return inject(MI_DIRECTION_KEY, ref<MiDirectionValue>('ltr'))
 }

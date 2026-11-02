@@ -1,10 +1,49 @@
 [
   {
     "file": "MemberAccessTable",
-    "title": { "en": "Member access table", "fr": "Tableau des accès membres" },
+    "title": {
+      "en": "Member access table",
+      "fr": "Tableau des accès membres"
+    },
     "summary": {
       "en": "Workspace members with a seat meter, inline role selects, 2FA status and a 12-week activity strip that makes dormant accounts fade out; search, role filter, sorting and bulk role changes, stacked as cards at narrow widths.",
       "fr": "Les membres d'un espace avec une jauge de sièges, des rôles modifiables en ligne, l'état 2FA et une bande d'activité sur 12 semaines où les comptes dormants s'effacent ; recherche, filtre par rôle, tri et changement de rôle groupé, en cartes sur petite largeur."
+    },
+    "height": 620
+  },
+  {
+    "file": "ContactWarmthTable",
+    "title": {
+      "en": "Contact warmth table",
+      "fr": "Tableau de chaleur des contacts"
+    },
+    "summary": {
+      "en": "CRM contacts grouped by account, each with a warmth strip that cools from orange to blue as days pass since the last touch; collapsible account rows with a heat signature and totals, rows that expand to the last three interactions, and a one-click call log that warms a contact back up.",
+      "fr": "Des contacts CRM regroupés par compte, chacun avec une jauge de chaleur qui passe de l'orange au bleu à mesure que le dernier contact s'éloigne ; des lignes de compte repliables avec une signature thermique et des totaux, des lignes dépliables sur les trois dernières interactions, et un appel consigné en un clic qui réchauffe le contact."
+    },
+    "height": 640
+  },
+  {
+    "file": "SheetGridTable",
+    "title": {
+      "en": "Spreadsheet grid",
+      "fr": "Grille façon tableur"
+    },
+    "summary": {
+      "en": "A dense, spreadsheet-like contact sheet: sticky header and first column, a formula bar with the active cell address, arrow-key navigation with Shift range selection, Enter to edit and Esc to cancel, a column visibility menu and a live count, sum and average of the selection.",
+      "fr": "Une feuille de contacts dense façon tableur : en-tête et première colonne figés, barre de formule avec l'adresse de la cellule active, navigation aux flèches avec sélection de plage à Maj, Entrée pour éditer et Échap pour annuler, menu de colonnes visibles et nombre, somme et moyenne de la sélection en direct."
+    },
+    "height": 600
+  },
+  {
+    "file": "TeamDirectory",
+    "title": {
+      "en": "Team directory",
+      "fr": "Annuaire d'équipe"
+    },
+    "summary": {
+      "en": "A people directory with a table or cards view, department filter chips, an A–Z scrubber that jumps to a letter and follows your scroll, and a live local time for everyone with a 24-hour strip showing their working window and whether they can be reached now.",
+      "fr": "Un annuaire avec vue tableau ou cartes, des filtres par département, un index A–Z qui saute à une lettre et suit le défilement, et l'heure locale en direct de chacun avec une frise de 24 heures montrant sa plage de travail et s'il est joignable maintenant."
     },
     "height": 620
   }

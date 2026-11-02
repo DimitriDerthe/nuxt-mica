@@ -18,7 +18,7 @@ const props = withDefaults(defineProps<{
   orientation?: 'horizontal' | 'vertical'
   /** Slide alignment inside the viewport (Embla `align`). */
   align?: 'start' | 'center'
-  /** CSS flex-basis of each slide, e.g. `50%` or `33.333%` (shadcn `basis-*`). */
+  /** CSS flex-basis of each slide, e.g. `50%` or `33.333%`. */
   basis?: string
   /** Accessible name of the carousel. */
   label?: string

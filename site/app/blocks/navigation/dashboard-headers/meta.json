@@ -1,12 +1,54 @@
 [
   {
     "file": "FleetDashboardHeader",
-    "title": { "en": "Fleet dashboard header", "fr": "En-tête de tableau de bord de flotte" },
+    "title": {
+      "en": "Fleet dashboard header",
+      "fr": "En-tête de tableau de bord de flotte"
+    },
     "summary": {
       "en": "A three-tier dashboard header: workspace switcher, trail and global tools, a title with a live freshness pill and range actions, then a pulse rail of four figures that follows the range.",
       "fr": "Un en-tête de tableau de bord en trois niveaux : sélecteur d'espace, fil d'Ariane et outils, un titre avec pastille de fraîcheur et actions de période, puis un rail de quatre chiffres qui suit la période."
     },
     "height": 600,
     "stage": "bleed"
+  },
+  {
+    "file": "BriefingHeader",
+    "title": {
+      "en": "Morning briefing header",
+      "fr": "En-tête de briefing du matin"
+    },
+    "summary": {
+      "en": "A greeting that writes the day's briefing as one sentence from live data; each count is a link that opens its items, and approving a deploy rewrites the sentence. Quick action chips and an at-a-glance column sit alongside.",
+      "fr": "Un accueil qui rédige le briefing du jour en une phrase à partir des données ; chaque nombre est un lien qui ouvre ses éléments, et approuver un déploiement réécrit la phrase. Des puces d'action rapide et une colonne d'un coup d'œil l'accompagnent."
+    },
+    "height": 520,
+    "stage": "bleed"
+  },
+  {
+    "file": "CollaborativeHeader",
+    "title": {
+      "en": "Collaborative document header",
+      "fr": "En-tête de document collaboratif"
+    },
+    "summary": {
+      "en": "A compact sticky header over a shared spec: the path folds its middle folders into a menu on narrow widths, presence rings match each live cursor, click a face to follow that person, and renaming shows a short sync.",
+      "fr": "Un en-tête compact et collant au-dessus d'une spécification partagée : le chemin replie ses dossiers intermédiaires dans un menu en largeur étroite, les anneaux de présence reprennent la couleur de chaque curseur, cliquer un visage suit la personne, et renommer affiche une courte synchronisation."
+    },
+    "height": 460,
+    "stage": "bleed"
+  },
+  {
+    "file": "RangeBrushHeader",
+    "title": {
+      "en": "Range brush header",
+      "fr": "En-tête à brosse de période"
+    },
+    "summary": {
+      "en": "A revenue header whose period is brushed on a 120-day mini chart: drag either handle or the whole window, or pick a preset, and the four figures and their change against the previous period follow.",
+      "fr": "Un en-tête de chiffre d'affaires dont la période se sélectionne au pinceau sur un mini graphique de 120 jours : glisser une poignée ou toute la fenêtre, ou choisir un préréglage, et les quatre chiffres et leur évolution suivent."
+    },
+    "height": 400,
+    "stage": "pad"
   }
 ]

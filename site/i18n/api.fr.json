@@ -1816,8 +1816,8 @@
 "Alignement des diapositives dans la zone d'affichage (`align` d'Embla)."
 ],
 "MiCarousel.prop.basis": [
-"CSS flex-basis of each slide, e.g. `50%` or `33.333%` (shadcn `basis-*`).",
-"flex-basis CSS de chaque diapositive, p. ex. `50%` ou `33.333%` (`basis-*` de shadcn)."
+"CSS flex-basis of each slide, e.g. `50%` or `33.333%`.",
+"flex-basis CSS de chaque diapositive, p. ex. `50%` ou `33.333%`."
 ],
 "MiCarousel.prop.label": [
 "Accessible name of the carousel.",
@@ -1856,8 +1856,8 @@
 "Placeholder du champ de filtre."
 ],
 "MiDataTable.prop.filterKey": [
-"Filter only this column key (shadcn column filter); overrides `filterKeys`.",
-"Filtre uniquement cette clé de colonne (filtre de colonne shadcn) ; remplace `filterKeys`."
+"Filter only this column key; overrides `filterKeys`.",
+"Filtre uniquement cette clé de colonne ; remplace `filterKeys`."
 ],
 "MiDataTable.prop.columnToggle": [
 "Show a Columns menu to toggle column visibility.",
@@ -2100,8 +2100,8 @@
 "Panneaux scindés redimensionnables avec poignées déplaçables et utilisables au clavier ; horizontaux ou verticaux, avec tailles min/max et un v-model de pourcentages."
 ],
 "MiResizable.prop.orientation": [
-"`horizontal` places panels side by side, `vertical` stacks them (shadcn `orientation`).",
-"`horizontal` place les panneaux côte à côte, `vertical` les empile (`orientation` de shadcn)."
+"`horizontal` places panels side by side, `vertical` stacks them.",
+"`horizontal` place les panneaux côte à côte, `vertical` les empile."
 ],
 "MiResizable.prop.minSize": [
 "Minimum size of any panel, in percent.",
@@ -2112,8 +2112,8 @@
 "Taille maximale de tout panneau, en pourcentage."
 ],
 "MiResizable.prop.withHandle": [
-"Show a visible grip on each handle (shadcn `withHandle`).",
-"Affiche une prise visible sur chaque poignée (`withHandle` de shadcn)."
+"Show a visible grip on each handle.",
+"Affiche une prise visible sur chaque poignée."
 ],
 "MiResizable.prop.minSizes": [
 "Per-panel minimum sizes in percent, overriding `minSize`.",

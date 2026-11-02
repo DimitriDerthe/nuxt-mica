@@ -65,7 +65,7 @@ const spyItems = [
 
 <template>
   <div class="mi pg">
-    <h1>Preline gap: content</h1>
+    <h1>Content kit</h1>
 
     <h2>Tree</h2>
     <div class="grid3">

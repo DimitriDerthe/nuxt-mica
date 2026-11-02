@@ -9,10 +9,10 @@ Use with v-model.
 
 | prop | type | default | notes |
 |---|---|---|---|
-| orientation | "horizontal" \| "vertical" | "horizontal" | `horizontal` places panels side by side, `vertical` stacks them (shadcn `orientation`). |
+| orientation | "horizontal" \| "vertical" | "horizontal" | `horizontal` places panels side by side, `vertical` stacks them. |
 | minSize | number | 10 | Minimum size of any panel, in percent. |
 | maxSize | number | 90 | Maximum size of any panel, in percent. |
-| withHandle | boolean | false | Show a visible grip on each handle (shadcn `withHandle`). |
+| withHandle | boolean | false | Show a visible grip on each handle. |
 | minSizes | number[] | [] | Per-panel minimum sizes in percent, overriding `minSize`. |
 | step | number | 5 | Keyboard step in percent. |
 | handleLabel | string | "Resize panels" | Accessible name of each handle. |

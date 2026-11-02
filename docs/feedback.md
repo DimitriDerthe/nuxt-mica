@@ -150,18 +150,40 @@ Props: `title`, `description`, `icon` (`'folder-plus'`), `primaryLabel`, `second
 
 ## MiAlertDialog
 
-Modal that needs an explicit decision (shadcn `AlertDialog`). Wraps `MiDialog` and is always `persistent`: Escape and scrim clicks never dismiss it, initial focus is on Cancel, role stays `alertdialog`. v-model: open state.
+Modal that needs an explicit decision. Wraps `MiDialog` and is always `persistent`: Escape and scrim clicks never dismiss it, initial focus is on Cancel, role stays `alertdialog`. v-model: open state.
 
 Props: `size` (`'default' \| 'sm'`, card with media tile vs compact box), `media` (icon name), `title`, `description`, `confirmLabel` (`'Continue'`), `cancelLabel` (`'Cancel'`), `destructive`, `hideCancel`, `confirmDisabled`, `keepOpenOnConfirm`, `inline`, `label`. Slots: `trigger` (`open()`), `media`, `default` (replaces description). Events: `confirm`, `cancel`.
 
 ## MiDrawer
 
-Edge drawer with swipe-to-dismiss (shadcn `Drawer`; drag past 40% of its size or flick). Use `MiSheet` for bottom sheets with snap detents. v-model: open state.
+Edge drawer with swipe-to-dismiss (drag past 40% of its size or flick). Use `MiSheet` for bottom sheets with snap detents. v-model: open state.
 
 Props: `swipeDirection` (`'down' \| 'up' \| 'left' \| 'right'`, `'down'`; also sets the edge), `showSwipeHandle` (`false`), `title`, `description`, `dismissible` (`true`), `modal` (`true`), `inline`, `label`. Slots: `default` and `footer` (both expose `close`, the DrawerClose equivalent), `title`, `description`. Events: `close` (`'escape' \| 'backdrop' \| 'drag'`). Not supported: nested stacking, snap points.
 
 ## MiHoverCard
 
-Preview card opened on hover or keyboard focus of the trigger (shadcn `HoverCard`); stays open while the pointer or focus is inside; Escape closes; never steals focus. v-model: open state.
+Preview card opened on hover or keyboard focus of the trigger; stays open while the pointer or focus is inside; Escape closes; never steals focus. v-model: open state.
 
 Props: `side` (`'bottom'`), `align` (`'center' \| 'start' \| 'end'`), `offset` (`8`), `delay` (`600`), `closeDelay` (`300`), `width` (`256`), `label`, `inline`, `disabled`. Slots: `trigger`, `default`.
+
+## MiConfetti + useMiConfetti
+
+Mount `<MiConfetti />` once (prop `zIndex`, default 9999), then:
+
+```ts
+const { fire } = useMiConfetti()
+fire({ origin: { x: 0.5, y: 0.6 }, count: 120 }) // or origin: element
+```
+
+| Option | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `origin` | `{ x, y }` (0..1) \| `HTMLElement` | `{ 0.5, 0.7 }` | element center |
+| `count` | `number` | `80` | max 500 |
+| `spread` | `number` | `70` | degrees, 360 for a circle |
+| `angle` | `number` | `-90` | degrees, up |
+| `speed` | `number` | `720` | px/s |
+| `colors` | `string[]` | brand `--mi-p` / `--mi-s` + extras | |
+| `duration` | `number` | `2600` | ms |
+| `gravity` | `number` | `900` | px/s² |
+
+`fire()` returns `false` (and draws nothing) on the server, without a mounted host, or under `prefers-reduced-motion`. One rAF loop runs while particles live. The engine is in `app/utils/miConfetti.ts` (`miCreateParticles`, `miStepParticle`, `miUpdateParticles`, `miParticleAlpha`, `miParticleFlip`, `miOriginToPx`).

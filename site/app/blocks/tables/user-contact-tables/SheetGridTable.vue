@@ -1,0 +1,319 @@
+<template>
+  <section class="sgt" aria-labelledby="sgt-title">
+    <header class="sgt__head">
+      <div class="sgt__title">
+        <MiText id="sgt-title" variant="title3" as="h2" weight="semibold">Partner renewals</MiText>
+        <MiText variant="footnote" tone="label2">{{ rows.length }} partner contacts · Enter to edit, arrows to move, Shift to select</MiText>
+      </div>
+      <MiPopover v-model="colsOpen" placement="bottom-end" label="Visible columns" :width="220">
+        <template #trigger="{ attrs }">
+          <MiButton variant="gray" size="small" v-bind="attrs">
+            <template #leading><MiIcon name="columns" :size="15" /></template>
+            Columns <span class="sgt__num">{{ visible.length }}/{{ columns.length }}</span>
+          </MiButton>
+        </template>
+        <div class="sgt__cols">
+          <MiText variant="caption" weight="semibold" tone="label2">Show columns</MiText>
+          <MiCheckbox
+            v-for="col in columns" :key="col.key" :model-value="!hidden.includes(col.key)" :label="col.label"
+            :disabled="col.key === 'name'" @update:model-value="toggleCol(col.key)"
+          />
+        </div>
+      </MiPopover>
+    </header>
+
+    <!-- Formula bar: the address and raw value of the active cell, like a spreadsheet name box. -->
+    <div class="sgt__bar" aria-hidden="true">
+      <span class="sgt__addr">{{ addr(active.r, active.c) }}</span>
+      <span class="sgt__fx">fx</span>
+      <span class="sgt__raw">{{ editing ? draft : String(cellValue(active.r, active.c)) }}</span>
+    </div>
+
+    <div class="sgt__sheet">
+      <div ref="scroller" class="sgt__scroll">
+        <table
+          ref="grid" class="sgt__grid" role="grid" aria-labelledby="sgt-title" :aria-rowcount="rows.length + 1" :aria-colcount="visible.length"
+          aria-multiselectable="true" @keydown="onKey"
+        >
+          <thead>
+            <tr role="row">
+              <th v-for="(col, ci) in visible" :key="col.key" role="columnheader" scope="col" class="sgt__colhead" :class="{ 'is-num': col.num, 'is-on': inCols(ci), 'is-pin': ci === 0 }">
+                <span class="sgt__letter">{{ letter(ci) }}</span>{{ col.label }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(row, ri) in rows" :key="row.id" role="row" :aria-rowindex="ri + 2">
+              <component
+                :is="ci === 0 ? 'th' : 'td'" v-for="(col, ci) in visible" :key="col.key" :role="ci === 0 ? 'rowheader' : 'gridcell'"
+                :data-cell="`${ri}-${ci}`" :tabindex="isActive(ri, ci) ? 0 : -1" :aria-selected="inRange(ri, ci)"
+                class="sgt__cell" :class="{ 'is-num': col.num, 'is-pin': ci === 0, 'is-sel': inRange(ri, ci), 'is-active': isActive(ri, ci) }"
+                @mousedown="pick(ri, ci, $event)" @dblclick="startEdit()"
+              >
+                <span v-if="ci === 0" class="sgt__rownum" :class="{ 'is-on': inRows(ri) }" aria-hidden="true">{{ ri + 1 }}</span>
+                <input
+                  v-if="editing && isActive(ri, ci)" ref="editor" v-model="draft" class="sgt__edit" :class="{ 'is-num': col.num }"
+                  :inputmode="col.num ? 'decimal' : 'text'" :aria-label="`Edit ${col.label}, row ${ri + 1}`" @keydown="onEditKey" @blur="commit()"
+                >
+                <span v-else class="sgt__val" :data-tone="col.key === 'nps' ? npsTone(row.nps) : undefined">{{ show(row, col.key) }}</span>
+              </component>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <footer class="sgt__status">
+        <span class="sgt__meta">{{ rows.length }} rows<template v-if="hidden.length"> · {{ hidden.length }} hidden {{ hidden.length === 1 ? 'column' : 'columns' }}</template></span>
+        <span class="sgt__sum" role="status" aria-live="polite">
+          <span><em>Count</em>{{ summary.count }}</span>
+          <template v-if="summary.nums">
+            <span><em>Sum</em>{{ summary.sum }}</span>
+            <span><em>Avg</em>{{ summary.avg }}</span>
+          </template>
+        </span>
+      </footer>
+    </div>
+    <p class="sgt__sr" aria-live="assertive">{{ notice }}</p>
+  </section>
+</template>
+
+<script setup lang="ts">
+import { computed, nextTick, reactive, ref } from 'vue'
+
+type Key = 'name' | 'company' | 'email' | 'region' | 'seats' | 'arr' | 'renewal' | 'nps'
+interface Row { id: number, name: string, company: string, email: string, region: string, seats: number, arr: number, renewal: string, nps: number }
+interface Col { key: Key, label: string, num?: boolean, money?: boolean }
+
+const columns: Col[] = [
+  { key: 'name', label: 'Contact' },
+  { key: 'company', label: 'Company' },
+  { key: 'email', label: 'Email' },
+  { key: 'region', label: 'Region' },
+  { key: 'seats', label: 'Seats', num: true },
+  { key: 'arr', label: 'ARR', num: true, money: true },
+  { key: 'renewal', label: 'Renewal' },
+  { key: 'nps', label: 'NPS', num: true }
+]
+
+// Sample sheet; swap for your CRM export.
+const rows = reactive<Row[]>([
+  { id: 1, name: 'Hanna Lindqvist', company: 'Fjord Analytics', email: 'hanna@fjordanalytics.se', region: 'EMEA', seats: 42, arr: 50_400, renewal: '2027-01-14', nps: 62 },
+  { id: 2, name: 'Marcus Oyelaran', company: 'Tidewater Logistics', email: 'm.oyelaran@tidewater.co', region: 'NA', seats: 180, arr: 194_400, renewal: '2026-12-01', nps: 41 },
+  { id: 3, name: 'Chloé Garnier', company: 'Atelier Verre', email: 'chloe@atelierverre.fr', region: 'EMEA', seats: 12, arr: 14_400, renewal: '2027-03-30', nps: 78 },
+  { id: 4, name: 'Daniel Okafor', company: 'Northbeam Energy', email: 'dokafor@northbeam.energy', region: 'EMEA', seats: 95, arr: 102_600, renewal: '2026-11-20', nps: -8 },
+  { id: 5, name: 'Sakura Ishida', company: 'Kumo Games', email: 'sakura@kumogames.jp', region: 'APAC', seats: 64, arr: 69_120, renewal: '2027-02-08', nps: 55 },
+  { id: 6, name: 'Gabriel Moreno', company: 'Pampa Agro', email: 'gmoreno@pampaagro.ar', region: 'LATAM', seats: 28, arr: 30_240, renewal: '2027-05-17', nps: 33 },
+  { id: 7, name: 'Leah Rosenthal', company: 'Bellweather Legal', email: 'leah@bellweather.law', region: 'NA', seats: 36, arr: 51_840, renewal: '2026-12-15', nps: 70 },
+  { id: 8, name: 'Arash Karimi', company: 'Sable Security', email: 'arash@sablesec.io', region: 'NA', seats: 150, arr: 216_000, renewal: '2027-04-01', nps: 12 },
+  { id: 9, name: 'Nomvula Dlamini', company: 'Karoo Health', email: 'nomvula@karoohealth.za', region: 'EMEA', seats: 54, arr: 58_320, renewal: '2027-01-31', nps: 47 },
+  { id: 10, name: 'Oliver Bennett', company: 'Gull & Rowe', email: 'oliver.bennett@gullrowe.co.uk', region: 'EMEA', seats: 22, arr: 26_400, renewal: '2027-06-12', nps: 59 },
+  { id: 11, name: 'Priyanka Rao', company: 'Monsoon Retail', email: 'priyanka@monsoonretail.in', region: 'APAC', seats: 210, arr: 201_600, renewal: '2027-02-22', nps: 24 },
+  { id: 12, name: 'Tomasz Nowak', company: 'Wisła Robotics', email: 't.nowak@wislarobotics.pl', region: 'EMEA', seats: 18, arr: 21_600, renewal: '2026-11-28', nps: -15 },
+  { id: 13, name: 'Isabela Costa', company: 'Maré Travel', email: 'isabela@maretravel.com.br', region: 'LATAM', seats: 40, arr: 43_200, renewal: '2027-03-09', nps: 66 },
+  { id: 14, name: 'Wei Zhang', company: 'Lattice Biotech', email: 'wei.zhang@latticebio.sg', region: 'APAC', seats: 75, arr: 90_000, renewal: '2027-01-05', nps: 38 }
+])
+
+const hidden = ref<Key[]>(['email'])
+const colsOpen = ref(false)
+const visible = computed(() => columns.filter(c => !hidden.value.includes(c.key)))
+
+const usd = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 })
+const int = new Intl.NumberFormat('en-US', { maximumFractionDigits: 1 })
+const show = (row: Row, key: Key) => {
+  const col = columns.find(c => c.key === key)!
+  const v = row[key]
+  return col.money ? usd.format(v as number) : col.num ? int.format(v as number) : v
+}
+const npsTone = (n: number) => (n >= 50 ? 'good' : n < 0 ? 'bad' : undefined)
+// Letters stay tied to the source column, so hiding Email leaves a gap between B and D like a real sheet.
+const letter = (i: number) => String.fromCharCode(65 + columns.indexOf(visible.value[i]!))
+const addr = (r: number, c: number) => `${letter(c)}${r + 1}`
+const cellValue = (r: number, c: number) => rows[r]?.[visible.value[c]?.key ?? 'name'] ?? ''
+
+// Selection is an anchor plus the active cell; the range is the rectangle between them.
+const anchor = reactive({ r: 1, c: 4 })
+const active = reactive({ r: 4, c: 4 })
+const lo = (a: number, b: number) => Math.min(a, b)
+const hi = (a: number, b: number) => Math.max(a, b)
+const inRows = (r: number) => r >= lo(anchor.r, active.r) && r <= hi(anchor.r, active.r)
+const inCols = (c: number) => c >= lo(anchor.c, active.c) && c <= hi(anchor.c, active.c)
+const inRange = (r: number, c: number) => inRows(r) && inCols(c)
+const isActive = (r: number, c: number) => active.r === r && active.c === c
+
+const summary = computed(() => {
+  const vals: number[] = []
+  let count = 0
+  let money = true
+  for (let r = lo(anchor.r, active.r); r <= hi(anchor.r, active.r); r++) {
+    for (let c = lo(anchor.c, active.c); c <= hi(anchor.c, active.c); c++) {
+      const col = visible.value[c]
+      if (!col) continue
+      count++
+      if (col.num) { vals.push(rows[r]![col.key] as number); money &&= !!col.money }
+    }
+  }
+  const total = vals.reduce((n, v) => n + v, 0)
+  const f = (n: number) => (money ? usd.format(n) : int.format(n))
+  return { count, nums: vals.length, sum: f(total), avg: vals.length ? f(total / vals.length) : '' }
+})
+
+const grid = ref<HTMLTableElement | null>(null)
+const editor = ref<HTMLInputElement[] | HTMLInputElement | null>(null)
+const editing = ref(false)
+const draft = ref('')
+const notice = ref('')
+
+function focusActive() {
+  nextTick(() => grid.value?.querySelector<HTMLElement>(`[data-cell="${active.r}-${active.c}"]`)?.focus())
+}
+
+function move(dr: number, dc: number, extend: boolean) {
+  active.r = Math.min(rows.length - 1, Math.max(0, active.r + dr))
+  active.c = Math.min(visible.value.length - 1, Math.max(0, active.c + dc))
+  if (!extend) { anchor.r = active.r; anchor.c = active.c }
+  focusActive()
+}
+
+function pick(r: number, c: number, e: MouseEvent) {
+  if (editing.value && isActive(r, c)) return
+  if (editing.value) commit()
+  active.r = r
+  active.c = c
+  if (!e.shiftKey) { anchor.r = r; anchor.c = c }
+}
+
+function startEdit(seed?: string) {
+  editing.value = true
+  draft.value = seed ?? String(cellValue(active.r, active.c))
+  nextTick(() => {
+    const el = Array.isArray(editor.value) ? editor.value[0] : editor.value
+    el?.focus()
+    if (seed === undefined) el?.select()
+  })
+}
+
+function commit() {
+  if (!editing.value) return
+  editing.value = false
+  const col = visible.value[active.c]
+  const row = rows[active.r]
+  if (!col || !row) return
+  if (col.num) {
+    const n = Number(draft.value.replace(/[$,\s]/g, ''))
+    if (Number.isNaN(n)) { notice.value = `${col.label} needs a number; the value was kept.`; return }
+    ;(row[col.key] as number) = n
+  }
+  else {
+    ;(row[col.key] as string) = draft.value.trim()
+  }
+  notice.value = `${addr(active.r, active.c)} set to ${show(row, col.key)}`
+}
+
+function cancel() {
+  editing.value = false
+  notice.value = 'Edit cancelled'
+  focusActive()
+}
+
+function onEditKey(e: KeyboardEvent) {
+  e.stopPropagation()
+  if (e.key === 'Escape') { e.preventDefault(); cancel() }
+  else if (e.key === 'Enter') { e.preventDefault(); commit(); move(e.shiftKey ? -1 : 1, 0, false) }
+  else if (e.key === 'Tab') { e.preventDefault(); commit(); move(0, e.shiftKey ? -1 : 1, false) }
+}
+
+const arrows: Record<string, [number, number]> = { ArrowUp: [-1, 0], ArrowDown: [1, 0], ArrowLeft: [0, -1], ArrowRight: [0, 1] }
+
+function onKey(e: KeyboardEvent) {
+  if (editing.value) return
+  const step = arrows[e.key]
+  if (step) { e.preventDefault(); move(step[0], step[1], e.shiftKey) }
+  else if (e.key === 'Home') { e.preventDefault(); move(0, -active.c, e.shiftKey) }
+  else if (e.key === 'End') { e.preventDefault(); move(0, visible.value.length, e.shiftKey) }
+  else if (e.key === 'Enter' || e.key === 'F2') { e.preventDefault(); startEdit() }
+  else if (e.key === 'Tab' && !e.shiftKey && active.c < visible.value.length - 1) { e.preventDefault(); move(0, 1, false) }
+  else if (e.key.length === 1 && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); startEdit(e.key) }
+}
+
+function toggleCol(key: Key) {
+  hidden.value = hidden.value.includes(key) ? hidden.value.filter(k => k !== key) : [...hidden.value, key]
+  const last = visible.value.length - 1
+  active.c = Math.min(active.c, last)
+  anchor.c = Math.min(anchor.c, last)
+}
+</script>
+
+<style scoped>
+.sgt { --sgt-t3: color-mix(in srgb, var(--mi-label2) 78%, transparent); container-type: inline-size; display: grid; gap: 12px; font-family: var(--mi-font); color: var(--mi-label); }
+.sgt__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.sgt__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 20px; }
+.sgt__title { display: grid; gap: 2px; min-width: 0; }
+.sgt__num { font-variant-numeric: tabular-nums; color: var(--mi-label2); margin-inline-start: 2px; }
+.sgt__cols { display: grid; gap: 10px; }
+
+.sgt__bar {
+  display: grid; grid-template-columns: auto auto minmax(0, 1fr); align-items: center; gap: 0; min-height: 34px;
+  border: 1px solid var(--mi-sep); border-radius: var(--mi-radius-m); background: var(--mi-card); font-size: 13px; overflow: hidden;
+}
+.sgt__addr { min-width: 56px; padding: 0 12px; font-weight: 600; font-variant-numeric: tabular-nums; text-align: center; border-right: 1px solid var(--mi-sep); }
+.sgt__fx { padding: 0 10px; font-style: italic; font-weight: 600; color: var(--sgt-t3); border-right: 1px solid var(--mi-sep); }
+.sgt__raw { padding: 0 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12.5px; color: var(--mi-label2); }
+
+.sgt__sheet { display: grid; border: 1px solid var(--mi-sep); border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); overflow: hidden; }
+/* Scroll padding keeps a focused cell clear of the sticky header and first column. */
+.sgt__scroll { max-height: 404px; overflow: auto; overscroll-behavior: contain; scroll-padding: 36px 0 0 150px; }
+.sgt__grid { border-collapse: separate; border-spacing: 0; min-width: 100%; font-size: 13px; }
+
+.sgt__colhead {
+  position: sticky; top: 0; z-index: 2; height: 36px; padding: 0 12px; white-space: nowrap; text-align: start;
+  font-size: 12px; font-weight: 600; color: var(--mi-label2); background: color-mix(in srgb, var(--mi-fill4) 80%, var(--mi-card));
+  border-bottom: 1px solid var(--mi-sep); border-right: 1px solid var(--mi-sep);
+}
+.sgt__colhead.is-num { text-align: end; }
+.sgt__colhead.is-pin { left: 0; z-index: 3; }
+.sgt__colhead.is-on { color: var(--mi-p-text); box-shadow: inset 0 -2px 0 var(--mi-p); }
+.sgt__letter { margin-inline-end: 6px; font-size: 10px; font-weight: 700; color: var(--sgt-t3); font-variant-numeric: tabular-nums; }
+.sgt__colhead.is-on .sgt__letter { color: var(--mi-p-text); }
+
+.sgt__cell {
+  position: relative; height: 34px; min-width: 112px; max-width: 220px; padding: 0 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  text-align: start; font-weight: 400; background: var(--mi-card); border-bottom: 1px solid var(--mi-sep); border-right: 1px solid var(--mi-sep);
+  cursor: cell; user-select: none; outline: none;
+}
+tr:last-child .sgt__cell { border-bottom: 0; }
+.sgt__cell.is-num { text-align: end; font-variant-numeric: tabular-nums; min-width: 88px; }
+.sgt__cell.is-pin { position: sticky; left: 0; z-index: 1; min-width: 150px; padding-left: 0; font-weight: 500; box-shadow: 1px 0 0 var(--mi-sep), 6px 0 12px -10px var(--mi-label3); }
+.sgt__cell.is-sel { background: color-mix(in srgb, var(--mi-p) 9%, var(--mi-card)); }
+/* Active cell: inset ring plus a square fill handle in the corner, the spreadsheet signature. */
+.sgt__cell.is-active { box-shadow: inset 0 0 0 2px var(--mi-p); z-index: 2; }
+.sgt__cell.is-active::after { content: ""; position: absolute; right: 1px; bottom: 1px; width: 6px; height: 6px; background: var(--mi-p); box-shadow: 0 0 0 1.5px var(--mi-card); }
+.sgt__cell.is-pin.is-active { z-index: 2; }
+.sgt__cell:focus-visible { box-shadow: inset 0 0 0 2px var(--mi-p), 0 0 0 3px color-mix(in srgb, var(--mi-p) 28%, transparent); }
+
+.sgt__rownum {
+  display: inline-block; width: 36px; margin-inline-end: 10px; padding: 0 4px; text-align: center;
+  font-size: 11px; font-weight: 500; color: var(--sgt-t3); font-variant-numeric: tabular-nums; border-right: 1px solid var(--mi-sep); line-height: 34px;
+}
+.sgt__rownum.is-on { color: var(--mi-p-text); font-weight: 700; background: color-mix(in srgb, var(--mi-p) 9%, transparent); }
+.sgt__val[data-tone="good"] { color: var(--mi-green-t); font-weight: 600; }
+.sgt__val[data-tone="bad"] { color: var(--mi-red-t); font-weight: 600; }
+
+.sgt__edit {
+  position: absolute; inset: 2px; width: calc(100% - 4px); padding: 0 10px; border: 0; border-radius: 2px; outline: none;
+  background: var(--mi-card); color: var(--mi-label); font: inherit; font-weight: 500;
+}
+.sgt__cell.is-pin .sgt__edit { left: 48px; width: calc(100% - 50px); }
+.sgt__edit.is-num { text-align: end; font-variant-numeric: tabular-nums; }
+
+.sgt__status {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 16px; padding: 9px 14px;
+  border-top: 1px solid var(--mi-sep); background: color-mix(in srgb, var(--mi-fill4) 80%, var(--mi-card)); font-size: 12px; color: var(--mi-label2);
+}
+.sgt__sum { display: flex; flex-wrap: wrap; gap: 4px 18px; font-variant-numeric: tabular-nums; font-weight: 600; color: var(--mi-label); }
+.sgt__sum em { margin-inline-end: 6px; font-style: normal; font-weight: 500; color: var(--sgt-t3); }
+
+@container (min-width: 720px) {
+  .sgt__scroll { max-height: 438px; scroll-padding-left: 210px; }
+  .sgt__cell.is-pin { min-width: 210px; }
+}
+</style>

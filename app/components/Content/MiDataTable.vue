@@ -26,7 +26,7 @@ const props = withDefaults(defineProps<{
   filterable?: boolean
   /** Placeholder of the filter input. */
   filterPlaceholder?: string
-  /** Filter only this column key (shadcn column filter); overrides `filterKeys`. */
+  /** Filter only this column key; overrides `filterKeys`. */
   filterKey?: string
   /** Show a Columns menu to toggle column visibility. */
   columnToggle?: boolean

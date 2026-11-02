@@ -1,6 +1,6 @@
 # Ai components
 
-Each family follows the shadcn composition. Parts are separate components; the root also accepts shortcut props that render a default layout when no default slot is given.
+Each family is built by composition. Parts are separate components; the root also accepts shortcut props that render a default layout when no default slot is given.
 
 ## Attachment
 `MiAttachment` > `MiAttachmentMedia`, `MiAttachmentContent` (`MiAttachmentTitle`, `MiAttachmentDescription`), `MiAttachmentActions` (`MiAttachmentAction`), `MiAttachmentTrigger`; `MiAttachmentGroup` lays out a scrollable snapping row.
