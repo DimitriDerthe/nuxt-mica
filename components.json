@@ -960,6 +960,70 @@
   "types": []
  },
  {
+  "name": "MiBlockquote",
+  "group": "Base",
+  "path": "app/components/Base/MiBlockquote.vue",
+  "summary": "Quotation as a semantic figure with blockquote and figcaption, with an optional author, role, avatar and source link; plain, bordered or card look.",
+  "props": [
+   {
+    "name": "variant",
+    "type": "\"plain\" | \"bordered\" | \"card\"",
+    "required": false,
+    "default": "\"plain\"",
+    "doc": "Look: `plain` has just the text, `bordered` adds a brand rule on the leading edge, `card` puts it on an elevated surface with a large quote mark."
+   },
+   {
+    "name": "quote",
+    "type": "string",
+    "required": false,
+    "doc": "Quoted text, as a shortcut for the default slot."
+   },
+   {
+    "name": "cite",
+    "type": "string",
+    "required": false,
+    "doc": "Author of the quote, shown in the caption."
+   },
+   {
+    "name": "role",
+    "type": "string",
+    "required": false,
+    "doc": "Secondary caption line, e.g. job title or publication."
+   },
+   {
+    "name": "source",
+    "type": "string",
+    "required": false,
+    "doc": "URL of the source, set as the `cite` attribute of the blockquote."
+   },
+   {
+    "name": "size",
+    "type": "\"lg\" | \"md\"",
+    "required": false,
+    "default": "\"md\"",
+    "doc": "Text size."
+   }
+  ],
+  "slots": [
+   {
+    "name": "default",
+    "doc": "The quoted text (when `quote` is not used)."
+   },
+   {
+    "name": "cite",
+    "doc": "Replaces the author block in the caption."
+   },
+   {
+    "name": "avatar",
+    "doc": "Avatar or logo shown beside the author."
+   }
+  ],
+  "emits": [],
+  "exposed": [],
+  "internal": false,
+  "types": []
+ },
+ {
   "name": "MiColorPicker",
   "group": "Base",
   "path": "app/components/Base/MiColorPicker.vue",
@@ -1031,6 +1095,63 @@
    }
   ],
   "slots": [],
+  "emits": [],
+  "exposed": [],
+  "internal": false,
+  "types": []
+ },
+ {
+  "name": "MiDevice",
+  "group": "Base",
+  "path": "app/components/Base/MiDevice.vue",
+  "summary": "Pure CSS device frame (phone, tablet, laptop or browser window) that scales with its container and shows the default slot as the screen.",
+  "props": [
+   {
+    "name": "device",
+    "type": "\"phone\" | \"tablet\" | \"laptop\" | \"browser\"",
+    "required": false,
+    "default": "\"phone\"",
+    "doc": "Which device to draw."
+   },
+   {
+    "name": "orientation",
+    "type": "\"portrait\" | \"landscape\"",
+    "required": false,
+    "default": "\"portrait\"",
+    "doc": "Portrait or landscape; applies to `phone` and `tablet` only."
+   },
+   {
+    "name": "url",
+    "type": "string",
+    "required": false,
+    "doc": "Address shown in the toolbar of the `browser` device; its protocol is hidden."
+   },
+   {
+    "name": "tone",
+    "type": "\"light\" | \"dark\" | \"auto\"",
+    "required": false,
+    "default": "\"auto\"",
+    "doc": "Bezel color: `auto` is dark and lifts slightly in dark mode, or force `dark` or `light`."
+   },
+   {
+    "name": "maxWidth",
+    "type": "number",
+    "required": false,
+    "doc": "Largest width in px; the device shrinks with its container. Defaults depend on the device."
+   },
+   {
+    "name": "label",
+    "type": "string",
+    "required": false,
+    "doc": "Accessible name; when set the frame is exposed as a labelled group."
+   }
+  ],
+  "slots": [
+   {
+    "name": "default",
+    "doc": "Content of the screen; it fills the screen and is clipped to its rounded corners."
+   }
+  ],
   "emits": [],
   "exposed": [],
   "internal": false,
@@ -1307,7 +1428,7 @@
   "props": [
    {
     "name": "variant",
-    "type": "\"material\" | \"card\" | \"elevated\"",
+    "type": "\"card\" | \"material\" | \"elevated\"",
     "required": false,
     "default": "\"card\"",
     "doc": "Look of the surface: flat `card`, shadowed `elevated` or translucent blurred `material`."
@@ -1321,7 +1442,7 @@
    },
    {
     "name": "radius",
-    "type": "\"sm\" | \"lg\" | \"xs\" | \"md\" | \"xl\" | \"capsule\"",
+    "type": "\"sm\" | \"lg\" | \"md\" | \"xs\" | \"xl\" | \"capsule\"",
     "required": false,
     "default": "\"lg\"",
     "doc": "Corner rounding from `xs` to `xl`, or fully rounded `capsule`."
@@ -1503,7 +1624,7 @@
   "props": [
    {
     "name": "variant",
-    "type": "\"destructive\" | \"filled\" | \"tinted\" | \"gray\" | \"plain\" | \"bordered\"",
+    "type": "\"destructive\" | \"plain\" | \"bordered\" | \"filled\" | \"tinted\" | \"gray\"",
     "required": false,
     "default": "\"filled\"",
     "doc": "Visual style of the button, from the most to the least emphasized."
@@ -1657,6 +1778,85 @@
   ]
  },
  {
+  "name": "MiCopyButton",
+  "group": "Buttons",
+  "path": "app/components/Buttons/MiCopyButton.vue",
+  "summary": "Button that copies a string to the clipboard, swaps its icon and label to a confirmation, and announces it to screen readers.",
+  "props": [
+   {
+    "name": "value",
+    "type": "string",
+    "required": false,
+    "doc": "Text to copy. Ignored when `getValue` is set."
+   },
+   {
+    "name": "getValue",
+    "type": "(): string | Promise<string>",
+    "required": false,
+    "doc": "Function returning the text at click time (sync or async); wins over `value`."
+   },
+   {
+    "name": "label",
+    "type": "string",
+    "required": false,
+    "default": "\"Copy\"",
+    "doc": "Button text and accessible name before copying. Empty hides the text (icon only, the name stays)."
+   },
+   {
+    "name": "copiedLabel",
+    "type": "string",
+    "required": false,
+    "default": "\"Copied\"",
+    "doc": "Text and accessible name shown right after copying; announced politely."
+   },
+   {
+    "name": "timeout",
+    "type": "number",
+    "required": false,
+    "default": "1800",
+    "doc": "How long the confirmation stays, in ms."
+   },
+   {
+    "name": "variant",
+    "type": "\"tinted\" | \"outline\" | \"ghost\"",
+    "required": false,
+    "default": "\"tinted\"",
+    "doc": "Visual style: subtle tinted, outlined, or icon-only quiet."
+   },
+   {
+    "name": "iconOnly",
+    "type": "boolean",
+    "required": false,
+    "doc": "Hides the visible text and shows only the icon."
+   },
+   {
+    "name": "disabled",
+    "type": "boolean",
+    "required": false,
+    "doc": "Blocks interaction and dims the button."
+   }
+  ],
+  "slots": [
+   {
+    "name": "icon",
+    "doc": "Replaces the idle icon."
+   }
+  ],
+  "emits": [
+   {
+    "name": "error",
+    "type": "[error: unknown]"
+   },
+   {
+    "name": "copy",
+    "type": "[value: string]"
+   }
+  ],
+  "exposed": [],
+  "internal": false,
+  "types": []
+ },
+ {
   "name": "MiIconButton",
   "group": "Buttons",
   "path": "app/components/Buttons/MiIconButton.vue",
@@ -1670,7 +1870,7 @@
    },
    {
     "name": "variant",
-    "type": "\"filled\" | \"tinted\" | \"gray\" | \"plain\"",
+    "type": "\"plain\" | \"filled\" | \"tinted\" | \"gray\"",
     "required": false,
     "default": "\"filled\"",
     "doc": "Visual style of the button, from the most to the least emphasized."
@@ -2150,6 +2350,196 @@
   "types": []
  },
  {
+  "name": "MiDonutChart",
+  "group": "Charts",
+  "path": "app/components/Charts/MiDonutChart.vue",
+  "summary": "Donut or pie chart of labelled values with a center readout, legend, hover and keyboard highlighting, and a chart/table toggle. Data: { label, value, color? }[].",
+  "props": [
+   {
+    "name": "data",
+    "type": "{ label: string; value: number; color?: string }[]",
+    "required": true,
+    "doc": "Segments as { label, value, color? }[]. Negative values count as 0; zero values get no segment."
+   },
+   {
+    "name": "variant",
+    "type": "\"donut\" | \"pie\"",
+    "required": false,
+    "default": "\"donut\"",
+    "doc": "donut: ring with a center slot. pie: filled disc."
+   },
+   {
+    "name": "title",
+    "type": "string",
+    "required": false,
+    "doc": "Heading shown above the chart inside the card."
+   },
+   {
+    "name": "subtitle",
+    "type": "string",
+    "required": false,
+    "doc": "Secondary line under the title."
+   },
+   {
+    "name": "card",
+    "type": "boolean",
+    "required": false,
+    "default": "true",
+    "doc": "Wraps the chart in the elevated card surface; turn off to embed it in your own container."
+   },
+   {
+    "name": "size",
+    "type": "number",
+    "required": false,
+    "default": "240",
+    "doc": "Largest width of the chart in px; it shrinks to fit its container."
+   },
+   {
+    "name": "thickness",
+    "type": "number",
+    "required": false,
+    "default": "30",
+    "doc": "Ring thickness in px on a 220 px grid (donut only)."
+   },
+   {
+    "name": "gap",
+    "type": "number",
+    "required": false,
+    "default": "3",
+    "doc": "Gap between segments in px along the ring."
+   },
+   {
+    "name": "valueLabels",
+    "type": "\"value\" | \"none\" | \"percent\"",
+    "required": false,
+    "default": "\"none\"",
+    "doc": "Text drawn on the segments: nothing, the share in percent, or the formatted value. Small segments stay unlabeled."
+   },
+   {
+    "name": "unit",
+    "type": "string",
+    "required": false,
+    "default": "\"\"",
+    "doc": "Suffix for values in the legend, tooltip, table and center, e.g. \"$\"."
+   },
+   {
+    "name": "legend",
+    "type": "boolean",
+    "required": false,
+    "default": "true",
+    "doc": "Show the legend next to or below the chart."
+   },
+   {
+    "name": "toggle",
+    "type": "boolean",
+    "required": false,
+    "default": "true",
+    "doc": "Lets users switch between the chart and an accessible data table."
+   },
+   {
+    "name": "animate",
+    "type": "boolean",
+    "required": false,
+    "default": "true",
+    "doc": "Draws the segments in on mount."
+   },
+   {
+    "name": "totalLabel",
+    "type": "string",
+    "required": false,
+    "default": "\"Total\"",
+    "doc": "Caption under the total in the center when nothing is highlighted."
+   },
+   {
+    "name": "categoryLabel",
+    "type": "string",
+    "required": false,
+    "default": "\"Category\"",
+    "doc": "Header of the first table column."
+   },
+   {
+    "name": "valueLabel",
+    "type": "string",
+    "required": false,
+    "default": "\"Value\"",
+    "doc": "Header of the value column in the table."
+   },
+   {
+    "name": "shareLabel",
+    "type": "string",
+    "required": false,
+    "default": "\"Share\"",
+    "doc": "Header of the share column in the table."
+   },
+   {
+    "name": "chartLabel",
+    "type": "string",
+    "required": false,
+    "default": "\"Chart\"",
+    "doc": "Label of the chart option in the view toggle."
+   },
+   {
+    "name": "tableLabel",
+    "type": "string",
+    "required": false,
+    "default": "\"Table\"",
+    "doc": "Label of the table option in the view toggle."
+   },
+   {
+    "name": "formatValue",
+    "type": "(value: number, datum: MiDonutDatum): string",
+    "required": false,
+    "doc": "Custom text for a value in tooltips, legend, table and center; replaces the default number plus unit."
+   },
+   {
+    "name": "ariaLabel",
+    "type": "string",
+    "required": false,
+    "doc": "Accessible description of the chart; a generated summary is used when omitted."
+   },
+   {
+    "name": "view",
+    "type": "\"table\" | \"chart\"",
+    "required": false,
+    "default": "\"chart\"",
+    "doc": "Active view: the `chart` or its data `table`."
+   },
+   {
+    "name": "active",
+    "type": "number",
+    "required": false,
+    "default": "-1",
+    "doc": "Index of the highlighted segment, -1 for none. Shared by the chart, the legend and the keyboard."
+   }
+  ],
+  "slots": [
+   {
+    "name": "center",
+    "props": "{ active: { index: number; label: string; value: number; text: string; share: number; } | null; total: number; totalText: string }",
+    "doc": "Content in the hole of the donut. Receives the highlighted segment (or null), the total and its formatted text."
+   }
+  ],
+  "emits": [
+   {
+    "name": "hover",
+    "type": "[index: number]"
+   },
+   {
+    "name": "update:active",
+    "type": "[value: number]"
+   },
+   {
+    "name": "update:view",
+    "type": "[value: \"table\" | \"chart\"]"
+   }
+  ],
+  "exposed": [],
+  "internal": false,
+  "types": [
+   "interface MiDonutDatum { label: string; value: number; /** Any CSS color; defaults to the shared chart palette in order. */ color?: string }"
+  ]
+ },
+ {
   "name": "MiHeatmap",
   "group": "Charts",
   "path": "app/components/Charts/MiHeatmap.vue",
@@ -2611,6 +3001,178 @@
   "exposed": [],
   "internal": false,
   "types": []
+ },
+ {
+  "name": "MiScatterChart",
+  "group": "Charts",
+  "path": "app/components/Charts/MiScatterChart.vue",
+  "summary": "Scatter or bubble chart of points on two numeric axes, with nice ticks, optional bubble size, tooltip, keyboard reading and a chart/table toggle. Series: { name, points: { x, y, r? }[], color? }[].",
+  "props": [
+   {
+    "name": "series",
+    "type": "{ name: string; points: MiScatterPoint[]; color?: string }[]",
+    "required": true,
+    "doc": "Point groups as { name, points: { x, y, r? }[], color? }[]."
+   },
+   {
+    "name": "title",
+    "type": "string",
+    "required": false,
+    "doc": "Heading shown above the chart inside the card."
+   },
+   {
+    "name": "subtitle",
+    "type": "string",
+    "required": false,
+    "doc": "Secondary line under the title."
+   },
+   {
+    "name": "card",
+    "type": "boolean",
+    "required": false,
+    "default": "true",
+    "doc": "Wraps the chart in the elevated card surface; turn off to embed it in your own container."
+   },
+   {
+    "name": "xLabel",
+    "type": "string",
+    "required": false,
+    "doc": "Title of the horizontal axis, drawn under it."
+   },
+   {
+    "name": "yLabel",
+    "type": "string",
+    "required": false,
+    "doc": "Title of the vertical axis, drawn above it."
+   },
+   {
+    "name": "xUnit",
+    "type": "string",
+    "required": false,
+    "default": "\"\"",
+    "doc": "Suffix for horizontal ticks and values, e.g. \"kg\"."
+   },
+   {
+    "name": "yUnit",
+    "type": "string",
+    "required": false,
+    "default": "\"\"",
+    "doc": "Suffix for vertical ticks and values, e.g. \"%\"."
+   },
+   {
+    "name": "sizeLabel",
+    "type": "string",
+    "required": false,
+    "default": "\"Size\"",
+    "doc": "Label for the bubble size in the tooltip and table."
+   },
+   {
+    "name": "ticks",
+    "type": "number",
+    "required": false,
+    "default": "5",
+    "doc": "Number of axis intervals."
+   },
+   {
+    "name": "height",
+    "type": "number",
+    "required": false,
+    "default": "300",
+    "doc": "Plot height in px."
+   },
+   {
+    "name": "dotSize",
+    "type": "number",
+    "required": false,
+    "default": "5",
+    "doc": "Radius of a plain point in px when no point has a size."
+   },
+   {
+    "name": "maxRadius",
+    "type": "number",
+    "required": false,
+    "default": "22",
+    "doc": "Largest bubble radius in px."
+   },
+   {
+    "name": "toolbar",
+    "type": "boolean",
+    "required": false,
+    "default": "true",
+    "doc": "Show the legend (from 2 series up) and the chart/table toggle in the header."
+   },
+   {
+    "name": "toggle",
+    "type": "boolean",
+    "required": false,
+    "default": "true",
+    "doc": "Lets users switch between the chart and an accessible data table."
+   },
+   {
+    "name": "animate",
+    "type": "boolean",
+    "required": false,
+    "default": "true",
+    "doc": "Fades the points in on mount."
+   },
+   {
+    "name": "seriesLabel",
+    "type": "string",
+    "required": false,
+    "default": "\"Series\"",
+    "doc": "Header of the series column in the table."
+   },
+   {
+    "name": "chartLabel",
+    "type": "string",
+    "required": false,
+    "default": "\"Chart\"",
+    "doc": "Label of the chart option in the view toggle."
+   },
+   {
+    "name": "tableLabel",
+    "type": "string",
+    "required": false,
+    "default": "\"Table\"",
+    "doc": "Label of the table option in the view toggle."
+   },
+   {
+    "name": "formatValue",
+    "type": "(value: number, axis: \"x\" | \"y\" | \"r\", series: MiScatterSeries): string",
+    "required": false,
+    "doc": "Custom text for a coordinate in the tooltip and table; replaces the default number plus unit."
+   },
+   {
+    "name": "ariaLabel",
+    "type": "string",
+    "required": false,
+    "doc": "Accessible description of the chart; a generated summary is used when omitted."
+   },
+   {
+    "name": "view",
+    "type": "\"table\" | \"chart\"",
+    "required": false,
+    "default": "\"chart\"",
+    "doc": "Active view: the `chart` or its data `table`."
+   }
+  ],
+  "slots": [],
+  "emits": [
+   {
+    "name": "hover",
+    "type": "[point: { series: number; index: number; } | null]"
+   },
+   {
+    "name": "update:view",
+    "type": "[value: \"table\" | \"chart\"]"
+   }
+  ],
+  "exposed": [],
+  "internal": false,
+  "types": [
+   "interface MiScatterPoint { x: number; y: number; /** Bubble size value; mapped to the area of the circle. Omit on all points for a plain scatter. */ r?: number }",
+   "interface MiScatterSeries { name: string; points: MiScatterPoint[]; color?: string }"
+  ]
  },
  {
   "name": "MiSparkline",
@@ -3155,7 +3717,7 @@
    },
    {
     "name": "variant",
-    "type": "\"card\" | \"plain\"",
+    "type": "\"plain\" | \"card\"",
     "required": false,
     "default": "\"card\"",
     "doc": "`card`: surface with padding. `plain`: no surface."
@@ -3265,7 +3827,7 @@
    },
    {
     "name": "size",
-    "type": "number | \"sm\" | \"lg\" | \"xs\" | \"md\" | \"xl\"",
+    "type": "number | \"sm\" | \"lg\" | \"md\" | \"xs\" | \"xl\"",
     "required": false,
     "default": "\"md\"",
     "doc": "Preset xs 24px, sm 32px, md 44px, lg 64px, xl 80px, or a number of px."
@@ -3326,7 +3888,7 @@
    },
    {
     "name": "size",
-    "type": "number | \"sm\" | \"lg\" | \"xs\" | \"md\" | \"xl\"",
+    "type": "number | \"sm\" | \"lg\" | \"md\" | \"xs\" | \"xl\"",
     "required": false,
     "default": "36",
     "doc": "Preset (xs to xl, see MiAvatar) or px. Default 36px."
@@ -3999,6 +4561,71 @@
   "types": []
  },
  {
+  "name": "MiMarquee",
+  "group": "Content",
+  "path": "app/components/Content/MiMarquee.vue",
+  "summary": "Infinite scrolling strip for logos or short text: the content is repeated into a seamless track moved with a transform-only CSS animation, with edge fade, pause on hover and reduced-motion support.",
+  "props": [
+   {
+    "name": "speed",
+    "type": "number",
+    "required": false,
+    "default": "40",
+    "doc": "Scrolling speed in px per second."
+   },
+   {
+    "name": "direction",
+    "type": "\"left\" | \"right\" | \"up\" | \"down\"",
+    "required": false,
+    "default": "\"left\"",
+    "doc": "Travel direction. `left`/`up` and `right`/`down` are equivalent per axis."
+   },
+   {
+    "name": "pauseOnHover",
+    "type": "boolean",
+    "required": false,
+    "default": "true",
+    "doc": "Pause the animation while hovered or while something inside has keyboard focus."
+   },
+   {
+    "name": "gap",
+    "type": "number",
+    "required": false,
+    "default": "32",
+    "doc": "Space between items in px."
+   },
+   {
+    "name": "vertical",
+    "type": "boolean",
+    "required": false,
+    "doc": "Scroll vertically instead of horizontally. Give the component a height (default 16rem)."
+   },
+   {
+    "name": "fade",
+    "type": "boolean",
+    "required": false,
+    "default": "true",
+    "doc": "Fade the strip out at both ends."
+   },
+   {
+    "name": "ariaLabel",
+    "type": "string",
+    "required": false,
+    "doc": "Accessible name of the region."
+   }
+  ],
+  "slots": [
+   {
+    "name": "default",
+    "doc": "The items to scroll (logos, badges, short text). Rendered more than once to fill the track; repeats are hidden from assistive tech."
+   }
+  ],
+  "emits": [],
+  "exposed": [],
+  "internal": false,
+  "types": []
+ },
+ {
   "name": "MiResizable",
   "group": "Content",
   "path": "app/components/Content/MiResizable.vue",
@@ -4112,6 +4739,101 @@
   ],
   "internal": false,
   "types": []
+ },
+ {
+  "name": "MiSortable",
+  "group": "Content",
+  "path": "app/components/Content/MiSortable.vue",
+  "summary": "Drag-and-drop reorderable list with no dependencies: pointer drag with a placeholder and auto-scroll, plus keyboard reordering with live announcements; v-model is the array of items.",
+  "props": [
+   {
+    "name": "itemKey",
+    "type": "string",
+    "required": false,
+    "default": "\"id\"",
+    "doc": "Field of each item used as its unique key (primitive items use themselves)."
+   },
+   {
+    "name": "handle",
+    "type": "boolean",
+    "required": false,
+    "doc": "Show a dedicated drag handle per row; only the handle starts a drag and takes keyboard focus. Recommended on touch screens. Without it the whole row drags."
+   },
+   {
+    "name": "orientation",
+    "type": "\"horizontal\" | \"vertical\"",
+    "required": false,
+    "default": "\"vertical\"",
+    "doc": "`vertical` stacks rows, `horizontal` lays them out in a row."
+   },
+   {
+    "name": "gap",
+    "type": "number",
+    "required": false,
+    "default": "8",
+    "doc": "Gap between rows in px."
+   },
+   {
+    "name": "autoScroll",
+    "type": "boolean",
+    "required": false,
+    "default": "true",
+    "doc": "Scroll the nearest scrollable ancestor while dragging near its edge."
+   },
+   {
+    "name": "disabled",
+    "type": "boolean",
+    "required": false,
+    "doc": "Turns off dragging and keyboard reordering."
+   },
+   {
+    "name": "ariaLabel",
+    "type": "string",
+    "required": false,
+    "default": "\"Sortable list\"",
+    "doc": "Accessible name of the list."
+   },
+   {
+    "name": "itemLabel",
+    "type": "(item: MiSortableItem, index: number): string",
+    "required": false,
+    "doc": "Returns the spoken name of an item in announcements and handle labels. Defaults to \"Item N\"."
+   },
+   {
+    "name": "modelValue",
+    "type": "MiSortableItem[]",
+    "required": false,
+    "default": "[]",
+    "doc": "The ordered items. Updated on drop (pointer) or on every step (keyboard)."
+   }
+  ],
+  "slots": [
+   {
+    "name": "default",
+    "props": "{ item: MiSortableItem; index: number; dragging: boolean }",
+    "doc": "Row content for each item."
+   },
+   {
+    "name": "handle",
+    "props": "{ item: MiSortableItem; index: number; dragging: boolean }",
+    "doc": "Replaces the grip glyph inside the drag handle (only with `handle`)."
+   }
+  ],
+  "emits": [
+   {
+    "name": "update:modelValue",
+    "type": "[value: MiSortableItem[]]"
+   },
+   {
+    "name": "reorder",
+    "type": "[move: { from: number; to: number; }]"
+   }
+  ],
+  "exposed": [],
+  "internal": false,
+  "types": [
+   "type MiSortableItem = Record<string, any>"
+  ]
  },
  {
   "name": "MiSwipeRow",
@@ -4309,6 +5031,236 @@
    "type MiTableRow = Record<string, unknown>",
    "interface MiTableSort { key: string; dir: 'asc' | 'desc' }",
    "interface MiTableColumn { key: string; label: string; align?: 'start' | 'center' | 'end'; sortable?: boolean; /** Custom sort value extractor. Defaults to `row[key]`. */ sortBy?: (row: Record<string, unknown>) => string | number; /** CSS width of the column, e.g. `120px`. */ width?: string; /** Render the cells with the secondary label color. */ muted?: boolean; /** Use tabular figures (numbers). */ numeric?: boolean }"
+  ]
+ },
+ {
+  "name": "MiTimeline",
+  "group": "Content",
+  "path": "app/components/Content/MiTimeline.vue",
+  "summary": "Vertical activity or history feed: a semantic ordered list of entries on a connecting line, from the `items` shortcut or composed MiTimelineItem parts, optionally alternating sides at wide widths.",
+  "props": [
+   {
+    "name": "items",
+    "type": "MiTimelineEntry[]",
+    "required": false,
+    "doc": "Entries to render; each takes the same fields as MiTimelineItem. Leave empty to compose parts in the default slot."
+   },
+   {
+    "name": "align",
+    "type": "\"start\" | \"alternate\"",
+    "required": false,
+    "default": "\"start\"",
+    "doc": "`alternate` places entries on both sides of a central line once the container is at least 640px wide; narrower it stays one column."
+   },
+   {
+    "name": "ariaLabel",
+    "type": "string",
+    "required": false,
+    "default": "\"Timeline\"",
+    "doc": "Accessible name of the list."
+   }
+  ],
+  "slots": [
+   {
+    "name": "default",
+    "doc": "MiTimelineItem parts, used instead of `items`."
+   }
+  ],
+  "emits": [],
+  "exposed": [],
+  "internal": false,
+  "types": [
+   "interface MiTimelineEntry { title: string; description?: string; time?: string | Date; icon?: MiIconName; tone?: MiTimelineTone; status?: MiTimelineStatus }",
+   "type MiIconName = 'widgets' | 'home' | 'folder' | 'folder-compact' | 'folder-plus' | 'tray' | 'calendar' | 'people' | 'settings' | 'billing' | 'search' | 'grid' | 'list-bullet' | 'list-dots' | 'bell' | 'plus' | 'minus' | 'dash' | 'star' | 'bookmark' | 'share' | 'sliders' | 'chevron-right' | 'chevron-left' | 'chevron-down' | 'chevron-up' | 'chevron-up-down' | 'trash' | 'heart' | 'close' | 'more' | 'sidebar' | 'columns' | 'align-left' | 'align-center' | 'align-right' | 'spinner-arc' | 'arc' | 'spinner' | 'arrow-up' | 'arrow-down' | 'arrow-left' | 'arrow-right' | 'moon' | 'sun' | 'desktop' | 'eye' | 'globe' | 'archive' | 'image' | 'check' | 'person' | 'person-fill' | 'document' | 'wifi' | 'bluetooth' | 'lock' | 'speaker' | 'speaker-wave' | 'copy' | 'pencil' | 'chat' | 'info-circle' | 'check-circle' | 'exclamation-circle' | 'warning' | 'check-circle-fill' | 'x-circle-fill'",
+   "type MiTimelineTone = 'neutral' | 'primary' | 'success' | 'warning' | 'danger' | 'info'",
+   "type MiTimelineStatus = 'done' | 'current' | 'upcoming'"
+  ]
+ },
+ {
+  "name": "MiTimelineItem",
+  "group": "Content",
+  "path": "app/components/Content/MiTimelineItem.vue",
+  "summary": "One entry of a MiTimeline: a marker (dot or icon) on the connecting line, a title, an optional time and description, and free content in the default slot.",
+  "props": [
+   {
+    "name": "title",
+    "type": "string",
+    "required": false,
+    "doc": "Heading of the entry."
+   },
+   {
+    "name": "description",
+    "type": "string",
+    "required": false,
+    "doc": "Supporting text under the title."
+   },
+   {
+    "name": "time",
+    "type": "string | Date",
+    "required": false,
+    "doc": "When it happened: display text, or a Date (shown as YYYY-MM-DD)."
+   },
+   {
+    "name": "datetime",
+    "type": "string",
+    "required": false,
+    "doc": "Machine-readable value of the `<time>` element; derived from `time` when that is a Date or an ISO string."
+   },
+   {
+    "name": "icon",
+    "type": "\"search\" | \"image\" | \"copy\" | \"widgets\" | \"home\" | \"folder\" | \"folder-compact\" | \"folder-plus\" | \"tray\" | \"calendar\" | \"people\" | \"settings\" | \"billing\" | \"grid\" | \"list-bullet\" | \"list-dots\" | \"bell\" | \"plus\" | \"minus\" | \"dash\" | \"star\" | \"bookmark\" | \"share\" | \"sliders\" | \"chevron-right\" | \"chevron-left\" | \"chevron-down\" | \"chevron-up\" | \"chevron-up-down\" | \"trash\" | \"heart\" | \"close\" | \"more\" | \"sidebar\" | \"columns\" | \"align-left\" | \"align-center\" | \"align-right\" | \"spinner-arc\" | \"arc\" | \"spinner\" | \"arrow-up\" | \"arrow-down\" | \"arrow-left\" | \"arrow-right\" | \"moon\" | \"sun\" | \"desktop\" | \"eye\" | \"globe\" | \"archive\" | \"check\" | \"person\" | \"person-fill\" | \"document\" | \"wifi\" | \"bluetooth\" | \"lock\" | \"speaker\" | \"speaker-wave\" | \"pencil\" | \"chat\" | \"info-circle\" | \"check-circle\" | \"exclamation-circle\" | \"warning\" | \"check-circle-fill\" | \"x-circle-fill\"",
+    "required": false,
+    "doc": "Icon shown in the marker; without it the marker is a dot."
+   },
+   {
+    "name": "tone",
+    "type": "\"primary\" | \"warning\" | \"neutral\" | \"danger\" | \"success\" | \"info\"",
+    "required": false,
+    "default": "\"primary\"",
+    "doc": "Color of the marker."
+   },
+   {
+    "name": "status",
+    "type": "\"done\" | \"current\" | \"upcoming\"",
+    "required": false,
+    "default": "\"done\"",
+    "doc": "`done` is filled, `current` is highlighted and marked with `aria-current=\"step\"`, `upcoming` is hollow and dimmed."
+   }
+  ],
+  "slots": [
+   {
+    "name": "default",
+    "doc": "Extra content under the description (attachments, buttons, a comment)."
+   },
+   {
+    "name": "title",
+    "doc": "Replaces the title text."
+   },
+   {
+    "name": "time",
+    "doc": "Replaces the time text."
+   },
+   {
+    "name": "marker",
+    "doc": "Replaces the marker contents (the icon or dot)."
+   }
+  ],
+  "emits": [],
+  "exposed": [],
+  "internal": false,
+  "types": []
+ },
+ {
+  "name": "MiTree",
+  "group": "Content",
+  "path": "app/components/Content/MiTree.vue",
+  "summary": "Hierarchical tree view with expandable branches, single or multiple selection, optional checkboxes with mixed parents, and full WAI-ARIA keyboard support with type-ahead.",
+  "props": [
+   {
+    "name": "items",
+    "type": "MiTreeItem[]",
+    "required": true,
+    "doc": "Root nodes. Each node has an `id`, a `label`, and optional `icon`, `children` and `disabled`."
+   },
+   {
+    "name": "multiple",
+    "type": "boolean",
+    "required": false,
+    "doc": "Allow several selected nodes; the `selected` model is then an array."
+   },
+   {
+    "name": "checkable",
+    "type": "boolean",
+    "required": false,
+    "doc": "Show a checkbox per node. Parents show a mixed state; the `selected` model (always an array) holds the checked leaves."
+   },
+   {
+    "name": "ariaLabel",
+    "type": "string",
+    "required": false,
+    "default": "\"Tree\"",
+    "doc": "Accessible name of the tree."
+   },
+   {
+    "name": "selected",
+    "type": "null | string | number | MiTreeId[]",
+    "required": false,
+    "doc": "Selected node id, or an array of ids with `multiple` or `checkable`."
+   },
+   {
+    "name": "expanded",
+    "type": "MiTreeId[]",
+    "required": false,
+    "default": "[]",
+    "doc": "Ids of the expanded branches."
+   }
+  ],
+  "slots": [],
+  "emits": [
+   {
+    "name": "update:selected",
+    "type": "[value: MiTreeId | MiTreeId[] | null | undefined]"
+   },
+   {
+    "name": "update:expanded",
+    "type": "[value: MiTreeId[]]"
+   }
+  ],
+  "exposed": [],
+  "internal": false,
+  "types": [
+   "interface MiTreeItem { id: MiTreeId; label: string; icon?: MiIconName; children?: MiTreeItem[]; disabled?: boolean }",
+   "type MiTreeId = string | number",
+   "type MiIconName = 'widgets' | 'home' | 'folder' | 'folder-compact' | 'folder-plus' | 'tray' | 'calendar' | 'people' | 'settings' | 'billing' | 'search' | 'grid' | 'list-bullet' | 'list-dots' | 'bell' | 'plus' | 'minus' | 'dash' | 'star' | 'bookmark' | 'share' | 'sliders' | 'chevron-right' | 'chevron-left' | 'chevron-down' | 'chevron-up' | 'chevron-up-down' | 'trash' | 'heart' | 'close' | 'more' | 'sidebar' | 'columns' | 'align-left' | 'align-center' | 'align-right' | 'spinner-arc' | 'arc' | 'spinner' | 'arrow-up' | 'arrow-down' | 'arrow-left' | 'arrow-right' | 'moon' | 'sun' | 'desktop' | 'eye' | 'globe' | 'archive' | 'image' | 'check' | 'person' | 'person-fill' | 'document' | 'wifi' | 'bluetooth' | 'lock' | 'speaker' | 'speaker-wave' | 'copy' | 'pencil' | 'chat' | 'info-circle' | 'check-circle' | 'exclamation-circle' | 'warning' | 'check-circle-fill' | 'x-circle-fill'"
+  ]
+ },
+ {
+  "name": "MiTreeNode",
+  "group": "Content",
+  "path": "app/components/Content/MiTreeNode.vue",
+  "summary": "Internal recursive row of MiTree: one treeitem with its toggle, optional checkbox, icon and label, plus its animated child group.",
+  "props": [
+   {
+    "name": "item",
+    "type": "MiTreeItem",
+    "required": true,
+    "doc": "The item this row renders."
+   },
+   {
+    "name": "level",
+    "type": "number",
+    "required": true,
+    "doc": "One-based depth of the row."
+   },
+   {
+    "name": "ctx",
+    "type": "MiTreeContext",
+    "required": true,
+    "doc": "Shared state and handlers provided by the owning MiTree."
+   },
+   {
+    "name": "setSize",
+    "type": "number",
+    "required": true,
+    "doc": "Number of siblings, for `aria-setsize`."
+   },
+   {
+    "name": "posInSet",
+    "type": "number",
+    "required": true,
+    "doc": "One-based position among siblings, for `aria-posinset`."
+   }
+  ],
+  "slots": [],
+  "emits": [],
+  "exposed": [],
+  "internal": false,
+  "types": [
+   "interface MiTreeItem { id: MiTreeId; label: string; icon?: MiIconName; children?: MiTreeItem[]; disabled?: boolean }",
+   "interface MiTreeContext { selected: Set<MiTreeId>; expanded: Set<MiTreeId>; checks: Map<MiTreeId, MiTreeCheck>; checkable: boolean; focusId: MiTreeId | null; focus: (id: MiTreeId) => void; toggle: (id: MiTreeId) => void; activate: (item: MiTreeItem) => void }",
+   "type MiTreeId = string | number",
+   "type MiIconName = 'widgets' | 'home' | 'folder' | 'folder-compact' | 'folder-plus' | 'tray' | 'calendar' | 'people' | 'settings' | 'billing' | 'search' | 'grid' | 'list-bullet' | 'list-dots' | 'bell' | 'plus' | 'minus' | 'dash' | 'star' | 'bookmark' | 'share' | 'sliders' | 'chevron-right' | 'chevron-left' | 'chevron-down' | 'chevron-up' | 'chevron-up-down' | 'trash' | 'heart' | 'close' | 'more' | 'sidebar' | 'columns' | 'align-left' | 'align-center' | 'align-right' | 'spinner-arc' | 'arc' | 'spinner' | 'arrow-up' | 'arrow-down' | 'arrow-left' | 'arrow-right' | 'moon' | 'sun' | 'desktop' | 'eye' | 'globe' | 'archive' | 'image' | 'check' | 'person' | 'person-fill' | 'document' | 'wifi' | 'bluetooth' | 'lock' | 'speaker' | 'speaker-wave' | 'copy' | 'pencil' | 'chat' | 'info-circle' | 'check-circle' | 'exclamation-circle' | 'warning' | 'check-circle-fill' | 'x-circle-fill'",
+   "type MiTreeCheck = 'checked' | 'mixed' | 'none'"
   ]
  },
  {
@@ -4667,6 +5619,82 @@
   "types": [
    "interface MiRadioOption { value: string | number | boolean; label: string; description?: string; disabled?: boolean }"
   ]
+ },
+ {
+  "name": "MiRating",
+  "group": "Controls",
+  "path": "app/components/Controls/MiRating.vue",
+  "summary": "Star rating slider with whole or half values, hover preview, keyboard control, optional clear on re-click, and read-only display.",
+  "props": [
+   {
+    "name": "max",
+    "type": "number",
+    "required": false,
+    "default": "5",
+    "doc": "Number of stars, which is also the highest value."
+   },
+   {
+    "name": "half",
+    "type": "boolean",
+    "required": false,
+    "doc": "Allow half-star values (step 0.5 instead of 1)."
+   },
+   {
+    "name": "readonly",
+    "type": "boolean",
+    "required": false,
+    "doc": "Shows the value without allowing changes; stays focusable."
+   },
+   {
+    "name": "disabled",
+    "type": "boolean",
+    "required": false,
+    "doc": "Blocks interaction and dims the stars."
+   },
+   {
+    "name": "size",
+    "type": "\"sm\" | \"lg\" | \"md\"",
+    "required": false,
+    "default": "\"md\"",
+    "doc": "Star size."
+   },
+   {
+    "name": "clearable",
+    "type": "boolean",
+    "required": false,
+    "doc": "Clicking the current value again resets the rating to 0."
+   },
+   {
+    "name": "label",
+    "type": "string",
+    "required": false,
+    "default": "\"Rating\"",
+    "doc": "Accessible name of the control."
+   },
+   {
+    "name": "showValue",
+    "type": "boolean",
+    "required": false,
+    "doc": "Shows the numeric value after the stars."
+   },
+   {
+    "name": "modelValue",
+    "type": "number",
+    "required": false,
+    "default": "0",
+    "doc": "Current rating from 0 to `max`, in steps of 1 (0.5 with `half`)."
+   }
+  ],
+  "slots": [],
+  "emits": [
+   {
+    "name": "update:modelValue",
+    "type": "[value: number]"
+   }
+  ],
+  "exposed": [],
+  "internal": false,
+  "types": []
  },
  {
   "name": "MiSegmented",
@@ -5680,6 +6708,26 @@
   "types": [
    "type MiFbIconName = 'info' | 'success' | 'warning' | 'danger' | 'calendar' | 'comment' | 'bell' | 'folder' | 'folder-plus' | 'document' | 'eye' | 'duplicate' | 'pencil' | 'check' | 'chevron-right' | 'trash' | 'close' | 'inbox' | 'share' | 'search' | 'link'"
   ]
+ },
+ {
+  "name": "MiConfetti",
+  "group": "Feedback",
+  "path": "app/components/Feedback/MiConfetti.vue",
+  "summary": "Full-viewport, click-through canvas that draws confetti bursts fired with useMiConfetti(); mount it once near the app root.",
+  "props": [
+   {
+    "name": "zIndex",
+    "type": "number",
+    "required": false,
+    "default": "9999",
+    "doc": "Stacking order of the canvas; it never receives pointer events."
+   }
+  ],
+  "slots": [],
+  "emits": [],
+  "exposed": [],
+  "internal": false,
+  "types": []
  },
  {
   "name": "MiContextMenu",
@@ -7441,6 +8489,104 @@
   "types": []
  },
  {
+  "name": "MiEditor",
+  "group": "Inputs",
+  "path": "app/components/Inputs/MiEditor.vue",
+  "summary": "Lightweight rich-text editor with a formatting toolbar and shortcuts; v-model is a sanitized HTML string limited to basic text formatting, lists, headings, quotes, code and links.",
+  "props": [
+   {
+    "name": "label",
+    "type": "string",
+    "required": false,
+    "default": "\"Rich text editor\"",
+    "doc": "Accessible name of the editing area."
+   },
+   {
+    "name": "placeholder",
+    "type": "string",
+    "required": false,
+    "doc": "Hint shown while the editor is empty."
+   },
+   {
+    "name": "readonly",
+    "type": "boolean",
+    "required": false,
+    "doc": "Shows the content without allowing edits; the area stays focusable and selectable."
+   },
+   {
+    "name": "disabled",
+    "type": "boolean",
+    "required": false,
+    "doc": "Blocks interaction and dims the editor."
+   },
+   {
+    "name": "minHeight",
+    "type": "string | number",
+    "required": false,
+    "default": "160",
+    "doc": "Minimum height of the editing area, in px or any CSS length."
+   },
+   {
+    "name": "maxHeight",
+    "type": "string | number",
+    "required": false,
+    "doc": "Maximum height before the area scrolls, in px or any CSS length."
+   },
+   {
+    "name": "toolbar",
+    "type": "boolean",
+    "required": false,
+    "default": "true",
+    "doc": "Shows the formatting toolbar."
+   },
+   {
+    "name": "pasteMode",
+    "type": "\"text\" | \"html\"",
+    "required": false,
+    "default": "\"html\"",
+    "doc": "How pasted content is inserted: as sanitized HTML (keeps basic formatting) or as plain text."
+   },
+   {
+    "name": "invalid",
+    "type": "boolean",
+    "required": false,
+    "doc": "Marks the editing area as invalid (`aria-invalid`) and tints its border."
+   },
+   {
+    "name": "linkLabel",
+    "type": "string",
+    "required": false,
+    "default": "\"Link address\"",
+    "doc": "Prompt label of the link address field."
+   },
+   {
+    "name": "modelValue",
+    "type": "string",
+    "required": false,
+    "default": "\"\"",
+    "doc": "The content as sanitized HTML."
+   }
+  ],
+  "slots": [],
+  "emits": [
+   {
+    "name": "update:modelValue",
+    "type": "[value: string]"
+   },
+   {
+    "name": "focus",
+    "type": "[event: FocusEvent]"
+   },
+   {
+    "name": "blur",
+    "type": "[event: FocusEvent]"
+   }
+  ],
+  "exposed": [],
+  "internal": false,
+  "types": []
+ },
+ {
   "name": "MiField",
   "group": "Inputs",
   "path": "app/components/Inputs/MiField.vue",
@@ -7512,6 +8658,186 @@
   "exposed": [],
   "internal": false,
   "types": []
+ },
+ {
+  "name": "MiFileInput",
+  "group": "Inputs",
+  "path": "app/components/Inputs/MiFileInput.vue",
+  "summary": "Compact field-style file input: a choose button next to the file name, with the same type, size and count validation as MiFileUpload.",
+  "props": [
+   {
+    "name": "accept",
+    "type": "string",
+    "required": false,
+    "doc": "Accepted types, same syntax as the native `accept` attribute (`image/*,.pdf`)."
+   },
+   {
+    "name": "multiple",
+    "type": "boolean",
+    "required": false,
+    "doc": "Allow several files; the model is then a File array instead of a single File."
+   },
+   {
+    "name": "maxSize",
+    "type": "number",
+    "required": false,
+    "doc": "Largest allowed file size in bytes."
+   },
+   {
+    "name": "maxFiles",
+    "type": "number",
+    "required": false,
+    "doc": "Largest allowed number of files (multiple mode only)."
+   },
+   {
+    "name": "disabled",
+    "type": "boolean",
+    "required": false,
+    "doc": "Blocks interaction and dims the field."
+   },
+   {
+    "name": "label",
+    "type": "string",
+    "required": false,
+    "default": "\"File\"",
+    "doc": "Accessible name of the field."
+   },
+   {
+    "name": "buttonLabel",
+    "type": "string",
+    "required": false,
+    "default": "\"Choose file\"",
+    "doc": "Text of the choose button."
+   },
+   {
+    "name": "placeholder",
+    "type": "string",
+    "required": false,
+    "default": "\"No file chosen\"",
+    "doc": "Text shown while no file is chosen."
+   },
+   {
+    "name": "clearLabel",
+    "type": "string",
+    "required": false,
+    "default": "\"Clear\"",
+    "doc": "Accessible name of the clear button."
+   },
+   {
+    "name": "modelValue",
+    "type": "null | File | File[]",
+    "required": false,
+    "default": "null",
+    "doc": "Chosen file (single mode) or files (`multiple`); null or an empty array when nothing is chosen."
+   }
+  ],
+  "slots": [],
+  "emits": [
+   {
+    "name": "update:modelValue",
+    "type": "[value: File | File[] | null]"
+   },
+   {
+    "name": "reject",
+    "type": "[rejections: MiFileRejection[]]"
+   }
+  ],
+  "exposed": [
+   "focus: () => void | undefined"
+  ],
+  "internal": false,
+  "types": [
+   "interface MiFileRejection { file: File; reason: MiFileRejectReason }",
+   "type MiFileRejectReason = 'type' | 'size' | 'count'"
+  ]
+ },
+ {
+  "name": "MiFileUpload",
+  "group": "Inputs",
+  "path": "app/components/Inputs/MiFileUpload.vue",
+  "summary": "Drag-and-drop file zone with a file list, per-file removal and progress, type, size and count validation, and keyboard access.",
+  "props": [
+   {
+    "name": "accept",
+    "type": "string",
+    "required": false,
+    "doc": "Accepted types, same syntax as the native `accept` attribute (`image/*,.pdf`)."
+   },
+   {
+    "name": "multiple",
+    "type": "boolean",
+    "required": false,
+    "doc": "Allow several files. When false a new file replaces the current one."
+   },
+   {
+    "name": "maxSize",
+    "type": "number",
+    "required": false,
+    "doc": "Largest allowed file size in bytes."
+   },
+   {
+    "name": "maxFiles",
+    "type": "number",
+    "required": false,
+    "doc": "Largest allowed number of files (multiple mode only)."
+   },
+   {
+    "name": "disabled",
+    "type": "boolean",
+    "required": false,
+    "doc": "Blocks interaction and dims the zone."
+   },
+   {
+    "name": "label",
+    "type": "string",
+    "required": false,
+    "default": "\"Drop files here or browse\"",
+    "doc": "Title of the zone, also its accessible name."
+   },
+   {
+    "name": "hint",
+    "type": "string",
+    "required": false,
+    "doc": "Secondary line under the label, such as accepted formats."
+   },
+   {
+    "name": "progress",
+    "type": "Record<string, number>",
+    "required": false,
+    "doc": "Upload progress per file name, from 0 to 1. Files without an entry show no bar."
+   },
+   {
+    "name": "removeLabel",
+    "type": "string",
+    "required": false,
+    "default": "\"Remove\"",
+    "doc": "Accessible name prefix of the per-file remove button."
+   },
+   {
+    "name": "modelValue",
+    "type": "File[]",
+    "required": false,
+    "default": "[]",
+    "doc": "Files currently held."
+   }
+  ],
+  "slots": [],
+  "emits": [
+   {
+    "name": "update:modelValue",
+    "type": "[value: File[]]"
+   },
+   {
+    "name": "reject",
+    "type": "[rejections: MiFileRejection[]]"
+   }
+  ],
+  "exposed": [],
+  "internal": false,
+  "types": [
+   "interface MiFileRejection { file: File; reason: MiFileRejectReason }",
+   "type MiFileRejectReason = 'type' | 'size' | 'count'"
+  ]
  },
  {
   "name": "MiForm",
@@ -7898,6 +9224,161 @@
   ]
  },
  {
+  "name": "MiPasswordStrength",
+  "group": "Inputs",
+  "path": "app/components/Inputs/MiPasswordStrength.vue",
+  "summary": "Password strength meter for a given string: four-segment bar, a Weak to Strong label and an optional requirements checklist; pairs with MiInput.",
+  "props": [
+   {
+    "name": "value",
+    "type": "string",
+    "required": false,
+    "default": "\"\"",
+    "doc": "The password to evaluate."
+   },
+   {
+    "name": "requirements",
+    "type": "MiPasswordRequirement[]",
+    "required": false,
+    "default": "[]",
+    "doc": "Requirements to list below the bar: any of `length`, `upper`, `lower`, `number`, `symbol`. Empty hides the checklist."
+   },
+   {
+    "name": "minLength",
+    "type": "number",
+    "required": false,
+    "default": "8",
+    "doc": "Minimum length used by the `length` requirement and the scoring."
+   },
+   {
+    "name": "labels",
+    "type": "[string, string, string, string]",
+    "required": false,
+    "default": "[\"Weak\", \"Fair\", \"Good\", \"Strong\"]",
+    "doc": "Labels for scores 1 to 4 (Weak, Fair, Good, Strong)."
+   },
+   {
+    "name": "emptyLabel",
+    "type": "string",
+    "required": false,
+    "default": "\"Enter a password\"",
+    "doc": "Text shown while the value is empty."
+   },
+   {
+    "name": "label",
+    "type": "string",
+    "required": false,
+    "default": "\"Password strength\"",
+    "doc": "Accessible name of the meter."
+   },
+   {
+    "name": "requirementLabels",
+    "type": "Partial<Record<MiPasswordRequirement, string>>",
+    "required": false,
+    "doc": "Display names of the requirements, keyed by requirement."
+   }
+  ],
+  "slots": [],
+  "emits": [
+   {
+    "name": "score",
+    "type": "[score: 0 | 1 | 2 | 3 | 4]"
+   }
+  ],
+  "exposed": [],
+  "internal": false,
+  "types": [
+   "type MiPasswordRequirement = 'length' | 'upper' | 'lower' | 'number' | 'symbol'"
+  ]
+ },
+ {
+  "name": "MiRepeater",
+  "group": "Inputs",
+  "path": "app/components/Inputs/MiRepeater.vue",
+  "summary": "Repeatable block of fields: add and remove rows, min and max rows, a row factory, focus management and stable keys; rows render through the default slot.",
+  "props": [
+   {
+    "name": "min",
+    "type": "number",
+    "required": false,
+    "default": "0",
+    "doc": "Fewest rows allowed; remove buttons disable there and missing rows are created on mount."
+   },
+   {
+    "name": "max",
+    "type": "number",
+    "required": false,
+    "doc": "Most rows allowed; the add button disables there. Unlimited when omitted."
+   },
+   {
+    "name": "addLabel",
+    "type": "string",
+    "required": false,
+    "default": "\"Add row\"",
+    "doc": "Text of the add button."
+   },
+   {
+    "name": "removeLabel",
+    "type": "string",
+    "required": false,
+    "default": "\"Remove row\"",
+    "doc": "Accessible name of each remove button; the row number is appended."
+   },
+   {
+    "name": "template",
+    "type": "(): MiRepeaterRow",
+    "required": false,
+    "doc": "Factory returning a new row. Defaults to an empty object."
+   },
+   {
+    "name": "label",
+    "type": "string",
+    "required": false,
+    "default": "\"Row\"",
+    "doc": "Accessible name of the list and prefix of each row's group name."
+   },
+   {
+    "name": "disabled",
+    "type": "boolean",
+    "required": false,
+    "doc": "Blocks adding and removing rows."
+   },
+   {
+    "name": "modelValue",
+    "type": "MiRepeaterRow[]",
+    "required": false,
+    "default": "[]",
+    "doc": "Rows of the repeater; each row is an object edited through the slot's `update`."
+   }
+  ],
+  "slots": [
+   {
+    "name": "default",
+    "props": "{ row: MiRepeaterRow; index: number; update: (patch: Partial<MiRepeaterRow>) => void }",
+    "doc": "Fields of one row."
+   }
+  ],
+  "emits": [
+   {
+    "name": "remove",
+    "type": "[index: number, row: MiRepeaterRow]"
+   },
+   {
+    "name": "update:modelValue",
+    "type": "[value: MiRepeaterRow[]]"
+   },
+   {
+    "name": "add",
+    "type": "[index: number]"
+   }
+  ],
+  "exposed": [],
+  "internal": false,
+  "types": [
+   "type MiRepeaterRow = Record<string, unknown>"
+  ]
+ },
+ {
   "name": "MiSearch",
   "group": "Inputs",
   "path": "app/components/Inputs/MiSearch.vue",
@@ -8151,11 +9632,11 @@
     "type": "[value: string[]]"
    },
    {
-    "name": "add",
+    "name": "reject",
     "type": "[tag: string]"
    },
    {
-    "name": "reject",
+    "name": "add",
     "type": "[tag: string]"
    }
   ],
@@ -8248,6 +9729,87 @@
    "focus: () => void | undefined",
    "textarea: HTMLTextAreaElement | null"
   ],
+  "internal": false,
+  "types": []
+ },
+ {
+  "name": "MiTimePicker",
+  "group": "Inputs",
+  "path": "app/components/Inputs/MiTimePicker.vue",
+  "summary": "Standalone time field with hour, minute and optional second spinbuttons, 12 or 24 hour display, step, min and max, and an AM/PM toggle.",
+  "props": [
+   {
+    "name": "hour12",
+    "type": "boolean",
+    "required": false,
+    "doc": "Use a 12 hour clock with an AM/PM toggle instead of 24 hours."
+   },
+   {
+    "name": "minuteStep",
+    "type": "number",
+    "required": false,
+    "default": "1",
+    "doc": "Increment of the minute segment; typed values snap to it."
+   },
+   {
+    "name": "min",
+    "type": "string",
+    "required": false,
+    "doc": "Earliest allowed time as `HH:mm` or `HH:mm:ss`; values below are raised to it."
+   },
+   {
+    "name": "max",
+    "type": "string",
+    "required": false,
+    "doc": "Latest allowed time as `HH:mm` or `HH:mm:ss`; values above are lowered to it."
+   },
+   {
+    "name": "seconds",
+    "type": "boolean",
+    "required": false,
+    "doc": "Adds a seconds segment and emits `HH:mm:ss`."
+   },
+   {
+    "name": "label",
+    "type": "string",
+    "required": false,
+    "default": "\"Time\"",
+    "doc": "Accessible name of the group."
+   },
+   {
+    "name": "name",
+    "type": "string",
+    "required": false,
+    "doc": "Name of a hidden input carrying the value for native form posts."
+   },
+   {
+    "name": "disabled",
+    "type": "boolean",
+    "required": false,
+    "doc": "Blocks interaction and dims the field."
+   },
+   {
+    "name": "invalid",
+    "type": "boolean",
+    "required": false,
+    "doc": "Draws the error border."
+   },
+   {
+    "name": "modelValue",
+    "type": "null | string",
+    "required": false,
+    "default": "null",
+    "doc": "Selected time as `HH:mm` (`HH:mm:ss` with `seconds`), or null when empty."
+   }
+  ],
+  "slots": [],
+  "emits": [
+   {
+    "name": "update:modelValue",
+    "type": "[value: string | null]"
+   }
+  ],
+  "exposed": [],
   "internal": false,
   "types": []
  },
@@ -8645,6 +10207,56 @@
   "types": []
  },
  {
+  "name": "MiScrollspy",
+  "group": "Navigation",
+  "path": "app/components/Navigation/MiScrollspy.vue",
+  "summary": "\"On this page\" outline: anchor links for page sections that highlight the one in view (scrollspy), with a sliding indicator and smooth scrolling on click; v-model:active is the active section id.",
+  "props": [
+   {
+    "name": "items",
+    "type": "{ id: string; label: string; level?: number }[]",
+    "required": true,
+    "doc": "Sections to link to: the element `id`, the link text and an optional nesting level (1 = top level, 2 = indented...)."
+   },
+   {
+    "name": "offset",
+    "type": "number",
+    "required": false,
+    "default": "80",
+    "doc": "Height in px of a fixed header to keep clear when scrolling and when deciding which section is active."
+   },
+   {
+    "name": "rootMargin",
+    "type": "string",
+    "required": false,
+    "doc": "Custom IntersectionObserver rootMargin, overriding the one derived from `offset`."
+   },
+   {
+    "name": "ariaLabel",
+    "type": "string",
+    "required": false,
+    "default": "\"On this page\"",
+    "doc": "Accessible name of the navigation."
+   },
+   {
+    "name": "active",
+    "type": "string",
+    "required": false,
+    "doc": "Id of the active section. Follows the scroll position and is set immediately when a link is clicked."
+   }
+  ],
+  "slots": [],
+  "emits": [
+   {
+    "name": "update:active",
+    "type": "[value: string | undefined]"
+   }
+  ],
+  "exposed": [],
+  "internal": false,
+  "types": []
+ },
+ {
   "name": "MiSidebar",
   "group": "Navigation",
   "path": "app/components/Navigation/MiSidebar.vue",
@@ -8713,6 +10325,71 @@
    "interface MiSidebarItem { id: string; label: string; icon?: MiNavIconName; /** Renders a coloured dot instead of an icon (tags). */ color?: MiSidebarColor; badge?: number | string; href?: string; disabled?: boolean }",
    "type MiNavIconName = 'home' | 'inbox' | 'folder' | 'calendar' | 'document' | 'search' | 'photo' | 'person' | 'back' | 'forward' | 'chevron-right' | 'sidebar' | 'grid' | 'list' | 'share' | 'plus' | 'check' | 'settings' | 'people' | 'billing'",
    "type MiSidebarColor = 'red' | 'orange' | 'yellow' | 'green' | 'mint' | 'teal' | 'blue' | 'indigo' | 'purple' | 'pink'"
+  ]
+ },
+ {
+  "name": "MiSiteHeader",
+  "group": "Navigation",
+  "path": "app/components/Navigation/MiSiteHeader.vue",
+  "summary": "Marketing site header: logo, primary links (with dropdowns), actions and a mobile burger that opens an inline panel; collapses under 820px of its own width, optionally sticky.",
+  "props": [
+   {
+    "name": "links",
+    "type": "MiSiteLink[]",
+    "required": false,
+    "default": "[]",
+    "doc": "Primary navigation entries."
+   },
+   {
+    "name": "sticky",
+    "type": "boolean",
+    "required": false,
+    "doc": "Keep the header fixed at the top of the viewport while scrolling, on a translucent blurred surface."
+   },
+   {
+    "name": "ariaLabel",
+    "type": "string",
+    "required": false,
+    "default": "\"Main\"",
+    "doc": "Accessible name of the main navigation."
+   },
+   {
+    "name": "open",
+    "type": "boolean",
+    "required": false,
+    "default": "false",
+    "doc": "Whether the mobile panel is open."
+   }
+  ],
+  "slots": [
+   {
+    "name": "logo",
+    "doc": "Brand area on the left, usually a logo wrapped in a link."
+   },
+   {
+    "name": "actions",
+    "doc": "Call-to-action buttons on the right; also repeated at the bottom of the mobile panel."
+   },
+   {
+    "name": "link",
+    "props": "{ link: MiSiteLink; class: string }",
+    "doc": "Custom link renderer, e.g. to output NuxtLink. Receives the link and its CSS class."
+   }
+  ],
+  "emits": [
+   {
+    "name": "update:open",
+    "type": "[value: boolean]"
+   },
+   {
+    "name": "navigate",
+    "type": "[link: MiSiteLink]"
+   }
+  ],
+  "exposed": [],
+  "internal": false,
+  "types": [
+   "interface MiSiteLink { label: string; /** Destination URL. */ href?: string; /** Route path; rendered as a plain anchor unless you provide the `link` slot. */ to?: string; /** Marks the current page. */ active?: boolean; /** Sub-links, shown as a dropdown on desktop and as a nested list in the mobile panel. */ children?: MiSiteLink[] }"
   ]
  },
  {

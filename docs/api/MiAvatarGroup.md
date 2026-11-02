@@ -10,7 +10,7 @@ Group: Content. Source: app/components/Content/MiAvatarGroup.vue
 |---|---|---|---|
 | items* | { name: string; src?: string; tone?: MiAvatarTone; initials?: string }[] |  | Members to display, in order; the first `max` are shown. |
 | max | number | 3 | Maximum avatars shown before collapsing the rest into "+N". |
-| size | number \| "sm" \| "lg" \| "xs" \| "md" \| "xl" | 36 | Preset (xs to xl, see MiAvatar) or px. Default 36px. |
+| size | number \| "sm" \| "lg" \| "md" \| "xs" \| "xl" | 36 | Preset (xs to xl, see MiAvatar) or px. Default 36px. |
 | shape | "circle" \| "square" | "circle" | Circle or rounded square outline of every avatar. |
 | label | string |  | Override the generated accessible label. |
 

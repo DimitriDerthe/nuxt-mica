@@ -12,7 +12,7 @@ Use with v-model.
 | type | "multiple" \| "single" | "single" | `single`: one panel open at a time. `multiple`: any number. |
 | collapsible | boolean | true | Single mode only: allow closing the open panel. |
 | items | MiAccordionEntry[] |  | Convenience: render items from data instead of `MiAccordionItem` slots. |
-| variant | "card" \| "plain" | "card" | `card`: surface with padding. `plain`: no surface. |
+| variant | "plain" \| "card" | "card" | `card`: surface with padding. `plain`: no surface. |
 | headingLevel | 2 \| 3 \| 4 \| 5 \| 6 | 3 | Heading level of each panel trigger; keeps the page outline valid. |
 | modelValue | null \| string \| string[] | null | Open panel value (single) or values (multiple). |
 
