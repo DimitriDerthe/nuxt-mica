@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Mica, the native-feeling UI layer for Nuxt",
-    "description": "Native-feeling Vue components for Nuxt 4: light and dark themes, your brand colors, motion tuned for 60fps and docs your AI assistant can read. One line in nuxt.config.",
+    "description": "Native-feeling Vue components for Nuxt 4: light and dark themes, your brand colors, 60fps motion and docs your AI assistant can read.",
     "ogImageAlt": "The mica. logo above the headline \"Native calm, for every Nuxt app.\" and the nuxt.config extends line, next to a large blue dot."
   },
   "nav": {
@@ -171,6 +171,7 @@
   "explorer": {
     "title": "Components",
     "lead": "Every Mica component with a live preview, adjustable props, a usage snippet and its full API.",
+    "seoTail": "Mica component for Nuxt 4 with a live preview, adjustable props and its full API.",
     "search": "Filter components",
     "all": "All",
     "count": "{n} components",

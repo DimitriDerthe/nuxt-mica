@@ -149,7 +149,7 @@ const idx = computed(() => all.value.findIndex(c => c.name === current.value))
 const prev = computed(() => (idx.value > 0 ? all.value[idx.value - 1] : undefined))
 const next = computed(() => (idx.value >= 0 && idx.value < all.value.length - 1 ? all.value[idx.value + 1] : undefined))
 
-useSiteSeo(() => `${name.value.replace(/^Mi/, '')} · ${t('explorer.title')} · Mica`, () => api.value?.summary ?? t('explorer.lead'))
+useSiteSeo(() => `${name.value.replace(/^Mi/, '')} · ${t('explorer.title')} · Mica`, () => api.value?.summary ? `${api.value.summary} ${t('explorer.seoTail')}` : t('explorer.lead'))
 </script>
 
 <style scoped>

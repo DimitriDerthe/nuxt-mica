@@ -540,16 +540,16 @@
 "Rotation continue (indicateurs d'activité). Animation par transform uniquement."
 ],
 "MiKbd#summary": [
-"Keyboard key or short keyboard input, rendered as a small keycap.",
-"Touche de clavier ou courte saisie clavier, rendue comme une petite touche."
+"Keyboard key or short keyboard input, rendered as a small keycap; with `shortcut` it also listens for that key and presses down when it is hit.",
+"Touche de clavier ou courte saisie clavier, affichée comme un petit capuchon de touche ; avec `shortcut`, elle écoute aussi cette touche et s'enfonce quand elle est pressée."
 ],
 "MiKbd.slot.default": [
 "Key name or symbol, such as Ctrl or Esc.",
 "Nom ou symbole de la touche, comme Ctrl ou Esc."
 ],
 "MiKbdGroup#summary": [
-"Groups several MiKbd keys in a row, e.g. a shortcut like Ctrl + K.",
-"Regroupe plusieurs touches MiKbd sur une ligne, p. ex. un raccourci comme Ctrl + K."
+"Groups several MiKbd keys in a row, e.g. a shortcut like Ctrl + K; with `shortcut` the whole group listens for the combination and presses down when it is hit.",
+"Regroupe plusieurs touches MiKbd sur une ligne, p. ex. un raccourci comme Ctrl + K ; avec `shortcut`, tout le groupe écoute la combinaison et s'enfonce quand elle est pressée."
 ],
 "MiKbdGroup.slot.default": [
 "MiKbd keys that form one shortcut.",

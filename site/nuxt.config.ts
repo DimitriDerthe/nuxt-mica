@@ -1,4 +1,5 @@
-import { readdirSync, readFileSync } from 'node:fs'
+import { readdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 // Layer version, read from package.json (bumped together with the git tag by scripts/release.mjs).
@@ -9,6 +10,9 @@ const base = (process.env.NUXT_APP_BASE_URL ?? '/').replace(/\/?$/, '/')
 
 // The group guides (docs/*.md), one markdown file per component (docs/api/MiName.md) and llms.txt, so the static build ships the AI docs it links to.
 const docRoutes = ['../docs', '../docs/api'].flatMap(d => readdirSync(fileURLToPath(new URL(d, import.meta.url))).filter(f => f.endsWith('.md')).map(f => `${d.replace('..', '')}/${f}`))
+
+// Absolute origin for hreflang, canonical tags, the sitemap and robots.txt (production: NUXT_PUBLIC_I18N_BASE_URL).
+const origin = (process.env.NUXT_PUBLIC_I18N_BASE_URL ?? 'http://localhost:3010').replace(/\/$/, '')
 
 // Marketing site of the Mica layer. It consumes the layer exactly like a user project would.
 export default defineNuxtConfig({
@@ -24,6 +28,30 @@ export default defineNuxtConfig({
       link: [{ rel: 'icon', type: 'image/svg+xml', href: `${base}favicon.svg` }]
     }
   },
+  hooks: {
+    // Writes sitemap.xml (every prerendered page, with its en/fr alternates) and robots.txt next to the static build.
+    'nitro:init'(nitro) {
+      const pages = new Set<string>()
+      nitro.hooks.hook('prerender:route', (r) => {
+        if (r.error || !r.contentType?.startsWith('text/html') || /\/(200|404)\.html$/.test(r.route)) return
+        const route = r.route.startsWith(base) ? r.route : base + r.route.slice(1)
+        pages.add(route.replace(/\/$/, '') || '/')
+      })
+      nitro.hooks.hook('prerender:done', () => {
+        const url = (p: string) => `${origin}${p}`.replace(/&/g, '&amp;')
+        const fr = `${base}fr`
+        const entries = [...pages].filter(p => p !== fr && !p.startsWith(fr + '/')).sort().map((p) => {
+          const rest = (p + '/').slice(base.length).replace(/\/$/, '')
+          const alt = rest ? `${fr}/${rest}` : fr
+          const links = [['en', p], ['fr', alt], ['x-default', p]].map(([l, h]) => `<xhtml:link rel="alternate" hreflang="${l}" href="${url(h!)}"/>`).join('')
+          return [p, alt].map(loc => `<url><loc>${url(loc)}</loc>${links}</url>`).join('\n')
+        })
+        const dir = nitro.options.output.publicDir
+        writeFileSync(join(dir, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${entries.join('\n')}\n</urlset>\n`)
+        writeFileSync(join(dir, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${origin}${base}sitemap.xml\n`)
+      })
+    }
+  },
   runtimeConfig: {
     public: {
       // Where the interactive demos (the layer playground) are served. Override with NUXT_PUBLIC_SHOWCASE_URL.
@@ -34,8 +62,8 @@ export default defineNuxtConfig({
   },
   i18n: {
     defaultLocale: 'en',
-    // Absolute origin for hreflang and canonical tags. Override in production with NUXT_PUBLIC_I18N_BASE_URL.
-    baseUrl: 'http://localhost:3010',
+    // Runtime value comes from NUXT_PUBLIC_I18N_BASE_URL; the build-time origin above feeds the sitemap.
+    baseUrl: origin,
     strategy: 'prefix_except_default',
     locales: [
       { code: 'en', language: 'en-US', name: 'English', file: 'en.json' },
