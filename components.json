@@ -4894,6 +4894,12 @@
     "doc": "Turns off dragging and keyboard reordering."
    },
    {
+    "name": "bare",
+    "type": "boolean",
+    "required": false,
+    "doc": "Rows without their card shell (no background, shadow or rounding) so the slot draws its own row; the dragged row still lifts."
+   },
+   {
     "name": "ariaLabel",
     "type": "string",
     "required": false,

@@ -3,56 +3,61 @@
     <section class="wsm" aria-labelledby="wsm-title" :style="{ '--wsm-hue': `var(--mi-${current.tile})` }">
       <header class="wsm__bar">
         <MiText id="wsm-title" variant="headline" as="h2" class="wsm__sr">Workspace and account menus</MiText>
-        <MiPopover v-model="open" inline trigger="manual" :width="280" :arrow-offset="26" label="Switch workspace" class="wsm__pop">
-          <template #trigger="{ attrs, toggle }">
-            <button v-bind="attrs" type="button" class="wsm__trigger" @click="toggle">
-              <span class="wsm__mark">{{ initials(current.name) }}</span>
-              <span class="wsm__trigger-text">
-                <span class="wsm__trigger-name">{{ current.name }}</span>
-                <span class="wsm__trigger-plan">{{ current.plan }} plan</span>
-              </span>
-              <MiIcon name="chevron-up-down" :size="16" class="wsm__chev" />
-            </button>
-          </template>
+        <!-- Wrappers own the grid placement: an inline MiPopover renders its trigger and panel as two siblings. -->
+        <div class="wsm__pop">
+          <MiPopover v-model="open" inline trigger="manual" :width="280" :arrow-offset="26" label="Switch workspace">
+            <template #trigger="{ attrs, toggle }">
+              <button v-bind="attrs" type="button" class="wsm__trigger" @click="toggle">
+                <span class="wsm__mark">{{ initials(current.name) }}</span>
+                <span class="wsm__trigger-text">
+                  <span class="wsm__trigger-name">{{ current.name }}</span>
+                  <span class="wsm__trigger-plan">{{ current.plan }} plan</span>
+                </span>
+                <MiIcon name="chevron-up-down" :size="16" class="wsm__chev" />
+              </button>
+            </template>
 
-          <div class="wsm__panel">
-            <div class="wsm__panel-head">
-              <MiText variant="caption" tone="label2" weight="semibold">Workspaces</MiText>
-              <MiKbdGroup><MiKbd>⌘</MiKbd><MiKbd>O</MiKbd></MiKbdGroup>
+            <div class="wsm__panel">
+              <div class="wsm__panel-head">
+                <MiText variant="caption" tone="label2" weight="semibold">Workspaces</MiText>
+                <MiKbdGroup><MiKbd>⌘</MiKbd><MiKbd>O</MiKbd></MiKbdGroup>
+              </div>
+              <MiList :grouped="false" label="Workspaces">
+                <MiListItem
+                  v-for="w in workspaces" :key="w.id" button :tile="w.tile" :title="w.name"
+                  :subtitle="`${w.plan} · ${w.members === 1 ? 'Just you' : w.members + ' members'}`"
+                  :aria-current="w.id === currentId ? 'true' : undefined" @click="pick(w.id)"
+                >
+                  <template #leading><span class="wsm__tile-text">{{ initials(w.name) }}</span></template>
+                  <template #trailing>
+                    <MiIcon v-if="w.id === currentId" name="check" :size="16" class="wsm__check" />
+                    <MiBadge v-else-if="w.unread" :count="w.unread" tone="primary" count-noun="unread updates" />
+                  </template>
+                </MiListItem>
+              </MiList>
+              <MiSeparator />
+              <MiList :grouped="false" label="Workspace actions">
+                <MiListItem button title="Create workspace" @click="note = 'New workspace draft opened.'">
+                  <template #leading><MiIcon name="plus" :size="18" /></template>
+                </MiListItem>
+                <MiListItem button title="Join with an invite code" @click="note = 'Paste an invite code to join a workspace.'">
+                  <template #leading><MiIcon name="people" :size="18" /></template>
+                </MiListItem>
+              </MiList>
             </div>
-            <MiList :grouped="false" label="Workspaces">
-              <MiListItem
-                v-for="w in workspaces" :key="w.id" button :tile="w.tile" :title="w.name"
-                :subtitle="`${w.plan} · ${w.members === 1 ? 'Just you' : w.members + ' members'}`"
-                :aria-current="w.id === currentId ? 'true' : undefined" @click="pick(w.id)"
-              >
-                <template #leading><span class="wsm__tile-text">{{ initials(w.name) }}</span></template>
-                <template #trailing>
-                  <MiIcon v-if="w.id === currentId" name="check" :size="16" class="wsm__check" />
-                  <MiBadge v-else-if="w.unread" :count="w.unread" tone="primary" count-noun="unread updates" />
-                </template>
-              </MiListItem>
-            </MiList>
-            <MiSeparator />
-            <MiList :grouped="false" label="Workspace actions">
-              <MiListItem button title="Create workspace" @click="note = 'New workspace draft opened.'">
-                <template #leading><MiIcon name="plus" :size="18" /></template>
-              </MiListItem>
-              <MiListItem button title="Join with an invite code" @click="note = 'Paste an invite code to join a workspace.'">
-                <template #leading><MiIcon name="people" :size="18" /></template>
-              </MiListItem>
-            </MiList>
-          </div>
-        </MiPopover>
+          </MiPopover>
+        </div>
 
-        <MiMenu :items="accountItems" aria-label="Account" placement="bottom-end" class="wsm__account" @select="onAccount">
-          <template #trigger="{ props: tp }">
-            <button v-bind="tp" type="button" class="wsm__me" aria-label="Account menu, Noor Farah">
-              <MiAvatar name="Noor Farah" size="sm" tone="secondary" decorative />
-              <MiIcon name="chevron-down" :size="14" />
-            </button>
-          </template>
-        </MiMenu>
+        <div class="wsm__account">
+          <MiMenu :items="accountItems" aria-label="Account" placement="bottom-end" @select="onAccount">
+            <template #trigger="{ props: tp }">
+              <button v-bind="tp" type="button" class="wsm__me" aria-label="Account menu, Noor Farah">
+                <MiAvatar name="Noor Farah" size="sm" tone="secondary" decorative />
+                <MiIcon name="chevron-down" :size="14" />
+              </button>
+            </template>
+          </MiMenu>
+        </div>
       </header>
 
       <!-- The workspace you land in: its hue, seats and team follow the switcher. -->
@@ -130,9 +135,9 @@ function onAccount(item: { value?: string | number, label?: string }) {
 .wsm { position: relative; display: grid; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
 .wsm__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .wsm__bar { display: grid; gap: 10px; }
-.wsm__pop { min-width: 0; }
+.wsm__pop { display: grid; justify-items: start; min-width: 0; }
 /* Narrow: the account menu takes its own row above, so the open switcher never collides with it. */
-.wsm__account { order: -1; justify-self: end; }
+.wsm__account { order: -1; display: flex; justify-content: flex-end; }
 
 .wsm__trigger { display: flex; align-items: center; gap: 10px; min-width: 0; max-width: 280px; padding: 6px 10px 6px 6px; border: 0; border-radius: var(--mi-radius-m); background: var(--mi-card); box-shadow: var(--mi-sh1); color: inherit; font: inherit; text-align: start; cursor: pointer; }
 .wsm__trigger:focus-visible, .wsm__me:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
@@ -162,10 +167,10 @@ function onAccount(item: { value?: string | number, label?: string }) {
 
 /* Wide: the open switcher keeps its own column and the workspace card sits beside it. */
 @container (min-width: 720px) {
-  .wsm { grid-template-columns: 300px minmax(0, 1fr); align-items: start; column-gap: 24px; }
+  .wsm { grid-template-columns: 300px minmax(0, 1fr); grid-template-rows: auto 1fr; align-items: start; column-gap: 24px; }
   .wsm__bar { display: contents; }
   .wsm__pop { grid-column: 1; grid-row: 1 / span 2; }
-  .wsm__account { order: 0; grid-column: 2; grid-row: 1; justify-self: end; }
+  .wsm__account { order: 0; grid-column: 2; grid-row: 1; }
   .wsm__space { grid-column: 2; grid-row: 2; }
 }
 </style>

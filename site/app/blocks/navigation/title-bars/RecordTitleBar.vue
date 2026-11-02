@@ -40,7 +40,7 @@
       </div>
 
       <dl class="rtb__meta">
-        <div><dt>Team</dt><dd><MiAvatarGroup :items="team" :max="4" size="xs" /></dd></div>
+        <div><dt>Team</dt><dd class="rtb__team"><MiAvatarGroup :items="team" :max="4" size="xs" /></dd></div>
         <div><dt>Client</dt><dd>Tower Hamlets Council</dd></div>
         <div><dt>Budget</dt><dd>€1.82M · <span :class="{ 'is-warn': spent > 60 }">{{ spent }}% spent</span></dd></div>
         <div><dt>Handover</dt><dd>14 Mar 2027</dd></div>
@@ -160,6 +160,8 @@ const tab = ref<string | undefined>('overview')
 .rtb__meta > div { display: grid; gap: 4px; min-width: 0; }
 .rtb__meta dt { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--mi-label2); }
 .rtb__meta dd { margin: 0; font-size: 14px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* The avatar rings sit outside the avatars: clipping this cell would cut them. */
+.rtb__meta .rtb__team { overflow: visible; }
 .rtb__meta .is-warn { color: var(--mi-orange-t); }
 
 .rtb__ribbon { position: relative; height: 54px; margin: 2px 10px 0; }

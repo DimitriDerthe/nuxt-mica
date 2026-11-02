@@ -186,9 +186,10 @@ function newThread() { activeThread.value = 't1'; draft.value = '' }
 .aaw__user-files { max-width: 100%; }
 .aaw__bot { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 12px; padding: 16px; }
 .aaw__bot-mark { width: 28px; height: 28px; border-radius: 9px; background: conic-gradient(from 140deg, var(--mi-p), var(--mi-s), var(--mi-p)); box-shadow: inset 0 0 0 6px color-mix(in srgb, var(--mi-page) 55%, transparent); }
-.aaw__bot-body { display: grid; gap: 12px; min-width: 0; }
+/* Explicit flexible column: an implicit one grows to the code block's min-content and pushes the cards out. */
+.aaw__bot-body { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; min-width: 0; }
 .aaw__answer { line-height: 1.55; }
-.aaw__findings { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; margin: 0; padding: 0; list-style: none; }
+.aaw__findings { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr)); gap: 8px; margin: 0; padding: 0; list-style: none; }
 .aaw__findings li { display: grid; gap: 2px; padding: 12px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: 0 0 0 1px var(--mi-sep); }
 .aaw__finding-val { font-size: 22px; font-weight: 700; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
 .aaw__findings li:first-child .aaw__finding-val { color: var(--mi-p-text); }

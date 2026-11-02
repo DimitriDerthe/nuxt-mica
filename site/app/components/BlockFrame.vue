@@ -129,8 +129,11 @@ function grab(e: PointerEvent) {
   background: radial-gradient(circle at 1px 1px, var(--mi-fill3) 1px, transparent 0) 0 0 / 18px 18px, var(--mi-page); box-shadow: 0 0 0 1px var(--mi-sep);
 }
 .bf__stage--bleed { padding-top: 14px; }
-.bf__frame { position: relative; display: grid; max-width: 100%; box-sizing: border-box; contain: layout paint; }
+/* Clip spills at the frame, but leave room for rings, selection outlines and focus outlines drawn just outside a block's edge (paint containment cut them flush). */
+.bf__frame { position: relative; display: grid; max-width: 100%; box-sizing: border-box; contain: layout; overflow: clip; overflow-clip-margin: 6px; }
 .bf__stage--bleed .bf__frame { border-radius: 16px; overflow: hidden; box-shadow: 0 0 0 1px var(--mi-sep), var(--mi-sh2); background: var(--mi-page); }
+/* The frame draws the window edge: a block root with its own rounded ring would show a second arc in each corner. */
+.bf__stage--bleed .bf__frame > :deep(*) { border-radius: inherit; }
 .bf__spin { place-self: center; }
 .bf__grip { position: absolute; top: 50%; right: -16px; display: none; place-items: center; width: 14px; height: 56px; margin-top: -28px; padding: 0; border: 0; border-radius: 7px; background: transparent; cursor: ew-resize; touch-action: none; }
 .bf__grip span { width: 4px; height: 36px; border-radius: 2px; background: var(--mi-fill); transition: transform var(--mi-dur-1) var(--mi-ease); }

@@ -4854,5 +4854,9 @@
 "MiShimmerText.slot.default": [
 "Label content; plain inline text reads best.",
 "Contenu du libellé ; du texte simple en ligne se lit le mieux."
+],
+"MiSortable.prop.bare": [
+"Rows without their card shell (no background, shadow or rounding) so the slot draws its own row; the dragged row still lifts.",
+"Lignes sans leur habillage de carte (ni fond, ni ombre, ni arrondi), pour que le slot dessine sa propre ligne ; la ligne glissée garde son relief."
 ]
 }
