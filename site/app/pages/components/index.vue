@@ -28,9 +28,10 @@
           <li v-for="c in filtered.filter(x => x.group === g)" :key="c.name">
             <NuxtLink :to="localePath('/components/' + toSlug(c.name))" class="card">
               <span class="card__name">
-                <code>{{ c.name }}</code>
+                <span class="card__title">{{ toTitle(c.name) }}</span>
                 <MiBadge v-if="c.vmodel" :label="t('explorer.vmodel')" tone="neutral" variant="outline" />
               </span>
+              <code class="card__id">{{ c.name }}</code>
               <span class="card__sum">{{ c.summary }}</span>
               <ComponentCardPreview :name="c.name" />
               <MiIcon name="arrow-right" :size="16" class="card__go" />
@@ -45,7 +46,7 @@
 </template>
 
 <script setup lang="ts">
-import { toSlug } from '~/utils/explorer'
+import { toSlug, toTitle } from '~/utils/explorer'
 
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
@@ -92,7 +93,8 @@ useSiteSeo(() => `${t('explorer.title')} · Mica`, () => t('explorer.lead'))
 .card:hover { transform: translate3d(0, -2px, 0); }
 .card:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
 .card__name { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
-.card__name code { font: 600 14px/1.3 ui-monospace, "SF Mono", Menlo, monospace; color: var(--mi-label); }
+.card__title { font-size: 16px; font-weight: 600; letter-spacing: -.01em; color: var(--mi-label); }
+.card__id { margin-top: -4px; font: 12px/1.3 ui-monospace, "SF Mono", Menlo, monospace; color: var(--mi-label3); }
 .card__sum { margin-bottom: 10px; font-size: 13px; line-height: 1.45; color: var(--mi-label2); display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3; overflow: hidden; }
 .card__go { position: absolute; top: 18px; right: 16px; color: var(--mi-label3); transition: transform var(--mi-dur-2) var(--mi-ease); }
 .card:hover .card__go { transform: translate3d(3px, 0, 0); color: var(--mi-p-text); }
