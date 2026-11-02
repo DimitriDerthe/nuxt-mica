@@ -1,6 +1,6 @@
 <template>
   <div ref="root" class="cp" aria-hidden="true" inert>
-    <div v-if="example" class="cp__stage" :class="{ 'cp__stage--start': meta.layout === 'start' }">
+    <div v-if="example" class="cp__stage">
       <div ref="inner" class="cp__scale" :style="{ transform: `scale(${scale})` }"><component :is="example" :p="values" /></div>
     </div>
   </div>
@@ -11,14 +11,16 @@ import type { Component } from 'vue'
 
 const p = defineProps<{ name: string }>()
 
-interface PlaygroundMeta { props?: Record<string, unknown>, layout?: 'center' | 'fill' | 'start' }
+interface PlaygroundMeta { props?: Record<string, unknown> }
+
+/** Width of the virtual canvas the example is laid out in before being scaled down. */
+const CANVAS = 420
 
 const modules = import.meta.glob<{ default: Component, playground?: PlaygroundMeta }>('../examples/*.vue')
 const root = ref<HTMLElement>()
 const inner = ref<HTMLElement>()
 const scale = ref(.7)
 const example = shallowRef<Component | null>(null)
-const meta = shallowRef<PlaygroundMeta>({})
 const values = shallowRef<Record<string, unknown>>({})
 
 /** Example of the component, or of its longest registered parent (MiTabsTrigger uses MiTabs). */
@@ -32,7 +34,6 @@ async function mount() {
   const found = loaderFor(p.name)
   if (!found) return
   const mod = await found.load()
-  meta.value = mod.playground ?? {}
   values.value = { ...mod.playground?.props }
   example.value = markRaw(mod.default)
   await nextTick()
@@ -42,9 +43,9 @@ async function mount() {
 /** Scales the example down to fit the thumbnail (never up past 1), keeping a small margin. */
 function fit() {
   if (!root.value || !inner.value) return
-  const w = inner.value.scrollWidth, h = inner.value.scrollHeight
+  const w = Math.max(inner.value.scrollWidth, CANVAS), h = inner.value.scrollHeight
   if (!w || !h) return
-  scale.value = Math.max(.3, Math.min(1, (root.value.clientWidth - 24) / w, (root.value.clientHeight - 24) / h))
+  scale.value = Math.max(.25, Math.min(1, (root.value.clientWidth - 24) / w, (root.value.clientHeight - 24) / h))
 }
 
 // Examples load only when their card scrolls near the viewport, client side.
@@ -62,9 +63,9 @@ onErrorCaptured(() => { example.value = null; return false })
 </script>
 
 <style scoped>
-.cp { position: relative; height: 150px; margin: auto -26px 0 0; border-radius: 12px; overflow: hidden; pointer-events: none; user-select: none; background: radial-gradient(circle at 1px 1px, var(--mi-fill3) 1px, transparent 0) 0 0 / 16px 16px, var(--mi-page); box-shadow: 0 0 0 1px var(--mi-sep); }
+.cp { position: relative; height: 180px; margin: auto -26px 0 0; border-radius: 12px; overflow: hidden; pointer-events: none; user-select: none; background: radial-gradient(circle at 1px 1px, var(--mi-fill3) 1px, transparent 0) 0 0 / 16px 16px, var(--mi-page); box-shadow: 0 0 0 1px var(--mi-sep); }
 .cp__stage { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 12px; }
-.cp__stage--start { align-items: flex-start; justify-content: flex-start; }
-.cp__scale { flex: none; transform-origin: center; }
-.cp__stage--start .cp__scale { transform-origin: top left; }
+.cp__scale { flex: none; display: flex; align-items: center; justify-content: center; width: 420px; transform-origin: center; }
+/* MiForm is a size container: as a flex item it would collapse to zero width. */
+.cp__scale > :deep(.mi-form) { width: 100%; }
 </style>
