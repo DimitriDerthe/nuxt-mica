@@ -317,7 +317,8 @@ function jump(l: string) {
 .tdir__status { grid-area: status; }
 .tdir__clock { display: inline-flex; align-items: baseline; gap: 4px; font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
 .tdir__rel { font-size: 11px; color: var(--tdir-t3); font-variant-numeric: tabular-nums; white-space: nowrap; }
-.tdir__day { position: relative; height: 4px; border-radius: 2px; background: var(--mi-fill3); }
+/* overflow-x: clip keeps the full-width "now" layer, shifted by translateX, from widening the table's scroll area. */
+.tdir__day { position: relative; height: 4px; border-radius: 2px; background: var(--mi-fill3); overflow-x: clip; overflow-clip-margin: 2px; }
 .tdir__work { position: absolute; top: 0; bottom: 0; border-radius: 2px; background: color-mix(in srgb, var(--mi-label2) 35%, transparent); }
 .is-in .tdir__work, .is-late .tdir__work { background: color-mix(in srgb, var(--mi-green) 60%, transparent); }
 .is-late .tdir__work { background: color-mix(in srgb, var(--mi-orange) 60%, transparent); }
