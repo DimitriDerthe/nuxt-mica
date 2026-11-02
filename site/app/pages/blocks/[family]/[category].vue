@@ -63,7 +63,11 @@ const idx = computed(() => flat.findIndex(x => x.family === family.value.id && x
 const prev = computed(() => flat[idx.value - 1])
 const next = computed(() => flat[idx.value + 1])
 
-useSiteSeo(() => `${category.value.title[lang.value]} · ${t('blocks.title')} · Mica`, () => family.value.summary[lang.value])
+// Block titles first so every category page gets its own description, then the family summary.
+useSiteSeo(
+  () => `${category.value.title[lang.value]} · ${t('blocks.title')} · Mica`,
+  () => `${category.value.title[lang.value]}${lang.value === 'fr' ? ' : ' : ': '}${list.value.map(x => x.title[lang.value]).join(', ')}. ${family.value.summary[lang.value]}`
+)
 </script>
 
 <style scoped>

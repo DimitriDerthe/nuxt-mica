@@ -4,8 +4,9 @@ Read order, cheapest first:
 1. `llms.txt` (about 3k tokens): every component with a one-line summary, grouped. Pick from here.
 2. `docs/api/<MiName>.md` (about 200 tokens each): props with types and defaults, slots, emits. Read only the ones you use.
 3. `components.json`: same data as JSON, for tooling.
+4. `docs/blocks.md`: every ready-made block (application section built with Mi components) with its path and a one-line summary. Need a whole dashboard, table, form or auth page? Pick one here and read only that block's `.vue` file.
 
-Never read `.vue` sources to learn an API; the files above are generated from them and checked in CI (`pnpm docs:check`).
+Never read component `.vue` sources to learn an API; the files above are generated from them and checked in CI (`pnpm docs:check`).
 
 Rules
 - Components are auto-registered: write `<MiButton>`, no imports.

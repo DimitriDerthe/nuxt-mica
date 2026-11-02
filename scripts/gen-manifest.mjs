@@ -1,5 +1,5 @@
 // Generates the AI-oriented component manifest from the sources (single source of truth).
-//   node scripts/gen-manifest.mjs          write llms.txt, components.json, docs/api/*.md
+//   node scripts/gen-manifest.mjs          write llms.txt, components.json, docs/api/*.md, docs/blocks.md
 //   node scripts/gen-manifest.mjs --check  fail when generated files are stale
 // Component summary: first /** ... */ block of <script setup>. Prop docs: JSDoc above each prop.
 import { createChecker } from 'vue-component-meta'
@@ -118,6 +118,49 @@ const pub = comps.filter(c => !c.internal)
 const model = c => c.props.some(p => p.name === 'modelValue') && c.emits.some(e => e.name === 'update:modelValue')
 const line = c => `- ${c.name}${model(c) ? ' [v-model]' : ''}: ${c.summary || '(no summary)'}`
 
+// Block gallery inventory (docs/blocks.md) from site/app/blocks/catalog.ts and the meta.json files.
+// catalog.ts also holds Vite globs, so only its `families` literal is evaluated.
+const blocksDir = join(root, 'site/app/blocks')
+const catalogSrc = readFileSync(join(blocksDir, 'catalog.ts'), 'utf8')
+const families = new Function('c', 'return ' + catalogSrc.match(/export const families: BlockFamily\[\] = (\[[\s\S]*?\n\])\n/)[1])(
+  (id, en, fr, ref) => ({ id, title: { en, fr }, ref }))
+const blockFiles = new Set(readdirSync(blocksDir, { recursive: true }).filter(f => f.endsWith('.vue')).map(f => f.replace(/\.vue$/, '')))
+const blockMeta = (fam, cat) => {
+  const p = join(blocksDir, fam, cat, 'meta.json')
+  return existsSync(p) ? JSON.parse(readFileSync(p, 'utf8')) : []
+}
+const listedBlocks = new Set()
+const blockSections = families.map(f => {
+  const L = [`## ${f.title.en}`, '', f.summary.en]
+  for (const c of f.categories) {
+    if (c.ref) { L.push('', `### ${c.title.en}`, '', `Listed under ${families.find(x => x.id === c.ref).title.en}.`); continue }
+    L.push('', `### ${c.title.en}`, '')
+    for (const b of blockMeta(f.id, c.id)) {
+      const key = `${f.id}/${c.id}/${b.file}`
+      listedBlocks.add(key)
+      L.push(`- \`${key}\` ${b.title.en}: ${b.summary.en}`)
+    }
+  }
+  return L.join('\n')
+})
+const unlisted = [...blockFiles].filter(b => !listedBlocks.has(b))
+const missing = [...listedBlocks].filter(b => !blockFiles.has(b))
+if (unlisted.length || missing.length) {
+  console.log([...unlisted.map(b => `block not in a meta.json of catalog.ts: ${b}`), ...missing.map(b => `meta.json entry without a .vue: ${b}`)].join('\n'))
+  process.exit(1)
+}
+const blockCategories = families.reduce((n, f) => n + f.categories.filter(c => !c.ref).length, 0)
+const blocksMd = [
+  '# Application UI blocks',
+  '',
+  'Inventory of the Mica block gallery, generated from `site/app/blocks/catalog.ts` and the `meta.json` files by `scripts/gen-manifest.mjs`. Blocks are original, copy-pasteable sections built only with Mica components; each is one SFC at `site/app/blocks/<family>/<category>/<Name>.vue`, shown at `/blocks/<family>/<category>` on the site. Authoring rules: `site/app/blocks/README.md`.',
+  '',
+  `${listedBlocks.size} blocks in ${blockCategories} categories. Each line: \`<family>/<category>/<Name>\` title: summary.`,
+  '',
+  blockSections.join('\n\n'),
+  ''
+].join('\n')
+
 const index = [
   '# Mica UI layer for Nuxt 4 (components prefixed Mi)',
   '',
@@ -130,6 +173,10 @@ const index = [
   'Item shapes (options, items, columns, steps...), slot props and every named type (icon names, row/column/menu item interfaces) are expanded in each docs/api file. Template expressions are plain JS (no TS `!`).',
   '',
   ...[...new Set(pub.map(c => c.group))].flatMap(g => [`## ${g}`, ...pub.filter(c => c.group === g).map(line), '']),
+  '## Blocks',
+  `- ${listedBlocks.size} ready-made application sections (dashboards, tables, forms, auth, billing, navigation...) built only with Mi components, one copy-pasteable SFC each at site/app/blocks/<family>/<category>/<Name>.vue.`,
+  `- Pick one from docs/blocks.md (one line per block: path, title, summary), then read only that .vue file. Families: ${families.map(f => f.id).join(', ')}.`,
+  '',
   '## Composables',
   '- useMiTheme(): { mode, primary, secondary, resolved, isDark, setMode(m), setPrimary(hex), setSecondary(hex) }',
   '- useMiToast(): { show(opts), success|error|warning|info|loading(message, opts?), update(id, opts), dismiss(id), clear, pause, resume }; mount <MiToaster /> once (docs/api/MiToaster.md, docs/api/MiToast.md)',
@@ -150,7 +197,7 @@ const md = c => {
   return L.filter((l, i, a) => !(l === '' && a[i - 1] === '')).join('\n') + '\n'
 }
 
-const out = new Map([['llms.txt', index], ['components.json', JSON.stringify(pub, null, 1) + '\n']])
+const out = new Map([['llms.txt', index], ['components.json', JSON.stringify(pub, null, 1) + '\n'], ['docs/blocks.md', blocksMd]])
 for (const c of pub) out.set(`docs/api/${c.name}.md`, md(c))
 
 if (check) {
