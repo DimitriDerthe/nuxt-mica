@@ -29,10 +29,26 @@ Wrap your app root in an element with the `mi` class so tokens and typography ap
 
 ### Releasing
 
-The version lives in `package.json`; the git tag, the README pin and the version shown on the site all follow it. Never edit them by hand:
+The version lives in `package.json`; the git tag, the README pin and the version shown on the site all follow it. Never edit them by hand.
+
+Every merge to `main` is released automatically by `.github/workflows/release.yml`: after the docs check and tests pass, it runs `pnpm release auto --push`, which bumps `package.json` and the README pin, commits `chore(release): vX.Y.Z`, tags it, then creates the GitHub release (notes grouped from the commits) and redeploys the site. The bump commit is pushed with `GITHUB_TOKEN`, so it never triggers another release.
+
+The level comes from the [Conventional Commits](https://www.conventionalcommits.org) merged since the last `v*` tag (merge commits ignored), highest one wins:
+
+| Commits since the last tag | Bump |
+| --- | --- |
+| `type!:` or a `BREAKING CHANGE:` footer | major (minor while the version is `0.x`) |
+| `feat` | minor |
+| `fix`, `perf`, `refactor`, `style`, `revert`, or a non-conventional message | patch |
+| only `docs`, `chore`, `ci`, `test`, `build` | no release |
+
+Docs-only and tooling-only merges do not change what a consumer pinning a tag gets, so they ride along with the next real release. Before 1.0, semver makes no stability promise, so a breaking change bumps the minor (`0.3.x` → `0.4.0`); the first major is a deliberate `pnpm release 1.0.0`. The rules live in `scripts/bump-level.mjs` and are unit-tested.
+
+Locally, the same script:
 
 ```bash
-pnpm release patch --push   # or minor, major, x.y.z: bumps, commits, tags vX.Y.Z, pushes
+pnpm release auto --dry-run # print the level and version the next merge would get
+pnpm release patch --push   # or minor, major, x.y.z: force a level, commit, tag vX.Y.Z, push
 pnpm release:check          # also part of the test suite
 ```
 
