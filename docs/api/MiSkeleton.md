@@ -8,7 +8,7 @@ Group: Feedback. Source: app/components/Feedback/MiSkeleton.vue
 
 | prop | type | default | notes |
 |---|---|---|---|
-| variant | "circle" \| "rect" \| "text" | "rect" | Shape of the placeholder: block, circle or lines of text. |
+| variant | "text" \| "circle" \| "rect" | "rect" | Shape of the placeholder: block, circle or lines of text. |
 | width | string \| number |  | Number is px, string is any CSS length. Defaults to 100%. |
 | height | string \| number |  | Number is px, string is any CSS length. Defaults to 16px (10px for `text`). |
 | radius | string \| number |  | Corner radius (px or CSS length). |

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 /** Trace container for reasoning, tool calls and sources; compose MiTraceLine rows or pass a `steps` shortcut. */
 import MiIcon from '../Base/MiIcon.vue'
+import MiOrb from './MiOrb.vue'
 import MiTraceLine from './MiTraceLine.vue'
 import MiTraceIcon from './MiTraceIcon.vue'
 import MiTraceTitle from './MiTraceTitle.vue'
@@ -51,7 +52,7 @@ defineSlots<{
           <component :is="s.detail ? MiTraceCollapsibleTrigger : 'div'">
             <MiTraceLine :status="lineStatus(s)">
               <MiTraceIcon>
-                <MiIcon v-if="st(s) === 'running'" name="spinner" :size="14" spin />
+                <MiOrb v-if="st(s) === 'running'" state="working" :size="16" label="" />
                 <MiIcon v-else-if="st(s) === 'error'" name="x-circle-fill" :size="14" />
                 <MiIcon v-else-if="st(s) === 'done'" name="check-circle-fill" :size="14" />
                 <MiIcon v-else name="dash" :size="14" />

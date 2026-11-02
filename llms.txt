@@ -26,6 +26,7 @@ Item shapes (options, items, columns, steps...), slot props and every named type
 - MiCodeBlockHeader: Header row of a code block holding the title and actions.
 - MiCodeBlockLine: One code line with an optional highlighted, added or removed variant.
 - MiCodeBlockTitle: Title in a code block header, such as a filename or Terminal.
+- MiOrb: Dotted 3D thinking orb for AI and agent states (thinking, searching, working, listening, composing, connecting, idle); one shared canvas loop, paused offscreen, static under reduced motion.
 - MiQuestionnaire [v-model]: Multi-step questionnaire form with single, multiple, freeform and skippable questions; compose MiQuestionnaire* parts or pass a `questions` shortcut. v-model holds answers by question name.
 - MiQuestionnaireActions: Row holding the questionnaire navigation buttons.
 - MiQuestionnaireChoice: Radio (single) or checkbox (multiple) choice inside a questionnaire item.
@@ -40,6 +41,7 @@ Item shapes (options, items, columns, steps...), slot props and every named type
 - MiQuestionnaireSkip: Button that skips the current question; hidden for required questions.
 - MiQuestionnaireSubmit: Final button that validates and emits the questionnaire submit event; shown on the last question.
 - MiQuestionnaireTitle: Question title, rendered as the legend of its item.
+- MiShimmerText: Status text with a light sweeping across it, for "Thinking…" style labels next to MiOrb; the sweep moves with transforms only.
 - MiTrace: Trace container for reasoning, tool calls and sources; compose MiTraceLine rows or pass a `steps` shortcut.
 - MiTraceCollapsible: Expandable trace row; v-model:open for controlled state or defaultOpen for uncontrolled.
 - MiTraceCollapsibleContent: Expandable detail of a trace row; unmounted while closed unless keepMounted.
