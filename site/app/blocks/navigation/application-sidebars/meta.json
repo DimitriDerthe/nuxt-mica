@@ -1,10 +1,52 @@
 [
   {
     "file": "DualRailSidebar",
-    "title": { "en": "Dual-rail application sidebar", "fr": "Barre latérale d'application à double rail" },
+    "title": {
+      "en": "Dual-rail application sidebar",
+      "fr": "Barre latérale d'application à double rail"
+    },
     "summary": {
       "en": "An editorial workspace with an icon rail and a context panel whose folder tree follows the chosen area; tap the active area to tuck the panel, and on phones the rail turns into a bottom tab bar.",
       "fr": "Un espace éditorial avec un rail d'icônes et un panneau contextuel dont l'arborescence suit la zone choisie ; toucher la zone active replie le panneau, et sur mobile le rail devient une barre d'onglets."
+    },
+    "height": 640,
+    "stage": "bleed"
+  },
+  {
+    "file": "FloatingDockSidebar",
+    "title": {
+      "en": "Floating dock sidebar",
+      "fr": "Barre latérale en dock flottant"
+    },
+    "summary": {
+      "en": "A sidebar card that floats off the edges and folds into an icon rail with tooltips; a workspace switcher on top, pinned favourites reached with G then a letter, and a storage meter that becomes a ring when folded.",
+      "fr": "Une barre latérale en carte détachée des bords qui se replie en rail d'icônes avec infobulles ; sélecteur d'espace en tête, favoris épinglés atteints avec G puis une lettre, et une jauge de stockage qui devient un anneau une fois repliée."
+    },
+    "height": 640,
+    "stage": "bleed"
+  },
+  {
+    "file": "SpacesSidebar",
+    "title": {
+      "en": "Spaces sidebar",
+      "fr": "Barre latérale à espaces"
+    },
+    "summary": {
+      "en": "Browser-style spaces: dots at the bottom switch between Personal, Design and Engineering, the whole shell takes the space's tint and the list slides sideways, with pinned tiles and unread counts you can clear.",
+      "fr": "Des espaces façon navigateur : des points en bas passent de Personnel à Design et Ingénierie, toute la coque prend la teinte de l'espace et la liste glisse latéralement, avec tuiles épinglées et compteurs de non-lus que l'on peut effacer."
+    },
+    "height": 640,
+    "stage": "bleed"
+  },
+  {
+    "file": "FilterTreeSidebar",
+    "title": {
+      "en": "Filterable tree sidebar",
+      "fr": "Barre latérale arborescente filtrable"
+    },
+    "summary": {
+      "en": "A dense sidebar whose filter field narrows the nested tree as you type: matches are highlighted, their parents open on their own, empty results suggest other words, with collapsible sections and a Recent list.",
+      "fr": "Une barre latérale dense dont le champ de filtre réduit l'arborescence à la frappe : correspondances surlignées, parents ouverts automatiquement, suggestions quand rien ne correspond, avec sections repliables et liste Récents."
     },
     "height": 640,
     "stage": "bleed"

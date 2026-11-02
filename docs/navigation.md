@@ -57,3 +57,30 @@ Props: `menus` (`{id,label,items: MiMenuItem[],disabled?}[]`), `ariaLabel`. Even
 
 ## MiNavigationMenu
 Props: `items` (`{id,label,href?,links?: {title,description?,href}[]}[]`), `ariaLabel`, `viewport` (true: one shared panel under the bar; false: anchored under each trigger), `hover` (true), `closeDelay` (150 ms). `v-model` = open item id. Event `navigate(link)`. ArrowDown enters a flyout, Escape closes.
+
+## MiSiteHeader
+
+Marketing header. Container-query based: under 820px of its own width the links and actions collapse into a burger that opens an inline disclosure panel (focus moves to the first link, Escape closes and returns focus to the burger).
+
+| Prop / model | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `links` | `MiSiteLink[]` | `[]` | `{ label, href?, to?, active?, children? }`; children become a `MiMenu` dropdown (desktop) or a nested list (mobile) |
+| `v-model:open` | `boolean` | `false` | mobile panel |
+| `sticky` | `boolean` | `false` | fixed on top, translucent blurred surface |
+| `ariaLabel` | `string` | `'Main'` | |
+
+Slots: `logo`, `actions` (also repeated in the mobile panel), `link` `{ link, class }` to render NuxtLink. `to` renders as a plain anchor unless the `link` slot is used. Event: `navigate`.
+
+## MiScrollspy and useMiScrollspy
+
+`useMiScrollspy(ids, { rootMargin?, offset?, root? })` returns `{ active, refresh }`. It uses an IntersectionObserver, runs on the client only (`active` is `null` during SSR) and must be called inside `setup`. Default observation band: `-offset px 0px -60% 0px`.
+
+| MiScrollspy prop / model | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `items` | `{ id, label, level? }[]` | | `id` is the section element id |
+| `v-model:active` | `string` | | follows scrolling; set on click |
+| `offset` | `number` | `80` | fixed header height, px |
+| `rootMargin` | `string` | | overrides the derived margin |
+| `ariaLabel` | `string` | `'On this page'` | |
+
+Clicking scrolls smoothly (instantly under reduced motion) and locks scroll-driven updates for a moment so the active link does not flicker. The indicator moves with `transform`.

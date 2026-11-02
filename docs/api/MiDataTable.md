@@ -13,7 +13,7 @@ Group: Content. Source: app/components/Content/MiDataTable.vue
 | rowKey | string | "id" | Field holding a unique id for each row. |
 | filterable | boolean | true | Show the filter input. |
 | filterPlaceholder | string | "Filter..." | Placeholder of the filter input. |
-| filterKey | string |  | Filter only this column key (shadcn column filter); overrides `filterKeys`. |
+| filterKey | string |  | Filter only this column key; overrides `filterKeys`. |
 | columnToggle | boolean |  | Show a Columns menu to toggle column visibility. |
 | filterKeys | string[] |  | Restrict filtering to these column keys (default: all columns). |
 | pageSize | number | 10 | Rows per page. |

@@ -7,5 +7,32 @@
       "fr": "Facturation mensuelle ou annuelle et curseur de taille d'équipe recalculent prix, totaux et économies ; les offres hors limites s'effacent et la meilleure option suit l'équipe."
     },
     "height": 600
+  },
+  {
+    "file": "PlanFeatureMatrix",
+    "title": { "en": "Plan feature matrix", "fr": "Matrice des fonctionnalités" },
+    "summary": {
+      "en": "Sticky plan headers over a feature matrix grouped by area: pick a feature to light up the plans that include it, hide the rows every plan shares, and switch plans one at a time on narrow screens.",
+      "fr": "Des en-têtes d'offres collants au-dessus d'une matrice groupée par domaine : choisissez une fonctionnalité pour éclairer les offres qui l'incluent, masquez les lignes communes et passez d'une offre à l'autre sur petit écran."
+    },
+    "height": 620
+  },
+  {
+    "file": "UsagePriceCalculator",
+    "title": { "en": "Usage price calculator", "fr": "Calculateur de prix à l'usage" },
+    "summary": {
+      "en": "Sliders for events, editors and storage with their rate tiers marked underneath drive a live monthly estimate, split per line and set against the flat plan on the same scale.",
+      "fr": "Des curseurs pour les événements, les éditeurs et le stockage, avec leurs paliers de tarif marqués dessous, calculent une estimation mensuelle en direct, détaillée par ligne et comparée à l'offre forfaitaire sur la même échelle."
+    },
+    "height": 600
+  },
+  {
+    "file": "CurrentPlanManager",
+    "title": { "en": "Current plan manager", "fr": "Gestion de l'offre actuelle" },
+    "summary": {
+      "en": "Quota meters that warn before a limit, an upgrade case built from the dates you hit it, and a plan change preview with prorated amounts, new limits and the effective date.",
+      "fr": "Des jauges de quota qui préviennent avant la limite, une suggestion de montée en gamme fondée sur les dates où elle a été atteinte, et un aperçu du changement avec montants au prorata, nouvelles limites et date d'effet."
+    },
+    "height": 640
   }
 ]

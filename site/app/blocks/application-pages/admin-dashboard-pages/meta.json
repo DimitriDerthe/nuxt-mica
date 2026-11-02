@@ -8,5 +8,35 @@
     },
     "height": 720,
     "stage": "bleed"
+  },
+  {
+    "file": "SaasMetricsDashboard",
+    "title": { "en": "SaaS revenue dashboard", "fr": "Tableau de bord des revenus SaaS" },
+    "summary": {
+      "en": "A top-navigation revenue page: a strip of headline figures, an MRR bridge from opening to closing MRR whose steps reveal the accounts behind them, and a cohort retention heatmap shaded in the brand colour.",
+      "fr": "Une page revenus à navigation haute : un bandeau de chiffres clés, un pont du MRR d'ouverture à clôture dont chaque étape révèle les comptes concernés, et une heatmap de rétention par cohorte teintée de la couleur de marque."
+    },
+    "height": 740,
+    "stage": "bleed"
+  },
+  {
+    "file": "SupportQueueDashboard",
+    "title": { "en": "Support queue wallboard", "fr": "Tableau de bord de file de support" },
+    "summary": {
+      "en": "A live support desk: tickets in priority lanes with SLA countdowns that turn amber then red before breach, one-click take that loads your bar, agent presence with workload meters and a CSAT trend.",
+      "fr": "Un support en direct : tickets par priorité avec comptes à rebours SLA qui passent à l'orange puis au rouge avant dépassement, prise en charge en un clic qui remplit votre jauge, présence des agents avec charge, et tendance CSAT."
+    },
+    "height": 740,
+    "stage": "bleed"
+  },
+  {
+    "file": "ReleaseOpsDashboard",
+    "title": { "en": "Release operations dashboard", "fr": "Tableau de bord des mises en production" },
+    "summary": {
+      "en": "An engineering page: a 24-hour deployment timeline across preview, staging and production that traces a build's promotion path, 90-day uptime bars per service, open incidents and the on-call rotation.",
+      "fr": "Une page d'ingénierie : chronologie des déploiements sur 24 h en preview, staging et production qui trace le parcours d'un build, barres de disponibilité sur 90 jours par service, incidents ouverts et astreinte."
+    },
+    "height": 760,
+    "stage": "bleed"
   }
 ]

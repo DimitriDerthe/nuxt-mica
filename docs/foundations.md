@@ -89,7 +89,7 @@ Nine-step ramp (50-800, 500 = base) from `miRamp(hex)` in `app/utils/miRamp.ts`.
 | `height` | `number` | `40` |
 | `label` | `string` | `Color ramp` |
 
-## Primitives (shadcn parity)
+## Primitives
 
 | Component | Props | Notes |
 |---|---|---|
@@ -99,3 +99,16 @@ Nine-step ramp (50-800, 500 = base) from `miRamp(hex)` in `app/utils/miRamp.ts`.
 | `MiAspectRatio` | `ratio` (number, required) | CSS `aspect-ratio`; img/video children are covered |
 | `MiTypography` | `variant` (`h1`-`h4`, `p`, `blockquote`, `ul`, `ol`, `table`, `code`, `lead`, `large`, `small`, `muted`), `as` | Prose styles, logical (RTL-safe) borders and padding |
 | `MiDirection` | `direction` (`ltr`/`rtl`, default `ltr`) | Sets `dir` on a `display:contents` wrapper and provides it; read it with `useMiDirection()` (exported from the component file) |
+
+## MiDevice
+
+| Prop | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `device` | `'phone' \| 'tablet' \| 'laptop' \| 'browser'` | `'phone'` | |
+| `orientation` | `'portrait' \| 'landscape'` | `'portrait'` | phone and tablet |
+| `url` | `string` | | browser address bar (protocol hidden) |
+| `tone` | `'auto' \| 'dark' \| 'light'` | `'auto'` | bezel |
+| `maxWidth` | `number` | per device | px |
+| `label` | `string` | | makes the frame a labelled group |
+
+Default slot: the screen content. Everything is sized in container query units, so the frame scales with its container.

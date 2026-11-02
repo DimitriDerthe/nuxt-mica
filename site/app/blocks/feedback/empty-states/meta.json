@@ -7,5 +7,32 @@
       "fr": "Une boîte vide qui guide : trois façons de commencer, chacune avec sa vraie étape de configuration, et l'état vide laisse place aux premières conversations dès qu'un canal est connecté."
     },
     "height": 600
+  },
+  {
+    "file": "NoResultsRecovery",
+    "title": { "en": "No results, with a way back", "fr": "Aucun résultat, avec une issue" },
+    "summary": {
+      "en": "A search that comes up empty and explains why: a funnel shows which filter emptied the list, each filter chip says how many results removing it brings back, and a typo gets a one-click correction.",
+      "fr": "Une recherche vide qui explique pourquoi : un entonnoir montre quel filtre a vidé la liste, chaque filtre indique combien de résultats son retrait ramène, et une faute de frappe se corrige en un clic."
+    },
+    "height": 520
+  },
+  {
+    "file": "TemplateStartEmpty",
+    "title": { "en": "Start from a template", "fr": "Démarrer depuis un modèle" },
+    "summary": {
+      "en": "An empty projects page that offers starting points: template cards with drawn previews, a blank option and imports; picking one opens a live preview that follows the name you type and the sample-data switch.",
+      "fr": "Une page projets vide qui propose des points de départ : modèles avec aperçus dessinés, projet vierge et imports ; choisir un modèle ouvre un aperçu qui suit le nom saisi et l'option de données d'exemple."
+    },
+    "height": 520
+  },
+  {
+    "file": "AccessRequestEmpty",
+    "title": { "en": "Request access", "fr": "Demande d'accès" },
+    "summary": {
+      "en": "A no-access state that sets expectations: the owner with their working day on a 24-hour band, a request form with access level and message, then a pending timeline you can cancel.",
+      "fr": "Un écran sans accès qui fixe les attentes : la propriétaire et sa journée de travail sur 24 h, un formulaire avec niveau d'accès et message, puis une chronologie de la demande, annulable."
+    },
+    "height": 560
   }
 ]

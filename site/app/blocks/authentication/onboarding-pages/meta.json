@@ -1,11 +1,50 @@
 [
   {
     "file": "OnboardingLivePreview",
-    "title": { "en": "Onboarding with a live workspace preview", "fr": "Accueil avec aperçu d'espace en direct" },
+    "title": {
+      "en": "Onboarding with a live workspace preview",
+      "fr": "Accueil avec aperçu d'espace en direct"
+    },
     "summary": {
       "en": "Role cards, space chips and team size on one side; a miniature of the future workspace assembles itself on the other as each answer lands.",
       "fr": "Cartes de rôle, puces d'espaces et taille d'équipe d'un côté ; de l'autre, une miniature du futur espace se construit à chaque réponse."
     },
     "height": 620
+  },
+  {
+    "file": "SetupChecklist",
+    "title": {
+      "en": "First-run setup checklist",
+      "fr": "Liste de configuration au premier lancement"
+    },
+    "summary": {
+      "en": "A ring that counts minutes left, not percent; each task opens inline with its real action (invites, repository, theme), and finished ones fold into a completed list with a drawn check.",
+      "fr": "Un anneau qui compte les minutes restantes plutôt qu'un pourcentage ; chaque tâche s'ouvre sur place avec sa vraie action (invitations, dépôt, thème), et les tâches finies rejoignent la liste des terminées avec une coche animée."
+    },
+    "height": 640
+  },
+  {
+    "file": "ConversationalOnboarding",
+    "title": {
+      "en": "Conversational onboarding",
+      "fr": "Accueil conversationnel"
+    },
+    "summary": {
+      "en": "Setup as a short chat: questions arrive as assistant bubbles, tappable chips become your reply, every answer stays editable from a topic rail, and a summary card closes the loop.",
+      "fr": "La configuration en courte conversation : les questions arrivent en bulles, les puces touchées deviennent votre réponse, chaque réponse reste modifiable depuis un rail de sujets, et une carte récapitulative conclut."
+    },
+    "height": 660
+  },
+  {
+    "file": "ConnectToolsStep",
+    "title": {
+      "en": "Connect your tools step",
+      "fr": "Étape de connexion des outils"
+    },
+    "summary": {
+      "en": "Integrations as toggle cards with a live connecting state; a stacked meter adds each tool's hours saved per week and measures the total against a full workday.",
+      "fr": "Les intégrations en cartes à bascule avec état de connexion en direct ; une jauge empilée ajoute les heures gagnées par semaine de chaque outil et compare le total à une journée de travail."
+    },
+    "height": 600
   }
 ]

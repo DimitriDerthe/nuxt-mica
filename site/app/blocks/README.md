@@ -28,6 +28,6 @@ site/app/blocks/<family>/<category>/meta.json
 - **Overlays are shown open, in place.** Modals, drawers, sheets, popovers and menus render with `inline` (MiDialog, MiDrawer, MiSheet, MiActionSheet, MiPopover, MiContextMenu support it) on a faux backdrop inside the block, so the preview shows them without a click. A trigger that opens the real overlay is a welcome extra.
 - **Working interactions.** Tabs switch, filters filter, toggles toggle, forms validate. Keep state local with `ref`/`computed`.
 - **English copy**, realistic and specific (no lorem ipsum, no "John Doe", no "Acme"). Titles and summaries in `meta.json` are given in English and French.
-- **Original design.** Do not copy Preline markup or layouts. Each block should carry one distinctive idea (a data story, a clever interaction, an unusual but useful layout) while staying calm and premium: generous spacing, clear hierarchy, restrained color, brand color as the accent.
+- **Original design.** Do not copy markup or layouts from other UI kits. Each block should carry one distinctive idea (a data story, a clever interaction, an unusual but useful layout) while staying calm and premium: generous spacing, clear hierarchy, restrained color, brand color as the accent.
 
 `analytics/kpi-cards/KpiPulseBoard.vue` is the reference block.
