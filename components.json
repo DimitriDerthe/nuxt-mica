@@ -4175,7 +4175,7 @@
     "type": "string",
     "required": false,
     "default": "\"100%\"",
-    "doc": "CSS flex-basis of each slide, e.g. `50%` or `33.333%` (shadcn `basis-*`)."
+    "doc": "CSS flex-basis of each slide, e.g. `50%` or `33.333%`."
    },
    {
     "name": "label",
@@ -4259,7 +4259,7 @@
     "name": "filterKey",
     "type": "string",
     "required": false,
-    "doc": "Filter only this column key (shadcn column filter); overrides `filterKeys`."
+    "doc": "Filter only this column key; overrides `filterKeys`."
    },
    {
     "name": "columnToggle",
@@ -4743,7 +4743,7 @@
     "type": "\"horizontal\" | \"vertical\"",
     "required": false,
     "default": "\"horizontal\"",
-    "doc": "`horizontal` places panels side by side, `vertical` stacks them (shadcn `orientation`)."
+    "doc": "`horizontal` places panels side by side, `vertical` stacks them."
    },
    {
     "name": "minSize",
@@ -4764,7 +4764,7 @@
     "type": "boolean",
     "required": false,
     "default": "false",
-    "doc": "Show a visible grip on each handle (shadcn `withHandle`)."
+    "doc": "Show a visible grip on each handle."
    },
    {
     "name": "minSizes",

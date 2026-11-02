@@ -8,13 +8,13 @@ defineSlots<{
 }>()
 
 const props = withDefaults(defineProps<{
-  /** `horizontal` places panels side by side, `vertical` stacks them (shadcn `orientation`). */
+  /** `horizontal` places panels side by side, `vertical` stacks them. */
   orientation?: 'horizontal' | 'vertical'
   /** Minimum size of any panel, in percent. */
   minSize?: number
   /** Maximum size of any panel, in percent. */
   maxSize?: number
-  /** Show a visible grip on each handle (shadcn `withHandle`). */
+  /** Show a visible grip on each handle. */
   withHandle?: boolean
   /** Per-panel minimum sizes in percent, overriding `minSize`. */
   minSizes?: number[]

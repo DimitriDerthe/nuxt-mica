@@ -34,7 +34,7 @@ const devices = ['phone', 'tablet', 'laptop', 'browser'] as const
     <MiConfetti />
     <section v-for="th in themes" :key="th.cls" :class="['mi-px-theme', th.cls]">
       <header>
-        <p class="mi-px-eyebrow">Preline extras</p>
+        <p class="mi-px-eyebrow">Extras</p>
         <h1>Charts, devices and editing</h1>
         <span class="mi-px-pill">{{ th.name }} appearance</span>
       </header>

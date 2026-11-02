@@ -148,3 +148,46 @@ Accessible data table (table view of a chart).
 | `zebra` | `boolean` | `true` |
 
 First column renders as row headers.
+
+### MiDonutChart
+
+Donut or pie chart. Hover or arrow keys highlight a segment; the legend, the center and the chart share that highlight. A chart/table toggle gives an accessible data table.
+
+| Prop | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `data` | `{ label, value, color? }[]` | | negative / non-finite values count as 0, zero values get no segment |
+| `variant` | `'donut' \| 'pie'` | `'donut'` | |
+| `title`, `subtitle` | `string` | | card header |
+| `card` | `boolean` | `true` | elevated surface |
+| `size` | `number` | `240` | max width in px, shrinks with the container |
+| `thickness` | `number` | `30` | ring width on a 220 grid (donut) |
+| `gap` | `number` | `3` | px between segments |
+| `valueLabels` | `'none' \| 'percent' \| 'value'` | `'none'` | drawn on segments of 7 % or more |
+| `unit` | `string` | `''` | value suffix |
+| `legend`, `toggle`, `animate` | `boolean` | `true` | |
+| `totalLabel` | `string` | `'Total'` | caption under the center total |
+| `categoryLabel`, `valueLabel`, `shareLabel`, `chartLabel`, `tableLabel` | `string` | English | table / toggle text |
+| `formatValue` | `(value, datum) => string` | | |
+| `ariaLabel` | `string` | generated | |
+| `v-model:view` | `'chart' \| 'table'` | `'chart'` | |
+| `v-model:active` | `number` | `-1` | highlighted segment |
+
+Slot `center` (donut): `{ active, total, totalText }`. Event `hover(index)`. Palette: shared chart palette in order (primary, secondary, fixed hues).
+
+### MiScatterChart
+
+| Prop | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `series` | `{ name, points: { x, y, r? }[], color? }[]` | | `r` turns it into a bubble chart (area scaled) |
+| `title`, `subtitle`, `card` | | | as other charts |
+| `xLabel`, `yLabel` | `string` | | axis titles, also table headers |
+| `xUnit`, `yUnit` | `string` | `''` | |
+| `sizeLabel` | `string` | `'Size'` | |
+| `ticks` | `number` | `5` | |
+| `height` | `number` | `300` | |
+| `dotSize`, `maxRadius` | `number` | `5`, `22` | |
+| `toolbar`, `toggle`, `animate` | `boolean` | `true` | |
+| `formatValue` | `(value, 'x' \| 'y' \| 'r', series) => string` | | |
+| `v-model:view` | `'chart' \| 'table'` | `'chart'` | |
+
+Event `hover({ series, index } \| null)`. Keyboard: arrows read points left to right, Home / End, Escape clears.
