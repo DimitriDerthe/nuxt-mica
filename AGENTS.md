@@ -12,5 +12,6 @@ Rules
 - Components are auto-registered: write `<MiButton>`, no imports.
 - Colors: only CSS vars `--mi-*` (brand `--mi-p*`/`--mi-s*`). Never hardcode hex; light/dark is automatic.
 - Theme: `useMiTheme()` gives `mode`, `primary`, `secondary`, `setMode`, `setPrimary`, `setSecondary`.
+- Styling: `mi:` utility classes (`mi:flex mi:gap-3 mi:@[560px]:grid-cols-2 mi:bg-card`), generated at build time from the classes the sources use. Reference: `docs/atomic.md`. Write whole class names, never concatenated.
 - Animate only `transform`/`opacity` in your own code too (60fps rule).
 - v-model components are marked `[v-model]` in `llms.txt`.

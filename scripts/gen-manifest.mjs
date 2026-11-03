@@ -167,6 +167,7 @@ const index = [
   'Auto-registered as <MiName>. No imports, no setup. Theme: useMiTheme() (mode, primary, secondary).',
   'Details of one component: read docs/api/<MiName>.md (props, defaults, slots, emits). Do not read .vue sources.',
   'All tokens are CSS vars --mi-*; never hardcode colors.',
+  'Styling: mi: utility classes (mi:flex mi:gap-3 mi:@[560px]:grid-cols-2 mi:bg-card mi:hover:bg-p/10), Tailwind-like, generated at build time. Reference: docs/atomic.md.',
   'Brand vars: --mi-p / --mi-s (solid), -on (text on solid), -hover, -tint, -tint2 (soft fills), -text (readable text).',
   'Neutrals: --mi-page --mi-card --mi-elev --mi-label --mi-label2 --mi-label3 --mi-sep --mi-fill(2-4). Status: --mi-red --mi-orange --mi-green (+ -t text shades).',
   'Icons: <MiIcon name> takes any name listed in docs/api/MiIcon.md. A component `icon` prop uses its group set (MiNavIconName, MiFbIconName), listed under "## Types" in that component file.',
