@@ -18,6 +18,10 @@ describe('mi-atomic utilities', () => {
     expect(decls('mi:text-label2')).toEqual([['color', 'var(--mi-label2)']])
     expect(decls('mi:bg-p/20')).toEqual([['background-color', 'color-mix(in srgb, var(--mi-p) 20%, transparent)']])
     expect(decls('mi:rounded-xl')).toEqual([['border-radius', 'var(--mi-radius-xl)']])
+    expect(decls('mi:rounded-lg')).toEqual([['border-radius', 'var(--mi-radius-l)']])
+    expect(decls('mi:rounded-l')).toEqual([['border-top-left-radius', '4px'], ['border-bottom-left-radius', '4px']])
+    expect(decls('mi:items-start')).toEqual([['align-items', 'start']])
+    expect(decls('mi:items-flex-start')).toEqual([['align-items', 'flex-start']])
     expect(decls('mi:shadow-1')).toEqual([['box-shadow', 'var(--mi-sh1)']])
     expect(parse('mi:bg-nope')).toBeNull()
   })
@@ -36,6 +40,7 @@ describe('mi-atomic utilities', () => {
   it('keeps underscores in custom property names and escaped ones', () => {
     expect(decode('var(--_i)_*_2')).toBe('var(--_i) * 2')
     expect(decode('a\\_b')).toBe('a_b')
+    expect(decode('.card__title_&')).toBe('.card__title &')
   })
 
   it('handles fractions, sizes and the grid', () => {

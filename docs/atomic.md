@@ -26,7 +26,7 @@ The class must appear whole in the source (`'mi:bg-card'`, not `'mi:bg-' + tone`
 | Utility | Values |
 | --- | --- |
 | Colors `bg-`, `text-`, `border-*-`, `outline-`, `decoration-`, `fill-`, `stroke-`, `accent-`, `caret-` | `page card elev seg label label2 label3 sep sep2 fill fill2 fill3 fill4 field field-b off scrim mat mat-b side ctl red red-t orange orange-t yellow green green-t mint teal blue indigo purple pink`, brand `p p-on p-hover p-tint p-tint2 p-text` and `s…`, plus `current transparent inherit white black`. Opacity: `mi:bg-p/20` → `color-mix(in srgb, var(--mi-p) 20%, transparent)` |
-| `rounded-*` | `none s m l xl full` (`var(--mi-radius-*)`), bare `rounded` is 4px |
+| `rounded-*` | `none sm md lg xl full` (`sm`…`xl` are `var(--mi-radius-s|m|l|xl)`), bare `rounded` is 4px |
 | `shadow-*` | `1 2 3 none` (`var(--mi-sh*)`) |
 | `ease-*` | `mi mi-in-out spring linear in out in-out` |
 | `font-sans`, `font-mi` | `var(--mi-font)` |
@@ -35,7 +35,7 @@ The class must appear whole in the source (`'mi:bg-card'`, not `'mi:bg-' + tone`
 
 Layout: `block inline-block inline flex inline-flex grid inline-grid contents hidden flow-root …`, `static fixed absolute relative sticky`, `inset[-x|-y]-* top-* right-* bottom-* left-* start-* end-*`, `z-*`, `order-*`, `isolate`, `overflow[-x|-y]-*`, `overscroll-*`, `visible invisible`, `box-border box-content`, `aspect-*`, `object-*`, `float-*`, `clear-*`, `columns-*`, `align-*`.
 
-Flex and grid: `flex-row|col[-reverse]`, `flex-wrap|nowrap`, `flex-1|auto|initial|none|[…]`, `grow`, `shrink`, `basis-*`, `grid-cols-*`, `grid-rows-*`, `col-span-*`, `col-start-*`, `col-end-*`, `row-*`, `auto-cols-*`, `auto-rows-*`, `grid-flow-*`, `gap[-x|-y]-*`, `justify-*`, `justify-items-*`, `justify-self-*`, `content-*`, `items-*`, `self-*`, `place-content|items|self-*`.
+Flex and grid (`*-start`/`*-end` give the box alignment keywords `start`/`end`, `*-flex-start`/`*-flex-end` the flexbox ones): `flex-row|col[-reverse]`, `flex-wrap|nowrap`, `flex-1|auto|initial|none|[…]`, `grow`, `shrink`, `basis-*`, `grid-cols-*`, `grid-rows-*`, `col-span-*`, `col-start-*`, `col-end-*`, `row-*`, `auto-cols-*`, `auto-rows-*`, `grid-flow-*`, `gap[-x|-y]-*`, `justify-*`, `justify-items-*`, `justify-self-*`, `content-*`, `items-*`, `self-*`, `place-content|items|self-*`.
 
 Box: `p|px|py|pt|pr|pb|pl|ps|pe-*`, same for `m*` (with `auto`), `scroll-p*`, `scroll-m*`, `w|h|min-w|min-h|max-w|max-h|size-*` (scale, fractions `1/2`, `full auto min max fit screen svh dvh lvh`).
 

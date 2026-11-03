@@ -25,14 +25,14 @@ interface SortKey { at: number[], variants: number[], depth: number, count: numb
 // ---------------------------------------------------------------------------------------------
 // Theme: Mica tokens. Everything maps to the `--mi-*` custom properties of `app/assets/css/mi.css`.
 
-const COLORS = new Set([
+export const COLORS = new Set([
   'page', 'card', 'elev', 'seg', 'label', 'label2', 'label3', 'sep', 'sep2', 'fill', 'fill2', 'fill3', 'fill4',
   'field', 'field-b', 'off', 'scrim', 'mat', 'mat-b', 'side', 'ctl',
   'red', 'red-t', 'orange', 'orange-t', 'yellow', 'green', 'green-t', 'mint', 'teal', 'blue', 'indigo', 'purple', 'pink',
   'p', 'p-on', 'p-hover', 'p-tint', 'p-tint2', 'p-text', 's', 's-on', 's-hover', 's-tint', 's-tint2', 's-text'
 ])
 const KEYWORD_COLORS: Record<string, string> = { current: 'currentColor', transparent: 'transparent', inherit: 'inherit', white: '#fff', black: '#000' }
-const RADII: Record<string, string> = { '': '4px', none: '0', s: 'var(--mi-radius-s)', m: 'var(--mi-radius-m)', l: 'var(--mi-radius-l)', xl: 'var(--mi-radius-xl)', full: '9999px' }
+const RADII: Record<string, string> = { '': '4px', none: '0', sm: 'var(--mi-radius-s)', md: 'var(--mi-radius-m)', lg: 'var(--mi-radius-l)', xl: 'var(--mi-radius-xl)', full: '9999px' }
 const SHADOWS: Record<string, string> = { 1: 'var(--mi-sh1)', 2: 'var(--mi-sh2)', 3: 'var(--mi-sh3)', none: 'none' }
 const EASES: Record<string, string> = {
   linear: 'linear', in: 'cubic-bezier(.4,0,1,1)', out: 'cubic-bezier(0,0,.2,1)', 'in-out': 'cubic-bezier(.4,0,.2,1)',
@@ -69,13 +69,17 @@ function arbitrary(v: string): { hint: string, value: string } | null {
   return { hint, value: decode(inner) }
 }
 
-/** `_` stands for a space in arbitrary values; `\_` is a literal underscore, and custom property names keep theirs. */
+/**
+ * `_` stands for a space in arbitrary values. `\_` is a literal underscore, and so are runs of two or more
+ * (`.card__title`) and the underscores of custom property names (`--_i`).
+ */
 export function decode(s: string): string {
   let out = ''
   let inName = false
   for (let i = 0; i < s.length; i++) {
     const c = s[i]!
     if (c === '\\' && s[i + 1] === '_') { out += '_'; i++; continue }
+    if (c === '_' && (s[i + 1] === '_' || s[i - 1] === '_')) { out += '_'; continue }
     if (c === '-' && s[i + 1] === '-' && !/[\w-]/.test(s[i - 1] ?? '')) inName = true
     else if (inName && !/[\w-]/.test(c)) inName = false
     out += c === '_' && !inName ? ' ' : c
@@ -216,14 +220,15 @@ each('grid-auto-flow', 'grid-flow-', ['row', 'col', 'dense', 'row-dense', 'col-d
 F('gap', v => { const x = spacing(v); return x ? [['gap', x]] : null })
 F('gap-x', v => { const x = spacing(v); return x ? [['column-gap', x]] : null })
 F('gap-y', v => { const x = spacing(v); return x ? [['row-gap', x]] : null })
-const ALIGN = ['start', 'end', 'center', 'between', 'around', 'evenly', 'stretch', 'baseline', 'normal']
-const alignVal = (v: string) => v === 'between' || v === 'around' || v === 'evenly' ? 'space-' + v : v === 'start' || v === 'end' ? 'flex-' + v : v
+// `*-start`/`*-end` are the box alignment keywords `start`/`end`; `*-flex-start`/`*-flex-end` the flexbox ones.
+const ALIGN = ['start', 'end', 'flex-start', 'flex-end', 'center', 'between', 'around', 'evenly', 'stretch', 'baseline', 'normal']
+const alignVal = (v: string) => v === 'between' || v === 'around' || v === 'evenly' ? 'space-' + v : v
 each('justify-content', 'justify-', ALIGN, alignVal)
 each('justify-items', 'justify-items-', ['start', 'end', 'center', 'stretch', 'normal'])
 each('justify-self', 'justify-self-', ['auto', 'start', 'end', 'center', 'stretch'])
 each('align-content', 'content-', ALIGN, alignVal)
-each('align-items', 'items-', ['start', 'end', 'center', 'baseline', 'stretch'], alignVal)
-each('align-self', 'self-', ['auto', 'start', 'end', 'center', 'stretch', 'baseline'], alignVal)
+each('align-items', 'items-', ['start', 'end', 'flex-start', 'flex-end', 'center', 'baseline', 'stretch', 'normal'], alignVal)
+each('align-self', 'self-', ['auto', 'start', 'end', 'flex-start', 'flex-end', 'center', 'stretch', 'baseline'], alignVal)
 each('place-content', 'place-content-', ['center', 'start', 'end', 'between', 'around', 'evenly', 'baseline', 'stretch'], v => ['between', 'around', 'evenly'].includes(v) ? 'space-' + v : v)
 each('place-items', 'place-items-', ['start', 'end', 'center', 'baseline', 'stretch'])
 each('place-self', 'place-self-', ['auto', 'start', 'end', 'center', 'stretch'])
