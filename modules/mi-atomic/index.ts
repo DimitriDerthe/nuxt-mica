@@ -1,6 +1,6 @@
-import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
-import { dirname, extname, isAbsolute, join, resolve } from 'node:path'
-import { addVitePlugin, defineNuxtModule } from 'nuxt/kit'
+import { existsSync, readdirSync, readFileSync } from 'node:fs'
+import { extname, isAbsolute, join, resolve } from 'node:path'
+import { addTemplate, addVitePlugin, defineNuxtModule, updateTemplates } from 'nuxt/kit'
 import type { ViteDevServer } from 'vite'
 import { extract, generate } from './engine.ts'
 
@@ -23,7 +23,6 @@ export default defineNuxtModule<MiAtomicOptions>({
     const { prefix } = options
     const dirs = [...new Set([...nuxt.options._layers.map(l => l.config.srcDir), ...options.scan.map(d => resolve(nuxt.options.rootDir, d))])]
       .filter((d): d is string => !!d && existsSync(d))
-    const out = join(nuxt.options.buildDir, 'mi-atomic.css')
 
     // Classes per file, so an edit can drop the ones it removed.
     const byFile = new Map<string, Set<string>>()
@@ -44,29 +43,30 @@ export default defineNuxtModule<MiAtomicOptions>({
       }
     }
     /** Regenerates the stylesheet; returns true when it changed. */
-    const write = () => {
+    const regenerate = () => {
       const all = new Set<string>()
       for (const set of byFile.values()) for (const t of set) all.add(t)
       const next = generate(all, prefix)
-      if (next === css && existsSync(out)) return false
+      if (next === css) return false
       css = next
-      mkdirSync(dirname(out), { recursive: true })
-      writeFileSync(out, css)
       return true
     }
 
     for (const d of dirs) walk(d)
-    write()
+    regenerate()
+    // Written by Nuxt with its other templates, after the build directory is cleaned.
+    const out = addTemplate({ filename: 'mi-atomic.css', write: true, getContents: () => css }).dst
     // After the layer's own stylesheets, so utilities win over the base rules at equal specificity.
     nuxt.options.css.push(out)
 
     if (!nuxt.options.dev) return
     const inScope = (file: string) => dirs.some(d => file.startsWith(d + '/')) && !file.split('/').some(s => SKIP.has(s))
     const servers = new Set<ViteDevServer>()
-    const update = (file: string, src?: string) => {
+    const update = async (file: string, src?: string) => {
       if (!inScope(file)) return
       scanFile(file, src)
-      if (!write()) return
+      if (!regenerate()) return
+      await updateTemplates({ filter: t => t.filename === 'mi-atomic.css' })
       for (const server of servers) {
         const mods = server.moduleGraph.getModulesByFile(out)
         if (mods) for (const m of mods) void server.reloadModule(m)
@@ -74,12 +74,12 @@ export default defineNuxtModule<MiAtomicOptions>({
     }
     nuxt.hook('builder:watch', (_event, path) => {
       const abs = isAbsolute(path) ? path : [nuxt.options.srcDir, nuxt.options.rootDir].map(r => resolve(r, path)).find(existsSync) ?? resolve(nuxt.options.srcDir, path)
-      update(abs)
+      return update(abs)
     })
     addVitePlugin({
       name: 'mi-atomic',
       configureServer(server) { servers.add(server) },
-      async handleHotUpdate(ctx) { update(ctx.file, await ctx.read()) }
+      async handleHotUpdate(ctx) { await update(ctx.file, await ctx.read()) }
     })
   }
 })
