@@ -1,11 +1,26 @@
 [
   {
     "file": "ApiKeysTable",
-    "title": { "en": "API keys table", "fr": "Tableau des clés d'API" },
+    "title": {
+      "en": "API keys table",
+      "fr": "Tableau des clés d'API"
+    },
     "summary": {
       "en": "API keys with masked tokens, read and write scopes, a week of usage, and an expiry bar measured against each key's own lifetime; idle and expiring keys are flagged, rotation is one click and revoking asks for an inline confirmation.",
       "fr": "Les clés d'API avec jetons masqués, portées lecture et écriture, une semaine d'utilisation et une barre d'expiration rapportée à la durée de vie de chaque clé ; les clés inactives ou bientôt expirées sont signalées, la rotation se fait en un clic et la révocation demande une confirmation sur place."
     },
     "height": 560
+  },
+  {
+    "file": "WebhookDeliveriesTable",
+    "title": {
+      "en": "Webhook deliveries log",
+      "fr": "Journal des livraisons de webhooks"
+    },
+    "summary": {
+      "en": "Webhook attempts with status codes, latency bars against the timeout, success rate and p95; failed rows filter out, expand to show the response and redeliver in one click.",
+      "fr": "Les tentatives de webhook avec codes de statut, barres de latence rapportées au délai, taux de réussite et p95 ; les échecs se filtrent, se déplient pour montrer la réponse et se relivrent en un clic."
+    },
+    "height": 520
   }
 ]

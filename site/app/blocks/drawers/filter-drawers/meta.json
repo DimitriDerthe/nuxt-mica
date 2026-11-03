@@ -8,5 +8,15 @@
     },
     "height": 700,
     "stage": "bleed"
+  },
+  {
+    "file": "LogQueryDrawer",
+    "title": { "en": "Log query builder drawer", "fr": "Tiroir de construction de requête de logs" },
+    "summary": {
+      "en": "A bottom drawer over a log viewer that builds a query from field, operator and value rows matched by all or any, loads saved queries, previews the query string and the match count, and applies it on Show.",
+      "fr": "Un tiroir en bas au-dessus d'une visionneuse de logs qui construit une requête à partir de lignes champ, opérateur et valeur combinées par toutes ou au moins une, charge des requêtes enregistrées, prévisualise la requête et le nombre de résultats, et l'applique avec Afficher."
+    },
+    "height": 700,
+    "stage": "bleed"
   }
 ]

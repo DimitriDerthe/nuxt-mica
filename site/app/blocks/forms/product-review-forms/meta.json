@@ -7,5 +7,14 @@
       "fr": "Note en étoiles, échelle de taille de « petit » à « grand », notes par critère, points forts et faibles, photos et jauge de longueur, reflétés dans l'aperçu de la carte vue par les acheteurs."
     },
     "height": 620
+  },
+  {
+    "file": "OrderItemsReview",
+    "title": { "en": "Review every item of an order", "fr": "Avis sur chaque article d'une commande" },
+    "summary": {
+      "en": "Each item of a delivered order gets inline stars; rating one opens prompt chips tuned to the score and an optional note, items can be skipped, and one button posts them all.",
+      "fr": "Chaque article d'une commande livrée reçoit ses étoiles en ligne ; noter ouvre des suggestions adaptées à la note et un commentaire facultatif, les articles peuvent être ignorés et un seul bouton publie tous les avis."
+    },
+    "height": 540
   }
 ]

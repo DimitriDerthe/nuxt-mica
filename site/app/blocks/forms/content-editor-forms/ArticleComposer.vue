@@ -106,7 +106,7 @@ function publish() {
 </script>
 
 <style scoped>
-.ac { container-type: inline-size; display: grid; gap: 18px; font-family: var(--mi-font); color: var(--mi-label); }
+.ac { container-type: inline-size; display: grid; align-content: start; gap: 18px; font-family: var(--mi-font); color: var(--mi-label); }
 .ac__head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
 .ac__head-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
 .ac__grid { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); }

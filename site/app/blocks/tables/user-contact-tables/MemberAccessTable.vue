@@ -150,7 +150,7 @@ const removeSelected = () => {
 </script>
 
 <style scoped>
-.mat { container-type: inline-size; position: relative; display: grid; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
+.mat { container-type: inline-size; position: relative; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
 .mat__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 24px; }
 .mat__seats { display: grid; gap: 4px; flex: 0 1 220px; min-width: 160px; }
 .mat__toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }

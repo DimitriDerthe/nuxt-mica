@@ -115,7 +115,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, onBeforeUnmount } from 'vue'
+
+const timers = new Set<ReturnType<typeof setTimeout>>()
+function later(fn: () => void, ms: number) {
+  const t = setTimeout(() => { timers.delete(t); fn() }, ms)
+  timers.add(t)
+}
+onBeforeUnmount(() => { timers.forEach(clearTimeout); timers.clear() })
 
 type Mfa = 'off' | 'setup' | 'verifying' | 'on'
 const mfa = ref<Mfa>('off')
@@ -143,7 +150,7 @@ function revoke(id: string) {
 function verify(value: string) {
   codeError.value = ''
   mfa.value = 'verifying'
-  setTimeout(() => {
+  later(() => {
     // Sample rule: a code of zeros stands for an expired one.
     if (/^0+$/.test(value)) {
       codeError.value = 'That code has expired. Codes refresh every 30 seconds; try the new one.'

@@ -7,5 +7,14 @@
       "fr": "Retrouvez une commande avec son numéro et son code postal, puis suivez-la sur un rail de livraison, avec ses articles et une invitation à créer un compte."
     },
     "height": 540
+  },
+  {
+    "file": "GuestReturnStart",
+    "title": { "en": "Guest return with drop-off code", "fr": "Retour invité avec code de dépôt" },
+    "summary": {
+      "en": "Start a return without an account: find the order by email and number, pick items with a reason each, choose card refund or bonus store credit, and get a drop-off code.",
+      "fr": "Lancez un retour sans compte : retrouvez la commande par e-mail et numéro, choisissez les articles avec un motif, un remboursement carte ou un avoir majoré, puis obtenez un code de dépôt."
+    },
+    "height": 600
   }
 ]

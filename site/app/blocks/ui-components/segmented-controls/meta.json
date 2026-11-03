@@ -7,5 +7,14 @@
       "fr": "Contrôles segmentés en icônes, texte et teinté qui pilotent une liste de tâches : liste, grille ou tableau, densité et tri, avec le champ trié mis en valeur sur chaque carte."
     },
     "height": 520
+  },
+  {
+    "file": "EnergyUsageSegments",
+    "title": { "en": "Energy usage segments", "fr": "Segments de consommation d'énergie" },
+    "summary": {
+      "en": "Period, unit and circuit segmented controls reshape a home energy chart, switching between kWh and cost with the total, trend and peak recalculated.",
+      "fr": "Des contrôles segmentés de période, d'unité et de circuit remodèlent un graphique d'énergie domestique, entre kWh et coût, avec total, tendance et pic recalculés."
+    },
+    "height": 480
   }
 ]

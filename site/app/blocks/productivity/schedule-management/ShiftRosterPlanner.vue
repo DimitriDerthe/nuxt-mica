@@ -159,7 +159,7 @@ function publish() {
 </script>
 
 <style scoped>
-.ro { container-type: inline-size; display: grid; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
+.ro { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
 .ro__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .ro__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .ro__brush { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }

@@ -144,7 +144,7 @@ function reset() {
 </script>
 
 <style scoped>
-.prh { container-type: inline-size; display: grid; gap: 18px; padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); font-family: var(--mi-font); color: var(--mi-label); }
+.prh { container-type: inline-size; display: grid; align-content: start; gap: 18px; padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); font-family: var(--mi-font); color: var(--mi-label); }
 .prh__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
 .prh__body { display: grid; gap: 22px; grid-template-columns: minmax(0, 1fr); }
 @container (min-width: 760px) { .prh__body { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 32px; } }

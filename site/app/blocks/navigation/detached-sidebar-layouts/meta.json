@@ -8,5 +8,15 @@
     },
     "height": 640,
     "stage": "bleed"
+  },
+  {
+    "file": "IslandsReviewLayout",
+    "title": { "en": "Floating islands review layout", "fr": "Mise en page de relecture en îlots flottants" },
+    "summary": {
+      "en": "A design-review layout of three floating cards: file navigation, a canvas with numbered comment pins and a comments panel; pins and threads highlight each other, and the nav becomes a pill strip when narrow.",
+      "fr": "Une mise en page de relecture de maquettes en trois cartes flottantes : navigation des fichiers, canevas à épingles de commentaires numérotées et panneau de commentaires ; épingles et fils se répondent, et la navigation devient une bande en pilule en étroit."
+    },
+    "height": 640,
+    "stage": "bleed"
   }
 ]

@@ -151,7 +151,7 @@ const onKey = (e: KeyboardEvent) => {
 </script>
 
 <style scoped>
-.sca { container-type: inline-size; display: grid; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
+.sca { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
 .sca__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .sca__intro { display: grid; gap: 2px; }
 .sca__grid { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); }

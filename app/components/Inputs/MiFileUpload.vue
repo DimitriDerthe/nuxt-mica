@@ -208,7 +208,7 @@ const pct = (f: File) => {
 </template>
 
 <style scoped>
-.mi-fu { display: grid; gap: 10px; font-family: var(--mi-font); color: var(--mi-label); }
+.mi-fu { display: grid; align-content: start; gap: 10px; font-family: var(--mi-font); color: var(--mi-label); }
 .mi-fu.is-disabled { opacity: .45; }
 
 .mi-fu__zone {

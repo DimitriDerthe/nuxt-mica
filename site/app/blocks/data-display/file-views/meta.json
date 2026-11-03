@@ -7,5 +7,14 @@
       "fr": "Un dossier partagé en grille ou en liste dont chaque aperçu (page, tableur, photo, vidéo, onde, maquette) est dessiné avec les tokens ; filtre par type, recherche, et sélection avec une barre indiquant la taille cumulée."
     },
     "height": 600
+  },
+  {
+    "file": "FolderTreeBrowser",
+    "title": { "en": "Folder tree with details", "fr": "Arborescence de dossiers avec détails" },
+    "summary": {
+      "en": "A shared drive as a keyboard-friendly tree beside a details pane: folders show their size split by file type, files show their version history with one-click restore.",
+      "fr": "Un drive partagé en arborescence navigable au clavier à côté d'un panneau de détail : les dossiers montrent leur taille répartie par type de fichier, les fichiers leur historique de versions avec restauration en un clic."
+    },
+    "height": 560
   }
 ]

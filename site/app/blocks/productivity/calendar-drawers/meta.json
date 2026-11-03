@@ -1,11 +1,26 @@
 [
   {
     "file": "EventDetailDrawer",
-    "title": { "en": "Event drawer with leave-by time", "fr": "Tiroir d'événement avec heure de départ" },
+    "title": {
+      "en": "Event drawer with leave-by time",
+      "fr": "Tiroir d'événement avec heure de départ"
+    },
     "summary": {
       "en": "A day agenda behind an open side drawer that works back from the start time to when you should leave, with RSVP, guest statuses, a reminder and notes; picking a row swaps the event.",
       "fr": "Un agenda du jour derrière un tiroir latéral ouvert qui calcule l'heure de départ à partir du début, avec réponse, statut des invités, rappel et notes ; choisir une ligne change l'événement."
     },
     "height": 640
+  },
+  {
+    "file": "QuickAddEventDrawer",
+    "title": {
+      "en": "Quick add drawer with clash check",
+      "fr": "Tiroir d’ajout rapide avec détection de conflit"
+    },
+    "summary": {
+      "en": "A bottom drawer to create an event while a dashed ghost previews it on the day behind; overlaps are flagged with a one-click move to the next free slot.",
+      "fr": "Un tiroir bas pour créer un événement pendant qu'un fantôme en pointillés le prévisualise sur la journée derrière ; les chevauchements sont signalés avec un déplacement en un clic vers le prochain créneau libre."
+    },
+    "height": 680
   }
 ]

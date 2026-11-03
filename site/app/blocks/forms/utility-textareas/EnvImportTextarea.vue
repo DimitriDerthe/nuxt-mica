@@ -57,7 +57,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, onBeforeUnmount } from 'vue'
+
+const timers = new Set<ReturnType<typeof setTimeout>>()
+function later(fn: () => void, ms: number) {
+  const t = setTimeout(() => { timers.delete(t); fn() }, ms)
+  timers.add(t)
+}
+onBeforeUnmount(() => { timers.forEach(clearTimeout); timers.clear() })
 
 interface Row { line: number, key: string, value: string, level: 'ok' | 'warn' | 'err', note?: string, secret: boolean, overwrite: boolean }
 
@@ -115,7 +122,7 @@ function submit() {
   submitted.value = true
   if (!rows.value.length || problems.value) return
   busy.value = true
-  setTimeout(() => {
+  later(() => {
     imported.value = valid.value.length
     busy.value = false
     submitted.value = false
@@ -125,7 +132,7 @@ function submit() {
 </script>
 
 <style scoped>
-.env { container: env / inline-size; display: grid; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
+.env { container: env / inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
 .env__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 10px; }
 .env__grid { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); align-items: start; padding: 18px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
 @container env (min-width: 820px) { .env__grid { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 22px; } }

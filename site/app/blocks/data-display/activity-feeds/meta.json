@@ -7,5 +7,14 @@
       "fr": "Un flux d'équipe groupé par jour sous une semaine de barres de densité cliquables pour aller à un jour ; des puces filtrent par type, et les rafales de commits se replient en une ligne qui se déplie sur les empreintes."
     },
     "height": 620
+  },
+  {
+    "file": "AuditTrail",
+    "title": { "en": "Workspace audit log", "fr": "Journal d'audit de l'espace" },
+    "summary": {
+      "en": "A security audit trail of who changed what, with sensitive events flagged in red, filters by risk and actor, and each entry unfolding to its before and after values.",
+      "fr": "Un journal d'audit de sécurité indiquant qui a modifié quoi, avec les événements sensibles signalés en rouge, des filtres par risque et par auteur, et chaque entrée qui se déplie sur ses valeurs avant et après."
+    },
+    "height": 600
   }
 ]

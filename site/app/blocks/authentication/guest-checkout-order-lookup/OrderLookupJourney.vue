@@ -68,7 +68,14 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, shallowRef } from 'vue'
+import { reactive, ref, shallowRef, onBeforeUnmount } from 'vue'
+
+const timers = new Set<ReturnType<typeof setTimeout>>()
+function later(fn: () => void, ms: number) {
+  const t = setTimeout(() => { timers.delete(t); fn() }, ms)
+  timers.add(t)
+}
+onBeforeUnmount(() => { timers.forEach(clearTimeout); timers.clear() })
 
 interface Order {
   id: string, placed: string, headline: string, status: string, stage: number, postcode: string
@@ -117,7 +124,7 @@ function lookup() {
   errors.contact = contact.value.trim() ? '' : 'Add the email or postcode used at checkout.'
   if (errors.number || errors.contact) return
   busy.value = true
-  setTimeout(() => {
+  later(() => {
     busy.value = false
     const found = orders[id]
     const c = contact.value.trim().toLowerCase()

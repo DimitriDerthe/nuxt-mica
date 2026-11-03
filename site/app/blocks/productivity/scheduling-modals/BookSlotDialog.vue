@@ -136,7 +136,7 @@ const summary = computed(() => {
 </script>
 
 <style scoped>
-.bk { position: relative; container-type: inline-size; display: grid; min-height: 100%; font-family: var(--mi-font); color: var(--mi-label); border-radius: var(--mi-radius-xl); overflow: hidden; isolation: isolate; }
+.bk { position: relative; container-type: inline-size; display: grid; align-content: start; min-height: 100%; font-family: var(--mi-font); color: var(--mi-label); border-radius: var(--mi-radius-xl); overflow: hidden; isolation: isolate; }
 .bk__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
 .bk__backdrop { position: absolute; inset: 0; z-index: -1; display: grid; align-content: start; gap: 14px; padding: 20px; background: var(--mi-page); }

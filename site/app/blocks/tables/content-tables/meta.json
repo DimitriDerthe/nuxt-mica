@@ -7,5 +7,14 @@
       "fr": "Les articles du brouillon à la publication avec quatre contrôles (relecture, images, SEO, juridique) que l'on coche sur place ; quand tout est validé, le brouillon propose de se programmer sur le prochain créneau. Filtre par statut avec compteurs, recherche, tri et pagination."
     },
     "height": 580
+  },
+  {
+    "file": "MediaLibraryTable",
+    "title": { "en": "Media library table", "fr": "Tableau de médiathèque" },
+    "summary": {
+      "en": "Images, videos and documents with drawn thumbnails, page usage and license countdowns; kind filters with counts, search, and a bulk bar that deletes only the files no page uses.",
+      "fr": "Images, vidéos et documents avec vignettes dessinées, usage par page et compte à rebours de licence ; filtres par type avec compteurs, recherche et barre groupée qui ne supprime que les fichiers inutilisés."
+    },
+    "height": 560
   }
 ]

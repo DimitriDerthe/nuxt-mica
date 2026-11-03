@@ -7,5 +7,14 @@
       "fr": "Un curseur de prix double sous l'histogramme des logements disponibles, des champs min et max synchronisés, des préréglages, et des curseurs de distance et de note qui redessinent l'histogramme et le compte."
     },
     "height": 440
+  },
+  {
+    "file": "BudgetSplitSliders",
+    "title": { "en": "Budget split sliders", "fr": "Curseurs de répartition du budget" },
+    "summary": {
+      "en": "One slider per ad channel splits a monthly budget, with projected leads per channel, a stacked bar of the split, and an over-budget state that blocks saving.",
+      "fr": "Un curseur par canal publicitaire répartit un budget mensuel, avec les prospects estimés par canal, une barre empilée de la répartition et un état de dépassement qui bloque l'enregistrement."
+    },
+    "height": 520
   }
 ]

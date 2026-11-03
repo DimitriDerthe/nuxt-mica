@@ -10,5 +10,17 @@
       "fr": "Bulle d’assistant avec trace de raisonnement, bloc de code en diff et retours ; « autre approche » conserve les brouillons précédents."
     },
     "height": 640
+  },
+  {
+    "file": "ToolApprovalBubble",
+    "title": {
+      "en": "Assistant action awaiting approval",
+      "fr": "Action d’assistant à approuver"
+    },
+    "summary": {
+      "en": "The assistant proposes a calendar change as a reviewable diff; untick events, keep or drop the note to attendees, then approve, watch it run and undo.",
+      "fr": "L’assistant propose un changement d’agenda sous forme de diff à relire ; décochez des événements, gardez ou non le message aux participants, puis approuvez, suivez l’exécution et annulez."
+    },
+    "height": 520
   }
 ]

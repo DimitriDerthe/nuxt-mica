@@ -137,7 +137,7 @@ function reset() {
 </script>
 
 <style scoped>
-.sfb { container: sfb / inline-size; display: grid; justify-items: center; font-family: var(--mi-font); color: var(--mi-label); }
+.sfb { container: sfb / inline-size; display: grid; align-content: start; justify-items: center; font-family: var(--mi-font); color: var(--mi-label); }
 .sfb__card {
   position: relative; display: grid; gap: 22px; width: 100%; max-width: 620px; padding: 24px 20px; overflow: hidden; isolation: isolate;
   border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh2);

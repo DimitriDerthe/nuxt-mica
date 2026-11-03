@@ -8,5 +8,15 @@
     },
     "height": 640,
     "stage": "bleed"
+  },
+  {
+    "file": "MillerColumnsBrowser",
+    "title": { "en": "Miller columns file browser", "fr": "Explorateur de fichiers en colonnes" },
+    "summary": {
+      "en": "An architecture studio's files in cascading columns, projects then folders then files, ending in a preview panel; on phones one column shows at a time with a back button and a breadcrumb.",
+      "fr": "Les fichiers d'un cabinet d'architectes en colonnes successives, projets puis dossiers puis fichiers, jusqu'à un panneau d'aperçu ; sur mobile, une colonne à la fois avec bouton retour et fil d'Ariane."
+    },
+    "height": 560,
+    "stage": "bleed"
   }
 ]

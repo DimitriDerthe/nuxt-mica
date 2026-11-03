@@ -11,5 +11,18 @@
     },
     "height": 640,
     "stage": "bleed"
+  },
+  {
+    "file": "ContactOptionsWidget",
+    "title": {
+      "en": "Widget with callback booking",
+      "fr": "Widget avec rappel téléphonique"
+    },
+    "summary": {
+      "en": "Support launcher offering chat, email or a callback: pick a day and slot, enter a validated phone number and get a confirmation.",
+      "fr": "Lanceur de support proposant chat, e-mail ou rappel : choisissez jour et créneau, saisissez un numéro validé et recevez une confirmation."
+    },
+    "height": 640,
+    "stage": "bleed"
   }
 ]

@@ -7,5 +7,14 @@
       "fr": "Un document en texte riche avec titre en ligne, état d'enregistrement automatique, compteur de mots et temps de lecture, un plan tiré des titres et un anneau de préparation qui conditionne la publication."
     },
     "height": 560
+  },
+  {
+    "file": "CommitMessageEditor",
+    "title": { "en": "Commit message editor", "fr": "Éditeur de message de commit" },
+    "summary": {
+      "en": "Type, scope and summary build a Conventional Commit header on a 50/72 ruler, lint checks flag tense, case and periods, and a preview rewraps the body at 72 columns with its footers.",
+      "fr": "Type, portée et résumé composent un en-tête Conventional Commit sur une règle 50/72, des contrôles signalent temps, casse et point final, et l'aperçu replie le corps à 72 colonnes avec ses pieds."
+    },
+    "height": 600
   }
 ]

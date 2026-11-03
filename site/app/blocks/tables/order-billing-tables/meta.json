@@ -7,5 +7,14 @@
       "fr": "Les factures ouvertes sous une bande d'ancienneté qui répartit l'encours par retard ; chaque tranche filtre le tableau, les lignes en retard indiquent leur retard et permettent une relance, et la liste passe en cartes sur petit écran."
     },
     "height": 600
+  },
+  {
+    "file": "OrderDayLedger",
+    "title": { "en": "Orders grouped by day", "fr": "Commandes groupées par jour" },
+    "summary": {
+      "en": "Orders under one row per day carrying its net subtotal; each order expands to its line items, moves along a three-step fulfillment track or gets refunded, and the status switch narrows the ledger.",
+      "fr": "Les commandes sous une ligne par jour portant son sous-total net ; chaque commande se déplie sur ses articles, avance sur un suivi d'expédition en trois étapes ou se rembourse, et le sélecteur de statut filtre le registre."
+    },
+    "height": 560
   }
 ]

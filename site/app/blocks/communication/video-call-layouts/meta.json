@@ -11,5 +11,18 @@
     },
     "height": 680,
     "stage": "bleed"
+  },
+  {
+    "file": "HandRaiseGalleryCall",
+    "title": {
+      "en": "Gallery call with raised hands",
+      "fr": "Appel en galerie avec mains levées"
+    },
+    "summary": {
+      "en": "Equal-tile gallery with a first-come raised-hand queue: the host calls on the next person, who is unmuted and gets the speaking ring.",
+      "fr": "Galerie à tuiles égales avec file de mains levées : l’hôte donne la parole au suivant, qui est réactivé et reçoit l’anneau de parole."
+    },
+    "height": 660,
+    "stage": "bleed"
   }
 ]

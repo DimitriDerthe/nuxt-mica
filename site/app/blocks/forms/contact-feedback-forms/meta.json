@@ -7,5 +7,14 @@
       "fr": "Une échelle de cinq visages qui réécrit la question suivante, ses puces de sujets et le texte d'aide ; une réponse difficile propose un rappel du support, une réponse enthousiaste demande à vous citer."
     },
     "height": 520
+  },
+  {
+    "file": "RoutedContactForm",
+    "title": { "en": "Routed contact form", "fr": "Formulaire de contact aiguillé" },
+    "summary": {
+      "en": "Pick what the message is about and the form routes it: team-specific fields appear, the side card shows who will answer, their hours and reply time, and sending ends on a reference.",
+      "fr": "Choisissez le sujet du message et le formulaire l'aiguille : des champs propres à l'équipe apparaissent, la carte latérale montre qui répondra, ses horaires et son délai, et l'envoi se termine sur une référence."
+    },
+    "height": 600
   }
 ]

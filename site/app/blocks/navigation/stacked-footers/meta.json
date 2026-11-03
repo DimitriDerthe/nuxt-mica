@@ -1,10 +1,25 @@
 [
   {
     "file": "StackedWordmarkFooter",
-    "title": { "en": "Stacked footer with outlined wordmark", "fr": "Pied de page empilé à logotype détouré" },
+    "title": {
+      "en": "Stacked footer with outlined wordmark",
+      "fr": "Pied de page empilé à logotype détouré"
+    },
     "summary": {
       "en": "Four tiers: a validated newsletter sign-up, link columns that fold into disclosures on phones, a legal bar with language and appearance switches, and an oversized outlined wordmark cropped by the edge.",
       "fr": "Quatre niveaux : inscription à la newsletter validée, colonnes de liens repliables sur mobile, barre légale avec choix de langue et d'apparence, et un grand logotype détouré rogné par le bord."
+    },
+    "height": 560
+  },
+  {
+    "file": "SupportStatusFooter",
+    "title": {
+      "en": "Support footer with live status",
+      "fr": "Pied de page support avec statut en direct"
+    },
+    "summary": {
+      "en": "Three help doors above link columns and a region-scoped system status panel whose services fold into a disclosure, closed by a compact legal bar.",
+      "fr": "Trois accès d'aide au-dessus des colonnes de liens et d'un panneau de statut par région dont les services se replient, fermé par une barre légale compacte."
     },
     "height": 560
   }

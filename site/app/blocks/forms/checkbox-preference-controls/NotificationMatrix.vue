@@ -154,7 +154,7 @@ function reset() {
 </script>
 
 <style scoped>
-.ntm { container: ntm / inline-size; display: grid; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
+.ntm { container: ntm / inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
 .ntm__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .ntm__card { display: grid; gap: 18px; padding: 8px 0 16px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); overflow: hidden; }
 .ntm__scroll { overflow-x: auto; }

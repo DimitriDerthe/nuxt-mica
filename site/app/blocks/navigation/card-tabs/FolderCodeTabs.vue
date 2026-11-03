@@ -95,7 +95,7 @@ function onKey(e: KeyboardEvent) {
 </script>
 
 <style scoped>
-.ft { container-type: inline-size; display: grid; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
+.ft { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
 .ft__head { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 8px 16px; }
 
 .ft__folder { display: grid; min-width: 0; }

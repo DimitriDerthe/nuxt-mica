@@ -8,5 +8,15 @@
     },
     "height": 740,
     "stage": "bleed"
+  },
+  {
+    "file": "SneakerFacetDrawer",
+    "title": { "en": "Product facet drawer", "fr": "Tiroir de facettes produit" },
+    "summary": {
+      "en": "A right drawer over a shoe listing with folding facets: a size grid that strikes out sizes nobody stocks, colour swatches, a price range and brands with live counts; applied facets become removable chips above the grid.",
+      "fr": "Un tiroir à droite au-dessus d'une liste de chaussures avec des facettes repliables : une grille de pointures qui barre celles sans stock, des pastilles de couleur, une fourchette de prix et des marques avec compteurs en direct ; les facettes appliquées deviennent des puces supprimables au-dessus de la grille."
+    },
+    "height": 720,
+    "stage": "bleed"
   }
 ]

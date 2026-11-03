@@ -115,7 +115,7 @@ function confirm(f: Flag) {
 </script>
 
 <style scoped>
-.ffs { container: ffs / inline-size; display: grid; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
+.ffs { container: ffs / inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
 .ffs__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .ffs__head > :last-child { flex: 0 1 240px; }
 .ffs__card { border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); overflow: hidden; }

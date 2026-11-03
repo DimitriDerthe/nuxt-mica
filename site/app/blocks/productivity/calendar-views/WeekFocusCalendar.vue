@@ -209,7 +209,7 @@ function removeEvent(id: number) {
 </script>
 
 <style scoped>
-.wk { --h: 46px; container-type: inline-size; display: grid; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
+.wk { --h: 46px; container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
 .wk__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .wk__tools { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
 .wk__cals { display: flex; flex-wrap: wrap; gap: 6px; }

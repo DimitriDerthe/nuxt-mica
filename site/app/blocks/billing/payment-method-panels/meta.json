@@ -7,5 +7,14 @@
       "fr": "Cartes et prélèvement enregistrés, ordonnés par glisser : le premier est débité, les suivants sont des secours numérotés ; les cartes qui expirent sont signalées et la suppression se confirme sur place."
     },
     "height": 460
+  },
+  {
+    "file": "PayMethodChooser",
+    "title": { "en": "Payment method chooser with details", "fr": "Choix du moyen de paiement avec détails" },
+    "summary": {
+      "en": "Pick card, bank transfer or invoice terms; a detail pane shows the card on file, copyable transfer details or Net 30 to 60 terms with a PO number, and the next charge updates.",
+      "fr": "Choisissez carte, virement ou paiement sur facture ; un panneau montre la carte enregistrée, les coordonnées à copier ou les conditions à 30-60 jours avec bon de commande, et la prochaine échéance suit."
+    },
+    "height": 480
   }
 ]

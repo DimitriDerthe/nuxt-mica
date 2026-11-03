@@ -7,5 +7,14 @@
       "fr": "Un filtre de créances rédigé comme une phrase dont les mots soulignés sont des sélecteurs compacts, avec totaux en direct, à côté d'un champ montant dont la liste de devises intégrée est ouverte."
     },
     "height": 520
+  },
+  {
+    "file": "DnsRecordFields",
+    "title": { "en": "DNS record fields", "fr": "Champs d'enregistrement DNS" },
+    "summary": {
+      "en": "A DNS record form whose fields carry their own compact selects, record type before the name and TTL after the value, with per-type validation and a live zone line.",
+      "fr": "Un formulaire d'enregistrement DNS dont les champs portent leurs propres sélecteurs compacts, type avant le nom et TTL après la valeur, avec validation par type et ligne de zone en direct."
+    },
+    "height": 560
   }
 ]

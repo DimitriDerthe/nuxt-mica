@@ -122,7 +122,7 @@ async function remove(index: number) {
 </template>
 
 <style scoped>
-.mi-rep { display: grid; gap: 12px; font-family: var(--mi-font); color: var(--mi-label); }
+.mi-rep { display: grid; align-content: start; gap: 12px; font-family: var(--mi-font); color: var(--mi-label); }
 .mi-rep__list { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
 .mi-rep__row {
   display: flex; align-items: flex-start; gap: 10px; padding: 14px; border-radius: 14px;

@@ -113,7 +113,7 @@ const shipText = computed(() => subtotal.value >= threshold ? 'Free shipping unl
 </script>
 
 <style scoped>
-.scm { container-type: inline-size; display: grid; gap: 18px; font-family: var(--mi-font); color: var(--mi-label); }
+.scm { container-type: inline-size; display: grid; align-content: start; gap: 18px; font-family: var(--mi-font); color: var(--mi-label); }
 .scm__bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; padding-bottom: 14px; border-bottom: .5px solid var(--mi-sep); }
 .scm__brand { letter-spacing: -.02em; }
 .scm__brand span { color: var(--mi-p-text); font-style: italic; }

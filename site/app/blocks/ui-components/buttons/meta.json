@@ -7,5 +7,14 @@
       "fr": "Tous les styles de bouton sur une page de release : bascules en icône, une échelle du simple au plein, une promotion avec chargement et un retour arrière à maintenir."
     },
     "height": 560
+  },
+  {
+    "file": "PlanButtonStates",
+    "title": { "en": "Plan management buttons", "fr": "Boutons de gestion d'abonnement" },
+    "summary": {
+      "en": "Buttons on a billing page: an upgrade that loads then confirms, a seat counter whose save button explains why it waits, a mini to large size ladder and a two-step cancel that spells out the consequence.",
+      "fr": "Les boutons d'une page de facturation : une montée en gamme qui charge puis confirme, un compteur de sièges dont le bouton d'enregistrement explique son attente, une échelle de tailles et une résiliation en deux temps qui énonce ses conséquences."
+    },
+    "height": 560
   }
 ]

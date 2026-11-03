@@ -112,7 +112,7 @@ const sorted = computed(() => [...enriched.value].sort((a, b) => (sort.value ===
 </script>
 
 <style scoped>
-.tz { container-type: inline-size; display: grid; gap: 18px; font-family: var(--mi-font); color: var(--mi-label); }
+.tz { container-type: inline-size; display: grid; align-content: start; gap: 18px; font-family: var(--mi-font); color: var(--mi-label); }
 .tz__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .tz__legend { display: flex; flex-wrap: wrap; gap: 14px; margin: 8px 0 0; font-size: 12px; color: var(--mi-label2); }
 .tz__legend span { display: inline-flex; align-items: center; gap: 6px; }

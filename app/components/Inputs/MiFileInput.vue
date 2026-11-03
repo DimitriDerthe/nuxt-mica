@@ -83,7 +83,7 @@ defineExpose({ focus: () => input.value?.focus() })
 </template>
 
 <style scoped>
-.mi-fi { display: grid; gap: 6px; font-family: var(--mi-font); color: var(--mi-label); }
+.mi-fi { display: grid; align-content: start; gap: 6px; font-family: var(--mi-font); color: var(--mi-label); }
 .mi-fi.is-disabled { opacity: .45; }
 .mi-fi__box {
   position: relative; display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 4px 6px 4px 4px;

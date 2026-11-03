@@ -7,5 +7,14 @@
       "fr": "Une barre de mise en forme avec menu de style de bloc, bascules, alignement et menu d'insertion qui transforment le paragraphe sélectionné, plus un menu de commandes slash ouvert au curseur."
     },
     "height": 500
+  },
+  {
+    "file": "SheetFormatToolbar",
+    "title": { "en": "Spreadsheet format toolbar", "fr": "Barre de mise en forme de tableur" },
+    "summary": {
+      "en": "A spreadsheet toolbar with a number format menu, decimal buttons, bold and italic toggles, alignment and an open fill colour popover, all reading and writing the selected cell beside a formula bar.",
+      "fr": "Une barre de tableur avec menu de format numérique, boutons de décimales, bascules gras et italique, alignement et popover de couleur de fond ouvert, qui lisent et modifient la cellule sélectionnée à côté d'une barre de formule."
+    },
+    "height": 520
   }
 ]

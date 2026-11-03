@@ -121,7 +121,7 @@ onBeforeUnmount(() => io?.disconnect())
 
 <style scoped>
 .sc {
-  container-type: inline-size; display: grid; gap: 0; overflow: hidden; border-radius: var(--mi-radius-xl);
+  container-type: inline-size; display: grid; align-content: start; gap: 0; overflow: hidden; border-radius: var(--mi-radius-xl);
   font-family: var(--mi-font); color: var(--mi-label); background: var(--mi-card); box-shadow: var(--mi-sh1);
   timeline-scope: --sc-read;
 }

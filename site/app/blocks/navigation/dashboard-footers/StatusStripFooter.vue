@@ -94,7 +94,7 @@ const latency = computed(() => regions.find(r => r.id === region.value)?.ms ?? 0
 </script>
 
 <style scoped>
-.ssf { container-type: inline-size; display: grid; gap: 0; font-family: var(--mi-font); color: var(--mi-label); border-radius: var(--mi-radius-xl); overflow: hidden; background: var(--mi-page); box-shadow: 0 0 0 1px var(--mi-sep); }
+.ssf { container-type: inline-size; display: grid; align-content: start; gap: 0; font-family: var(--mi-font); color: var(--mi-label); border-radius: var(--mi-radius-xl); overflow: hidden; background: var(--mi-page); box-shadow: 0 0 0 1px var(--mi-sep); }
 .ssf__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
 .ssf__page { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 18px; }

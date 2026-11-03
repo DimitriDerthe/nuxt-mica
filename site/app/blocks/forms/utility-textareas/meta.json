@@ -7,5 +7,14 @@
       "fr": "Collez un fichier .env et chaque ligne est analysée à la frappe : noms invalides, doublons, valeurs vides et clés remplacées sont signalés ligne par ligne, et les secrets détectés sont masqués avant l'import."
     },
     "height": 520
+  },
+  {
+    "file": "PromptTemplateTextarea",
+    "title": { "en": "Prompt template with variables", "fr": "Modèle de prompt avec variables" },
+    "summary": {
+      "en": "Write a template and every {{variable}} gets a test field; a preview fills them in, invalid names and unbalanced braces are flagged, and a meter estimates the token count.",
+      "fr": "Rédigez un modèle et chaque {{variable}} obtient un champ de test ; l'aperçu les remplit, les noms invalides et les accolades orphelines sont signalés, et une jauge estime le nombre de jetons."
+    },
+    "height": 560
   }
 ]

@@ -240,7 +240,7 @@ function restart() {
 </script>
 
 <style scoped>
-.cpf { container-type: inline-size; display: grid; gap: 20px; padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); font-family: var(--mi-font); color: var(--mi-label); }
+.cpf { container-type: inline-size; display: grid; align-content: start; gap: 20px; padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); font-family: var(--mi-font); color: var(--mi-label); }
 .cpf__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .cpf__grid { display: grid; gap: 22px; grid-template-columns: minmax(0, 1fr); }
 @container (min-width: 760px) { .cpf__grid { grid-template-columns: minmax(0, 340px) minmax(0, 1fr); gap: 32px; align-items: start; } }

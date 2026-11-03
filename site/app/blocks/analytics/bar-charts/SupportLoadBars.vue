@@ -148,7 +148,7 @@ const swapIcon = '<path d="M7 4 3 8l4 4"/><path d="M3 8h13a4 4 0 0 1 4 4"/><path
 </script>
 
 <style scoped>
-.sl { container-type: inline-size; display: grid; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
+.sl { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
 .sl__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .sl__filters { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .sl__body { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); }

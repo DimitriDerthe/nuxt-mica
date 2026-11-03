@@ -7,5 +7,14 @@
       "fr": "Deux listes filtrables transfèrent des portées vers une clé restreinte ; une jauge de rayon d'impact et une phrase claire disent ce que la clé peut faire, et les portées admin exigent une confirmation."
     },
     "height": 620
+  },
+  {
+    "file": "ColumnChooserTransfer",
+    "title": { "en": "Table column chooser", "fr": "Choix des colonnes d'un tableau" },
+    "summary": {
+      "en": "Grouped, searchable hidden fields move into an ordered list of shown columns that reorders by drag or keyboard, capped at eight, with a live preview of the table header.",
+      "fr": "Les champs masqués, groupés et filtrables, passent dans une liste ordonnée de colonnes affichées, réordonnable au glisser ou au clavier, limitée à huit, avec l'aperçu en direct de l'en-tête du tableau."
+    },
+    "height": 600
   }
 ]

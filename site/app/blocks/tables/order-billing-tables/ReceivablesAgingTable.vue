@@ -144,7 +144,7 @@ const remind = (id: string) => { reminded.value = new Set(reminded.value).add(id
 </script>
 
 <style scoped>
-.rcv { container-type: inline-size; display: grid; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
+.rcv { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
 .rcv__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .rcv__total { display: grid; justify-items: end; }
 .rcv__big { font-size: clamp(26px, 6cqi, 34px); font-weight: 700; letter-spacing: -.035em; line-height: 1.1; font-variant-numeric: tabular-nums; }

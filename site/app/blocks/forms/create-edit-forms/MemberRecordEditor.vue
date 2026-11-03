@@ -86,7 +86,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
+import { computed, reactive, ref, onBeforeUnmount } from 'vue'
+
+const timers = new Set<ReturnType<typeof setTimeout>>()
+function later(fn: () => void, ms: number) {
+  const t = setTimeout(() => { timers.delete(t); fn() }, ms)
+  timers.add(t)
+}
+onBeforeUnmount(() => { timers.forEach(clearTimeout); timers.clear() })
 
 type Val = string | number
 
@@ -173,7 +180,7 @@ function review() {
 }
 function commit() {
   saving.value = true
-  setTimeout(() => {
+  later(() => {
     const n = diff.value.length
     undoTo.value = mode.value === 'edit' ? copy(record.value) : null
     flash.value = mode.value === 'create'
@@ -194,7 +201,7 @@ function undo() {
 </script>
 
 <style scoped>
-.mre { container: mre / inline-size; display: grid; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
+.mre { container: mre / inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
 .mre__head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; }
 .mre__who { display: flex; align-items: center; gap: 14px; min-width: 0; flex: 1 1 260px; }
 .mre__who > div { min-width: 0; }

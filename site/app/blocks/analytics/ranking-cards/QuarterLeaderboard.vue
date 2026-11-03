@@ -104,7 +104,7 @@ const firstName = (n: string) => n.split(' ')[0] ?? n
 </script>
 
 <style scoped>
-.lb { container-type: inline-size; display: grid; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
+.lb { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
 .lb__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .lb__grid { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); }
 @container (min-width: 820px) { .lb__grid { grid-template-columns: 300px minmax(0, 1fr); align-items: start; } }

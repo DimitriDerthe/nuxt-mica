@@ -70,7 +70,7 @@ watch(score, s => emit('score', s), { immediate: true })
 </template>
 
 <style scoped>
-.mi-pws { display: grid; gap: 8px; font-family: var(--mi-font); color: var(--mi-label); --mi-pws-c: var(--mi-label3); }
+.mi-pws { display: grid; align-content: start; gap: 8px; font-family: var(--mi-font); color: var(--mi-label); --mi-pws-c: var(--mi-label3); }
 .mi-pws[data-score='1'] { --mi-pws-c: var(--mi-red); }
 .mi-pws[data-score='2'] { --mi-pws-c: var(--mi-orange); }
 .mi-pws[data-score='3'] { --mi-pws-c: var(--mi-yellow); }

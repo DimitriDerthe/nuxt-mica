@@ -108,7 +108,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
+import { computed, reactive, ref, onBeforeUnmount } from 'vue'
+
+const timers = new Set<ReturnType<typeof setTimeout>>()
+function later(fn: () => void, ms: number) {
+  const t = setTimeout(() => { timers.delete(t); fn() }, ms)
+  timers.add(t)
+}
+onBeforeUnmount(() => { timers.forEach(clearTimeout); timers.clear() })
 
 const brandGlyph = '<path d="M3 15c2.2 0 2.2-2 4.5-2s2.3 2 4.5 2 2.2-2 4.5-2 2.3 2 4.5 2"/><path d="M3 19c2.2 0 2.2-2 4.5-2s2.3 2 4.5 2 2.2-2 4.5-2 2.3 2 4.5 2"/><path d="M12 3v7M8.5 6.5 12 10l3.5-3.5"/>'
 const envelope = '<rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/>'
@@ -193,7 +200,7 @@ function submit() {
   if (errors.name || errors.email || errors.password || errors.terms) return
   busy.value = true
   // UI demo only: nothing is sent anywhere.
-  setTimeout(() => { busy.value = false; viaSso.value = ''; created.value = true }, 900)
+  later(() => { busy.value = false; viaSso.value = ''; created.value = true }, 900)
 }
 function sso(label: string) {
   viaSso.value = label

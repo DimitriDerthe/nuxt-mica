@@ -115,7 +115,7 @@ function print() { window.print() }
 </script>
 
 <style scoped>
-.pfi { container-type: inline-size; display: grid; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
+.pfi { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
 .pfi__toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
 .pfi__toggles, .pfi__buttons { display: flex; flex-wrap: wrap; gap: 8px 16px; }
 .pfi__toggle { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }

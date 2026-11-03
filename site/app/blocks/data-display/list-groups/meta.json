@@ -7,5 +7,14 @@
       "fr": "Listes de tâches groupées pour une release d'app, sous une jauge segmentée où chaque groupe se remplit séparément ; les groupes terminés se replient en une ligne, et le sélecteur montre tout, l'ouvert ou vos seules tâches."
     },
     "height": 600
+  },
+  {
+    "file": "ContactIndex",
+    "title": { "en": "Alphabetical contact index", "fr": "Index alphabétique de contacts" },
+    "summary": {
+      "en": "Contacts grouped by letter with sticky headings in their own scroll area, a starred group on top, an A to Z rail that jumps to a letter, and a search that empties letters as it narrows.",
+      "fr": "Des contacts groupés par lettre avec des intitulés collants dans leur propre zone de défilement, un groupe de favoris en tête, un rail de A à Z pour sauter à une lettre et une recherche qui vide les lettres au fil de la saisie."
+    },
+    "height": 600
   }
 ]

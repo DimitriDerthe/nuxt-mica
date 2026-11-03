@@ -8,5 +8,15 @@
     },
     "height": 660,
     "stage": "bleed"
+  },
+  {
+    "file": "DeployDetailDrawer",
+    "title": { "en": "Deployment detail drawer", "fr": "Tiroir de détail de déploiement" },
+    "summary": {
+      "en": "A bottom drawer over a deployments list: commit, author and status, build steps with duration bars and the failing test output, plus a retry for failed builds and a two-step rollback for older ones.",
+      "fr": "Un tiroir en bas au-dessus d'une liste de déploiements : commit, auteur et statut, étapes de build avec barres de durée et sortie du test en échec, ainsi qu'une relance pour les builds échoués et un retour arrière en deux temps pour les plus anciens."
+    },
+    "height": 660,
+    "stage": "bleed"
   }
 ]

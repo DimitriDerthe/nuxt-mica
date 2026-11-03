@@ -1,11 +1,26 @@
 [
   {
     "file": "TaskCardGallery",
-    "title": { "en": "Task cards with signal rails", "fr": "Cartes de tâche avec rail de signal" },
+    "title": {
+      "en": "Task cards with signal rails",
+      "fr": "Cartes de tâche avec rail de signal"
+    },
     "summary": {
       "en": "Six card shapes for one board, a design brief with cover art, a P1 bug on an SLA clock, a live checklist, a pull request with checks and reviews, a blocked task and an epic roll-up, each with a rail that turns green, orange or red as you act on it.",
       "fr": "Six formes de carte pour un même tableau, brief design avec visuel, bug P1 sous délai, checklist vivante, pull request avec vérifications et relectures, tâche bloquée et épopée, chacune avec un rail qui passe au vert, orange ou rouge selon vos actions."
     },
     "height": 620
+  },
+  {
+    "file": "CardFieldsCustomizer",
+    "title": {
+      "en": "Card layout customizer",
+      "fr": "Personnalisation des cartes"
+    },
+    "summary": {
+      "en": "Pick a density and the fields a card shows, see a live column of cards update, and read how many cards now fit on screen.",
+      "fr": "Choisissez une densité et les champs affichés, voyez une colonne de cartes se mettre à jour et lisez combien de cartes tiennent désormais à l'écran."
+    },
+    "height": 600
   }
 ]

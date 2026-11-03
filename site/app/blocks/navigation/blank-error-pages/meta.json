@@ -8,5 +8,15 @@
     },
     "height": 620,
     "stage": "bleed"
+  },
+  {
+    "file": "AccessDeniedPage",
+    "title": { "en": "Request access 403 page", "fr": "Page 403 de demande d'accès" },
+    "summary": {
+      "en": "A restricted-document page: a locked-file illustration, the document and its owner, a request form with access level and message, and a pending state you can withdraw.",
+      "fr": "Une page de document restreint : illustration de fichier verrouillé, le document et sa propriétaire, un formulaire de demande avec niveau d'accès et message, et un état en attente que l'on peut retirer."
+    },
+    "height": 620,
+    "stage": "bleed"
   }
 ]

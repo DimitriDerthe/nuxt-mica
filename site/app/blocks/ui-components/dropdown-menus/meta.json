@@ -7,5 +7,14 @@
       "fr": "Chaque ligne d'issue a un vrai menu d'actions qui suit son état (rouvrir, désassigner, priorité cochée), affiché ouvert à côté de son déclencheur, avec annulation de l'archivage."
     },
     "height": 440
+  },
+  {
+    "file": "DealFilterMenus",
+    "title": { "en": "Multi-select filter menus", "fr": "Menus de filtres à choix multiples" },
+    "summary": {
+      "en": "A deal pipeline filtered by pulldown menus with checked entries, counts on their triggers and removable chips, plus a close-date picker; the Stage menu is also shown open and drives the same filter.",
+      "fr": "Un pipeline d'affaires filtré par des menus déroulants à cases cochées, avec compteurs sur les déclencheurs et pastilles supprimables, plus un choix de date de clôture ; le menu Étape est aussi affiché ouvert et pilote le même filtre."
+    },
+    "height": 500
   }
 ]

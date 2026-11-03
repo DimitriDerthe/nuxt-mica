@@ -204,7 +204,7 @@ const revArea = computed(() => `${revLine.value} L100 40 L0 40 Z`)
 </script>
 
 <style scoped>
-.knb { container-type: inline-size; display: grid; gap: 18px; font-family: var(--mi-font); color: var(--mi-label); }
+.knb { container-type: inline-size; display: grid; align-content: start; gap: 18px; font-family: var(--mi-font); color: var(--mi-label); }
 .knb__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .knb__intro { display: grid; gap: 2px; }
 

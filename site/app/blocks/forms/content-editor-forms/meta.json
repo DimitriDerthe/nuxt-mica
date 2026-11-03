@@ -7,5 +7,14 @@
       "fr": "Titre, chapeau, corps en texte riche et étiquettes à côté d'un aperçu de résultat de recherche, d'une jauge de longueur et d'une liste qui débloque Publier quand tout est validé."
     },
     "height": 620
+  },
+  {
+    "file": "CampaignEmailComposer",
+    "title": { "en": "Campaign email composer", "fr": "Éditeur d'e-mail de campagne" },
+    "summary": {
+      "en": "Subject with merge tags, preview text and a rich-text body beside a faux inbox that shows the email as a chosen recipient would see it on desktop or phone, with send checks.",
+      "fr": "Objet avec balises de fusion, texte d'aperçu et corps en texte riche à côté d'une fausse boîte de réception qui montre l'e-mail tel qu'un destinataire le verrait sur ordinateur ou téléphone, avec des contrôles d'envoi."
+    },
+    "height": 640
   }
 ]

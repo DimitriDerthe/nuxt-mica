@@ -7,5 +7,14 @@
       "fr": "Une carte dessinée en CSS qui s'incline vers le pointeur grâce à neuf zones de survol et des transformations seules, se retourne, se fige sous le givre et change de coloris à côté de son plafond."
     },
     "height": 440
+  },
+  {
+    "file": "VirtualCardWallet",
+    "title": { "en": "Team virtual card wallet", "fr": "Portefeuille de cartes virtuelles d’équipe" },
+    "summary": {
+      "en": "One virtual card per vendor with its spend against a monthly limit, freeze switches that frost the card face, a status filter and a one-line form to issue a new card.",
+      "fr": "Une carte virtuelle par fournisseur avec ses dépenses face au plafond mensuel, un interrupteur de gel qui givre la carte, un filtre par statut et un formulaire d’une ligne pour en émettre une."
+    },
+    "height": 560
   }
 ]

@@ -7,5 +7,14 @@
       "fr": "Des cartes radio comparent latence, carbone du réseau et prix par région avec un badge du meilleur compromis, triables et filtrables ; un interrupteur de résidence UE verrouille les autres régions et une liste à cocher choisit les répliques."
     },
     "height": 640
+  },
+  {
+    "file": "AddonCheckboxCards",
+    "title": { "en": "Add-on checkbox cards", "fr": "Cartes d'options à cocher" },
+    "summary": {
+      "en": "Multi-select add-on cards with per-seat pricing and a monthly or yearly switch; picking an add-on pulls in what it requires, and a running total shows the yearly saving.",
+      "fr": "Des cartes d'options à sélection multiple, avec tarif par siège et bascule mensuel ou annuel ; choisir une option ajoute ce dont elle dépend, et un total en direct affiche l'économie annuelle."
+    },
+    "height": 560
   }
 ]

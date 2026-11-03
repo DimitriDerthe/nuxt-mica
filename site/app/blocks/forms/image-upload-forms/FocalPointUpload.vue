@@ -183,7 +183,7 @@ function fmtSize(b: number) {
 </script>
 
 <style scoped>
-.fp { container-type: inline-size; display: grid; gap: 18px; font-family: var(--mi-font); color: var(--mi-label); }
+.fp { container-type: inline-size; display: grid; align-content: start; gap: 18px; font-family: var(--mi-font); color: var(--mi-label); }
 .fp__head { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 12px; }
 .fp__grid { display: grid; gap: 18px; grid-template-columns: minmax(0, 1fr); }
 @container (min-width: 780px) { .fp__grid { grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); align-items: start; } }

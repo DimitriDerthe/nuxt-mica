@@ -1,10 +1,25 @@
 [
   {
     "file": "MarketTileMap",
-    "title": { "en": "Market tile map", "fr": "Carte des marchés en tuiles" },
+    "title": {
+      "en": "Market tile map",
+      "fr": "Carte des marchés en tuiles"
+    },
     "summary": {
       "en": "A world tile map with one tile per market and no geodata: tiles shade by fifths of the chosen metric, a region filter dims the rest, and a ranked legend and readout follow the tile you point at.",
       "fr": "Une carte du monde en tuiles, une par marché, sans données géographiques : les tuiles se teintent par quintile de la métrique choisie, un filtre de région estompe le reste, et un classement et un encart suivent la tuile pointée."
+    },
+    "height": 520
+  },
+  {
+    "file": "ShippingLaneFlows",
+    "title": {
+      "en": "Freight lane flows",
+      "fr": "Flux des lignes de fret"
+    },
+    "summary": {
+      "en": "An abstract network map where lanes are arcs sized by weekly pallets: pick a hub and a direction to light up its lanes, ranked beside the map with transit time and on-time rate.",
+      "fr": "Une carte de réseau abstraite où les lignes sont des arcs proportionnels aux palettes hebdomadaires : choisissez un hub et un sens pour éclairer ses lignes, classées à côté avec délai de transit et taux de ponctualité."
     },
     "height": 520
   }

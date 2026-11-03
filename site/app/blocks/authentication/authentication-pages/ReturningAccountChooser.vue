@@ -119,7 +119,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, onBeforeUnmount } from 'vue'
+
+const timers = new Set<ReturnType<typeof setTimeout>>()
+function later(fn: () => void, ms: number) {
+  const t = setTimeout(() => { timers.delete(t); fn() }, ms)
+  timers.add(t)
+}
+onBeforeUnmount(() => { timers.forEach(clearTimeout); timers.clear() })
 
 type Method = 'passkey' | 'sso' | 'password'
 type Kind = 'new' | 'improved' | 'fixed'
@@ -186,7 +193,7 @@ function undo() {
 function finish() {
   busy.value = true
   // UI demo only: nothing is sent anywhere.
-  setTimeout(() => { busy.value = false; signedIn.value = true }, 800)
+  later(() => { busy.value = false; signedIn.value = true }, 800)
 }
 function continueAs() {
   if (current.value?.method === 'password') {
@@ -203,7 +210,7 @@ function continueOther() {
 
 <style scoped>
 .rac { container-type: inline-size; display: grid; min-height: 100%; font-family: var(--mi-font); color: var(--mi-label); background: var(--mi-page); }
-.rac__in { display: grid; }
+.rac__in { display: grid; grid-template-rows: 1fr auto; }
 
 .rac__main { display: grid; grid-template-rows: auto 1fr auto; gap: 28px; padding: 22px 18px 26px; }
 .rac__brand { display: flex; align-items: center; gap: 9px; }
@@ -289,7 +296,7 @@ function continueOther() {
   .rac__cards { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
 }
 @container (min-width: 900px) {
-  .rac__in { grid-template-columns: minmax(0, 1fr) 340px; min-height: 100%; }
+  .rac__in { grid-template-columns: minmax(0, 1fr) 340px; grid-template-rows: none; min-height: 100%; }
   .rac__main { padding: 30px 48px 30px; }
   .rac__news { border-top: 0; border-left: 1px solid var(--mi-sep); padding: 30px 28px; align-content: center; }
   .rac__cards { grid-template-columns: minmax(0, 1fr); }

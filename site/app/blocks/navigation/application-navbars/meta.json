@@ -8,5 +8,15 @@
     },
     "height": 560,
     "stage": "bleed"
+  },
+  {
+    "file": "CommandNavbar",
+    "title": { "en": "Command-first app navbar", "fr": "Barre d'application centrée sur les commandes" },
+    "summary": {
+      "en": "A research-repository navbar built around one search button that opens a grouped command palette in place, with page links, a notification count and a chip strip when narrow.",
+      "fr": "Une barre d'application de dépôt de recherche construite autour d'un bouton de recherche qui ouvre sur place une palette de commandes groupée, avec liens de pages, compteur de notifications et bande de puces en largeur réduite."
+    },
+    "height": 560,
+    "stage": "bleed"
   }
 ]

@@ -160,7 +160,7 @@ const clock = '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>'
 </script>
 
 <style scoped>
-.tc { container-type: inline-size; display: grid; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
+.tc { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
 .tc__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .tc__key { display: flex; gap: 14px; margin: 0; padding: 0; list-style: none; font-size: 12px; color: var(--mi-label2); }
 .tc__key li { display: inline-flex; align-items: center; gap: 6px; }

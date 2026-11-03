@@ -132,7 +132,7 @@ const size = (kb: number) => (kb >= 1024 ? `${(kb / 1024).toFixed(kb >= 10_240 ?
 </script>
 
 <style scoped>
-.shelf { container-type: inline-size; position: relative; display: grid; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
+.shelf { container-type: inline-size; position: relative; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
 .shelf__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .shelf__title { display: grid; gap: 2px; min-width: 0; }
 .shelf__actions { display: flex; align-items: center; gap: 8px; flex: 1 1 240px; min-width: 0; max-width: 360px; }
