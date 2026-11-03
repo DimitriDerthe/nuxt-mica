@@ -54,6 +54,18 @@ export default defineNuxtConfig({
 
 `<MiThemeSwitcher>` and `<MiColorPicker>` give a ready-made UI for the same API.
 
+## Utility classes
+
+The layer includes `mi-atomic`, a Tailwind-like atomic CSS engine with no dependency and no runtime. Classes are prefixed with `mi:` so they live next to Tailwind without clashing; the theme maps to the `--mi-*` tokens:
+
+```vue
+<div class="mi:@container mi:grid mi:gap-3 mi:@[560px]:grid-cols-2">
+  <article class="mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:hover:bg-p/10">…</article>
+</div>
+```
+
+At build time it scans the `app/` directory of every layer and of your project, and writes the CSS of the classes it finds, and only those, to `.nuxt/mi-atomic.css` (hot-reloaded in dev). Syntax, utilities and variants: [docs/atomic.md](docs/atomic.md).
+
 Other composables: `useMiToast()` (with `<MiToaster>`), `useMiInputPopup()`.
 
 ## Component index
