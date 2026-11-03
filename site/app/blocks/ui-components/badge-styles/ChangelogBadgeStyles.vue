@@ -1,7 +1,7 @@
 <template>
-  <div class="cl-cq">
-    <section class="cl" aria-labelledby="cl-title">
-      <header class="cl__head">
+  <div class="cl-cq mi:@container">
+    <section class="cl mi:grid mi:gap-4 mi:p-5 mi:rounded-xl mi:font-mi mi:text-label mi:bg-card mi:shadow-1 mi:@[600px]:py-6 mi:@[600px]:px-7" aria-labelledby="cl-title">
+      <header class="cl__head mi:flex mi:flex-wrap mi:[align-items:flex-start] mi:justify-between mi:gap-y-2 mi:gap-x-4">
         <div>
           <MiText id="cl-title" variant="title3" as="h2" weight="semibold">What's new in Fieldnote</MiText>
           <MiText variant="footnote" tone="label2">Releases for the inspection app, newest first</MiText>
@@ -12,26 +12,26 @@
       </header>
 
       <!-- Filters carry count badges; the strip scrolls on its own when narrow. -->
-      <div class="cl__filters" role="group" aria-label="Filter by type">
+      <div class="cl__filters mi:flex mi:gap-1.5 mi:-mx-5 mi:pt-0.5 mi:px-5 mi:pb-1.5 mi:overflow-x-auto mi:[scrollbar-width:none] mi:[mask-image:linear-gradient(90deg,_transparent,_black_20px,_black_calc(100%_-_20px),_transparent)] mi:@[600px]:mx-0 mi:@[600px]:px-0 mi:@[600px]:[mask-image:none] mi:@[600px]:flex-wrap mi:@[600px]:overflow-visible" role="group" aria-label="Filter by type">
         <button
-          v-for="f in filters" :key="f.id" type="button" class="cl__filter" :aria-pressed="filter === f.id" @click="filter = f.id"
+          v-for="f in filters" :key="f.id" type="button" class="cl__filter mi:inline-flex mi:flex-[none] mi:items-center mi:gap-2 mi:h-8 mi:pt-0 mi:pr-1.5 mi:pb-0 mi:pl-3 mi:[border:0] mi:rounded-[999px] mi:text-label2 mi:bg-fill4 mi:cursor-pointer mi:shadow-[inset_0_0_0_1px_var(--mi-sep)] mi:aria-pressed:text-label mi:aria-pressed:bg-card mi:aria-pressed:shadow-[inset_0_0_0_1.5px_var(--mi-p)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" :aria-pressed="filter === f.id" @click="filter = f.id"
         >
           {{ f.label }}
           <MiBadge :count="f.count" :tone="filter === f.id ? 'primary' : 'neutral'" variant="tint" show-zero :count-noun="f.label.toLowerCase() + ' entries'" />
         </button>
       </div>
 
-      <TransitionGroup tag="ol" name="cl" class="cl__list">
-        <li v-for="e in shown" :key="e.id" class="cl__item">
-          <div class="cl__when">
+      <TransitionGroup tag="ol" name="cl" class="cl__list mi:grid mi:m-0 mi:p-0 mi:[list-style:none]">
+        <li v-for="e in shown" :key="e.id" class="cl__item mi:grid mi:gap-2 mi:py-4 mi:px-0 mi:border-t mi:border-t-sep mi:@[600px]:grid-cols-[120px_minmax(0,_1fr)] mi:@[600px]:gap-5 mi:@[600px]:py-4.5 mi:@[600px]:px-0">
+          <div class="cl__when mi:flex mi:items-center mi:gap-2.5 mi:@[600px]:flex-col mi:@[600px]:[align-items:flex-start] mi:@[600px]:gap-1.5">
             <MiBadge v-if="unread.has(e.id)" dot-only :dot-size="8" tone="primary" placement="top-right" :offset="2" aria-label="Unread">
-              <template #target><span class="cl__ver">{{ e.version }}</span></template>
+              <template #target><span class="cl__ver mi:inline-grid mi:place-items-center mi:min-w-11 mi:h-6 mi:py-0 mi:px-2 mi:rounded-[7px] mi:[font:600_12px/1_ui-monospace,_'SF_Mono',_Menlo,_monospace] mi:text-label mi:bg-fill3">{{ e.version }}</span></template>
             </MiBadge>
-            <span v-else class="cl__ver">{{ e.version }}</span>
+            <span v-else class="cl__ver mi:inline-grid mi:place-items-center mi:min-w-11 mi:h-6 mi:py-0 mi:px-2 mi:rounded-[7px] mi:[font:600_12px/1_ui-monospace,_'SF_Mono',_Menlo,_monospace] mi:text-label mi:bg-fill3">{{ e.version }}</span>
             <MiText variant="caption" tone="label3">{{ e.date }}</MiText>
           </div>
-          <div class="cl__text">
-            <div class="cl__badges">
+          <div class="cl__text mi:grid mi:gap-1 mi:min-w-0">
+            <div class="cl__badges mi:flex mi:flex-wrap mi:gap-1.5 mi:mb-1">
               <MiBadge v-for="b in e.badges" :key="b.label" v-bind="styles[b.kind]" :label="b.label" />
             </div>
             <MiText as="h3" variant="subheadline" weight="semibold">{{ e.title }}</MiText>
@@ -81,44 +81,12 @@ const shown = computed(() => (filter.value === 'all' ? entries : entries.filter(
 </script>
 
 <style scoped>
-.cl-cq { container-type: inline-size; }
-.cl {
-  display: grid; gap: 16px; padding: 20px; border-radius: var(--mi-radius-xl);
-  font-family: var(--mi-font); color: var(--mi-label); background: var(--mi-card); box-shadow: var(--mi-sh1);
-}
-.cl__head { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 8px 16px; }
-
-.cl__filters {
-  display: flex; gap: 6px; margin-inline: -20px; padding: 2px 20px 6px; overflow-x: auto; scrollbar-width: none;
-  mask-image: linear-gradient(90deg, transparent, black 20px, black calc(100% - 20px), transparent);
-}
 .cl__filter {
-  display: inline-flex; flex: none; align-items: center; gap: 8px; height: 32px; padding: 0 6px 0 12px; border: 0; border-radius: 999px;
-  font: inherit; font-size: 13px; font-weight: 500; color: var(--mi-label2); background: var(--mi-fill4); cursor: pointer;
-  box-shadow: inset 0 0 0 1px var(--mi-sep);
+  font: inherit; font-size: 13px; font-weight: 500;
 }
-.cl__filter[aria-pressed="true"] { color: var(--mi-label); background: var(--mi-card); box-shadow: inset 0 0 0 1.5px var(--mi-p); }
-.cl__filter:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-
-.cl__list { display: grid; margin: 0; padding: 0; list-style: none; }
-.cl__item { display: grid; gap: 8px; padding: 16px 0; border-top: 1px solid var(--mi-sep); }
-.cl__when { display: flex; align-items: center; gap: 10px; }
-.cl__ver {
-  display: inline-grid; place-items: center; min-width: 44px; height: 24px; padding: 0 8px; border-radius: 7px;
-  font: 600 12px/1 ui-monospace, "SF Mono", Menlo, monospace; color: var(--mi-label); background: var(--mi-fill3);
-}
-.cl__text { display: grid; gap: 4px; min-width: 0; }
-.cl__badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 4px; }
 
 .cl-move { transition: transform var(--mi-dur-3) var(--mi-spring); }
 .cl-enter-active, .cl-leave-active { transition: opacity var(--mi-dur-2) var(--mi-ease); }
 .cl-enter-from, .cl-leave-to { opacity: 0; }
 .cl-leave-active { position: absolute; visibility: hidden; }
-
-@container (min-width: 600px) {
-  .cl { padding: 24px 28px; }
-  .cl__filters { margin-inline: 0; padding-inline: 0; mask-image: none; flex-wrap: wrap; overflow: visible; }
-  .cl__item { grid-template-columns: 120px minmax(0, 1fr); gap: 20px; padding: 18px 0; }
-  .cl__when { flex-direction: column; align-items: flex-start; gap: 6px; }
-}
 </style>

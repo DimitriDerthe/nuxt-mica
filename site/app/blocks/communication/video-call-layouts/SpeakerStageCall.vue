@@ -1,41 +1,41 @@
 <template>
-  <section class="vc" aria-labelledby="vc-title">
-    <div class="vc__shell" :class="{ 'is-chat': chat }">
-      <div class="vc__call">
-        <header class="vc__top">
-          <span class="vc__rec" aria-label="Recording" role="img" />
-          <div class="vc__top-text">
+  <section class="vc mi:@container mi:h-170 mi:font-mi mi:text-label mi:[background:color-mix(in_srgb,_var(--mi-label)_6%,_var(--mi-page))]" aria-labelledby="vc-title">
+    <div class="vc__shell mi:grid mi:h-full mi:grid-cols-[minmax(0,_1fr)] mi:@[1000px]:[&.is-chat]:grid-cols-[minmax(0,_1fr)_320px]" :class="{ 'is-chat': chat }">
+      <div class="vc__call mi:[.vc__shell.is-chat_&]:hidden mi:@[1000px]:[.vc__shell.is-chat_&]:flex mi:flex mi:flex-col mi:gap-3 mi:min-w-0 mi:min-h-0 mi:p-3">
+        <header class="vc__top mi:flex mi:items-center mi:gap-2.5 mi:py-0.5 mi:px-1">
+          <span class="vc__rec mi:flex-[none] mi:w-2.5 mi:h-2.5 mi:rounded-[50%] mi:[background:var(--mi-red)] mi:shadow-[0_0_0_4px_color-mix(in_srgb,_var(--mi-red)_22%,_transparent)]" aria-label="Recording" role="img" />
+          <div class="vc__top-text mi:flex-1 mi:min-w-0">
             <MiText id="vc-title" as="h2" variant="subheadline" weight="semibold" :lines="1">Sprint 42 review</MiText>
             <MiText variant="caption" tone="label2" tabular>{{ clock }} · {{ people.length }} people</MiText>
           </div>
           <MiBadge v-if="hand" tone="warning" label="Hand raised" />
         </header>
 
-        <div class="vc__body">
+        <div class="vc__body mi:flex-1 mi:min-h-0 mi:grid mi:gap-2.5 mi:grid-rows-[minmax(0,_1fr)_auto] mi:@[760px]:grid-rows-[none] mi:@[760px]:grid-cols-[minmax(0,_1fr)_180px]">
           <!-- Stage: the pinned person, drawn with a token gradient and initials. -->
-          <div class="vc__stage vc__tile" :style="tileStyle(pinned)" :class="{ 'is-speaking': pinned.id === speaker && !pinned.muted }">
+          <div class="vc__stage vc__tile mi:relative mi:grid mi:place-items-center mi:overflow-hidden mi:isolate mi:rounded-xl mi:[background:linear-gradient(140deg,_color-mix(in_srgb,_var(--a)_72%,_var(--mi-label)),_color-mix(in_srgb,_var(--b)_58%,_var(--mi-page)))] mi:text-page mi:before:content-[''] mi:before:absolute mi:before:top-[-30%] mi:before:right-[30%] mi:before:bottom-[40%] mi:before:left-[-30%] mi:before:-z-1 mi:before:rounded-[50%] mi:before:[background:radial-gradient(closest-side,_color-mix(in_srgb,_var(--mi-page)_30%,_transparent),_transparent)] mi:after:content-[''] mi:after:absolute mi:after:inset-0 mi:after:rounded-[inherit] mi:after:shadow-[inset_0_0_0_3px_var(--mi-green)] mi:after:opacity-0 mi:after:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)] mi:after:pointer-events-none mi:[&.is-speaking]:after:opacity-100 mi:min-h-0" :style="tileStyle(pinned)" :class="{ 'is-speaking': pinned.id === speaker && !pinned.muted }">
             <template v-if="pinned.id === 'me' && sharing">
-              <div class="vc__share" aria-label="Your screen" role="img">
-                <span /><span /><span />
+              <div class="vc__share mi:grid mi:gap-2.5 mi:w-[70%] mi:p-4.5 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-2" aria-label="Your screen" role="img">
+                <span class="mi:[.vc__share_&]:rounded-[6px] mi:[.vc__share_&:first-child]:w-[60%] mi:[.vc__share_&:last-child]:w-[80%]" /><span class="mi:[.vc__share_&]:rounded-[6px] mi:[.vc__share_&:first-child]:w-[60%] mi:[.vc__share_&:last-child]:w-[80%]" /><span class="mi:[.vc__share_&]:rounded-[6px] mi:[.vc__share_&:first-child]:w-[60%] mi:[.vc__share_&:last-child]:w-[80%]" />
               </div>
             </template>
-            <span v-else class="vc__face vc__face--lg" :class="{ 'is-off': !pinned.cam }">{{ initials(pinned.name) }}</span>
-            <span class="vc__tag">
+            <span v-else class="vc__face vc__face--lg mi:grid mi:place-items-center mi:w-14 mi:h-14 mi:rounded-[50%] mi:[background:color-mix(in_srgb,_var(--mi-label)_35%,_transparent)] mi:text-[20px] mi:font-bold mi:tracking-[.02em] mi:w-[clamp(84px,_18cqi,_140px)] mi:h-auto mi:aspect-[1] mi:text-[clamp(28px,_6cqi,_48px)] mi:[&.is-off]:text-page mi:[.vc__mini_&]:w-10 mi:[.vc__mini_&]:text-[14px]" :class="{ 'is-off': !pinned.cam }">{{ initials(pinned.name) }}</span>
+            <span class="vc__tag mi:absolute mi:inline-flex mi:items-center mi:gap-1.5 mi:max-w-[calc(100%_-_20px)] mi:rounded-[999px] mi:[background:color-mix(in_srgb,_var(--mi-label)_55%,_transparent)] mi:text-page mi:font-semibold mi:whitespace-nowrap mi:overflow-hidden mi:text-ellipsis">
               <MiIcon :svg="pinned.muted ? icons.micOff : icons.mic" :size="14" />{{ pinned.id === 'me' ? 'You' : pinned.name }}
-              <span v-if="pinned.id === 'me' && sharing" class="vc__tag-note">presenting</span>
+              <span v-if="pinned.id === 'me' && sharing" class="vc__tag-note mi:font-normal mi:opacity-80">presenting</span>
             </span>
-            <span class="vc__pin">Pinned</span>
+            <span class="vc__pin mi:absolute mi:top-2.5 mi:right-2.5 mi:py-[3px] mi:px-[9px] mi:rounded-[999px] mi:[background:color-mix(in_srgb,_var(--mi-page)_80%,_transparent)] mi:text-label mi:text-[11px] mi:font-semibold">Pinned</span>
           </div>
 
-          <ul class="vc__strip" aria-label="Participants">
-            <li v-for="p in others" :key="p.id">
+          <ul class="vc__strip mi:[list-style:none] mi:m-0 mi:pt-0 mi:px-0 mi:pb-0.5 mi:grid mi:grid-flow-col mi:auto-cols-[112px] mi:gap-2 mi:overflow-x-auto mi:[scroll-snap-type:x_mandatory] mi:@[760px]:grid-flow-row mi:@[760px]:auto-cols-[auto] mi:@[760px]:auto-rows-[minmax(0,_1fr)] mi:@[760px]:[overflow:hidden_auto] mi:@[760px]:p-0" aria-label="Participants">
+            <li class="mi:[.vc__strip_li&]:snap-start" v-for="p in others" :key="p.id">
               <button
-                type="button" class="vc__tile vc__mini" :style="tileStyle(p)" :class="{ 'is-speaking': p.id === speaker && !p.muted }"
+                type="button" class="vc__tile vc__mini mi:relative mi:grid mi:place-items-center mi:overflow-hidden mi:isolate mi:rounded-xl mi:[background:linear-gradient(140deg,_color-mix(in_srgb,_var(--a)_72%,_var(--mi-label)),_color-mix(in_srgb,_var(--b)_58%,_var(--mi-page)))] mi:text-page mi:before:content-[''] mi:before:absolute mi:before:top-[-30%] mi:before:right-[30%] mi:before:bottom-[40%] mi:before:left-[-30%] mi:before:-z-1 mi:before:rounded-[50%] mi:before:[background:radial-gradient(closest-side,_color-mix(in_srgb,_var(--mi-page)_30%,_transparent),_transparent)] mi:after:content-[''] mi:after:absolute mi:after:inset-0 mi:after:rounded-[inherit] mi:after:shadow-[inset_0_0_0_3px_var(--mi-green)] mi:after:opacity-0 mi:after:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)] mi:after:pointer-events-none mi:[&.is-speaking]:after:opacity-100 mi:w-full mi:h-full mi:min-h-21 mi:p-0 mi:[border:0] mi:[font:inherit] mi:cursor-pointer mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:hover:transform-[scale(.98)] mi:focus-visible:[outline:3px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" :style="tileStyle(p)" :class="{ 'is-speaking': p.id === speaker && !p.muted }"
                 :aria-label="'Pin ' + (p.id === 'me' ? 'yourself' : p.name)" @click="pinnedId = p.id"
               >
-                <span class="vc__face" :class="{ 'is-off': !p.cam }">{{ initials(p.name) }}</span>
-                <span class="vc__tag vc__tag--sm">
-                  <MiIcon :svg="p.muted ? icons.micOff : icons.mic" :size="12" />{{ p.id === 'me' ? 'You' : p.name.split(' ')[0] }}
+                <span class="vc__face mi:grid mi:place-items-center mi:w-14 mi:h-14 mi:rounded-[50%] mi:[background:color-mix(in_srgb,_var(--mi-label)_35%,_transparent)] mi:text-[20px] mi:font-bold mi:tracking-[.02em] mi:[&.is-off]:text-page mi:[.vc__mini_&]:w-10 mi:[.vc__mini_&]:text-[14px]" :class="{ 'is-off': !p.cam }">{{ initials(p.name) }}</span>
+                <span class="vc__tag vc__tag--sm mi:absolute mi:inline-flex mi:items-center mi:gap-1.5 mi:max-w-[calc(100%_-_20px)] mi:rounded-[999px] mi:[background:color-mix(in_srgb,_var(--mi-label)_55%,_transparent)] mi:text-page mi:font-semibold mi:whitespace-nowrap mi:overflow-hidden mi:text-ellipsis">
+                  <MiIcon class="mi:[.vc__strip_li&]:snap-start" :svg="p.muted ? icons.micOff : icons.mic" :size="12" />{{ p.id === 'me' ? 'You' : p.name.split(' ')[0] }}
                   <span v-if="p.id === 'me' && hand" aria-label="hand raised">✋</span>
                 </span>
               </button>
@@ -43,48 +43,48 @@
           </ul>
         </div>
 
-        <div class="vc__controls" role="toolbar" aria-label="Call controls">
-          <button type="button" class="vc__ctl" :class="{ 'is-off': me.muted }" :aria-pressed="me.muted" :aria-label="me.muted ? 'Unmute' : 'Mute'" @click="me.muted = !me.muted">
+        <div class="vc__controls mi:flex mi:justify-center mi:items-center mi:gap-2 mi:pt-1 mi:px-0 mi:pb-0.5" role="toolbar" aria-label="Call controls">
+          <button type="button" class="vc__ctl mi:focus-visible:[outline:3px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:grid mi:place-items-center mi:w-12 mi:h-12 mi:p-0 mi:[border:0] mi:[background:var(--mi-card)] mi:text-label mi:shadow-1 mi:cursor-pointer mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease)] mi:active:transform-[scale(.94)] mi:[&.is-off]:[background:var(--mi-label)] mi:[&.is-off]:text-page mi:[&.is-on]:[background:var(--mi-p)] mi:[&.is-on]:text-p-on" :class="{ 'is-off': me.muted }" :aria-pressed="me.muted" :aria-label="me.muted ? 'Unmute' : 'Mute'" @click="me.muted = !me.muted">
             <MiIcon :svg="me.muted ? icons.micOff : icons.mic" />
           </button>
-          <button type="button" class="vc__ctl" :class="{ 'is-off': !me.cam }" :aria-pressed="!me.cam" :aria-label="me.cam ? 'Turn camera off' : 'Turn camera on'" @click="me.cam = !me.cam">
+          <button type="button" class="vc__ctl mi:focus-visible:[outline:3px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:grid mi:place-items-center mi:w-12 mi:h-12 mi:p-0 mi:[border:0] mi:[background:var(--mi-card)] mi:text-label mi:shadow-1 mi:cursor-pointer mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease)] mi:active:transform-[scale(.94)] mi:[&.is-off]:[background:var(--mi-label)] mi:[&.is-off]:text-page mi:[&.is-on]:[background:var(--mi-p)] mi:[&.is-on]:text-p-on" :class="{ 'is-off': !me.cam }" :aria-pressed="!me.cam" :aria-label="me.cam ? 'Turn camera off' : 'Turn camera on'" @click="me.cam = !me.cam">
             <MiIcon :svg="me.cam ? icons.cam : icons.camOff" />
           </button>
-          <button type="button" class="vc__ctl vc__wide" :class="{ 'is-on': sharing }" :aria-pressed="sharing" aria-label="Share screen" @click="toggleShare">
+          <button type="button" class="vc__ctl vc__wide mi:focus-visible:[outline:3px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:grid mi:place-items-center mi:w-12 mi:h-12 mi:p-0 mi:[border:0] mi:[background:var(--mi-card)] mi:text-label mi:shadow-1 mi:cursor-pointer mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease)] mi:active:transform-[scale(.94)] mi:[&.is-off]:[background:var(--mi-label)] mi:[&.is-off]:text-page mi:[&.is-on]:[background:var(--mi-p)] mi:[&.is-on]:text-p-on mi:hidden mi:@[400px]:grid" :class="{ 'is-on': sharing }" :aria-pressed="sharing" aria-label="Share screen" @click="toggleShare">
             <MiIcon :svg="icons.share" />
           </button>
-          <button type="button" class="vc__ctl" :class="{ 'is-on': hand }" :aria-pressed="hand" aria-label="Raise hand" @click="hand = !hand">
+          <button type="button" class="vc__ctl mi:focus-visible:[outline:3px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:grid mi:place-items-center mi:w-12 mi:h-12 mi:p-0 mi:[border:0] mi:[background:var(--mi-card)] mi:text-label mi:shadow-1 mi:cursor-pointer mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease)] mi:active:transform-[scale(.94)] mi:[&.is-off]:[background:var(--mi-label)] mi:[&.is-off]:text-page mi:[&.is-on]:[background:var(--mi-p)] mi:[&.is-on]:text-p-on" :class="{ 'is-on': hand }" :aria-pressed="hand" aria-label="Raise hand" @click="hand = !hand">
             <MiIcon :svg="icons.hand" />
           </button>
           <MiBadge :count="chat ? 0 : unread" placement="top-right">
             <template #target>
-              <button type="button" class="vc__ctl" :class="{ 'is-on': chat }" :aria-pressed="chat" aria-label="Chat" @click="openChat">
+              <button type="button" class="vc__ctl mi:focus-visible:[outline:3px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:grid mi:place-items-center mi:w-12 mi:h-12 mi:p-0 mi:[border:0] mi:[background:var(--mi-card)] mi:text-label mi:shadow-1 mi:cursor-pointer mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease)] mi:active:transform-[scale(.94)] mi:[&.is-off]:[background:var(--mi-label)] mi:[&.is-off]:text-page mi:[&.is-on]:[background:var(--mi-p)] mi:[&.is-on]:text-p-on" :class="{ 'is-on': chat }" :aria-pressed="chat" aria-label="Chat" @click="openChat">
                 <MiIcon name="chat" />
               </button>
             </template>
           </MiBadge>
-          <button type="button" class="vc__ctl vc__leave" :aria-label="left ? 'Rejoin call' : 'Leave call'" @click="left = !left">
+          <button type="button" class="vc__ctl vc__leave mi:focus-visible:[outline:3px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:grid mi:place-items-center mi:w-12 mi:h-12 mi:p-0 mi:[border:0] mi:[background:var(--mi-card)] mi:text-label mi:shadow-1 mi:cursor-pointer mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease)] mi:active:transform-[scale(.94)] mi:[&.is-off]:[background:var(--mi-label)] mi:[&.is-off]:text-page mi:[&.is-on]:[background:var(--mi-p)] mi:[&.is-on]:text-p-on mi:w-16 mi:[background:var(--mi-red)] mi:text-p-on" :aria-label="left ? 'Rejoin call' : 'Leave call'" @click="left = !left">
             <MiIcon :svg="icons.leave" />
           </button>
         </div>
-        <p v-if="left" class="vc__left" role="status">You left the call. Select the red button to rejoin.</p>
+        <p v-if="left" class="vc__left mi:m-0 mi:text-center mi:text-[13px] mi:text-label2" role="status">You left the call. Select the red button to rejoin.</p>
       </div>
 
-      <aside class="vc__panel" aria-labelledby="vc-chat-title">
-        <header class="vc__panel-head">
+      <aside class="vc__panel mi:hidden mi:[.vc__shell.is-chat_&]:flex mi:@[1000px]:border-l mi:@[1000px]:border-l-sep mi:flex-col mi:min-h-0 mi:min-w-0 mi:[background:var(--mi-card)]" aria-labelledby="vc-chat-title">
+        <header class="vc__panel-head mi:flex mi:items-center mi:gap-2.5 mi:min-h-14 mi:pt-0 mi:pr-3 mi:pb-0 mi:pl-4 mi:border-b mi:border-b-sep">
           <MiIconButton class="vc__back" label="Back to call" variant="gray" size="regular" @click="chat = false"><MiIcon name="chevron-left" /></MiIconButton>
           <MiText id="vc-chat-title" as="h3" variant="subheadline" weight="semibold">In-call chat</MiText>
           <MiIconButton class="vc__close" label="Close chat" variant="plain" size="small" @click="chat = false"><MiIcon name="close" :size="16" /></MiIconButton>
         </header>
         <MiMessageScroller class="vc__log" label="In-call chat">
           <MiMessageScrollerItem v-for="m in messages" :key="m.id" :message-id="'vc-' + m.id">
-            <MiMessage :align="m.me ? 'end' : 'start'" :label="m.who" class="vc__row" :class="{ 'is-end': m.me }">
+            <MiMessage :align="m.me ? 'end' : 'start'" :label="m.who" class="vc__row mi:[&.is-end]:ms-auto" :class="{ 'is-end': m.me }">
               <template v-if="!m.me" #header>{{ m.who }}</template>
               <MiBubble :align="m.me ? 'end' : 'start'" :variant="m.me ? 'default' : 'secondary'" class="vc__bub">{{ m.text }}</MiBubble>
             </MiMessage>
           </MiMessageScrollerItem>
         </MiMessageScroller>
-        <form class="vc__composer" @submit.prevent="send">
+        <form class="vc__composer mi:pt-2.5 mi:px-3 mi:pb-3 mi:border-t mi:border-t-sep" @submit.prevent="send">
           <MiInputGroup v-model="draft" size="sm" aria-label="Message everyone" placeholder="Message everyone">
             <template #trailing>
               <MiIconButton type="submit" label="Send" size="small" :disabled="!draft.trim()"><MiIcon name="arrow-up" :size="15" /></MiIconButton>
@@ -170,80 +170,25 @@ onBeforeUnmount(() => clearInterval(timer))
 </script>
 
 <style scoped>
-.vc { container-type: inline-size; height: 680px; font-family: var(--mi-font); color: var(--mi-label); background: color-mix(in srgb, var(--mi-label) 6%, var(--mi-page)); }
-.vc__shell { display: grid; height: 100%; grid-template-columns: minmax(0, 1fr); }
-.vc__panel { display: none; }
-.vc__shell.is-chat .vc__call { display: none; }
-.vc__shell.is-chat .vc__panel { display: flex; }
 .vc__close { display: none; }
 
 @container (min-width: 1000px) {
-  .vc__shell.is-chat { grid-template-columns: minmax(0, 1fr) 320px; }
-  .vc__shell.is-chat .vc__call { display: flex; }
-  .vc__panel { border-left: 1px solid var(--mi-sep); }
   .vc__back { display: none; }
   .vc__close { display: inline-flex; }
 }
-
-.vc__call { display: flex; flex-direction: column; gap: 12px; min-width: 0; min-height: 0; padding: 12px; }
-.vc__top { display: flex; align-items: center; gap: 10px; padding: 2px 4px; }
-.vc__top-text { flex: 1; min-width: 0; }
-.vc__rec { flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--mi-red); box-shadow: 0 0 0 4px color-mix(in srgb, var(--mi-red) 22%, transparent); }
-
-.vc__body { flex: 1; min-height: 0; display: grid; gap: 10px; grid-template-rows: minmax(0, 1fr) auto; }
-@container (min-width: 760px) {
-  .vc__body { grid-template-rows: none; grid-template-columns: minmax(0, 1fr) 180px; }
-}
-
-.vc__tile { position: relative; display: grid; place-items: center; overflow: hidden; isolation: isolate; border-radius: var(--mi-radius-xl); background: linear-gradient(140deg, color-mix(in srgb, var(--a) 72%, var(--mi-label)), color-mix(in srgb, var(--b) 58%, var(--mi-page))); color: var(--mi-page); }
-/* Soft light in the corner gives each tile depth without media. */
-.vc__tile::before { content: ""; position: absolute; inset: -30% 30% 40% -30%; z-index: -1; border-radius: 50%; background: radial-gradient(closest-side, color-mix(in srgb, var(--mi-page) 30%, transparent), transparent); }
-/* Speaking ring: a border layer that breathes with opacity and scale. */
-.vc__tile::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 3px var(--mi-green); opacity: 0; transition: opacity var(--mi-dur-2) var(--mi-ease); pointer-events: none; }
-.vc__tile.is-speaking::after { opacity: 1; }
-.vc__stage { min-height: 0; }
-.vc__face { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; background: color-mix(in srgb, var(--mi-label) 35%, transparent); font-size: 20px; font-weight: 700; letter-spacing: .02em; }
-.vc__face--lg { width: clamp(84px, 18cqi, 140px); height: auto; aspect-ratio: 1; font-size: clamp(28px, 6cqi, 48px); }
 .vc__tile.is-speaking .vc__face { animation: vc-talk 1.4s var(--mi-ease) infinite; }
 @keyframes vc-talk { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
-.vc__face.is-off { background: var(--mi-label); color: var(--mi-page); }
-.vc__tag { position: absolute; left: 10px; bottom: 10px; display: inline-flex; align-items: center; gap: 6px; max-width: calc(100% - 20px); padding: 4px 10px 4px 8px; border-radius: 999px; background: color-mix(in srgb, var(--mi-label) 55%, transparent); color: var(--mi-page); font-size: 12.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.vc__face.is-off { background: var(--mi-label); }
+.vc__tag { left: 10px; bottom: 10px; padding: 4px 10px 4px 8px; font-size: 12.5px; }
 .vc__tag--sm { left: 6px; bottom: 6px; padding: 2px 8px 2px 6px; font-size: 11px; }
-.vc__tag-note { font-weight: 400; opacity: .8; }
-.vc__pin { position: absolute; top: 10px; right: 10px; padding: 3px 9px; border-radius: 999px; background: color-mix(in srgb, var(--mi-page) 80%, transparent); color: var(--mi-label); font-size: 11px; font-weight: 600; }
-
-.vc__share { display: grid; gap: 10px; width: 70%; padding: 18px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh2); }
-.vc__share span { height: 12px; border-radius: 6px; background: var(--mi-fill3); }
-.vc__share span:first-child { width: 60%; height: 18px; background: var(--mi-p-tint2); }
-.vc__share span:last-child { width: 80%; }
-
-.vc__strip { list-style: none; margin: 0; padding: 0 0 2px; display: grid; grid-auto-flow: column; grid-auto-columns: 112px; gap: 8px; overflow-x: auto; scroll-snap-type: x mandatory; }
-.vc__strip li { scroll-snap-align: start; }
-@container (min-width: 760px) {
-  .vc__strip { grid-auto-flow: row; grid-auto-columns: auto; grid-auto-rows: minmax(0, 1fr); overflow: hidden auto; padding: 0; }
-}
-.vc__mini { width: 100%; height: 100%; min-height: 84px; padding: 0; border: 0; font: inherit; cursor: pointer; transition: transform var(--mi-dur-2) var(--mi-ease); }
-.vc__mini:hover { transform: scale(.98); }
-.vc__mini:focus-visible, .vc__ctl:focus-visible { outline: 3px solid var(--mi-p); outline-offset: 2px; }
-.vc__mini .vc__face { width: 40px; height: 40px; font-size: 14px; }
-
-.vc__controls { display: flex; justify-content: center; align-items: center; gap: 8px; padding: 4px 0 2px; }
-.vc__ctl { display: grid; place-items: center; width: 48px; height: 48px; padding: 0; border: 0; border-radius: 50%; background: var(--mi-card); color: var(--mi-label); box-shadow: var(--mi-sh1); cursor: pointer; transition: transform var(--mi-dur-1) var(--mi-ease); }
-.vc__ctl:active { transform: scale(.94); }
-.vc__ctl.is-off { background: var(--mi-label); color: var(--mi-page); }
-.vc__ctl.is-on { background: var(--mi-p); color: var(--mi-p-on); }
-.vc__leave { width: 64px; border-radius: 24px; background: var(--mi-red); color: var(--mi-p-on); }
-.vc__wide { display: none; }
-@container (min-width: 400px) { .vc__wide { display: grid; } }
-.vc__left { margin: 0; text-align: center; font-size: 13px; color: var(--mi-label2); }
-
-.vc__panel { flex-direction: column; min-height: 0; min-width: 0; background: var(--mi-card); }
-.vc__panel-head { display: flex; align-items: center; gap: 10px; min-height: 56px; padding: 0 12px 0 16px; border-bottom: 1px solid var(--mi-sep); }
+.vc__share span { height: 12px; background: var(--mi-fill3); }
+.vc__share span:first-child { height: 18px; background: var(--mi-p-tint2); }
+.vc__mini .vc__face { height: 40px; }
+.vc__ctl { border-radius: 50%; }
+.vc__leave { border-radius: 24px; }
 .vc__panel-head > :nth-child(2) { flex: 1; }
 .vc__log { flex: 1; min-height: 0; }
 .vc__row { max-width: 90%; }
-.vc__row.is-end { margin-inline-start: auto; }
 .vc .vc__bub { max-width: 100%; }
-.vc__composer { padding: 10px 12px 12px; border-top: 1px solid var(--mi-sep); }
 @media (prefers-reduced-motion: reduce) { .vc__tile.is-speaking .vc__face { animation: none; } }
 </style>

@@ -28,9 +28,9 @@ function next() {
 </script>
 
 <template>
-  <div class="card">
-    <div class="art" aria-hidden="true">
-      <span class="num">{{ String(page + 1).padStart(2, '0') }}</span>
+  <div class="card mi:justify-items-center">
+    <div class="art mi:w-full mi:h-24 mi:rounded-[16px] mi:bg-p-tint mi:grid mi:place-items-center" aria-hidden="true">
+      <span class="num mi:text-[40px] mi:font-extrabold mi:tracking-[-0.03em] mi:text-p-text">{{ String(page + 1).padStart(2, '0') }}</span>
     </div>
     <h3>{{ slide.title }}</h3>
     <p>{{ slide.body }}</p>
@@ -40,9 +40,7 @@ function next() {
 </template>
 
 <style scoped>
-.card { width: min(100%, 300px); padding: 20px; border-radius: 24px; background: var(--mi-card); box-shadow: var(--mi-sh1); display: grid; justify-items: center; gap: 10px; text-align: center; box-sizing: border-box; }
-.art { width: 100%; height: 96px; border-radius: 16px; background: var(--mi-p-tint); display: grid; place-items: center; }
-.num { font-size: 40px; font-weight: 800; letter-spacing: -0.03em; color: var(--mi-p-text); }
+.card { width: min(100%, 300px); padding: 20px; border-radius: 24px; background: var(--mi-card); box-shadow: var(--mi-sh1); display: grid; gap: 10px; text-align: center; box-sizing: border-box; }
 h3 { margin: 6px 0 0; font-size: 19px; font-weight: 700; color: var(--mi-label); }
 p { margin: 0; min-height: 40px; font-size: 14px; line-height: 1.4; color: var(--mi-label2); }
 </style>

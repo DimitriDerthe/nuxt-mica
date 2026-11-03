@@ -22,13 +22,12 @@ const active = ref(-1)
 </script>
 
 <template>
-  <section class="ex-box" aria-labelledby="ex-legend-h">
-    <h3 id="ex-legend-h" class="ex-h">Visits by source</h3>
+  <section class="ex-box mi:self-center mi:shadow-1 mi:box-border" aria-labelledby="ex-legend-h">
+    <h3 id="ex-legend-h" class="ex-h mi:mt-0 mi:mx-0 mi:mb-3 mi:text-[17px] mi:font-semibold mi:text-label">Visits by source</h3>
     <MiChartLegend v-bind="p" v-model:active="active" />
   </section>
 </template>
 
 <style scoped>
-.ex-box { align-self: center; width: 100%; max-width: 560px; margin: 0 auto; padding: 16px 18px; border-radius: 18px; background: var(--mi-card); box-shadow: var(--mi-sh1); box-sizing: border-box; }
-.ex-h { margin: 0 0 12px; font-size: 17px; font-weight: 600; color: var(--mi-label); }
+.ex-box { width: 100%; max-width: 560px; margin: 0 auto; padding: 16px 18px; border-radius: 18px; background: var(--mi-card); }
 </style>

@@ -1,80 +1,80 @@
 <template>
-  <section class="pdl" aria-labelledby="pdl-title">
-    <header class="pdl__head">
-      <div class="pdl__intro">
+  <section class="pdl mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="pdl-title">
+    <header class="pdl__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
+      <div class="pdl__intro mi:grid mi:gap-0.5">
         <MiText id="pdl-title" variant="title3" as="h2" weight="semibold">Checkout revenue, period over period</MiText>
         <MiText variant="footnote" tone="label2">Marlow &amp; Finch online store · daily, {{ days[0] }} to {{ days[days.length - 1] }}</MiText>
       </div>
       <MiSegmented v-model="compare" label="Compare with" :options="compares" />
     </header>
 
-    <article class="pdl__card">
-      <div class="pdl__top">
-        <div class="pdl__cum" aria-live="polite">
+    <article class="pdl__card mi:grid mi:gap-4.5 mi:pt-5 mi:px-5 mi:pb-4 mi:rounded-xl mi:bg-card mi:shadow-1">
+      <div class="pdl__top mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-y-4 mi:gap-x-7">
+        <div class="pdl__cum mi:grid mi:gap-1" aria-live="polite">
           <MiText variant="footnote" weight="medium" tone="label2">Running difference through {{ days[idx] }}</MiText>
-          <p class="pdl__big" :class="cum >= 0 ? 'is-gain' : 'is-loss'">{{ money(cum, true) }}</p>
+          <p class="pdl__big mi:my-0.5 mi:mx-0 mi:text-[clamp(34px,_6.5cqi,_46px)] mi:leading-none mi:font-bold mi:tracking-[-.04em] mi:tabular-nums" :class="cum >= 0 ? 'is-gain mi:text-p-text' : 'is-loss mi:text-red-t'">{{ money(cum, true) }}</p>
           <MiText variant="footnote" tone="label2" tabular>
             {{ money(sumTo(cur, idx)) }} against {{ money(sumTo(prev, idx)) }} · {{ signedPct(sumTo(cur, idx) / sumTo(prev, idx) - 1) }}
           </MiText>
         </div>
-        <dl class="pdl__day">
-          <div><dt><i class="pdl__k-cur" />{{ days[idx] }}</dt><dd>{{ money(at(cur, idx)) }}</dd></div>
-          <div><dt><i class="pdl__k-prev" />{{ prevDays[idx] }}</dt><dd>{{ money(at(prev, idx)) }}</dd></div>
-          <div><dt>Day difference</dt><dd :class="dayDelta >= 0 ? 'is-gain' : 'is-loss'">{{ money(dayDelta, true) }}</dd></div>
+        <dl class="pdl__day mi:grid mi:grid-cols-[repeat(3,_auto)] mi:gap-5 mi:m-0">
+          <div><dt class="mi:[.pdl__day_&]:items-center mi:[.pdl__day_&]:text-[12px] mi:[.pdl__day_&]:text-label2 mi:[.pdl__day_&]:whitespace-nowrap"><i class="pdl__k-cur mi:[.pdl__day_dt_&]:flex-[none] mi:w-4 mi:h-[2.5px] mi:rounded-[2px] mi:bg-p" />{{ days[idx] }}</dt><dd class="mi:[.pdl__day_&]:m-0 mi:[.pdl__day_&]:text-[17px] mi:[.pdl__day_&]:font-650 mi:[.pdl__day_&]:tracking-[-.015em] mi:[.pdl__day_&]:tabular-nums">{{ money(at(cur, idx)) }}</dd></div>
+          <div><dt class="mi:[.pdl__day_&]:items-center mi:[.pdl__day_&]:text-[12px] mi:[.pdl__day_&]:text-label2 mi:[.pdl__day_&]:whitespace-nowrap"><i class="pdl__k-prev mi:[.pdl__day_dt_&]:flex-[none] mi:w-4 mi:h-0 mi:[border-top:1.5px_dashed_var(--mi-label2)]" />{{ prevDays[idx] }}</dt><dd class="mi:[.pdl__day_&]:m-0 mi:[.pdl__day_&]:text-[17px] mi:[.pdl__day_&]:font-650 mi:[.pdl__day_&]:tracking-[-.015em] mi:[.pdl__day_&]:tabular-nums">{{ money(at(prev, idx)) }}</dd></div>
+          <div><dt class="mi:[.pdl__day_&]:items-center mi:[.pdl__day_&]:text-[12px] mi:[.pdl__day_&]:text-label2 mi:[.pdl__day_&]:whitespace-nowrap">Day difference</dt><dd class="mi:[.pdl__day_&]:m-0 mi:[.pdl__day_&]:text-[17px] mi:[.pdl__day_&]:font-650 mi:[.pdl__day_&]:tracking-[-.015em] mi:[.pdl__day_&]:tabular-nums" :class="dayDelta >= 0 ? 'is-gain mi:text-p-text' : 'is-loss mi:text-red-t'">{{ money(dayDelta, true) }}</dd></div>
         </dl>
       </div>
 
-      <div class="pdl__chart">
-        <div class="pdl__yaxis" aria-hidden="true">
-          <span v-for="t in ticks" :key="t" :style="{ top: yPct(t) + '%' }">${{ t }}k</span>
-          <span class="pdl__ylabel">Running</span>
+      <div class="pdl__chart mi:grid mi:grid-cols-[40px_minmax(0,_1fr)] mi:gap-x-2.5">
+        <div class="pdl__yaxis mi:relative mi:h-60 mi:text-[11px] mi:text-label3 mi:tabular-nums" aria-hidden="true">
+          <span class="mi:[.pdl__yaxis_&]:right-0" v-for="t in ticks" :key="t" :style="{ top: yPct(t) + '%' }">${{ t }}k</span>
+          <span class="pdl__ylabel mi:[.pdl__yaxis_&]:right-0 mi:[.pdl__yaxis_&]:top-[calc(240px_+_12px_+_32px)]">Running</span>
         </div>
 
         <div
-          class="pdl__plots" tabindex="0" role="slider" aria-label="Day" aria-valuemin="0" :aria-valuemax="days.length - 1"
+          class="pdl__plots mi:relative mi:grid mi:gap-3 mi:overflow-x-clip mi:[overflow-clip-margin:8px] mi:[outline:none] mi:rounded-[4px] mi:touch-pan-y mi:focus-visible:shadow-[0_0_0_2px_var(--mi-card),_0_0_0_4px_var(--mi-p)]" tabindex="0" role="slider" aria-label="Day" aria-valuemin="0" :aria-valuemax="days.length - 1"
           :aria-valuenow="idx" :aria-valuetext="valueText" aria-describedby="pdl-summary" @keydown="onKey"
         >
-          <svg class="pdl__main" viewBox="0 0 1000 300" preserveAspectRatio="none" aria-hidden="true">
-            <line v-for="t in ticks" :key="t" x1="0" x2="1000" :y1="yPct(t) * 3" :y2="yPct(t) * 3" class="pdl__grid" />
-            <path :d="gap.gain" class="pdl__fill is-gain" />
-            <path :d="gap.loss" class="pdl__fill is-loss" />
-            <path :d="linePath(prev)" class="pdl__line is-prev" />
-            <path :d="linePath(cur)" class="pdl__line is-cur" />
+          <svg class="pdl__main mi:h-60 mi:overflow-visible" viewBox="0 0 1000 300" preserveAspectRatio="none" aria-hidden="true">
+            <line v-for="t in ticks" :key="t" x1="0" x2="1000" :y1="yPct(t) * 3" :y2="yPct(t) * 3" class="pdl__grid mi:stroke-sep mi:[stroke-width:1] mi:[vector-effect:non-scaling-stroke]" />
+            <path :d="gap.gain" class="pdl__fill is-gain mi:text-p-text mi:[&.is-gain]:fill-p/20 mi:[&.is-loss]:fill-red/24 mi:[&.is-strong.is-gain]:fill-p/30 mi:[&.is-strong.is-loss]:fill-red/32" />
+            <path :d="gap.loss" class="pdl__fill is-loss mi:text-red-t mi:[&.is-gain]:fill-p/20 mi:[&.is-loss]:fill-red/24 mi:[&.is-strong.is-gain]:fill-p/30 mi:[&.is-strong.is-loss]:fill-red/32" />
+            <path :d="linePath(prev)" class="pdl__line is-prev mi:fill-[color:none] mi:[stroke-linejoin:round] mi:[stroke-linecap:round] mi:[vector-effect:non-scaling-stroke] mi:[&.is-cur]:stroke-p mi:[&.is-cur]:[stroke-width:2.25] mi:[&.is-prev]:stroke-label2 mi:[&.is-prev]:[stroke-width:1.5] mi:[&.is-prev]:[stroke-dasharray:4_3] mi:[&.is-cum]:stroke-label mi:[&.is-cum]:[stroke-width:1.5] mi:[.pdl__dotrow_&]:bg-label2" />
+            <path :d="linePath(cur)" class="pdl__line is-cur mi:fill-[color:none] mi:[stroke-linejoin:round] mi:[stroke-linecap:round] mi:[vector-effect:non-scaling-stroke] mi:[&.is-cur]:stroke-p mi:[&.is-cur]:[stroke-width:2.25] mi:[&.is-prev]:stroke-label2 mi:[&.is-prev]:[stroke-width:1.5] mi:[&.is-prev]:[stroke-dasharray:4_3] mi:[&.is-cum]:stroke-label mi:[&.is-cum]:[stroke-width:1.5] mi:[.pdl__dotrow_&]:bg-p" />
           </svg>
-          <svg class="pdl__strip" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true">
-            <path :d="cumBands.gain" class="pdl__fill is-gain is-strong" />
-            <path :d="cumBands.loss" class="pdl__fill is-loss is-strong" />
-            <line x1="0" x2="1000" :y1="cumY(0)" :y2="cumY(0)" class="pdl__zero" />
-            <path :d="cumPath" class="pdl__line is-cum" />
+          <svg class="pdl__strip mi:h-16 mi:rounded-[6px] mi:bg-fill4" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true">
+            <path :d="cumBands.gain" class="pdl__fill is-gain is-strong mi:text-p-text mi:[&.is-gain]:fill-p/20 mi:[&.is-loss]:fill-red/24 mi:[&.is-strong.is-gain]:fill-p/30 mi:[&.is-strong.is-loss]:fill-red/32" />
+            <path :d="cumBands.loss" class="pdl__fill is-loss is-strong mi:text-red-t mi:[&.is-gain]:fill-p/20 mi:[&.is-loss]:fill-red/24 mi:[&.is-strong.is-gain]:fill-p/30 mi:[&.is-strong.is-loss]:fill-red/32" />
+            <line x1="0" x2="1000" :y1="cumY(0)" :y2="cumY(0)" class="pdl__zero mi:stroke-label3 mi:[stroke-width:1] mi:[stroke-dasharray:2_3] mi:[vector-effect:non-scaling-stroke]" />
+            <path :d="cumPath" class="pdl__line is-cum mi:fill-[color:none] mi:[stroke-linejoin:round] mi:[stroke-linecap:round] mi:[vector-effect:non-scaling-stroke] mi:[&.is-cur]:stroke-p mi:[&.is-cur]:[stroke-width:2.25] mi:[&.is-prev]:stroke-label2 mi:[&.is-prev]:[stroke-width:1.5] mi:[&.is-prev]:[stroke-dasharray:4_3] mi:[&.is-cum]:stroke-label mi:[&.is-cum]:[stroke-width:1.5]" />
           </svg>
 
-          <div class="pdl__hits" aria-hidden="true">
-            <span v-for="(d, i) in days" :key="d" @pointerenter="idx = i" />
+          <div class="pdl__hits mi:absolute mi:inset-0 mi:flex" aria-hidden="true">
+            <span class="mi:[.pdl__hits_&]:flex-[1_1_0]" v-for="(d, i) in days" :key="d" @pointerenter="idx = i" />
           </div>
-          <div class="pdl__cursor" aria-hidden="true" :style="{ transform: `translateX(${xPct(idx)}%)` }">
-            <i class="pdl__rule" />
-            <span class="pdl__dotrow" :style="{ transform: `translateY(${yPct(at(prev, idx)) * mainShare}%)` }"><i class="is-prev" /></span>
-            <span class="pdl__dotrow" :style="{ transform: `translateY(${yPct(at(cur, idx)) * mainShare}%)` }"><i class="is-cur" /></span>
+          <div class="pdl__cursor mi:absolute mi:inset-0 mi:pointer-events-none mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:motion-reduce:[transition:none]" aria-hidden="true" :style="{ transform: `translateX(${xPct(idx)}%)` }">
+            <i class="pdl__rule mi:absolute mi:left-[-.5px] mi:top-0 mi:bottom-0 mi:w-px mi:bg-label2 mi:opacity-60" />
+            <span class="pdl__dotrow mi:absolute mi:inset-0 mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:motion-reduce:[transition:none]" :style="{ transform: `translateY(${yPct(at(prev, idx)) * mainShare}%)` }"><i class="is-prev mi:[.pdl__dotrow_&]:left-[-4.5px] mi:[.pdl__dotrow_&]:top-[-4.5px] mi:[.pdl__dotrow_&]:h-[9px] mi:[.pdl__dotrow_&]:rounded-[50%] mi:[.pdl__dotrow_&]:shadow-[0_0_0_2px_var(--mi-card)] mi:[.pdl__dotrow_&]:bg-label2" /></span>
+            <span class="pdl__dotrow mi:absolute mi:inset-0 mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:motion-reduce:[transition:none]" :style="{ transform: `translateY(${yPct(at(cur, idx)) * mainShare}%)` }"><i class="is-cur mi:[.pdl__dotrow_&]:left-[-4.5px] mi:[.pdl__dotrow_&]:top-[-4.5px] mi:[.pdl__dotrow_&]:h-[9px] mi:[.pdl__dotrow_&]:rounded-[50%] mi:[.pdl__dotrow_&]:shadow-[0_0_0_2px_var(--mi-card)] mi:[.pdl__dotrow_&]:bg-p" /></span>
           </div>
         </div>
 
-        <div class="pdl__xaxis" aria-hidden="true">
-          <span v-for="i in [0, 7, 14, 21, 29]" :key="i" :style="{ left: xPct(i) + '%' }">{{ days[i] }}</span>
+        <div class="pdl__xaxis mi:relative mi:col-[2] mi:h-4 mi:mt-2 mi:text-[11px] mi:text-label3 mi:tabular-nums" aria-hidden="true">
+          <span class="mi:[.pdl__xaxis_&]:top-0 mi:[.pdl__xaxis_&:first-child]:transform-none mi:[.pdl__xaxis_&:last-child]:transform-[translateX(-100%)]" v-for="i in [0, 7, 14, 21, 29]" :key="i" :style="{ left: xPct(i) + '%' }">{{ days[i] }}</span>
         </div>
       </div>
-      <p id="pdl-summary" class="pdl__sr">{{ summary }}</p>
+      <p id="pdl-summary" class="pdl__sr mi:absolute mi:w-px mi:h-px mi:m-0 mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">{{ summary }}</p>
 
-      <footer class="pdl__foot">
-        <div class="pdl__legend" aria-hidden="true">
-          <span><i class="pdl__k-cur" />This period</span>
-          <span><i class="pdl__k-prev" />{{ compare === 'year' ? 'Last year' : 'Previous 30 days' }}</span>
-          <span><i class="pdl__k-gain" />Gain</span>
-          <span><i class="pdl__k-loss" />Loss</span>
+      <footer class="pdl__foot mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-3 mi:gap-x-5 mi:pt-3.5 mi:border-t mi:border-t-sep">
+        <div class="pdl__legend mi:flex mi:flex-wrap mi:gap-y-1.5 mi:gap-x-4 mi:text-[12px] mi:text-label2" aria-hidden="true">
+          <span class="mi:[.pdl__legend_&]:items-center"><i class="pdl__k-cur mi:w-4 mi:h-[2.5px] mi:rounded-[2px] mi:bg-p" />This period</span>
+          <span class="mi:[.pdl__legend_&]:items-center"><i class="pdl__k-prev mi:w-4 mi:h-0 mi:[border-top:1.5px_dashed_var(--mi-label2)]" />{{ compare === 'year' ? 'Last year' : 'Previous 30 days' }}</span>
+          <span class="mi:[.pdl__legend_&]:items-center"><i class="pdl__k-gain mi:w-3 mi:h-2.5 mi:rounded-[3px] mi:[background:color-mix(in_srgb,_var(--mi-p)_26%,_transparent)]" />Gain</span>
+          <span class="mi:[.pdl__legend_&]:items-center"><i class="pdl__k-loss mi:w-3 mi:h-2.5 mi:rounded-[3px] mi:[background:color-mix(in_srgb,_var(--mi-red)_30%,_transparent)]" />Loss</span>
         </div>
-        <div class="pdl__chips" role="group" aria-label="Jump to a day">
-          <span class="pdl__stat">Ahead on <b>{{ aheadDays }}</b> of {{ days.length }} days</span>
-          <button type="button" class="pdl__jump" @click="idx = best"><span>Best</span> {{ days[best] }} <b class="is-gain">{{ money(diff(best), true) }}</b></button>
-          <button type="button" class="pdl__jump" @click="idx = worst"><span>Worst</span> {{ days[worst] }} <b class="is-loss">{{ money(diff(worst), true) }}</b></button>
+        <div class="pdl__chips mi:flex mi:flex-wrap mi:items-center mi:gap-y-1.5 mi:gap-x-2 mi:text-[12px] mi:tabular-nums" role="group" aria-label="Jump to a day">
+          <span class="pdl__stat mi:mr-1 mi:text-label2">Ahead on <b>{{ aheadDays }}</b> of {{ days.length }} days</span>
+          <button type="button" class="pdl__jump mi:inline-flex mi:items-baseline mi:gap-1.5 mi:py-[5px] mi:px-2.5 mi:border mi:border-sep mi:rounded-[999px] mi:bg-card mi:text-label mi:cursor-pointer mi:hover:bg-fill4 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" @click="idx = best"><span>Best</span> {{ days[best] }} <b class="is-gain mi:text-p-text">{{ money(diff(best), true) }}</b></button>
+          <button type="button" class="pdl__jump mi:inline-flex mi:items-baseline mi:gap-1.5 mi:py-[5px] mi:px-2.5 mi:border mi:border-sep mi:rounded-[999px] mi:bg-card mi:text-label mi:cursor-pointer mi:hover:bg-fill4 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" @click="idx = worst"><span>Worst</span> {{ days[worst] }} <b class="is-loss mi:text-red-t">{{ money(diff(worst), true) }}</b></button>
         </div>
       </footer>
     </article>
@@ -190,78 +190,19 @@ const onKey = (e: KeyboardEvent) => {
 </script>
 
 <style scoped>
-.pdl { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
-.pdl__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.pdl__intro { display: grid; gap: 2px; }
-.pdl__card { display: grid; gap: 18px; padding: 20px 20px 16px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-
-.pdl__top { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px 28px; }
-.pdl__cum { display: grid; gap: 4px; }
-.pdl__big { margin: 2px 0; font-size: clamp(34px, 6.5cqi, 46px); line-height: 1; font-weight: 700; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
-.is-gain { color: var(--mi-p-text); }
-.is-loss { color: var(--mi-red-t); }
-.pdl__day { display: grid; grid-template-columns: repeat(3, auto); gap: 20px; margin: 0; }
 .pdl__day div { display: grid; gap: 3px; }
 .pdl__day div + div { padding-left: 20px; border-left: 1px solid var(--mi-sep); }
-.pdl__day dt { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--mi-label2); white-space: nowrap; }
-.pdl__day dt i { flex: none; width: 12px; }
-.pdl__day dd { margin: 0; font-size: 17px; font-weight: 650; letter-spacing: -.015em; font-variant-numeric: tabular-nums; }
-
-.pdl__chart { display: grid; grid-template-columns: 40px minmax(0, 1fr); column-gap: 10px; }
-.pdl__yaxis { position: relative; height: 240px; font-size: 11px; color: var(--mi-label3); font-variant-numeric: tabular-nums; }
-.pdl__yaxis span { position: absolute; right: 0; transform: translateY(-50%); white-space: nowrap; }
-.pdl__yaxis .pdl__ylabel { top: calc(240px + 12px + 32px); }
-.pdl__plots { position: relative; display: grid; gap: 12px; overflow-x: clip; overflow-clip-margin: 8px; outline: none; border-radius: 4px; touch-action: pan-y; }
-.pdl__plots:focus-visible { box-shadow: 0 0 0 2px var(--mi-card), 0 0 0 4px var(--mi-p); }
+.pdl__day dt { display: flex; gap: 6px; }
+.pdl__day dt i { width: 12px; }
+.pdl__yaxis span { position: absolute; transform: translateY(-50%); white-space: nowrap; }
 .pdl__plots svg { display: block; width: 100%; }
-.pdl__main { height: 240px; overflow: visible; }
-.pdl__strip { height: 64px; border-radius: 6px; background: var(--mi-fill4); }
-.pdl__grid { stroke: var(--mi-sep); stroke-width: 1; vector-effect: non-scaling-stroke; }
-.pdl__zero { stroke: var(--mi-label3); stroke-width: 1; stroke-dasharray: 2 3; vector-effect: non-scaling-stroke; }
-.pdl__fill.is-gain { fill: color-mix(in srgb, var(--mi-p) 20%, transparent); }
-.pdl__fill.is-loss { fill: color-mix(in srgb, var(--mi-red) 24%, transparent); }
-.pdl__fill.is-strong.is-gain { fill: color-mix(in srgb, var(--mi-p) 30%, transparent); }
-.pdl__fill.is-strong.is-loss { fill: color-mix(in srgb, var(--mi-red) 32%, transparent); }
-.pdl__line { fill: none; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; }
-.pdl__line.is-cur { stroke: var(--mi-p); stroke-width: 2.25; }
-.pdl__line.is-prev { stroke: var(--mi-label2); stroke-width: 1.5; stroke-dasharray: 4 3; }
-.pdl__line.is-cum { stroke: var(--mi-label); stroke-width: 1.5; }
-
-.pdl__hits { position: absolute; inset: 0; display: flex; }
-.pdl__hits span { flex: 1 1 0; }
 .pdl__hits span:first-child, .pdl__hits span:last-child { flex-grow: .5; }
-.pdl__cursor { position: absolute; inset: 0; pointer-events: none; transition: transform var(--mi-dur-2) var(--mi-ease); }
-.pdl__rule { position: absolute; left: -.5px; top: 0; bottom: 0; width: 1px; background: var(--mi-label2); opacity: .6; }
-.pdl__dotrow { position: absolute; inset: 0; transition: transform var(--mi-dur-2) var(--mi-ease); }
-.pdl__dotrow i { position: absolute; left: -4.5px; top: -4.5px; width: 9px; height: 9px; border-radius: 50%; box-shadow: 0 0 0 2px var(--mi-card); }
-.pdl__dotrow .is-cur { background: var(--mi-p); }
-.pdl__dotrow .is-prev { background: var(--mi-label2); }
-
-.pdl__xaxis { position: relative; grid-column: 2; height: 16px; margin-top: 8px; font-size: 11px; color: var(--mi-label3); font-variant-numeric: tabular-nums; }
-.pdl__xaxis span { position: absolute; top: 0; transform: translateX(-50%); white-space: nowrap; }
-.pdl__xaxis span:first-child { transform: none; }
-.pdl__xaxis span:last-child { transform: translateX(-100%); }
-
-.pdl__foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; padding-top: 14px; border-top: 1px solid var(--mi-sep); }
-.pdl__legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12px; color: var(--mi-label2); }
-.pdl__legend span { display: inline-flex; align-items: center; gap: 6px; }
-.pdl__k-cur { width: 16px; height: 2.5px; border-radius: 2px; background: var(--mi-p); }
-.pdl__k-prev { width: 16px; height: 0; border-top: 1.5px dashed var(--mi-label2); }
-.pdl__k-gain, .pdl__k-loss { width: 12px; height: 10px; border-radius: 3px; }
-.pdl__k-gain { background: color-mix(in srgb, var(--mi-p) 26%, transparent); }
-.pdl__k-loss { background: color-mix(in srgb, var(--mi-red) 30%, transparent); }
-.pdl__chips { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; font-size: 12px; font-variant-numeric: tabular-nums; }
-.pdl__stat { margin-right: 4px; color: var(--mi-label2); }
+.pdl__dotrow i { position: absolute; width: 9px; }
+.pdl__xaxis span { position: absolute; transform: translateX(-50%); white-space: nowrap; }
+.pdl__legend span { display: inline-flex; gap: 6px; }
 .pdl__stat b { color: var(--mi-label); font-weight: 650; }
-.pdl__jump {
-  display: inline-flex; align-items: baseline; gap: 6px; padding: 5px 10px; border: 1px solid var(--mi-sep); border-radius: 999px;
-  background: var(--mi-card); color: var(--mi-label); font: inherit; font-size: 12px; cursor: pointer;
+.pdl__jump { font: inherit; font-size: 12px;
 }
-.pdl__jump:hover { background: var(--mi-fill4); }
-.pdl__jump:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
 .pdl__jump span { color: var(--mi-label2); }
 .pdl__jump b { font-weight: 650; }
-.pdl__sr { position: absolute; width: 1px; height: 1px; margin: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-
-@media (prefers-reduced-motion: reduce) { .pdl__cursor, .pdl__dotrow { transition: none; } }
 </style>

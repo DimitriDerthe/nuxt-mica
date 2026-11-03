@@ -1,25 +1,25 @@
 <template>
-  <section class="aaw" aria-labelledby="aaw-title">
-    <div class="aaw__in">
-    <aside class="aaw__rail" aria-label="Threads">
+  <section class="aaw mi:@container mi:grid mi:h-175 mi:min-h-full mi:font-mi mi:text-label mi:[background:var(--mi-page)]" aria-labelledby="aaw-title">
+    <div class="aaw__in mi:grid mi:grid-rows-[minmax(0,_1fr)] mi:h-full mi:min-h-0 mi:@[860px]:grid-cols-[236px_minmax(0,_1fr)]">
+    <aside class="aaw__rail mi:hidden mi:@[860px]:grid mi:@[860px]:content-start mi:@[860px]:gap-1.5 mi:@[860px]:py-4 mi:@[860px]:px-3 mi:@[860px]:border-r mi:@[860px]:border-r-sep mi:@[860px]:[background:var(--mi-card)]" aria-label="Threads">
       <MiButton variant="tinted" block size="small" @click="newThread">
         <template #leading><MiIcon name="plus" :size="16" /></template>
         New analysis
       </MiButton>
       <MiText as="h3" variant="caption" weight="semibold" tone="label3" class="aaw__rail-label">This week</MiText>
-      <ul class="aaw__threads">
+      <ul class="aaw__threads mi:grid mi:gap-0.5 mi:m-0 mi:p-0 mi:[list-style:none]">
         <li v-for="t in threads" :key="t.id">
-          <button type="button" class="aaw__thread" :class="{ 'is-on': t.id === activeThread }" :aria-current="t.id === activeThread ? 'true' : undefined" @click="activeThread = t.id">
-            <span class="aaw__thread-title">{{ t.title }}</span>
-            <span class="aaw__thread-meta">{{ t.meta }}</span>
+          <button type="button" class="aaw__thread mi:grid mi:gap-0.5 mi:w-full mi:py-2 mi:px-2.5 mi:[border:0] mi:rounded-[10px] mi:[background:transparent] mi:text-label mi:[font:inherit] mi:text-start mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px]" :class="{ 'is-on': t.id === activeThread }" :aria-current="t.id === activeThread ? 'true' : undefined" @click="activeThread = t.id">
+            <span class="aaw__thread-title mi:text-[13px] mi:font-semibold mi:whitespace-nowrap mi:overflow-hidden mi:text-ellipsis">{{ t.title }}</span>
+            <span class="aaw__thread-meta mi:text-[11px] mi:text-label2">{{ t.meta }}</span>
           </button>
         </li>
       </ul>
     </aside>
 
-    <div class="aaw__main">
-      <header class="aaw__head">
-        <div class="aaw__head-text">
+    <div class="aaw__main mi:grid mi:grid-rows-[auto_minmax(0,_1fr)_auto] mi:min-w-0 mi:min-h-0">
+      <header class="aaw__head mi:flex mi:items-center mi:justify-between mi:gap-2.5 mi:py-3 mi:px-4 mi:border-b mi:border-b-sep">
+        <div class="aaw__head-text mi:min-w-0">
           <MiText id="aaw-title" as="h2" variant="headline" weight="semibold" :lines="1">Checkout drop on Tuesday</MiText>
           <MiText variant="caption" tone="label2">Relay analyst · read-only access to orders_eu</MiText>
         </div>
@@ -28,21 +28,21 @@
 
       <MiMessageScroller class="aaw__log" label="Conversation" :busy="thinking">
         <MiMessageScrollerItem v-for="m in messages" :key="m.id" :message-id="m.id" :scroll-anchor="m.role === 'user'">
-          <div v-if="m.role === 'user'" class="aaw__user">
-            <MiAttachmentGroup v-if="m.files.length" class="aaw__user-files">
+          <div v-if="m.role === 'user'" class="aaw__user mi:max-w-190 mi:mx-auto mi:box-border mi:grid mi:justify-items-end mi:gap-2 mi:pt-4 mi:px-4 mi:pb-1">
+            <MiAttachmentGroup v-if="m.files.length" class="aaw__user-files mi:max-w-full">
               <MiAttachment v-for="f in m.files" :key="f.name" :name="f.name" :file-size="f.size" :type="f.type" size="sm" :removable="false" />
             </MiAttachmentGroup>
             <MiBubble align="end">{{ m.text }}</MiBubble>
           </div>
-          <article v-else class="aaw__bot">
-            <span class="aaw__bot-mark" aria-hidden="true" />
-            <div class="aaw__bot-body">
+          <article v-else class="aaw__bot mi:max-w-190 mi:mx-auto mi:box-border mi:grid mi:grid-cols-[28px_minmax(0,_1fr)] mi:gap-3 mi:p-4">
+            <span class="aaw__bot-mark mi:w-7 mi:h-7 mi:rounded-[9px] mi:[background:conic-gradient(from_140deg,_var(--mi-p),_var(--mi-s),_var(--mi-p))] mi:shadow-[inset_0_0_0_6px_color-mix(in_srgb,_var(--mi-page)_55%,_transparent)]" aria-hidden="true" />
+            <div class="aaw__bot-body mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:gap-3 mi:min-w-0">
               <MiTrace :steps="m.trace" label="How Relay worked this out" class="aaw__trace" />
               <MiText v-if="m.text" variant="body" class="aaw__answer">{{ m.text }}</MiText>
-              <ul v-if="m.findings.length" class="aaw__findings">
-                <li v-for="f in m.findings" :key="f.label">
-                  <span class="aaw__finding-val">{{ f.value }}</span>
-                  <MiText as="span" variant="footnote" tone="label2">{{ f.label }}</MiText>
+              <ul v-if="m.findings.length" class="aaw__findings mi:grid mi:grid-cols-[repeat(auto-fit,_minmax(min(150px,_100%),_1fr))] mi:gap-2 mi:m-0 mi:p-0 mi:[list-style:none]">
+                <li class="mi:[.aaw__findings_li&]:gap-0.5 mi:[.aaw__findings_li&]:p-3 mi:[.aaw__findings_li&]:rounded-lg mi:[.aaw__findings_li&]:shadow-[0_0_0_1px_var(--mi-sep)]" v-for="f in m.findings" :key="f.label">
+                  <span class="aaw__finding-val mi:text-[22px] mi:font-bold mi:tracking-[-.03em] mi:tabular-nums mi:[.aaw__findings_li:first-child_&]:text-p-text">{{ f.value }}</span>
+                  <MiText class="mi:[.aaw__findings_li&]:gap-0.5 mi:[.aaw__findings_li&]:p-3 mi:[.aaw__findings_li&]:rounded-lg mi:[.aaw__findings_li&]:shadow-[0_0_0_1px_var(--mi-sep)]" as="span" variant="footnote" tone="label2">{{ f.label }}</MiText>
                 </li>
               </ul>
               <MiCodeBlock v-if="m.code" :code="m.code" filename="tuesday_dropoff.sql" size="sm" />
@@ -51,19 +51,19 @@
         </MiMessageScrollerItem>
       </MiMessageScroller>
 
-      <form class="aaw__composer" @submit.prevent="send">
-        <MiAttachmentGroup v-if="pending.length" class="aaw__pending">
+      <form class="aaw__composer mi:grid mi:gap-2 mi:w-[calc(100%_-_24px)] mi:max-w-190 mi:box-border mi:mt-1 mi:mx-auto mi:mb-3 mi:p-2.5 mi:rounded-[20px] mi:[background:var(--mi-card)] mi:shadow-[0_0_0_1px_var(--mi-sep),_var(--mi-sh2)]" @submit.prevent="send">
+        <MiAttachmentGroup v-if="pending.length" class="aaw__pending mi:max-w-full">
           <MiAttachment
             v-for="(f, i) in pending" :key="f.name" :name="f.name" :file-size="f.size" :type="f.type" size="sm"
             :state="f.uploading ? 'uploading' : 'done'" @remove="pending.splice(i, 1)"
           />
         </MiAttachmentGroup>
         <MiTextarea v-model="draft" :rows="2" :max-rows="6" aria-label="Ask Relay" placeholder="Ask a follow-up, e.g. Which payment method failed most?" class="aaw__input" @keydown.enter.exact.prevent="send" />
-        <div class="aaw__tools">
+        <div class="aaw__tools mi:flex mi:items-center mi:gap-2">
           <MiIconButton label="Attach a sample file" variant="gray" size="regular" @click="attach"><MiIcon :svg="clip" :size="18" /></MiIconButton>
           <MiNativeSelect v-model="model" size="sm" :options="models" aria-label="Model" class="aaw__model" />
-          <div class="aaw__ctx" role="meter" aria-label="Context used" :aria-valuenow="ctxUsed" aria-valuemin="0" :aria-valuemax="ctxMax" :aria-valuetext="`${fmtK(ctxUsed)} of ${fmtK(ctxMax)} tokens`">
-            <span class="aaw__ctx-track"><span :style="{ transform: `scaleX(${Math.min(1, ctxUsed / ctxMax)})` }" :class="{ 'is-high': ctxUsed / ctxMax > 0.75 }" /></span>
+          <div class="aaw__ctx mi:grid mi:justify-items-end mi:gap-[3px] mi:ml-auto mi:min-w-0" role="meter" aria-label="Context used" :aria-valuenow="ctxUsed" aria-valuemin="0" :aria-valuemax="ctxMax" :aria-valuetext="`${fmtK(ctxUsed)} of ${fmtK(ctxMax)} tokens`">
+            <span class="aaw__ctx-track mi:block mi:w-18 mi:h-1 mi:rounded-[2px] mi:[background:var(--mi-fill3)] mi:overflow-hidden"><span class="mi:[.aaw__ctx-track_&]:h-full mi:[.aaw__ctx-track_&]:origin-left mi:[.aaw__ctx-track_&]:[transition:transform_var(--mi-dur-3)_var(--mi-spring)]" :style="{ transform: `scaleX(${Math.min(1, ctxUsed / ctxMax)})` }" :class="{ 'is-high': ctxUsed / ctxMax > 0.75 }" /></span>
             <MiText as="span" variant="caption2" tone="label2" tabular>{{ fmtK(ctxUsed) }} / {{ fmtK(ctxMax) }}</MiText>
           </div>
           <MiIconButton type="submit" label="Send" :disabled="!draft.trim() || thinking" size="regular"><MiIcon name="arrow-up" :size="18" :weight="2.4" /></MiIconButton>
@@ -167,47 +167,14 @@ function newThread() { activeThread.value = 't1'; draft.value = '' }
 </script>
 
 <style scoped>
-.aaw { container-type: inline-size; display: grid; height: 700px; min-height: 100%; font-family: var(--mi-font); color: var(--mi-label); background: var(--mi-page); }
-.aaw__in { display: grid; grid-template-rows: minmax(0, 1fr); height: 100%; min-height: 0; }
-.aaw__rail { display: none; }
-@container (min-width: 860px) {
-  .aaw__in { grid-template-columns: 236px minmax(0, 1fr); }
-  .aaw__rail { display: grid; align-content: start; gap: 6px; padding: 16px 12px; border-right: 1px solid var(--mi-sep); background: var(--mi-card); }
-}
 .aaw__rail-label { margin: 14px 8px 2px; text-transform: uppercase; letter-spacing: .06em; }
-.aaw__threads { display: grid; gap: 2px; margin: 0; padding: 0; list-style: none; }
-.aaw__thread { display: grid; gap: 2px; width: 100%; padding: 8px 10px; border: 0; border-radius: 10px; background: transparent; color: var(--mi-label); font: inherit; text-align: start; cursor: pointer; }
 .aaw__thread:hover { background: var(--mi-fill4); }
-.aaw__thread:focus-visible { outline: 2px solid var(--mi-p); outline-offset: -2px; }
 .aaw__thread.is-on { background: var(--mi-p-tint); }
-.aaw__thread-title { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.aaw__thread-meta { font-size: 11px; color: var(--mi-label2); }
-
-.aaw__main { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; min-width: 0; min-height: 0; }
-.aaw__head { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 16px; border-bottom: 1px solid var(--mi-sep); }
-.aaw__head-text { min-width: 0; }
 .aaw__log { min-height: 0; }
-
-.aaw__user, .aaw__bot { max-width: 760px; margin-inline: auto; box-sizing: border-box; }
-.aaw__user { display: grid; justify-items: end; gap: 8px; padding: 16px 16px 4px; }
-.aaw__user-files { max-width: 100%; }
-.aaw__bot { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 12px; padding: 16px; }
-.aaw__bot-mark { width: 28px; height: 28px; border-radius: 9px; background: conic-gradient(from 140deg, var(--mi-p), var(--mi-s), var(--mi-p)); box-shadow: inset 0 0 0 6px color-mix(in srgb, var(--mi-page) 55%, transparent); }
-/* Explicit flexible column: an implicit one grows to the code block's min-content and pushes the cards out. */
-.aaw__bot-body { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; min-width: 0; }
 .aaw__answer { line-height: 1.55; }
-.aaw__findings { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr)); gap: 8px; margin: 0; padding: 0; list-style: none; }
-.aaw__findings li { display: grid; gap: 2px; padding: 12px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: 0 0 0 1px var(--mi-sep); }
-.aaw__finding-val { font-size: 22px; font-weight: 700; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
-.aaw__findings li:first-child .aaw__finding-val { color: var(--mi-p-text); }
-
-.aaw__composer { display: grid; gap: 8px; width: calc(100% - 24px); max-width: 760px; box-sizing: border-box; margin: 4px auto 12px; padding: 10px; border-radius: 20px; background: var(--mi-card); box-shadow: 0 0 0 1px var(--mi-sep), var(--mi-sh2); }
-.aaw__pending { max-width: 100%; }
+.aaw__findings li { display: grid; background: var(--mi-card); }
 .aaw__input :deep(textarea) { background: transparent; }
-.aaw__tools { display: flex; align-items: center; gap: 8px; }
 .aaw__model { width: auto; max-width: 140px; }
-.aaw__ctx { display: grid; justify-items: end; gap: 3px; margin-left: auto; min-width: 0; }
-.aaw__ctx-track { display: block; width: 72px; height: 4px; border-radius: 2px; background: var(--mi-fill3); overflow: hidden; }
-.aaw__ctx-track span { display: block; height: 100%; background: var(--mi-p); transform-origin: left; transition: transform var(--mi-dur-3) var(--mi-spring); }
+.aaw__ctx-track span { display: block; background: var(--mi-p); }
 .aaw__ctx-track span.is-high { background: var(--mi-orange); }
 </style>

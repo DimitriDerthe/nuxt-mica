@@ -24,30 +24,21 @@ const last = ref('')
 </script>
 
 <template>
-  <div class="ex">
-    <div class="photo" aria-hidden="true" />
-    <div class="meta">
+  <div class="ex mi:w-[min(100%,_300px)] mi:p-2.5 mi:rounded-[20px] mi:[background:var(--mi-card)] mi:shadow-1">
+    <div class="photo mi:h-37.5 mi:rounded-[12px] mi:[background:linear-gradient(135deg,_var(--mi-orange),_var(--mi-pink)_55%,_var(--mi-indigo))]" aria-hidden="true" />
+    <div class="meta mi:flex mi:items-center mi:justify-between mi:gap-3 mi:pt-3 mi:px-1.5 mi:pb-1">
       <div>
-        <div class="name">Lisbon, golden hour</div>
-        <div class="sub">Yesterday at 18:42</div>
+        <div class="name mi:text-[15px] mi:font-semibold mi:text-label">Lisbon, golden hour</div>
+        <div class="sub mi:text-[13px] mi:text-label2">Yesterday at 18:42</div>
       </div>
       <MiIconButton label="Photo options" variant="gray" size="regular" @click="open = true">
         <MiIcon name="more" />
       </MiIconButton>
     </div>
-    <p class="note" aria-live="polite">{{ last || 'Tap the options button to open the sheet.' }}</p>
+    <p class="note mi:text-[13px] mi:text-label2 mi:mt-1.5 mi:mx-1.5 mi:mb-1" aria-live="polite">{{ last || 'Tap the options button to open the sheet.' }}</p>
     <MiActionSheet
       v-model="open" v-bind="p"
       @action="id => (last = 'Chose: ' + id)" @cancel="r => (last = 'Cancelled (' + r + ')')"
     />
   </div>
 </template>
-
-<style scoped>
-.ex { width: min(100%, 300px); padding: 10px; border-radius: 20px; background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.photo { height: 150px; border-radius: 12px; background: linear-gradient(135deg, var(--mi-orange), var(--mi-pink) 55%, var(--mi-indigo)); }
-.meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 6px 4px; }
-.name { font-size: 15px; font-weight: 600; color: var(--mi-label); }
-.sub, .note { font-size: 13px; color: var(--mi-label2); }
-.note { margin: 6px 6px 4px; }
-</style>

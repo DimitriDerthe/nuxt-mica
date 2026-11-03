@@ -1,12 +1,12 @@
 <template>
-  <div class="pw">
+  <div class="pw mi:@container mi:min-h-full mi:font-mi mi:text-label mi:[background:var(--mi-page)]">
     <MiTabs v-model="tab" aria-label="Project sections">
-      <header class="pw__header">
-        <div class="pw__top">
+      <header class="pw__header mi:grid mi:gap-4 mi:pt-3 mi:px-4 mi:pb-0 mi:[background:var(--mi-card)] mi:shadow-[0_1px_0_var(--mi-sep)] mi:@[620px]:pt-3.5 mi:@[620px]:px-6 mi:@[620px]:pb-0">
+        <div class="pw__top mi:flex mi:items-center mi:justify-between mi:gap-2.5 mi:min-w-0">
           <MiBreadcrumb class="pw__crumbs" :items="crumbs" />
-          <div class="pw__tools">
+          <div class="pw__tools mi:flex mi:items-center mi:gap-1 mi:flex-[none]">
             <MiIconButton size="toolbar" variant="plain" :label="starred ? 'Remove from favorites' : 'Add to favorites'" :pressed="starred" @click="starred = !starred">
-              <MiIcon name="star" :filled="starred" :class="{ 'pw__star': starred }" />
+              <MiIcon name="star" :filled="starred" :class="{ 'pw__star mi:text-yellow': starred }" />
             </MiIconButton>
             <MiButton variant="bordered" size="small">
               <template #leading><MiIcon name="share" :size="16" /></template>
@@ -20,61 +20,61 @@
           </div>
         </div>
 
-        <div class="pw__id">
-          <span class="pw__glyph" aria-hidden="true">
-            <svg viewBox="0 0 32 32"><path d="M16 4 28 26H4L16 4Z" /><path d="M16 13l6 11H10l6-11Z" /></svg>
+        <div class="pw__id mi:flex mi:items-center mi:gap-3.5 mi:min-w-0">
+          <span class="pw__glyph mi:grid mi:place-items-center mi:flex-[none] mi:w-12 mi:h-12 mi:rounded-[14px] mi:[background:var(--mi-p-tint)]" aria-hidden="true">
+            <svg class="mi:[.pw__glyph_&]:w-6.5 mi:[.pw__glyph_&]:h-6.5" viewBox="0 0 32 32"><path class="mi:[.pw__glyph_&:first-child]:fill-p/35 mi:[.pw__glyph_&:last-child]:fill-p" d="M16 4 28 26H4L16 4Z" /><path class="mi:[.pw__glyph_&:first-child]:fill-p/35 mi:[.pw__glyph_&:last-child]:fill-p" d="M16 13l6 11H10l6-11Z" /></svg>
           </span>
-          <div class="pw__name">
+          <div class="pw__name mi:grid mi:gap-0.5 mi:min-w-0">
             <MiText id="pw-title" variant="title2" as="h2" weight="bold">Atlas Mobile 3.0</MiText>
             <MiText variant="footnote" tone="label2" :lines="1">Offline-first rewrite of the field app for iOS and Android</MiText>
           </div>
         </div>
 
         <!-- Properties strip: each fact is a small labelled cell. -->
-        <dl class="pw__props">
-          <div class="pw__prop">
-            <dt>Status</dt>
+        <dl class="pw__props mi:grid mi:grid-cols-2 mi:gap-y-3 mi:gap-x-4 mi:m-0 mi:@[620px]:grid-cols-3 mi:@[960px]:flex mi:@[960px]:flex-wrap mi:@[960px]:gap-0">
+          <div class="pw__prop mi:grid mi:gap-1 mi:min-w-0 mi:@[960px]:py-0 mi:@[960px]:px-5 mi:@[960px]:first:pl-0 mi:@[960px]:[.pw__prop+&]:border-l mi:@[960px]:[.pw__prop+&]:border-l-sep">
+            <dt class="mi:[.pw__prop_dt&]:uppercase">Status</dt>
             <dd>
-              <MiMenu v-model="status" variant="popup" :items="statuses" aria-label="Project status">
+              <MiMenu class="mi:[.pw__prop_dt&]:uppercase" v-model="status" variant="popup" :items="statuses" aria-label="Project status">
                 <template #trigger="{ props }">
-                  <button v-bind="props" type="button" class="pw__status" :class="'is-' + status">
-                    <i aria-hidden="true" />{{ statusLabel }}<MiIcon name="chevron-down" :size="12" :weight="2.4" />
+                  <button v-bind="props" type="button" class="pw__status mi:inline-flex mi:items-center mi:gap-1.5 mi:h-6.5 mi:pt-0 mi:pr-2 mi:pb-0 mi:pl-2.5 mi:[border:0] mi:rounded-[999px] mi:cursor-pointer mi:[--c:var(--mi-green)] mi:text-[color:color-mix(in_srgb,_var(--c)_70%,_var(--mi-label))] mi:[background:color-mix(in_srgb,_var(--c)_14%,_transparent)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" :class="'is-' + status">
+                    <i class="mi:[.pw__status_i&]:w-[7px] mi:[.pw__status_i&]:h-[7px] mi:[.pw__status_i&]:rounded-[50%] mi:[.pw__status_i&]:[background:var(--c)]" aria-hidden="true" />{{ statusLabel }}<MiIcon class="mi:[.pw__prop_dt&]:uppercase mi:[.pw__status_i&]:w-[7px] mi:[.pw__status_i&]:h-[7px] mi:[.pw__status_i&]:rounded-[50%] mi:[.pw__status_i&]:[background:var(--c)]" name="chevron-down" :size="12" :weight="2.4" />
                   </button>
                 </template>
               </MiMenu>
             </dd>
           </div>
-          <div class="pw__prop">
-            <dt>Lead</dt>
-            <dd class="pw__inline"><MiAvatar name="Yusuf Demir" size="xs" tone="auto" decorative /> Yusuf Demir</dd>
+          <div class="pw__prop mi:grid mi:gap-1 mi:min-w-0 mi:@[960px]:py-0 mi:@[960px]:px-5 mi:@[960px]:first:pl-0 mi:@[960px]:[.pw__prop+&]:border-l mi:@[960px]:[.pw__prop+&]:border-l-sep">
+            <dt class="mi:[.pw__prop_dt&]:uppercase">Lead</dt>
+            <dd class="pw__inline mi:flex mi:items-center mi:gap-1.5 mi:min-w-0"><MiAvatar class="mi:[.pw__prop_dt&]:uppercase" name="Yusuf Demir" size="xs" tone="auto" decorative /> Yusuf Demir</dd>
           </div>
-          <div class="pw__prop">
-            <dt>Team</dt>
-            <dd><MiAvatarGroup :items="members" :max="4" :size="24" /></dd>
+          <div class="pw__prop mi:grid mi:gap-1 mi:min-w-0 mi:@[960px]:py-0 mi:@[960px]:px-5 mi:@[960px]:first:pl-0 mi:@[960px]:[.pw__prop+&]:border-l mi:@[960px]:[.pw__prop+&]:border-l-sep">
+            <dt class="mi:[.pw__prop_dt&]:uppercase">Team</dt>
+            <dd><MiAvatarGroup class="mi:[.pw__prop_dt&]:uppercase" :items="members" :max="4" :size="24" /></dd>
           </div>
-          <div class="pw__prop">
-            <dt>Target</dt>
-            <dd class="pw__inline"><MiIcon name="calendar" :size="14" /> Mar 28 · 5 weeks left</dd>
+          <div class="pw__prop mi:grid mi:gap-1 mi:min-w-0 mi:@[960px]:py-0 mi:@[960px]:px-5 mi:@[960px]:first:pl-0 mi:@[960px]:[.pw__prop+&]:border-l mi:@[960px]:[.pw__prop+&]:border-l-sep">
+            <dt class="mi:[.pw__prop_dt&]:uppercase">Target</dt>
+            <dd class="pw__inline mi:flex mi:items-center mi:gap-1.5 mi:min-w-0"><MiIcon class="mi:[.pw__prop_dt&]:uppercase" name="calendar" :size="14" /> Mar 28 · 5 weeks left</dd>
           </div>
-          <div class="pw__prop">
-            <dt>Progress</dt>
-            <dd class="pw__inline"><MiProgressRing :value="64" :size="18" :stroke="3" label="Project progress" /> 64%</dd>
+          <div class="pw__prop mi:grid mi:gap-1 mi:min-w-0 mi:@[960px]:py-0 mi:@[960px]:px-5 mi:@[960px]:first:pl-0 mi:@[960px]:[.pw__prop+&]:border-l mi:@[960px]:[.pw__prop+&]:border-l-sep">
+            <dt class="mi:[.pw__prop_dt&]:uppercase">Progress</dt>
+            <dd class="pw__inline mi:flex mi:items-center mi:gap-1.5 mi:min-w-0"><MiProgressRing class="mi:[.pw__prop_dt&]:uppercase" :value="64" :size="18" :stroke="3" label="Project progress" /> 64%</dd>
           </div>
         </dl>
 
-        <div class="pw__tabs">
+        <div class="pw__tabs mi:-mx-4 mi:px-3 mi:overflow-x-auto mi:[scrollbar-width:none] mi:@[620px]:-mx-6 mi:@[620px]:px-5">
           <MiTabsList aria-label="Project sections">
             <MiTabsTrigger v-for="t in tabs" :key="t.value" :value="t.value">
-              {{ t.label }}<span v-if="t.count" class="pw__count">{{ t.count }}</span>
+              {{ t.label }}<span v-if="t.count" class="pw__count mi:ml-1.5 mi:py-px mi:px-1.5 mi:rounded-[999px] mi:text-[11px] mi:font-semibold mi:text-label2 mi:[background:var(--mi-fill3)] mi:tabular-nums">{{ t.count }}</span>
             </MiTabsTrigger>
           </MiTabsList>
         </div>
       </header>
 
-      <main class="pw__body" aria-labelledby="pw-title">
+      <main class="pw__body mi:p-4 mi:@[620px]:py-5 mi:@[620px]:px-6" aria-labelledby="pw-title">
         <MiTabsContent value="overview">
-          <div class="pw__grid">
-            <article v-for="m in milestones" :key="m.name" class="pw__card">
+          <div class="pw__grid mi:grid mi:gap-3 mi:@[620px]:grid-cols-3">
+            <article v-for="m in milestones" :key="m.name" class="pw__card mi:grid mi:gap-1.5 mi:p-4 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-[0_0_0_1px_var(--mi-sep)]">
               <MiText variant="caption" tone="label3" weight="semibold">{{ m.when }}</MiText>
               <MiText as="h3" variant="subheadline" weight="semibold">{{ m.name }}</MiText>
               <MiProgress :value="m.done" size="sm" :label="m.done + '% done'" :show-value="false" />
@@ -83,22 +83,22 @@
           </div>
         </MiTabsContent>
         <MiTabsContent value="issues">
-          <ul class="pw__issues">
-            <li v-for="i in issues" :key="i.id" class="pw__issue">
-              <span class="pw__issue-id">{{ i.id }}</span>
+          <ul class="pw__issues mi:grid mi:m-0 mi:p-0 mi:[list-style:none] mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-[0_0_0_1px_var(--mi-sep)]">
+            <li v-for="i in issues" :key="i.id" class="pw__issue mi:grid mi:grid-cols-[auto_minmax(0,_1fr)_auto] mi:items-center mi:gap-3 mi:py-3 mi:px-3.5 mi:[.pw__issue+&]:border-t mi:[.pw__issue+&]:border-t-sep">
+              <span class="pw__issue-id mi:[font:500_12px_ui-monospace,_'SF_Mono',_Menlo,_monospace] mi:text-label3">{{ i.id }}</span>
               <MiText as="span" variant="subheadline" :lines="1">{{ i.title }}</MiText>
               <MiAvatar :name="i.owner" size="xs" tone="auto" />
             </li>
           </ul>
         </MiTabsContent>
         <MiTabsContent value="updates">
-          <article class="pw__card pw__update">
-            <div class="pw__inline"><MiAvatar name="Yusuf Demir" size="xs" tone="auto" decorative /><MiText as="span" variant="footnote" weight="semibold">Yusuf Demir</MiText><MiText as="span" variant="caption" tone="label3">Monday</MiText></div>
+          <article class="pw__card pw__update mi:grid mi:gap-1.5 mi:p-4 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-[0_0_0_1px_var(--mi-sep)] mi:gap-2.5 mi:max-w-160">
+            <div class="pw__inline mi:flex mi:items-center mi:gap-1.5 mi:min-w-0"><MiAvatar name="Yusuf Demir" size="xs" tone="auto" decorative /><MiText as="span" variant="footnote" weight="semibold">Yusuf Demir</MiText><MiText as="span" variant="caption" tone="label3">Monday</MiText></div>
             <MiText variant="subheadline">Sync engine passed the 10k-record soak test on Android. iOS background fetch is the last blocker before beta; we keep the Mar 28 target.</MiText>
           </article>
         </MiTabsContent>
         <MiTabsContent v-for="t in quiet" :key="t" :value="t">
-          <div class="pw__card"><MiSkeleton variant="text" :lines="['40%', '92%', '76%', '84%']" :animated="false" /></div>
+          <div class="pw__card mi:grid mi:gap-1.5 mi:p-4 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-[0_0_0_1px_var(--mi-sep)]"><MiSkeleton variant="text" :lines="['40%', '92%', '76%', '84%']" :animated="false" /></div>
         </MiTabsContent>
       </main>
     </MiTabs>
@@ -148,57 +148,11 @@ const statusLabel = computed(() => statuses.find(s => s.value === status.value)?
 </script>
 
 <style scoped>
-.pw { container-type: inline-size; min-height: 100%; font-family: var(--mi-font); color: var(--mi-label); background: var(--mi-page); }
-.pw__header { display: grid; gap: 16px; padding: 12px 16px 0; background: var(--mi-card); box-shadow: 0 1px 0 var(--mi-sep); }
-.pw__top { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-width: 0; }
 .pw__crumbs { min-width: 0; overflow: hidden; }
-.pw__tools { display: flex; align-items: center; gap: 4px; flex: none; }
-.pw__star { color: var(--mi-yellow); }
-
-.pw__id { display: flex; align-items: center; gap: 14px; min-width: 0; }
-.pw__glyph { display: grid; place-items: center; flex: none; width: 48px; height: 48px; border-radius: 14px; background: var(--mi-p-tint); }
-.pw__glyph svg { width: 26px; height: 26px; }
-.pw__glyph path:first-child { fill: color-mix(in srgb, var(--mi-p) 35%, transparent); }
-.pw__glyph path:last-child { fill: var(--mi-p); }
-.pw__name { display: grid; gap: 2px; min-width: 0; }
-
-.pw__props { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 16px; margin: 0; }
-.pw__prop { display: grid; gap: 4px; min-width: 0; }
-.pw__prop dt { font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--mi-label3); }
+.pw__prop dt { font-size: 11px; font-weight: 600; letter-spacing: .04em; color: var(--mi-label3); }
 .pw__prop dd { margin: 0; font-size: 13px; font-weight: 500; }
-.pw__inline { display: flex; align-items: center; gap: 6px; min-width: 0; }
 .pw__status {
-  display: inline-flex; align-items: center; gap: 6px; height: 26px; padding: 0 8px 0 10px; border: 0; border-radius: 999px;
-  font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; --c: var(--mi-green);
-  color: color-mix(in srgb, var(--c) 70%, var(--mi-label)); background: color-mix(in srgb, var(--c) 14%, transparent);
+  font: inherit; font-size: 13px; font-weight: 600;
 }
 .pw__status.is-risk { --c: var(--mi-orange); } .pw__status.is-off { --c: var(--mi-red); }
-.pw__status i { width: 7px; height: 7px; border-radius: 50%; background: var(--c); }
-.pw__status:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-
-.pw__tabs { margin-inline: -16px; padding-inline: 12px; overflow-x: auto; scrollbar-width: none; }
-.pw__count { margin-left: 6px; padding: 1px 6px; border-radius: 999px; font-size: 11px; font-weight: 600; color: var(--mi-label2); background: var(--mi-fill3); font-variant-numeric: tabular-nums; }
-
-.pw__body { padding: 16px; }
-.pw__grid { display: grid; gap: 12px; }
-.pw__card { display: grid; gap: 6px; padding: 16px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: 0 0 0 1px var(--mi-sep); }
-.pw__update { gap: 10px; max-width: 640px; }
-.pw__issues { display: grid; margin: 0; padding: 0; list-style: none; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: 0 0 0 1px var(--mi-sep); }
-.pw__issue { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 12px 14px; }
-.pw__issue + .pw__issue { border-top: 1px solid var(--mi-sep); }
-.pw__issue-id { font: 500 12px ui-monospace, "SF Mono", Menlo, monospace; color: var(--mi-label3); }
-
-@container (min-width: 620px) {
-  .pw__header { padding: 14px 24px 0; }
-  .pw__tabs { margin-inline: -24px; padding-inline: 20px; }
-  .pw__props { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .pw__body { padding: 20px 24px; }
-  .pw__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-}
-@container (min-width: 960px) {
-  .pw__props { display: flex; flex-wrap: wrap; gap: 0; }
-  .pw__prop { padding: 0 20px; }
-  .pw__prop:first-child { padding-left: 0; }
-  .pw__prop + .pw__prop { border-left: 1px solid var(--mi-sep); }
-}
 </style>

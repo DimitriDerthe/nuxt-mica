@@ -1,6 +1,6 @@
 <template>
-  <section class="yr" aria-labelledby="year-leave-title">
-    <header class="yr__head">
+  <section class="yr mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="year-leave-title">
+    <header class="yr__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="year-leave-title" variant="title3" as="h2" weight="semibold">Leave planner 2027</MiText>
         <MiText variant="footnote" tone="label2">Paris office · French public holidays</MiText>
@@ -8,28 +8,28 @@
       <MiSegmented v-model="view" label="Calendar view" :options="views" />
     </header>
 
-    <div class="yr__budget">
-      <div class="yr__budget-text">
-        <p class="yr__big">{{ left }}<span> / {{ allowance }}</span></p>
+    <div class="yr__budget mi:grid mi:gap-2.5 mi:py-4 mi:px-4.5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:@[640px]:grid-cols-[auto_minmax(0,_1fr)] mi:@[640px]:items-center mi:@[640px]:gap-6">
+      <div class="yr__budget-text mi:flex mi:items-baseline mi:gap-2.5 mi:flex-wrap">
+        <p class="yr__big mi:m-0 mi:text-[34px] mi:leading-none mi:font-bold mi:tracking-[-.04em] mi:tabular-nums">{{ left }}<span> / {{ allowance }}</span></p>
         <MiText variant="footnote" tone="label2">days left · {{ used }} booked, weekends and holidays never count</MiText>
       </div>
-      <div class="yr__bar" role="meter" aria-label="Leave used" aria-valuemin="0" :aria-valuemax="allowance" :aria-valuenow="used">
-        <span :class="{ 'is-over': used > allowance }" :style="{ transform: `scaleX(${Math.min(used / allowance, 1)})` }" />
+      <div class="yr__bar mi:h-2 mi:rounded-[4px] mi:[background:var(--mi-fill3)] mi:overflow-hidden" role="meter" aria-label="Leave used" aria-valuemin="0" :aria-valuemax="allowance" :aria-valuenow="used">
+        <span class="mi:[.yr__bar_&]:block mi:[.yr__bar_&]:h-full mi:[.yr__bar_&]:rounded-[inherit] mi:[.yr__bar_&]:origin-left mi:[.yr__bar_&]:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :class="{ 'is-over': used > allowance }" :style="{ transform: `scaleX(${Math.min(used / allowance, 1)})` }" />
       </div>
     </div>
 
-    <div class="yr__body">
+    <div class="yr__body mi:grid mi:gap-4 mi:grid-cols-[minmax(0,_1fr)] mi:@[1000px]:grid-cols-[minmax(0,_1fr)_260px] mi:@[1000px]:items-start">
       <!-- Year: twelve compact months, every weekday is a toggle. -->
-      <div v-if="view === 'year'" class="yr__months">
-        <article v-for="m in months" :key="m.index" class="yr__mini">
-          <button type="button" class="yr__mname" @click="openMonth(m.index)">
-            {{ m.name }}<span v-if="m.pto" class="yr__mcount">{{ m.pto }}d</span>
+      <div v-if="view === 'year'" class="yr__months mi:grid mi:gap-2.5 mi:grid-cols-2 mi:@[560px]:grid-cols-3 mi:@[560px]:gap-3 mi:@[760px]:grid-cols-4">
+        <article v-for="m in months" :key="m.index" class="yr__mini mi:grid mi:gap-1 mi:pt-2.5 mi:px-2 mi:pb-2 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1 mi:min-w-0">
+          <button type="button" class="yr__mname mi:flex mi:items-center mi:justify-between mi:gap-1.5 mi:pt-0.5 mi:px-1 mi:pb-1 mi:[border:0] mi:[background:none] mi:text-label mi:text-start mi:cursor-pointer mi:rounded-[6px] mi:hover:text-p-text mi:focus-visible:[outline:2px_solid_var(--mi-p)]" @click="openMonth(m.index)">
+            {{ m.name }}<span v-if="m.pto" class="yr__mcount mi:py-px mi:px-1.5 mi:rounded-[999px] mi:text-[11px] mi:[background:var(--mi-p-tint)] mi:text-p-text">{{ m.pto }}d</span>
           </button>
-          <div class="yr__wk" aria-hidden="true"><span v-for="w in weekdays" :key="w">{{ w[0] }}</span></div>
-          <div class="yr__days" role="group" :aria-label="m.name + ' 2027'">
+          <div class="yr__wk mi:grid mi:grid-cols-7" aria-hidden="true"><span v-for="w in weekdays" :key="w">{{ w[0] }}</span></div>
+          <div class="yr__days mi:grid mi:grid-cols-7" role="group" :aria-label="m.name + ' 2027'">
             <span v-for="n in m.offset" :key="'o' + n" aria-hidden="true" />
             <button
-              v-for="d in m.days" :key="d.day" type="button" class="yr__d" :class="d.cls" :disabled="!d.bookable"
+              v-for="d in m.days" :key="d.day" type="button" class="yr__d mi:relative mi:aspect-[1] mi:grid mi:place-items-center mi:p-0 mi:[border:0] mi:rounded-[50%] mi:[background:none] mi:text-label mi:cursor-pointer mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring)] mi:[&:active:not(:disabled)]:transform-[scale(.85)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px] mi:focus-visible:z-1 mi:disabled:cursor-default mi:[&.is-hol]:[background:color-mix(in_srgb,_var(--mi-orange)_22%,_transparent)] mi:[&.is-bridge]:[border-style:dashed] mi:[&.is-pto]:[background:var(--mi-p)]" :class="d.cls" :disabled="!d.bookable"
               :aria-pressed="d.bookable ? d.pto : undefined" :aria-label="d.aria" :title="d.note || undefined" @click="toggle(m.index, d.day)"
             >{{ d.day }}</button>
           </div>
@@ -37,32 +37,32 @@
       </div>
 
       <!-- Month: the same data, roomy enough for labels. -->
-      <div v-else class="yr__month">
-        <div class="yr__month-head">
+      <div v-else class="yr__month mi:grid mi:gap-2.5 mi:p-3.5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1">
+        <div class="yr__month-head mi:flex mi:items-center mi:justify-between mi:gap-2">
           <MiIconButton label="Previous month" variant="gray" size="small" :disabled="month === 0" @click="month--"><MiIcon name="chevron-left" :size="16" /></MiIconButton>
           <MiText variant="headline" as="h3" aria-live="polite">{{ cur.name }} 2027</MiText>
           <MiIconButton label="Next month" variant="gray" size="small" :disabled="month === 11" @click="month++"><MiIcon name="chevron-right" :size="16" /></MiIconButton>
         </div>
-        <div class="yr__big-wk" aria-hidden="true"><span v-for="w in weekdays" :key="w">{{ w }}</span></div>
-        <div class="yr__big-days" role="group" :aria-label="cur.name + ' 2027'">
-          <span v-for="n in cur.offset" :key="'o' + n" class="yr__cell yr__cell--pad" aria-hidden="true" />
+        <div class="yr__big-wk mi:grid mi:grid-cols-7 mi:gap-1" aria-hidden="true"><span class="mi:[.yr__big-wk_&]:uppercase" v-for="w in weekdays" :key="w">{{ w }}</span></div>
+        <div class="yr__big-days mi:grid mi:grid-cols-7 mi:gap-1" role="group" :aria-label="cur.name + ' 2027'">
+          <span v-for="n in cur.offset" :key="'o' + n" class="yr__cell yr__cell--pad mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px] mi:focus-visible:z-1 mi:disabled:cursor-default mi:flex mi:flex-col mi:[align-items:flex-start] mi:gap-1 mi:min-h-13 mi:p-1.5 mi:[border:0] mi:rounded-[10px] mi:[font:inherit] mi:text-label mi:text-start mi:cursor-pointer mi:overflow-hidden mi:min-w-0 mi:@[560px]:min-h-19 mi:@[560px]:p-2" aria-hidden="true" />
           <button
-            v-for="d in cur.days" :key="d.day" type="button" class="yr__cell" :class="d.cls" :disabled="!d.bookable"
+            v-for="d in cur.days" :key="d.day" type="button" class="yr__cell mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px] mi:focus-visible:z-1 mi:disabled:cursor-default mi:flex mi:flex-col mi:[align-items:flex-start] mi:gap-1 mi:min-h-13 mi:p-1.5 mi:[border:0] mi:rounded-[10px] mi:[font:inherit] mi:text-label mi:text-start mi:cursor-pointer mi:overflow-hidden mi:min-w-0 mi:@[560px]:min-h-19 mi:@[560px]:p-2" :class="d.cls" :disabled="!d.bookable"
             :aria-pressed="d.bookable ? d.pto : undefined" :aria-label="d.aria" @click="toggle(cur.index, d.day)"
           >
-            <span class="yr__cell-n">{{ d.day }}</span>
-            <span v-if="d.note" class="yr__cell-note">{{ d.note }}</span>
+            <span class="yr__cell-n mi:text-[13px] mi:font-semibold mi:tabular-nums">{{ d.day }}</span>
+            <span v-if="d.note" class="yr__cell-note mi:hidden mi:max-w-full mi:text-[11px] mi:font-semibold mi:leading-[1.2] mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:@[560px]:block">{{ d.note }}</span>
           </button>
         </div>
       </div>
 
-      <aside class="yr__tips" aria-labelledby="year-leave-bridges">
+      <aside class="yr__tips mi:grid mi:gap-2.5 mi:p-4 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1" aria-labelledby="year-leave-bridges">
         <MiText id="year-leave-bridges" variant="subheadline" weight="semibold" as="h3">Bridge days</MiText>
         <MiText variant="footnote" tone="label2">One day off that joins a holiday to a weekend.</MiText>
-        <ul class="yr__bridges">
+        <ul class="yr__bridges mi:grid mi:gap-2 mi:m-0 mi:p-0 mi:[list-style:none]">
           <li v-for="b in bridges" :key="b.key">
-            <div class="yr__bridge-text">
-              <span class="yr__bridge-date">{{ b.label }}</span>
+            <div class="yr__bridge-text mi:grid mi:gap-0.5 mi:min-w-0">
+              <span class="yr__bridge-date mi:text-[14px] mi:font-semibold">{{ b.label }}</span>
               <MiText variant="caption" tone="label2">{{ b.span }} days off for 1 · {{ b.holiday }}</MiText>
             </div>
             <MiButton :variant="b.taken ? 'gray' : 'tinted'" size="small" :aria-label="(b.taken ? 'Release ' : 'Take ') + b.label" @click="toggle(b.m, b.d)">
@@ -70,11 +70,11 @@
             </MiButton>
           </li>
         </ul>
-        <ul class="yr__legend" aria-label="Legend">
-          <li><i class="is-pto" />Leave</li>
-          <li><i class="is-hol" />Public holiday</li>
-          <li><i class="is-ev" />Company event</li>
-          <li><i class="is-bridge" />Bridge day</li>
+        <ul class="yr__legend mi:flex mi:flex-wrap mi:gap-y-1.5 mi:gap-x-3.5 mi:mt-1 mi:mx-0 mi:mb-0 mi:p-0 mi:[list-style:none] mi:text-[12px] mi:text-label2" aria-label="Legend">
+          <li><i class="is-pto mi:[.yr__legend_&]:w-2.5 mi:[.yr__legend_&]:h-2.5" />Leave</li>
+          <li><i class="is-hol mi:[.yr__legend_&]:w-2.5 mi:[.yr__legend_&]:h-2.5" />Public holiday</li>
+          <li><i class="is-ev mi:[.yr__legend_&]:w-2.5 mi:[.yr__legend_&]:h-2.5" />Company event</li>
+          <li><i class="is-bridge mi:[.yr__legend_&]:w-2.5 mi:[.yr__legend_&]:h-2.5" />Bridge day</li>
         </ul>
       </aside>
     </div>
@@ -170,64 +170,29 @@ function openMonth(i: number) { month.value = i; view.value = 'month' }
 </script>
 
 <style scoped>
-.yr { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
-.yr__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-
-.yr__budget { display: grid; gap: 10px; padding: 16px 18px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-@container (min-width: 640px) { .yr__budget { grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 24px; } }
-.yr__budget-text { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
-.yr__big { margin: 0; font-size: 34px; line-height: 1; font-weight: 700; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
 .yr__big span { font-size: 17px; font-weight: 600; color: var(--mi-label3); letter-spacing: 0; }
-.yr__bar { height: 8px; border-radius: 4px; background: var(--mi-fill3); overflow: hidden; }
-.yr__bar span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--mi-p), var(--mi-s)); transform-origin: left; transition: transform var(--mi-dur-4) var(--mi-spring); }
+.yr__bar span { background: linear-gradient(90deg, var(--mi-p), var(--mi-s)); }
 .yr__bar span.is-over { background: var(--mi-red); }
-
-.yr__body { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); }
-@container (min-width: 1000px) { .yr__body { grid-template-columns: minmax(0, 1fr) 260px; align-items: start; } }
-
-.yr__months { display: grid; gap: 10px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-@container (min-width: 560px) { .yr__months { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; } }
-@container (min-width: 760px) { .yr__months { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-.yr__mini { display: grid; gap: 4px; padding: 10px 8px 8px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); min-width: 0; }
 .yr__mname {
-  display: flex; align-items: center; justify-content: space-between; gap: 6px; padding: 2px 4px 4px; border: 0; background: none;
-  font: inherit; font-size: 13px; font-weight: 600; color: var(--mi-label); text-align: start; cursor: pointer; border-radius: 6px;
+  font: inherit; font-size: 13px; font-weight: 600;
 }
-.yr__mname:hover { color: var(--mi-p-text); }
-.yr__mname:focus-visible { outline: 2px solid var(--mi-p); }
-.yr__mcount { padding: 1px 6px; border-radius: 999px; font-size: 11px; background: var(--mi-p-tint); color: var(--mi-p-text); }
-.yr__wk, .yr__days { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); }
 .yr__wk span { font-size: 10px; font-weight: 600; text-align: center; color: var(--mi-label3); }
 .yr__d {
-  position: relative; aspect-ratio: 1; display: grid; place-items: center; padding: 0; border: 0; border-radius: 50%; background: none;
-  font: inherit; font-size: 11px; font-variant-numeric: tabular-nums; color: var(--mi-label); cursor: pointer;
-  transition: transform var(--mi-dur-2) var(--mi-spring);
+  font: inherit; font-size: 11px; font-variant-numeric: tabular-nums;
 }
 .yr__d:hover:not(:disabled) { background: var(--mi-fill4); }
-.yr__d:active:not(:disabled) { transform: scale(.85); }
-.yr__d:focus-visible, .yr__cell:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 1px; z-index: 1; }
-.yr__d:disabled, .yr__cell:disabled { cursor: default; }
 .yr__d.is-we { color: var(--mi-label3); }
-.yr__d.is-hol { background: color-mix(in srgb, var(--mi-orange) 22%, transparent); color: var(--mi-orange-t); font-weight: 700; }
+.yr__d.is-hol { color: var(--mi-orange-t); font-weight: 700; }
 .yr__d.is-ev { box-shadow: inset 0 0 0 1.5px var(--mi-s); }
-.yr__d.is-bridge { box-shadow: inset 0 0 0 1.5px var(--mi-green); border-style: dashed; color: var(--mi-green-t); font-weight: 600; }
-.yr__d.is-pto { background: var(--mi-p); color: var(--mi-p-on); font-weight: 600; }
-
-.yr__month { display: grid; gap: 10px; padding: 14px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.yr__month-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.yr__d.is-bridge { box-shadow: inset 0 0 0 1.5px var(--mi-green); color: var(--mi-green-t); font-weight: 600; }
+.yr__d.is-pto { color: var(--mi-p-on); font-weight: 600; }
 .yr__month-head h3 { margin: 0; }
-.yr__big-wk, .yr__big-days { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
-.yr__big-wk span { font-size: 11px; font-weight: 600; color: var(--mi-label2); text-align: center; text-transform: uppercase; letter-spacing: .04em; }
+.yr__big-wk span { font-size: 11px; font-weight: 600; color: var(--mi-label2); text-align: center; letter-spacing: .04em; }
 .yr__cell {
-  display: flex; flex-direction: column; align-items: flex-start; gap: 4px; min-height: 52px; padding: 6px; border: 0; border-radius: 10px;
-  background: var(--mi-fill4); font: inherit; color: var(--mi-label); text-align: start; cursor: pointer; overflow: hidden; min-width: 0;
+  background: var(--mi-fill4);
 }
-@container (min-width: 560px) { .yr__cell { min-height: 76px; padding: 8px; } }
 .yr__cell--pad { background: none; }
 .yr__cell:hover:not(:disabled) { background: var(--mi-fill3); }
-.yr__cell-n { font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; }
-.yr__cell-note { display: none; max-width: 100%; font-size: 11px; font-weight: 600; line-height: 1.2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-@container (min-width: 560px) { .yr__cell-note { display: block; } }
 .yr__cell.is-we { background: none; color: var(--mi-label3); }
 .yr__cell.is-hol { background: color-mix(in srgb, var(--mi-orange) 16%, transparent); color: var(--mi-orange-t); }
 .yr__cell.is-ev { box-shadow: inset 3px 0 0 var(--mi-s); }
@@ -235,16 +200,10 @@ function openMonth(i: number) { month.value = i; view.value = 'month' }
 .yr__cell.is-bridge { box-shadow: inset 0 0 0 1.5px var(--mi-green); }
 .yr__cell.is-bridge .yr__cell-note { color: var(--mi-green-t); }
 .yr__cell.is-pto { background: var(--mi-p); color: var(--mi-p-on); }
-
-.yr__tips { display: grid; gap: 10px; padding: 16px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
 .yr__tips h3 { margin: 0; }
-.yr__bridges { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
 .yr__bridges li { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 12px; border-radius: var(--mi-radius-m); background: color-mix(in srgb, var(--mi-green) 8%, transparent); }
-.yr__bridge-text { display: grid; gap: 2px; min-width: 0; }
-.yr__bridge-date { font-size: 14px; font-weight: 600; }
-.yr__legend { display: flex; flex-wrap: wrap; gap: 6px 14px; margin: 4px 0 0; padding: 0; list-style: none; font-size: 12px; color: var(--mi-label2); }
 .yr__legend li { display: inline-flex; align-items: center; gap: 6px; }
-.yr__legend i { width: 10px; height: 10px; border-radius: 50%; }
+.yr__legend i { border-radius: 50%; }
 .yr__legend .is-pto { background: var(--mi-p); }
 .yr__legend .is-hol { background: color-mix(in srgb, var(--mi-orange) 40%, transparent); }
 .yr__legend .is-ev { box-shadow: inset 0 0 0 1.5px var(--mi-s); }

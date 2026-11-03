@@ -1,50 +1,50 @@
 <template>
-  <section class="fw" aria-labelledby="fw-title">
-    <div class="fw__card">
-      <header class="fw__head">
+  <section class="fw mi:@container mi:font-mi mi:text-label" aria-labelledby="fw-title">
+    <div class="fw__card mi:grid mi:gap-3.5 mi:max-w-130 mi:mx-auto mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-2">
+      <header class="fw__head mi:grid mi:gap-0.5">
         <MiText id="fw-title" as="h2" variant="title3" weight="semibold">Forward message</MiText>
         <MiText variant="footnote" tone="label2">Send to up to {{ limit }} conversations at once.</MiText>
       </header>
 
-      <figure class="fw__quote">
+      <figure class="fw__quote mi:flex mi:gap-2.5 mi:m-0 mi:py-3 mi:px-3.5 mi:rounded-lg mi:bg-fill4 mi:border-l-3 mi:border-l-p">
         <MiAvatar name="Rania Aziz" size="xs" tone="teal" decorative />
-        <div class="fw__quote-body">
-          <figcaption class="fw__quote-who">Rania Aziz · #ops-berlin · 08:41</figcaption>
-          <blockquote class="fw__quote-text">Loading dock B is closed Thursday for resurfacing. All inbound pallets go to dock D from 06:00, drivers check in at gate 3.</blockquote>
+        <div class="fw__quote-body mi:grid mi:gap-1 mi:min-w-0">
+          <figcaption class="fw__quote-who mi:text-[12px] mi:font-semibold mi:text-label2">Rania Aziz · #ops-berlin · 08:41</figcaption>
+          <blockquote class="fw__quote-text mi:m-0 mi:text-[14px] mi:leading-[1.45] mi:[display:-webkit-box] mi:[-webkit-line-clamp:3] mi:[-webkit-box-orient:vertical] mi:overflow-hidden">Loading dock B is closed Thursday for resurfacing. All inbound pallets go to dock D from 06:00, drivers check in at gate 3.</blockquote>
         </div>
       </figure>
 
       <MiSearch v-model="query" placeholder="Search people and channels" :cancelable="false" aria-label="Search conversations" />
 
-      <div v-if="picked.length" class="fw__picked" aria-label="Selected conversations">
+      <div v-if="picked.length" class="fw__picked mi:flex mi:flex-wrap mi:gap-1.5" aria-label="Selected conversations">
         <MiChip
           v-for="c in picked" :key="c.id" :label="c.name" removable size="small"
           :remove-label="'Remove ' + c.name" @remove="toggle(c.id)"
         />
       </div>
 
-      <div class="fw__list" role="group" aria-labelledby="fw-recent">
-        <h3 id="fw-recent" class="fw__sec">Recent</h3>
+      <div class="fw__list mi:grid mi:gap-0.5 mi:max-h-67.5 mi:overflow-y-auto mi:-mx-2 mi:px-2" role="group" aria-labelledby="fw-recent">
+        <h3 id="fw-recent" class="fw__sec mi:mt-0 mi:mx-0 mi:mb-1 mi:text-[11px] mi:font-semibold mi:tracking-[.06em] mi:uppercase mi:text-label3">Recent</h3>
         <MiCheckbox
           v-for="c in shown" :key="c.id" class="fw__row" :model-value="selected.includes(c.id)"
           :disabled="full && !selected.includes(c.id)" @update:model-value="toggle(c.id)"
         >
-          <span class="fw__who">
+          <span class="fw__who mi:flex mi:items-center mi:gap-2.5 mi:min-w-0">
             <MiAvatar :name="c.name" :initials="c.channel ? '#' : undefined" size="sm" :shape="c.channel ? 'square' : 'circle'" :tone="c.channel ? 'neutral' : 'auto'" decorative />
-            <span class="fw__who-text">
-              <span class="fw__name">{{ c.name }}</span>
-              <span class="fw__meta">{{ c.meta }}</span>
+            <span class="fw__who-text mi:grid mi:min-w-0">
+              <span class="fw__name mi:text-[14.5px] mi:font-semibold mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ c.name }}</span>
+              <span class="fw__meta mi:text-[12.5px] mi:text-label3 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ c.meta }}</span>
             </span>
           </span>
         </MiCheckbox>
-        <p v-if="!shown.length" class="fw__empty">No conversation matches “{{ query }}”.</p>
+        <p v-if="!shown.length" class="fw__empty mi:m-0 mi:py-3 mi:px-1 mi:text-[13px] mi:text-label2">No conversation matches “{{ query }}”.</p>
       </div>
 
-      <form class="fw__foot" @submit.prevent="send">
+      <form class="fw__foot mi:grid mi:gap-2.5 mi:grid-cols-[minmax(0,_1fr)] mi:pt-3.5 mi:border-t mi:border-t-sep mi:@[440px]:grid-cols-[minmax(0,_1fr)_auto] mi:@[440px]:items-center" @submit.prevent="send">
         <MiInput v-model="note" aria-label="Add a note" placeholder="Add a note (optional)" />
         <MiButton type="submit" :disabled="!selected.length">{{ selected.length ? 'Send to ' + selected.length : 'Send' }}</MiButton>
       </form>
-      <p class="fw__status" role="status">{{ status }}</p>
+      <p class="fw__status mi:-mt-1 mi:mx-0 mi:mb-0 mi:min-h-4.5 mi:text-[13px] mi:text-green-t" role="status">{{ status }}</p>
     </div>
   </section>
 </template>
@@ -94,26 +94,5 @@ function send() {
 </script>
 
 <style scoped>
-.fw { container-type: inline-size; font-family: var(--mi-font); color: var(--mi-label); }
-.fw__card { display: grid; gap: 14px; max-width: 520px; margin-inline: auto; padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh2); }
-.fw__head { display: grid; gap: 2px; }
-
-.fw__quote { display: flex; gap: 10px; margin: 0; padding: 12px 14px; border-radius: var(--mi-radius-l); background: var(--mi-fill4); border-left: 3px solid var(--mi-p); }
-.fw__quote-body { display: grid; gap: 4px; min-width: 0; }
-.fw__quote-who { font-size: 12px; font-weight: 600; color: var(--mi-label2); }
-.fw__quote-text { margin: 0; font-size: 14px; line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-
-.fw__picked { display: flex; flex-wrap: wrap; gap: 6px; }
-.fw__list { display: grid; gap: 2px; max-height: 270px; overflow-y: auto; margin-inline: -8px; padding-inline: 8px; }
-.fw__sec { margin: 0 0 4px; font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--mi-label3); }
 .fw__row { padding: 6px 4px; border-radius: var(--mi-radius-m); }
-.fw__who { display: flex; align-items: center; gap: 10px; min-width: 0; }
-.fw__who-text { display: grid; min-width: 0; }
-.fw__name { font-size: 14.5px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.fw__meta { font-size: 12.5px; color: var(--mi-label3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.fw__empty { margin: 0; padding: 12px 4px; font-size: 13px; color: var(--mi-label2); }
-
-.fw__foot { display: grid; gap: 10px; grid-template-columns: minmax(0, 1fr); padding-top: 14px; border-top: 1px solid var(--mi-sep); }
-@container (min-width: 440px) { .fw__foot { grid-template-columns: minmax(0, 1fr) auto; align-items: center; } }
-.fw__status { margin: -4px 0 0; min-height: 18px; font-size: 13px; color: var(--mi-green-t); }
 </style>

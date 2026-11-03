@@ -1,38 +1,38 @@
 <template>
-  <header class="rb" aria-labelledby="rb-title">
-    <div class="rb__inner">
-      <div class="rb__top">
-        <div class="rb__heading">
+  <header class="rb mi:@container mi:font-mi mi:text-label" aria-labelledby="rb-title">
+    <div class="rb__inner mi:grid mi:gap-5.5 mi:pt-4.5 mi:px-4 mi:pb-3.5 mi:rounded-[22px] mi:bg-card mi:shadow-2 mi:@[620px]:pt-5.5 mi:@[620px]:px-6 mi:@[620px]:pb-4 mi:@[960px]:pt-6.5 mi:@[960px]:px-7.5 mi:@[960px]:pb-4.5">
+      <div class="rb__top mi:grid mi:gap-3.5 mi:@[620px]:grid-cols-[minmax(0,_1fr)_auto] mi:@[620px]:items-end">
+        <div class="rb__heading mi:grid mi:gap-0.5 mi:min-w-0">
           <MiText as="p" variant="caption" tone="label2" weight="medium" class="rb__eyebrow">Storefront · Checkout</MiText>
           <MiText id="rb-title" as="h2" variant="title2" weight="bold">Revenue</MiText>
           <MiText as="p" variant="footnote" tone="label2" tabular class="rb__range" aria-live="polite">
-            {{ dateLabel(a) }} – {{ dateLabel(b) }}, 2026 <span aria-hidden="true">·</span> {{ len }} days{{ preset === null ? ' · custom' : '' }}
+            {{ dateLabel(a) }} – {{ dateLabel(b) }}, 2026 <span class="mi:[.rb__range_&]:py-0 mi:[.rb__range_&]:px-[3px]" aria-hidden="true">·</span> {{ len }} days{{ preset === null ? ' · custom' : '' }}
           </MiText>
         </div>
-        <div class="rb__actions">
+        <div class="rb__actions mi:flex mi:items-center mi:justify-between mi:gap-2 mi:@[620px]:[justify-content:flex-end]">
           <MiSegmented :model-value="preset" label="Range preset" :options="presets" @update:model-value="applyPreset" />
           <MiIconButton size="toolbar" variant="plain" label="Export range"><MiIcon name="share" :size="17" /></MiIconButton>
         </div>
       </div>
 
       <!-- Figures follow the brushed range and compare with the period just before it. -->
-      <dl class="rb__figs">
-        <div v-for="f in figures" :key="f.label" class="rb__fig">
-          <dt>{{ f.label }}</dt>
-          <dd>
-            <span class="rb__val">{{ f.value }}</span>
-            <span v-if="f.delta" class="rb__delta" :class="f.good ? 'is-good' : 'is-bad'">
-              <MiIcon :name="f.up ? 'arrow-up' : 'arrow-down'" :size="11" :weight="2.4" />{{ f.delta }}
+      <dl class="rb__figs mi:grid mi:grid-cols-2 mi:gap-0 mi:m-0 mi:rounded-[16px] mi:shadow-[inset_0_0_0_1px_var(--mi-sep)] mi:@[620px]:grid-cols-4">
+        <div v-for="f in figures" :key="f.label" class="rb__fig mi:grid mi:gap-1.5 mi:min-w-0 mi:py-3 mi:px-3.5 mi:[&:nth-child(n+3)]:border-t mi:[&:nth-child(n+3)]:border-t-sep mi:even:border-l mi:even:border-l-sep mi:@[620px]:[&:nth-child(n+3)]:[border-top:0] mi:@[620px]:[.rb__fig+&]:border-l mi:@[620px]:[.rb__fig+&]:border-l-sep mi:@[620px]:py-3.5 mi:@[620px]:px-4.5">
+          <dt class="mi:[.rb__fig_dt&]:font-medium">{{ f.label }}</dt>
+          <dd class="mi:[.rb__fig_dd&]:gap-1 mi:[.rb__fig_dd&]:m-0 mi:@[960px]:[.rb__fig_dd&]:grid-flow-col mi:@[960px]:[.rb__fig_dd&]:justify-start mi:@[960px]:[.rb__fig_dd&]:items-baseline mi:@[960px]:[.rb__fig_dd&]:gap-2.5">
+            <span class="rb__val mi:text-[22px] mi:font-bold mi:leading-[1.1] mi:tracking-[-.03em] mi:tabular-nums mi:whitespace-nowrap mi:@[960px]:text-[26px]">{{ f.value }}</span>
+            <span v-if="f.delta" class="rb__delta mi:inline-flex mi:items-center mi:gap-0.5 mi:text-[12px] mi:font-semibold mi:tabular-nums mi:[&.is-none]:font-medium" :class="f.good ? 'is-good' : 'is-bad'">
+              <MiIcon class="mi:[.rb__fig_dt&]:font-medium mi:[.rb__fig_dd&]:gap-1 mi:[.rb__fig_dd&]:m-0 mi:@[960px]:[.rb__fig_dd&]:grid-flow-col mi:@[960px]:[.rb__fig_dd&]:justify-start mi:@[960px]:[.rb__fig_dd&]:items-baseline mi:@[960px]:[.rb__fig_dd&]:gap-2.5" :name="f.up ? 'arrow-up' : 'arrow-down'" :size="11" :weight="2.4" />{{ f.delta }}
             </span>
-            <span v-else class="rb__delta is-none">no prior period</span>
+            <span v-else class="rb__delta is-none mi:inline-flex mi:items-center mi:gap-0.5 mi:text-[12px] mi:font-semibold mi:tabular-nums mi:[&.is-none]:font-medium">no prior period</span>
           </dd>
         </div>
       </dl>
 
       <!-- Brush: drag the handles or the window; arrows nudge by a day, Page keys by a week. -->
-      <div class="rb__brush">
-        <div ref="trackEl" class="rb__track">
-          <svg class="rb__chart" :viewBox="`0 0 ${N - 1} 100`" preserveAspectRatio="none" aria-hidden="true">
+      <div class="rb__brush mi:grid mi:gap-1.5 mi:pt-0.5 mi:px-1.5 mi:pb-0">
+        <div ref="trackEl" class="rb__track mi:relative mi:h-18 mi:touch-none mi:@[620px]:h-21">
+          <svg class="rb__chart mi:absolute mi:inset-0 mi:w-full mi:h-full mi:overflow-visible" :viewBox="`0 0 ${N - 1} 100`" preserveAspectRatio="none" aria-hidden="true">
             <defs>
               <clipPath id="rb-clip"><rect :x="a" y="0" :width="Math.max(b - a, 0.01)" height="100" /></clipPath>
               <linearGradient id="rb-fill" x1="0" x2="0" y1="0" y2="1">
@@ -40,29 +40,29 @@
                 <stop offset="1" style="stop-color: var(--mi-p); stop-opacity: 0" />
               </linearGradient>
             </defs>
-            <path :d="areaPath" class="rb__area-muted" />
-            <path :d="linePath" class="rb__line-muted" />
+            <path :d="areaPath" class="rb__area-muted mi:fill-fill4" />
+            <path :d="linePath" class="rb__line-muted mi:fill-[color:none] mi:stroke-label3 mi:[stroke-width:1.25] mi:[vector-effect:non-scaling-stroke] mi:[stroke-linejoin:round]" />
             <g clip-path="url(#rb-clip)">
               <path :d="areaPath" fill="url(#rb-fill)" />
-              <path :d="linePath" class="rb__line" />
+              <path :d="linePath" class="rb__line mi:fill-[color:none] mi:stroke-p mi:[stroke-width:2] mi:[vector-effect:non-scaling-stroke] mi:[stroke-linejoin:round]" />
             </g>
           </svg>
 
           <div
-            class="rb__win" :style="{ transform: `translateX(${(a / (N - 1)) * 100}%) scaleX(${(b - a) / (N - 1)})` }"
+            class="rb__win mi:absolute mi:-inset-y-1 mi:inset-x-0 mi:origin-left mi:cursor-grab mi:[outline:none] mi:[background:color-mix(in_srgb,_var(--mi-p)_7%,_transparent)] mi:[border-block:1px_solid_color-mix(in_srgb,_var(--mi-p)_35%,_transparent)] mi:active:cursor-grabbing mi:focus-visible:[background:color-mix(in_srgb,_var(--mi-p)_14%,_transparent)]" :style="{ transform: `translateX(${(a / (N - 1)) * 100}%) scaleX(${(b - a) / (N - 1)})` }"
             role="slider" tabindex="0" aria-label="Move the whole range" :aria-valuemin="0" :aria-valuemax="N - 1 - (b - a)" :aria-valuenow="a"
             :aria-valuetext="`${dateLabel(a)} to ${dateLabel(b)}`" @pointerdown="start($event, 'win')" @keydown="nudge($event, 'win')"
           />
-          <div v-for="h in (['a', 'b'] as const)" :key="h" class="rb__hpos" :style="{ transform: `translateX(${((h === 'a' ? a : b) / (N - 1)) * width}px)` }">
+          <div v-for="h in (['a', 'b'] as const)" :key="h" class="rb__hpos mi:absolute mi:-top-1 mi:-bottom-1 mi:left-0 mi:w-0 mi:pointer-events-none" :style="{ transform: `translateX(${((h === 'a' ? a : b) / (N - 1)) * width}px)` }">
             <span
-              class="rb__handle" role="slider" tabindex="0" :aria-label="h === 'a' ? 'Range start' : 'Range end'"
+              class="rb__handle mi:absolute mi:top-1/2 mi:left-0 mi:flex mi:items-center mi:justify-center mi:gap-0.5 mi:w-3 mi:h-8.5 mi:mt-[-17px] mi:mr-0 mi:mb-0 mi:-ml-1.5 mi:rounded-[6px] mi:pointer-events-auto mi:cursor-ew-resize mi:touch-none mi:bg-elev mi:shadow-[var(--mi-sh2),_inset_0_0_0_1px_color-mix(in_srgb,_var(--mi-p)_45%,_transparent)] mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring)] mi:before:content-[''] mi:before:absolute mi:before:-inset-y-2.5 mi:before:-inset-x-1.5 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" role="slider" tabindex="0" :aria-label="h === 'a' ? 'Range start' : 'Range end'"
               :aria-valuemin="h === 'a' ? 0 : a + MIN - 1" :aria-valuemax="h === 'a' ? b - MIN + 1 : N - 1" :aria-valuenow="h === 'a' ? a : b"
               :aria-valuetext="dateLabel(h === 'a' ? a : b)" @pointerdown="start($event, h)" @keydown="nudge($event, h)"
-            ><i /><i /></span>
+            ><i class="mi:[.rb__handle_&]:w-[1.5px] mi:[.rb__handle_&]:h-3 mi:[.rb__handle_&]:rounded-[1px] mi:[.rb__handle_&]:bg-label3" /><i class="mi:[.rb__handle_&]:w-[1.5px] mi:[.rb__handle_&]:h-3 mi:[.rb__handle_&]:rounded-[1px] mi:[.rb__handle_&]:bg-label3" /></span>
           </div>
         </div>
-        <ol class="rb__ticks" aria-hidden="true">
-          <li v-for="t in ticks" :key="t.i" :style="{ left: (t.i / (N - 1)) * 100 + '%' }">{{ t.label }}</li>
+        <ol class="rb__ticks mi:relative mi:h-4 mi:m-0 mi:p-0 mi:[list-style:none]" aria-hidden="true">
+          <li class="mi:[.rb__ticks_&]:absolute mi:[.rb__ticks_&]:top-0 mi:[.rb__ticks_&]:pl-[5px] mi:[.rb__ticks_&]:border-l mi:[.rb__ticks_&]:border-l-sep mi:[.rb__ticks_&]:leading-4" v-for="t in ticks" :key="t.i" :style="{ left: (t.i / (N - 1)) * 100 + '%' }">{{ t.label }}</li>
         </ol>
       </div>
     </div>
@@ -178,73 +178,14 @@ function nudge(e: KeyboardEvent, which: 'a' | 'b' | 'win') {
 </script>
 
 <style scoped>
-.rb { container-type: inline-size; font-family: var(--mi-font); color: var(--mi-label); }
-.rb__inner {
-  display: grid; gap: 22px; padding: 18px 16px 14px; border-radius: 22px;
-  background: var(--mi-card); box-shadow: var(--mi-sh2);
-}
-
-.rb__top { display: grid; gap: 14px; }
-.rb__heading { display: grid; gap: 2px; min-width: 0; }
 .rb__eyebrow { letter-spacing: .02em; }
 .rb__range { margin-top: 2px; }
-.rb__range span { padding: 0 3px; color: var(--mi-label3); }
-.rb__actions { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-
-.rb__figs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; margin: 0; border-radius: 16px; box-shadow: inset 0 0 0 1px var(--mi-sep); }
-.rb__fig { display: grid; gap: 6px; min-width: 0; padding: 12px 14px; }
-.rb__fig:nth-child(n + 3) { border-top: 1px solid var(--mi-sep); }
-.rb__fig:nth-child(even) { border-left: 1px solid var(--mi-sep); }
-.rb__fig dt { font-size: 12px; font-weight: 500; color: var(--mi-label2); }
-.rb__fig dd { display: grid; gap: 4px; margin: 0; }
-.rb__val { font-size: 22px; font-weight: 700; line-height: 1.1; letter-spacing: -.03em; font-variant-numeric: tabular-nums; white-space: nowrap; }
-.rb__delta { display: inline-flex; align-items: center; gap: 2px; font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.rb__range span { color: var(--mi-label3); }
+.rb__fig dt { font-size: 12px; color: var(--mi-label2); }
+.rb__fig dd { display: grid; }
 .rb__delta.is-good { color: var(--mi-green-t); }
 .rb__delta.is-bad { color: var(--mi-red-t); }
-.rb__delta.is-none { color: var(--mi-label3); font-weight: 500; }
-
-.rb__brush { display: grid; gap: 6px; padding: 2px 6px 0; }
-.rb__track { position: relative; height: 72px; touch-action: none; }
-.rb__chart { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-.rb__area-muted { fill: var(--mi-fill4); }
-.rb__line-muted { fill: none; stroke: var(--mi-label3); stroke-width: 1.25; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
-.rb__line { fill: none; stroke: var(--mi-p); stroke-width: 2; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
-
-.rb__win {
-  position: absolute; inset: -4px 0; transform-origin: left; cursor: grab; outline: none;
-  background: color-mix(in srgb, var(--mi-p) 7%, transparent);
-  border-block: 1px solid color-mix(in srgb, var(--mi-p) 35%, transparent);
-}
-.rb__win:active { cursor: grabbing; }
-.rb__win:focus-visible { background: color-mix(in srgb, var(--mi-p) 14%, transparent); }
-.rb__hpos { position: absolute; top: -4px; bottom: -4px; left: 0; width: 0; pointer-events: none; }
-.rb__handle {
-  position: absolute; top: 50%; left: 0; display: flex; align-items: center; justify-content: center; gap: 2px;
-  width: 12px; height: 34px; margin: -17px 0 0 -6px; border-radius: 6px; pointer-events: auto; cursor: ew-resize; touch-action: none;
-  background: var(--mi-elev); box-shadow: var(--mi-sh2), inset 0 0 0 1px color-mix(in srgb, var(--mi-p) 45%, transparent);
-  transition: transform var(--mi-dur-2) var(--mi-spring);
-}
-.rb__handle::before { content: ""; position: absolute; inset: -10px -6px; }
-.rb__handle i { width: 1.5px; height: 12px; border-radius: 1px; background: var(--mi-label3); }
+.rb__delta.is-none { color: var(--mi-label3); }
 .rb__handle:hover, .rb__handle:active { transform: scaleY(1.1); }
-.rb__handle:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-
-.rb__ticks { position: relative; height: 16px; margin: 0; padding: 0; list-style: none; }
-.rb__ticks li { position: absolute; top: 0; padding-left: 5px; font-size: 11px; color: var(--mi-label3); border-left: 1px solid var(--mi-sep); line-height: 16px; }
-
-@container (min-width: 620px) {
-  .rb__inner { padding: 22px 24px 16px; }
-  .rb__top { grid-template-columns: minmax(0, 1fr) auto; align-items: end; }
-  .rb__actions { justify-content: flex-end; }
-  .rb__figs { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  .rb__fig:nth-child(n + 3) { border-top: 0; }
-  .rb__fig + .rb__fig { border-left: 1px solid var(--mi-sep); }
-  .rb__fig { padding: 14px 18px; }
-  .rb__track { height: 84px; }
-}
-@container (min-width: 960px) {
-  .rb__inner { padding: 26px 30px 18px; }
-  .rb__val { font-size: 26px; }
-  .rb__fig dd { grid-auto-flow: column; justify-content: start; align-items: baseline; gap: 10px; }
-}
+.rb__ticks li { font-size: 11px; color: var(--mi-label3); }
 </style>

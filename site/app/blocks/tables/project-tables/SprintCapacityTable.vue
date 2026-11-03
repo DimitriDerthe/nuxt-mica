@@ -1,6 +1,6 @@
 <template>
-  <section class="sct" aria-labelledby="sct-title">
-    <header class="sct__head">
+  <section class="sct mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="sct-title">
+    <header class="sct__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="sct-title" variant="title3" as="h2" weight="semibold">Sprint 24 · Checkout revamp</MiText>
         <MiText variant="footnote" tone="label2">Nov 3 – Nov 14 · {{ donePoints }} of {{ totalPoints }} points done</MiText>
@@ -9,44 +9,44 @@
     </header>
 
     <!-- Capacity strip: reassigning a task below moves points between these bars. -->
-    <ul class="sct__people" aria-label="Capacity per person">
-      <li v-for="p in load" :key="p.name" class="sct__person" :class="{ 'is-over': p.points > p.capacity }">
+    <ul class="sct__people mi:grid mi:gap-2 mi:grid-cols-[minmax(0,_1fr)] mi:m-0 mi:p-0 mi:[list-style:none] mi:@[520px]:grid-cols-2 mi:@[900px]:grid-cols-4" aria-label="Capacity per person">
+      <li v-for="p in load" :key="p.name" class="sct__person mi:flex mi:items-center mi:gap-2.5 mi:py-2.5 mi:px-3 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1" :class="{ 'is-over': p.points > p.capacity }">
         <MiAvatar :name="p.name" size="sm" tone="auto" decorative />
-        <div class="sct__person-body">
-          <div class="sct__person-top">
+        <div class="sct__person-body mi:grid mi:gap-1.5 mi:flex-1 mi:min-w-0">
+          <div class="sct__person-top mi:flex mi:justify-between mi:gap-2">
             <MiText as="span" variant="footnote" weight="semibold" :lines="1">{{ p.name }}</MiText>
             <MiText as="span" variant="caption" tabular :tone="p.points > p.capacity ? 'orange' : 'label2'">{{ p.points }}/{{ p.capacity }} pts</MiText>
           </div>
-          <span class="sct__cap" role="meter" :aria-label="p.name + ' load'" :aria-valuenow="p.points" aria-valuemin="0" :aria-valuemax="p.capacity">
-            <i :style="{ transform: `scaleX(${Math.min(1, p.points / p.capacity)})` }" />
+          <span class="sct__cap mi:block mi:h-[5px] mi:rounded-[3px] mi:[background:var(--mi-fill2)] mi:overflow-hidden" role="meter" :aria-label="p.name + ' load'" :aria-valuenow="p.points" aria-valuemin="0" :aria-valuemax="p.capacity">
+            <i class="mi:[.sct__cap_&]:block mi:[.sct__cap_&]:h-full mi:[.sct__cap_&]:rounded-[inherit] mi:[.sct__cap_&]:[background:var(--mi-p)] mi:[.sct__cap_&]:origin-left mi:[.sct__cap_&]:[transition:transform_var(--mi-dur-3)_var(--mi-spring)] mi:[.sct__person.is-over_.sct__cap_&]:[background:var(--mi-orange)]" :style="{ transform: `scaleX(${Math.min(1, p.points / p.capacity)})` }" />
           </span>
         </div>
       </li>
     </ul>
 
-    <div class="sct__scroll">
-      <table class="sct__table">
-        <caption class="sct__sr">Sprint tasks grouped by status</caption>
+    <div class="sct__scroll mi:min-w-0 mi:overflow-x-auto mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1">
+      <table class="sct__table mi:w-full mi:min-w-140 mi:border-collapse mi:text-[14px]">
+        <caption class="sct__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">Sprint tasks grouped by status</caption>
         <thead>
-          <tr><th scope="col">Task</th><th scope="col">Owner</th><th scope="col" class="sct__end">Points</th></tr>
+          <tr><th class="mi:[.sct__table_thead_&]:text-[12px] mi:[.sct__table_thead_&]:font-semibold mi:[.sct__table_thead_&]:text-label2" scope="col">Task</th><th class="mi:[.sct__table_thead_&]:text-[12px] mi:[.sct__table_thead_&]:font-semibold mi:[.sct__table_thead_&]:text-label2" scope="col">Owner</th><th scope="col" class="sct__end mi:[.sct__table_thead_&]:text-[12px] mi:[.sct__table_thead_&]:font-semibold mi:[.sct__table_thead_&]:text-label2">Points</th></tr>
         </thead>
         <tbody v-for="g in groups" :key="g.id">
           <tr class="sct__group">
-            <th scope="rowgroup" colspan="3">
-              <button type="button" class="sct__toggle" :aria-expanded="!collapsed.has(g.id)" @click="toggle(g.id)">
-                <MiIcon name="chevron-down" :size="14" class="sct__chev" />
-                <span class="sct__swatch" :data-group="g.id" aria-hidden="true" />
+            <th class="mi:[.sct__group_th&]:[background:var(--mi-fill4)]" scope="rowgroup" colspan="3">
+              <button type="button" class="sct__toggle mi:inline-flex mi:items-center mi:gap-2 mi:py-1.5 mi:px-2 mi:[border:0] mi:rounded-sm mi:[background:none] mi:text-label mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" :aria-expanded="!collapsed.has(g.id)" @click="toggle(g.id)">
+                <MiIcon name="chevron-down" :size="14" class="sct__chev mi:[.sct__group_th&]:[background:var(--mi-fill4)] mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)]" />
+                <span class="sct__swatch mi:w-2 mi:h-2 mi:rounded-[50%] mi:[background:var(--mi-p)]" :data-group="g.id" aria-hidden="true" />
                 {{ g.label }}
-                <MiText as="span" variant="caption" tone="label2" tabular>{{ g.tasks.length }} tasks · {{ g.points }} pts</MiText>
+                <MiText class="mi:[.sct__group_th&]:[background:var(--mi-fill4)]" as="span" variant="caption" tone="label2" tabular>{{ g.tasks.length }} tasks · {{ g.points }} pts</MiText>
               </button>
             </th>
           </tr>
           <template v-if="!collapsed.has(g.id)">
             <tr v-for="t in g.tasks" :key="t.id" class="sct__row">
               <td>
-                <span class="sct__task">
+                <span class="sct__task mi:grid mi:leading-[1.3]">
                   <MiText as="span" variant="caption" tone="label3" tabular>{{ t.id }}</MiText>
-                  <span class="sct__title">{{ t.title }}</span>
+                  <span class="sct__title mi:font-medium">{{ t.title }}</span>
                 </span>
               </td>
               <td>
@@ -55,14 +55,14 @@
                   @update:model-value="(v) => reassign(t, v)"
                 />
               </td>
-              <td class="sct__end"><span class="sct__pts">{{ t.points }}</span></td>
+              <td class="sct__end"><span class="sct__pts mi:inline-grid mi:place-items-center mi:min-w-6.5 mi:h-5.5 mi:py-0 mi:px-1.5 mi:rounded-[11px] mi:text-[12px] mi:font-bold mi:tabular-nums mi:[background:var(--mi-fill3)]">{{ t.points }}</span></td>
             </tr>
           </template>
         </tbody>
       </table>
     </div>
 
-    <p class="sct__log" aria-live="polite">{{ log }}</p>
+    <p class="sct__log mi:m-0 mi:text-[13px] mi:text-label2" aria-live="polite">{{ log }}</p>
   </section>
 </template>
 
@@ -121,39 +121,15 @@ function reassign(t: Task, owner: string | number | undefined) {
 </script>
 
 <style scoped>
-.sct { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
-.sct__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.sct__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-
-.sct__people { display: grid; gap: 8px; grid-template-columns: minmax(0, 1fr); margin: 0; padding: 0; list-style: none; }
-@container (min-width: 520px) { .sct__people { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@container (min-width: 900px) { .sct__people { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-.sct__person { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.sct__person-body { display: grid; gap: 6px; flex: 1; min-width: 0; }
-.sct__person-top { display: flex; justify-content: space-between; gap: 8px; }
-.sct__cap { display: block; height: 5px; border-radius: 3px; background: var(--mi-fill2); overflow: hidden; }
-.sct__cap i { display: block; height: 100%; border-radius: inherit; background: var(--mi-p); transform-origin: left; transition: transform var(--mi-dur-3) var(--mi-spring); }
-.sct__person.is-over .sct__cap i { background: var(--mi-orange); }
-
-.sct__scroll { min-width: 0; overflow-x: auto; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.sct__table { width: 100%; min-width: 560px; border-collapse: collapse; font-size: 14px; }
 .sct__table th, .sct__table td { padding: 8px 14px; text-align: start; }
-.sct__table thead th { font-size: 12px; font-weight: 600; color: var(--mi-label2); border-bottom: 1px solid var(--mi-sep); }
+.sct__table thead th { border-bottom: 1px solid var(--mi-sep); }
 .sct__table .sct__end { text-align: end; }
-.sct__group th { padding: 4px 6px; background: var(--mi-fill4); }
-.sct__toggle { display: inline-flex; align-items: center; gap: 8px; padding: 6px 8px; border: 0; border-radius: var(--mi-radius-s); background: none; font: inherit; font-weight: 600; color: var(--mi-label); cursor: pointer; }
-.sct__toggle:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 1px; }
-.sct__chev { transition: transform var(--mi-dur-2) var(--mi-ease); }
+.sct__group th { padding: 4px 6px; }
+.sct__toggle { font: inherit; font-weight: 600; }
 .sct__toggle[aria-expanded="false"] .sct__chev { transform: rotate(-90deg); }
-.sct__swatch { width: 8px; height: 8px; border-radius: 50%; background: var(--mi-p); }
 .sct__swatch[data-group="review"] { background: var(--mi-s); }
 .sct__swatch[data-group="todo"] { background: var(--mi-label3); }
 .sct__swatch[data-group="done"] { background: var(--mi-green); }
 
 .sct__row td { border-bottom: 1px solid var(--mi-sep); }
-.sct__task { display: grid; line-height: 1.3; }
-.sct__title { font-weight: 500; }
-.sct__pts { display: inline-grid; place-items: center; min-width: 26px; height: 22px; padding: 0 6px; border-radius: 11px; font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; background: var(--mi-fill3); }
-
-.sct__log { margin: 0; font-size: 13px; color: var(--mi-label2); }
 </style>

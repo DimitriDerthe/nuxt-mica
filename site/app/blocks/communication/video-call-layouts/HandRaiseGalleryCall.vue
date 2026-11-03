@@ -1,8 +1,8 @@
 <template>
-  <section class="hg" aria-labelledby="hg-title">
-    <div class="hg__shell">
-      <div class="hg__main">
-        <header class="hg__head">
+  <section class="hg mi:@container mi:min-h-165 mi:font-mi mi:text-label mi:[background:var(--mi-page)]" aria-labelledby="hg-title">
+    <div class="hg__shell mi:grid mi:gap-4 mi:p-4 mi:grid-cols-[minmax(0,_1fr)] mi:@[920px]:grid-cols-[minmax(0,_1fr)_280px] mi:@[920px]:p-5">
+      <div class="hg__main mi:grid mi:content-start mi:gap-3.5 mi:min-w-0">
+        <header class="hg__head mi:flex mi:items-center mi:justify-between mi:gap-3">
           <div>
             <MiText id="hg-title" as="h2" variant="headline" weight="semibold">All-hands Q&amp;A</MiText>
             <MiText variant="caption" tone="label2">{{ people.length }} in call · 32:14 · you are hosting</MiText>
@@ -10,21 +10,21 @@
           <MiBadge :tone="queue.length ? 'warning' : 'neutral'" :label="queue.length + ' raised'" dot />
         </header>
 
-        <ul class="hg__grid" aria-label="Participants">
+        <ul class="hg__grid mi:[list-style:none] mi:m-0 mi:p-0 mi:grid mi:gap-2.5 mi:grid-cols-2 mi:@[600px]:grid-cols-3 mi:@[1100px]:grid-cols-4" aria-label="Participants">
           <li
-            v-for="p in people" :key="p.id" class="hg__tile" :class="{ 'is-speaking': p.id === speakerId }"
+            v-for="p in people" :key="p.id" class="hg__tile mi:relative mi:grid mi:place-items-center mi:aspect-[4_/_3] mi:rounded-lg mi:overflow-hidden mi:isolate mi:[background:radial-gradient(120%_90%_at_30%_20%,_color-mix(in_srgb,_var(--hg-hue)_35%,_var(--mi-elev)),_var(--mi-elev))] mi:after:content-[''] mi:after:absolute mi:after:inset-0 mi:after:border-3 mi:after:border-green mi:after:rounded-[inherit] mi:after:opacity-0 mi:after:pointer-events-none mi:[&.is-speaking]:after:opacity-100" :class="{ 'is-speaking': p.id === speakerId }"
             :style="{ '--hg-hue': p.hue }"
           >
             <MiAvatar :name="p.name" size="lg" tone="auto" decorative />
-            <span v-if="queuePos(p.id)" class="hg__hand" :aria-label="'Hand raised, number ' + queuePos(p.id)">✋ {{ queuePos(p.id) }}</span>
-            <span class="hg__name">
+            <span v-if="queuePos(p.id)" class="hg__hand mi:absolute mi:top-2 mi:right-2 mi:py-[3px] mi:px-2 mi:rounded-[999px] mi:[background:var(--mi-card)] mi:text-orange-t mi:text-[12px] mi:font-bold mi:shadow-1" :aria-label="'Hand raised, number ' + queuePos(p.id)">✋ {{ queuePos(p.id) }}</span>
+            <span class="hg__name mi:absolute mi:left-2 mi:bottom-2 mi:inline-flex mi:items-center mi:gap-1 mi:max-w-[calc(100%_-_16px)] mi:py-[3px] mi:px-2 mi:rounded-[8px] mi:[background:color-mix(in_srgb,_var(--mi-card)_82%,_transparent)] mi:text-[12px] mi:font-semibold mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">
               <MiIcon v-if="p.muted" :svg="icons.micOff" :size="13" label="Muted" />
               {{ p.id === 'me' ? 'You' : p.name }}
             </span>
           </li>
         </ul>
 
-        <div class="hg__controls" role="toolbar" aria-label="Call controls">
+        <div class="hg__controls mi:flex mi:justify-center mi:items-center mi:gap-2.5 mi:p-2.5 mi:rounded-[999px] mi:[background:var(--mi-card)] mi:shadow-1 mi:justify-self-center" role="toolbar" aria-label="Call controls">
           <MiIconButton :label="me.muted ? 'Unmute' : 'Mute'" variant="gray" :pressed="me.muted" @click="me.muted = !me.muted">
             <MiIcon :svg="me.muted ? icons.micOff : icons.mic" />
           </MiIconButton>
@@ -35,20 +35,20 @@
         </div>
       </div>
 
-      <aside class="hg__queue" aria-labelledby="hg-queue-title">
+      <aside class="hg__queue mi:grid mi:content-start mi:gap-1.5 mi:py-4.5 mi:px-4 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1" aria-labelledby="hg-queue-title">
         <MiText id="hg-queue-title" as="h3" variant="subheadline" weight="semibold">Raised hands</MiText>
         <MiText variant="caption" tone="label2">First come, first served. Calling on someone unmutes them.</MiText>
-        <ol v-if="queue.length" class="hg__list">
-          <li v-for="(id, i) in queue" :key="id" class="hg__q">
-            <span class="hg__q-n">{{ i + 1 }}</span>
+        <ol v-if="queue.length" class="hg__list mi:[list-style:none] mi:mt-2 mi:mx-0 mi:mb-0 mi:p-0 mi:grid mi:gap-1">
+          <li v-for="(id, i) in queue" :key="id" class="hg__q mi:flex mi:items-center mi:gap-2 mi:min-h-10 mi:pt-1 mi:pr-1 mi:pb-1 mi:pl-2 mi:rounded-md mi:first:[background:var(--mi-p-tint)]">
+            <span class="hg__q-n mi:w-4 mi:text-[12px] mi:font-bold mi:text-label3 mi:tabular-nums">{{ i + 1 }}</span>
             <MiAvatar :name="byId[id]?.name" size="xs" tone="auto" decorative />
-            <span class="hg__q-name">{{ id === 'me' ? 'You' : byId[id]?.name }}</span>
+            <span class="hg__q-name mi:flex-1 mi:min-w-0 mi:text-[14px] mi:font-semibold mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ id === 'me' ? 'You' : byId[id]?.name }}</span>
             <MiButton v-if="i === 0" size="mini" variant="tinted" @click="callOn(id)">Call on</MiButton>
             <MiIconButton :label="'Lower hand for ' + byId[id]?.name" variant="plain" size="small" @click="toggleHand(id)"><MiIcon name="close" :size="14" /></MiIconButton>
           </li>
         </ol>
-        <p v-else class="hg__empty">No hands raised.</p>
-        <p class="hg__now" role="status">{{ speakerId ? 'Speaking: ' + (speakerId === 'me' ? 'You' : byId[speakerId]?.name) : '' }}</p>
+        <p v-else class="hg__empty mi:mt-2 mi:mx-0 mi:mb-0 mi:text-[13px] mi:text-label2">No hands raised.</p>
+        <p class="hg__now mi:mt-1.5 mi:mx-0 mi:mb-0 mi:min-h-4.5 mi:text-[12.5px] mi:text-green-t" role="status">{{ speakerId ? 'Speaking: ' + (speakerId === 'me' ? 'You' : byId[speakerId]?.name) : '' }}</p>
       </aside>
     </div>
   </section>
@@ -101,34 +101,9 @@ function callOn(id: string) {
 </script>
 
 <style scoped>
-.hg { container-type: inline-size; min-height: 660px; font-family: var(--mi-font); color: var(--mi-label); background: var(--mi-page); }
-.hg__shell { display: grid; gap: 16px; padding: 16px; grid-template-columns: minmax(0, 1fr); }
-@container (min-width: 920px) { .hg__shell { grid-template-columns: minmax(0, 1fr) 280px; padding: 20px; } }
-
-.hg__main { display: grid; align-content: start; gap: 14px; min-width: 0; }
-.hg__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.hg__grid { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-@container (min-width: 600px) { .hg__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-@container (min-width: 1100px) { .hg__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-
-/* Faux video: a token gradient per person, the avatar stands in for the camera feed. */
-.hg__tile { position: relative; display: grid; place-items: center; aspect-ratio: 4 / 3; border-radius: var(--mi-radius-l); overflow: hidden; isolation: isolate; background: radial-gradient(120% 90% at 30% 20%, color-mix(in srgb, var(--hg-hue) 35%, var(--mi-elev)), var(--mi-elev)); }
-.hg__tile::after { content: ""; position: absolute; inset: 0; border: 3px solid var(--mi-green); border-radius: inherit; opacity: 0; pointer-events: none; }
-.hg__tile.is-speaking::after { opacity: 1; animation: hg-talk 1.6s var(--mi-ease) infinite; }
+.hg__tile.is-speaking::after { animation: hg-talk 1.6s var(--mi-ease) infinite; }
 @keyframes hg-talk { 50% { opacity: .45; } }
-.hg__hand { position: absolute; top: 8px; right: 8px; padding: 3px 8px; border-radius: 999px; background: var(--mi-card); color: var(--mi-orange-t); font-size: 12px; font-weight: 700; box-shadow: var(--mi-sh1); animation: hg-pop var(--mi-dur-3) var(--mi-spring); }
+.hg__hand { animation: hg-pop var(--mi-dur-3) var(--mi-spring); }
 @keyframes hg-pop { from { transform: scale(.6); opacity: 0; } }
-.hg__name { position: absolute; left: 8px; bottom: 8px; display: inline-flex; align-items: center; gap: 4px; max-width: calc(100% - 16px); padding: 3px 8px; border-radius: 8px; background: color-mix(in srgb, var(--mi-card) 82%, transparent); font-size: 12px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-
-.hg__controls { display: flex; justify-content: center; align-items: center; gap: 10px; padding: 10px; border-radius: 999px; background: var(--mi-card); box-shadow: var(--mi-sh1); justify-self: center; }
-
-.hg__queue { display: grid; align-content: start; gap: 6px; padding: 18px 16px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.hg__list { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 4px; }
-.hg__q { display: flex; align-items: center; gap: 8px; min-height: 40px; padding: 4px 4px 4px 8px; border-radius: var(--mi-radius-m); }
-.hg__q:first-child { background: var(--mi-p-tint); }
-.hg__q-n { width: 16px; font-size: 12px; font-weight: 700; color: var(--mi-label3); font-variant-numeric: tabular-nums; }
-.hg__q-name { flex: 1; min-width: 0; font-size: 14px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.hg__empty { margin: 8px 0 0; font-size: 13px; color: var(--mi-label2); }
-.hg__now { margin: 6px 0 0; min-height: 18px; font-size: 12.5px; color: var(--mi-green-t); }
 @media (prefers-reduced-motion: reduce) { .hg__tile.is-speaking::after, .hg__hand { animation: none; } }
 </style>

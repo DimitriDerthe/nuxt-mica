@@ -1,41 +1,41 @@
 <template>
-  <div ref="root" class="tw">
+  <div ref="root" class="tw mi:@container mi:h-160 mi:font-mi mi:text-label mi:[background:var(--mi-card)]">
     <!-- Wide: three resizable panels. Narrow: the same panels as a slide stack (queue → thread → customer). -->
     <component :is="narrow ? PanelStack : Resizable" v-model="sizes" class="tw__frame" :min-sizes="[22, 32, 18]" with-handle handle-label="Resize panel">
       <template #panel-0>
-        <section class="tw__pane tw__queue" :class="paneClass(0)" aria-labelledby="tw-queue-title">
-          <header class="tw__pane-head">
-            <div class="tw__queue-top">
+        <section class="tw__pane tw__queue mi:flex mi:flex-col mi:h-full mi:min-w-0 mi:box-border mi:[background:var(--mi-card)] mi:[.tw__stack>&]:inset-0 mi:[.tw__stack>&]:[transition:transform_var(--mi-dur-3)_var(--mi-ease),_opacity_var(--mi-dur-3)_var(--mi-ease),_visibility_0s_linear_var(--mi-dur-3)] mi:[background:var(--mi-side)]" :class="paneClass(0)" aria-labelledby="tw-queue-title">
+          <header class="tw__pane-head mi:flex mi:items-center mi:gap-2.5 mi:py-3.5 mi:px-4 mi:border-b mi:border-b-sep mi:[.tw__queue_&]:flex-wrap mi:[.tw__queue_&]:justify-between">
+            <div class="tw__queue-top mi:grid">
               <MiText id="tw-queue-title" variant="headline" as="h2">Queue</MiText>
               <MiText variant="caption" tone="label2" tabular>{{ openCount }} open · {{ breached }} breached</MiText>
             </div>
             <MiSegmented v-model="filter" label="Ticket status" :options="[{ value: 'open', label: 'Open' }, { value: 'solved', label: 'Solved' }]" />
           </header>
-          <ul class="tw__tickets">
+          <ul class="tw__tickets mi:flex-1 mi:min-h-0 mi:overflow-y-auto mi:m-0 mi:p-2 mi:[list-style:none] mi:grid mi:content-start mi:gap-1">
             <li v-for="t in shown" :key="t.id">
-              <button type="button" class="tw__ticket" :class="{ 'is-active': t.id === activeId }" :aria-current="t.id === activeId ? 'true' : undefined" @click="openTicket(t.id)">
-                <span class="tw__prio" :class="'is-' + t.priority" :aria-label="t.priority + ' priority'" />
-                <span class="tw__ticket-body">
-                  <span class="tw__ticket-top">
-                    <span class="tw__ticket-who">{{ t.customer.name }}</span>
-                    <span class="tw__sla" :class="{ 'is-late': t.sla.startsWith('Breached') }">{{ t.status === 'solved' ? 'Solved' : t.sla }}</span>
+              <button type="button" class="tw__ticket mi:relative mi:flex mi:gap-2.5 mi:w-full mi:pt-2.5 mi:pr-5 mi:pb-2.5 mi:pl-2.5 mi:[border:0] mi:rounded-md mi:[background:none] mi:text-inherit mi:[font:inherit] mi:text-left mi:cursor-pointer mi:[&.is-active]:shadow-1 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px]" :class="{ 'is-active': t.id === activeId }" :aria-current="t.id === activeId ? 'true' : undefined" @click="openTicket(t.id)">
+                <span class="tw__prio mi:flex-[none] mi:w-1 mi:self-stretch mi:rounded-[2px] mi:[background:var(--mi-fill)]" :class="'is-' + t.priority" :aria-label="t.priority + ' priority'" />
+                <span class="tw__ticket-body mi:grid mi:gap-0.5 mi:flex-1 mi:min-w-0">
+                  <span class="tw__ticket-top mi:flex mi:justify-between mi:gap-2">
+                    <span class="tw__ticket-who mi:text-[13px] mi:font-semibold mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ t.customer.name }}</span>
+                    <span class="tw__sla mi:flex-[none] mi:text-[11px] mi:font-semibold mi:text-label2 mi:tabular-nums mi:[&.is-late]:text-red-t" :class="{ 'is-late': t.sla.startsWith('Breached') }">{{ t.status === 'solved' ? 'Solved' : t.sla }}</span>
                   </span>
-                  <span class="tw__ticket-subject">{{ t.subject }}</span>
-                  <span class="tw__ticket-snippet">{{ t.messages[t.messages.length - 1]?.text }}</span>
+                  <span class="tw__ticket-subject mi:text-[13px] mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ t.subject }}</span>
+                  <span class="tw__ticket-snippet mi:text-[12px] mi:text-label2 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ t.messages[t.messages.length - 1]?.text }}</span>
                 </span>
-                <span v-if="t.unread" class="tw__unread" aria-label="Unread" />
+                <span v-if="t.unread" class="tw__unread mi:absolute mi:bottom-3 mi:right-2 mi:w-[7px] mi:h-[7px] mi:rounded-[50%] mi:[background:var(--mi-p)]" aria-label="Unread" />
               </button>
             </li>
           </ul>
-          <MiText v-if="!shown.length" variant="footnote" tone="label2" class="tw__empty">Nothing solved yet today.</MiText>
+          <MiText v-if="!shown.length" variant="footnote" tone="label2" class="tw__empty mi:p-4">Nothing solved yet today.</MiText>
         </section>
       </template>
 
       <template #panel-1>
-        <section class="tw__pane tw__thread" :class="paneClass(1)" aria-labelledby="tw-thread-title">
-          <header class="tw__pane-head tw__thread-head">
+        <section class="tw__pane tw__thread mi:flex mi:flex-col mi:h-full mi:min-w-0 mi:box-border mi:[background:var(--mi-card)] mi:[.tw__stack>&]:inset-0 mi:[.tw__stack>&]:[transition:transform_var(--mi-dur-3)_var(--mi-ease),_opacity_var(--mi-dur-3)_var(--mi-ease),_visibility_0s_linear_var(--mi-dur-3)]" :class="paneClass(1)" aria-labelledby="tw-thread-title">
+          <header class="tw__pane-head tw__thread-head mi:flex mi:items-center mi:gap-2.5 mi:py-3.5 mi:px-4 mi:border-b mi:border-b-sep mi:[.tw__queue_&]:flex-wrap mi:[.tw__queue_&]:justify-between mi:flex-wrap">
             <MiIconButton v-if="narrow" label="Back to queue" variant="gray" size="small" @click="pane = 0"><MiIcon name="chevron-left" :size="16" /></MiIconButton>
-            <div class="tw__thread-title">
+            <div class="tw__thread-title mi:grid mi:flex-[1_1_160px] mi:min-w-0">
               <MiText variant="caption" tone="label2" tabular>#{{ ticket.id }} · {{ ticket.channel }}</MiText>
               <MiText id="tw-thread-title" variant="headline" as="h3" :lines="1">{{ ticket.subject }}</MiText>
             </div>
@@ -44,16 +44,16 @@
               {{ ticket.status === 'solved' ? 'Reopen' : 'Mark solved' }}
             </MiButton>
           </header>
-          <div class="tw__messages" aria-live="polite">
-            <div v-for="(m, i) in ticket.messages" :key="i" class="tw__msg" :class="{ 'is-agent': m.agent }">
+          <div class="tw__messages mi:flex-1 mi:min-h-0 mi:overflow-y-auto mi:grid mi:content-start mi:gap-3.5 mi:py-4.5 mi:px-4" aria-live="polite">
+            <div v-for="(m, i) in ticket.messages" :key="i" class="tw__msg mi:grid mi:justify-items-start mi:gap-1 mi:max-w-[86%] mi:[&.is-agent]:justify-self-end mi:[&.is-agent]:justify-items-end" :class="{ 'is-agent': m.agent }">
               <MiText variant="caption2" tone="label2">{{ m.agent ? 'Sofia · Kilnworks' : ticket.customer.name }} · {{ m.time }}</MiText>
               <MiBubble :variant="m.agent ? 'default' : 'muted'" :align="m.agent ? 'end' : 'start'">{{ m.text }}</MiBubble>
             </div>
           </div>
-          <form class="tw__reply" @submit.prevent="send">
+          <form class="tw__reply mi:grid mi:gap-2 mi:pt-3 mi:px-4 mi:pb-3.5 mi:border-t mi:border-t-sep" @submit.prevent="send">
             <MiTextarea v-model="draft" :rows="2" :max-rows="5" size="sm" aria-label="Reply to customer" :placeholder="'Reply to ' + ticket.customer.name.split(' ')[0] + '…'" />
-            <div class="tw__reply-bar">
-              <div class="tw__macros">
+            <div class="tw__reply-bar mi:flex mi:items-center mi:justify-between mi:gap-2">
+              <div class="tw__macros mi:flex mi:gap-1.5 mi:min-w-0 mi:overflow-x-auto mi:[scrollbar-width:none]">
                 <MiButton v-for="mac in macros" :key="mac.label" variant="gray" size="mini" @click="draft = mac.text">{{ mac.label }}</MiButton>
               </div>
               <MiButton type="submit" size="small" :disabled="!draft.trim()">Send</MiButton>
@@ -63,26 +63,26 @@
       </template>
 
       <template #panel-2>
-        <aside class="tw__pane tw__ctx" :class="paneClass(2)" aria-labelledby="tw-ctx-title">
-          <header class="tw__pane-head">
+        <aside class="tw__pane tw__ctx mi:flex mi:flex-col mi:h-full mi:min-w-0 mi:box-border mi:[background:var(--mi-card)] mi:[.tw__stack>&]:inset-0 mi:[.tw__stack>&]:[transition:transform_var(--mi-dur-3)_var(--mi-ease),_opacity_var(--mi-dur-3)_var(--mi-ease),_visibility_0s_linear_var(--mi-dur-3)]" :class="paneClass(2)" aria-labelledby="tw-ctx-title">
+          <header class="tw__pane-head mi:flex mi:items-center mi:gap-2.5 mi:py-3.5 mi:px-4 mi:border-b mi:border-b-sep mi:[.tw__queue_&]:flex-wrap mi:[.tw__queue_&]:justify-between">
             <MiIconButton v-if="narrow" label="Back to conversation" variant="gray" size="small" @click="pane = 1"><MiIcon name="chevron-left" :size="16" /></MiIconButton>
             <MiText id="tw-ctx-title" variant="headline" as="h3">Customer</MiText>
           </header>
-          <div class="tw__ctx-body">
-            <div class="tw__who">
+          <div class="tw__ctx-body mi:flex-1 mi:min-h-0 mi:overflow-y-auto mi:grid mi:content-start mi:gap-4 mi:p-4">
+            <div class="tw__who mi:flex mi:items-center mi:gap-3">
               <MiAvatar :name="ticket.customer.name" size="md" tone="auto" decorative />
               <div>
                 <MiText variant="subheadline" weight="semibold">{{ ticket.customer.name }}</MiText>
                 <MiText variant="caption" tone="label2">{{ ticket.customer.place }} · since {{ ticket.customer.since }}</MiText>
               </div>
             </div>
-            <div class="tw__facts">
-              <div><MiText variant="caption2" tone="label2">Orders</MiText><p>{{ ticket.customer.orders }}</p></div>
-              <div><MiText variant="caption2" tone="label2">Spent</MiText><p>{{ ticket.customer.spent }}</p></div>
-              <div><MiText variant="caption2" tone="label2">CSAT</MiText><p>{{ ticket.customer.csat }}</p></div>
+            <div class="tw__facts mi:grid mi:grid-cols-3 mi:rounded-md mi:[background:var(--mi-fill4)]">
+              <div class="mi:[.tw__facts>&]:grid mi:[.tw__facts>&]:gap-0.5 mi:[.tw__facts>&]:py-2.5 mi:[.tw__facts>&]:px-3 mi:[.tw__facts>&]:min-w-0"><MiText class="mi:[.tw__facts_p&]:text-ellipsis" variant="caption2" tone="label2">Orders</MiText><p class="mi:[.tw__facts_p&]:text-ellipsis">{{ ticket.customer.orders }}</p></div>
+              <div class="mi:[.tw__facts>&]:grid mi:[.tw__facts>&]:gap-0.5 mi:[.tw__facts>&]:py-2.5 mi:[.tw__facts>&]:px-3 mi:[.tw__facts>&]:min-w-0"><MiText class="mi:[.tw__facts_p&]:text-ellipsis" variant="caption2" tone="label2">Spent</MiText><p class="mi:[.tw__facts_p&]:text-ellipsis">{{ ticket.customer.spent }}</p></div>
+              <div class="mi:[.tw__facts>&]:grid mi:[.tw__facts>&]:gap-0.5 mi:[.tw__facts>&]:py-2.5 mi:[.tw__facts>&]:px-3 mi:[.tw__facts>&]:min-w-0"><MiText class="mi:[.tw__facts_p&]:text-ellipsis" variant="caption2" tone="label2">CSAT</MiText><p class="mi:[.tw__facts_p&]:text-ellipsis">{{ ticket.customer.csat }}</p></div>
             </div>
-            <div class="tw__tags"><MiBadge v-for="tag in ticket.customer.tags" :key="tag" :label="tag" variant="outline" tone="neutral" /></div>
-            <section class="tw__order" aria-label="Latest order">
+            <div class="tw__tags mi:flex mi:flex-wrap mi:gap-1.5"><MiBadge v-for="tag in ticket.customer.tags" :key="tag" :label="tag" variant="outline" tone="neutral" /></div>
+            <section class="tw__order mi:grid mi:gap-1 mi:p-3.5 mi:rounded-md mi:shadow-[inset_0_0_0_1px_var(--mi-sep)]" aria-label="Latest order">
               <MiText variant="caption2" tone="label2" weight="semibold" class="tw__eyebrow">Latest order</MiText>
               <MiText variant="subheadline" weight="medium">{{ ticket.customer.order.item }}</MiText>
               <MiText variant="caption" tone="label2">{{ ticket.customer.order.meta }}</MiText>
@@ -201,60 +201,21 @@ function toggleSolved() {
 </script>
 
 <style scoped>
-.tw { container-type: inline-size; height: 640px; font-family: var(--mi-font); color: var(--mi-label); background: var(--mi-card); }
 .tw .tw__frame { height: 100%; border-radius: 0; box-shadow: none; }
-.tw__pane { display: flex; flex-direction: column; height: 100%; min-width: 0; box-sizing: border-box; background: var(--mi-card); }
-.tw__pane-head { display: flex; align-items: center; gap: 10px; padding: 14px 16px; border-bottom: 1px solid var(--mi-sep); }
 
 /* Narrow stack: panes slide over one another with transform only. */
 .tw__stack { position: relative; height: 100%; overflow: hidden; }
-.tw__stack > .tw__pane { position: absolute; inset: 0; transition: transform var(--mi-dur-3) var(--mi-ease), opacity var(--mi-dur-3) var(--mi-ease), visibility 0s linear var(--mi-dur-3); }
+.tw__stack > .tw__pane { position: absolute; }
 .tw__stack > .is-shown { transform: none; opacity: 1; visibility: visible; transition: transform var(--mi-dur-3) var(--mi-ease), opacity var(--mi-dur-3) var(--mi-ease); z-index: 1; }
 .tw__stack > .is-before { transform: translateX(-24%); opacity: 0; visibility: hidden; }
 .tw__stack > .is-after { transform: translateX(100%); visibility: hidden; }
-
-/* Queue */
-.tw__queue { background: var(--mi-side); }
-.tw__queue .tw__pane-head { flex-wrap: wrap; justify-content: space-between; }
-.tw__queue-top { display: grid; }
-.tw__tickets { flex: 1; min-height: 0; overflow-y: auto; margin: 0; padding: 8px; list-style: none; display: grid; align-content: start; gap: 4px; }
-.tw__ticket { position: relative; display: flex; gap: 10px; width: 100%; padding: 10px 20px 10px 10px; border: 0; border-radius: var(--mi-radius-m); background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
 .tw__ticket:hover { background: var(--mi-fill4); }
-.tw__ticket.is-active { background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.tw__ticket:focus-visible { outline: 2px solid var(--mi-p); outline-offset: -2px; }
-.tw__prio { flex: none; width: 4px; align-self: stretch; border-radius: 2px; background: var(--mi-fill); }
+.tw__ticket.is-active { background: var(--mi-card); }
 .tw__prio.is-urgent { background: var(--mi-red); }
 .tw__prio.is-high { background: var(--mi-orange); }
 .tw__prio.is-normal { background: var(--mi-p); }
-.tw__ticket-body { display: grid; gap: 2px; flex: 1; min-width: 0; }
-.tw__ticket-top { display: flex; justify-content: space-between; gap: 8px; }
-.tw__ticket-who { font-size: 13px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.tw__sla { flex: none; font-size: 11px; font-weight: 600; color: var(--mi-label2); font-variant-numeric: tabular-nums; }
-.tw__sla.is-late { color: var(--mi-red-t); }
-.tw__ticket-subject { font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.tw__ticket-snippet { font-size: 12px; color: var(--mi-label2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.tw__unread { position: absolute; bottom: 12px; right: 8px; width: 7px; height: 7px; border-radius: 50%; background: var(--mi-p); }
-.tw__empty { padding: 16px; }
-
-/* Thread */
-.tw__thread-head { flex-wrap: wrap; }
-.tw__thread-title { display: grid; flex: 1 1 160px; min-width: 0; }
-.tw__messages { flex: 1; min-height: 0; overflow-y: auto; display: grid; align-content: start; gap: 14px; padding: 18px 16px; }
-.tw__msg { display: grid; justify-items: start; gap: 4px; max-width: 86%; }
-.tw__msg.is-agent { justify-self: end; justify-items: end; }
-.tw__reply { display: grid; gap: 8px; padding: 12px 16px 14px; border-top: 1px solid var(--mi-sep); }
-.tw__reply-bar { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.tw__macros { display: flex; gap: 6px; min-width: 0; overflow-x: auto; scrollbar-width: none; }
-
-/* Customer context */
-.tw__ctx-body { flex: 1; min-height: 0; overflow-y: auto; display: grid; align-content: start; gap: 16px; padding: 16px; }
-.tw__who { display: flex; align-items: center; gap: 12px; }
-.tw__facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-radius: var(--mi-radius-m); background: var(--mi-fill4); }
-.tw__facts > div { display: grid; gap: 2px; padding: 10px 12px; min-width: 0; }
 .tw__facts > div + div { border-left: 1px solid var(--mi-sep); }
-.tw__facts p { margin: 0; font-size: 16px; font-weight: 700; letter-spacing: -.02em; font-variant-numeric: tabular-nums; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.tw__tags { display: flex; flex-wrap: wrap; gap: 6px; }
-.tw__order { display: grid; gap: 4px; padding: 14px; border-radius: var(--mi-radius-m); box-shadow: inset 0 0 0 1px var(--mi-sep); }
+.tw__facts p { margin: 0; font-size: 16px; font-weight: 700; letter-spacing: -.02em; font-variant-numeric: tabular-nums; overflow: hidden; white-space: nowrap; }
 .tw__eyebrow { letter-spacing: .06em; text-transform: uppercase; }
 .tw__steps { margin-top: 10px; }
 </style>

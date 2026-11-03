@@ -1,32 +1,32 @@
 <template>
-  <section class="ssm" aria-labelledby="ssm-title">
-    <header class="ssm__head">
-      <div>
+  <section class="ssm mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="ssm-title">
+    <header class="ssm__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-y-3 mi:gap-x-6">
+      <div class="mi:[.ssm__head>&:first-child]:flex-[1_1_280px] mi:[.ssm__head>&:first-child]:min-w-0">
         <MiText id="ssm-title" variant="title3" as="h2" weight="semibold">Subscription vitals</MiText>
         <MiText variant="footnote" tone="label2">October, daily · point at any chart or drag the scrubber to read every tile on the same day</MiText>
       </div>
-      <div class="ssm__scrub">
+      <div class="ssm__scrub mi:[.ssm__head>&:first-child]:flex-[1_1_280px] mi:[.ssm__head>&:first-child]:min-w-0 mi:flex-[1_1_220px] mi:max-w-80">
         <MiSlider v-model="day" :min="1" :max="N" label="Day" :format="(v) => 'Oct ' + v" />
       </div>
     </header>
 
     <!-- Small multiples share one cursor: the scrubbed day is marked on every sparkline. -->
-    <ul class="ssm__grid" aria-live="polite">
-      <li v-for="m in tiles" :key="m.label" class="ssm__tile">
-        <div class="ssm__tile-top">
+    <ul class="ssm__grid mi:grid mi:gap-3 mi:grid-cols-[minmax(0,_1fr)] mi:m-0 mi:p-0 mi:[list-style:none] mi:@[520px]:grid-cols-2 mi:@[860px]:grid-cols-3" aria-live="polite">
+      <li v-for="m in tiles" :key="m.label" class="ssm__tile mi:grid mi:gap-1 mi:min-w-0 mi:p-4 mi:rounded-lg mi:bg-card mi:shadow-1">
+        <div class="ssm__tile-top mi:flex mi:items-center mi:justify-between mi:gap-2">
           <MiText variant="footnote" weight="medium" tone="label2" as="h3">{{ m.label }}</MiText>
-          <span class="ssm__delta" :class="m.tone">{{ m.delta }}</span>
+          <span class="ssm__delta mi:text-[12px] mi:font-semibold mi:tabular-nums mi:text-label2" :class="m.tone">{{ m.delta }}</span>
         </div>
-        <p class="ssm__value">{{ m.value }}</p>
-        <div class="ssm__spark">
-          <svg :viewBox="`0 0 ${W} ${H}`" preserveAspectRatio="none" aria-hidden="true">
-            <path :d="m.area" class="ssm__area" />
-            <path :d="m.line" class="ssm__line" />
-            <line :x1="m.x" :x2="m.x" y1="0" :y2="H" class="ssm__cursor" />
+        <p class="ssm__value mi:m-0 mi:text-[26px] mi:font-bold mi:tracking-[-.03em] mi:tabular-nums">{{ m.value }}</p>
+        <div class="ssm__spark mi:relative mi:h-12 mi:mt-1.5 mi:mx-0 mi:mb-0.5 mi:@container">
+          <svg class="mi:[.ssm__spark_&]:block mi:[.ssm__spark_&]:w-full mi:[.ssm__spark_&]:h-full mi:[.ssm__spark_&]:overflow-visible" :viewBox="`0 0 ${W} ${H}`" preserveAspectRatio="none" aria-hidden="true">
+            <path :d="m.area" class="ssm__area mi:fill-p/12" />
+            <path :d="m.line" class="ssm__line mi:fill-[color:none] mi:stroke-p mi:[stroke-width:2] mi:[stroke-linejoin:round] mi:[vector-effect:non-scaling-stroke]" />
+            <line :x1="m.x" :x2="m.x" y1="0" :y2="H" class="ssm__cursor mi:stroke-label3 mi:[stroke-width:1] mi:[stroke-dasharray:3_3] mi:[vector-effect:non-scaling-stroke]" />
           </svg>
-          <span class="ssm__dot" :style="{ transform: `translate(${m.xPct}cqi, ${m.yPct}%)` }" aria-hidden="true" />
+          <span class="ssm__dot mi:absolute mi:-left-1 mi:-top-1 mi:w-2 mi:h-full mi:pointer-events-none mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:before:content-[''] mi:before:absolute mi:before:left-0 mi:before:top-0 mi:before:w-2 mi:before:h-2 mi:before:rounded-[50%] mi:before:bg-p mi:before:shadow-[0_0_0_2px_var(--mi-card)]" :style="{ transform: `translate(${m.xPct}cqi, ${m.yPct}%)` }" aria-hidden="true" />
           <!-- Invisible hover zones, one per day: no pointer maths, no layout reads. -->
-          <div class="ssm__zones" aria-hidden="true">
+          <div class="ssm__zones mi:absolute mi:inset-0 mi:grid mi:grid-cols-30" aria-hidden="true">
             <span v-for="d in N" :key="d" @mouseenter="day = d" />
           </div>
         </div>
@@ -88,32 +88,6 @@ const tiles = computed(() => shapes.map((s) => {
 </script>
 
 <style scoped>
-.ssm { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
-.ssm__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 24px; }
-.ssm__head > div:first-child { flex: 1 1 280px; min-width: 0; }
-.ssm__scrub { flex: 1 1 220px; max-width: 320px; }
-
-.ssm__grid { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); margin: 0; padding: 0; list-style: none; }
-@container (min-width: 520px) { .ssm__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@container (min-width: 860px) { .ssm__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-
-.ssm__tile { display: grid; gap: 4px; min-width: 0; padding: 16px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.ssm__tile-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.ssm__delta { font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--mi-label2); }
 .ssm__delta.is-good { color: var(--mi-green-t); }
 .ssm__delta.is-bad { color: var(--mi-orange-t); }
-.ssm__value { margin: 0; font-size: 26px; font-weight: 700; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
-
-/* The spark wrapper is its own size container so the dot can move in cqi units, transform only. */
-.ssm__spark { position: relative; height: 48px; margin: 6px 0 2px; container-type: inline-size; }
-.ssm__spark svg { display: block; width: 100%; height: 100%; overflow: visible; }
-.ssm__area { fill: color-mix(in srgb, var(--mi-p) 12%, transparent); }
-.ssm__line { fill: none; stroke: var(--mi-p); stroke-width: 2; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
-.ssm__cursor { stroke: var(--mi-label3); stroke-width: 1; stroke-dasharray: 3 3; vector-effect: non-scaling-stroke; }
-.ssm__dot {
-  position: absolute; left: -4px; top: -4px; width: 8px; height: 100%; pointer-events: none;
-  transition: transform var(--mi-dur-2) var(--mi-ease);
-}
-.ssm__dot::before { content: ""; position: absolute; left: 0; top: 0; width: 8px; height: 8px; border-radius: 50%; background: var(--mi-p); box-shadow: 0 0 0 2px var(--mi-card); }
-.ssm__zones { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(30, minmax(0, 1fr)); }
 </style>

@@ -1,8 +1,8 @@
 <template>
-  <section class="lqd" aria-labelledby="lqd-title">
+  <section class="lqd mi:@container mi:relative mi:grid mi:min-h-165 mi:rounded-xl mi:overflow-hidden mi:bg-page mi:shadow-[0_0_0_1px_var(--mi-sep)] mi:font-mi mi:text-label" aria-labelledby="lqd-title">
     <!-- Log viewer behind: applied conditions filter it once the drawer closes. -->
-    <div class="lqd__page" :inert="open || undefined">
-      <div class="lqd__page-head">
+    <div class="lqd__page mi:[grid-area:1_/_1] mi:grid mi:content-start mi:gap-3 mi:p-5" :inert="open || undefined">
+      <div class="lqd__page-head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
         <div>
           <MiText id="lqd-title" variant="title3" as="h2" weight="semibold">Logs · production</MiText>
           <MiText variant="footnote" tone="label2">{{ visible.length }} of {{ LOGS.length }} lines · last 15 minutes</MiText>
@@ -12,32 +12,32 @@
           Query{{ applied.length ? ' · ' + applied.length : '' }}
         </MiButton>
       </div>
-      <code v-if="applied.length" class="lqd__applied">{{ toQuery(applied, appliedMatch) }}</code>
-      <ol class="lqd__logs">
-        <li v-for="l in visible" :key="l.id" class="lqd__log">
-          <span class="lqd__time">{{ l.time }}</span>
-          <span class="lqd__level" :class="'is-' + l.level">{{ l.level }}</span>
-          <span class="lqd__msg"><b>{{ l.service }}</b> {{ l.status }} {{ l.path }} · {{ l.msg }}</span>
+      <code v-if="applied.length" class="lqd__applied mi:block mi:py-2 mi:px-3 mi:rounded-md mi:bg-p-tint mi:text-p-text mi:font-[ui-monospace,_SFMono-Regular,_Menlo,_monospace] mi:text-[12px] mi:wrap-anywhere">{{ toQuery(applied, appliedMatch) }}</code>
+      <ol class="lqd__logs mi:grid mi:m-0 mi:p-0 mi:[list-style:none] mi:rounded-lg mi:bg-card mi:shadow-1 mi:overflow-hidden mi:font-[ui-monospace,_SFMono-Regular,_Menlo,_monospace] mi:text-[12px]">
+        <li v-for="l in visible" :key="l.id" class="lqd__log mi:grid mi:grid-cols-[auto_auto_minmax(0,_1fr)] mi:items-baseline mi:gap-2.5 mi:py-2 mi:px-3.5 mi:[.lqd__log+&]:border-t mi:[.lqd__log+&]:border-t-sep">
+          <span class="lqd__time mi:text-label3">{{ l.time }}</span>
+          <span class="lqd__level mi:w-11 mi:font-bold mi:uppercase mi:text-label2 mi:[&.is-error]:text-red-t mi:[&.is-warn]:text-orange-t" :class="'is-' + l.level">{{ l.level }}</span>
+          <span class="lqd__msg mi:wrap-anywhere"><b class="mi:[.lqd__msg_&]:font-semibold">{{ l.service }}</b> {{ l.status }} {{ l.path }} · {{ l.msg }}</span>
         </li>
       </ol>
     </div>
 
-    <div class="lqd__scrim" :class="{ 'is-on': open }" aria-hidden="true" @click="open = false" />
+    <div class="lqd__scrim mi:[grid-area:1_/_1] mi:bg-scrim mi:opacity-0 mi:pointer-events-none mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)] mi:[&.is-on]:opacity-100 mi:[&.is-on]:pointer-events-auto" :class="{ 'is-on': open }" aria-hidden="true" @click="open = false" />
 
-    <div class="lqd__drawer" :class="{ 'is-closed': !open }" :inert="!open || undefined">
+    <div class="lqd__drawer mi:[grid-area:1_/_1] mi:self-end mi:p-2.5 mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)] mi:[&.is-closed]:transform-[translateY(105%)] mi:@[640px]:justify-self-center mi:@[640px]:w-[min(720px,_100%)]" :class="{ 'is-closed': !open }" :inert="!open || undefined">
       <MiDrawer :model-value="true" inline show-swipe-handle title="Build a query" :description="draftCount + ' lines match the draft'">
-        <div class="lqd__body">
-          <div class="lqd__presets" role="group" aria-label="Saved queries">
+        <div class="lqd__body mi:grid mi:gap-3.5">
+          <div class="lqd__presets mi:flex mi:flex-wrap mi:gap-1.5" role="group" aria-label="Saved queries">
             <MiChip v-for="p in PRESETS" :key="p.name" :label="p.name" tone="neutral" size="small" selectable :model-value="activePreset === p.name" @update:model-value="load(p)" />
           </div>
 
-          <div class="lqd__match">
+          <div class="lqd__match mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2">
             <MiText variant="footnote" weight="semibold" aria-hidden="true">Match</MiText>
             <MiSegmented v-model="match" label="Match conditions" :options="[{ value: 'all', label: 'All conditions' }, { value: 'any', label: 'Any condition' }]" />
           </div>
 
-          <ol class="lqd__rows" aria-label="Conditions">
-            <li v-for="(c, i) in draft" :key="c.id" class="lqd__row">
+          <ol class="lqd__rows mi:grid mi:gap-2 mi:m-0 mi:p-0 mi:[list-style:none]" aria-label="Conditions">
+            <li v-for="(c, i) in draft" :key="c.id" class="lqd__row mi:grid mi:grid-cols-[minmax(0,_1fr)_minmax(0,_1fr)_auto] mi:gap-1.5 mi:items-center mi:p-2 mi:rounded-md mi:bg-fill4 mi:@[640px]:grid-cols-[130px_110px_minmax(0,_1fr)_auto]">
               <MiNativeSelect v-model="c.field" size="sm" :aria-label="'Field of condition ' + (i + 1)" :options="FIELD_OPTIONS" />
               <MiNativeSelect v-model="c.op" size="sm" :aria-label="'Operator of condition ' + (i + 1)" :options="OP_OPTIONS" />
               <MiInput v-model="c.value" size="sm" :aria-label="'Value of condition ' + (i + 1)" placeholder="Value" />
@@ -49,11 +49,11 @@
             Add condition
           </MiButton>
 
-          <code class="lqd__preview" aria-label="Query preview">{{ draft.length ? toQuery(draft, match) : 'No conditions: every line is shown' }}</code>
+          <code class="lqd__preview mi:block mi:py-2 mi:px-3 mi:rounded-md mi:font-[ui-monospace,_SFMono-Regular,_Menlo,_monospace] mi:text-[12px] mi:wrap-anywhere" aria-label="Query preview">{{ draft.length ? toQuery(draft, match) : 'No conditions: every line is shown' }}</code>
         </div>
 
         <template #footer>
-          <div class="lqd__foot">
+          <div class="lqd__foot mi:flex mi:[justify-content:flex-end] mi:gap-2">
             <MiButton variant="gray" @click="clear">Clear</MiButton>
             <MiButton @click="apply">Show {{ draftCount }} lines</MiButton>
           </div>
@@ -146,39 +146,12 @@ function apply() {
 </script>
 
 <style scoped>
-.lqd { container-type: inline-size; position: relative; display: grid; min-height: 660px; border-radius: var(--mi-radius-xl); overflow: hidden; background: var(--mi-page); box-shadow: 0 0 0 1px var(--mi-sep); font-family: var(--mi-font); color: var(--mi-label); }
-.lqd__page, .lqd__scrim, .lqd__drawer { grid-area: 1 / 1; }
-.lqd__page { display: grid; align-content: start; gap: 12px; padding: 20px; }
-.lqd__page-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.lqd__applied, .lqd__preview { display: block; padding: 8px 12px; border-radius: var(--mi-radius-m); background: var(--mi-p-tint); color: var(--mi-p-text); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; overflow-wrap: anywhere; }
+.lqd__preview { background: var(--mi-p-tint); color: var(--mi-p-text); }
 .lqd__preview { background: var(--mi-fill4); color: var(--mi-label2); }
-.lqd__logs { display: grid; margin: 0; padding: 0; list-style: none; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); overflow: hidden; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }
-.lqd__log { display: grid; grid-template-columns: auto auto minmax(0, 1fr); align-items: baseline; gap: 10px; padding: 8px 14px; }
-.lqd__log + .lqd__log { border-top: 1px solid var(--mi-sep); }
-.lqd__time { color: var(--mi-label3); }
-.lqd__level { width: 44px; font-weight: 700; text-transform: uppercase; color: var(--mi-label2); }
-.lqd__level.is-error { color: var(--mi-red-t); }
-.lqd__level.is-warn { color: var(--mi-orange-t); }
-.lqd__msg { overflow-wrap: anywhere; }
-.lqd__msg b { font-weight: 600; }
-
-.lqd__scrim { background: var(--mi-scrim); opacity: 0; pointer-events: none; transition: opacity var(--mi-dur-3) var(--mi-ease); }
-.lqd__scrim.is-on { opacity: 1; pointer-events: auto; }
-.lqd__drawer { align-self: end; padding: 10px; transition: transform var(--mi-dur-4) var(--mi-spring); }
-.lqd__drawer.is-closed { transform: translateY(105%); }
-
-.lqd__body { display: grid; gap: 14px; }
-.lqd__presets { display: flex; flex-wrap: wrap; gap: 6px; }
-.lqd__match { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
-.lqd__rows { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
-.lqd__row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; gap: 6px; align-items: center; padding: 8px; border-radius: var(--mi-radius-m); background: var(--mi-fill4); }
 .lqd__row > :nth-child(3) { grid-column: 1 / 3; }
 .lqd__row > :nth-child(4) { grid-column: 3; grid-row: 1; }
-.lqd__foot { display: flex; justify-content: flex-end; gap: 8px; }
 
 @container (min-width: 640px) {
-  .lqd__drawer { justify-self: center; width: min(720px, 100%); }
-  .lqd__row { grid-template-columns: 130px 110px minmax(0, 1fr) auto; }
   .lqd__row > :nth-child(3), .lqd__row > :nth-child(4) { grid-column: auto; grid-row: auto; }
 }
 </style>

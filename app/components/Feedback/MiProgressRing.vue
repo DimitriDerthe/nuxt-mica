@@ -64,8 +64,8 @@ defineSlots<{
     :aria-valuenow="determinate && tag !== 'button' ? (value as number) : undefined"
     @click="tag === 'button' ? emit('stop') : undefined"
   >
-    <svg class="mi-ring-svg" :class="{ 'is-spin': !determinate && variant === 'ring' }" :width="size" :height="size" :viewBox="`0 0 ${size} ${size}`" aria-hidden="true" focusable="false">
-      <circle :cx="size / 2" :cy="size / 2" :r="r" fill="none" :stroke-width="sw" class="mi-ring-track" :class="{ 'is-hidden': variant === 'stop' && !determinate }" />
+    <svg class="mi-ring-svg mi:absolute mi:inset-0 mi:transform-[rotate(-90deg)] mi:[&.is-spin]:will-change-transform" :class="{ 'is-spin': !determinate && variant === 'ring' }" :width="size" :height="size" :viewBox="`0 0 ${size} ${size}`" aria-hidden="true" focusable="false">
+      <circle :cx="size / 2" :cy="size / 2" :r="r" fill="none" :stroke-width="sw" class="mi-ring-track mi:stroke-fill mi:[&.is-hidden]:opacity-0" :class="{ 'is-hidden': variant === 'stop' && !determinate }" />
       <circle
         :cx="size / 2"
         :cy="size / 2"
@@ -74,14 +74,14 @@ defineSlots<{
         stroke="currentColor"
         :stroke-width="sw"
         stroke-linecap="round"
-        class="mi-ring-bar"
+        class="mi-ring-bar mi:[&.is-hidden]:opacity-0 mi:[transition:stroke-dashoffset_var(--mi-dur-4)_var(--mi-ease),opacity_var(--mi-dur-2)_var(--mi-ease)]"
         :class="{ 'is-hidden': determinate && pct <= 0 }"
         :stroke-dasharray="circ"
         :stroke-dashoffset="determinate ? offset : variant === 'stop' ? 0 : circ * 0.72"
       />
     </svg>
-    <span v-if="variant === 'stop'" class="mi-ring-stop" :style="{ width: square + 'px', height: square + 'px' }" />
-    <span v-else-if="centre" class="mi-ring-val"><slot>{{ determinate ? Math.round(pct) + '%' : '' }}</slot></span>
+    <span v-if="variant === 'stop'" class="mi-ring-stop mi:relative mi:rounded-[2px] mi:bg-current" :style="{ width: square + 'px', height: square + 'px' }" />
+    <span v-else-if="centre" class="mi-ring-val mi:relative mi:text-[14px] mi:font-bold mi:tabular-nums mi:text-label"><slot>{{ determinate ? Math.round(pct) + '%' : '' }}</slot></span>
   </component>
 </template>
 
@@ -89,12 +89,6 @@ defineSlots<{
 .mi-ring{position:relative;display:inline-flex;align-items:center;justify-content:center;flex:none;padding:0;margin:0;border:0;background:transparent;font-family:var(--mi-font);color:var(--mi-p)}
 .mi-ring.is-btn{cursor:pointer;border-radius:50%}
 .mi-ring.is-btn:active{opacity:.6}
-.mi-ring-svg{position:absolute;inset:0;transform:rotate(-90deg)}
-.mi-ring-svg.is-spin{animation:mi-ring-spin .9s linear infinite;will-change:transform}
-.mi-ring-track{stroke:var(--mi-fill)}
-.mi-ring-track.is-hidden,.mi-ring-bar.is-hidden{opacity:0}
-.mi-ring-bar{transition:stroke-dashoffset var(--mi-dur-4) var(--mi-ease),opacity var(--mi-dur-2) var(--mi-ease)}
-.mi-ring-val{position:relative;font-size:14px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--mi-label)}
-.mi-ring-stop{position:relative;border-radius:2px;background:currentColor}
+.mi-ring-svg.is-spin{animation:mi-ring-spin .9s linear infinite}
 @keyframes mi-ring-spin{from{transform:rotate(-90deg)}to{transform:rotate(270deg)}}
 </style>

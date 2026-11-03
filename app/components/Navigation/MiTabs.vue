@@ -42,11 +42,11 @@ defineSlots<{
 </script>
 
 <template>
-  <div class="mi-tabs" :class="`is-${orientation}`">
+  <div class="mi-tabs mi:font-mi" :class="`is-${orientation}`">
     <slot />
-    <div v-if="items" ref="root" class="mi-tabs__list" role="tablist" :aria-label="ariaLabel" :aria-orientation="orientation" @keydown="onKey">
+    <div v-if="items" ref="root" class="mi-tabs__list mi:inline-flex mi:gap-0.5 mi:p-[3px] mi:rounded-[10px] mi:bg-fill3 mi:[align-self:flex-start] mi:[.is-vertical_&]:flex-col mi:[.is-vertical_&]:[align-self:flex-start]" role="tablist" :aria-label="ariaLabel" :aria-orientation="orientation" @keydown="onKey">
       <button
-        v-for="it in list" :id="tabId(it.value)" :key="it.value" type="button" role="tab" class="mi-tabs__tab"
+        v-for="it in list" :id="tabId(it.value)" :key="it.value" type="button" role="tab" class="mi-tabs__tab mi:[border:0] mi:rounded-[8px] mi:h-7.5 mi:py-0 mi:px-3 mi:bg-transparent mi:text-label2 mi:cursor-pointer mi:[transition:opacity_var(--mi-dur-1)_var(--mi-ease),transform_var(--mi-dur-1)_var(--mi-ease)] mi:[&.is-on]:bg-card mi:[&.is-on]:text-label mi:[&.is-on]:shadow-1 mi:[&:active:not(:disabled)]:transform-[scale(.97)] mi:disabled:text-label3 mi:disabled:cursor-default mi:focus-visible:[outline:3px_solid_color-mix(in_srgb,var(--mi-p)_55%,transparent)] mi:focus-visible:outline-offset-[2px]"
         :class="{ 'is-on': it.value === current?.value }" :aria-selected="it.value === current?.value"
         :aria-controls="panelId(it.value)" :tabindex="it.value === current?.value ? 0 : -1" :disabled="it.disabled || undefined"
         @click="model = it.value"
@@ -56,7 +56,7 @@ defineSlots<{
     </div>
     <template v-for="it in list" :key="it.value">
       <div
-        v-if="it.value === current?.value" :id="panelId(it.value)" class="mi-tabs__panel" role="tabpanel"
+        v-if="it.value === current?.value" :id="panelId(it.value)" class="mi-tabs__panel mi:focus-visible:[outline:3px_solid_color-mix(in_srgb,var(--mi-p)_55%,transparent)] mi:focus-visible:outline-offset-[2px] mi:[outline:none] mi:flex-1 mi:min-w-0" role="tabpanel"
         :aria-labelledby="tabId(it.value)" tabindex="0"
       >
         <slot :name="it.value" :item="it" />
@@ -66,14 +66,7 @@ defineSlots<{
 </template>
 
 <style scoped>
-.mi-tabs{font-family:var(--mi-font);color:var(--mi-label);display:flex;flex-direction:column;gap:12px}
+.mi-tabs{color:var(--mi-label);display:flex;flex-direction:column;gap:12px}
 .mi-tabs.is-vertical{flex-direction:row;align-items:flex-start}
-.mi-tabs__list{display:inline-flex;gap:2px;padding:3px;border-radius:10px;background:var(--mi-fill3);align-self:flex-start}
-.is-vertical .mi-tabs__list{flex-direction:column;align-self:flex-start}
-.mi-tabs__tab{border:0;border-radius:8px;height:30px;padding:0 12px;background:transparent;color:var(--mi-label2);font:inherit;font-size:14px;font-weight:500;cursor:pointer;transition:opacity var(--mi-dur-1) var(--mi-ease),transform var(--mi-dur-1) var(--mi-ease)}
-.mi-tabs__tab.is-on{background:var(--mi-card);color:var(--mi-label);box-shadow:var(--mi-sh1)}
-.mi-tabs__tab:active:not(:disabled){transform:scale(.97)}
-.mi-tabs__tab:disabled{color:var(--mi-label3);cursor:default}
-.mi-tabs__tab:focus-visible,.mi-tabs__panel:focus-visible{outline:3px solid color-mix(in srgb,var(--mi-p) 55%,transparent);outline-offset:2px}
-.mi-tabs__panel{outline:none;flex:1;min-width:0}
+.mi-tabs__tab{font:inherit;font-size:14px;font-weight:500}
 </style>

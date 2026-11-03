@@ -107,21 +107,21 @@ defineSlots<{
   <Teleport to="body" :disabled="inline">
     <div
       v-if="inline || rendered"
-      class="mi mi-dlg-root"
+      class="mi mi-dlg-root mi:font-mi"
       :class="{ 'is-inline': inline }"
       :style="inline ? undefined : { zIndex: MI_OVERLAY_Z.dialog }"
       @pointerdown="onScrimDown"
       @click="onScrimClick"
     >
       <Transition v-if="!inline" name="mi-dlg-fade" appear>
-        <div v-if="open" class="mi-dlg-scrim" aria-hidden="true" />
+        <div v-if="open" class="mi-dlg-scrim mi:absolute mi:inset-0 mi:[background:var(--mi-scrim)]" aria-hidden="true" />
       </Transition>
       <Transition name="mi-dlg" :appear="!inline" @after-leave="afterLeave">
         <div
           v-if="inline || open"
           ref="panel"
           v-bind="$attrs"
-          class="mi-dlg"
+          class="mi-dlg mi:max-h-[calc(100dvh_-_32px)] mi:overscroll-contain mi:tracking-[-.01em] mi:[outline:none] mi:shadow-3"
           :class="[`mi-dlg--${variant}`]"
           :role="isAlert ? 'alertdialog' : 'dialog'"
           :aria-modal="inline ? undefined : 'true'"
@@ -130,24 +130,24 @@ defineSlots<{
           :aria-describedby="message || $slots.default ? descId : undefined"
           tabindex="-1"
         >
-          <div class="mi-dlg-body">
-            <span v-if="!isAlert && (icon || $slots.icon)" class="mi-dlg-icon">
+          <div class="mi-dlg-body mi:flex mi:flex-col mi:[.mi-dlg--alert_&]:pt-5 mi:[.mi-dlg--alert_&]:px-4 mi:[.mi-dlg--alert_&]:pb-4.5 mi:[.mi-dlg--alert_&]:gap-1 mi:[.mi-dlg--dialog_&]:gap-4">
+            <span v-if="!isAlert && (icon || $slots.icon)" class="mi-dlg-icon mi:w-13 mi:h-13 mi:rounded-[14px] mi:[background:var(--mi-p)] mi:text-p-on mi:flex mi:items-center mi:justify-center">
               <slot name="icon"><MiFbIcon v-if="icon" :name="icon" :size="28" :stroke="1.8" /></slot>
             </span>
-            <div class="mi-dlg-text">
-              <h3 v-if="title" :id="titleId" class="mi-dlg-title">{{ title }}</h3>
-              <div v-if="message || $slots.default" :id="descId" class="mi-dlg-msg">
+            <div class="mi-dlg-text mi:flex mi:flex-col mi:gap-1 mi:min-w-0 mi:[.mi-dlg--dialog_&]:gap-1.5">
+              <h3 v-if="title" :id="titleId" class="mi-dlg-title mi:m-0 mi:text-[17px] mi:font-semibold mi:leading-[22px] mi:[.mi-dlg--dialog_&]:font-bold">{{ title }}</h3>
+              <div v-if="message || $slots.default" :id="descId" class="mi-dlg-msg mi:text-[13px] mi:leading-[18px] mi:[.mi-dlg--dialog_&]:text-label2">
                 <slot>{{ message }}</slot>
               </div>
             </div>
           </div>
-          <div v-if="actions.length || $slots.actions" class="mi-dlg-actions" :class="{ 'is-stacked': stacked }">
+          <div v-if="actions.length || $slots.actions" class="mi-dlg-actions mi:[.mi-dlg--alert_&]:grid mi:[.mi-dlg--alert_&]:grid-cols-2 mi:[.mi-dlg--alert_&]:[border-top:.5px_solid_var(--mi-sep)] mi:[.mi-dlg--alert_&.is-stacked]:grid-cols-[minmax(0,1fr)] mi:[.mi-dlg--dialog_&]:flex mi:[.mi-dlg--dialog_&]:flex-col mi:[.mi-dlg--dialog_&]:gap-2" :class="{ 'is-stacked': stacked }">
             <slot name="actions" :close="() => close('action')">
               <button
                 v-for="a in actions"
                 :key="a.id"
                 type="button"
-                class="mi-dlg-btn"
+                class="mi-dlg-btn mi:appearance-none mi:[border:0] mi:m-0 mi:font-[inherit] mi:text-label mi:[background:transparent] mi:[-webkit-tap-highlight-color:transparent] mi:disabled:opacity-40 mi:disabled:cursor-default mi:[.mi-dlg--alert_&]:h-11 mi:[.mi-dlg--alert_&]:text-[17px] mi:[.mi-dlg--alert_&]:text-p-text mi:[.mi-dlg--alert_&]:relative mi:[.mi-dlg--alert_.mi-dlg-actions:not(.is-stacked)_.mi-dlg-btn+&]:[border-left:.5px_solid_var(--mi-sep)] mi:[.mi-dlg--alert_.mi-dlg-actions.is-stacked_.mi-dlg-btn+&]:[border-top:.5px_solid_var(--mi-sep)] mi:[.mi-dlg--alert_&.is-destructive]:text-red-t mi:[.mi-dlg--alert_&:focus-visible]:outline-offset-[-3px] mi:[.mi-dlg--dialog_&]:h-9 mi:[.mi-dlg--dialog_&]:rounded-[10px] mi:[.mi-dlg--dialog_&]:text-[15px] mi:[.mi-dlg--dialog_&]:font-medium mi:[.mi-dlg--dialog_&]:[background:var(--mi-fill3)] mi:[.mi-dlg--dialog_&]:py-0 mi:[.mi-dlg--dialog_&]:px-3.5"
                 :class="`is-${a.kind ?? 'default'}`"
                 :disabled="a.disabled"
                 :data-initial="a.id === initialId ? '' : undefined"
@@ -162,35 +162,14 @@ defineSlots<{
 </template>
 
 <style scoped>
-.mi-dlg-root{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:16px;font-family:var(--mi-font)}
+.mi-dlg-root{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:16px}
 .mi-dlg-root.is-inline{position:static;inset:auto;padding:0;width:100%;display:flex;justify-content:center}
-.mi-dlg-scrim{position:absolute;inset:0;background:var(--mi-scrim)}
-.mi-dlg{position:relative;max-height:calc(100dvh - 32px);overflow:auto;overscroll-behavior:contain;color:var(--mi-label);letter-spacing:-.01em;outline:none;box-shadow:var(--mi-sh3)}
+.mi-dlg{position:relative;overflow:auto;color:var(--mi-label)}
 .mi-dlg--alert{width:270px;max-width:100%;border-radius:16px;background:var(--mi-menu,var(--mi-mat));-webkit-backdrop-filter:blur(30px) saturate(180%);backdrop-filter:blur(30px) saturate(180%);text-align:center}
 .mi-dlg--dialog{width:100%;max-width:360px;border-radius:20px;background:var(--mi-elev);padding:22px;display:flex;flex-direction:column;gap:16px}
-.mi-dlg-body{display:flex;flex-direction:column}
-.mi-dlg--alert .mi-dlg-body{padding:20px 16px 18px;gap:4px}
-.mi-dlg--dialog .mi-dlg-body{gap:16px}
-.mi-dlg-text{display:flex;flex-direction:column;gap:4px;min-width:0}
-.mi-dlg--dialog .mi-dlg-text{gap:6px}
-.mi-dlg-icon{width:52px;height:52px;border-radius:14px;background:var(--mi-p);color:var(--mi-p-on);display:flex;align-items:center;justify-content:center}
-.mi-dlg-title{margin:0;font-size:17px;font-weight:600;line-height:22px}
-.mi-dlg--dialog .mi-dlg-title{font-weight:700}
-.mi-dlg-msg{font-size:13px;line-height:18px}
-.mi-dlg--dialog .mi-dlg-msg{color:var(--mi-label2)}
-.mi-dlg-btn{appearance:none;border:0;margin:0;font-family:inherit;color:var(--mi-label);background:transparent;-webkit-tap-highlight-color:transparent}
-.mi-dlg-btn:disabled{opacity:.4;cursor:default}
-.mi-dlg--alert .mi-dlg-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border-top:.5px solid var(--mi-sep)}
-.mi-dlg--alert .mi-dlg-actions.is-stacked{grid-template-columns:minmax(0,1fr)}
-.mi-dlg--alert .mi-dlg-btn{height:44px;font-size:17px;color:var(--mi-p-text);position:relative}
-.mi-dlg--alert .mi-dlg-actions:not(.is-stacked) .mi-dlg-btn+.mi-dlg-btn{border-left:.5px solid var(--mi-sep)}
-.mi-dlg--alert .mi-dlg-actions.is-stacked .mi-dlg-btn+.mi-dlg-btn{border-top:.5px solid var(--mi-sep)}
 .mi-dlg--alert .mi-dlg-btn.is-primary{font-weight:600}
-.mi-dlg--alert .mi-dlg-btn.is-destructive{font-weight:600;color:var(--mi-red-t)}
+.mi-dlg--alert .mi-dlg-btn.is-destructive{font-weight:600}
 .mi-dlg--alert .mi-dlg-btn:not(:disabled):active{background:var(--mi-fill3)}
-.mi-dlg--alert .mi-dlg-btn:focus-visible{outline-offset:-3px}
-.mi-dlg--dialog .mi-dlg-actions{display:flex;flex-direction:column;gap:8px}
-.mi-dlg--dialog .mi-dlg-btn{height:36px;border-radius:10px;font-size:15px;font-weight:500;background:var(--mi-fill3);padding:0 14px}
 .mi-dlg--dialog .mi-dlg-btn.is-primary{background:var(--mi-p);color:var(--mi-p-on);font-weight:600}
 .mi-dlg--dialog .mi-dlg-btn.is-primary:not(:disabled):hover{background:var(--mi-p-hover)}
 .mi-dlg--dialog .mi-dlg-btn.is-cancel{background:transparent;color:var(--mi-p-text)}

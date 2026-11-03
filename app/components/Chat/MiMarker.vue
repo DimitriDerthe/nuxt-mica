@@ -29,7 +29,7 @@ defineSlots<{
 
 <template>
   <component :is="tag" v-bind="attrs" :role="role" class="mi-mk" :class="[`mi-mk--${variant}`, { 'mi-mk--act': tag !== 'div' }]">
-    <span v-if="$slots.icon" class="mi-mk__i" aria-hidden="true"><slot name="icon" /></span>
+    <span v-if="$slots.icon" class="mi-mk__i mi:inline-flex mi:flex-[none]" aria-hidden="true"><slot name="icon" /></span>
     <span class="mi-mk__t"><slot /></span>
   </component>
 </template>
@@ -39,7 +39,6 @@ defineSlots<{
 .mi-mk--border{padding-block:6px;border-block-end:1px solid var(--mi-sep2)}
 .mi-mk--separator{justify-content:center;gap:12px;text-transform:uppercase;letter-spacing:.04em}
 .mi-mk--separator::before,.mi-mk--separator::after{content:"";flex:1;height:1px;background:var(--mi-sep2)}
-.mi-mk__i{display:inline-flex;flex:none}
 .mi-mk--act{cursor:pointer;transition:opacity var(--mi-dur-2) var(--mi-ease)}
 .mi-mk--act:hover{opacity:.7}
 .mi-mk--act:focus-visible{outline:2px solid var(--mi-p);outline-offset:2px;border-radius:6px}

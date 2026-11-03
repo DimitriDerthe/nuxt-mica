@@ -1,8 +1,8 @@
 <template>
-  <section class="cec" aria-labelledby="cec-title">
-    <div class="cec__grid">
-      <form class="cec__form" novalidate @submit.prevent="sendTest">
-        <header class="cec__head">
+  <section class="cec mi:@container mi:font-mi mi:text-label" aria-labelledby="cec-title">
+    <div class="cec__grid mi:grid mi:gap-4 mi:grid-cols-[minmax(0,_1fr)] mi:@[900px]:grid-cols-[minmax(0,_1fr)_340px] mi:@[900px]:items-start">
+      <form class="cec__form mi:grid mi:gap-4 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:min-w-0" novalidate @submit.prevent="sendTest">
+        <header class="cec__head mi:flex mi:flex-wrap mi:[align-items:flex-start] mi:justify-between mi:gap-2.5">
           <div>
             <MiText id="cec-title" variant="title3" as="h2" weight="semibold">November product email</MiText>
             <MiText variant="footnote" tone="label2">Campaign · 18,402 subscribers · draft saved 2 min ago</MiText>
@@ -14,8 +14,8 @@
 
         <MiField label="Subject line" :hint="`${subject.length} characters · ${device === 'phone' ? 'phones show about 35' : 'desktop shows about 60'}`">
           <template #label-end>
-            <span class="cec__tags" role="group" aria-label="Insert a merge tag">
-              <button v-for="t in TAGS" :key="t.key" type="button" class="cec__tag" @click="insert(t.key)">+ {{ t.label }}</button>
+            <span class="cec__tags mi:inline-flex mi:flex-wrap mi:gap-1.5" role="group" aria-label="Insert a merge tag">
+              <button v-for="t in TAGS" :key="t.key" type="button" class="cec__tag mi:py-0.5 mi:px-2 mi:[border:0] mi:rounded-[999px] mi:bg-p-tint mi:text-p-text mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" @click="insert(t.key)">+ {{ t.label }}</button>
             </span>
           </template>
           <MiInput v-model="subject" />
@@ -27,37 +27,37 @@
 
         <MiEditor v-model="body" label="Email body" :min-height="180" />
 
-        <footer class="cec__foot">
+        <footer class="cec__foot mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2.5">
           <MiText variant="caption" :tone="sent ? 'green' : 'label2'" aria-live="polite">{{ sent ? 'Test sent to marketing@fernhill.co' : `${passed} of ${checks.length} checks pass` }}</MiText>
-          <div class="cec__btns">
+          <div class="cec__btns mi:flex mi:gap-2">
             <MiButton type="submit" variant="gray">Send test</MiButton>
             <MiButton :disabled="passed < checks.length">Schedule</MiButton>
           </div>
         </footer>
       </form>
 
-      <aside class="cec__side" aria-labelledby="cec-inbox-title">
-        <div class="cec__side-head">
+      <aside class="cec__side mi:grid mi:gap-3 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1" aria-labelledby="cec-inbox-title">
+        <div class="cec__side-head mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2">
           <MiText id="cec-inbox-title" variant="headline" as="h3">In the inbox</MiText>
           <MiSegmented v-model="device" label="Preview size" :options="[{ value: 'desktop', label: 'Desktop' }, { value: 'phone', label: 'Phone' }]" />
         </div>
         <MiSegmented v-model="who" label="Preview as" :options="RECIPIENTS.map((r, i) => ({ value: i, label: r.label }))" />
 
         <!-- A faux inbox: our email sits between two real-looking neighbours. -->
-        <ul class="cec__inbox" :data-device="device">
-          <li v-for="m in inbox" :key="m.id" :class="{ 'is-ours': m.ours }">
-            <span class="cec__dot" aria-hidden="true" />
-            <div class="cec__mail">
-              <div class="cec__mail-top"><b>{{ m.from }}</b><span>{{ m.time }}</span></div>
-              <p class="cec__subj">{{ m.subject }}</p>
-              <p class="cec__pre">{{ m.pre }}</p>
+        <ul class="cec__inbox mi:grid mi:m-0 mi:p-0 mi:[list-style:none] mi:rounded-lg mi:border mi:border-sep mi:overflow-hidden mi:[&[data-device='phone']]:max-w-75 mi:[&[data-device='phone']]:justify-self-center mi:[&[data-device='phone']]:w-full" :data-device="device">
+          <li class="mi:[.cec__inbox_&]:grid mi:[.cec__inbox_&]:grid-cols-[8px_minmax(0,_1fr)] mi:[.cec__inbox_&]:gap-2.5 mi:[.cec__inbox_&]:p-3 mi:[.cec__inbox_&]:bg-card" v-for="m in inbox" :key="m.id" :class="{ 'is-ours mi:[.cec__inbox_&]:bg-p-tint': m.ours }">
+            <span class="cec__dot mi:w-2 mi:h-2 mi:mt-[5px] mi:rounded-[50%] mi:bg-blue" aria-hidden="true" />
+            <div class="cec__mail mi:min-w-0">
+              <div class="cec__mail-top mi:flex mi:justify-between mi:gap-2 mi:text-[13px]"><b>{{ m.from }}</b><span class="mi:[.cec__mail-top_&]:text-label3 mi:[.cec__mail-top_&]:text-[12px]">{{ m.time }}</span></div>
+              <p class="cec__subj mi:m-0 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:text-[13px]">{{ m.subject }}</p>
+              <p class="cec__pre mi:m-0 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:text-[13px] mi:text-label2">{{ m.pre }}</p>
             </div>
           </li>
         </ul>
 
-        <ul class="cec__checks">
-          <li v-for="c in checks" :key="c.label" :class="{ 'is-ok': c.ok }">
-            <MiIcon :name="c.ok ? 'check-circle-fill' : 'exclamation-circle'" :size="16" />{{ c.label }}
+        <ul class="cec__checks mi:grid mi:gap-1.5 mi:m-0 mi:p-0 mi:[list-style:none] mi:text-[13px]">
+          <li class="mi:[.cec__checks_li&]:items-center mi:[.cec__checks_li&]:gap-2" v-for="c in checks" :key="c.label" :class="{ 'is-ok': c.ok }">
+            <MiIcon class="mi:[.cec__checks_li&]:items-center mi:[.cec__checks_li&]:gap-2" :name="c.ok ? 'check-circle-fill' : 'exclamation-circle'" :size="16" />{{ c.label }}
           </li>
         </ul>
       </aside>
@@ -111,32 +111,9 @@ function sendTest() { sent.value = true }
 </script>
 
 <style scoped>
-.cec { container-type: inline-size; font-family: var(--mi-font); color: var(--mi-label); }
-.cec__grid { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); }
-@container (min-width: 900px) { .cec__grid { grid-template-columns: minmax(0, 1fr) 340px; align-items: start; } }
-.cec__form { display: grid; gap: 16px; padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); min-width: 0; }
-.cec__head { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 10px; }
-.cec__tags { display: inline-flex; flex-wrap: wrap; gap: 6px; }
-.cec__tag { padding: 2px 8px; border: 0; border-radius: 999px; background: var(--mi-p-tint); color: var(--mi-p-text); font: inherit; font-size: 12px; font-weight: 600; cursor: pointer; }
-.cec__tag:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-.cec__foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
-.cec__btns { display: flex; gap: 8px; }
-
-.cec__side { display: grid; gap: 12px; padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.cec__side-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
-.cec__inbox { display: grid; margin: 0; padding: 0; list-style: none; border-radius: var(--mi-radius-l); border: 1px solid var(--mi-sep); overflow: hidden; }
-.cec__inbox[data-device="phone"] { max-width: 300px; justify-self: center; width: 100%; }
-.cec__inbox li { display: grid; grid-template-columns: 8px minmax(0, 1fr); gap: 10px; padding: 12px; background: var(--mi-card); }
+.cec__tag { font: inherit; font-size: 12px; font-weight: 600; }
 .cec__inbox li + li { border-top: 1px solid var(--mi-sep); }
-.cec__inbox li.is-ours { background: var(--mi-p-tint); }
-.cec__dot { width: 8px; height: 8px; margin-top: 5px; border-radius: 50%; background: var(--mi-blue); }
-.cec__mail { min-width: 0; }
-.cec__mail-top { display: flex; justify-content: space-between; gap: 8px; font-size: 13px; }
-.cec__mail-top span { color: var(--mi-label3); font-size: 12px; }
-.cec__subj, .cec__pre { margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px; }
-.cec__pre { color: var(--mi-label2); }
-.cec__checks { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; font-size: 13px; }
-.cec__checks li { display: flex; align-items: center; gap: 8px; color: var(--mi-label2); }
+.cec__checks li { display: flex; color: var(--mi-label2); }
 .cec__checks li :deep(svg) { flex: none; color: var(--mi-orange); }
 .cec__checks li.is-ok { color: var(--mi-label); }
 .cec__checks li.is-ok :deep(svg) { color: var(--mi-green); }

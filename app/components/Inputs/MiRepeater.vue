@@ -96,25 +96,25 @@ async function remove(index: number) {
 </script>
 
 <template>
-  <div class="mi-rep" role="group" :aria-label="label">
-    <TransitionGroup tag="ul" name="mi-rep" class="mi-rep__list">
+  <div class="mi-rep mi:content-start mi:font-mi" role="group" :aria-label="label">
+    <TransitionGroup tag="ul" name="mi-rep" class="mi-rep__list mi:grid mi:gap-2.5 mi:m-0 mi:p-0 mi:[list-style:none]">
       <li
         v-for="r in rows"
         :key="r.id"
         :ref="(el) => (rowEls[r.id] = el as HTMLElement | null)"
-        class="mi-rep__row"
+        class="mi-rep__row mi:flex mi:[align-items:flex-start] mi:gap-2.5 mi:p-3.5 mi:rounded-[14px] mi:bg-card mi:shadow-1"
         role="group"
         :aria-label="`${label} ${r.index + 1}`"
       >
-        <div class="mi-rep__body">
+        <div class="mi-rep__body mi:flex-1 mi:min-w-0 mi:grid mi:gap-2.5">
           <slot :row="r.row" :index="r.index" :update="(patch: Partial<MiRepeaterRow>) => update(r.index, patch)" />
         </div>
-        <button type="button" class="mi-rep__rm" data-mi-rm :aria-label="`${removeLabel} ${r.index + 1}`" :disabled="!canRemove" @click="remove(r.index)">
+        <button type="button" class="mi-rep__rm mi:inline-flex mi:items-center mi:justify-center mi:flex-[none] mi:w-10 mi:h-10 mi:p-0 mi:[border:0] mi:rounded-[99px] mi:bg-transparent mi:text-label2 mi:cursor-pointer mi:[&:hover:not(:disabled)]:bg-fill3 mi:[&:hover:not(:disabled)]:text-red-t mi:disabled:opacity-35 mi:disabled:cursor-default mi:focus-visible:[outline:3px_solid_color-mix(in_srgb,_var(--mi-p)_55%,_transparent)] mi:focus-visible:outline-offset-[2px]" data-mi-rm :aria-label="`${removeLabel} ${r.index + 1}`" :disabled="!canRemove" @click="remove(r.index)">
           <MiIcon name="trash" :size="18" />
         </button>
       </li>
     </TransitionGroup>
-    <button ref="addBtn" type="button" class="mi-rep__add" :disabled="!canAdd" @click="add">
+    <button ref="addBtn" type="button" class="mi-rep__add mi:inline-flex mi:items-center mi:justify-center mi:gap-2 mi:min-h-11 mi:py-0 mi:px-4 mi:[border:1.5px_dashed_var(--mi-field-b)] mi:rounded-[12px] mi:bg-transparent mi:text-[color:var(--mi-p-text,_var(--mi-p))] mi:cursor-pointer mi:[&:hover:not(:disabled)]:bg-p-tint mi:disabled:opacity-40 mi:disabled:cursor-default mi:focus-visible:[outline:3px_solid_color-mix(in_srgb,_var(--mi-p)_55%,_transparent)] mi:focus-visible:outline-offset-[2px]" :disabled="!canAdd" @click="add">
       <MiIcon name="plus" :size="16" :weight="2.4" />
       <span>{{ addLabel }}</span>
     </button>
@@ -122,27 +122,10 @@ async function remove(index: number) {
 </template>
 
 <style scoped>
-.mi-rep { display: grid; align-content: start; gap: 12px; font-family: var(--mi-font); color: var(--mi-label); }
-.mi-rep__list { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
-.mi-rep__row {
-  display: flex; align-items: flex-start; gap: 10px; padding: 14px; border-radius: 14px;
-  background: var(--mi-card); box-shadow: var(--mi-sh1);
-}
-.mi-rep__body { flex: 1; min-width: 0; display: grid; gap: 10px; }
-.mi-rep__rm {
-  display: inline-flex; align-items: center; justify-content: center; flex: none; width: 40px; height: 40px; padding: 0;
-  border: 0; border-radius: 99px; background: transparent; color: var(--mi-label2); cursor: pointer;
-}
-.mi-rep__rm:hover:not(:disabled) { background: var(--mi-fill3); color: var(--mi-red-t); }
-.mi-rep__rm:disabled { opacity: .35; cursor: default; }
+.mi-rep { display: grid; gap: 12px; color: var(--mi-label); }
 .mi-rep__add {
-  display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 16px;
-  border: 1.5px dashed var(--mi-field-b); border-radius: 12px; background: transparent; color: var(--mi-p-text, var(--mi-p));
-  font: inherit; font-size: 15px; font-weight: 600; cursor: pointer;
+  font: inherit; font-size: 15px; font-weight: 600;
 }
-.mi-rep__add:hover:not(:disabled) { background: var(--mi-p-tint); }
-.mi-rep__add:disabled { opacity: .4; cursor: default; }
-.mi-rep__rm:focus-visible, .mi-rep__add:focus-visible { outline: 3px solid color-mix(in srgb, var(--mi-p) 55%, transparent); outline-offset: 2px; }
 
 .mi-rep-enter-active { transition: transform var(--mi-dur-3) var(--mi-ease), opacity var(--mi-dur-3) var(--mi-ease); }
 .mi-rep-enter-from { opacity: 0; transform: translate3d(0, -8px, 0); }

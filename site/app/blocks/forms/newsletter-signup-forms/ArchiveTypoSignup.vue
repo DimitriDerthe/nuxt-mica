@@ -1,30 +1,30 @@
 <template>
-  <section class="ats" aria-labelledby="ats-title">
-    <div class="ats__card">
-      <div class="ats__pitch">
+  <section class="ats mi:@container/ats mi:font-mi mi:text-label" aria-labelledby="ats-title">
+    <div class="ats__card mi:grid mi:gap-6 mi:p-6 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:@[760px]/ats:grid-cols-[minmax(0,_1.25fr)_minmax(0,_1fr)] mi:@[760px]/ats:gap-7">
+      <div class="ats__pitch mi:@[760px]/ats:pe-7 mi:@[760px]/ats:[border-inline-end:1px_solid_var(--mi-sep)] mi:grid mi:content-start mi:gap-3.5">
         <MiText variant="caption" tone="primary" weight="semibold" class="ats__kicker">Field Notes · every other Thursday</MiText>
         <MiText id="ats-title" as="h2" variant="title2" weight="bold" balance>One long read on how small software teams actually ship.</MiText>
-        <div class="ats__proof">
+        <div class="ats__proof mi:flex mi:flex-wrap mi:items-center mi:gap-2.5">
           <MiAvatarGroup :items="readers" :max="4" size="sm" />
           <MiText variant="footnote" tone="label2">Read by 18,400 engineers and founders. 62% open rate.</MiText>
         </div>
 
-        <form v-if="!joined" class="ats__form" novalidate @submit.prevent="submit">
+        <form v-if="!joined" class="ats__form mi:grid mi:gap-2.5 mi:max-w-105" novalidate @submit.prevent="submit">
           <MiField label="Work email" :error="error">
             <template #default="{ id, describedBy }">
               <MiInput :id="id" v-model="email" type="email" autocomplete="email" placeholder="you@company.com" :aria-describedby="describedBy" />
             </template>
           </MiField>
           <!-- Typo catcher: a near-miss of a common domain offers a one-tap fix instead of a bounce later. -->
-          <p v-if="suggestion" class="ats__typo" role="status">
+          <p v-if="suggestion" class="ats__typo mi:-mt-0.5 mi:mx-0 mi:mb-0 mi:text-[13px] mi:text-label2" role="status">
             Did you mean
-            <button type="button" class="ats__fix" @click="email = suggestion">{{ suggestion }}</button>?
+            <button type="button" class="ats__fix mi:p-0 mi:[border:0] mi:text-p-text mi:[background:none] mi:[text-decoration:underline] mi:underline-offset-[2px] mi:cursor-pointer" @click="email = suggestion">{{ suggestion }}</button>?
           </p>
           <MiButton type="submit" block :loading="sending">Subscribe, it's free</MiButton>
           <MiText variant="caption" tone="label3">No tracking pixels. Unsubscribe from any issue in one click.</MiText>
         </form>
 
-        <div v-else class="ats__done" role="status">
+        <div v-else class="ats__done mi:grid mi:grid-cols-[auto_minmax(0,_1fr)] mi:gap-y-1 mi:gap-x-3 mi:items-start mi:max-w-105 mi:p-4 mi:rounded-lg mi:[background:color-mix(in_srgb,_var(--mi-green)_10%,_transparent)]" role="status">
           <MiIcon name="check-circle-fill" :size="28" />
           <div>
             <MiText as="h3" variant="headline" weight="semibold">Check {{ email }}</MiText>
@@ -34,13 +34,13 @@
         </div>
       </div>
 
-      <div class="ats__archive">
+      <div class="ats__archive mi:grid mi:content-start mi:gap-2.5">
         <MiText as="h3" variant="subheadline" weight="semibold" tone="label2">Recent issues</MiText>
-        <ol class="ats__issues">
-          <li v-for="i in issues" :key="i.no" class="ats__issue">
-            <span class="ats__no">#{{ i.no }}</span>
-            <div class="ats__issue-body">
-              <a href="#" class="ats__link" @click.prevent>{{ i.title }}</a>
+        <ol class="ats__issues mi:grid mi:m-0 mi:p-0 mi:[list-style:none]">
+          <li v-for="i in issues" :key="i.no" class="ats__issue mi:grid mi:grid-cols-[44px_minmax(0,_1fr)] mi:gap-2.5 mi:py-3 mi:px-0 mi:[.ats__issue+&]:border-t mi:[.ats__issue+&]:border-t-sep">
+            <span class="ats__no mi:text-[13px] mi:font-bold mi:text-label3 mi:tabular-nums">#{{ i.no }}</span>
+            <div class="ats__issue-body mi:grid mi:gap-0.5">
+              <a href="#" class="ats__link mi:text-[14.5px] mi:font-semibold mi:leading-[1.35] mi:text-label mi:[text-decoration:none] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:focus-visible:rounded-[2px]" @click.prevent>{{ i.title }}</a>
               <MiText variant="caption" tone="label3">{{ i.date }} · {{ i.minutes }} min read</MiText>
             </div>
           </li>
@@ -103,29 +103,12 @@ function submit() {
 </script>
 
 <style scoped>
-.ats { container: ats / inline-size; font-family: var(--mi-font); color: var(--mi-label); }
-.ats__card { display: grid; gap: 24px; padding: 24px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-@container ats (min-width: 760px) { .ats__card { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 28px; } .ats__pitch { padding-inline-end: 28px; border-inline-end: 1px solid var(--mi-sep); } }
-
-.ats__pitch { display: grid; align-content: start; gap: 14px; }
 .ats__kicker { text-transform: uppercase; letter-spacing: .08em; }
-.ats__proof { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
-.ats__form { display: grid; gap: 10px; max-width: 420px; }
-.ats__typo { margin: -2px 0 0; font-size: 13px; color: var(--mi-label2); }
-.ats__fix { padding: 0; border: 0; font: inherit; font-weight: 600; color: var(--mi-p-text); background: none; text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
-.ats__done { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 12px; align-items: start; max-width: 420px; padding: 16px; border-radius: var(--mi-radius-l); background: color-mix(in srgb, var(--mi-green) 10%, transparent); animation: ats-in var(--mi-dur-3) var(--mi-ease); }
+.ats__fix { font: inherit; font-weight: 600; }
+.ats__done { animation: ats-in var(--mi-dur-3) var(--mi-ease); }
 .ats__done > :first-child { color: var(--mi-green); }
 .ats__done > :last-child { grid-column: 2; justify-self: start; }
-
-.ats__archive { display: grid; align-content: start; gap: 10px; }
-.ats__issues { display: grid; margin: 0; padding: 0; list-style: none; }
-.ats__issue { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 10px; padding: 12px 0; }
-.ats__issue + .ats__issue { border-top: 1px solid var(--mi-sep); }
-.ats__no { font-size: 13px; font-weight: 700; color: var(--mi-label3); font-variant-numeric: tabular-nums; }
-.ats__issue-body { display: grid; gap: 2px; }
-.ats__link { font-size: 14.5px; font-weight: 600; line-height: 1.35; color: var(--mi-label); text-decoration: none; }
 .ats__link:hover { color: var(--mi-p-text); }
-.ats__link:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; border-radius: 2px; }
 @keyframes ats-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .ats__done { animation: none; } }
 </style>

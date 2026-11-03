@@ -19,9 +19,9 @@ const _slots = defineSlots<{
 </script>
 
 <template>
-  <a class="mi-link" :class="`mi-link--${brand}`" :href="miSafeHref(href)">
+  <a class="mi-link mi:focus-visible:[outline:3px_solid_color-mix(in_srgb,_var(--mi-p)_55%,_transparent)] mi:focus-visible:outline-offset-[2px]" :class="`mi-link--${brand}`" :href="miSafeHref(href)">
     <slot />
-    <svg v-if="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg>
+    <svg class="mi:[.mi-link_&]:w-3.5 mi:[.mi-link_&]:h-3.5 mi:[.mi-link_&]:flex-[none] mi:[.mi-link_&]:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:[.mi-link:hover_&]:transform-[translateX(2px)]" v-if="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg>
   </a>
 </template>
 
@@ -40,7 +40,4 @@ const _slots = defineSlots<{
 }
 .mi-link--secondary { color: var(--mi-s-text); }
 .mi-link:hover { opacity: 0.8; }
-.mi-link:focus-visible { outline: 3px solid color-mix(in srgb, var(--mi-p) 55%, transparent); outline-offset: 2px; }
-.mi-link svg { width: 14px; height: 14px; flex: none; transition: transform var(--mi-dur-2) var(--mi-ease); }
-.mi-link:hover svg { transform: translateX(2px); }
 </style>

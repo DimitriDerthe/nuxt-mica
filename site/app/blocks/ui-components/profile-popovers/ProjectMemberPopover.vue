@@ -1,7 +1,7 @@
 <template>
-  <div class="pmp">
-    <section class="pmp__card" aria-labelledby="pmp-title">
-      <header class="pmp__head">
+  <div class="pmp mi:@container mi:font-mi mi:text-label">
+    <section class="pmp__card mi:grid mi:gap-4 mi:p-5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:@[560px]:py-6 mi:@[560px]:px-7" aria-labelledby="pmp-title">
+      <header class="pmp__head mi:flex mi:flex-wrap mi:[align-items:flex-start] mi:justify-between mi:gap-y-2 mi:gap-x-4">
         <div>
           <MiText id="pmp-title" variant="headline" as="h2">Spring rebrand</MiText>
           <MiText variant="footnote" tone="label2">{{ members.length }} members · due Apr 18</MiText>
@@ -12,10 +12,10 @@
       <!-- The popover stays open; its arrow slides under whichever avatar is picked. -->
       <MiPopover :model-value="!!current" trigger="manual" inline :arrow-offset="arrowAt" width="min(340px, 100%)" label="Member profile">
         <template #trigger>
-          <ul class="pmp__stack" aria-label="Project members">
+          <ul class="pmp__stack mi:flex mi:gap-2 mi:m-0 mi:p-0 mi:[list-style:none]" aria-label="Project members">
             <li v-for="m in members" :key="m.id">
               <button
-                type="button" class="pmp__face" :aria-pressed="m.id === selected" aria-controls="pmp-panel"
+                type="button" class="pmp__face mi:block mi:p-0 mi:[border:0] mi:rounded-[50%] mi:[background:none] mi:cursor-pointer mi:opacity-55 mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),_transform_var(--mi-dur-2)_var(--mi-spring)] mi:aria-pressed:transform-[translateY(-2px)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" :aria-pressed="m.id === selected" aria-controls="pmp-panel"
                 :aria-label="`Show ${m.name}`" @click="selected = m.id"
               >
                 <MiAvatar :name="m.name" tone="auto" decorative />
@@ -24,20 +24,20 @@
           </ul>
         </template>
 
-        <div v-if="current" id="pmp-panel" class="pmp__panel">
-          <div class="pmp__who">
+        <div v-if="current" id="pmp-panel" class="pmp__panel mi:grid mi:gap-3.5">
+          <div class="pmp__who mi:flex mi:items-center mi:gap-3">
             <MiAvatar :name="current.name" tone="auto" size="lg" decorative />
-            <div class="pmp__id">
+            <div class="pmp__id mi:grid mi:justify-items-start mi:gap-0.5 mi:min-w-0">
               <MiText variant="headline" as="h3">{{ current.name }}</MiText>
               <MiText variant="footnote" tone="label2">{{ current.title }}</MiText>
               <MiBadge :tone="current.away ? 'warning' : 'success'" variant="tint" dot :label="current.away ?? 'Active now'" />
             </div>
           </div>
 
-          <dl class="pmp__facts">
-            <div><dt>Open tasks</dt><dd>{{ current.open }}</dd></div>
-            <div><dt>Done this week</dt><dd>{{ current.done }}</dd></div>
-            <div><dt>Joined</dt><dd>{{ current.joined }}</dd></div>
+          <dl class="pmp__facts mi:grid mi:grid-cols-3 mi:m-0 mi:rounded-md mi:[background:var(--mi-fill4)]">
+            <div class="mi:[.pmp__facts_&]:grid mi:[.pmp__facts_&]:gap-0.5 mi:[.pmp__facts_&]:py-2.5 mi:[.pmp__facts_&]:px-3"><dt class="mi:[.pmp__facts_&]:text-[11px] mi:[.pmp__facts_&]:text-label2">Open tasks</dt><dd class="mi:[.pmp__facts_&]:m-0 mi:[.pmp__facts_&]:text-[17px] mi:[.pmp__facts_&]:font-semibold mi:[.pmp__facts_&]:tabular-nums">{{ current.open }}</dd></div>
+            <div class="mi:[.pmp__facts_&]:grid mi:[.pmp__facts_&]:gap-0.5 mi:[.pmp__facts_&]:py-2.5 mi:[.pmp__facts_&]:px-3"><dt class="mi:[.pmp__facts_&]:text-[11px] mi:[.pmp__facts_&]:text-label2">Done this week</dt><dd class="mi:[.pmp__facts_&]:m-0 mi:[.pmp__facts_&]:text-[17px] mi:[.pmp__facts_&]:font-semibold mi:[.pmp__facts_&]:tabular-nums">{{ current.done }}</dd></div>
+            <div class="mi:[.pmp__facts_&]:grid mi:[.pmp__facts_&]:gap-0.5 mi:[.pmp__facts_&]:py-2.5 mi:[.pmp__facts_&]:px-3"><dt class="mi:[.pmp__facts_&]:text-[11px] mi:[.pmp__facts_&]:text-label2">Joined</dt><dd class="mi:[.pmp__facts_&]:m-0 mi:[.pmp__facts_&]:text-[17px] mi:[.pmp__facts_&]:font-semibold mi:[.pmp__facts_&]:tabular-nums">{{ current.joined }}</dd></div>
           </dl>
 
           <MiMeter
@@ -50,7 +50,7 @@
             <MiSelect v-model="current.access" :options="accessOptions" size="sm" :disabled="current.access === 'owner'" />
           </MiField>
 
-          <div class="pmp__actions">
+          <div class="pmp__actions mi:flex mi:flex-wrap mi:gap-2">
             <MiButton variant="tinted" size="small">
               <template #leading><MiIcon name="chat" :size="16" /></template>
               Message
@@ -101,32 +101,7 @@ function remove(id: string): void {
 </script>
 
 <style scoped>
-.pmp { container-type: inline-size; font-family: var(--mi-font); color: var(--mi-label); }
-.pmp__card { display: grid; gap: 16px; padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.pmp__head { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 8px 16px; }
-
-.pmp__stack { display: flex; gap: 8px; margin: 0; padding: 0; list-style: none; }
-.pmp__face {
-  display: block; padding: 0; border: 0; border-radius: 50%; background: none; cursor: pointer;
-  opacity: .55; transition: opacity var(--mi-dur-2) var(--mi-ease), transform var(--mi-dur-2) var(--mi-spring);
-}
 .pmp__face:hover { opacity: .85; }
-.pmp__face[aria-pressed="true"] { opacity: 1; transform: translateY(-2px); }
-.pmp__face:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-
-.pmp__panel { display: grid; gap: 14px; }
-.pmp__who { display: flex; align-items: center; gap: 12px; }
-.pmp__id { display: grid; justify-items: start; gap: 2px; min-width: 0; }
-
-.pmp__facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 0; border-radius: var(--mi-radius-m); background: var(--mi-fill4); }
-.pmp__facts div { display: grid; gap: 2px; padding: 10px 12px; }
+.pmp__face[aria-pressed="true"] { opacity: 1; }
 .pmp__facts div + div { border-left: 1px solid var(--mi-sep); }
-.pmp__facts dt { font-size: 11px; color: var(--mi-label2); }
-.pmp__facts dd { margin: 0; font-size: 17px; font-weight: 600; font-variant-numeric: tabular-nums; }
-
-.pmp__actions { display: flex; flex-wrap: wrap; gap: 8px; }
-
-@container (min-width: 560px) {
-  .pmp__card { padding: 24px 28px; }
-}
 </style>

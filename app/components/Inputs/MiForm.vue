@@ -23,33 +23,17 @@ defineSlots<{
 </script>
 
 <template>
-  <form class="mi-form" novalidate @submit.prevent="emit('submit', $event)">
-    <header v-if="title || $slots.header || $slots['header-end']" class="mi-form__head">
-      <div class="mi-form__titles">
+  <form class="mi-form mi:@container mi:overflow-hidden mi:rounded-[20px] mi:bg-card mi:shadow-1 mi:font-mi mi:text-label mi:tracking-[-.01em]" novalidate @submit.prevent="emit('submit', $event)">
+    <header v-if="title || $slots.header || $slots['header-end']" class="mi-form__head mi:flex mi:items-center mi:justify-between mi:gap-4 mi:py-4.5 mi:px-6 mi:[border-bottom:.5px_solid_var(--mi-sep)] mi:@max-[640px]:px-4">
+      <div class="mi-form__titles mi:flex mi:flex-col mi:gap-0.5 mi:min-w-0">
         <slot name="header">
-          <h3 v-if="title" class="mi-form__title">{{ title }}</h3>
-          <p v-if="description" class="mi-form__desc">{{ description }}</p>
+          <h3 v-if="title" class="mi-form__title mi:m-0 mi:text-[20px] mi:font-semibold mi:tracking-[-.015em]">{{ title }}</h3>
+          <p v-if="description" class="mi-form__desc mi:m-0 mi:text-[13px] mi:text-label2">{{ description }}</p>
         </slot>
       </div>
-      <div v-if="$slots['header-end']" class="mi-form__badge"><slot name="header-end" /></div>
+      <div v-if="$slots['header-end']" class="mi-form__badge mi:flex-[none]"><slot name="header-end" /></div>
     </header>
-    <div class="mi-form__body" :style="{ maxWidth }"><slot /></div>
-    <footer v-if="$slots.actions" class="mi-form__foot"><slot name="actions" /></footer>
+    <div class="mi-form__body mi:grid mi:grid-cols-[180px_minmax(0,_1fr)] mi:gap-y-4.5 mi:gap-x-5 mi:items-center mi:py-6.5 mi:px-6 mi:@max-[640px]:grid-cols-[minmax(0,_1fr)] mi:@max-[640px]:gap-1.5 mi:@max-[640px]:py-5 mi:@max-[640px]:px-4" :style="{ maxWidth }"><slot /></div>
+    <footer v-if="$slots.actions" class="mi-form__foot mi:flex mi:[justify-content:flex-end] mi:gap-2.5 mi:py-3.5 mi:px-6 mi:[border-top:.5px_solid_var(--mi-sep)] mi:bg-fill4 mi:@max-[640px]:px-4"><slot name="actions" /></footer>
   </form>
 </template>
-
-<style scoped>
-.mi-form { container-type: inline-size; overflow: hidden; border-radius: 20px; background: var(--mi-card); box-shadow: var(--mi-sh1); font-family: var(--mi-font); color: var(--mi-label); letter-spacing: -.01em; }
-.mi-form__head { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 24px; border-bottom: .5px solid var(--mi-sep); }
-.mi-form__titles { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.mi-form__title { margin: 0; font-size: 20px; font-weight: 600; letter-spacing: -.015em; }
-.mi-form__desc { margin: 0; font-size: 13px; color: var(--mi-label2); }
-.mi-form__badge { flex: none; }
-.mi-form__body { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 18px 20px; align-items: center; padding: 26px 24px; }
-.mi-form__foot { display: flex; justify-content: flex-end; gap: 10px; padding: 14px 24px; border-top: .5px solid var(--mi-sep); background: var(--mi-fill4); }
-@container (max-width: 640px) {
-  .mi-form__body { grid-template-columns: minmax(0, 1fr); gap: 6px; }
-  .mi-form__head, .mi-form__foot { padding-inline: 16px; }
-  .mi-form__body { padding: 20px 16px; }
-}
-</style>

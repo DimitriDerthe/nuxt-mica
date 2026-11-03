@@ -30,9 +30,5 @@ defineSlots<{
 </script>
 
 <template>
-  <div class="mi-direction" :dir="direction"><slot /></div>
+  <div class="mi-direction mi:contents" :dir="direction"><slot /></div>
 </template>
-
-<style scoped>
-.mi-direction{display:contents}
-</style>

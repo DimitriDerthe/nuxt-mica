@@ -1,7 +1,7 @@
 <template>
-  <div class="dns">
-    <section class="dns__card" aria-labelledby="dns-title">
-      <header class="dns__head">
+  <div class="dns mi:@container mi:font-mi mi:text-label">
+    <section class="dns__card mi:grid mi:gap-4.5 mi:p-5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:@[720px]:py-6 mi:@[720px]:px-7" aria-labelledby="dns-title">
+      <header class="dns__head mi:flex mi:flex-wrap mi:[align-items:flex-start] mi:justify-between mi:gap-y-2.5 mi:gap-x-4">
         <div>
           <MiText id="dns-title" variant="title3" as="h2" weight="semibold">DNS records</MiText>
           <MiText variant="footnote" tone="label2">northwind.studio · changes propagate in about 5 minutes</MiText>
@@ -10,47 +10,47 @@
       </header>
 
       <!-- Each field carries its own compact select: record type before the name, TTL after the value. -->
-      <form class="dns__form" novalidate @submit.prevent="add">
+      <form class="dns__form mi:grid mi:gap-3.5 mi:@[720px]:grid-cols-[minmax(0,_1fr)_minmax(0,_1.3fr)_auto] mi:@[720px]:items-start" novalidate @submit.prevent="add">
         <MiField label="Name" hint="Leave empty for the root, or type a subdomain">
           <MiInputGroup v-model="name" placeholder="www">
             <template #inline-start>
-              <select v-model="type" class="dns__pick" aria-label="Record type">
+              <select v-model="type" class="dns__pick mi:h-full mi:[background:none] mi:text-label mi:cursor-pointer mi:rounded-sm mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" aria-label="Record type">
                 <option v-for="t in types" :key="t" :value="t">{{ t }}</option>
               </select>
             </template>
-            <template #inline-end><span class="dns__zone">.northwind.studio</span></template>
+            <template #inline-end><span class="dns__zone mi:text-[13px] mi:text-label3 mi:whitespace-nowrap">.northwind.studio</span></template>
           </MiInputGroup>
         </MiField>
 
         <MiField label="Value" :hint="rule.hint" :error="showError ? rule.error : undefined">
           <MiInputGroup v-model="value" :placeholder="rule.placeholder">
             <template #inline-end>
-              <select v-model.number="ttl" class="dns__pick dns__pick--end" aria-label="Time to live">
+              <select v-model.number="ttl" class="dns__pick dns__pick--end mi:h-full mi:[background:none] mi:text-label mi:cursor-pointer mi:rounded-sm mi:text-label2 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" aria-label="Time to live">
                 <option v-for="t in ttls" :key="t.value" :value="t.value">{{ t.label }}</option>
               </select>
             </template>
           </MiInputGroup>
         </MiField>
 
-        <MiButton type="submit" class="dns__add">
+        <MiButton type="submit" class="dns__add mi:justify-self-start mi:@[720px]:mt-6.5">
           <template #leading><MiIcon name="plus" :size="16" /></template>
           Add record
         </MiButton>
       </form>
 
-      <p class="dns__preview" aria-live="polite">
-        <span class="dns__preview-label">Zone line</span>
-        <code>{{ host }}. {{ ttl }} IN {{ type }} {{ value.trim() || '…' }}</code>
+      <p class="dns__preview mi:grid mi:gap-1 mi:m-0 mi:py-3 mi:px-3.5 mi:rounded-md mi:[background:var(--mi-fill4)]" aria-live="polite">
+        <span class="dns__preview-label mi:text-[11px] mi:font-semibold mi:tracking-[.04em] mi:uppercase mi:text-label3">Zone line</span>
+        <code class="mi:[.dns__preview_&]:text-[13px] mi:[.dns__preview_&]:text-p-text mi:[.dns__preview_&]:wrap-anywhere">{{ host }}. {{ ttl }} IN {{ type }} {{ value.trim() || '…' }}</code>
       </p>
 
-      <ul class="dns__list" aria-label="Current records">
-        <li v-for="r in records" :key="r.id" class="dns__row">
+      <ul class="dns__list mi:grid mi:m-0 mi:p-0 mi:[list-style:none]" aria-label="Current records">
+        <li v-for="r in records" :key="r.id" class="dns__row mi:grid mi:grid-cols-[64px_minmax(0,_1fr)_auto] mi:items-center mi:gap-y-1 mi:gap-x-3 mi:py-2.5 mi:px-0 mi:border-t mi:border-t-sep mi:@[720px]:grid-cols-[72px_minmax(0,_1fr)_64px_auto]">
           <MiBadge variant="outline" tone="neutral" :label="r.type" class="dns__type" />
-          <div class="dns__text">
+          <div class="dns__text mi:min-w-0">
             <MiText variant="subheadline" weight="medium" :lines="1">{{ r.name || '@' }}</MiText>
             <MiText variant="caption" tone="label2" :lines="1" class="dns__mono">{{ r.value }}</MiText>
           </div>
-          <MiText as="span" variant="caption" tone="label3" tabular class="dns__ttl">{{ ttlLabel(r.ttl) }}</MiText>
+          <MiText as="span" variant="caption" tone="label3" tabular class="dns__ttl mi:@[720px]:text-end">{{ ttlLabel(r.ttl) }}</MiText>
           <MiIconButton :label="`Delete ${r.type} record ${r.name || '@'}`" variant="plain" size="small" @click="remove(r.id)">
             <MiIcon name="trash" :size="16" />
           </MiIconButton>
@@ -117,38 +117,15 @@ function remove(id: number): void {
 </script>
 
 <style scoped>
-.dns { container-type: inline-size; font-family: var(--mi-font); color: var(--mi-label); }
-.dns__card { display: grid; gap: 18px; padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.dns__head { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 10px 16px; }
-
-.dns__form { display: grid; gap: 14px; }
-.dns__add { justify-self: start; }
-
 /* Bare native selects that sit inside the field surface, separated by a hairline. */
-.dns__pick {
-  height: 100%; padding: 0 8px 0 2px; border: 0; border-right: 1px solid var(--mi-sep); background: none;
-  color: var(--mi-label); font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; border-radius: var(--mi-radius-s);
+.dns__pick { padding: 0 8px 0 2px; border: 0; border-right: 1px solid var(--mi-sep); font: inherit; font-size: 13px; font-weight: 600;
 }
-.dns__pick--end { padding: 0 2px 0 8px; border-right: 0; border-left: 1px solid var(--mi-sep); font-weight: 500; color: var(--mi-label2); }
-.dns__pick:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-.dns__zone { font-size: 13px; color: var(--mi-label3); white-space: nowrap; }
-
-.dns__preview { display: grid; gap: 4px; margin: 0; padding: 12px 14px; border-radius: var(--mi-radius-m); background: var(--mi-fill4); }
-.dns__preview-label { font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--mi-label3); }
+.dns__pick--end { padding: 0 2px 0 8px; border-right: 0; border-left: 1px solid var(--mi-sep); font-weight: 500; }
 .dns__preview code, .dns__mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
-.dns__preview code { font-size: 13px; color: var(--mi-p-text); overflow-wrap: anywhere; }
-
-.dns__list { display: grid; margin: 0; padding: 0; list-style: none; }
-.dns__row { display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; align-items: center; gap: 4px 12px; padding: 10px 0; border-top: 1px solid var(--mi-sep); }
 .dns__type { justify-self: start; }
-.dns__text { min-width: 0; }
 .dns__ttl { display: none; }
 
 @container (min-width: 720px) {
-  .dns__card { padding: 24px 28px; }
-  .dns__form { grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr) auto; align-items: start; }
-  .dns__add { margin-top: 26px; }
-  .dns__row { grid-template-columns: 72px minmax(0, 1fr) 64px auto; }
-  .dns__ttl { display: block; text-align: end; }
+  .dns__ttl { display: block; }
 }
 </style>

@@ -1,51 +1,51 @@
 <template>
-  <section class="ts" aria-labelledby="ts-title">
-    <article class="ts__card">
-      <header class="ts__head">
-        <div class="ts__labels">
+  <section class="ts mi:@container mi:font-mi mi:text-label" aria-labelledby="ts-title">
+    <article class="ts__card mi:grid mi:gap-4 mi:max-w-190 mi:mx-auto mi:p-4.5 mi:rounded-xl mi:bg-card mi:shadow-2 mi:@[600px]:py-6 mi:@[600px]:px-7 mi:@[600px]:gap-5">
+      <header class="ts__head mi:grid mi:gap-2.5">
+        <div class="ts__labels mi:flex mi:flex-wrap mi:gap-1.5">
           <MiBadge tone="secondary" label="Events" />
           <MiBadge tone="neutral" variant="outline" label="Contract" />
         </div>
         <MiText id="ts-title" as="h2" variant="title2" weight="bold" balance>Venue contract for the Lisbon offsite</MiText>
-        <div class="ts__people">
+        <div class="ts__people mi:flex mi:flex-wrap mi:items-center mi:gap-2.5">
           <MiAvatarGroup :items="people" :max="4" :size="28" />
           <MiText variant="footnote" tone="label2">{{ people.length }} people · {{ mails.length }} messages</MiText>
         </div>
       </header>
 
       <!-- Pinned key points: the outcome of the thread, readable without opening it. -->
-      <aside class="ts__keys" aria-labelledby="ts-keys-title">
-        <MiText id="ts-keys-title" as="h3" variant="footnote" weight="semibold">Where this landed</MiText>
-        <ul>
+      <aside class="ts__keys mi:py-3 mi:px-4 mi:rounded-lg mi:bg-p-tint mi:text-p-text" aria-labelledby="ts-keys-title">
+        <MiText class="mi:[.ts__keys_ul&]:pl-4.5 mi:[.ts__keys_ul&]:gap-1" id="ts-keys-title" as="h3" variant="footnote" weight="semibold">Where this landed</MiText>
+        <ul class="mi:[.ts__keys_ul&]:pl-4.5 mi:[.ts__keys_ul&]:gap-1">
           <li>Palácio Verde holds 14 to 16 May for 42 people, deposit due 30 November.</li>
           <li>Catering moves to their in-house team; dietary list due 1 May.</li>
           <li>Open: cancellation clause 9.1, Joana is checking with legal.</li>
         </ul>
       </aside>
 
-      <ol class="ts__mails" aria-label="Messages">
+      <ol class="ts__mails mi:[list-style:none] mi:m-0 mi:p-0 mi:grid" aria-label="Messages">
         <template v-for="(m, i) in mails" :key="m.id">
-          <li v-if="i === 1 && stacked && hidden > 0" class="ts__stack-li">
-            <button type="button" class="ts__stack" :aria-expanded="false" @click="stacked = false">
+          <li v-if="i === 1 && stacked && hidden > 0" class="ts__stack-li mi:relative mi:pt-1.5 mi:px-0 mi:pb-3.5 mi:border-t mi:border-t-sep mi:before:content-[''] mi:before:absolute mi:before:left-0 mi:before:right-0 mi:before:h-11 mi:before:border mi:before:border-sep2 mi:before:rounded-md mi:before:bg-page mi:after:content-[''] mi:after:absolute mi:after:left-0 mi:after:right-0 mi:after:h-11 mi:after:border mi:after:border-sep2 mi:after:rounded-md mi:after:bg-page mi:before:top-3.5 mi:before:transform-[scaleX(.93)] mi:before:opacity-70 mi:after:top-2.5 mi:after:transform-[scaleX(.97)]">
+            <button type="button" class="ts__stack mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px] mi:focus-visible:rounded-md mi:relative mi:z-1 mi:flex mi:items-center mi:justify-center mi:gap-2.5 mi:w-full mi:h-11 mi:border mi:border-sep2 mi:rounded-md mi:bg-card mi:text-label2 mi:cursor-pointer mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:hover:transform-[translateY(-1px)] mi:hover:text-label" :aria-expanded="false" @click="stacked = false">
               <MiAvatarGroup :items="hiddenPeople" :max="3" :size="22" />
               <span>{{ hidden }} earlier {{ hidden === 1 ? 'reply' : 'replies' }}</span>
             </button>
           </li>
-          <li v-if="!isHidden(i)" class="ts__mail" :class="{ 'is-open': open.has(m.id) }">
-            <button type="button" class="ts__mail-head" :aria-expanded="open.has(m.id)" @click="toggle(m.id)">
+          <li v-if="!isHidden(i)" class="ts__mail mi:border-t mi:border-t-sep" :class="{ 'is-open': open.has(m.id) }">
+            <button type="button" class="ts__mail-head mi:flex mi:[align-items:flex-start] mi:gap-3 mi:w-full mi:py-3 mi:px-1 mi:[border:0] mi:bg-transparent mi:text-inherit mi:[font:inherit] mi:text-start mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px] mi:focus-visible:rounded-md" :aria-expanded="open.has(m.id)" @click="toggle(m.id)">
               <MiAvatar :name="m.from" size="sm" :tone="m.from === me ? 'primary' : 'auto'" decorative />
-              <span class="ts__mail-meta">
-                <span class="ts__mail-top">
-                  <span class="ts__from">{{ m.from === me ? 'You' : m.from }}</span>
-                  <time class="ts__time">{{ m.time }}</time>
+              <span class="ts__mail-meta mi:grid mi:gap-0.5 mi:flex-1 mi:min-w-0">
+                <span class="ts__mail-top mi:flex mi:items-baseline mi:justify-between mi:gap-2">
+                  <span class="ts__from mi:text-[14.5px] mi:font-semibold">{{ m.from === me ? 'You' : m.from }}</span>
+                  <time class="ts__time mi:flex-[none] mi:text-[12px] mi:text-label3">{{ m.time }}</time>
                 </span>
-                <span v-if="!open.has(m.id)" class="ts__snip">{{ m.body[0] }}</span>
-                <span v-else class="ts__to">to {{ m.to }}</span>
+                <span v-if="!open.has(m.id)" class="ts__snip mi:text-[13.5px] mi:text-label2 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ m.body[0] }}</span>
+                <span v-else class="ts__to mi:text-[12.5px] mi:text-label3">to {{ m.to }}</span>
               </span>
             </button>
-            <div v-if="open.has(m.id)" class="ts__body">
-              <p v-for="(p, j) in m.body" :key="j">{{ p }}</p>
-              <MiAttachment v-if="m.file" class="ts__file" :name="m.file.name" :file-size="m.file.size" type="application/pdf" :removable="false" />
+            <div v-if="open.has(m.id)" class="ts__body mi:grid mi:gap-2.5 mi:pt-0 mi:pr-1 mi:pb-4 mi:pl-14 mi:@max-[480px]:pl-1">
+              <p class="mi:[.ts__body_p&]:wrap-anywhere" v-for="(p, j) in m.body" :key="j">{{ p }}</p>
+              <MiAttachment v-if="m.file" class="ts__file mi:[.ts__body_p&]:wrap-anywhere" :name="m.file.name" :file-size="m.file.size" type="application/pdf" :removable="false" />
             </div>
           </li>
         </template>
@@ -57,7 +57,7 @@
             <MiSegmented v-model="mode" label="Recipients" :options="[{ value: 'one', label: 'Reply' }, { value: 'all', label: 'Reply all' }]" />
           </template>
           <template #block-end>
-            <div class="ts__reply-bar">
+            <div class="ts__reply-bar mi:flex mi:[justify-content:flex-end] mi:w-full">
               <MiButton type="submit" size="small" :disabled="!draft.trim()">Send</MiButton>
             </div>
           </template>
@@ -114,39 +114,9 @@ function send() {
 </script>
 
 <style scoped>
-.ts { container-type: inline-size; font-family: var(--mi-font); color: var(--mi-label); }
-.ts__card { display: grid; gap: 16px; max-width: 760px; margin-inline: auto; padding: 18px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh2); }
-@container (min-width: 600px) { .ts__card { padding: 24px 28px; gap: 20px; } }
-.ts__head { display: grid; gap: 10px; }
-.ts__labels { display: flex; flex-wrap: wrap; gap: 6px; }
-.ts__people { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
-
-.ts__keys { padding: 12px 16px; border-radius: var(--mi-radius-l); background: var(--mi-p-tint); color: var(--mi-p-text); }
-.ts__keys ul { margin: 6px 0 0; padding-left: 18px; display: grid; gap: 4px; font-size: 13.5px; line-height: 1.45; color: var(--mi-label); }
+.ts__keys ul { margin: 6px 0 0; display: grid; font-size: 13.5px; line-height: 1.45; color: var(--mi-label); }
 .ts__keys li::marker { color: var(--mi-p); }
-
-.ts__mails { list-style: none; margin: 0; padding: 0; display: grid; }
-.ts__mail { border-top: 1px solid var(--mi-sep); }
-.ts__mail-head { display: flex; align-items: flex-start; gap: 12px; width: 100%; padding: 12px 4px; border: 0; background: transparent; color: inherit; font: inherit; text-align: start; cursor: pointer; }
-.ts__mail-head:focus-visible, .ts__stack:focus-visible { outline: 2px solid var(--mi-p); outline-offset: -2px; border-radius: var(--mi-radius-m); }
-.ts__mail-meta { display: grid; gap: 2px; flex: 1; min-width: 0; }
-.ts__mail-top { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
-.ts__from { font-size: 14.5px; font-weight: 600; }
-.ts__time { flex: none; font-size: 12px; color: var(--mi-label3); }
-.ts__snip { font-size: 13.5px; color: var(--mi-label2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.ts__to { font-size: 12.5px; color: var(--mi-label3); }
-.ts__body { display: grid; gap: 10px; padding: 0 4px 16px 56px; }
-@container (max-width: 480px) { .ts__body { padding-left: 4px; } }
-.ts__body p { margin: 0; font-size: 14.5px; line-height: 1.6; overflow-wrap: anywhere; }
+.ts__body p { margin: 0; font-size: 14.5px; line-height: 1.6; }
 .ts__file { max-width: 320px; }
-
-/* Folded replies drawn as a little stack of paper edges. */
-.ts__stack-li { position: relative; padding: 6px 0 14px; border-top: 1px solid var(--mi-sep); }
-.ts__stack { position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; height: 44px; border: 1px solid var(--mi-sep2); border-radius: var(--mi-radius-m); background: var(--mi-card); color: var(--mi-label2); font: inherit; font-size: 13.5px; font-weight: 600; cursor: pointer; transition: transform var(--mi-dur-2) var(--mi-ease); }
-.ts__stack:hover { transform: translateY(-1px); color: var(--mi-label); }
-.ts__stack-li::before, .ts__stack-li::after { content: ""; position: absolute; left: 0; right: 0; height: 44px; border: 1px solid var(--mi-sep2); border-radius: var(--mi-radius-m); background: var(--mi-page); }
-.ts__stack-li::before { top: 14px; transform: scaleX(.93); opacity: .7; }
-.ts__stack-li::after { top: 10px; transform: scaleX(.97); }
-
-.ts__reply-bar { display: flex; justify-content: flex-end; width: 100%; }
+.ts__stack { font: inherit; font-size: 13.5px; font-weight: 600; }
 </style>

@@ -1,13 +1,13 @@
 <template>
-  <section class="plp" aria-labelledby="plp-title">
-    <header class="plp__head">
+  <section class="plp mi:@container/plp mi:grid mi:content-start mi:gap-5 mi:font-mi mi:text-label" aria-labelledby="plp-title">
+    <header class="plp__head mi:grid mi:gap-1 mi:max-w-140">
       <MiText id="plp-title" as="h2" variant="title2" weight="bold">Public profile</MiText>
       <MiText variant="footnote" tone="label2">Visible to the 48 people in Northline Studio and to guests on shared boards.</MiText>
     </header>
 
-    <div class="plp__layout">
-      <form class="plp__form" novalidate @submit.prevent="save">
-        <div class="plp__pair">
+    <div class="plp__layout mi:grid mi:gap-4 mi:grid-cols-[minmax(0,_1fr)] mi:items-start mi:@[780px]/plp:grid-cols-[minmax(0,_1fr)_320px] mi:@[780px]/plp:gap-8 mi:@[1040px]/plp:grid-cols-[minmax(0,_1fr)_360px] mi:@[1040px]/plp:gap-12">
+      <form class="plp__form mi:@container/plp-form mi:grid mi:gap-4.5 mi:min-w-0" novalidate @submit.prevent="save">
+        <div class="plp__pair mi:grid mi:gap-4.5 mi:@[540px]/plp-form:grid-cols-2 mi:@[540px]/plp-form:items-start">
           <MiField label="Display name" required :error="nameError">
             <MiInput v-model="draft.name" autocomplete="name" />
           </MiField>
@@ -15,27 +15,27 @@
           <MiField label="Handle" required :error="handleError" :success="handleOk" hint="3 to 20 characters: letters, numbers, dots and underscores.">
             <MiInput v-model="draft.handle" prefix="@" autocomplete="off" spellcheck="false">
               <template #suffix>
-                <span class="plp__check" aria-hidden="true">
+                <span class="plp__check mi:inline-grid mi:place-items-center mi:w-7 mi:min-h-5" aria-hidden="true">
                   <MiSpinner v-if="handleState === 'checking'" size="sm" label="" />
-                  <MiIcon v-else-if="handleState === 'free' || handleState === 'yours'" name="check-circle-fill" :size="18" class="plp__ok" />
-                  <MiIcon v-else-if="handleState === 'taken' || handleState === 'invalid'" name="x-circle-fill" :size="18" class="plp__bad" />
+                  <MiIcon v-else-if="handleState === 'free' || handleState === 'yours'" name="check-circle-fill" :size="18" class="plp__ok mi:text-green" />
+                  <MiIcon v-else-if="handleState === 'taken' || handleState === 'invalid'" name="x-circle-fill" :size="18" class="plp__bad mi:text-red" />
                 </span>
               </template>
             </MiInput>
           </MiField>
         </div>
 
-        <div v-if="handleState === 'taken'" class="plp__suggest" role="group" aria-label="Available handles">
+        <div v-if="handleState === 'taken'" class="plp__suggest mi:flex mi:flex-wrap mi:items-center mi:gap-y-1.5 mi:gap-x-2 mi:-mt-2" role="group" aria-label="Available handles">
           <MiText variant="caption" tone="label2">Free right now:</MiText>
-          <button v-for="s in suggestions" :key="s" type="button" class="plp__chip" @click="draft.handle = s">@{{ s }}</button>
+          <button v-for="s in suggestions" :key="s" type="button" class="plp__chip mi:py-1 mi:px-2.5 mi:[border:0] mi:rounded-[999px] mi:text-p-text mi:[background:var(--mi-p-tint)] mi:cursor-pointer mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring)] mi:hover:transform-[translateY(-1px)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" @click="draft.handle = s">@{{ s }}</button>
         </div>
 
         <MiField label="Bio" hint="Shown on your card and in hover previews.">
           <MiTextarea v-model="draft.bio" :rows="3" :max-rows="5" :maxlength="160" counter />
         </MiField>
 
-        <div class="plp__pair">
-          <div class="plp__group">
+        <div class="plp__pair mi:grid mi:gap-4.5 mi:@[540px]/plp-form:grid-cols-2 mi:@[540px]/plp-form:items-start">
+          <div class="plp__group mi:grid mi:gap-2 mi:justify-items-start mi:min-w-0">
             <MiText as="span" variant="footnote" weight="semibold" class="plp__label">Pronouns</MiText>
             <MiSegmented v-model="draft.pronouns" label="Pronouns" :options="pronounOptions" />
           </div>
@@ -44,16 +44,16 @@
           </MiField>
         </div>
 
-        <div class="plp__group">
+        <div class="plp__group mi:grid mi:gap-2 mi:justify-items-start mi:min-w-0">
           <MiSwatch v-model="draft.tone" label="Avatar colour" :options="tones" />
         </div>
 
-        <div class="plp__bar" aria-live="polite">
-          <MiText variant="footnote" :tone="dirty.length ? 'label' : 'label2'" :lines="1" class="plp__bar-text">
+        <div class="plp__bar mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-2.5 mi:gap-x-4 mi:mt-1 mi:pt-4 mi:border-t mi:border-t-sep" aria-live="polite">
+          <MiText variant="footnote" :tone="dirty.length ? 'label' : 'label2'" :lines="1" class="plp__bar-text mi:flex-[1_1_220px] mi:min-w-0">
             <template v-if="dirty.length"><strong>{{ dirty.length }} unpublished</strong> · {{ dirty.join(', ') }}</template>
             <template v-else>{{ savedNote }}</template>
           </MiText>
-          <div class="plp__bar-actions">
+          <div class="plp__bar-actions mi:flex mi:gap-2">
             <MiButton variant="gray" size="small" :disabled="!dirty.length" @click="revert">Revert</MiButton>
             <MiButton type="submit" size="small" :disabled="!dirty.length || !canSave" :loading="saving">Publish</MiButton>
           </div>
@@ -61,38 +61,38 @@
       </form>
 
       <!-- Live preview: a full card when there is room, a compact sticky strip on narrow screens. -->
-      <aside class="plp__preview" aria-labelledby="plp-preview-title">
+      <aside class="plp__preview mi:sticky mi:top-2 mi:z-2 mi:-order-1 mi:grid mi:gap-2.5 mi:min-w-0 mi:@[780px]/plp:order-0 mi:@[780px]/plp:top-4 mi:@[780px]/plp:gap-3" aria-labelledby="plp-preview-title">
         <MiText id="plp-preview-title" as="h3" variant="caption" weight="semibold" tone="label2" class="plp__preview-title">How others see you</MiText>
-        <div class="plp__card" :style="{ '--plp-accent': `var(--mi-${draft.tone ?? 'indigo'})` }">
-          <div class="plp__banner" aria-hidden="true" />
-          <div class="plp__id">
-            <MiAvatar :name="draft.name || 'New member'" :tone="avatarTone" size="lg" class="plp__avatar" :class="fresh('tone')" decorative />
-            <div class="plp__who">
-              <span class="plp__name plp__hl" :class="fresh('name')">{{ draft.name.trim() || 'Your name' }}</span>
-              <span class="plp__handle">
-                <span class="plp__hl" :class="fresh('handle')">@{{ draft.handle || 'handle' }}</span>
-                <span v-if="pronounLabel" class="plp__hl plp__pron" :class="fresh('pronouns')">{{ pronounLabel }}</span>
+        <div class="plp__card mi:relative mi:grid mi:gap-0 mi:py-2.5 mi:px-3 mi:rounded-lg mi:overflow-hidden mi:isolate mi:[background:color-mix(in_srgb,_var(--mi-card)_88%,_transparent)] mi:shadow-[var(--mi-sh2),_inset_0_0_0_1px_var(--mi-sep)] mi:before:content-[''] mi:before:absolute mi:before:top-0 mi:before:right-auto mi:before:bottom-0 mi:before:left-0 mi:before:w-[3px] mi:before:[background:var(--plp-accent)] mi:@[780px]/plp:pt-0 mi:@[780px]/plp:px-0 mi:@[780px]/plp:pb-4.5 mi:@[780px]/plp:[background:var(--mi-card)] mi:@[780px]/plp:shadow-2 mi:@[780px]/plp:before:hidden" :style="{ '--plp-accent': `var(--mi-${draft.tone ?? 'indigo'})` }">
+          <div class="plp__banner mi:hidden mi:@[780px]/plp:block mi:@[780px]/plp:h-21 mi:@[780px]/plp:[background:radial-gradient(120%_140%_at_85%_-20%,_color-mix(in_srgb,_var(--plp-accent)_70%,_transparent),_transparent_60%),_radial-gradient(90%_120%_at_0%_120%,_color-mix(in_srgb,_var(--plp-accent)_35%,_transparent),_transparent_70%),_color-mix(in_srgb,_var(--plp-accent)_14%,_var(--mi-card))]" aria-hidden="true" />
+          <div class="plp__id mi:grid mi:grid-cols-[auto_minmax(0,_1fr)_auto] mi:items-center mi:gap-3 mi:@[780px]/plp:grid-cols-[minmax(0,_1fr)_auto] mi:@[780px]/plp:[grid-template-areas:'av_time'_'who_who'] mi:@[780px]/plp:items-end mi:@[780px]/plp:gap-y-2.5 mi:@[780px]/plp:gap-x-3 mi:@[780px]/plp:py-0 mi:@[780px]/plp:px-4.5 mi:@[780px]/plp:-mt-8">
+            <MiAvatar :name="draft.name || 'New member'" :tone="avatarTone" size="lg" class="plp__avatar mi:[--plp-size:40px] mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring)] mi:[&.is-fresh]:transform-[scale(1.06)] mi:@[780px]/plp:[--plp-size:68px] mi:@[780px]/plp:[grid-area:av] mi:@[780px]/plp:shadow-[0_0_0_4px_var(--mi-card)] mi:motion-reduce:[transition:none]" :class="fresh('tone')" decorative />
+            <div class="plp__who mi:grid mi:gap-px mi:min-w-0 mi:@[780px]/plp:[grid-area:who] mi:@[780px]/plp:gap-[3px]">
+              <span class="plp__name plp__hl mi:justify-self-start mi:max-w-full mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:text-[15px] mi:font-650 mi:tracking-[-.01em] mi:relative mi:isolate mi:after:content-[''] mi:after:absolute mi:after:-inset-y-0.5 mi:after:inset-x-[-5px] mi:after:-z-1 mi:after:rounded-[6px] mi:after:[background:color-mix(in_srgb,_var(--plp-accent)_22%,_transparent)] mi:after:opacity-0 mi:after:[transition:opacity_900ms_var(--mi-ease)] mi:[&.is-fresh]:after:opacity-100 mi:[&.is-fresh]:after:[transition-duration:80ms] mi:@[780px]/plp:text-[20px] mi:@[780px]/plp:tracking-[-.02em] mi:motion-reduce:after:[transition:none]" :class="fresh('name')">{{ draft.name.trim() || 'Your name' }}</span>
+              <span class="plp__handle mi:flex mi:flex-wrap mi:items-baseline mi:gap-y-0.5 mi:gap-x-2 mi:min-w-0 mi:text-[13px] mi:text-label2">
+                <span class="plp__hl mi:relative mi:isolate mi:after:content-[''] mi:after:absolute mi:after:-inset-y-0.5 mi:after:inset-x-[-5px] mi:after:-z-1 mi:after:rounded-[6px] mi:after:[background:color-mix(in_srgb,_var(--plp-accent)_22%,_transparent)] mi:after:opacity-0 mi:after:[transition:opacity_900ms_var(--mi-ease)] mi:[&.is-fresh]:after:opacity-100 mi:[&.is-fresh]:after:[transition-duration:80ms] mi:motion-reduce:after:[transition:none]" :class="fresh('handle')">@{{ draft.handle || 'handle' }}</span>
+                <span v-if="pronounLabel" class="plp__hl plp__pron mi:text-[12px] mi:text-label3 mi:relative mi:isolate mi:after:content-[''] mi:after:absolute mi:after:-inset-y-0.5 mi:after:inset-x-[-5px] mi:after:-z-1 mi:after:rounded-[6px] mi:after:[background:color-mix(in_srgb,_var(--plp-accent)_22%,_transparent)] mi:after:opacity-0 mi:after:[transition:opacity_900ms_var(--mi-ease)] mi:[&.is-fresh]:after:opacity-100 mi:[&.is-fresh]:after:[transition-duration:80ms] mi:motion-reduce:after:[transition:none]" :class="fresh('pronouns')">{{ pronounLabel }}</span>
               </span>
             </div>
-            <span class="plp__time plp__hl" :class="fresh('tz')">
+            <span class="plp__time plp__hl mi:inline-flex mi:items-center mi:gap-[5px] mi:py-1 mi:px-[9px] mi:rounded-[999px] mi:text-[12px] mi:font-semibold mi:text-label2 mi:[background:var(--mi-fill4)] mi:relative mi:isolate mi:after:content-[''] mi:after:absolute mi:after:-inset-y-0.5 mi:after:inset-x-[-5px] mi:after:-z-1 mi:after:rounded-[6px] mi:after:[background:color-mix(in_srgb,_var(--plp-accent)_22%,_transparent)] mi:after:opacity-0 mi:after:[transition:opacity_900ms_var(--mi-ease)] mi:[&.is-fresh]:after:opacity-100 mi:[&.is-fresh]:after:[transition-duration:80ms] mi:@[780px]/plp:[grid-area:time] mi:@[780px]/plp:mb-1 mi:motion-reduce:after:[transition:none]" :class="fresh('tz')">
               <MiIcon name="globe" :size="14" />
-              <span class="plp__clock">{{ localTime }}</span>
+              <span class="plp__clock mi:tabular-nums">{{ localTime }}</span>
             </span>
           </div>
-          <p class="plp__bio plp__hl" :class="[fresh('bio'), { 'is-empty': !draft.bio.trim() }]">{{ draft.bio.trim() || 'No bio yet.' }}</p>
-          <p class="plp__meta">
+          <p class="plp__bio plp__hl mi:hidden mi:relative mi:isolate mi:after:content-[''] mi:after:absolute mi:after:-inset-y-0.5 mi:after:inset-x-[-5px] mi:after:-z-1 mi:after:rounded-[6px] mi:after:[background:color-mix(in_srgb,_var(--plp-accent)_22%,_transparent)] mi:after:opacity-0 mi:after:[transition:opacity_900ms_var(--mi-ease)] mi:[&.is-fresh]:after:opacity-100 mi:[&.is-fresh]:after:[transition-duration:80ms] mi:@[780px]/plp:block mi:@[780px]/plp:mt-3 mi:@[780px]/plp:mx-4.5 mi:@[780px]/plp:mb-0 mi:@[780px]/plp:text-[14px] mi:@[780px]/plp:leading-normal mi:@[780px]/plp:text-label mi:@[780px]/plp:wrap-anywhere mi:@[780px]/plp:[&.is-empty]:text-label3 mi:@[780px]/plp:[&.is-empty]:italic mi:motion-reduce:after:[transition:none]" :class="[fresh('bio'), { 'is-empty': !draft.bio.trim() }]">{{ draft.bio.trim() || 'No bio yet.' }}</p>
+          <p class="plp__meta mi:hidden mi:@[780px]/plp:flex mi:@[780px]/plp:flex-wrap mi:@[780px]/plp:gap-1.5 mi:@[780px]/plp:mt-3 mi:@[780px]/plp:mx-4.5 mi:@[780px]/plp:mb-0 mi:@[780px]/plp:text-[12px] mi:@[780px]/plp:text-label2 mi:@[780px]/plp:tabular-nums">
             <span>{{ localTime }} for {{ zoneCity }}</span>
             <span aria-hidden="true">·</span>
             <span>{{ offsetNote }}</span>
           </p>
-          <div class="plp__fake-actions" aria-hidden="true">
-            <span class="plp__fake is-solid">Message</span>
-            <span class="plp__fake">View boards</span>
+          <div class="plp__fake-actions mi:hidden mi:@[780px]/plp:flex mi:@[780px]/plp:gap-2 mi:@[780px]/plp:mt-4 mi:@[780px]/plp:mx-4.5 mi:@[780px]/plp:mb-0" aria-hidden="true">
+            <span class="plp__fake is-solid mi:@[780px]/plp:flex-1 mi:@[780px]/plp:py-2 mi:@[780px]/plp:px-0 mi:@[780px]/plp:rounded-[10px] mi:@[780px]/plp:text-center mi:@[780px]/plp:text-[13px] mi:@[780px]/plp:font-semibold mi:@[780px]/plp:text-label mi:@[780px]/plp:[background:var(--mi-fill3)] mi:@[780px]/plp:[&.is-solid]:text-p-on mi:@[780px]/plp:[&.is-solid]:[background:var(--mi-p)]">Message</span>
+            <span class="plp__fake mi:@[780px]/plp:flex-1 mi:@[780px]/plp:py-2 mi:@[780px]/plp:px-0 mi:@[780px]/plp:rounded-[10px] mi:@[780px]/plp:text-center mi:@[780px]/plp:text-[13px] mi:@[780px]/plp:font-semibold mi:@[780px]/plp:text-label mi:@[780px]/plp:[background:var(--mi-fill3)] mi:@[780px]/plp:[&.is-solid]:text-p-on mi:@[780px]/plp:[&.is-solid]:[background:var(--mi-p)]">View boards</span>
           </div>
         </div>
-        <p class="plp__mention" aria-hidden="true">
+        <p class="plp__mention mi:hidden mi:@[780px]/plp:flex mi:@[780px]/plp:[align-items:flex-start] mi:@[780px]/plp:gap-2.5 mi:@[780px]/plp:m-0 mi:@[780px]/plp:py-3 mi:@[780px]/plp:px-3.5 mi:@[780px]/plp:rounded-md mi:@[780px]/plp:text-[13px] mi:@[780px]/plp:leading-[1.45] mi:@[780px]/plp:text-label2 mi:@[780px]/plp:[background:var(--mi-fill4)]" aria-hidden="true">
           <MiAvatar name="Tomás Reyes" tone="orange" size="xs" decorative />
-          <span>Thanks <span class="plp__at plp__hl" :class="fresh('handle')">@{{ draft.handle || 'handle' }}</span>, the onboarding flow ships Thursday.</span>
+          <span>Thanks <span class="plp__at plp__hl mi:relative mi:isolate mi:after:content-[''] mi:after:absolute mi:after:-inset-y-0.5 mi:after:inset-x-[-5px] mi:after:-z-1 mi:after:rounded-[6px] mi:after:[background:color-mix(in_srgb,_var(--plp-accent)_22%,_transparent)] mi:after:opacity-0 mi:after:[transition:opacity_900ms_var(--mi-ease)] mi:[&.is-fresh]:after:opacity-100 mi:[&.is-fresh]:after:[transition-duration:80ms] mi:@[780px]/plp:font-semibold mi:@[780px]/plp:text-p-text mi:motion-reduce:after:[transition:none]" :class="fresh('handle')">@{{ draft.handle || 'handle' }}</span>, the onboarding flow ships Thursday.</span>
         </p>
       </aside>
     </div>
@@ -220,100 +220,19 @@ function revert() {
 </script>
 
 <style scoped>
-.plp { container: plp / inline-size; display: grid; align-content: start; gap: 20px; font-family: var(--mi-font); color: var(--mi-label); }
-.plp__head { display: grid; gap: 4px; max-width: 560px; }
-.plp__layout { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); align-items: start; }
-@container plp (min-width: 780px) { .plp__layout { grid-template-columns: minmax(0, 1fr) 320px; gap: 32px; } }
-@container plp (min-width: 1040px) { .plp__layout { grid-template-columns: minmax(0, 1fr) 360px; gap: 48px; } }
-
-.plp__form { container: plp-form / inline-size; display: grid; gap: 18px; min-width: 0; }
-.plp__pair { display: grid; gap: 18px; }
-@container plp-form (min-width: 540px) { .plp__pair { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; } }
-.plp__group { display: grid; gap: 8px; justify-items: start; min-width: 0; }
 .plp__label { color: var(--mi-label); }
-.plp__check { display: inline-grid; place-items: center; width: 28px; min-height: 20px; }
-.plp__ok { color: var(--mi-green); }
-.plp__bad { color: var(--mi-red); }
-
-.plp__suggest { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; margin-top: -8px; }
-.plp__chip {
-  padding: 4px 10px; border: 0; border-radius: 999px; font: inherit; font-size: 12px; font-weight: 600; color: var(--mi-p-text);
-  background: var(--mi-p-tint); cursor: pointer; transition: transform var(--mi-dur-2) var(--mi-spring);
+.plp__chip { font: inherit; font-size: 12px; font-weight: 600;
 }
-.plp__chip:hover { transform: translateY(-1px); }
-.plp__chip:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-
-.plp__bar {
-  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; margin-top: 4px; padding-top: 16px;
-  border-top: 1px solid var(--mi-sep);
-}
-.plp__bar-text { flex: 1 1 220px; min-width: 0; }
-.plp__bar-actions { display: flex; gap: 8px; }
-
-/* Preview: compact sticky strip by default. */
-.plp__preview { position: sticky; top: 8px; z-index: 2; order: -1; display: grid; gap: 10px; min-width: 0; }
 .plp__preview-title { display: none; text-transform: uppercase; letter-spacing: .06em; }
-.plp__card {
-  position: relative; display: grid; gap: 0; padding: 10px 12px; border-radius: var(--mi-radius-l); overflow: hidden; isolation: isolate;
-  background: color-mix(in srgb, var(--mi-card) 88%, transparent); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-  box-shadow: var(--mi-sh2), inset 0 0 0 1px var(--mi-sep);
+.plp__card { backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
 }
-.plp__card::before {
-  content: ""; position: absolute; inset: 0 auto 0 0; width: 3px; background: var(--plp-accent);
-}
-.plp__banner, .plp__bio, .plp__meta, .plp__fake-actions, .plp__mention { display: none; }
-.plp__id { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 12px; }
-.plp__avatar { --plp-size: 40px; width: var(--plp-size); height: var(--plp-size); font-size: 15px; }
-.plp__who { display: grid; gap: 1px; min-width: 0; }
-.plp__name { justify-self: start; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 15px; font-weight: 650; letter-spacing: -.01em; }
-.plp__handle { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; min-width: 0; font-size: 13px; color: var(--mi-label2); }
+.plp__avatar { width: var(--plp-size); height: var(--plp-size); font-size: 15px; }
 .plp__handle > :first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
-.plp__pron { font-size: 12px; color: var(--mi-label3); }
-.plp__time {
-  display: inline-flex; align-items: center; gap: 5px; padding: 4px 9px; border-radius: 999px; font-size: 12px; font-weight: 600;
-  color: var(--mi-label2); background: var(--mi-fill4);
-}
-.plp__clock { font-variant-numeric: tabular-nums; }
-
-/* Flash behind the preview element that just changed. Opacity only. */
-.plp__hl { position: relative; isolation: isolate; }
-.plp__hl::after {
-  content: ""; position: absolute; inset: -2px -5px; z-index: -1; border-radius: 6px; background: color-mix(in srgb, var(--plp-accent) 22%, transparent);
-  opacity: 0; transition: opacity 900ms var(--mi-ease);
-}
-.plp__hl.is-fresh::after { opacity: 1; transition-duration: 80ms; }
-.plp__avatar { transition: transform var(--mi-dur-3) var(--mi-spring); }
-.plp__avatar.is-fresh { transform: scale(1.06); }
 
 /* Full card when the container has room for a side column. */
 @container plp (min-width: 780px) {
-  .plp__preview { order: 0; top: 16px; gap: 12px; }
   .plp__preview-title { display: block; }
-  .plp__card { padding: 0 0 18px; background: var(--mi-card); backdrop-filter: none; -webkit-backdrop-filter: none; box-shadow: var(--mi-sh2); }
-  .plp__card::before { display: none; }
-  .plp__banner {
-    display: block; height: 84px;
-    background:
-      radial-gradient(120% 140% at 85% -20%, color-mix(in srgb, var(--plp-accent) 70%, transparent), transparent 60%),
-      radial-gradient(90% 120% at 0% 120%, color-mix(in srgb, var(--plp-accent) 35%, transparent), transparent 70%),
-      color-mix(in srgb, var(--plp-accent) 14%, var(--mi-card));
-  }
-  .plp__id { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "av time" "who who"; align-items: end; gap: 10px 12px; padding: 0 18px; margin-top: -32px; }
-  .plp__avatar { --plp-size: 68px; grid-area: av; font-size: 24px; box-shadow: 0 0 0 4px var(--mi-card); }
-  .plp__time { grid-area: time; margin-bottom: 4px; }
-  .plp__who { grid-area: who; gap: 3px; }
-  .plp__name { font-size: 20px; letter-spacing: -.02em; }
-  .plp__bio { display: block; margin: 12px 18px 0; font-size: 14px; line-height: 1.5; color: var(--mi-label); overflow-wrap: anywhere; }
-  .plp__bio.is-empty { color: var(--mi-label3); font-style: italic; }
-  .plp__meta { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 18px 0; font-size: 12px; color: var(--mi-label2); font-variant-numeric: tabular-nums; }
-  .plp__fake-actions { display: flex; gap: 8px; margin: 16px 18px 0; }
-  .plp__fake { flex: 1; padding: 8px 0; border-radius: 10px; text-align: center; font-size: 13px; font-weight: 600; color: var(--mi-label); background: var(--mi-fill3); }
-  .plp__fake.is-solid { color: var(--mi-p-on); background: var(--mi-p); }
-  .plp__mention {
-    display: flex; align-items: flex-start; gap: 10px; margin: 0; padding: 12px 14px; border-radius: var(--mi-radius-m);
-    font-size: 13px; line-height: 1.45; color: var(--mi-label2); background: var(--mi-fill4);
-  }
-  .plp__at { font-weight: 600; color: var(--mi-p-text); }
+  .plp__card { backdrop-filter: none; -webkit-backdrop-filter: none; }
+  .plp__avatar { font-size: 24px; }
 }
-@media (prefers-reduced-motion: reduce) { .plp__hl::after, .plp__avatar { transition: none; } }
 </style>

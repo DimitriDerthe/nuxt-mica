@@ -78,44 +78,30 @@ defineSlots<{
 </script>
 
 <template>
-  <header ref="root" class="mi-nb" :class="{ 'has-large': large, 'is-collapsed': collapsed }">
-    <div class="mi-nb__row">
-      <div class="mi-nb__lead">
+  <header ref="root" class="mi-nb mi:[--p:0] mi:contents mi:font-mi mi:text-label" :class="{ 'has-large': large, 'is-collapsed': collapsed }">
+    <div class="mi-nb__row mi:bg-mat mi:sticky mi:top-0 mi:z-20 mi:h-13.5 mi:pt-2.5 mi:px-4 mi:pb-0 mi:grid mi:grid-cols-[1fr_auto_1fr] mi:items-center">
+      <div class="mi-nb__lead mi:flex mi:[justify-content:flex-start] mi:min-w-0">
         <slot name="leading">
-          <a v-if="backLabel" class="mi-nb__back" href="#" @click.prevent="emit('back')">
+          <a v-if="backLabel" class="mi-nb__back mi:inline-flex mi:items-center mi:gap-0.5 mi:-ml-2 mi:h-11 mi:text-p-text mi:[text-decoration:none] mi:text-[17px] mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)] mi:active:opacity-50" href="#" @click.prevent="emit('back')">
             <MiNavGlyph name="back" :size="22" :stroke="2.4" />{{ backLabel }}
           </a>
         </slot>
       </div>
-      <span class="mi-nb__small" :aria-hidden="large && !collapsed ? 'true' : undefined">{{ title }}</span>
-      <div class="mi-nb__trail">
+      <span class="mi-nb__small mi:text-[17px] mi:font-semibold mi:tracking-[-.01em] mi:whitespace-nowrap mi:[.has-large_&]:opacity-(--p) mi:[.has-large_&]:transform-[translate3d(0,calc((1_-_var(--p))_*_6px),0)]" :aria-hidden="large && !collapsed ? 'true' : undefined">{{ title }}</span>
+      <div class="mi-nb__trail mi:flex mi:[justify-content:flex-end] mi:min-w-0">
         <slot name="trailing">
-          <button v-if="actionLabel" type="button" class="mi-nb__action" @click="emit('action')">{{ actionLabel }}</button>
+          <button v-if="actionLabel" type="button" class="mi-nb__action mi:active:opacity-50 mi:h-11 mi:[border:0] mi:p-0 mi:bg-transparent mi:text-p-text mi:text-[17px] mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)]" @click="emit('action')">{{ actionLabel }}</button>
         </slot>
       </div>
-      <span class="mi-nb__edge" aria-hidden="true" />
+      <span class="mi-nb__edge mi:absolute mi:left-0 mi:right-0 mi:bottom-0 mi:h-[.5px] mi:bg-sep mi:opacity-(--p) mi:[.mi-nb:not(.has-large)_&]:opacity-100" aria-hidden="true" />
     </div>
-    <div v-if="large" class="mi-nb__big">
-      <h1 class="mi-nb__large"><slot name="title">{{ title }}</slot></h1>
+    <div v-if="large" class="mi-nb__big mi:bg-mat mi:pt-0 mi:px-4 mi:pb-3 mi:text-label">
+      <h1 class="mi-nb__large mi:m-0 mi:text-[34px] mi:leading-[41px] mi:font-bold mi:tracking-[-.03em] mi:origin-[left_center] mi:opacity-[calc(1_-_var(--p)_*_1.4)] mi:transform-[translate3d(0,calc(var(--p)_*_-4px),0)_scale(calc(1_-_var(--p)_*_.06))]"><slot name="title">{{ title }}</slot></h1>
     </div>
   </header>
 </template>
 
 <style scoped>
-/* display:contents lets the 54px row stick to the scroller while the large title scrolls away naturally (no height animation). */
-.mi-nb{--p:0;display:contents;font-family:var(--mi-font);color:var(--mi-label)}
-.mi-nb__row,.mi-nb__big{background:var(--mi-mat);-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%)}
-.mi-nb__row{position:sticky;top:0;z-index:20;height:54px;padding:10px 16px 0;display:grid;grid-template-columns:1fr auto 1fr;align-items:center}
-.mi-nb__big{padding:0 16px 12px;color:var(--mi-label)}
-.mi-nb__lead{display:flex;justify-content:flex-start;min-width:0}
-.mi-nb__trail{display:flex;justify-content:flex-end;min-width:0}
-.mi-nb__back{display:inline-flex;align-items:center;gap:2px;margin-left:-8px;height:44px;color:var(--mi-p-text);text-decoration:none;font-size:17px;transition:opacity var(--mi-dur-2) var(--mi-ease)}
-.mi-nb__back:active,.mi-nb__action:active{opacity:.5}
-.mi-nb__action{height:44px;border:0;padding:0;background:transparent;color:var(--mi-p-text);font-size:17px;transition:opacity var(--mi-dur-2) var(--mi-ease)}
-.mi-nb__small{font-size:17px;font-weight:600;letter-spacing:-.01em;white-space:nowrap}
-.has-large .mi-nb__small{opacity:var(--p);transform:translate3d(0,calc((1 - var(--p)) * 6px),0)}
-.mi-nb__large{margin:0;font-size:34px;line-height:41px;font-weight:700;letter-spacing:-.03em;transform-origin:left center;opacity:calc(1 - var(--p) * 1.4);transform:translate3d(0,calc(var(--p) * -4px),0) scale(calc(1 - var(--p) * .06))}
-.mi-nb__edge{position:absolute;left:0;right:0;bottom:0;height:.5px;background:var(--mi-sep);opacity:var(--p)}
-.mi-nb:not(.has-large) .mi-nb__edge{opacity:1}
+.mi-nb__row, .mi-nb__big{-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%)}
 .mi-nb :focus-visible{outline:3px solid color-mix(in srgb,var(--mi-p) 55%,transparent);outline-offset:2px;border-radius:6px}
 </style>

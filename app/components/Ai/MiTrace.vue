@@ -45,7 +45,7 @@ defineSlots<{
 </script>
 
 <template>
-  <div class="mi-tr" role="list" :aria-label="label || 'Trace'">
+  <div class="mi-tr mi:flex-col mi:font-mi mi:text-label mi:text-[14px]" role="list" :aria-label="label || 'Trace'">
     <slot>
       <div v-for="(s, i) in steps" :key="s.id ?? i" role="listitem">
         <component :is="s.detail ? MiTraceCollapsible : 'div'" v-bind="s.detail ? { defaultOpen: !!s.open } : {}">
@@ -60,10 +60,10 @@ defineSlots<{
               <MiTraceTitle>{{ s.title }}</MiTraceTitle>
               <MiTraceDescription v-if="s.description">{{ s.description }}</MiTraceDescription>
               <MiTraceDescription v-if="s.duration !== undefined">{{ dur(s.duration) }}</MiTraceDescription>
-              <span class="mi-tr__sr">{{ st(s) }}</span>
+              <span class="mi-tr__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">{{ st(s) }}</span>
             </MiTraceLine>
           </component>
-          <MiTraceCollapsibleContent v-if="s.detail"><pre class="mi-tr__detail">{{ s.detail }}</pre></MiTraceCollapsibleContent>
+          <MiTraceCollapsibleContent v-if="s.detail"><pre class="mi-tr__detail mi:m-0 mi:py-2 mi:px-2.5 mi:rounded-[8px] mi:bg-p-tint mi:[font:12px/1.5_ui-monospace,_SFMono-Regular,_Menlo,_monospace] mi:whitespace-pre-wrap mi:wrap-anywhere">{{ s.detail }}</pre></MiTraceCollapsibleContent>
         </component>
       </div>
     </slot>
@@ -71,7 +71,7 @@ defineSlots<{
 </template>
 
 <style scoped>
-.mi-tr { display: flex; flex-direction: column; gap: 2px; font-family: var(--mi-font); color: var(--mi-label); font-size: 14px; }
+.mi-tr { display: flex; gap: 2px; }
 .mi-tr :deep(.mi-tr__line) { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 8px; }
 .mi-tr :deep(.mi-tr__line.is-pending) { opacity: .5; }
 .mi-tr :deep(.mi-tr__line.is-running .mi-tr__title) { font-weight: 600; }
@@ -84,6 +84,4 @@ defineSlots<{
 .mi-tr :deep(.mi-tr__trigger:hover) { background: var(--mi-p-tint); }
 .mi-tr :deep(.mi-tr__trigger:focus-visible) { outline: 2px solid var(--mi-p); outline-offset: 1px; }
 .mi-tr :deep(.mi-tr__content) { margin: 2px 0 6px 30px; font-size: 13px; }
-.mi-tr__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-.mi-tr__detail { margin: 0; padding: 8px 10px; border-radius: 8px; background: var(--mi-p-tint); font: 12px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
 </style>

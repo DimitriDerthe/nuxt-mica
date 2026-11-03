@@ -1,63 +1,63 @@
 <template>
-  <section class="cps" aria-labelledby="cps-title">
-    <h2 id="cps-title" class="cps__sr">Command palette</h2>
+  <section class="cps mi:@container mi:grid mi:content-start mi:gap-3 mi:font-mi mi:text-label" aria-labelledby="cps-title">
+    <h2 id="cps-title" class="cps__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">Command palette</h2>
 
-    <div class="cps__stage">
+    <div class="cps__stage mi:relative mi:grid mi:[place-items:start_center] mi:py-7 mi:px-3 mi:rounded-xl mi:overflow-hidden mi:isolate mi:bg-page mi:@[640px]:py-14 mi:@[640px]:px-8">
       <!-- Faux app behind the palette: token shapes only, blurred and dimmed like a real modal backdrop. -->
-      <div class="cps__app" aria-hidden="true">
-        <div class="cps__app-side"><i v-for="n in 6" :key="n" /></div>
-        <div class="cps__app-main">
-          <div class="cps__app-bar"><i /><i /></div>
-          <div class="cps__app-cards"><i v-for="n in 3" :key="n" /></div>
-          <div class="cps__app-rows"><i v-for="n in 5" :key="n" /></div>
+      <div class="cps__app mi:absolute mi:inset-0 mi:-z-2 mi:grid mi:grid-cols-[22%_1fr] mi:gap-4 mi:p-4 mi:[filter:blur(3px)]" aria-hidden="true">
+        <div class="cps__app-side mi:grid mi:content-start mi:gap-2.5 mi:p-2 mi:rounded-lg mi:bg-card"><i class="mi:[.cps__app_&]:block mi:[.cps__app_&]:rounded-md mi:[.cps__app-side_&:first-child]:h-7 mi:[.cps__app-side_&:first-child]:bg-p-tint" v-for="n in 6" :key="n" /></div>
+        <div class="cps__app-main mi:grid mi:content-start mi:gap-3.5">
+          <div class="cps__app-bar mi:flex mi:justify-between"><i class="mi:[.cps__app_&]:block mi:[.cps__app_&]:rounded-md mi:[.cps__app-bar_&]:w-[30%]" /><i class="mi:[.cps__app_&]:block mi:[.cps__app_&]:rounded-md mi:[.cps__app-bar_&]:w-[30%]" /></div>
+          <div class="cps__app-cards mi:grid mi:grid-cols-[repeat(3,_1fr)] mi:gap-3"><i class="mi:[.cps__app_&]:block mi:[.cps__app_&]:rounded-md mi:[.cps__app-cards_&]:shadow-1" v-for="n in 3" :key="n" /></div>
+          <div class="cps__app-rows mi:grid mi:gap-2 mi:p-3 mi:rounded-lg mi:bg-card"><i class="mi:[.cps__app_&]:block mi:[.cps__app_&]:rounded-md" v-for="n in 5" :key="n" /></div>
         </div>
       </div>
-      <div class="cps__scrim" aria-hidden="true" />
+      <div class="cps__scrim mi:absolute mi:inset-0 mi:-z-1 mi:[background:color-mix(in_srgb,_var(--mi-page)_45%,_transparent)]" aria-hidden="true" />
 
-      <div class="cps__palette" role="dialog" aria-modal="false" aria-labelledby="cps-title">
-        <div class="cps__scopes">
+      <div class="cps__palette mi:grid mi:w-full mi:max-w-190 mi:rounded-xl mi:overflow-hidden mi:bg-elev mi:shadow-3 mi:border mi:border-sep" role="dialog" aria-modal="false" aria-labelledby="cps-title">
+        <div class="cps__scopes mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-2 mi:gap-x-3 mi:pt-3 mi:px-3.5 mi:pb-0">
           <MiSegmented v-model="scope" label="Search scope" :options="scopes" />
           <MiText variant="caption" tone="label3" class="cps__count" role="status" aria-live="polite">{{ filtered.length }} matches</MiText>
         </div>
 
-        <div class="cps__body">
+        <div class="cps__body mi:grid mi:min-w-0 mi:@[640px]:grid-cols-[minmax(0,_1fr)_248px]">
           <MiCommand
             v-model:query="query" class="cps__command" :items="scoped" :placeholder="placeholder"
             label="Command menu" empty-text="No command, project or person matches." @select="run"
           />
 
           <!-- Preview of the item the palette would run: the last one picked, or the top match. -->
-          <aside v-if="focus" class="cps__preview" aria-label="Preview">
-            <div class="cps__preview-head">
+          <aside v-if="focus" class="cps__preview mi:hidden mi:@[640px]:grid mi:@[640px]:content-start mi:@[640px]:gap-3.5 mi:@[640px]:p-4.5 mi:@[640px]:border-l mi:@[640px]:border-l-sep mi:@[640px]:[background:color-mix(in_srgb,_var(--mi-fill4)_60%,_transparent)]" aria-label="Preview">
+            <div class="cps__preview-head mi:flex mi:items-center mi:gap-3">
               <MiAvatar v-if="focus.kind === 'person'" :name="focus.label" size="md" tone="auto" decorative />
-              <span v-else class="cps__tile" :data-kind="focus.kind"><MiIcon :svg="glyphs[focus.kind]" :size="20" /></span>
-              <div class="cps__preview-title">
+              <span v-else class="cps__tile mi:grid mi:place-items-center mi:flex-[none] mi:w-11 mi:h-11 mi:rounded-lg mi:bg-p-tint mi:text-p-text mi:[&[data-kind='doc']]:text-label2 mi:[&[data-kind='project']]:text-s" :data-kind="focus.kind"><MiIcon :svg="glyphs[focus.kind]" :size="20" /></span>
+              <div class="cps__preview-title mi:grid mi:min-w-0">
                 <MiText variant="headline" as="h3">{{ focus.label }}</MiText>
                 <MiText variant="caption" tone="label2">{{ focus.group }}</MiText>
               </div>
             </div>
             <MiText variant="footnote" tone="label2">{{ focus.desc }}</MiText>
             <MiMeter v-if="focus.progress !== undefined" :value="focus.progress" label="Milestone" :caption="focus.progress + '% done'" size="sm" />
-            <dl class="cps__facts">
-              <div v-for="[k, v] in focus.facts" :key="k"><dt>{{ k }}</dt><dd>{{ v }}</dd></div>
+            <dl class="cps__facts mi:grid mi:gap-2 mi:m-0">
+              <div class="mi:[.cps__facts_&]:flex mi:[.cps__facts_&]:justify-between mi:[.cps__facts_&]:gap-3 mi:[.cps__facts_&]:text-[13px]" v-for="[k, v] in focus.facts" :key="k"><dt class="mi:[.cps__facts_&]:text-label2">{{ k }}</dt><dd class="mi:[.cps__facts_&]:m-0 mi:[.cps__facts_&]:font-medium mi:[.cps__facts_&]:text-end">{{ v }}</dd></div>
             </dl>
-            <div v-if="focus.shortcut" class="cps__shortcut">
+            <div v-if="focus.shortcut" class="cps__shortcut mi:flex mi:items-center mi:justify-between mi:gap-2 mi:pt-3 mi:border-t mi:border-t-sep">
               <MiText variant="caption" tone="label3">Shortcut</MiText>
               <MiKbdGroup><MiKbd v-for="k in focus.shortcut.split(' ')" :key="k">{{ k }}</MiKbd></MiKbdGroup>
             </div>
           </aside>
         </div>
 
-        <footer class="cps__foot">
-          <span class="cps__hint"><MiKbdGroup><MiKbd>↑</MiKbd><MiKbd>↓</MiKbd></MiKbdGroup> move</span>
-          <span class="cps__hint"><MiKbd>↵</MiKbd> run</span>
-          <span class="cps__hint"><MiKbd>esc</MiKbd> close</span>
-          <span class="cps__ran" role="status" aria-live="polite">{{ ran }}</span>
+        <footer class="cps__foot mi:flex mi:flex-wrap mi:items-center mi:gap-y-2 mi:gap-x-4 mi:py-2.5 mi:px-3.5 mi:border-t mi:border-t-sep mi:text-[12px] mi:text-label2">
+          <span class="cps__hint mi:inline-flex mi:items-center mi:gap-1.5"><MiKbdGroup><MiKbd>↑</MiKbd><MiKbd>↓</MiKbd></MiKbdGroup> move</span>
+          <span class="cps__hint mi:inline-flex mi:items-center mi:gap-1.5"><MiKbd>↵</MiKbd> run</span>
+          <span class="cps__hint mi:inline-flex mi:items-center mi:gap-1.5"><MiKbd>esc</MiKbd> close</span>
+          <span class="cps__ran mi:ml-auto mi:text-p-text mi:font-medium" role="status" aria-live="polite">{{ ran }}</span>
         </footer>
       </div>
     </div>
 
-    <div class="cps__try">
+    <div class="cps__try mi:flex mi:justify-center">
       <MiButton variant="gray" size="small" @click="modal = true">Open as a modal</MiButton>
     </div>
     <MiCommand v-model:open="modal" dialog :items="items" label="Command menu" @select="run" />
@@ -116,55 +116,14 @@ function run(item: { value: string, label: string }) {
 </script>
 
 <style scoped>
-.cps { container-type: inline-size; display: grid; align-content: start; gap: 12px; font-family: var(--mi-font); color: var(--mi-label); }
-.cps__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-
-.cps__stage { position: relative; display: grid; place-items: start center; padding: 28px 12px; border-radius: var(--mi-radius-xl); overflow: hidden; isolation: isolate; background: var(--mi-page); }
-@container (min-width: 640px) { .cps__stage { padding: 56px 32px; } }
-
-/* Faux application: static shapes, blurred once, never animated. */
-.cps__app { position: absolute; inset: 0; z-index: -2; display: grid; grid-template-columns: 22% 1fr; gap: 16px; padding: 16px; filter: blur(3px); }
-.cps__app i { display: block; border-radius: var(--mi-radius-m); background: var(--mi-fill3); }
-.cps__app-side { display: grid; align-content: start; gap: 10px; padding: 8px; border-radius: var(--mi-radius-l); background: var(--mi-card); }
+.cps__app i { background: var(--mi-fill3); }
 .cps__app-side i { height: 14px; }
-.cps__app-side i:first-child { height: 28px; background: var(--mi-p-tint); }
-.cps__app-main { display: grid; align-content: start; gap: 14px; }
-.cps__app-bar { display: flex; justify-content: space-between; }
-.cps__app-bar i { width: 30%; height: 22px; }
+.cps__app-bar i { height: 22px; }
 .cps__app-bar i + i { width: 14%; background: var(--mi-p); opacity: .5; }
-.cps__app-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-.cps__app-cards i { height: 92px; background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.cps__app-rows { display: grid; gap: 8px; padding: 12px; border-radius: var(--mi-radius-l); background: var(--mi-card); }
+.cps__app-cards i { height: 92px; background: var(--mi-card); }
 .cps__app-rows i { height: 14px; }
-.cps__scrim { position: absolute; inset: 0; z-index: -1; background: color-mix(in srgb, var(--mi-page) 45%, transparent); }
-
-.cps__palette {
-  display: grid; width: 100%; max-width: 760px; border-radius: var(--mi-radius-xl); overflow: hidden;
-  background: var(--mi-elev); box-shadow: var(--mi-sh3); border: 1px solid var(--mi-sep);
-}
-.cps__scopes { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; padding: 12px 14px 0; }
 .cps__count { font-variant-numeric: tabular-nums; }
-
-.cps__body { display: grid; min-width: 0; }
 .cps__command { min-width: 0; }
-.cps__preview { display: none; }
-@container (min-width: 640px) {
-  .cps__body { grid-template-columns: minmax(0, 1fr) 248px; }
-  .cps__preview { display: grid; align-content: start; gap: 14px; padding: 18px; border-left: 1px solid var(--mi-sep); background: color-mix(in srgb, var(--mi-fill4) 60%, transparent); }
-}
-.cps__preview-head { display: flex; align-items: center; gap: 12px; }
-.cps__preview-title { display: grid; min-width: 0; }
-.cps__tile { display: grid; place-items: center; flex: none; width: 44px; height: 44px; border-radius: var(--mi-radius-l); background: var(--mi-p-tint); color: var(--mi-p-text); }
-.cps__tile[data-kind="doc"] { background: var(--mi-fill3); color: var(--mi-label2); }
-.cps__tile[data-kind="project"] { background: color-mix(in srgb, var(--mi-s) 16%, transparent); color: var(--mi-s); }
-.cps__facts { display: grid; gap: 8px; margin: 0; }
-.cps__facts div { display: flex; justify-content: space-between; gap: 12px; font-size: 13px; }
-.cps__facts dt { color: var(--mi-label2); }
-.cps__facts dd { margin: 0; font-weight: 500; text-align: end; }
-.cps__shortcut { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-top: 12px; border-top: 1px solid var(--mi-sep); }
-
-.cps__foot { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding: 10px 14px; border-top: 1px solid var(--mi-sep); font-size: 12px; color: var(--mi-label2); }
-.cps__hint { display: inline-flex; align-items: center; gap: 6px; }
-.cps__ran { margin-left: auto; color: var(--mi-p-text); font-weight: 500; }
-.cps__try { display: flex; justify-content: center; }
+.cps__tile[data-kind="doc"] { background: var(--mi-fill3); }
+.cps__tile[data-kind="project"] { background: color-mix(in srgb, var(--mi-s) 16%, transparent); }
 </style>

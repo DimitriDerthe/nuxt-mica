@@ -1,6 +1,6 @@
 <template>
-  <section class="lb" aria-labelledby="lb-title">
-    <header class="lb__head">
+  <section class="lb mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="lb-title">
+    <header class="lb__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="lb-title" variant="title3" as="h2" weight="semibold">Q3 sales leaderboard</MiText>
         <MiText variant="footnote" tone="label2">Closed-won from Jul 1 to Sep 30 · movement vs Q2</MiText>
@@ -8,42 +8,42 @@
       <MiSegmented v-model="metric" label="Rank by" :options="metrics" />
     </header>
 
-    <div class="lb__grid">
+    <div class="lb__grid mi:grid mi:gap-3 mi:grid-cols-[minmax(0,_1fr)] mi:@[820px]:grid-cols-[300px_minmax(0,_1fr)] mi:@[820px]:items-start">
       <!-- The leader gets a card of their own, with the margin they hold. -->
-      <article class="lb__leader" aria-labelledby="lb-leader-name">
-        <span class="lb__crown" aria-hidden="true">1</span>
+      <article class="lb__leader mi:relative mi:grid mi:gap-3 mi:justify-items-start mi:p-5.5 mi:rounded-xl mi:overflow-hidden mi:isolate mi:[background:var(--mi-card)] mi:shadow-1 mi:before:content-[''] mi:before:absolute mi:before:inset-0 mi:before:-z-1 mi:before:[background:radial-gradient(120%_80%_at_100%_0%,_var(--mi-p-tint),_transparent_60%),_radial-gradient(80%_60%_at_0%_100%,_var(--mi-s-tint),_transparent_70%)]" aria-labelledby="lb-leader-name">
+        <span class="lb__crown mi:absolute mi:-top-4.5 mi:right-2.5 mi:-z-1 mi:text-[150px] mi:leading-none mi:font-extrabold mi:tracking-[-.08em] mi:text-p/14 mi:tabular-nums" aria-hidden="true">1</span>
         <MiAvatar :name="leader.name" size="lg" tone="auto" decorative />
-        <div class="lb__leader-text">
+        <div class="lb__leader-text mi:grid mi:gap-0.5">
           <MiText id="lb-leader-name" variant="title3" as="h3" weight="semibold">{{ leader.name }}</MiText>
           <MiText variant="footnote" tone="label2">{{ leader.region }}</MiText>
         </div>
-        <p class="lb__leader-value">{{ format(leader.value) }}</p>
-        <div class="lb__leader-foot">
+        <p class="lb__leader-value mi:mt-1 mi:mx-0 mi:mb-0 mi:text-[clamp(34px,_8cqi,_46px)] mi:leading-none mi:font-bold mi:tracking-[-.045em] mi:tabular-nums">{{ format(leader.value) }}</p>
+        <div class="lb__leader-foot mi:flex mi:flex-wrap mi:items-center mi:gap-y-2 mi:gap-x-2.5">
           <MiBadge tone="success" variant="tint" :label="`Ahead by ${gapText(leader.value - (ranked[1]?.value ?? 0))}`" />
           <MiText variant="caption" tone="label2">{{ moveText(leader.move, true) }}</MiText>
         </div>
       </article>
 
-      <ol class="lb__list" :aria-label="`Ranks 2 to ${ranked.length}`">
+      <ol class="lb__list mi:relative mi:grid mi:m-0 mi:p-1.5 mi:[list-style:none] mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1" :aria-label="`Ranks 2 to ${ranked.length}`">
         <TransitionGroup name="lb-row">
-          <li v-for="(r, i) in rest" :key="r.name" class="lb__row" :class="{ 'is-you': r.you }">
-            <div class="lb__rank">
-              <span class="lb__num">{{ i + 2 }}</span>
-              <span class="lb__move" :class="r.move > 0 ? 'is-up' : r.move < 0 ? 'is-down' : ''" :aria-label="moveText(r.move)">
+          <li v-for="(r, i) in rest" :key="r.name" class="lb__row mi:grid mi:grid-cols-[30px_auto_minmax(0,_1fr)] mi:items-center mi:gap-3 mi:py-[11px] mi:px-2.5 mi:border-t mi:border-t-sep mi:[&.is-you]:rounded-lg mi:[&.is-you]:[background:color-mix(in_srgb,_var(--mi-p)_9%,_transparent)]" :class="{ 'is-you': r.you }">
+            <div class="lb__rank mi:grid mi:justify-items-center mi:gap-0.5">
+              <span class="lb__num mi:text-[17px] mi:font-bold mi:tabular-nums">{{ i + 2 }}</span>
+              <span class="lb__move mi:inline-flex mi:items-center mi:gap-px mi:text-[11px] mi:font-semibold mi:text-label3 mi:tabular-nums" :class="r.move > 0 ? 'is-up' : r.move < 0 ? 'is-down' : ''" :aria-label="moveText(r.move)">
                 <MiIcon v-if="r.move !== 0" :name="r.move > 0 ? 'arrow-up' : 'arrow-down'" :size="11" :weight="2.6" />
                 <template v-if="r.move !== 0">{{ Math.abs(r.move) }}</template>
                 <template v-else>–</template>
               </span>
             </div>
             <MiAvatar :name="r.name" size="sm" tone="auto" decorative />
-            <div class="lb__main">
-              <div class="lb__line">
-                <span class="lb__name">{{ r.name }}</span>
+            <div class="lb__main mi:grid mi:gap-[5px] mi:min-w-0">
+              <div class="lb__line mi:flex mi:items-center mi:gap-2 mi:min-w-0">
+                <span class="lb__name mi:min-w-0 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:text-[15px] mi:font-semibold">{{ r.name }}</span>
                 <MiBadge v-if="r.you" tone="primary" variant="solid" label="You" />
-                <span class="lb__value">{{ format(r.value) }}</span>
+                <span class="lb__value mi:ml-auto mi:flex-[none] mi:text-[15px] mi:font-bold mi:tabular-nums">{{ format(r.value) }}</span>
               </div>
-              <div class="lb__bar" aria-hidden="true">
-                <span :style="{ transform: `scaleX(${r.value / leader.value})` }" />
+              <div class="lb__bar mi:h-1 mi:rounded-[2px] mi:[background:var(--mi-fill3)] mi:overflow-hidden" aria-hidden="true">
+                <span class="mi:[.lb__bar_&]:block mi:[.lb__bar_&]:h-full mi:[.lb__bar_&]:rounded-[inherit] mi:[.lb__bar_&]:[background:color-mix(in_srgb,_var(--mi-p)_70%,_var(--mi-card))] mi:[.lb__bar_&]:origin-left mi:[.lb__bar_&]:[transition:transform_var(--mi-dur-4)_var(--mi-spring)] mi:[.is-you_.lb__bar_&]:[background:var(--mi-p)] mi:motion-reduce:[.lb__bar_&]:[transition:none]" :style="{ transform: `scaleX(${r.value / leader.value})` }" />
               </div>
               <MiText variant="caption" tone="label2" :lines="1">
                 {{ r.region }} · {{ gapText(r.gap) }} behind {{ firstName(r.ahead) }}
@@ -104,50 +104,14 @@ const firstName = (n: string) => n.split(' ')[0] ?? n
 </script>
 
 <style scoped>
-.lb { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
-.lb__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.lb__grid { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); }
-@container (min-width: 820px) { .lb__grid { grid-template-columns: 300px minmax(0, 1fr); align-items: start; } }
-
-.lb__leader {
-  position: relative; display: grid; gap: 12px; justify-items: start; padding: 22px; border-radius: var(--mi-radius-xl); overflow: hidden; isolation: isolate;
-  background: var(--mi-card); box-shadow: var(--mi-sh1);
-}
-.lb__leader::before {
-  content: ""; position: absolute; inset: 0; z-index: -1;
-  background: radial-gradient(120% 80% at 100% 0%, var(--mi-p-tint), transparent 60%), radial-gradient(80% 60% at 0% 100%, var(--mi-s-tint), transparent 70%);
-}
-/* Oversized rank numeral as a quiet watermark. */
-.lb__crown {
-  position: absolute; top: -18px; right: 10px; z-index: -1; font-size: 150px; line-height: 1; font-weight: 800; letter-spacing: -.08em;
-  color: color-mix(in srgb, var(--mi-p) 14%, transparent); font-variant-numeric: tabular-nums;
-}
-.lb__leader-text { display: grid; gap: 2px; }
-.lb__leader-value { margin: 4px 0 0; font-size: clamp(34px, 8cqi, 46px); line-height: 1; font-weight: 700; letter-spacing: -.045em; font-variant-numeric: tabular-nums; }
-.lb__leader-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; }
-
-.lb__list { position: relative; display: grid; margin: 0; padding: 6px; list-style: none; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.lb__row { display: grid; grid-template-columns: 30px auto minmax(0, 1fr); align-items: center; gap: 12px; padding: 11px 10px; border-top: 1px solid var(--mi-sep); }
 .lb__row:first-child { border-top-color: transparent; }
 /* The viewer's own row: tinted and rounded, with the neighbouring rules hidden so it reads as one pill. */
-.lb__row.is-you { border-top-color: transparent; border-radius: var(--mi-radius-l); background: color-mix(in srgb, var(--mi-p) 9%, transparent); }
+.lb__row.is-you { border-top-color: transparent; }
 .lb__row.is-you + .lb__row { border-top-color: transparent; }
-
-.lb__rank { display: grid; justify-items: center; gap: 2px; }
-.lb__num { font-size: 17px; font-weight: 700; font-variant-numeric: tabular-nums; }
-.lb__move { display: inline-flex; align-items: center; gap: 1px; font-size: 11px; font-weight: 600; color: var(--mi-label3); font-variant-numeric: tabular-nums; }
 .lb__move.is-up { color: var(--mi-green-t); }
 .lb__move.is-down { color: var(--mi-red-t); }
 
-.lb__main { display: grid; gap: 5px; min-width: 0; }
-.lb__line { display: flex; align-items: center; gap: 8px; min-width: 0; }
-.lb__name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 15px; font-weight: 600; }
-.lb__value { margin-left: auto; flex: none; font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; }
-.lb__bar { height: 4px; border-radius: 2px; background: var(--mi-fill3); overflow: hidden; }
-.lb__bar span { display: block; height: 100%; border-radius: inherit; background: color-mix(in srgb, var(--mi-p) 70%, var(--mi-card)); transform-origin: left; transition: transform var(--mi-dur-4) var(--mi-spring); }
-.is-you .lb__bar span { background: var(--mi-p); }
-
 /* Re-ranking slides rows to their new place with transform only. */
 .lb-row-move { transition: transform var(--mi-dur-4) var(--mi-spring); }
-@media (prefers-reduced-motion: reduce) { .lb-row-move, .lb__bar span { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .lb-row-move { transition: none; } }
 </style>

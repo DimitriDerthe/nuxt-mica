@@ -1,36 +1,36 @@
 <template>
-  <section class="nmx" aria-labelledby="nmx-title">
-    <header class="nmx__head">
-      <div class="nmx__intro">
+  <section class="nmx mi:@container/nmx mi:grid mi:content-start mi:gap-5 mi:font-mi mi:text-label" aria-labelledby="nmx-title">
+    <header class="nmx__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-y-2.5 mi:gap-x-5">
+      <div class="nmx__intro mi:grid mi:gap-1 mi:max-w-130">
         <MiText id="nmx-title" as="h2" variant="title2" weight="bold">Notifications</MiText>
         <MiText variant="footnote" tone="label2">Pick where each event reaches you. Headers switch a whole row or channel.</MiText>
       </div>
-      <p class="nmx__saved" aria-live="polite">
+      <p class="nmx__saved mi:inline-flex mi:items-center mi:gap-1.5 mi:m-0 mi:min-w-0 mi:text-[12px] mi:font-medium mi:text-label2" aria-live="polite">
         <MiIcon name="check-circle" :size="15" />
         <span>{{ lastChange }}</span>
       </p>
     </header>
 
-    <div class="nmx__layout">
-      <div class="nmx__matrix">
-        <table class="nmx__table">
-          <caption class="nmx__sr">Notification channels per event</caption>
+    <div class="nmx__layout mi:grid mi:gap-4 mi:grid-cols-[minmax(0,_1fr)] mi:items-start mi:@[900px]/nmx:grid-cols-[minmax(0,_1fr)_320px] mi:@[900px]/nmx:gap-5">
+      <div class="nmx__matrix mi:min-w-0 mi:pt-1.5 mi:px-1 mi:pb-1 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:overflow-x-auto">
+        <table class="nmx__table mi:w-full mi:border-collapse mi:table-fixed">
+          <caption class="nmx__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip:rect(0_0_0_0)] mi:whitespace-nowrap">Notification channels per event</caption>
           <thead>
             <tr>
-              <th scope="col" class="nmx__corner">
+              <th scope="col" class="nmx__corner mi:w-auto mi:pt-0 mi:pr-2.5 mi:pb-2.5 mi:pl-3.5 mi:text-start mi:align-bottom">
                 <MiText as="span" variant="caption" weight="semibold" tone="label2">Event</MiText>
               </th>
-              <th v-for="c in channels" :key="c.id" scope="col" class="nmx__col">
+              <th v-for="c in channels" :key="c.id" scope="col" class="nmx__col mi:w-12.5 mi:pt-1 mi:px-0 mi:pb-2 mi:align-bottom mi:@[520px]/nmx:w-19">
                 <button
-                  type="button" role="checkbox" class="nmx__colbtn" :aria-checked="colState(c.id)" :aria-label="`${c.label} for every event`"
+                  type="button" role="checkbox" class="nmx__colbtn mi:[border:0] mi:[font:inherit] mi:text-inherit mi:[background:transparent] mi:cursor-pointer mi:rounded-[10px] mi:grid mi:justify-items-center mi:gap-1 mi:w-full mi:py-1.5 mi:px-0 mi:text-label2 mi:hover:[background:var(--mi-fill4)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" :aria-checked="colState(c.id)" :aria-label="`${c.label} for every event`"
                   @click="toggleCol(c.id)"
                 >
                   <MiIcon v-if="c.icon" :name="c.icon" :size="18" />
                   <MiIcon v-else :svg="slackGlyph" :size="18" />
-                  <span class="nmx__colname">{{ c.label }}</span>
-                  <span class="nmx__box" :class="boxClass(colState(c.id))" aria-hidden="true">
+                  <span class="nmx__colname mi:text-[11px] mi:font-semibold mi:tracking-[.01em]">{{ c.label }}</span>
+                  <span class="nmx__box mi:grid mi:place-items-center mi:flex-[none] mi:w-4.5 mi:h-4.5 mi:box-border mi:rounded-[5px] mi:shadow-[inset_0_0_0_1.5px_var(--mi-fill)] mi:text-p-on mi:[background:transparent] mi:[&.is-on]:shadow-none mi:[&.is-mixed]:shadow-none mi:[.nmx__rowbtn_&]:mt-px" :class="boxClass(colState(c.id))" aria-hidden="true">
                     <MiIcon v-if="colState(c.id) === 'true'" name="check" :size="12" :weight="3" />
-                    <span v-else-if="colState(c.id) === 'mixed'" class="nmx__dash" />
+                    <span v-else-if="colState(c.id) === 'mixed'" class="nmx__dash mi:w-2 mi:h-0.5 mi:rounded-[1px] mi:[background:var(--mi-p-on)]" />
                   </span>
                 </button>
               </th>
@@ -38,77 +38,77 @@
           </thead>
           <tbody v-for="g in groups" :key="g.label">
             <tr class="nmx__group">
-              <th :colspan="channels.length + 1" scope="colgroup">{{ g.label }}</th>
+              <th class="mi:[.nmx__group_&]:pt-3.5 mi:[.nmx__group_&]:px-3.5 mi:[.nmx__group_&]:pb-1.5 mi:[.nmx__group_&]:text-start mi:[.nmx__group_&]:text-[11px] mi:[.nmx__group_&]:font-650 mi:[.nmx__group_&]:tracking-[.06em] mi:[.nmx__group_&]:uppercase mi:[.nmx__group_&]:text-label3" :colspan="channels.length + 1" scope="colgroup">{{ g.label }}</th>
             </tr>
             <tr v-for="e in g.events" :key="e.id" class="nmx__row">
-              <th scope="row" class="nmx__event">
-                <button type="button" role="checkbox" class="nmx__rowbtn" :aria-checked="rowState(e.id)" @click="toggleRow(e.id)">
-                  <span class="nmx__box" :class="boxClass(rowState(e.id))" aria-hidden="true">
+              <th scope="row" class="nmx__event mi:[.nmx__row+.nmx__row_&]:border-t mi:[.nmx__row+.nmx__row_&]:border-t-sep mi:pt-0.5 mi:pr-1 mi:pb-0.5 mi:pl-1.5 mi:text-start mi:[font-weight:inherit]">
+                <button type="button" role="checkbox" class="nmx__rowbtn mi:[border:0] mi:[font:inherit] mi:text-inherit mi:[background:transparent] mi:cursor-pointer mi:rounded-[10px] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px] mi:flex mi:[align-items:flex-start] mi:gap-3 mi:w-full mi:py-[9px] mi:px-2 mi:text-start mi:hover:[background:var(--mi-fill4)]" :aria-checked="rowState(e.id)" @click="toggleRow(e.id)">
+                  <span class="nmx__box mi:grid mi:place-items-center mi:flex-[none] mi:w-4.5 mi:h-4.5 mi:box-border mi:rounded-[5px] mi:shadow-[inset_0_0_0_1.5px_var(--mi-fill)] mi:text-p-on mi:[background:transparent] mi:[&.is-on]:shadow-none mi:[&.is-mixed]:shadow-none mi:[.nmx__rowbtn_&]:mt-px" :class="boxClass(rowState(e.id))" aria-hidden="true">
                     <MiIcon v-if="rowState(e.id) === 'true'" name="check" :size="12" :weight="3" />
-                    <span v-else-if="rowState(e.id) === 'mixed'" class="nmx__dash" />
+                    <span v-else-if="rowState(e.id) === 'mixed'" class="nmx__dash mi:w-2 mi:h-0.5 mi:rounded-[1px] mi:[background:var(--mi-p-on)]" />
                   </span>
-                  <span class="nmx__event-text">
-                    <span class="nmx__event-name">{{ e.label }}</span>
-                    <span class="nmx__event-desc">{{ e.desc }}</span>
+                  <span class="nmx__event-text mi:grid mi:gap-px mi:min-w-0">
+                    <span class="nmx__event-name mi:text-[14px] mi:font-550 mi:leading-[1.3]">{{ e.label }}</span>
+                    <span class="nmx__event-desc mi:hidden mi:text-[12px] mi:leading-[1.35] mi:text-label2 mi:@[520px]/nmx:block">{{ e.desc }}</span>
                   </span>
                 </button>
               </th>
-              <td v-for="c in channels" :key="c.id" class="nmx__cell">
+              <td v-for="c in channels" :key="c.id" class="nmx__cell mi:[.nmx__row+.nmx__row_&]:border-t mi:[.nmx__row+.nmx__row_&]:border-t-sep mi:p-0 mi:text-center">
                 <button
-                  type="button" role="checkbox" class="nmx__dot" :class="{ 'is-on': prefs[e.id]![c.id], 'is-locked': isLocked(e.id, c.id) }"
+                  type="button" role="checkbox" class="nmx__dot mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px] mi:relative mi:inline-grid mi:place-items-center mi:w-7.5 mi:h-7.5 mi:p-0 mi:[border:0] mi:rounded-[50%] mi:text-p-on mi:[background:transparent] mi:shadow-[inset_0_0_0_1.5px_var(--mi-fill2)] mi:cursor-pointer mi:before:content-[''] mi:before:absolute mi:before:inset-0 mi:before:rounded-[inherit] mi:before:[background:var(--mi-p)] mi:before:transform-[scale(.4)] mi:before:opacity-0 mi:before:[transition:transform_var(--mi-dur-3)_var(--mi-spring),_opacity_var(--mi-dur-2)_var(--mi-ease)] mi:[&:hover:not(.is-on)]:shadow-[inset_0_0_0_1.5px_color-mix(in_srgb,_var(--mi-p)_55%,_transparent)] mi:[&.is-on]:before:transform-none mi:[&.is-on]:before:opacity-100 mi:[&.is-locked]:cursor-not-allowed mi:[&.is-locked]:shadow-none mi:[&.is-locked]:before:[background:var(--mi-fill3)] mi:motion-reduce:before:[transition:none]" :class="{ 'is-on': prefs[e.id]![c.id], 'is-locked': isLocked(e.id, c.id) }"
                   :aria-checked="prefs[e.id]![c.id]" :aria-disabled="isLocked(e.id, c.id) || undefined"
                   :aria-label="`${c.label}: ${e.label}${isLocked(e.id, c.id) ? ' (required)' : ''}`"
                   :title="isLocked(e.id, c.id) ? 'Always on for account security' : undefined"
                   @click="toggleCell(e.id, c.id)"
                 >
                   <MiIcon v-if="isLocked(e.id, c.id)" name="lock" :size="11" :weight="2.4" />
-                  <MiIcon v-else name="check" :size="12" :weight="3" class="nmx__tick" />
+                  <MiIcon v-else name="check" :size="12" :weight="3" class="nmx__tick mi:opacity-0 mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring),_opacity_var(--mi-dur-2)_var(--mi-ease)] mi:[.nmx__dot.is-on_&]:opacity-100 mi:motion-reduce:[transition:none]" />
                 </button>
               </td>
             </tr>
           </tbody>
           <tfoot>
             <tr>
-              <th scope="row" class="nmx__foot-label">
+              <th scope="row" class="nmx__foot-label mi:pt-3 mi:pr-2.5 mi:pb-2.5 mi:pl-3.5 mi:text-start mi:border-t mi:border-t-sep">
                 <MiText as="span" variant="caption" weight="semibold" tone="label2">Per week</MiText>
               </th>
-              <td v-for="c in channels" :key="c.id" class="nmx__load">
-                <span class="nmx__load-num">{{ load[c.id] }}</span>
-                <span class="nmx__load-bar" aria-hidden="true"><span :style="{ transform: `scaleX(${load[c.id] / maxLoad})` }" /></span>
+              <td v-for="c in channels" :key="c.id" class="nmx__load mi:pt-3 mi:px-1.5 mi:pb-2.5 mi:border-t mi:border-t-sep mi:text-center">
+                <span class="nmx__load-num mi:block mi:text-[15px] mi:font-650 mi:tracking-[-.01em] mi:tabular-nums">{{ load[c.id] }}</span>
+                <span class="nmx__load-bar mi:block mi:h-[3px] mi:mt-[5px] mi:mx-auto mi:mb-0 mi:max-w-10 mi:rounded-[2px] mi:[background:var(--mi-fill3)] mi:overflow-hidden" aria-hidden="true"><span class="mi:[.nmx__load-bar_&]:block mi:[.nmx__load-bar_&]:h-full mi:[.nmx__load-bar_&]:origin-left mi:[.nmx__load-bar_&]:[transition:transform_var(--mi-dur-4)_var(--mi-spring)] mi:motion-reduce:[.nmx__load-bar_&]:[transition:none]" :style="{ transform: `scaleX(${load[c.id] / maxLoad})` }" /></span>
               </td>
             </tr>
           </tfoot>
         </table>
       </div>
 
-      <div class="nmx__side">
-        <section class="nmx__panel" aria-labelledby="nmx-quiet-title">
-          <div class="nmx__panel-head">
-            <div>
+      <div class="nmx__side mi:grid mi:gap-4 mi:min-w-0 mi:[@container_nmx_(min-width:_600px)_and_(max-width:_899px)]:grid-cols-2 mi:[@container_nmx_(min-width:_600px)_and_(max-width:_899px)]:items-start">
+        <section class="nmx__panel mi:grid mi:gap-3 mi:p-4.5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1" aria-labelledby="nmx-quiet-title">
+          <div class="nmx__panel-head mi:flex mi:[align-items:flex-start] mi:justify-between mi:gap-3">
+            <div class="mi:[.nmx__panel-head>div&]:gap-[3px]">
               <MiText id="nmx-quiet-title" as="h3" variant="headline">Quiet hours</MiText>
               <MiText variant="caption" tone="label2">Push and Slack wait until morning. Email is never held.</MiText>
             </div>
-            <MiSwitch v-model="quiet" label="Quiet hours" />
+            <MiSwitch class="mi:[.nmx__panel-head>div&]:gap-[3px]" v-model="quiet" label="Quiet hours" />
           </div>
-          <div class="nmx__clock" :class="{ 'is-off': !quiet }" aria-hidden="true">
+          <div class="nmx__clock mi:grid mi:grid-cols-24 mi:gap-0.5 mi:mt-1" :class="{ 'is-off': !quiet }" aria-hidden="true">
             <span
-              v-for="h in 24" :key="h" class="nmx__hour"
+              v-for="h in 24" :key="h" class="nmx__hour mi:relative mi:h-6.5 mi:rounded-[3px] mi:[background:var(--mi-fill3)] mi:before:content-[''] mi:before:absolute mi:before:inset-0 mi:before:rounded-[inherit] mi:before:[background:linear-gradient(180deg,_var(--mi-p),_color-mix(in_srgb,_var(--mi-p)_60%,_var(--mi-s)))] mi:before:opacity-0 mi:before:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)] mi:[&.is-awake]:before:opacity-100 mi:[.nmx__clock.is-off_&]:before:opacity-35 mi:[&.is-now]:after:content-[''] mi:[&.is-now]:after:absolute mi:[&.is-now]:after:left-1/2 mi:[&.is-now]:after:-bottom-1.5 mi:[&.is-now]:after:w-1 mi:[&.is-now]:after:h-1 mi:[&.is-now]:after:-ml-0.5 mi:[&.is-now]:after:rounded-[50%] mi:[&.is-now]:after:[background:var(--mi-label)] mi:motion-reduce:before:[transition:none]"
               :class="{ 'is-awake': !quiet || (h - 1 >= range[0] && h - 1 < range[1]), 'is-now': h - 1 === nowHour }"
             />
           </div>
-          <div class="nmx__ticks" aria-hidden="true"><span>00</span><span>06</span><span>12</span><span>18</span><span>24</span></div>
+          <div class="nmx__ticks mi:flex mi:justify-between mi:-mt-1 mi:text-[10px] mi:font-semibold mi:text-label3 mi:tabular-nums" aria-hidden="true"><span>00</span><span>06</span><span>12</span><span>18</span><span>24</span></div>
           <MiSlider v-model="active" :min="0" :max="24" :disabled="!quiet" aria-label="Delivery window" :format="hh" />
           <MiText variant="footnote" :tone="quiet ? 'label' : 'label2'" class="nmx__window" tabular>
             <template v-if="quiet">Delivering {{ hh(range[0]) }} to {{ hh(range[1]) }}, {{ range[1] - range[0] }} h a day</template>
             <template v-else>Notifications arrive around the clock</template>
           </MiText>
-          <div class="nmx__inline">
+          <div class="nmx__inline mi:flex mi:items-center mi:gap-2.5 mi:pt-3 mi:border-t mi:border-t-sep">
             <MiSwitch v-model="weekends" size="compact" :disabled="!quiet" label="Keep weekends quiet" />
             <MiText as="span" variant="footnote" :tone="quiet ? 'label' : 'label3'">Keep weekends quiet</MiText>
           </div>
         </section>
 
-        <section class="nmx__panel" aria-labelledby="nmx-digest-title">
+        <section class="nmx__panel mi:grid mi:gap-3 mi:p-4.5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1" aria-labelledby="nmx-digest-title">
           <MiText id="nmx-digest-title" as="h3" variant="headline">Email digest</MiText>
           <MiSegmented v-model="digest" label="Digest frequency" :options="digestOptions" />
           <MiText variant="footnote" tone="label2">
@@ -116,7 +116,7 @@
             <template v-else-if="!digestCount">Nothing to round up: every event already reaches your email.</template>
             <template v-else>
               {{ digest === 'daily' ? 'Every weekday at 08:00' : 'Mondays at 08:00' }}, one email rounds up
-              <strong class="nmx__strong">≈ {{ digestCount }} events</strong> you don't get by email.
+              <strong class="nmx__strong mi:font-650 mi:text-label mi:tabular-nums">≈ {{ digestCount }} events</strong> you don't get by email.
             </template>
           </MiText>
         </section>
@@ -217,91 +217,14 @@ const digestCount = computed(() => {
 </script>
 
 <style scoped>
-.nmx { container: nmx / inline-size; display: grid; align-content: start; gap: 20px; font-family: var(--mi-font); color: var(--mi-label); }
-.nmx__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 10px 20px; }
-.nmx__intro { display: grid; gap: 4px; max-width: 520px; }
-.nmx__saved { display: inline-flex; align-items: center; gap: 6px; margin: 0; min-width: 0; font-size: 12px; font-weight: 500; color: var(--mi-label2); }
 .nmx__saved :deep(svg) { flex: none; color: var(--mi-green); }
-.nmx__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-
-.nmx__layout { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); align-items: start; }
-@container nmx (min-width: 900px) { .nmx__layout { grid-template-columns: minmax(0, 1fr) 320px; gap: 20px; } }
-
-.nmx__matrix { min-width: 0; padding: 6px 4px 4px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); overflow-x: auto; }
-.nmx__table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-.nmx__corner { width: auto; padding: 0 10px 10px 14px; text-align: start; vertical-align: bottom; }
-.nmx__col { width: 50px; padding: 4px 0 8px; vertical-align: bottom; }
-@container nmx (min-width: 520px) { .nmx__col { width: 76px; } }
-
-.nmx__colbtn, .nmx__rowbtn {
-  border: 0; font: inherit; color: inherit; background: transparent; cursor: pointer; border-radius: 10px;
-}
-.nmx__colbtn { display: grid; justify-items: center; gap: 4px; width: 100%; padding: 6px 0; color: var(--mi-label2); }
-.nmx__colbtn:hover { color: var(--mi-label); background: var(--mi-fill4); }
-.nmx__colname { font-size: 11px; font-weight: 600; letter-spacing: .01em; }
-.nmx__colbtn:focus-visible, .nmx__rowbtn:focus-visible, .nmx__dot:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 1px; }
-
-.nmx__box {
-  display: grid; place-items: center; flex: none; width: 18px; height: 18px; box-sizing: border-box; border-radius: 5px;
-  box-shadow: inset 0 0 0 1.5px var(--mi-fill); color: var(--mi-p-on); background: transparent;
-}
-.nmx__box.is-on, .nmx__box.is-mixed { box-shadow: none; background: var(--mi-p); }
-.nmx__dash { width: 8px; height: 2px; border-radius: 1px; background: var(--mi-p-on); }
-
-.nmx__group th {
-  padding: 14px 14px 6px; text-align: start; font-size: 11px; font-weight: 650; letter-spacing: .06em; text-transform: uppercase; color: var(--mi-label3);
-}
-.nmx__row + .nmx__row .nmx__event, .nmx__row + .nmx__row .nmx__cell { border-top: 1px solid var(--mi-sep); }
-.nmx__event { padding: 2px 4px 2px 6px; text-align: start; font-weight: inherit; }
-.nmx__rowbtn { display: flex; align-items: flex-start; gap: 12px; width: 100%; padding: 9px 8px; text-align: start; }
-.nmx__rowbtn .nmx__box { margin-top: 1px; }
-.nmx__rowbtn:hover { background: var(--mi-fill4); }
-.nmx__event-text { display: grid; gap: 1px; min-width: 0; }
-.nmx__event-name { font-size: 14px; font-weight: 550; line-height: 1.3; }
-.nmx__event-desc { display: none; font-size: 12px; line-height: 1.35; color: var(--mi-label2); }
-@container nmx (min-width: 520px) { .nmx__event-desc { display: block; } }
-
-.nmx__cell { padding: 0; text-align: center; }
-.nmx__dot {
-  position: relative; display: inline-grid; place-items: center; width: 30px; height: 30px; padding: 0; border: 0; border-radius: 50%;
-  color: var(--mi-p-on); background: transparent; box-shadow: inset 0 0 0 1.5px var(--mi-fill2); cursor: pointer;
-}
-.nmx__dot::before {
-  content: ""; position: absolute; inset: 0; border-radius: inherit; background: var(--mi-p);
-  transform: scale(.4); opacity: 0; transition: transform var(--mi-dur-3) var(--mi-spring), opacity var(--mi-dur-2) var(--mi-ease);
-}
+.nmx__colbtn:hover { color: var(--mi-label); }
+.nmx__box.is-on, .nmx__box.is-mixed { background: var(--mi-p); }
 .nmx__dot > :deep(svg) { position: relative; }
-.nmx__tick { opacity: 0; transform: scale(.6); transition: transform var(--mi-dur-3) var(--mi-spring), opacity var(--mi-dur-2) var(--mi-ease); }
-.nmx__dot:hover:not(.is-on) { box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--mi-p) 55%, transparent); }
-.nmx__dot.is-on::before, .nmx__dot.is-on .nmx__tick { transform: none; opacity: 1; }
-.nmx__dot.is-locked { cursor: not-allowed; color: var(--mi-label2); box-shadow: none; }
-.nmx__dot.is-locked::before { background: var(--mi-fill3); }
-
-.nmx__foot-label { padding: 12px 10px 10px 14px; text-align: start; border-top: 1px solid var(--mi-sep); }
-.nmx__load { padding: 12px 6px 10px; border-top: 1px solid var(--mi-sep); text-align: center; }
-.nmx__load-num { display: block; font-size: 15px; font-weight: 650; letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
-.nmx__load-bar { display: block; height: 3px; margin: 5px auto 0; max-width: 40px; border-radius: 2px; background: var(--mi-fill3); overflow: hidden; }
-.nmx__load-bar span { display: block; height: 100%; background: var(--mi-p); transform-origin: left; transition: transform var(--mi-dur-4) var(--mi-spring); }
-
-.nmx__side { display: grid; gap: 16px; min-width: 0; }
-@container nmx (min-width: 600px) and (max-width: 899px) { .nmx__side { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; } }
-.nmx__panel { display: grid; gap: 12px; padding: 18px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.nmx__panel-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
-.nmx__panel-head > div { display: grid; gap: 3px; }
-
-/* 24 hour strip: each hour is a bar, lit while delivery is allowed. */
-.nmx__clock { display: grid; grid-template-columns: repeat(24, minmax(0, 1fr)); gap: 2px; margin-top: 4px; }
-.nmx__hour { position: relative; height: 26px; border-radius: 3px; background: var(--mi-fill3); }
-.nmx__hour::before {
-  content: ""; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(180deg, var(--mi-p), color-mix(in srgb, var(--mi-p) 60%, var(--mi-s)));
-  opacity: 0; transition: opacity var(--mi-dur-3) var(--mi-ease);
-}
-.nmx__hour.is-awake::before { opacity: 1; }
-.nmx__clock.is-off .nmx__hour::before { opacity: .35; }
-.nmx__hour.is-now::after { content: ""; position: absolute; left: 50%; bottom: -6px; width: 4px; height: 4px; margin-left: -2px; border-radius: 50%; background: var(--mi-label); }
-.nmx__ticks { display: flex; justify-content: space-between; margin-top: -4px; font-size: 10px; font-weight: 600; color: var(--mi-label3); font-variant-numeric: tabular-nums; }
+.nmx__tick { transform: scale(.6); }
+.nmx__dot.is-on .nmx__tick { transform: none; }
+.nmx__dot.is-locked { color: var(--mi-label2); }
+.nmx__load-bar span { background: var(--mi-p); }
+.nmx__panel-head > div { display: grid; }
 .nmx__window { margin-top: -4px; }
-.nmx__inline { display: flex; align-items: center; gap: 10px; padding-top: 12px; border-top: 1px solid var(--mi-sep); }
-.nmx__strong { font-weight: 650; color: var(--mi-label); font-variant-numeric: tabular-nums; }
-@media (prefers-reduced-motion: reduce) { .nmx__dot::before, .nmx__tick, .nmx__hour::before, .nmx__load-bar span { transition: none; } }
 </style>

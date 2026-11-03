@@ -1,18 +1,18 @@
 <template>
-  <section class="shelf" aria-labelledby="shelf-title">
-    <header class="shelf__head">
-      <div class="shelf__title">
+  <section class="shelf mi:@container mi:relative mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="shelf-title">
+    <header class="shelf__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
+      <div class="shelf__title mi:grid mi:gap-0.5 mi:min-w-0">
         <MiBreadcrumb :items="crumbs" aria-label="Folder path" />
         <MiText id="shelf-title" variant="title3" as="h2" weight="semibold">Spring campaign</MiText>
         <MiText variant="footnote" tone="label2" tabular>{{ files.length }} files · {{ size(totalKb) }} · shared with 6 people</MiText>
       </div>
-      <div class="shelf__actions">
+      <div class="shelf__actions mi:flex mi:items-center mi:gap-2 mi:flex-[1_1_240px] mi:min-w-0 mi:max-w-90">
         <MiSearch v-model="query" size="compact" placeholder="Find a file" aria-label="Find a file" />
         <MiSegmented v-model="view" label="Layout" :options="views" />
       </div>
     </header>
 
-    <div class="shelf__types" role="group" aria-label="File type">
+    <div class="shelf__types mi:flex mi:flex-wrap mi:gap-1.5" role="group" aria-label="File type">
       <MiChip
         v-for="t in typeFilters" :key="t.value" selectable size="small" tone="neutral"
         :model-value="type === t.value" :label="t.label" @update:model-value="type = t.value"
@@ -20,52 +20,52 @@
     </div>
 
     <!-- Grid: every preview is drawn from tokens, so the shelf reads like a real drive with no images. -->
-    <ul v-if="view === 'grid'" class="shelf__grid">
-      <li v-for="f in visible" :key="f.id" class="shelf__card" :class="{ 'is-sel': picked.has(f.id) }">
-        <div class="shelf__thumb" :class="'thumb--' + f.type" :style="{ '--tint': kinds[f.type].color }" aria-hidden="true">
+    <ul v-if="view === 'grid'" class="shelf__grid mi:grid mi:grid-cols-2 mi:gap-3 mi:m-0 mi:p-0 mi:[list-style:none] mi:@[620px]:grid-cols-3 mi:@[900px]:grid-cols-4">
+      <li v-for="f in visible" :key="f.id" class="shelf__card mi:relative mi:grid mi:gap-1.5 mi:pt-2 mi:px-2 mi:pb-3 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1 mi:[&.is-sel]:shadow-[0_0_0_2px_var(--mi-p),_var(--mi-sh1)]" :class="{ 'is-sel': picked.has(f.id) }">
+        <div class="shelf__thumb mi:relative mi:grid mi:place-items-center mi:aspect-[4_/_3] mi:rounded-[calc(var(--mi-radius-l)_-_4px)] mi:overflow-hidden mi:[background:color-mix(in_srgb,_var(--tint)_9%,_var(--mi-fill))]" :class="'thumb--' + f.type" :style="{ '--tint': kinds[f.type].color }" aria-hidden="true">
           <template v-if="f.type === 'doc' || f.type === 'pdf'">
-            <span class="thumb__page"><i v-for="n in 6" :key="n" :style="{ transform: `scaleX(${0.55 + ((n * 37) % 45) / 100})` }" /></span>
+            <span class="thumb__page mi:grid mi:content-start mi:gap-[5px] mi:w-[46%] mi:h-[78%] mi:mt-[18%] mi:py-[12%] mi:px-[10%] mi:rounded-[4px_4px_0_0] mi:[background:var(--mi-card)] mi:shadow-2 mi:[.thumb--pdf_&]:[border-top:4px_solid_var(--tint)]"><i class="mi:[.thumb__page_&]:h-[3px] mi:[.thumb__page_&]:origin-left" v-for="n in 6" :key="n" :style="{ transform: `scaleX(${0.55 + ((n * 37) % 45) / 100})` }" /></span>
           </template>
-          <span v-else-if="f.type === 'sheet'" class="thumb__sheet"><i v-for="n in 20" :key="n" /></span>
-          <span v-else-if="f.type === 'image'" class="thumb__photo" :style="{ '--sky': f.sky }"><b /><s /></span>
-          <span v-else-if="f.type === 'video'" class="thumb__photo thumb__photo--video" :style="{ '--sky': f.sky }"><b /><s /><em>{{ f.meta }}</em></span>
-          <span v-else-if="f.type === 'audio'" class="thumb__wave"><i v-for="(h, n) in wave" :key="n" :style="{ transform: `scaleY(${h})` }" /></span>
-          <span v-else class="thumb__design"><i /><i /><i /></span>
+          <span v-else-if="f.type === 'sheet'" class="thumb__sheet mi:grid mi:grid-cols-[repeat(4,_1fr)] mi:gap-px mi:w-[64%] mi:p-px mi:rounded-[4px] mi:[background:var(--mi-sep)] mi:shadow-2"><i v-for="n in 20" :key="n" /></span>
+          <span v-else-if="f.type === 'image'" class="thumb__photo mi:absolute mi:inset-0 mi:[background:linear-gradient(180deg,_color-mix(in_srgb,_var(--sky)_55%,_var(--mi-card)),_color-mix(in_srgb,_var(--sky)_20%,_var(--mi-card)))]" :style="{ '--sky': f.sky }"><b class="mi:[.thumb__photo_&]:aspect-[1]" /><s class="mi:[.thumb__photo_&]:[clip-path:polygon(0_60%,_22%_18%,_40%_48%,_62%_0,_100%_52%,_100%_100%,_0_100%)]" /></span>
+          <span v-else-if="f.type === 'video'" class="thumb__photo thumb__photo--video mi:absolute mi:inset-0 mi:[background:linear-gradient(180deg,_color-mix(in_srgb,_var(--sky)_55%,_var(--mi-card)),_color-mix(in_srgb,_var(--sky)_20%,_var(--mi-card)))] mi:after:content-[''] mi:after:absolute mi:after:top-1/2 mi:after:left-1/2 mi:after:w-9 mi:after:h-9 mi:after:-mt-4.5 mi:after:mr-0 mi:after:mb-0 mi:after:-ml-4.5 mi:after:rounded-[50%] mi:after:[background:color-mix(in_srgb,_var(--mi-card)_80%,_transparent)] mi:before:content-[''] mi:before:absolute mi:before:z-1 mi:before:top-1/2 mi:before:left-1/2 mi:before:mt-[-7px] mi:before:mr-0 mi:before:mb-0 mi:before:-ml-1 mi:before:[border-style:solid] mi:before:[border-width:7px_0_7px_12px] mi:before:border-[color:transparent_transparent_transparent_var(--mi-label)]" :style="{ '--sky': f.sky }"><b class="mi:[.thumb__photo_&]:aspect-[1]" /><s class="mi:[.thumb__photo_&]:[clip-path:polygon(0_60%,_22%_18%,_40%_48%,_62%_0,_100%_52%,_100%_100%,_0_100%)]" /><em class="mi:[.thumb__photo_&]:py-px mi:[.thumb__photo_&]:px-1.5 mi:[.thumb__photo_&]:text-[10px] mi:[.thumb__photo_&]:not-italic mi:[.thumb__photo_&]:font-semibold mi:[.thumb__photo_&]:text-card">{{ f.meta }}</em></span>
+          <span v-else-if="f.type === 'audio'" class="thumb__wave mi:flex mi:items-center mi:gap-[3px] mi:h-[46%]"><i v-for="(h, n) in wave" :key="n" :style="{ transform: `scaleY(${h})` }" /></span>
+          <span v-else class="thumb__design mi:relative mi:w-[60%] mi:h-[64%] mi:rounded-[6px] mi:[background:var(--mi-card)] mi:shadow-2"><i class="mi:[.thumb__design_&:nth-child(1)]:top-[10%] mi:[.thumb__design_&:nth-child(1)]:right-[10%] mi:[.thumb__design_&:nth-child(1)]:bottom-auto mi:[.thumb__design_&:nth-child(1)]:left-[10%] mi:[.thumb__design_&:nth-child(1)]:opacity-80 mi:[.thumb__design_&:nth-child(2)]:top-[32%] mi:[.thumb__design_&:nth-child(2)]:right-[52%] mi:[.thumb__design_&:nth-child(2)]:bottom-[10%] mi:[.thumb__design_&:nth-child(2)]:left-[10%] mi:[.thumb__design_&:nth-child(3)]:top-[32%] mi:[.thumb__design_&:nth-child(3)]:right-[10%] mi:[.thumb__design_&:nth-child(3)]:bottom-[10%] mi:[.thumb__design_&:nth-child(3)]:left-[54%] mi:[.thumb__design_&:nth-child(3)]:rounded-[50%]" /><i class="mi:[.thumb__design_&:nth-child(1)]:top-[10%] mi:[.thumb__design_&:nth-child(1)]:right-[10%] mi:[.thumb__design_&:nth-child(1)]:bottom-auto mi:[.thumb__design_&:nth-child(1)]:left-[10%] mi:[.thumb__design_&:nth-child(1)]:opacity-80 mi:[.thumb__design_&:nth-child(2)]:top-[32%] mi:[.thumb__design_&:nth-child(2)]:right-[52%] mi:[.thumb__design_&:nth-child(2)]:bottom-[10%] mi:[.thumb__design_&:nth-child(2)]:left-[10%] mi:[.thumb__design_&:nth-child(3)]:top-[32%] mi:[.thumb__design_&:nth-child(3)]:right-[10%] mi:[.thumb__design_&:nth-child(3)]:bottom-[10%] mi:[.thumb__design_&:nth-child(3)]:left-[54%] mi:[.thumb__design_&:nth-child(3)]:rounded-[50%]" /><i class="mi:[.thumb__design_&:nth-child(1)]:top-[10%] mi:[.thumb__design_&:nth-child(1)]:right-[10%] mi:[.thumb__design_&:nth-child(1)]:bottom-auto mi:[.thumb__design_&:nth-child(1)]:left-[10%] mi:[.thumb__design_&:nth-child(1)]:opacity-80 mi:[.thumb__design_&:nth-child(2)]:top-[32%] mi:[.thumb__design_&:nth-child(2)]:right-[52%] mi:[.thumb__design_&:nth-child(2)]:bottom-[10%] mi:[.thumb__design_&:nth-child(2)]:left-[10%] mi:[.thumb__design_&:nth-child(3)]:top-[32%] mi:[.thumb__design_&:nth-child(3)]:right-[10%] mi:[.thumb__design_&:nth-child(3)]:bottom-[10%] mi:[.thumb__design_&:nth-child(3)]:left-[54%] mi:[.thumb__design_&:nth-child(3)]:rounded-[50%]" /></span>
         </div>
-        <div class="shelf__label">
-          <span class="shelf__kind" :style="{ '--tint': kinds[f.type].color }">{{ kinds[f.type].short }}</span>
+        <div class="shelf__label mi:flex mi:items-center mi:gap-1.5 mi:min-w-0 mi:pt-1 mi:px-1 mi:pb-0">
+          <span class="shelf__kind mi:flex-[none] mi:text-[9px] mi:font-bold mi:tracking-[.04em] mi:text-(--tint) mi:[background:color-mix(in_srgb,_var(--tint)_14%,_transparent)]" :style="{ '--tint': kinds[f.type].color }">{{ kinds[f.type].short }}</span>
           <MiText as="h3" variant="subheadline" weight="medium" :lines="1" :title="f.name">{{ f.name }}</MiText>
         </div>
         <MiText variant="caption" tone="label2" tabular>{{ size(f.kb) }} · {{ f.edited }}</MiText>
         <MiCheckbox class="shelf__pick" :model-value="picked.has(f.id)" @update:model-value="toggle(f.id)">
-          <span class="shelf__sr">Select {{ f.name }}</span>
+          <span class="shelf__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">Select {{ f.name }}</span>
         </MiCheckbox>
       </li>
     </ul>
 
     <!-- List: the same files as rows; secondary columns appear as the container widens. -->
-    <ul v-else class="shelf__list">
-      <li v-for="f in visible" :key="f.id" class="shelf__row" :class="{ 'is-sel': picked.has(f.id) }">
+    <ul v-else class="shelf__list mi:grid mi:m-0 mi:py-1 mi:px-0 mi:[list-style:none] mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1">
+      <li v-for="f in visible" :key="f.id" class="shelf__row mi:grid mi:grid-cols-[auto_auto_minmax(0,_1fr)_auto] mi:items-center mi:gap-3 mi:py-2.5 mi:px-3.5 mi:[.shelf__row+&]:border-t mi:[.shelf__row+&]:border-t-sep mi:[&.is-sel]:[background:var(--mi-p-tint)] mi:@[680px]:grid-cols-[auto_auto_minmax(0,_1fr)_170px_96px_72px]" :class="{ 'is-sel': picked.has(f.id) }">
         <MiCheckbox :model-value="picked.has(f.id)" @update:model-value="toggle(f.id)">
-          <span class="shelf__sr">Select {{ f.name }}</span>
+          <span class="shelf__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">Select {{ f.name }}</span>
         </MiCheckbox>
-        <span class="shelf__kind shelf__kind--tile" :style="{ '--tint': kinds[f.type].color }" aria-hidden="true">{{ kinds[f.type].short }}</span>
-        <div class="shelf__row-name">
+        <span class="shelf__kind shelf__kind--tile mi:flex-[none] mi:text-[9px] mi:font-bold mi:tracking-[.04em] mi:text-(--tint) mi:[background:color-mix(in_srgb,_var(--tint)_14%,_transparent)] mi:grid mi:place-items-center mi:w-9 mi:h-9" :style="{ '--tint': kinds[f.type].color }" aria-hidden="true">{{ kinds[f.type].short }}</span>
+        <div class="shelf__row-name mi:min-w-0">
           <MiText as="h3" variant="subheadline" weight="medium" :lines="1">{{ f.name }}</MiText>
           <MiText variant="caption" tone="label2" class="shelf__row-sub">{{ f.owner }} · {{ f.edited }}</MiText>
         </div>
-        <span class="shelf__owner"><MiAvatar :name="f.owner" size="xs" tone="auto" decorative /><MiText as="span" variant="footnote" tone="label2" :lines="1">{{ f.owner }}</MiText></span>
+        <span class="shelf__owner mi:hidden mi:items-center mi:gap-2 mi:min-w-0 mi:@[680px]:flex"><MiAvatar :name="f.owner" size="xs" tone="auto" decorative /><MiText as="span" variant="footnote" tone="label2" :lines="1">{{ f.owner }}</MiText></span>
         <MiText as="span" variant="footnote" tone="label2" class="shelf__edited">{{ f.edited }}</MiText>
-        <MiText as="span" variant="footnote" tone="label2" tabular class="shelf__size">{{ size(f.kb) }}</MiText>
+        <MiText as="span" variant="footnote" tone="label2" tabular class="shelf__size mi:text-end">{{ size(f.kb) }}</MiText>
       </li>
     </ul>
 
     <MiEmptyState v-if="!visible.length" title="No files here" description="Try another type or clear the search." icon="search" />
 
     <Transition name="shelf-bar">
-      <div v-if="picked.size" class="shelf__bar" role="region" aria-label="Selection">
+      <div v-if="picked.size" class="shelf__bar mi:sticky mi:bottom-3 mi:z-2 mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-2 mi:gap-x-3 mi:pt-2.5 mi:pr-2.5 mi:pb-2.5 mi:pl-4 mi:rounded-lg mi:[background:var(--mi-elev)] mi:shadow-3" role="region" aria-label="Selection">
         <MiText as="span" variant="subheadline" weight="semibold" tabular aria-live="polite">{{ picked.size }} selected · {{ size(pickedKb) }}</MiText>
-        <div class="shelf__bar-actions">
+        <div class="shelf__bar-actions mi:flex mi:items-center mi:gap-1.5">
           <MiButton size="small" variant="gray">Share</MiButton>
           <MiButton size="small" variant="gray">Download</MiButton>
           <MiIconButton size="small" variant="plain" label="Clear selection" @click="picked = new Set()"><MiIcon name="close" :size="16" /></MiIconButton>
@@ -132,89 +132,31 @@ const size = (kb: number) => (kb >= 1024 ? `${(kb / 1024).toFixed(kb >= 10_240 ?
 </script>
 
 <style scoped>
-.shelf { container-type: inline-size; position: relative; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
-.shelf__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.shelf__title { display: grid; gap: 2px; min-width: 0; }
-.shelf__actions { display: flex; align-items: center; gap: 8px; flex: 1 1 240px; min-width: 0; max-width: 360px; }
 .shelf__actions > :first-child { flex: 1 1 0; min-width: 0; width: 0; }
 .shelf__actions > :last-child { flex: none; }
-.shelf__types { display: flex; flex-wrap: wrap; gap: 6px; }
-.shelf__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-
-.shelf__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 0; padding: 0; list-style: none; }
-@container (min-width: 620px) { .shelf__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-@container (min-width: 900px) { .shelf__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-
-.shelf__card {
-  position: relative; display: grid; gap: 6px; padding: 8px 8px 12px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1);
-}
-.shelf__card.is-sel { box-shadow: 0 0 0 2px var(--mi-p), var(--mi-sh1); }
 .shelf__pick { position: absolute; top: 14px; inset-inline-start: 14px; width: max-content; opacity: 0; transition: opacity var(--mi-dur-2) var(--mi-ease); }
 .shelf__card:hover .shelf__pick, .shelf__card:focus-within .shelf__pick, .shelf__card.is-sel .shelf__pick { opacity: 1; }
 @media (hover: none) { .shelf__pick { opacity: 1; } }
-.shelf__label { display: flex; align-items: center; gap: 6px; min-width: 0; padding: 4px 4px 0; }
 .shelf__card > :nth-child(3) { padding: 0 4px; }
-.shelf__kind {
-  flex: none; padding: 2px 5px; border-radius: 5px; font-size: 9px; font-weight: 700; letter-spacing: .04em;
-  color: var(--tint); background: color-mix(in srgb, var(--tint) 14%, transparent);
+.shelf__kind { padding: 2px 5px; border-radius: 5px;
 }
-
-/* Drawn previews */
-.shelf__thumb {
-  position: relative; display: grid; place-items: center; aspect-ratio: 4 / 3; border-radius: calc(var(--mi-radius-l) - 4px); overflow: hidden;
-  background: color-mix(in srgb, var(--tint) 9%, var(--mi-fill));
-}
-.thumb__page { display: grid; align-content: start; gap: 5px; width: 46%; height: 78%; margin-top: 18%; padding: 12% 10%; border-radius: 4px 4px 0 0; background: var(--mi-card); box-shadow: var(--mi-sh2); }
-.thumb__page i { display: block; height: 3px; border-radius: 2px; background: var(--mi-fill3); transform-origin: left; }
+.thumb__page i { display: block; border-radius: 2px; background: var(--mi-fill3); }
 .thumb__page i:first-child { height: 5px; background: color-mix(in srgb, var(--tint) 55%, transparent); }
-.thumb--pdf .thumb__page { border-top: 4px solid var(--tint); }
-.thumb__sheet { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; width: 64%; padding: 1px; border-radius: 4px; background: var(--mi-sep); box-shadow: var(--mi-sh2); }
 .thumb__sheet i { height: 11px; background: var(--mi-card); }
 .thumb__sheet i:nth-child(-n + 4) { background: color-mix(in srgb, var(--tint) 30%, var(--mi-card)); }
 .thumb__sheet i:nth-child(4n + 1) { background: color-mix(in srgb, var(--tint) 10%, var(--mi-card)); }
-.thumb__photo { position: absolute; inset: 0; background: linear-gradient(180deg, color-mix(in srgb, var(--sky) 55%, var(--mi-card)), color-mix(in srgb, var(--sky) 20%, var(--mi-card))); }
-.thumb__photo b { position: absolute; top: 18%; inset-inline-end: 20%; width: 18%; aspect-ratio: 1; border-radius: 50%; background: color-mix(in srgb, var(--mi-yellow) 80%, var(--mi-card)); }
-.thumb__photo s { position: absolute; inset: auto -10% -30% -10%; height: 70%; background: color-mix(in srgb, var(--sky) 70%, var(--mi-label)); clip-path: polygon(0 60%, 22% 18%, 40% 48%, 62% 0, 100% 52%, 100% 100%, 0 100%); }
-.thumb__photo--video::after {
-  content: ""; position: absolute; top: 50%; left: 50%; width: 36px; height: 36px; margin: -18px 0 0 -18px; border-radius: 50%;
-  background: color-mix(in srgb, var(--mi-card) 80%, transparent);
-}
-.thumb__photo--video::before {
-  content: ""; position: absolute; z-index: 1; top: 50%; left: 50%; margin: -7px 0 0 -4px; border-style: solid; border-width: 7px 0 7px 12px;
-  border-color: transparent transparent transparent var(--mi-label);
-}
-.thumb__photo em { position: absolute; bottom: 8px; inset-inline-end: 8px; padding: 1px 6px; border-radius: 6px; font-size: 10px; font-style: normal; font-weight: 600; color: var(--mi-card); background: color-mix(in srgb, var(--mi-label) 70%, transparent); }
-.thumb__wave { display: flex; align-items: center; gap: 3px; height: 46%; }
+.thumb__photo b { position: absolute; top: 18%; inset-inline-end: 20%; width: 18%; border-radius: 50%; background: color-mix(in srgb, var(--mi-yellow) 80%, var(--mi-card)); }
+.thumb__photo s { position: absolute; inset: auto -10% -30% -10%; height: 70%; background: color-mix(in srgb, var(--sky) 70%, var(--mi-label)); }
+.thumb__photo em { position: absolute; bottom: 8px; inset-inline-end: 8px; border-radius: 6px; background: color-mix(in srgb, var(--mi-label) 70%, transparent); }
 .thumb__wave i { width: 4px; height: 100%; border-radius: 2px; background: var(--tint); opacity: .75; }
-.thumb__design { position: relative; width: 60%; height: 64%; border-radius: 6px; background: var(--mi-card); box-shadow: var(--mi-sh2); }
 .thumb__design i { position: absolute; border-radius: 4px; background: color-mix(in srgb, var(--tint) 25%, transparent); }
-.thumb__design i:nth-child(1) { inset: 10% 10% auto 10%; height: 14%; background: var(--tint); opacity: .8; }
-.thumb__design i:nth-child(2) { inset: 32% 52% 10% 10%; }
-.thumb__design i:nth-child(3) { inset: 32% 10% 10% 54%; border-radius: 50%; }
-
-/* List */
-.shelf__list { display: grid; margin: 0; padding: 4px 0; list-style: none; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.shelf__row { display: grid; grid-template-columns: auto auto minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 10px 14px; }
-.shelf__row + .shelf__row { border-top: 1px solid var(--mi-sep); }
-.shelf__row.is-sel { background: var(--mi-p-tint); }
-.shelf__kind--tile { display: grid; place-items: center; width: 36px; height: 36px; padding: 0; border-radius: 10px; }
-.shelf__row-name { min-width: 0; }
-.shelf__owner, .shelf__edited { display: none; }
-.shelf__owner { align-items: center; gap: 8px; min-width: 0; }
-.shelf__size { text-align: end; }
+.thumb__design i:nth-child(1) { height: 14%; background: var(--tint); }
+.shelf__kind--tile { padding: 0; border-radius: 10px; }
+.shelf__edited { display: none; }
 @container (min-width: 680px) {
-  .shelf__row { grid-template-columns: auto auto minmax(0, 1fr) 170px 96px 72px; }
   .shelf__row-sub { display: none; }
-  .shelf__owner { display: flex; }
   .shelf__edited { display: block; }
 }
-
-/* Selection bar */
-.shelf__bar {
-  position: sticky; bottom: 12px; z-index: 2; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px;
-  padding: 10px 10px 10px 16px; border-radius: var(--mi-radius-l); background: var(--mi-elev); box-shadow: var(--mi-sh3);
-}
-.shelf__bar-actions { display: flex; align-items: center; gap: 6px; }
 .shelf-bar-enter-active, .shelf-bar-leave-active { transition: transform var(--mi-dur-3) var(--mi-spring), opacity var(--mi-dur-2) var(--mi-ease); }
 .shelf-bar-enter-from, .shelf-bar-leave-to { transform: translateY(12px); opacity: 0; }
 </style>

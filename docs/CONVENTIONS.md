@@ -1,6 +1,6 @@
 # Layer conventions (binding for every component)
 
-Stack: Nuxt 4.6, Vue 3 `<script setup lang="ts">`, scoped plain CSS (no Tailwind dependency), no runtime UI deps.
+Stack: Nuxt 4.6, Vue 3 `<script setup lang="ts">`, `mi:` utility classes from the layer's own engine (`docs/atomic.md`) plus scoped CSS where utilities cannot express a rule, no Tailwind dependency, no runtime UI deps.
 Source of truth for visuals: the mockups in `MOCKUPS_DIR` (`*.dc.html`). Match them faithfully.
 
 ## Files

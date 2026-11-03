@@ -1,6 +1,6 @@
 <template>
-  <section class="psp" aria-labelledby="psp-title">
-    <header class="psp__head">
+  <section class="psp mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="psp-title">
+    <header class="psp__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="psp-title" variant="title3" as="h2" weight="semibold">Studio pipeline</MiText>
         <MiText variant="footnote" tone="label2">{{ projects.length }} projects · {{ money(totalBudget) }} booked · {{ overCount }} over budget</MiText>
@@ -9,35 +9,35 @@
     </header>
 
     <!-- Stage rail: each step is a filter, sized by the money sitting in it. -->
-    <ol class="psp__rail" aria-label="Stages">
+    <ol class="psp__rail mi:grid mi:grid-cols-[repeat(auto-fit,_minmax(96px,_1fr))] mi:gap-1.5 mi:m-0 mi:p-0 mi:[list-style:none]" aria-label="Stages">
       <li v-for="s in stageStats" :key="s.id">
-        <button type="button" class="psp__stage" :class="{ 'is-on': stage === s.id }" :aria-pressed="stage === s.id" @click="stage = stage === s.id ? null : s.id">
-          <span class="psp__stage-top"><b>{{ s.label }}</b><span>{{ s.count }}</span></span>
-          <span class="psp__stage-sum">{{ money(s.budget) }}</span>
-          <span class="psp__stage-bar" aria-hidden="true"><i :style="{ transform: `scaleX(${s.budget / maxStage})` }" /></span>
+        <button type="button" class="psp__stage mi:grid mi:gap-1 mi:w-full mi:py-2.5 mi:px-3 mi:[border:0] mi:rounded-md mi:bg-card mi:shadow-1 mi:text-inherit mi:[font:inherit] mi:text-start mi:cursor-pointer mi:[&.is-on]:bg-p-tint mi:[&.is-on]:shadow-[inset_0_0_0_1.5px_var(--mi-p)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" :class="{ 'is-on': stage === s.id }" :aria-pressed="stage === s.id" @click="stage = stage === s.id ? null : s.id">
+          <span class="psp__stage-top mi:flex mi:justify-between mi:gap-1.5 mi:text-[13px]"><b>{{ s.label }}</b><span class="mi:[.psp__stage-top_&]:text-label2 mi:[.psp__stage-top_&]:tabular-nums">{{ s.count }}</span></span>
+          <span class="psp__stage-sum mi:text-[17px] mi:font-bold mi:tracking-[-.02em] mi:tabular-nums">{{ money(s.budget) }}</span>
+          <span class="psp__stage-bar mi:h-[3px] mi:rounded-[2px] mi:bg-fill3 mi:overflow-hidden" aria-hidden="true"><i class="mi:[.psp__stage-bar_&]:block mi:[.psp__stage-bar_&]:h-full mi:[.psp__stage-bar_&]:bg-p mi:[.psp__stage-bar_&]:origin-left mi:[.psp__stage-bar_&]:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleX(${s.budget / maxStage})` }" /></span>
         </button>
       </li>
     </ol>
 
-    <ul class="psp__list" aria-live="polite">
-      <li v-for="p in shown" :key="p.id" class="psp__row">
-        <div class="psp__who">
+    <ul class="psp__list mi:grid mi:m-0 mi:p-0 mi:[list-style:none] mi:rounded-lg mi:bg-card mi:shadow-1 mi:overflow-hidden" aria-live="polite">
+      <li v-for="p in shown" :key="p.id" class="psp__row mi:grid mi:grid-cols-[minmax(0,_1fr)_auto] mi:gap-y-2.5 mi:gap-x-3.5 mi:items-center mi:py-3.5 mi:px-4 mi:[.psp__row+&]:border-t mi:[.psp__row+&]:border-t-sep mi:@[760px]:grid-cols-[minmax(0,_1.3fr)_auto_minmax(160px,_1fr)_minmax(0,_220px)]">
+        <div class="psp__who mi:grid mi:min-w-0">
           <MiText variant="headline" as="h3" :lines="1">{{ p.name }}</MiText>
           <MiText variant="caption" tone="label2">{{ p.client }} · due {{ p.due }}</MiText>
         </div>
         <MiAvatarGroup :items="teamOf(p)" :max="3" size="xs" />
-        <div class="psp__burn">
-          <div class="psp__burn-top">
+        <div class="psp__burn mi:col-span-full mi:grid mi:gap-1 mi:@[760px]:col-[auto]">
+          <div class="psp__burn-top mi:flex mi:justify-between mi:gap-2">
             <MiText variant="caption" weight="semibold" :tone="burn(p) > 1 ? 'red' : burn(p) > .85 ? 'orange' : 'label2'" tabular>
               {{ money(p.spent) }} of {{ money(p.budget) }}
             </MiText>
             <MiText variant="caption" tone="label3" tabular>{{ Math.round(burn(p) * 100) }}%</MiText>
           </div>
-          <div class="psp__track" role="meter" :aria-label="p.name + ' budget used'" :aria-valuenow="Math.round(burn(p) * 100)" aria-valuemin="0" aria-valuemax="100">
-            <i :class="{ 'is-over': burn(p) > 1, 'is-warn': burn(p) > .85 && burn(p) <= 1 }" :style="{ transform: `scaleX(${Math.min(burn(p), 1)})` }" />
+          <div class="psp__track mi:h-1.5 mi:rounded-[3px] mi:bg-fill3 mi:overflow-hidden" role="meter" :aria-label="p.name + ' budget used'" :aria-valuenow="Math.round(burn(p) * 100)" aria-valuemin="0" aria-valuemax="100">
+            <i class="mi:[.psp__track_&]:block mi:[.psp__track_&]:h-full mi:[.psp__track_&]:origin-left mi:[.psp__track_&]:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :class="{ 'is-over': burn(p) > 1, 'is-warn': burn(p) > .85 && burn(p) <= 1 }" :style="{ transform: `scaleX(${Math.min(burn(p), 1)})` }" />
           </div>
         </div>
-        <div class="psp__act">
+        <div class="psp__act mi:col-span-full mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2 mi:@[760px]:col-[auto] mi:@[760px]:[justify-content:flex-end]">
           <MiBadge tone="neutral" variant="outline" :label="stageLabel(p.stage)" />
           <MiButton v-if="p.stage < STAGES.length - 1" variant="tinted" size="mini" @click="p.stage++">
             Move to {{ stageLabel(p.stage + 1) }}
@@ -82,33 +82,7 @@ const shown = computed(() => (stage.value ? projects.value.filter(p => STAGES[p.
 </script>
 
 <style scoped>
-.psp { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
-.psp__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.psp__rail { display: grid; grid-template-columns: repeat(auto-fit, minmax(96px, 1fr)); gap: 6px; margin: 0; padding: 0; list-style: none; }
-.psp__stage { display: grid; gap: 4px; width: 100%; padding: 10px 12px; border: 0; border-radius: var(--mi-radius-m); background: var(--mi-card); box-shadow: var(--mi-sh1); color: inherit; font: inherit; text-align: start; cursor: pointer; }
-.psp__stage.is-on { background: var(--mi-p-tint); box-shadow: inset 0 0 0 1.5px var(--mi-p); }
-.psp__stage:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-.psp__stage-top { display: flex; justify-content: space-between; gap: 6px; font-size: 13px; }
-.psp__stage-top span { color: var(--mi-label2); font-variant-numeric: tabular-nums; }
-.psp__stage-sum { font-size: 17px; font-weight: 700; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
-.psp__stage-bar { height: 3px; border-radius: 2px; background: var(--mi-fill3); overflow: hidden; }
-.psp__stage-bar i { display: block; height: 100%; background: var(--mi-p); transform-origin: left; transition: transform var(--mi-dur-4) var(--mi-spring); }
-
-.psp__list { display: grid; margin: 0; padding: 0; list-style: none; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); overflow: hidden; }
-.psp__row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px 14px; align-items: center; padding: 14px 16px; }
-.psp__row + .psp__row { border-top: 1px solid var(--mi-sep); }
-.psp__who { display: grid; min-width: 0; }
-.psp__burn { grid-column: 1 / -1; display: grid; gap: 4px; }
-.psp__burn-top { display: flex; justify-content: space-between; gap: 8px; }
-.psp__track { height: 6px; border-radius: 3px; background: var(--mi-fill3); overflow: hidden; }
-.psp__track i { display: block; height: 100%; background: var(--mi-p); transform-origin: left; transition: transform var(--mi-dur-4) var(--mi-spring); }
+.psp__track i { background: var(--mi-p); }
 .psp__track i.is-warn { background: var(--mi-orange); }
 .psp__track i.is-over { background: var(--mi-red); }
-.psp__act { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
-
-@container (min-width: 760px) {
-  .psp__row { grid-template-columns: minmax(0, 1.3fr) auto minmax(160px, 1fr) minmax(0, 220px); }
-  .psp__burn, .psp__act { grid-column: auto; }
-  .psp__act { justify-content: flex-end; }
-}
 </style>

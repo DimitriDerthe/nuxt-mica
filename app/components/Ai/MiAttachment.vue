@@ -56,7 +56,7 @@ defineSlots<{
 </script>
 
 <template>
-  <div class="mi-att" :class="[`is-${st}`, `is-${size}`, `is-${orientation}`]" :data-state="st" role="group" :aria-label="name" :aria-busy="st === 'uploading' || st === 'processing' ? true : undefined">
+  <div class="mi-att mi:relative mi:items-center mi:overflow-hidden mi:font-mi mi:[&.is-vertical]:flex-col mi:[&.is-vertical]:items-stretch mi:[&.is-vertical]:snap-start mi:[&.is-uploading]:after:content-[''] mi:[&.is-uploading]:after:absolute mi:[&.is-uploading]:after:inset-0 mi:[&.is-uploading]:after:pointer-events-none mi:[&.is-uploading]:after:transform-[translateX(-100%)] mi:[&.is-processing]:after:content-[''] mi:[&.is-processing]:after:absolute mi:[&.is-processing]:after:inset-0 mi:[&.is-processing]:after:pointer-events-none mi:[&.is-processing]:after:transform-[translateX(-100%)]" :class="[`is-${st}`, `is-${size}`, `is-${orientation}`]" :data-state="st" role="group" :aria-label="name" :aria-busy="st === 'uploading' || st === 'processing' ? true : undefined">
     <slot>
       <MiAttachmentMedia :variant="preview && isImage ? 'image' : 'icon'">
         <img v-if="preview && isImage" :src="preview" alt="">
@@ -75,12 +75,12 @@ defineSlots<{
 </template>
 
 <style scoped>
-.mi-att { position: relative; display: flex; align-items: center; gap: 10px; max-width: 320px; padding: 8px 10px; border-radius: 12px; overflow: hidden; background: var(--mi-card); box-shadow: var(--mi-sh2); font-family: var(--mi-font); color: var(--mi-label); }
-.mi-att.is-vertical { flex-direction: column; align-items: stretch; width: 160px; flex: none; scroll-snap-align: start; }
+.mi-att { display: flex; gap: 10px; max-width: 320px; padding: 8px 10px; border-radius: 12px; background: var(--mi-card); box-shadow: var(--mi-sh2); color: var(--mi-label); }
+.mi-att.is-vertical { width: 160px; flex: none; }
 .mi-att.is-sm { padding: 6px 8px; font-size: 13px; }
 .mi-att.is-lg { padding: 12px 14px; }
 .mi-att.is-error { color: var(--mi-s-text); }
-.mi-att.is-uploading::after, .mi-att.is-processing::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, transparent, var(--mi-p-tint), transparent); transform: translateX(-100%); animation: mi-att-shimmer 1.6s linear infinite; }
+.mi-att.is-uploading::after, .mi-att.is-processing::after { background: linear-gradient(90deg, transparent, var(--mi-p-tint), transparent); animation: mi-att-shimmer 1.6s linear infinite; }
 @keyframes mi-att-shimmer { to { transform: translateX(100%); } }
 .mi-att :deep(.mi-att__media) { flex: none; width: 36px; height: 36px; border-radius: 8px; display: grid; place-items: center; overflow: hidden; background: var(--mi-p-tint); color: var(--mi-p-text); }
 .mi-att.is-vertical :deep(.mi-att__media.is-image) { width: 100%; height: auto; aspect-ratio: 4 / 3; }

@@ -1,6 +1,6 @@
 <template>
-  <section class="sf" aria-labelledby="sf-title">
-    <header class="sf__head">
+  <section class="sf mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="sf-title">
+    <header class="sf__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="sf-title" variant="title3" as="h2" weight="semibold">Freight lanes</MiText>
         <MiText variant="footnote" tone="label2">European network · pallets per week, last 4 weeks</MiText>
@@ -8,42 +8,42 @@
       <MiSegmented v-model="direction" label="Lane direction" :options="directions" />
     </header>
 
-    <div class="sf__hubs" role="group" aria-label="Hub">
+    <div class="sf__hubs mi:flex mi:flex-wrap mi:gap-1.5" role="group" aria-label="Hub">
       <MiChip
         v-for="h in hubs" :key="h.id" selectable size="small" tone="neutral" :label="h.name"
         :model-value="hub === h.id" @update:model-value="hub = h.id"
       />
     </div>
 
-    <div class="sf__body">
+    <div class="sf__body mi:grid mi:gap-3 mi:grid-cols-[minmax(0,_1fr)] mi:@[820px]:grid-cols-[minmax(0,_1fr)_300px]">
       <!-- Abstract map: hubs placed by rough position, lanes as arcs whose width follows volume. -->
-      <div class="sf__map">
+      <div class="sf__map mi:grid mi:gap-2 mi:min-w-0 mi:p-4 mi:rounded-xl mi:shadow-1 mi:[background:radial-gradient(circle,_var(--mi-fill3)_1px,_transparent_1.5px)_0_0_/_14px_14px,_var(--mi-card)]">
         <svg viewBox="0 0 400 260" role="img" :aria-label="`Freight lanes map, ${connected.length} lanes highlighted for ${current.name}`">
           <path
-            v-for="l in drawn" :key="l.id" :d="l.path" class="sf__lane" :class="{ 'is-on': l.on, 'is-in': l.inbound }"
+            v-for="l in drawn" :key="l.id" :d="l.path" class="sf__lane mi:fill-[color:none] mi:stroke-label3 mi:[stroke-linecap:round] mi:opacity-14 mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)] mi:[&.is-on]:stroke-p mi:[&.is-on]:opacity-90 mi:[&.is-on.is-in]:stroke-s mi:[&.is-on.is-in]:[stroke-dasharray:6_5]" :class="{ 'is-on': l.on, 'is-in': l.inbound }"
             :stroke-width="l.width"
           />
-          <g v-for="h in hubs" :key="h.id" class="sf__node" :class="{ 'is-on': h.id === hub }" @click="hub = h.id">
-            <circle :cx="h.x" :cy="h.y" :r="h.r" />
-            <text :x="h.x" :y="h.y - h.r - 6">{{ h.name }}</text>
+          <g v-for="h in hubs" :key="h.id" class="sf__node mi:cursor-pointer" :class="{ 'is-on': h.id === hub }" @click="hub = h.id">
+            <circle class="mi:[.sf__node_&]:fill-card mi:[.sf__node_&]:[stroke-width:2] mi:[.sf__node.is-on_&]:stroke-p" :cx="h.x" :cy="h.y" :r="h.r" />
+            <text class="mi:[.sf__node_&]:text-[11px] mi:[.sf__node_&]:font-semibold mi:[.sf__node_&]:[text-anchor:middle] mi:[.sf__node_&]:fill-label2 mi:[.sf__node_&]:[paint-order:stroke] mi:[.sf__node_&]:[stroke-width:3px]" :x="h.x" :y="h.y - h.r - 6">{{ h.name }}</text>
           </g>
         </svg>
         <MiChartLegend :items="legend" aria-label="Lane styles" class="sf__legend" />
       </div>
 
-      <aside class="sf__side" aria-labelledby="sf-side-title" aria-live="polite">
-        <div class="sf__side-top">
+      <aside class="sf__side mi:grid mi:gap-3 mi:content-start mi:min-w-0 mi:p-4.5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1" aria-labelledby="sf-side-title" aria-live="polite">
+        <div class="sf__side-top mi:grid mi:gap-0.5">
           <MiText id="sf-side-title" variant="headline" as="h3">{{ current.name }}</MiText>
           <MiText variant="footnote" tone="label2">{{ totalOf(connected).toLocaleString('en-US') }} pallets a week on {{ connected.length }} lanes</MiText>
         </div>
-        <ol class="sf__lanes">
-          <li v-for="l in connected" :key="l.id">
-            <div class="sf__lane-top">
-              <MiText variant="subheadline" weight="medium" :lines="1">{{ nameOf(l.from) }} → {{ nameOf(l.to) }}</MiText>
-              <span class="sf__lane-val">{{ l.pallets }}</span>
+        <ol class="sf__lanes mi:grid mi:m-0 mi:p-0 mi:[list-style:none]">
+          <li class="mi:[.sf__lanes_li&]:gap-[5px] mi:[.sf__lanes_li&]:py-2.5 mi:[.sf__lanes_li&]:px-0 mi:[.sf__lanes_li&]:border-t mi:[.sf__lanes_li&]:border-t-sep" v-for="l in connected" :key="l.id">
+            <div class="sf__lane-top mi:flex mi:items-baseline mi:justify-between mi:gap-2.5 mi:min-w-0">
+              <MiText class="mi:[.sf__lanes_li&]:gap-[5px] mi:[.sf__lanes_li&]:py-2.5 mi:[.sf__lanes_li&]:px-0 mi:[.sf__lanes_li&]:border-t mi:[.sf__lanes_li&]:border-t-sep" variant="subheadline" weight="medium" :lines="1">{{ nameOf(l.from) }} → {{ nameOf(l.to) }}</MiText>
+              <span class="sf__lane-val mi:text-[14px] mi:font-semibold mi:tabular-nums">{{ l.pallets }}</span>
             </div>
-            <span class="sf__bar" aria-hidden="true"><i :class="{ 'is-in': l.to === hub }" :style="{ transform: `scaleX(${l.pallets / maxPallets})` }" /></span>
-            <MiText variant="caption" :tone="l.onTime < 0.9 ? 'orange' : 'label2'">
+            <span class="sf__bar mi:block mi:h-[5px] mi:rounded-[3px] mi:[background:var(--mi-fill4)] mi:overflow-hidden" aria-hidden="true"><i class="mi:[.sf__bar_&]:rounded-[inherit] mi:[.sf__bar_&]:[background:var(--mi-p)] mi:[.sf__bar_&]:origin-left mi:[.sf__bar_&]:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :class="{ 'is-in': l.to === hub }" :style="{ transform: `scaleX(${l.pallets / maxPallets})` }" /></span>
+            <MiText class="mi:[.sf__lanes_li&]:gap-[5px] mi:[.sf__lanes_li&]:py-2.5 mi:[.sf__lanes_li&]:px-0 mi:[.sf__lanes_li&]:border-t mi:[.sf__lanes_li&]:border-t-sep" variant="caption" :tone="l.onTime < 0.9 ? 'orange' : 'label2'">
               {{ l.days }}-day transit · {{ Math.round(l.onTime * 100) }}% on time
             </MiText>
           </li>
@@ -117,37 +117,13 @@ const legend = [
 </script>
 
 <style scoped>
-.sf { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
-.sf__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.sf__hubs { display: flex; flex-wrap: wrap; gap: 6px; }
-.sf__body { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); }
-@container (min-width: 820px) { .sf__body { grid-template-columns: minmax(0, 1fr) 300px; } }
-
-/* Dot grid stands in for a basemap without shipping any geodata. */
-.sf__map {
-  display: grid; gap: 8px; min-width: 0; padding: 16px; border-radius: var(--mi-radius-xl); box-shadow: var(--mi-sh1);
-  background: radial-gradient(circle, var(--mi-fill3) 1px, transparent 1.5px) 0 0 / 14px 14px, var(--mi-card);
-}
 .sf__map svg { display: block; width: 100%; height: auto; overflow: visible; }
 .sf__legend { justify-self: start; }
-
-.sf__lane { fill: none; stroke: var(--mi-label3); stroke-linecap: round; opacity: .14; transition: opacity var(--mi-dur-3) var(--mi-ease); }
-.sf__lane.is-on { stroke: var(--mi-p); opacity: .9; }
-.sf__lane.is-on.is-in { stroke: var(--mi-s); stroke-dasharray: 6 5; }
-
-.sf__node { cursor: pointer; }
-.sf__node circle { fill: var(--mi-card); stroke: var(--mi-label2); stroke-width: 2; }
-.sf__node.is-on circle { fill: var(--mi-p); stroke: var(--mi-p); }
-.sf__node text { font-size: 11px; font-weight: 600; text-anchor: middle; fill: var(--mi-label2); paint-order: stroke; stroke: var(--mi-card); stroke-width: 3px; }
+.sf__node circle { stroke: var(--mi-label2); }
+.sf__node.is-on circle { fill: var(--mi-p); }
+.sf__node text { stroke: var(--mi-card); }
 .sf__node.is-on text { fill: var(--mi-label); }
-
-.sf__side { display: grid; gap: 12px; align-content: start; min-width: 0; padding: 18px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.sf__side-top { display: grid; gap: 2px; }
-.sf__lanes { display: grid; margin: 0; padding: 0; list-style: none; }
-.sf__lanes li { display: grid; gap: 5px; padding: 10px 0; border-top: 1px solid var(--mi-sep); }
-.sf__lane-top { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; min-width: 0; }
-.sf__lane-val { font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
-.sf__bar { display: block; height: 5px; border-radius: 3px; background: var(--mi-fill4); overflow: hidden; }
-.sf__bar i { display: block; height: 100%; border-radius: inherit; background: var(--mi-p); transform-origin: left; transition: transform var(--mi-dur-4) var(--mi-spring); }
+.sf__lanes li { display: grid; }
+.sf__bar i { display: block; height: 100%; }
 .sf__bar i.is-in { background: var(--mi-s); }
 </style>

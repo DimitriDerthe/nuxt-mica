@@ -1,53 +1,53 @@
 <template>
-  <section class="ix" aria-labelledby="ix-title">
-    <div class="ix__shell" :class="{ 'is-reading': reading }">
+  <section class="ix mi:@container mi:h-165 mi:font-mi mi:text-label mi:bg-page" aria-labelledby="ix-title">
+    <div class="ix__shell mi:grid mi:h-full mi:grid-cols-[minmax(0,_1fr)] mi:@[720px]:grid-cols-[minmax(260px,_340px)_minmax(0,_1fr)] mi:@[1040px]:grid-cols-[220px_340px_minmax(0,_1fr)]" :class="{ 'is-reading': reading }">
       <!-- Lanes rail (wide only): the inbox is sorted by who owes the next move, not by folder. -->
-      <nav class="ix__rail" aria-label="Lanes">
-        <div class="ix__me">
+      <nav class="ix__rail mi:hidden mi:@[1040px]:flex mi:flex-col mi:gap-0.5 mi:py-4.5 mi:px-3 mi:border-r mi:border-r-sep mi:bg-card mi:min-h-0" aria-label="Lanes">
+        <div class="ix__me mi:flex mi:items-center mi:gap-2.5 mi:pt-1 mi:px-2 mi:pb-4 mi:min-w-0">
           <MiAvatar name="Inès Moreau" size="sm" tone="primary" decorative />
-          <div class="ix__me-text">
+          <div class="ix__me-text mi:min-w-0">
             <MiText variant="subheadline" weight="semibold" :lines="1">Inès Moreau</MiText>
             <MiText variant="caption" tone="label2" :lines="1">Partnerships · Halden</MiText>
           </div>
         </div>
         <button
-          v-for="l in lanes" :key="l.id" type="button" class="ix__lane" :class="{ 'is-on': lane === l.id }"
+          v-for="l in lanes" :key="l.id" type="button" class="ix__lane mi:flex mi:items-center mi:gap-2.5 mi:w-full mi:py-[9px] mi:px-2.5 mi:[border:0] mi:rounded-md mi:bg-transparent mi:text-label2 mi:text-start mi:cursor-pointer mi:[transition:opacity_var(--mi-dur-1)_var(--mi-ease)] mi:[&.is-on]:text-p-text mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px]" :class="{ 'is-on': lane === l.id }"
           :aria-pressed="lane === l.id" @click="lane = l.id"
         >
-          <span class="ix__lane-dot" :data-lane="l.id" />
-          <span class="ix__lane-name">{{ l.label }}</span>
-          <span class="ix__lane-n">{{ countOf(l.id) }}</span>
+          <span class="ix__lane-dot mi:flex-[none] mi:w-2 mi:h-2 mi:rounded-[50%] mi:bg-fill" :data-lane="l.id" />
+          <span class="ix__lane-name mi:flex-1 mi:min-w-0">{{ l.label }}</span>
+          <span class="ix__lane-n mi:text-[12px] mi:tabular-nums mi:text-label3">{{ countOf(l.id) }}</span>
         </button>
-        <p class="ix__rail-note">Replying moves a thread to <strong>Waiting</strong>. The bar under each sender shows how long they have waited.</p>
+        <p class="ix__rail-note mi:mt-auto mi:mx-2 mi:mb-0 mi:text-[12px] mi:leading-[1.45] mi:text-label3">Replying moves a thread to <strong>Waiting</strong>. The bar under each sender shows how long they have waited.</p>
       </nav>
 
-      <div class="ix__list">
-        <header class="ix__list-head">
+      <div class="ix__list mi:[.ix__shell.is-reading_&]:hidden mi:@[720px]:[.ix__shell_&]:flex mi:@[720px]:[.ix__shell_&]:border-r mi:@[720px]:[.ix__shell_&]:border-r-sep mi:@[720px]:[.ix__shell.is-reading_&]:flex mi:@[720px]:[.ix__shell.is-reading_&]:border-r mi:@[720px]:[.ix__shell.is-reading_&]:border-r-sep mi:flex mi:flex-col mi:min-h-0 mi:min-w-0 mi:bg-card">
+        <header class="ix__list-head mi:grid mi:gap-3 mi:pt-4.5 mi:px-4 mi:pb-3 mi:border-b mi:border-b-sep">
           <div>
             <MiText id="ix-title" as="h2" variant="title3" weight="bold">Inbox</MiText>
             <MiText variant="footnote" tone="label2" aria-live="polite">{{ owed }} {{ owed === 1 ? 'person is' : 'people are' }} waiting on you</MiText>
           </div>
           <MiSegmented v-model="lane" class="ix__seg" label="Lane" :options="laneOptions" />
         </header>
-        <div class="ix__scroll">
+        <div class="ix__scroll mi:flex-1 mi:min-h-0 mi:overflow-y-auto mi:pt-1 mi:px-2 mi:pb-4">
           <section v-for="g in groups" :key="g.id" :aria-labelledby="'ix-g-' + g.id">
-            <h3 :id="'ix-g-' + g.id" class="ix__group"><span class="ix__lane-dot" :data-lane="g.id" />{{ g.label }}</h3>
-            <ul class="ix__rows">
+            <h3 :id="'ix-g-' + g.id" class="ix__group mi:flex mi:items-center mi:gap-2 mi:mt-3.5 mi:mx-2 mi:mb-1.5 mi:text-[11px] mi:font-semibold mi:tracking-[.06em] mi:uppercase mi:text-label2"><span class="ix__lane-dot mi:flex-[none] mi:w-2 mi:h-2 mi:rounded-[50%] mi:bg-fill" :data-lane="g.id" />{{ g.label }}</h3>
+            <ul class="ix__rows mi:[list-style:none] mi:m-0 mi:p-0 mi:grid mi:gap-0.5">
               <li v-for="t in g.items" :key="t.id">
                 <button
-                  type="button" class="ix__row" :class="{ 'is-on': t.id === activeId, 'is-unread': t.unread }"
+                  type="button" class="ix__row mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px] mi:flex mi:gap-3 mi:w-full mi:py-3 mi:px-2.5 mi:[border:0] mi:rounded-lg mi:bg-transparent mi:text-inherit mi:[font:inherit] mi:text-start mi:cursor-pointer" :class="{ 'is-on': t.id === activeId, 'is-unread': t.unread }"
                   :aria-current="t.id === activeId ? 'true' : undefined" @click="open(t.id)"
                 >
                   <MiAvatar :name="t.from" size="sm" tone="auto" decorative />
-                  <span class="ix__row-main">
-                    <span class="ix__row-top">
-                      <span class="ix__from">{{ t.from }}</span>
-                      <span class="ix__time">{{ t.time }}</span>
+                  <span class="ix__row-main mi:grid mi:gap-0.5 mi:flex-1 mi:min-w-0">
+                    <span class="ix__row-top mi:flex mi:items-baseline mi:justify-between mi:gap-2">
+                      <span class="ix__from mi:text-[14px] mi:font-medium mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:[.ix__row.is-unread_&]:font-bold">{{ t.from }}</span>
+                      <span class="ix__time mi:flex-[none] mi:text-[12px] mi:text-label3 mi:tabular-nums">{{ t.time }}</span>
                     </span>
-                    <span class="ix__subj">{{ t.subject }}</span>
-                    <span class="ix__prev">{{ t.preview }}</span>
-                    <span v-if="t.lane === 'reply'" class="ix__age" :class="{ 'is-hot': t.waited >= 24 }">
-                      <span class="ix__age-track"><span :style="{ transform: `scaleX(${Math.min(t.waited / 48, 1)})` }" /></span>
+                    <span class="ix__subj mi:[.ix__row.is-unread_&]:font-bold mi:text-[13.5px] mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ t.subject }}</span>
+                    <span class="ix__prev mi:text-[13px] mi:leading-[1.4] mi:text-label2 mi:[display:-webkit-box] mi:[-webkit-line-clamp:2] mi:[-webkit-box-orient:vertical] mi:overflow-hidden">{{ t.preview }}</span>
+                    <span v-if="t.lane === 'reply'" class="ix__age mi:flex mi:items-center mi:gap-2 mi:mt-1.5 mi:text-[11.5px] mi:font-medium mi:text-orange-t mi:tabular-nums mi:[&.is-hot]:text-red-t" :class="{ 'is-hot': t.waited >= 24 }">
+                      <span class="ix__age-track mi:w-16 mi:h-1 mi:rounded-[2px] mi:bg-fill3 mi:overflow-hidden"><span class="mi:[.ix__age-track_&]:h-full mi:[.ix__age-track_&]:rounded-[inherit] mi:[.ix__age-track_&]:origin-left mi:[.ix__age-track_&]:[transition:transform_var(--mi-dur-3)_var(--mi-ease)]" :style="{ transform: `scaleX(${Math.min(t.waited / 48, 1)})` }" /></span>
                       waiting {{ t.waited }}h
                     </span>
                   </span>
@@ -59,36 +59,36 @@
         </div>
       </div>
 
-      <article class="ix__read" aria-labelledby="ix-subject">
-        <header class="ix__read-head">
+      <article class="ix__read mi:hidden mi:[.ix__shell.is-reading_&]:flex mi:@[720px]:[.ix__shell_&]:flex mi:flex-col mi:min-h-0 mi:min-w-0" aria-labelledby="ix-subject">
+        <header class="ix__read-head mi:flex mi:items-center mi:gap-3 mi:py-3.5 mi:px-5 mi:border-b mi:border-b-sep mi:bg-card">
           <MiIconButton class="ix__back" label="Back to inbox" variant="gray" size="regular" @click="reading = false">
             <MiIcon name="chevron-left" />
           </MiIconButton>
-          <div class="ix__read-title">
+          <div class="ix__read-title mi:flex-1 mi:min-w-0">
             <MiText id="ix-subject" as="h3" variant="headline" weight="semibold" :lines="2">{{ active.subject }}</MiText>
             <MiText variant="footnote" tone="label2">{{ active.company }} · {{ active.messages.length }} {{ active.messages.length === 1 ? 'message' : 'messages' }}</MiText>
           </div>
           <MiBadge :tone="laneMeta[active.lane].tone" :label="laneMeta[active.lane].short" dot />
         </header>
 
-        <div class="ix__mails">
-          <article v-for="(m, i) in active.messages" :key="i" class="ix__mail" :class="{ 'is-mine': m.me }">
-            <header class="ix__mail-head">
+        <div class="ix__mails mi:flex-1 mi:min-h-0 mi:overflow-y-auto mi:grid mi:content-start mi:gap-3.5 mi:p-5">
+          <article v-for="(m, i) in active.messages" :key="i" class="ix__mail mi:max-w-[64ch] mi:py-4 mi:px-4.5 mi:rounded-lg mi:bg-card mi:shadow-1 mi:[&.is-mine]:ml-auto mi:[&.is-mine]:bg-p-tint mi:[&.is-mine]:shadow-none" :class="{ 'is-mine': m.me }">
+            <header class="ix__mail-head mi:flex mi:items-center mi:gap-2 mi:mb-2">
               <MiAvatar :name="m.me ? 'Inès Moreau' : active.from" size="xs" :tone="m.me ? 'primary' : 'auto'" decorative />
-              <span class="ix__mail-from">{{ m.me ? 'You' : active.from }}</span>
-              <time class="ix__time">{{ m.time }}</time>
+              <span class="ix__mail-from mi:flex-1 mi:text-[13px] mi:font-semibold">{{ m.me ? 'You' : active.from }}</span>
+              <time class="ix__time mi:flex-[none] mi:text-[12px] mi:text-label3 mi:tabular-nums">{{ m.time }}</time>
             </header>
-            <p v-for="(para, j) in m.body.split('\n\n')" :key="j" class="ix__mail-p">{{ para }}</p>
+            <p v-for="(para, j) in m.body.split('\n\n')" :key="j" class="ix__mail-p mi:mt-0 mi:mx-0 mi:mb-2 mi:text-[14.5px] mi:leading-[1.55] mi:wrap-anywhere mi:last:mb-0">{{ para }}</p>
           </article>
         </div>
 
-        <form class="ix__reply" @submit.prevent="send">
+        <form class="ix__reply mi:pt-3 mi:px-4 mi:pb-4 mi:border-t mi:border-t-sep mi:bg-card" @submit.prevent="send">
           <MiInputGroup
             v-model="draft" multiline :rows="2" :aria-label="'Reply to ' + active.from" :placeholder="'Reply to ' + active.from.split(' ')[0] + '…'"
             @keydown.enter.meta.prevent="send" @keydown.enter.ctrl.prevent="send"
           >
             <template #block-end>
-              <div class="ix__reply-bar">
+              <div class="ix__reply-bar mi:flex mi:items-center mi:justify-between mi:gap-2 mi:w-full">
                 <MiText variant="caption" tone="label3">⌘ Enter to send</MiText>
                 <MiButton type="submit" size="small" :disabled="!draft.trim()">Send reply</MiButton>
               </div>
@@ -197,73 +197,19 @@ function send() {
 </script>
 
 <style scoped>
-.ix { container-type: inline-size; height: 660px; font-family: var(--mi-font); color: var(--mi-label); background: var(--mi-page); }
-.ix__shell { display: grid; height: 100%; grid-template-columns: minmax(0, 1fr); }
-.ix__rail { display: none; }
-.ix__read { display: none; }
-.ix__shell.is-reading .ix__list { display: none; }
-.ix__shell.is-reading .ix__read { display: flex; }
-
 @container (min-width: 720px) {
-  .ix__shell { grid-template-columns: minmax(260px, 340px) minmax(0, 1fr); }
-  .ix__shell .ix__list, .ix__shell.is-reading .ix__list { display: flex; border-right: 1px solid var(--mi-sep); }
-  .ix__shell .ix__read { display: flex; }
   .ix__back { display: none; }
 }
 @container (min-width: 1040px) {
-  .ix__shell { grid-template-columns: 220px 340px minmax(0, 1fr); }
-  .ix__rail { display: flex; }
   .ix__seg { display: none; }
 }
-
-/* Rail */
-.ix__rail { flex-direction: column; gap: 2px; padding: 18px 12px; border-right: 1px solid var(--mi-sep); background: var(--mi-card); min-height: 0; }
-.ix__me { display: flex; align-items: center; gap: 10px; padding: 4px 8px 16px; min-width: 0; }
-.ix__me-text { min-width: 0; }
-.ix__lane { display: flex; align-items: center; gap: 10px; width: 100%; padding: 9px 10px; border: 0; border-radius: var(--mi-radius-m); background: transparent; color: var(--mi-label2); font: inherit; font-size: 14px; text-align: start; cursor: pointer; transition: opacity var(--mi-dur-1) var(--mi-ease); }
+.ix__lane { font: inherit; font-size: 14px; }
 .ix__lane:hover { background: var(--mi-fill4); }
-.ix__lane.is-on { background: var(--mi-p-tint); color: var(--mi-p-text); font-weight: 600; }
-.ix__lane:focus-visible, .ix__row:focus-visible { outline: 2px solid var(--mi-p); outline-offset: -2px; }
-.ix__lane-name { flex: 1; min-width: 0; }
-.ix__lane-n { font-size: 12px; font-variant-numeric: tabular-nums; color: var(--mi-label3); }
-.ix__lane-dot { flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--mi-fill); }
+.ix__lane.is-on { background: var(--mi-p-tint); font-weight: 600; }
 .ix__lane-dot[data-lane="reply"] { background: var(--mi-red); }
 .ix__lane-dot[data-lane="waiting"] { background: var(--mi-p); }
 .ix__lane-dot[data-lane="fyi"] { background: var(--mi-label3); }
-.ix__rail-note { margin: auto 8px 0; font-size: 12px; line-height: 1.45; color: var(--mi-label3); }
-
-/* List */
-.ix__list { display: flex; flex-direction: column; min-height: 0; min-width: 0; background: var(--mi-card); }
-.ix__list-head { display: grid; gap: 12px; padding: 18px 16px 12px; border-bottom: 1px solid var(--mi-sep); }
-.ix__scroll { flex: 1; min-height: 0; overflow-y: auto; padding: 4px 8px 16px; }
-.ix__group { display: flex; align-items: center; gap: 8px; margin: 14px 8px 6px; font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--mi-label2); }
-.ix__rows { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
-.ix__row { display: flex; gap: 12px; width: 100%; padding: 12px 10px; border: 0; border-radius: var(--mi-radius-l); background: transparent; color: inherit; font: inherit; text-align: start; cursor: pointer; }
 .ix__row:hover { background: var(--mi-fill4); }
 .ix__row.is-on { background: var(--mi-fill3); }
-.ix__row-main { display: grid; gap: 2px; flex: 1; min-width: 0; }
-.ix__row-top { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
-.ix__from { font-size: 14px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.ix__row.is-unread .ix__from, .ix__row.is-unread .ix__subj { font-weight: 700; }
-.ix__time { flex: none; font-size: 12px; color: var(--mi-label3); font-variant-numeric: tabular-nums; }
-.ix__subj { font-size: 13.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.ix__prev { font-size: 13px; line-height: 1.4; color: var(--mi-label2); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.ix__age { display: flex; align-items: center; gap: 8px; margin-top: 6px; font-size: 11.5px; font-weight: 500; color: var(--mi-orange-t); font-variant-numeric: tabular-nums; }
-.ix__age.is-hot { color: var(--mi-red-t); }
-.ix__age-track { width: 64px; height: 4px; border-radius: 2px; background: var(--mi-fill3); overflow: hidden; }
-.ix__age-track span { display: block; height: 100%; border-radius: inherit; background: currentColor; transform-origin: left; transition: transform var(--mi-dur-3) var(--mi-ease); }
-
-/* Reading pane */
-.ix__read { flex-direction: column; min-height: 0; min-width: 0; }
-.ix__read-head { display: flex; align-items: center; gap: 12px; padding: 14px 20px; border-bottom: 1px solid var(--mi-sep); background: var(--mi-card); }
-.ix__read-title { flex: 1; min-width: 0; }
-.ix__mails { flex: 1; min-height: 0; overflow-y: auto; display: grid; align-content: start; gap: 14px; padding: 20px; }
-.ix__mail { max-width: 64ch; padding: 16px 18px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.ix__mail.is-mine { margin-left: auto; background: var(--mi-p-tint); box-shadow: none; }
-.ix__mail-head { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-.ix__mail-from { flex: 1; font-size: 13px; font-weight: 600; }
-.ix__mail-p { margin: 0 0 8px; font-size: 14.5px; line-height: 1.55; overflow-wrap: anywhere; }
-.ix__mail-p:last-child { margin-bottom: 0; }
-.ix__reply { padding: 12px 16px 16px; border-top: 1px solid var(--mi-sep); background: var(--mi-card); }
-.ix__reply-bar { display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; }
+.ix__age-track span { display: block; background: currentColor; }
 </style>

@@ -85,3 +85,7 @@ export default defineNuxtConfig({
 - Only the classes present in the sources are generated: the sheet is tree-shaken by construction. No runtime code.
 - Values are literals where possible (`18px`, not `calc(var(--spacing) * 4.5)`); helper `@property` and `@keyframes` blocks are emitted only when a class needs them.
 - Every rule is one class selector, rules with the same declarations are merged, and each at-rule block is opened once.
+
+## Migrating scoped CSS
+
+`node scripts/atomic-convert.mjs <file|dir>` moves `<style scoped>` declarations to `mi:` classes without changing what any element computes: it models every cascade a declaration takes part in (specificity, source order, the fixed order of the utility sheet, classes passed to and by components) and leaves in the scoped block whatever could change outcome, plus keyframes, `v-bind()` and `:deep()`. `node scripts/iso-check.mjs` checks the result on a static build: computed style and box of every element, at several widths, in both themes.

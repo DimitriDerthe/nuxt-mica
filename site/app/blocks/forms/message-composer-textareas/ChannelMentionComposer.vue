@@ -1,38 +1,38 @@
 <template>
-  <section class="cmc" aria-labelledby="cmc-title">
-    <header class="cmc__head">
+  <section class="cmc mi:@container/cmc mi:grid mi:content-start mi:gap-3 mi:p-4.5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:font-mi mi:text-label" aria-labelledby="cmc-title">
+    <header class="cmc__head mi:flex mi:flex-wrap mi:items-baseline mi:justify-between mi:gap-y-1 mi:gap-x-3 mi:pb-3 mi:border-b mi:border-b-sep">
       <MiText id="cmc-title" as="h2" variant="headline" weight="semibold"># launch-week</MiText>
       <MiText variant="caption" tone="label2">{{ members.length }} members · Type @ to mention, Enter to send</MiText>
     </header>
 
-    <ol class="cmc__feed" aria-label="Recent messages">
-      <li v-for="m in feed" :key="m.id" class="cmc__msg">
+    <ol class="cmc__feed mi:grid mi:gap-3.5 mi:m-0 mi:p-0 mi:[list-style:none]" aria-label="Recent messages">
+      <li v-for="m in feed" :key="m.id" class="cmc__msg mi:grid mi:grid-cols-[auto_minmax(0,_1fr)] mi:gap-2.5">
         <MiAvatar :name="m.author" size="sm" tone="auto" decorative />
-        <div class="cmc__msg-body">
-          <p class="cmc__meta"><strong>{{ m.author }}</strong> <span>{{ m.time }}</span></p>
-          <p class="cmc__text">
+        <div class="cmc__msg-body mi:min-w-0">
+          <p class="cmc__meta mi:mt-0 mi:mx-0 mi:mb-0.5 mi:text-[13px]"><strong>{{ m.author }}</strong> <span class="mi:[.cmc__meta_&]:text-[12px] mi:[.cmc__meta_&]:text-label3">{{ m.time }}</span></p>
+          <p class="cmc__text mi:m-0 mi:text-[14.5px] mi:leading-[1.45] mi:wrap-anywhere">
             <template v-for="(part, i) in m.parts" :key="i">
-              <mark v-if="part.mention" class="cmc__mention">{{ part.text }}</mark><template v-else>{{ part.text }}</template>
+              <mark v-if="part.mention" class="cmc__mention mi:py-0 mi:px-[3px] mi:rounded-[4px] mi:font-semibold mi:text-p-text mi:[background:var(--mi-p-tint)]">{{ part.text }}</mark><template v-else>{{ part.text }}</template>
             </template>
           </p>
         </div>
       </li>
     </ol>
 
-    <div v-if="scheduled" class="cmc__scheduled" role="status">
+    <div v-if="scheduled" class="cmc__scheduled mi:flex mi:items-center mi:gap-2 mi:py-2 mi:px-3 mi:rounded-md mi:text-label2 mi:[background:var(--mi-fill4)]" role="status">
       <MiIcon name="calendar" :size="16" />
-      <MiText variant="footnote" class="cmc__scheduled-text">Scheduled for {{ scheduled.when }}: “{{ scheduled.text }}”</MiText>
+      <MiText variant="footnote" class="cmc__scheduled-text mi:flex-1 mi:min-w-0">Scheduled for {{ scheduled.when }}: “{{ scheduled.text }}”</MiText>
       <MiButton variant="plain" size="small" @click="scheduled = null">Cancel</MiButton>
     </div>
 
-    <div class="cmc__composer">
+    <div class="cmc__composer mi:relative mi:grid mi:gap-2">
       <!-- Mention suggestions: a listbox above the field while the text ends with @query. -->
-      <ul v-if="suggestions.length" id="cmc-suggest" class="cmc__suggest" role="listbox" aria-label="Mention a member">
+      <ul v-if="suggestions.length" id="cmc-suggest" class="cmc__suggest mi:absolute mi:top-auto mi:right-0 mi:bottom-[calc(100%_+_6px)] mi:left-0 mi:z-2 mi:grid mi:gap-0.5 mi:m-0 mi:p-1.5 mi:[list-style:none] mi:rounded-lg mi:[background:var(--mi-elev)] mi:shadow-2 mi:@[560px]/cmc:right-auto mi:@[560px]/cmc:w-80" role="listbox" aria-label="Mention a member">
         <li v-for="(p, i) in suggestions" :key="p.handle" role="option" :aria-selected="i === active">
-          <button type="button" class="cmc__option" :class="{ 'is-active': i === active }" tabindex="-1" @mousedown.prevent="insert(p)">
+          <button type="button" class="cmc__option mi:flex mi:items-center mi:gap-2.5 mi:w-full mi:py-[7px] mi:px-2.5 mi:[border:0] mi:rounded-sm mi:[font:inherit] mi:text-start mi:text-inherit mi:[background:none] mi:cursor-pointer" :class="{ 'is-active': i === active }" tabindex="-1" @mousedown.prevent="insert(p)">
             <MiAvatar :name="p.name" size="xs" tone="auto" decorative />
-            <span class="cmc__option-name">{{ p.name }}</span>
-            <span class="cmc__option-role">{{ p.role }}</span>
+            <span class="cmc__option-name mi:text-[14px] mi:font-semibold">{{ p.name }}</span>
+            <span class="cmc__option-role mi:ms-auto mi:text-[12px] mi:text-label3">{{ p.role }}</span>
           </button>
         </li>
       </ul>
@@ -44,9 +44,9 @@
         />
       </div>
 
-      <div class="cmc__bar">
+      <div class="cmc__bar mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2">
         <MiText variant="caption" tone="label3">Shift + Enter for a new line</MiText>
-        <div class="cmc__send">
+        <div class="cmc__send mi:flex mi:items-center mi:gap-2 mi:ms-auto">
           <MiMenu :items="laterSlots" aria-label="Schedule message" placement="top-end" :disabled="!canSend" @select="schedule">
             <template #trigger="{ props }">
               <MiIconButton v-bind="props" label="Schedule message" variant="gray" size="regular" :disabled="!canSend">
@@ -135,33 +135,10 @@ function schedule(item: Slot) {
 </script>
 
 <style scoped>
-.cmc { container: cmc / inline-size; display: grid; align-content: start; gap: 12px; padding: 18px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); font-family: var(--mi-font); color: var(--mi-label); }
-.cmc__head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 12px; padding-bottom: 12px; border-bottom: 1px solid var(--mi-sep); }
-
-.cmc__feed { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; }
-.cmc__msg { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px; }
-.cmc__msg-body { min-width: 0; }
-.cmc__meta { margin: 0 0 2px; font-size: 13px; }
-.cmc__meta span { font-size: 12px; color: var(--mi-label3); }
-.cmc__text { margin: 0; font-size: 14.5px; line-height: 1.45; overflow-wrap: anywhere; }
-.cmc__mention { padding: 0 3px; border-radius: 4px; font-weight: 600; color: var(--mi-p-text); background: var(--mi-p-tint); }
-
-.cmc__scheduled { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: var(--mi-radius-m); color: var(--mi-label2); background: var(--mi-fill4); }
-.cmc__scheduled-text { flex: 1; min-width: 0; overflow-wrap: anywhere; }
-
-.cmc__composer { position: relative; display: grid; gap: 8px; }
-.cmc__suggest {
-  position: absolute; inset: auto 0 calc(100% + 6px) 0; z-index: 2; display: grid; gap: 2px; margin: 0; padding: 6px; list-style: none;
-  border-radius: var(--mi-radius-l); background: var(--mi-elev); box-shadow: var(--mi-sh2); animation: cmc-in var(--mi-dur-2) var(--mi-ease);
+.cmc__scheduled-text { overflow-wrap: anywhere; }
+.cmc__suggest { animation: cmc-in var(--mi-dur-2) var(--mi-ease);
 }
-@container cmc (min-width: 560px) { .cmc__suggest { right: auto; width: 320px; } }
-.cmc__option { display: flex; align-items: center; gap: 10px; width: 100%; padding: 7px 10px; border: 0; border-radius: var(--mi-radius-s); font: inherit; text-align: start; color: inherit; background: none; cursor: pointer; }
 .cmc__option.is-active, .cmc__option:hover { background: var(--mi-p-tint); }
-.cmc__option-name { font-size: 14px; font-weight: 600; }
-.cmc__option-role { margin-inline-start: auto; font-size: 12px; color: var(--mi-label3); }
-
-.cmc__bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
-.cmc__send { display: flex; align-items: center; gap: 8px; margin-inline-start: auto; }
 @keyframes cmc-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .cmc__suggest { animation: none; } }
 </style>

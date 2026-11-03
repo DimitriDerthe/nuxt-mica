@@ -1,11 +1,11 @@
 <template>
-  <section class="rne" aria-labelledby="rne-title">
-    <header class="rne__head">
-      <div class="rne__crumbs">
+  <section class="rne mi:@container/rne mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="rne-title">
+    <header class="rne__head mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-2 mi:gap-x-4">
+      <div class="rne__crumbs mi:grid mi:gap-0.5">
         <MiText id="rne-title" as="h2" variant="headline">Release notes</MiText>
         <MiText variant="footnote" tone="label2">Tidewater · Changelog</MiText>
       </div>
-      <div class="rne__status">
+      <div class="rne__status mi:flex mi:items-center mi:gap-2.5">
         <MiBadge :label="state.label" :tone="state.tone" dot />
         <MiText variant="caption" tone="label2" aria-live="polite">{{ saveText }}</MiText>
       </div>
@@ -15,13 +15,13 @@
       {{ title }} is live for {{ audience === 'public' ? 'customers' : 'the internal team' }}. Subscribers get it in tomorrow's digest.
     </MiAlert>
 
-    <div class="rne__layout">
-      <form class="rne__doc" novalidate @submit.prevent="publish">
-        <label class="rne__sr" for="rne-doc-title">Title</label>
+    <div class="rne__layout mi:grid mi:gap-3.5 mi:grid-cols-[minmax(0,_1fr)] mi:items-start mi:@[840px]/rne:grid-cols-[minmax(0,_1fr)_260px]">
+      <form class="rne__doc mi:grid mi:gap-3 mi:pt-5.5 mi:px-5 mi:pb-4.5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:min-w-0" novalidate @submit.prevent="publish">
+        <label class="rne__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap" for="rne-doc-title">Title</label>
         <!-- The hidden mirror after the textarea sizes the grid cell, so long titles wrap and grow without measuring. -->
-        <div class="rne__title-wrap" :data-value="(title || 'Untitled release') + ' '">
+        <div class="rne__title-wrap mi:grid mi:min-w-0 mi:after:[grid-area:1_/_1] mi:after:w-full mi:after:m-0 mi:after:pt-1 mi:after:px-0 mi:after:pb-2 mi:after:rounded-none mi:after:tracking-[-.03em] mi:after:whitespace-pre-wrap mi:after:wrap-anywhere mi:after:content-[attr(data-value)] mi:after:invisible" :data-value="(title || 'Untitled release') + ' '">
           <textarea
-            id="rne-doc-title" v-model="title" class="rne__title" :class="{ 'is-invalid': err('title') }" placeholder="Untitled release" rows="1"
+            id="rne-doc-title" v-model="title" class="rne__title mi:[grid-area:1_/_1] mi:w-full mi:m-0 mi:pt-1 mi:px-0 mi:pb-2 mi:rounded-none mi:tracking-[-.03em] mi:whitespace-pre-wrap mi:wrap-anywhere mi:block mi:h-full mi:overflow-hidden mi:resize-none mi:[outline:none] mi:bg-transparent mi:text-label mi:placeholder:text-label3" :class="{ 'is-invalid': err('title') }" placeholder="Untitled release" rows="1"
             :aria-invalid="!!err('title')" :aria-describedby="err('title') ? 'rne-title-err' : undefined" @keydown.enter.prevent
           />
         </div>
@@ -30,34 +30,34 @@
         <MiEditor v-model="html" label="Release notes body" placeholder="What changed, and why it matters…" :min-height="260" :max-height="420" :invalid="!!err('body')" />
         <MiText v-if="err('body')" variant="caption" tone="red" role="alert">{{ err('body') }}</MiText>
 
-        <div class="rne__foot">
+        <div class="rne__foot mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2.5 mi:pt-1.5">
           <MiText variant="caption" tone="label2" tabular>{{ words }} words · {{ minutes }} min read</MiText>
-          <div class="rne__foot-actions">
+          <div class="rne__foot-actions mi:flex mi:flex-wrap mi:items-center mi:gap-2.5">
             <MiSegmented v-model="audience" label="Audience" :options="audiences" />
             <MiButton type="submit" :loading="publishing">Publish</MiButton>
           </div>
         </div>
       </form>
 
-      <aside class="rne__side" aria-label="Document overview">
-        <div class="rne__card">
+      <aside class="rne__side mi:grid mi:gap-3 mi:[@container_rne_(min-width:_560px)_and_(max-width:_839px)]:grid-cols-[1fr_1fr] mi:[@container_rne_(min-width:_560px)_and_(max-width:_839px)]:items-start" aria-label="Document overview">
+        <div class="rne__card mi:grid mi:gap-2.5 mi:p-4 mi:rounded-lg mi:bg-card mi:shadow-1">
           <MiText as="h3" variant="footnote" weight="semibold" tone="label2" class="rne__cap">Outline</MiText>
-          <ol v-if="outline.length" class="rne__outline">
-            <li v-for="(h, i) in outline" :key="i" :class="'is-' + h.level">{{ h.text }}</li>
+          <ol v-if="outline.length" class="rne__outline mi:grid mi:gap-1.5 mi:m-0 mi:p-0 mi:[list-style:none] mi:text-[13.5px]">
+            <li class="mi:[.rne__outline_&]:pl-2.5 mi:[.rne__outline_&]:border-l-2 mi:[.rne__outline_&]:border-l-p mi:[.rne__outline_&]:leading-[1.35]" v-for="(h, i) in outline" :key="i" :class="'is-' + h.level">{{ h.text }}</li>
           </ol>
           <MiText v-else variant="footnote" tone="label3">Add headings to build an outline.</MiText>
         </div>
-        <div class="rne__card">
-          <div class="rne__score">
+        <div class="rne__card mi:grid mi:gap-2.5 mi:p-4 mi:rounded-lg mi:bg-card mi:shadow-1">
+          <div class="rne__score mi:flex mi:items-center mi:gap-3">
             <MiProgressRing :value="score" :max="checks.length" :size="44" :show-value="false" label="Publish readiness" />
             <div>
               <MiText as="h3" variant="subheadline" weight="semibold">{{ score === checks.length ? 'Ready to ship' : 'Almost there' }}</MiText>
               <MiText variant="caption" tone="label2">{{ score }} of {{ checks.length }} checks pass</MiText>
             </div>
           </div>
-          <ul class="rne__checks">
-            <li v-for="c in checks" :key="c.label" :class="{ 'is-ok': c.ok }">
-              <MiIcon :name="c.ok ? 'check-circle-fill' : 'dash'" :size="16" />
+          <ul class="rne__checks mi:grid mi:gap-[7px] mi:m-0 mi:p-0 mi:[list-style:none] mi:text-[13px] mi:text-label2">
+            <li class="mi:[.rne__checks_li&]:items-center mi:[.rne__checks_li&]:gap-2" v-for="c in checks" :key="c.label" :class="{ 'is-ok': c.ok }">
+              <MiIcon class="mi:[.rne__checks_li&]:items-center mi:[.rne__checks_li&]:gap-2" :name="c.ok ? 'check-circle-fill' : 'dash'" :size="16" />
               <span>{{ c.label }}</span>
             </li>
           </ul>
@@ -149,40 +149,15 @@ function publish() {
 </script>
 
 <style scoped>
-.rne { container: rne / inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
-.rne__head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; }
-.rne__crumbs { display: grid; gap: 2px; }
-.rne__status { display: flex; align-items: center; gap: 10px; }
-
-.rne__layout { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); align-items: start; }
-@container rne (min-width: 840px) { .rne__layout { grid-template-columns: minmax(0, 1fr) 260px; } }
-
-.rne__doc { display: grid; gap: 12px; padding: 22px 20px 18px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); min-width: 0; }
-.rne__title-wrap { display: grid; min-width: 0; }
-.rne__title, .rne__title-wrap::after {
-  grid-area: 1 / 1; width: 100%; margin: 0; padding: 4px 0 8px; border: 0; border-bottom: 1px solid var(--mi-sep); border-radius: 0;
-  font: inherit; font-size: clamp(22px, 4.2cqi, 30px); font-weight: 700; letter-spacing: -.03em; line-height: 1.2;
-  white-space: pre-wrap; overflow-wrap: anywhere;
+.rne__title, .rne__title-wrap::after { border: 0; border-bottom: 1px solid var(--mi-sep);
+  font: inherit; font-size: clamp(22px, 4.2cqi, 30px); font-weight: 700; line-height: 1.2;
 }
-.rne__title-wrap::after { content: attr(data-value); visibility: hidden; border-bottom-color: transparent; }
-.rne__title { display: block; height: 100%; overflow: hidden; resize: none; outline: none; background: transparent; color: var(--mi-label); }
-.rne__title::placeholder { color: var(--mi-label3); }
+.rne__title-wrap::after { border-bottom-color: transparent; }
 .rne__title:focus-visible { border-bottom-color: var(--mi-p); }
 .rne__title.is-invalid { border-bottom-color: var(--mi-red); }
-.rne__foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; padding-top: 6px; }
-.rne__foot-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
-
-.rne__side { display: grid; gap: 12px; }
-@container rne (min-width: 560px) and (max-width: 839px) { .rne__side { grid-template-columns: 1fr 1fr; align-items: start; } }
-.rne__card { display: grid; gap: 10px; padding: 16px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); }
 .rne__cap { text-transform: uppercase; letter-spacing: .06em; font-size: 11px; }
-.rne__outline { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; font-size: 13.5px; }
-.rne__outline li { padding-left: 10px; border-left: 2px solid var(--mi-p); line-height: 1.35; }
 .rne__outline li.is-3 { margin-left: 14px; border-left-color: var(--mi-sep); color: var(--mi-label2); }
-.rne__score { display: flex; align-items: center; gap: 12px; }
-.rne__checks { display: grid; gap: 7px; margin: 0; padding: 0; list-style: none; font-size: 13px; color: var(--mi-label2); }
-.rne__checks li { display: flex; align-items: center; gap: 8px; }
+.rne__checks li { display: flex; }
 .rne__checks li.is-ok { color: var(--mi-label); }
 .rne__checks li.is-ok :deep(svg) { color: var(--mi-green); }
-.rne__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 </style>

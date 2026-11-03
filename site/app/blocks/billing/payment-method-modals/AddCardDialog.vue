@@ -1,33 +1,33 @@
 <template>
-  <section class="acd" aria-labelledby="acd-title">
-    <MiText id="acd-title" as="h2" variant="headline" class="acd__sr">Add a payment card</MiText>
-    <div class="acd__stage">
+  <section class="acd mi:@container mi:font-mi mi:text-label" aria-labelledby="acd-title">
+    <MiText id="acd-title" as="h2" variant="headline" class="acd__sr mi:absolute mi:w-px mi:h-px mi:[clip-path:inset(50%)]">Add a payment card</MiText>
+    <div class="acd__stage mi:relative mi:grid mi:min-h-160 mi:rounded-xl mi:overflow-hidden mi:[background:var(--mi-card)] mi:shadow-1">
       <!-- Faux billing page behind the dialog. -->
-      <div class="acd__page" aria-hidden="true">
-        <span class="acd__line acd__line--title" />
-        <span class="acd__line" />
-        <span class="acd__tile" /><span class="acd__tile" />
+      <div class="acd__page mi:grid mi:grid-cols-[1fr_1fr] mi:content-start mi:gap-3 mi:p-6" aria-hidden="true">
+        <span class="acd__line acd__line--title mi:col-span-full mi:h-2.5 mi:rounded-[5px] mi:[background:var(--mi-fill3)] mi:h-4" />
+        <span class="acd__line mi:col-span-full mi:h-2.5 mi:rounded-[5px] mi:[background:var(--mi-fill3)]" />
+        <span class="acd__tile mi:h-24 mi:rounded-lg mi:[background:var(--mi-fill4)]" /><span class="acd__tile mi:h-24 mi:rounded-lg mi:[background:var(--mi-fill4)]" />
       </div>
 
-      <div v-if="open" class="acd__scrim">
+      <div v-if="open" class="acd__scrim mi:absolute mi:inset-0 mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:place-items-center mi:py-4 mi:px-3 mi:overflow-auto mi:[background:color-mix(in_srgb,_var(--mi-scrim)_85%,_transparent)]">
         <MiDialog v-model="open" inline variant="dialog" title="Add a card" :close-on-action="false">
           <!-- Live preview of the card being typed. -->
-          <div class="acd__preview" :class="'is-' + brand.id" aria-hidden="true">
-            <span class="acd__chip" />
-            <span class="acd__brand">{{ brand.label }}</span>
-            <span class="acd__num">{{ previewNumber }}</span>
-            <span class="acd__meta"><span>{{ name || 'Name on card' }}</span><span>{{ expiry || 'MM / YY' }}</span></span>
+          <div class="acd__preview mi:relative mi:grid mi:grid-rows-[auto_1fr_auto] mi:gap-1.5 mi:w-full mi:max-w-62.5 mi:mx-auto mi:box-border mi:aspect-[1.586] mi:py-3.5 mi:px-4 mi:rounded-[14px] mi:overflow-hidden mi:text-p-on mi:[background:linear-gradient(135deg,_var(--mi-p),_color-mix(in_srgb,_var(--mi-p)_45%,_var(--mi-s)))] mi:shadow-[0_14px_28px_-16px_color-mix(in_srgb,_var(--mi-p)_80%,_transparent)] mi:text-start mi:[&.is-mc]:text-s-on mi:after:content-[''] mi:after:absolute mi:after:top-[-40%] mi:after:right-[-20%] mi:after:bottom-auto mi:after:left-auto mi:after:w-[70%] mi:after:aspect-[1] mi:after:rounded-[50%] mi:after:[background:color-mix(in_srgb,_var(--mi-p-on)_14%,_transparent)]" :class="'is-' + brand.id" aria-hidden="true">
+            <span class="acd__chip mi:w-7.5 mi:h-5.5 mi:rounded-[5px] mi:[background:linear-gradient(135deg,_color-mix(in_srgb,_var(--mi-yellow)_80%,_var(--mi-card)),_var(--mi-yellow))]" />
+            <span class="acd__brand mi:absolute mi:top-3.5 mi:right-4 mi:text-[12px] mi:font-extrabold mi:tracking-[.04em]">{{ brand.label }}</span>
+            <span class="acd__num mi:self-end mi:[font:600_14px/1_ui-monospace,_SFMono-Regular,_Menlo,_monospace] mi:tracking-[.08em] mi:whitespace-nowrap">{{ previewNumber }}</span>
+            <span class="acd__meta mi:flex mi:justify-between mi:gap-2 mi:text-[11px] mi:uppercase mi:tracking-[.06em] mi:opacity-90"><span class="mi:[.acd__meta_&:first-child]:overflow-hidden mi:[.acd__meta_&:first-child]:text-ellipsis mi:[.acd__meta_&:first-child]:whitespace-nowrap">{{ name || 'Name on card' }}</span><span class="mi:[.acd__meta_&:first-child]:overflow-hidden mi:[.acd__meta_&:first-child]:text-ellipsis mi:[.acd__meta_&:first-child]:whitespace-nowrap">{{ expiry || 'MM / YY' }}</span></span>
           </div>
 
-          <form id="acd-form" class="acd__form" novalidate @submit.prevent="save">
+          <form id="acd-form" class="acd__form mi:grid mi:gap-3 mi:mt-1 mi:text-start" novalidate @submit.prevent="save">
             <MiField label="Card number" :error="errs.number">
               <template #default="{ id, describedBy }">
                 <MiInput :id="id" v-model="number" inputmode="numeric" autocomplete="off" :aria-describedby="describedBy" @update:model-value="errs.number = ''">
-                  <template #suffix><span class="acd__suffix">{{ brand.label }}</span></template>
+                  <template #suffix><span class="acd__suffix mi:px-2.5 mi:text-[12px] mi:font-semibold mi:text-label2">{{ brand.label }}</span></template>
                 </MiInput>
               </template>
             </MiField>
-            <div class="acd__pair">
+            <div class="acd__pair mi:grid mi:grid-cols-[1fr_1fr] mi:gap-2.5">
               <MiField label="Expiry" :error="errs.expiry">
                 <template #default="{ id, describedBy }">
                   <MiInput :id="id" v-model="expiry" inputmode="numeric" placeholder="MM / YY" autocomplete="off" :aria-describedby="describedBy" @update:model-value="errs.expiry = ''" />
@@ -44,21 +44,21 @@
                 <MiInput :id="id" v-model="name" autocomplete="off" :aria-describedby="describedBy" @update:model-value="errs.name = ''" />
               </template>
             </MiField>
-            <label class="acd__default">
+            <label class="acd__default mi:flex mi:items-center mi:justify-between mi:gap-2.5 mi:cursor-pointer">
               <MiText as="span" variant="footnote">Use as default for renewals</MiText>
               <MiSwitch v-model="makeDefault" size="compact" label="Use as default for renewals" />
             </label>
           </form>
 
           <template #actions>
-            <div class="acd__actions">
+            <div class="acd__actions mi:grid mi:grid-cols-[1fr_1fr] mi:gap-2 mi:w-full">
               <MiButton variant="gray" block @click="open = false">Cancel</MiButton>
               <MiButton type="submit" form="acd-form" block :loading="busy">Save card</MiButton>
             </div>
           </template>
         </MiDialog>
       </div>
-      <div v-else class="acd__after">
+      <div v-else class="acd__after mi:absolute mi:top-auto mi:right-4 mi:bottom-4 mi:left-4 mi:grid mi:justify-items-start mi:gap-2.5">
         <MiAlert v-if="savedCard" tone="success" :title="`${savedCard} added`" :message="makeDefault ? 'It will be charged at the next renewal on 1 Dec.' : 'Kept as a backup method.'" />
         <MiButton variant="tinted" size="small" @click="reopen">Add another card</MiButton>
       </div>
@@ -145,34 +145,9 @@ function reopen() { number.value = ''; expiry.value = ''; cvc.value = ''; savedC
 </script>
 
 <style scoped>
-.acd { container-type: inline-size; font-family: var(--mi-font); color: var(--mi-label); }
-.acd__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-.acd__stage { position: relative; display: grid; min-height: 640px; border-radius: var(--mi-radius-xl); overflow: hidden; background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.acd__page { display: grid; grid-template-columns: 1fr 1fr; align-content: start; gap: 12px; padding: 24px; }
-.acd__line { grid-column: 1 / -1; height: 10px; width: 60%; border-radius: 5px; background: var(--mi-fill3); }
-.acd__line--title { height: 16px; width: 36%; }
-.acd__tile { height: 96px; border-radius: var(--mi-radius-l); background: var(--mi-fill4); }
-
-.acd__scrim { position: absolute; inset: 0; display: grid; grid-template-columns: minmax(0, 1fr); place-items: center; padding: 16px 12px; overflow: auto; background: color-mix(in srgb, var(--mi-scrim) 85%, transparent); }
-
-.acd__preview {
-  position: relative; display: grid; grid-template-rows: auto 1fr auto; gap: 6px; width: 100%; max-width: 250px; margin-inline: auto; box-sizing: border-box; aspect-ratio: 1.586; padding: 14px 16px; border-radius: 14px; overflow: hidden;
-  color: var(--mi-p-on); background: linear-gradient(135deg, var(--mi-p), color-mix(in srgb, var(--mi-p) 45%, var(--mi-s)));
-  box-shadow: 0 14px 28px -16px color-mix(in srgb, var(--mi-p) 80%, transparent); text-align: start;
-}
-.acd__preview.is-mc { background: linear-gradient(135deg, var(--mi-s), color-mix(in srgb, var(--mi-s) 50%, var(--mi-orange))); color: var(--mi-s-on); }
+.acd__sr { overflow: hidden; white-space: nowrap; }
+.acd__line { width: 60%; }
+.acd__line--title { width: 36%; }
+.acd__preview.is-mc { background: linear-gradient(135deg, var(--mi-s), color-mix(in srgb, var(--mi-s) 50%, var(--mi-orange))); }
 .acd__preview.is-amex { background: linear-gradient(135deg, var(--mi-teal), color-mix(in srgb, var(--mi-teal) 50%, var(--mi-blue))); }
-.acd__preview::after { content: ""; position: absolute; inset: -40% -20% auto auto; width: 70%; aspect-ratio: 1; border-radius: 50%; background: color-mix(in srgb, var(--mi-p-on) 14%, transparent); }
-.acd__chip { width: 30px; height: 22px; border-radius: 5px; background: linear-gradient(135deg, color-mix(in srgb, var(--mi-yellow) 80%, var(--mi-card)), var(--mi-yellow)); }
-.acd__brand { position: absolute; top: 14px; right: 16px; font-size: 12px; font-weight: 800; letter-spacing: .04em; }
-.acd__num { align-self: end; font: 600 14px/1 ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .08em; white-space: nowrap; }
-.acd__meta { display: flex; justify-content: space-between; gap: 8px; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; opacity: .9; }
-.acd__meta span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-
-.acd__form { display: grid; gap: 12px; margin-top: 4px; text-align: start; }
-.acd__pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.acd__suffix { padding-inline: 10px; font-size: 12px; font-weight: 600; color: var(--mi-label2); }
-.acd__default { display: flex; align-items: center; justify-content: space-between; gap: 10px; cursor: pointer; }
-.acd__actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; }
-.acd__after { position: absolute; inset: auto 16px 16px; display: grid; justify-items: start; gap: 10px; }
 </style>

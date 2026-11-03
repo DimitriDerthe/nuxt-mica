@@ -50,45 +50,31 @@ function go(n: number) {
 </script>
 
 <template>
-  <div ref="root" class="mi-pg" :class="{ 'is-compact': fit < 0 }">
-    <nav class="mi-pg__nav" :aria-label="ariaLabel">
-      <button type="button" class="mi-pg__btn mi-pg__arrow" aria-label="Previous page" :disabled="current <= 1" @click="go(current - 1)">
+  <div ref="root" class="mi-pg mi:flex-col mi:min-w-0 mi:max-w-full mi:font-mi" :class="{ 'is-compact': fit < 0 }">
+    <nav class="mi-pg__nav mi:flex mi:items-center mi:gap-1" :aria-label="ariaLabel">
+      <button type="button" class="mi-pg__btn mi-pg__arrow mi:relative mi:min-w-9 mi:h-9 mi:[border:0] mi:rounded-[10px] mi:bg-transparent mi:text-label mi:text-[15px] mi:tabular-nums mi:flex mi:items-center mi:justify-center mi:isolate mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease)] mi:before:content-[''] mi:before:absolute mi:before:inset-0 mi:before:rounded-[inherit] mi:before:bg-fill4 mi:before:opacity-0 mi:before:-z-1 mi:before:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)] mi:[&:hover:not(:disabled)]:before:opacity-100 mi:[&:active:not(:disabled)]:transform-[scale(.94)] mi:w-9 mi:text-p-text mi:disabled:cursor-default mi:focus-visible:[outline:3px_solid_color-mix(in_srgb,var(--mi-p)_55%,transparent)] mi:focus-visible:outline-offset-[2px]" aria-label="Previous page" :disabled="current <= 1" @click="go(current - 1)">
         <MiNavGlyph name="back" :size="18" :stroke="2.4" />
       </button>
-      <span v-if="fit < 0" class="mi-pg__compact" aria-hidden="true"><b>{{ current }}</b> / {{ total }}</span>
+      <span v-if="fit < 0" class="mi-pg__compact mi:min-w-16 mi:py-0 mi:px-1.5 mi:text-center mi:text-[15px] mi:tabular-nums mi:text-label2 mi:whitespace-nowrap" aria-hidden="true"><b class="mi:[.mi-pg__compact_&]:font-semibold mi:[.mi-pg__compact_&]:text-label">{{ current }}</b> / {{ total }}</span>
       <template v-for="(it, i) in items" :key="it === '…' ? `gap${i}` : it">
-        <span v-if="it === '…'" class="mi-pg__gap" aria-hidden="true">…</span>
+        <span v-if="it === '…'" class="mi-pg__gap mi:min-w-6 mi:text-center mi:text-label2 mi:text-[15px]" aria-hidden="true">…</span>
         <button
-          v-else type="button" class="mi-pg__btn mi-pg__page" :class="{ 'is-on': it === current }"
+          v-else type="button" class="mi-pg__btn mi-pg__page mi:relative mi:min-w-9 mi:h-9 mi:[border:0] mi:rounded-[10px] mi:bg-transparent mi:text-label mi:text-[15px] mi:tabular-nums mi:flex mi:items-center mi:justify-center mi:isolate mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease)] mi:before:content-[''] mi:before:absolute mi:before:inset-0 mi:before:rounded-[inherit] mi:before:bg-fill4 mi:before:opacity-0 mi:before:-z-1 mi:before:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)] mi:[&:hover:not(:disabled)]:before:opacity-100 mi:[&:active:not(:disabled)]:transform-[scale(.94)] mi:disabled:cursor-default mi:after:content-[''] mi:after:absolute mi:after:inset-0 mi:after:rounded-[inherit] mi:after:bg-p mi:after:opacity-0 mi:after:transform-[scale(.8)] mi:after:-z-1 mi:after:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),transform_var(--mi-dur-3)_var(--mi-spring)] mi:[&.is-on]:font-semibold mi:[&.is-on]:after:opacity-100 mi:[&.is-on]:after:transform-[scale(1)] mi:[&.is-on]:before:opacity-0 mi:focus-visible:[outline:3px_solid_color-mix(in_srgb,var(--mi-p)_55%,transparent)] mi:focus-visible:outline-offset-[2px]" :class="{ 'is-on': it === current }"
           :aria-label="`Page ${it}`" :aria-current="it === current ? 'page' : undefined" @click="go(it)"
         ><span class="mi-pg__n">{{ it }}</span></button>
       </template>
-      <button type="button" class="mi-pg__btn mi-pg__arrow" aria-label="Next page" :disabled="current >= total" @click="go(current + 1)">
+      <button type="button" class="mi-pg__btn mi-pg__arrow mi:relative mi:min-w-9 mi:h-9 mi:[border:0] mi:rounded-[10px] mi:bg-transparent mi:text-label mi:text-[15px] mi:tabular-nums mi:flex mi:items-center mi:justify-center mi:isolate mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease)] mi:before:content-[''] mi:before:absolute mi:before:inset-0 mi:before:rounded-[inherit] mi:before:bg-fill4 mi:before:opacity-0 mi:before:-z-1 mi:before:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)] mi:[&:hover:not(:disabled)]:before:opacity-100 mi:[&:active:not(:disabled)]:transform-[scale(.94)] mi:w-9 mi:text-p-text mi:disabled:cursor-default mi:focus-visible:[outline:3px_solid_color-mix(in_srgb,var(--mi-p)_55%,transparent)] mi:focus-visible:outline-offset-[2px]" aria-label="Next page" :disabled="current >= total" @click="go(current + 1)">
         <MiNavGlyph name="forward" :size="18" :stroke="2.4" />
       </button>
     </nav>
-    <span v-if="summary" class="mi-pg__sum" aria-live="polite">Page {{ current }} of {{ total }}</span>
+    <span v-if="summary" class="mi-pg__sum mi:text-[13px] mi:text-label2 mi:[.is-compact_&]:absolute mi:[.is-compact_&]:w-px mi:[.is-compact_&]:h-px mi:[.is-compact_&]:overflow-hidden mi:[.is-compact_&]:[clip-path:inset(50%)] mi:[.is-compact_&]:whitespace-nowrap" aria-live="polite">Page {{ current }} of {{ total }}</span>
   </div>
 </template>
 
 <style scoped>
-.mi-pg{display:flex;flex-direction:column;gap:14px;min-width:0;max-width:100%;font-family:var(--mi-font)}
-.mi-pg__nav{display:flex;align-items:center;gap:4px}
-.mi-pg__btn{position:relative;min-width:36px;height:36px;padding:0 6px;border:0;border-radius:10px;background:transparent;color:var(--mi-label);font-size:15px;font-variant-numeric:tabular-nums;display:flex;align-items:center;justify-content:center;isolation:isolate;transition:transform var(--mi-dur-1) var(--mi-ease)}
-.mi-pg__btn::before{content:"";position:absolute;inset:0;border-radius:inherit;background:var(--mi-fill4);opacity:0;z-index:-1;transition:opacity var(--mi-dur-2) var(--mi-ease)}
-.mi-pg__btn:hover:not(:disabled)::before{opacity:1}
-.mi-pg__btn:active:not(:disabled){transform:scale(.94)}
-.mi-pg__arrow{width:36px;padding:0;color:var(--mi-p-text)}
-.mi-pg__btn:disabled{color:var(--mi-label3);cursor:default}
-.mi-pg__page::after{content:"";position:absolute;inset:0;border-radius:inherit;background:var(--mi-p);opacity:0;transform:scale(.8);z-index:-1;transition:opacity var(--mi-dur-2) var(--mi-ease),transform var(--mi-dur-3) var(--mi-spring)}
-.mi-pg__page.is-on{color:var(--mi-p-on);font-weight:600}
-.mi-pg__page.is-on::after{opacity:1;transform:scale(1)}
-.mi-pg__page.is-on::before{opacity:0}
-.mi-pg__gap{min-width:24px;text-align:center;color:var(--mi-label2);font-size:15px}
-.mi-pg__sum{font-size:13px;color:var(--mi-label2)}
-.mi-pg__compact{min-width:64px;padding:0 6px;text-align:center;font-size:15px;font-variant-numeric:tabular-nums;color:var(--mi-label2);white-space:nowrap}
-.mi-pg__compact b{font-weight:600;color:var(--mi-label)}
-/* The compact row already shows the position: keep the caption for screen readers only. */
-.is-compact .mi-pg__sum{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
-.mi-pg__btn:focus-visible{outline:3px solid color-mix(in srgb,var(--mi-p) 55%,transparent);outline-offset:2px}
+.mi-pg{display:flex;gap:14px}
+.mi-pg__btn{padding:0 6px}
+.mi-pg__arrow{padding:0}
+.mi-pg__btn:disabled{color:var(--mi-label3)}
+.mi-pg__page.is-on{color:var(--mi-p-on)}
 </style>

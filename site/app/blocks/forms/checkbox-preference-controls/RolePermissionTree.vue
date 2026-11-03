@@ -1,8 +1,8 @@
 <template>
-  <section class="rpt" aria-labelledby="rpt-title">
-    <div class="rpt__grid">
-      <div class="rpt__main">
-        <header class="rpt__head">
+  <section class="rpt mi:@container mi:font-mi mi:text-label" aria-labelledby="rpt-title">
+    <div class="rpt__grid mi:grid mi:gap-4 mi:grid-cols-[minmax(0,_1fr)] mi:@[820px]:grid-cols-[minmax(0,_1fr)_300px] mi:@[820px]:items-start">
+      <div class="rpt__main mi:grid mi:gap-4 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:min-w-0">
+        <header class="rpt__head mi:flex mi:flex-wrap mi:[align-items:flex-start] mi:justify-between mi:gap-2.5">
           <div>
             <MiText id="rpt-title" variant="title3" as="h2" weight="semibold">Support lead</MiText>
             <MiText variant="footnote" tone="label2">Custom role · 6 people in Brightdesk use it</MiText>
@@ -10,28 +10,28 @@
           <MiBadge :tone="preset === 'custom' ? 'warning' : 'primary'" :label="preset === 'custom' ? 'Edited' : `Same as ${presetLabel}`" />
         </header>
 
-        <div class="rpt__presets">
+        <div class="rpt__presets mi:flex mi:flex-wrap mi:items-center mi:gap-2.5 mi:pb-3.5 mi:border-b mi:border-b-sep">
           <MiText variant="footnote" tone="label2">Start from</MiText>
           <MiSegmented :model-value="preset" label="Start from a preset" :options="PRESET_OPTIONS" @update:model-value="applyPreset" />
         </div>
 
         <!-- Checking a section checks every action in it; partly checked sections show a dash. -->
         <MiTree
-          v-model:expanded="expanded" class="rpt__tree" :items="TREE" checkable aria-label="Permissions"
+          v-model:expanded="expanded" class="rpt__tree mi:min-w-0" :items="TREE" checkable aria-label="Permissions"
           :selected="checked" @update:selected="onSelect"
         />
       </div>
 
-      <aside class="rpt__side" aria-labelledby="rpt-sum-title">
+      <aside class="rpt__side mi:grid mi:gap-4 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1" aria-labelledby="rpt-sum-title">
         <MiText id="rpt-sum-title" variant="headline" as="h3">What this role can do</MiText>
-        <ul class="rpt__areas">
+        <ul class="rpt__areas mi:grid mi:gap-3 mi:m-0 mi:p-0 mi:[list-style:none]">
           <li v-for="a in areas" :key="a.id">
-            <div class="rpt__area-top">
+            <div class="rpt__area-top mi:flex mi:justify-between mi:gap-2 mi:mb-1.5">
               <MiText variant="footnote" weight="medium">{{ a.label }}</MiText>
               <MiText variant="caption" tone="label2" tabular>{{ a.on }} / {{ a.total }}</MiText>
             </div>
-            <div class="rpt__bar" role="meter" :aria-label="`${a.label} permissions`" aria-valuemin="0" :aria-valuemax="a.total" :aria-valuenow="a.on">
-              <span :style="{ transform: `scaleX(${a.on / a.total})` }" />
+            <div class="rpt__bar mi:h-1.5 mi:rounded-[3px] mi:bg-fill3 mi:overflow-hidden" role="meter" :aria-label="`${a.label} permissions`" aria-valuemin="0" :aria-valuemax="a.total" :aria-valuenow="a.on">
+              <span class="mi:[.rpt__bar_&]:block mi:[.rpt__bar_&]:h-full mi:[.rpt__bar_&]:rounded-[inherit] mi:[.rpt__bar_&]:bg-p mi:[.rpt__bar_&]:origin-left mi:[.rpt__bar_&]:[transition:transform_var(--mi-dur-3)_var(--mi-spring)]" :style="{ transform: `scaleX(${a.on / a.total})` }" />
             </div>
           </li>
         </ul>
@@ -40,7 +40,7 @@
           {{ sensitive.join(', ') }}. These are logged and need two-step login.
         </MiAlert>
 
-        <div class="rpt__foot">
+        <div class="rpt__foot mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2.5 mi:pt-3.5 mi:border-t mi:border-t-sep">
           <MiText variant="caption" :tone="savedAt ? 'green' : 'label2'" aria-live="polite">{{ savedAt ? 'Saved for 6 people' : dirty ? 'Unsaved changes' : 'No changes' }}</MiText>
           <MiButton :disabled="!dirty" @click="save">Save role</MiButton>
         </div>
@@ -98,20 +98,3 @@ function save() {
   savedAt.value = true
 }
 </script>
-
-<style scoped>
-.rpt { container-type: inline-size; font-family: var(--mi-font); color: var(--mi-label); }
-.rpt__grid { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); }
-@container (min-width: 820px) { .rpt__grid { grid-template-columns: minmax(0, 1fr) 300px; align-items: start; } }
-.rpt__main { display: grid; gap: 16px; padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); min-width: 0; }
-.rpt__head { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 10px; }
-.rpt__presets { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding-bottom: 14px; border-bottom: 1px solid var(--mi-sep); }
-.rpt__tree { min-width: 0; }
-
-.rpt__side { display: grid; gap: 16px; padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.rpt__areas { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
-.rpt__area-top { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
-.rpt__bar { height: 6px; border-radius: 3px; background: var(--mi-fill3); overflow: hidden; }
-.rpt__bar span { display: block; height: 100%; border-radius: inherit; background: var(--mi-p); transform-origin: left; transition: transform var(--mi-dur-3) var(--mi-spring); }
-.rpt__foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; padding-top: 14px; border-top: 1px solid var(--mi-sep); }
-</style>

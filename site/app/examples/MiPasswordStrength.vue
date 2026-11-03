@@ -13,12 +13,12 @@ const password = ref('Mica-2026')
 </script>
 
 <template>
-  <div class="stack">
+  <div class="stack mi:grid mi:gap-3">
     <MiInput v-model="password" type="password" aria-label="Password" />
     <MiPasswordStrength :value="password" v-bind="p" />
   </div>
 </template>
 
 <style scoped>
-.stack { display: grid; gap: 12px; width: min(100%, 340px); }
+.stack { width: min(100%, 340px); }
 </style>

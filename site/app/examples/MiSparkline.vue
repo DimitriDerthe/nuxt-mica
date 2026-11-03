@@ -17,24 +17,20 @@ const others = [
 </script>
 
 <template>
-  <ul class="ex-box" aria-label="API health">
-    <li class="ex-row">
-      <span class="ex-name">p95 latency</span>
+  <ul class="ex-box mi:[list-style:none]" aria-label="API health">
+    <li class="ex-row mi:grid mi:grid-cols-[minmax(0,_1fr)_auto_64px] mi:items-center mi:gap-3 mi:min-h-13 mi:[.ex-row+&]:border-t mi:[.ex-row+&]:border-t-sep">
+      <span class="ex-name mi:text-[15px] mi:text-label mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">p95 latency</span>
       <MiSparkline v-bind="p" />
-      <span class="ex-val">182 ms</span>
+      <span class="ex-val mi:text-[15px] mi:font-semibold mi:text-label mi:text-right mi:tabular-nums">182 ms</span>
     </li>
-    <li v-for="o in others" :key="o.name" class="ex-row">
-      <span class="ex-name">{{ o.name }}</span>
+    <li v-for="o in others" :key="o.name" class="ex-row mi:grid mi:grid-cols-[minmax(0,_1fr)_auto_64px] mi:items-center mi:gap-3 mi:min-h-13 mi:[.ex-row+&]:border-t mi:[.ex-row+&]:border-t-sep">
+      <span class="ex-name mi:text-[15px] mi:text-label mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ o.name }}</span>
       <MiSparkline v-bind="p" :values="o.values" :label="undefined" />
-      <span class="ex-val">{{ o.value }}</span>
+      <span class="ex-val mi:text-[15px] mi:font-semibold mi:text-label mi:text-right mi:tabular-nums">{{ o.value }}</span>
     </li>
   </ul>
 </template>
 
 <style scoped>
-.ex-box { display: grid; width: min(100%, 360px); margin: 0; padding: 4px 16px; list-style: none; border-radius: 18px; background: var(--mi-card); box-shadow: var(--mi-sh1); box-sizing: border-box; }
-.ex-row { display: grid; grid-template-columns: minmax(0, 1fr) auto 64px; align-items: center; gap: 12px; min-height: 52px; }
-.ex-row + .ex-row { border-top: 1px solid var(--mi-sep); }
-.ex-name { font-size: 15px; color: var(--mi-label); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.ex-val { font-size: 15px; font-weight: 600; color: var(--mi-label); text-align: right; font-variant-numeric: tabular-nums; }
+.ex-box { display: grid; width: min(100%, 360px); margin: 0; padding: 4px 16px; border-radius: 18px; background: var(--mi-card); box-shadow: var(--mi-sh1); box-sizing: border-box; }
 </style>

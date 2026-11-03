@@ -1,40 +1,40 @@
 <template>
-  <div class="bs">
+  <div class="bs mi:@container mi:grid mi:grid-rows-[auto_1fr] mi:min-h-full mi:font-mi mi:text-label mi:[background:var(--mi-page)]">
     <!-- Top-navigation shell: no sidebar, the venue and the view live in one bar. -->
-    <header class="bs__top">
-      <div class="bs__brand">
-        <span class="bs__logo" aria-hidden="true">O</span>
-        <div class="bs__venue">
+    <header class="bs__top mi:grid mi:grid-cols-[1fr_auto] mi:items-center mi:gap-y-2.5 mi:gap-x-3 mi:py-2.5 mi:px-3.5 mi:[background:var(--mi-card)] mi:shadow-[inset_0_-1px_0_var(--mi-sep)] mi:@[720px]:flex mi:@[720px]:py-2.5 mi:@[720px]:px-5">
+      <div class="bs__brand mi:flex mi:items-center mi:gap-2.5 mi:min-w-0">
+        <span class="bs__logo mi:grid mi:place-items-center mi:w-8.5 mi:h-8.5 mi:flex-[none] mi:rounded-[50%] mi:font-extrabold mi:text-p-on mi:[background:radial-gradient(circle_at_30%_30%,_var(--mi-s),_var(--mi-p))]" aria-hidden="true">O</span>
+        <div class="bs__venue mi:grid mi:gap-0.5 mi:min-w-0">
           <MiText as="span" variant="caption2" tone="label2" weight="semibold">Osteria Lume</MiText>
           <MiNativeSelect v-model="venue" size="sm" :options="venueOptions" aria-label="Venue" />
         </div>
       </div>
-      <nav class="bs__tabs" aria-label="Views">
+      <nav class="bs__tabs mi:col-span-full mi:flex mi:gap-1 mi:p-[3px] mi:rounded-[11px] mi:[background:var(--mi-fill4)] mi:@[720px]:flex-[0_1_340px] mi:@[720px]:mx-auto" aria-label="Views">
         <button
-          v-for="t in tabs" :key="t.id" type="button" class="bs__tab" :aria-current="t.id === view ? 'page' : undefined" @click="view = t.id"
+          v-for="t in tabs" :key="t.id" type="button" class="bs__tab mi:flex-1 mi:py-[7px] mi:px-2.5 mi:[border:0] mi:rounded-[8px] mi:text-label2 mi:[background:transparent] mi:cursor-pointer mi:[&[aria-current='page']]:text-label mi:[&[aria-current='page']]:[background:var(--mi-card)] mi:[&[aria-current='page']]:shadow-1 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" :aria-current="t.id === view ? 'page' : undefined" @click="view = t.id"
         >{{ t.label }}</button>
       </nav>
-      <span class="bs__live"><i aria-hidden="true" />Service live · 20:40</span>
+      <span class="bs__live mi:inline-flex mi:items-center mi:gap-1.5 mi:text-[12px] mi:font-semibold mi:text-green-t mi:whitespace-nowrap"><i class="mi:[.bs__live_&]:w-[7px] mi:[.bs__live_&]:h-[7px] mi:[.bs__live_&]:rounded-[50%] mi:[.bs__live_&]:[background:var(--mi-green)] mi:[.bs__live_&]:shadow-[0_0_0_3px_color-mix(in_srgb,_var(--mi-green)_25%,_transparent)]" aria-hidden="true" />Service live · 20:40</span>
     </header>
 
-    <main class="bs__main" aria-labelledby="bs-title">
-      <div class="bs__head">
+    <main class="bs__main mi:grid mi:content-start mi:gap-4 mi:pt-4.5 mi:px-3.5 mi:pb-7 mi:@[720px]:pt-6 mi:@[720px]:px-6 mi:@[720px]:pb-9" aria-labelledby="bs-title">
+      <div class="bs__head mi:grid mi:gap-0.5">
         <MiText id="bs-title" variant="title2" as="h2" weight="bold">{{ heading }}</MiText>
         <MiText variant="footnote" tone="label2">Tuesday 2 November · {{ data.name }} · {{ seatedCount }} of {{ tables.length }} tables occupied</MiText>
       </div>
 
       <template v-if="view === 'tonight'">
-        <div class="bs__kpis">
+        <div class="bs__kpis mi:grid mi:grid-cols-2 mi:gap-2.5 mi:@[720px]:grid-cols-4">
           <MiStatTile v-for="k in data.kpis" :key="k.label" v-bind="k" comparison="vs last Tuesday" />
         </div>
-        <div class="bs__split">
+        <div class="bs__split mi:grid mi:gap-3 mi:@[960px]:grid-cols-[1.4fr_1fr]">
           <MiBarChart :data="data.covers" title="Covers by hour" subtitle="Booked and walk-ins" :height="220" />
-          <section class="bs__card" aria-labelledby="bs-next">
+          <section class="bs__card mi:grid mi:content-start mi:gap-3 mi:p-4 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1" aria-labelledby="bs-next">
             <MiText id="bs-next" variant="headline" as="h3">Arriving next</MiText>
-            <ul class="bs__list">
-              <li v-for="b in upcoming.slice(0, 4)" :key="b.id" class="bs__row">
-                <MiText as="span" variant="footnote" weight="semibold" tabular class="bs__time">{{ b.time }}</MiText>
-                <span class="bs__who"><MiText as="span" variant="subheadline" :lines="1">{{ b.name }}</MiText><MiText as="span" variant="caption" tone="label2">{{ b.size }} guests · {{ b.note }}</MiText></span>
+            <ul class="bs__list mi:grid mi:m-0 mi:p-0 mi:[list-style:none]">
+              <li v-for="b in upcoming.slice(0, 4)" :key="b.id" class="bs__row mi:flex mi:items-center mi:gap-3 mi:py-2.5 mi:px-0 mi:[.bs__row+&]:shadow-[inset_0_1px_0_var(--mi-sep)]">
+                <MiText as="span" variant="footnote" weight="semibold" tabular class="bs__time mi:w-11 mi:flex-[none]">{{ b.time }}</MiText>
+                <span class="bs__who mi:grid mi:flex-1 mi:min-w-0"><MiText as="span" variant="subheadline" :lines="1">{{ b.name }}</MiText><MiText as="span" variant="caption" tone="label2">{{ b.size }} guests · {{ b.note }}</MiText></span>
                 <MiButton variant="tinted" size="small" :aria-label="`Seat ${b.name}`" @click="seat(b.id)">Seat</MiButton>
               </li>
             </ul>
@@ -42,12 +42,12 @@
         </div>
       </template>
 
-      <section v-else-if="view === 'bookings'" class="bs__card" aria-label="All bookings tonight">
+      <section v-else-if="view === 'bookings'" class="bs__card mi:grid mi:content-start mi:gap-3 mi:p-4 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1" aria-label="All bookings tonight">
         <MiSegmented v-model="filter" :options="filters" label="Filter bookings" />
-        <ul class="bs__list">
-          <li v-for="b in filtered" :key="b.id" class="bs__row">
-            <MiText as="span" variant="footnote" weight="semibold" tabular class="bs__time">{{ b.time }}</MiText>
-            <span class="bs__who"><MiText as="span" variant="subheadline" :lines="1">{{ b.name }}</MiText><MiText as="span" variant="caption" tone="label2">{{ b.size }} guests · {{ b.note }}</MiText></span>
+        <ul class="bs__list mi:grid mi:m-0 mi:p-0 mi:[list-style:none]">
+          <li v-for="b in filtered" :key="b.id" class="bs__row mi:flex mi:items-center mi:gap-3 mi:py-2.5 mi:px-0 mi:[.bs__row+&]:shadow-[inset_0_1px_0_var(--mi-sep)]">
+            <MiText as="span" variant="footnote" weight="semibold" tabular class="bs__time mi:w-11 mi:flex-[none]">{{ b.time }}</MiText>
+            <span class="bs__who mi:grid mi:flex-1 mi:min-w-0"><MiText as="span" variant="subheadline" :lines="1">{{ b.name }}</MiText><MiText as="span" variant="caption" tone="label2">{{ b.size }} guests · {{ b.note }}</MiText></span>
             <MiBadge v-if="b.seated" tone="success" label="Seated" dot />
             <MiButton v-else variant="tinted" size="small" :aria-label="`Seat ${b.name}`" @click="seat(b.id)">Seat</MiButton>
           </li>
@@ -55,11 +55,11 @@
       </section>
 
       <!-- Floor plan: each table cycles free → seated → dessert → free when tapped. -->
-      <section v-else class="bs__card" aria-label="Floor plan">
-        <div class="bs__legend" aria-hidden="true"><span v-for="(l, s) in stateLabel" :key="s" :class="'is-' + s">{{ l }}</span></div>
-        <div class="bs__floor">
+      <section v-else class="bs__card mi:grid mi:content-start mi:gap-3 mi:p-4 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1" aria-label="Floor plan">
+        <div class="bs__legend mi:flex mi:flex-wrap mi:gap-3.5 mi:text-[12px] mi:text-label2" aria-hidden="true"><span class="mi:[.bs__legend_&]:before:content-[''] mi:[.bs__legend_&]:before:inline-block mi:[.bs__legend_&]:before:w-[9px] mi:[.bs__legend_&]:before:h-[9px] mi:[.bs__legend_&]:before:me-1.5 mi:[.bs__legend_&]:before:rounded-[3px] mi:[.bs__legend_&]:before:[background:var(--tone)]" v-for="(l, s) in stateLabel" :key="s" :class="'is-' + s">{{ l }}</span></div>
+        <div class="bs__floor mi:grid mi:grid-cols-[repeat(auto-fill,_minmax(72px,_1fr))] mi:gap-2.5">
           <button
-            v-for="t in tables" :key="t.id" type="button" class="bs__table" :class="['is-' + t.state, { 'is-round': t.seats <= 2 }]"
+            v-for="t in tables" :key="t.id" type="button" class="bs__table mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:grid mi:place-content-center mi:gap-0.5 mi:aspect-[1.3] mi:[border:0] mi:rounded-[12px] mi:[font:inherit] mi:cursor-pointer mi:text-label mi:[background:color-mix(in_srgb,_var(--tone)_18%,_var(--mi-card))] mi:shadow-[inset_0_0_0_1.5px_var(--tone)] mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring)] mi:active:transform-[scale(.96)] mi:[&.is-round]:aspect-[1] mi:[&.is-round]:rounded-[50%]" :class="['is-' + t.state, { 'is-round': t.seats <= 2 }]"
             :aria-label="`Table ${t.id}, ${t.seats} seats, ${stateLabel[t.state]}`" @click="cycle(t)"
           >
             <b>{{ t.id }}</b><small>{{ t.seats }}p</small>
@@ -145,52 +145,11 @@ function cycle(t: Table) { t.state = nextState[t.state] }
 </script>
 
 <style scoped>
-.bs { container-type: inline-size; display: grid; grid-template-rows: auto 1fr; min-height: 100%; font-family: var(--mi-font); color: var(--mi-label); background: var(--mi-page); }
-
-.bs__top { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 10px 12px; padding: 10px 14px; background: var(--mi-card); box-shadow: inset 0 -1px 0 var(--mi-sep); }
-.bs__brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
-.bs__logo { display: grid; place-items: center; width: 34px; height: 34px; flex: none; border-radius: 50%; font-weight: 800; color: var(--mi-p-on); background: radial-gradient(circle at 30% 30%, var(--mi-s), var(--mi-p)); }
-.bs__venue { display: grid; gap: 2px; min-width: 0; }
-.bs__live { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--mi-green-t); white-space: nowrap; }
-.bs__live i { width: 7px; height: 7px; border-radius: 50%; background: var(--mi-green); box-shadow: 0 0 0 3px color-mix(in srgb, var(--mi-green) 25%, transparent); }
-.bs__tabs { grid-column: 1 / -1; display: flex; gap: 4px; padding: 3px; border-radius: 11px; background: var(--mi-fill4); }
-.bs__tab { flex: 1; padding: 7px 10px; border: 0; border-radius: 8px; font: inherit; font-size: 13px; font-weight: 600; color: var(--mi-label2); background: transparent; cursor: pointer; }
-.bs__tab[aria-current="page"] { color: var(--mi-label); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.bs__tab:focus-visible, .bs__table:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-
-.bs__main { display: grid; align-content: start; gap: 16px; padding: 18px 14px 28px; }
-.bs__head { display: grid; gap: 2px; }
-.bs__kpis { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-.bs__split { display: grid; gap: 12px; }
-.bs__card { display: grid; align-content: start; gap: 12px; padding: 16px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-
-.bs__list { display: grid; margin: 0; padding: 0; list-style: none; }
-.bs__row { display: flex; align-items: center; gap: 12px; padding: 10px 0; }
-.bs__row + .bs__row { box-shadow: inset 0 1px 0 var(--mi-sep); }
-.bs__time { width: 44px; flex: none; color: var(--mi-p-text); }
-.bs__who { display: grid; flex: 1; min-width: 0; }
-
-.bs__legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12px; color: var(--mi-label2); }
-.bs__legend span::before { content: ""; display: inline-block; width: 9px; height: 9px; margin-inline-end: 6px; border-radius: 3px; background: var(--tone); }
-.bs__floor { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 10px; }
+.bs__tab { font: inherit; font-size: 13px; font-weight: 600; }
+.bs__time { color: var(--mi-p-text); }
 .is-free { --tone: var(--mi-fill2); }
 .is-seated { --tone: var(--mi-p); }
 .is-dessert { --tone: var(--mi-orange); }
-.bs__table {
-  display: grid; place-content: center; gap: 2px; aspect-ratio: 1.3; border: 0; border-radius: 12px; font: inherit; cursor: pointer;
-  color: var(--mi-label); background: color-mix(in srgb, var(--tone) 18%, var(--mi-card)); box-shadow: inset 0 0 0 1.5px var(--tone);
-  transition: transform var(--mi-dur-2) var(--mi-spring);
-}
-.bs__table:active { transform: scale(.96); }
-.bs__table.is-round { aspect-ratio: 1; border-radius: 50%; }
 .bs__table b { font-size: 16px; }
 .bs__table small { font-size: 11px; color: var(--mi-label2); }
-
-@container (min-width: 720px) {
-  .bs__top { display: flex; padding: 10px 20px; }
-  .bs__tabs { flex: 0 1 340px; margin-inline: auto; }
-  .bs__main { padding: 24px 24px 36px; }
-  .bs__kpis { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-}
-@container (min-width: 960px) { .bs__split { grid-template-columns: 1.4fr 1fr; } }
 </style>

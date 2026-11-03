@@ -180,7 +180,7 @@ onBeforeUnmount(() => {
 <template>
   <div
     ref="root"
-    class="mi-sw"
+    class="mi-sw mi:relative mi:overflow-hidden mi:font-mi mi:min-w-0"
     :class="{ 'mi-sw--open': open }"
     role="group"
     aria-roledescription="swipeable row"
@@ -188,13 +188,13 @@ onBeforeUnmount(() => {
     :style="{ '--mi-sw-reveal': reveal() + 'px', '--mi-sw-aw': actionWidth + 'px' }"
     @keydown="onKey"
   >
-    <span :id="`${uid}-hint`" class="mi-sw__hint">Swipe left or press the left arrow key to reveal actions. Press the right arrow key or Escape to hide them.</span>
-    <div ref="acts" class="mi-sw__acts" :inert="!open" :aria-hidden="open ? undefined : 'true'">
+    <span :id="`${uid}-hint`" class="mi-sw__hint mi:absolute mi:w-px mi:h-px mi:-m-px mi:p-0 mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap mi:[border:0]">Swipe left or press the left arrow key to reveal actions. Press the right arrow key or Escape to hide them.</span>
+    <div ref="acts" class="mi-sw__acts mi:absolute mi:top-0 mi:right-0 mi:bottom-0 mi:flex mi:w-(--mi-sw-reveal)" :inert="!open" :aria-hidden="open ? undefined : 'true'">
       <button
         v-for="a in actions"
         :key="a.id"
         type="button"
-        class="mi-sw__act"
+        class="mi-sw__act mi:flex-[none] mi:flex mi:flex-col mi:items-center mi:justify-center mi:gap-1 mi:w-(--mi-sw-aw) mi:[border:0] mi:p-0 mi:text-[13px] mi:font-semibold mi:font-[inherit] mi:text-label mi:bg-fill2 mi:focus-visible:outline-offset-[-3px]"
         :class="`mi-sw__act--${a.tone ?? 'neutral'}`"
         @click="trigger(a)"
       >
@@ -206,7 +206,7 @@ onBeforeUnmount(() => {
     </div>
     <div
       ref="content"
-      class="mi-sw__c"
+      class="mi-sw__c mi:[--mi-sw-x:0px] mi:relative mi:z-1 mi:bg-card mi:touch-pan-y mi:transform-[translate3d(var(--mi-sw-x),0,0)] mi:[transition:transform_var(--mi-dur-3)_var(--mi-ease)] mi:[.mi-sw--open_&]:[--mi-sw-x:calc(var(--mi-sw-reveal)_*_-1)] mi:[&.mi-sw__c--drag]:[transition:none] mi:[&.mi-sw__c--drag]:will-change-transform mi:[&.mi-sw__c--drag]:select-none mi:[&.mi-sw__c--drag]:cursor-grabbing"
       @pointerdown="onDown"
       @pointermove="onMove"
       @pointerup="onUp"
@@ -219,15 +219,7 @@ onBeforeUnmount(() => {
 </template>
 
 <style scoped>
-.mi-sw{position:relative;overflow:hidden;font-family:var(--mi-font);min-width:0}
-.mi-sw__hint{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
-.mi-sw__acts{position:absolute;top:0;right:0;bottom:0;display:flex;width:var(--mi-sw-reveal)}
-.mi-sw__act{flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;width:var(--mi-sw-aw);border:0;padding:0;font-size:13px;font-weight:600;font-family:inherit;color:var(--mi-label);background:var(--mi-fill2)}
-.mi-sw__act:focus-visible{outline-offset:-3px}
 .mi-sw__act--primary{background:var(--mi-p);color:var(--mi-p-on)}
 .mi-sw__act--secondary{background:var(--mi-s);color:var(--mi-s-on)}
 .mi-sw__act--danger{background:var(--mi-red-t);color:#fff}
-.mi-sw__c{--mi-sw-x:0px;position:relative;z-index:1;background:var(--mi-card);touch-action:pan-y;transform:translate3d(var(--mi-sw-x),0,0);transition:transform var(--mi-dur-3) var(--mi-ease)}
-.mi-sw--open .mi-sw__c{--mi-sw-x:calc(var(--mi-sw-reveal) * -1)}
-.mi-sw__c.mi-sw__c--drag{transition:none;will-change:transform;user-select:none;cursor:grabbing}
 </style>

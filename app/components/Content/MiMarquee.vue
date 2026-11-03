@@ -56,41 +56,32 @@ onBeforeUnmount(() => ro?.disconnect())
 <template>
   <div
     ref="root"
-    class="mi-mq"
+    class="mi-mq mi:relative mi:overflow-hidden mi:font-mi mi:text-label2 mi:min-w-0 mi:[&.is-vertical]:h-[16rem] mi:motion-reduce:overflow-auto"
     :class="{ 'is-vertical': vertical, 'is-fade': fade, 'is-pause': pauseOnHover, 'is-reverse': reverse }"
     :role="ariaLabel ? 'region' : undefined"
     :aria-label="ariaLabel"
     :style="{ '--mi-mq-gap': `${gap}px`, '--mi-mq-d': `${duration}s` }"
   >
-    <div class="mi-mq__track">
-      <div class="mi-mq__group">
-        <div v-for="n in copies" :key="n" class="mi-mq__unit" :aria-hidden="n > 1 ? 'true' : undefined"><slot /></div>
+    <div class="mi-mq__track mi:flex mi:w-max mi:[.is-vertical_&]:flex-col mi:[.is-vertical_&]:w-auto mi:[.is-pause:hover_&]:[animation-play-state:paused] mi:[.is-pause:focus-within_&]:[animation-play-state:paused]">
+      <div class="mi-mq__group mi:flex mi:flex-[none] mi:items-center mi:[.is-vertical_&]:flex-col">
+        <div v-for="n in copies" :key="n" class="mi-mq__unit mi:flex mi:flex-[none] mi:items-center mi:gap-(--mi-mq-gap) mi:pr-(--mi-mq-gap) mi:[.is-vertical_&]:flex-col mi:[.is-vertical_&]:pt-0 mi:[.is-vertical_&]:px-0 mi:[.is-vertical_&]:pb-(--mi-mq-gap)" :aria-hidden="n > 1 ? 'true' : undefined"><slot /></div>
       </div>
-      <div class="mi-mq__group mi-mq__clone" aria-hidden="true">
-        <div v-for="n in copies" :key="n" class="mi-mq__unit"><slot /></div>
+      <div class="mi-mq__group mi-mq__clone mi:flex mi:flex-[none] mi:items-center mi:[.is-vertical_&]:flex-col mi:motion-reduce:hidden" aria-hidden="true">
+        <div v-for="n in copies" :key="n" class="mi-mq__unit mi:flex mi:flex-[none] mi:items-center mi:gap-(--mi-mq-gap) mi:pr-(--mi-mq-gap) mi:[.is-vertical_&]:flex-col mi:[.is-vertical_&]:pt-0 mi:[.is-vertical_&]:px-0 mi:[.is-vertical_&]:pb-(--mi-mq-gap)"><slot /></div>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.mi-mq{position:relative;overflow:hidden;font-family:var(--mi-font);color:var(--mi-label2);min-width:0}
-.mi-mq.is-vertical{height:16rem}
 .mi-mq.is-fade{-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
 .mi-mq.is-fade.is-vertical{-webkit-mask-image:linear-gradient(180deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(180deg,transparent,#000 12%,#000 88%,transparent)}
-.mi-mq__track{display:flex;width:max-content;animation:mi-mq-x var(--mi-mq-d) linear infinite}
-.is-vertical .mi-mq__track{flex-direction:column;width:auto;animation-name:mi-mq-y}
+.mi-mq__track{animation:mi-mq-x var(--mi-mq-d) linear infinite}
+.is-vertical .mi-mq__track{animation-name:mi-mq-y}
 .is-reverse .mi-mq__track{animation-direction:reverse}
-.mi-mq__group{display:flex;flex:none;align-items:center}
-.is-vertical .mi-mq__group{flex-direction:column}
-.mi-mq__unit{display:flex;flex:none;align-items:center;gap:var(--mi-mq-gap);padding-right:var(--mi-mq-gap)}
-.is-vertical .mi-mq__unit{flex-direction:column;padding:0 0 var(--mi-mq-gap)}
-.is-pause:hover .mi-mq__track,.is-pause:focus-within .mi-mq__track{animation-play-state:paused}
 @keyframes mi-mq-x{to{transform:translate3d(-50%,0,0)}}
 @keyframes mi-mq-y{to{transform:translate3d(0,-50%,0)}}
 @media (prefers-reduced-motion:reduce){
-  .mi-mq{overflow:auto}
   .mi-mq__track{animation:none}
-  .mi-mq__clone{display:none}
 }
 </style>

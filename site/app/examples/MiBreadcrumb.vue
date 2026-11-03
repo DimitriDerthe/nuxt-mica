@@ -25,11 +25,11 @@ function stayHere(e: MouseEvent) {
 </script>
 
 <template>
-  <div class="bar" @click.capture="stayHere">
+  <div class="bar mi:max-w-full mi:shadow-1" @click.capture="stayHere">
     <MiBreadcrumb v-bind="p" />
   </div>
 </template>
 
 <style scoped>
-.bar { max-width: 100%; overflow-x: auto; padding: 10px 14px; border-radius: 14px; background: var(--mi-card); box-shadow: var(--mi-sh1); box-sizing: border-box; }
+.bar { overflow-x: auto; padding: 10px 14px; border-radius: 14px; background: var(--mi-card); box-sizing: border-box; }
 </style>

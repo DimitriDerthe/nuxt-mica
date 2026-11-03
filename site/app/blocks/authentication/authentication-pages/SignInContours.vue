@@ -1,24 +1,24 @@
 <template>
-  <section class="sic" aria-labelledby="sic-title">
-    <div class="sic__in">
-    <div class="sic__form-side">
-      <div class="sic__brand">
-        <span class="sic__mark" aria-hidden="true" />
+  <section class="sic mi:@container mi:grid mi:min-h-full mi:font-mi mi:text-label mi:[background:var(--mi-page)]" aria-labelledby="sic-title">
+    <div class="sic__in mi:grid mi:grid-rows-[auto_1fr] mi:@[760px]:grid-cols-[minmax(0,_1fr)_minmax(0,_1.05fr)] mi:@[760px]:grid-rows-[none]">
+    <div class="sic__form-side mi:grid mi:grid-rows-[auto_1fr_auto] mi:gap-7 mi:py-6 mi:px-5 mi:order-2 mi:@[760px]:order-1 mi:@[760px]:py-8 mi:@[760px]:px-11 mi:@[1040px]:px-18">
+      <div class="sic__brand mi:flex mi:items-center mi:gap-2.5">
+        <span class="sic__mark mi:w-5.5 mi:h-5.5 mi:rounded-[7px] mi:[background:conic-gradient(from_210deg,_var(--mi-p),_var(--mi-s),_var(--mi-p))] mi:shadow-[inset_0_0_0_5px_color-mix(in_srgb,_var(--mi-page)_70%,_transparent)]" aria-hidden="true" />
         <MiText as="span" variant="headline" weight="semibold">Northlight</MiText>
       </div>
 
-      <div class="sic__form-wrap">
+      <div class="sic__form-wrap mi:grid mi:content-center mi:gap-2.5 mi:w-full mi:max-w-95 mi:justify-self-center">
         <MiText id="sic-title" as="h2" variant="title1" weight="bold" balance>Welcome back</MiText>
         <MiText variant="subheadline" tone="label2">Sign in to the survey workspace your crew shares.</MiText>
 
-        <MiButton variant="bordered" size="large" block class="sic__passkey" @click="passkey">
+        <MiButton variant="bordered" size="large" block class="sic__passkey mi:mt-3.5" @click="passkey">
           <template #leading><MiIcon :svg="fingerprint" :size="18" /></template>
           Sign in with a passkey
         </MiButton>
 
-        <div class="sic__or"><span>or use your email</span></div>
+        <div class="sic__or mi:flex mi:items-center mi:gap-3 mi:my-1.5 mi:mx-0 mi:text-label3 mi:text-[12px] mi:before:content-[''] mi:before:flex-1 mi:before:h-px mi:before:[background:var(--mi-sep)] mi:after:content-[''] mi:after:flex-1 mi:after:h-px mi:after:[background:var(--mi-sep)]"><span>or use your email</span></div>
 
-        <form class="sic__form" novalidate @submit.prevent="submit">
+        <form class="sic__form mi:grid mi:gap-3.5" novalidate @submit.prevent="submit">
           <MiField label="Work email" :error="errors.email">
             <template #default="{ id, describedBy }">
               <MiInput :id="id" v-model="email" type="email" autocomplete="username" :aria-describedby="describedBy" placeholder="you@company.com" />
@@ -34,36 +34,36 @@
           <MiButton type="submit" size="large" block :loading="busy">Sign in</MiButton>
         </form>
 
-        <div class="sic__live" aria-live="polite">
+        <div class="sic__live mi:mt-1 mi:mx-0 mi:mb-0 mi:min-h-px" aria-live="polite">
           <MiAlert v-if="done" tone="success" :title="`Signed in to ${workspace}`" message="Opening your field boards…" />
         </div>
       </div>
 
-      <MiText variant="footnote" tone="label2" class="sic__foot">
+      <MiText variant="footnote" tone="label2" class="sic__foot mi:justify-self-center mi:text-center">
         New crew member? <MiTextLink href="#">Ask your admin for an invite</MiTextLink>
       </MiText>
     </div>
 
     <!-- Generative contour map: seeded by the email domain, so every workspace gets its own terrain. -->
-    <aside class="sic__art" aria-label="Workspace pattern">
-      <svg class="sic__svg" viewBox="0 0 400 520" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <aside class="sic__art mi:relative mi:order-1 mi:min-h-42 mi:overflow-hidden mi:isolate mi:[background:radial-gradient(120%_80%_at_10%_0%,_color-mix(in_srgb,_var(--mi-p)_26%,_transparent),_transparent_60%),_radial-gradient(90%_70%_at_100%_100%,_color-mix(in_srgb,_var(--mi-s)_24%,_transparent),_transparent_65%),_color-mix(in_srgb,_var(--mi-p)_6%,_var(--mi-card))] mi:@[760px]:order-2 mi:@[760px]:min-h-0 mi:@[760px]:m-3 mi:@[760px]:rounded-[22px] mi:@[760px]:shadow-[inset_0_0_0_1px_var(--mi-sep)]" aria-label="Workspace pattern">
+      <svg class="sic__svg mi:absolute mi:inset-0 mi:w-full mi:h-full mi:-z-1" viewBox="0 0 400 520" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
         <g v-for="(peak, pi) in terrain.peaks" :key="seed + '-' + pi">
           <path
-            v-for="(ring, ri) in peak.rings" :key="ri" :d="ring" class="sic__ring"
-            :class="ri % 3 === 0 ? 'sic__ring--major' : ''" :style="{ opacity: 0.9 - ri * 0.07 }"
+            v-for="(ring, ri) in peak.rings" :key="ri" :d="ring" class="sic__ring mi:fill-[color:none] mi:stroke-[color:color-mix(in_srgb,_var(--mi-p)_70%,_var(--mi-label2))] mi:[stroke-width:.8]"
+            :class="ri % 3 === 0 ? 'sic__ring--major mi:stroke-s mi:[stroke-width:1.4]' : ''" :style="{ opacity: 0.9 - ri * 0.07 }"
           />
-          <circle :cx="peak.x" :cy="peak.y" r="3.5" class="sic__peak" />
-          <text :x="peak.x + 8" :y="peak.y - 8" class="sic__elev">{{ peak.elev }} m</text>
+          <circle :cx="peak.x" :cy="peak.y" r="3.5" class="sic__peak mi:fill-p mi:stroke-card mi:[stroke-width:2]" />
+          <text :x="peak.x + 8" :y="peak.y - 8" class="sic__elev mi:[font:600_10px/1_var(--mi-font)] mi:fill-label2 mi:tracking-[.04em]">{{ peak.elev }} m</text>
         </g>
       </svg>
-      <div class="sic__art-meta">
-        <MiText as="span" variant="caption" weight="semibold" class="sic__chip">{{ workspace }}</MiText>
+      <div class="sic__art-meta mi:absolute mi:top-3.5 mi:right-3.5 mi:grid mi:justify-items-end mi:gap-1">
+        <MiText as="span" variant="caption" weight="semibold" class="sic__chip mi:py-1 mi:px-2.5 mi:rounded-[999px] mi:[background:var(--mi-mat)] mi:shadow-[0_0_0_1px_var(--mi-sep)]">{{ workspace }}</MiText>
         <MiText as="span" variant="caption2" tone="label2">Pattern {{ seed.toString(16).slice(0, 6).toUpperCase() }}</MiText>
       </div>
-      <figure class="sic__quote">
-        <blockquote>We moved forty field crews off shared spreadsheets in a single week.</blockquote>
-        <figcaption>
-          <MiAvatar name="Ines Okafor" size="sm" tone="auto" decorative />
+      <figure class="sic__quote mi:hidden mi:@[760px]:absolute mi:@[760px]:left-5 mi:@[760px]:right-5 mi:@[760px]:bottom-5 mi:@[760px]:grid mi:@[760px]:gap-3.5 mi:@[760px]:m-0 mi:@[760px]:py-4.5 mi:@[760px]:px-5 mi:@[760px]:rounded-[18px] mi:@[760px]:[background:var(--mi-mat)] mi:@[760px]:shadow-[0_0_0_1px_var(--mi-sep),_var(--mi-sh2)]">
+        <blockquote class="mi:@[760px]:[.sic__quote_blockquote&]:m-0 mi:@[760px]:[.sic__quote_blockquote&]:text-balance">We moved forty field crews off shared spreadsheets in a single week.</blockquote>
+        <figcaption class="mi:@[760px]:[.sic__quote_figcaption&]:gap-2.5">
+          <MiAvatar class="mi:@[760px]:[.sic__quote_blockquote&]:m-0 mi:@[760px]:[.sic__quote_blockquote&]:text-balance mi:@[760px]:[.sic__quote_figcaption&]:gap-2.5" name="Ines Okafor" size="sm" tone="auto" decorative />
           <span><strong>Ines Okafor</strong><br>Operations lead, Saltmarsh Survey</span>
         </figcaption>
       </figure>
@@ -155,47 +155,14 @@ function passkey() {
 </script>
 
 <style scoped>
-.sic { container-type: inline-size; display: grid; min-height: 100%; font-family: var(--mi-font); color: var(--mi-label); background: var(--mi-page); }
-.sic__in { display: grid; grid-template-rows: auto 1fr; }
-.sic__form-side { display: grid; grid-template-rows: auto 1fr auto; gap: 28px; padding: 24px 20px; order: 2; }
-.sic__brand { display: flex; align-items: center; gap: 10px; }
-.sic__mark { width: 22px; height: 22px; border-radius: 7px; background: conic-gradient(from 210deg, var(--mi-p), var(--mi-s), var(--mi-p)); box-shadow: inset 0 0 0 5px color-mix(in srgb, var(--mi-page) 70%, transparent); }
-.sic__form-wrap { display: grid; align-content: center; gap: 10px; width: 100%; max-width: 380px; justify-self: center; }
-.sic__passkey { margin-top: 14px; }
-.sic__or { display: flex; align-items: center; gap: 12px; margin: 6px 0; color: var(--mi-label3); font-size: 12px; }
-.sic__or::before, .sic__or::after { content: ""; flex: 1; height: 1px; background: var(--mi-sep); }
-.sic__form { display: grid; gap: 14px; }
-.sic__live { margin: 4px 0 0; min-height: 1px; }
-.sic__foot { justify-self: center; text-align: center; }
-
-.sic__art {
-  position: relative; order: 1; min-height: 168px; overflow: hidden; isolation: isolate;
-  background:
-    radial-gradient(120% 80% at 10% 0%, color-mix(in srgb, var(--mi-p) 26%, transparent), transparent 60%),
-    radial-gradient(90% 70% at 100% 100%, color-mix(in srgb, var(--mi-s) 24%, transparent), transparent 65%),
-    color-mix(in srgb, var(--mi-p) 6%, var(--mi-card));
-}
-.sic__svg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; }
-.sic__ring { fill: none; stroke: color-mix(in srgb, var(--mi-p) 70%, var(--mi-label2)); stroke-width: .8; }
-.sic__ring--major { stroke: var(--mi-s); stroke-width: 1.4; }
-.sic__peak { fill: var(--mi-p); stroke: var(--mi-card); stroke-width: 2; }
-.sic__elev { font: 600 10px/1 var(--mi-font); fill: var(--mi-label2); letter-spacing: .04em; }
-.sic__art-meta { position: absolute; top: 14px; right: 14px; display: grid; justify-items: end; gap: 4px; }
-.sic__chip { padding: 4px 10px; border-radius: 999px; background: var(--mi-mat); box-shadow: 0 0 0 1px var(--mi-sep); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
-.sic__quote { display: none; }
+.sic__chip { -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
 
 @container (min-width: 760px) {
-  .sic__in { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); grid-template-rows: none; }
-  .sic__form-side { order: 1; padding: 32px 44px; }
-  .sic__art { order: 2; min-height: 0; margin: 12px; border-radius: 22px; box-shadow: inset 0 0 0 1px var(--mi-sep); }
   .sic__quote {
-    position: absolute; left: 20px; right: 20px; bottom: 20px; display: grid; gap: 14px; margin: 0; padding: 18px 20px;
-    border-radius: 18px; background: var(--mi-mat); box-shadow: 0 0 0 1px var(--mi-sep), var(--mi-sh2);
     -webkit-backdrop-filter: blur(18px) saturate(160%); backdrop-filter: blur(18px) saturate(160%);
   }
-  .sic__quote blockquote { margin: 0; font-size: 17px; line-height: 1.4; font-weight: 600; letter-spacing: -.015em; text-wrap: balance; }
-  .sic__quote figcaption { display: flex; align-items: center; gap: 10px; font-size: 12px; line-height: 1.35; color: var(--mi-label2); }
+  .sic__quote blockquote { font-size: 17px; line-height: 1.4; font-weight: 600; letter-spacing: -.015em; }
+  .sic__quote figcaption { display: flex; align-items: center; font-size: 12px; line-height: 1.35; color: var(--mi-label2); }
   .sic__quote strong { color: var(--mi-label); font-weight: 600; }
 }
-@container (min-width: 1040px) { .sic__form-side { padding-inline: 72px; } }
 </style>

@@ -1,8 +1,8 @@
 <template>
-  <section class="cag" aria-labelledby="cag-title">
+  <section class="cag mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="cag-title">
     <!-- Calendar header built from three groups: date pager, view switch, split create button. -->
-    <header class="cag__bar">
-      <div class="cag__nav">
+    <header class="cag__bar mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-3">
+      <div class="cag__nav mi:flex mi:flex-wrap mi:items-center mi:gap-y-2.5 mi:gap-x-3.5">
         <MiButtonGroup label="Move through dates">
           <MiIconButton size="toolbar" variant="gray" :label="'Previous ' + view" @click="move(-1)"><MiIcon name="chevron-left" /></MiIconButton>
           <MiButton size="small" variant="gray" :disabled="isToday" @click="anchor = today">Today</MiButton>
@@ -10,7 +10,7 @@
         </MiButtonGroup>
         <MiText id="cag-title" variant="headline" as="h2" aria-live="polite">{{ title }}</MiText>
       </div>
-      <div class="cag__tools">
+      <div class="cag__tools mi:flex mi:flex-wrap mi:items-center mi:gap-y-2.5 mi:gap-x-3.5">
         <MiButtonGroup v-model="view" variant="segmented" label="Calendar view" :options="views" />
         <MiButtonGroup variant="split" label="Create event">
           <MiButton size="small" @click="create(template)">
@@ -26,19 +26,19 @@
       </div>
     </header>
 
-    <ol class="cag__grid" :class="'cag__grid--' + view" :aria-label="title">
-      <li v-for="d in days" :key="d.key" class="cag__day" :class="{ 'is-out': d.out, 'is-today': d.key === todayKey, 'is-anchor': d.key === anchorKey }">
-        <button type="button" class="cag__date" :aria-label="d.long + ', ' + d.events.length + ' events'" :aria-pressed="d.key === anchorKey" @click="anchor = d.date">
-          <span class="cag__dow">{{ d.dow }}</span><span class="cag__num">{{ d.num }}</span>
+    <ol class="cag__grid mi:grid mi:gap-1.5 mi:m-0 mi:p-2 mi:[list-style:none] mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1" :class="'cag__grid--' + view" :aria-label="title">
+      <li v-for="d in days" :key="d.key" class="cag__day mi:grid mi:content-start mi:gap-1.5 mi:min-w-0 mi:p-2 mi:rounded-md mi:[background:var(--mi-fill4)] mi:[.cag__grid--month_&]:p-1 mi:[.cag__grid--month_&]:min-h-13 mi:[.cag__grid--month_&]:justify-items-center mi:[&.is-out]:opacity-45 mi:[&.is-anchor]:shadow-[inset_0_0_0_2px_var(--mi-p)]" :class="{ 'is-out': d.out, 'is-today': d.key === todayKey, 'is-anchor': d.key === anchorKey }">
+        <button type="button" class="cag__date mi:flex mi:items-baseline mi:gap-1.5 mi:p-0 mi:[border:0] mi:[background:none] mi:[font:inherit] mi:text-inherit mi:cursor-pointer mi:rounded-[6px] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:[.cag__grid--month_&]:flex-col mi:[.cag__grid--month_&]:items-center mi:[.cag__grid--month_&]:gap-0" :aria-label="d.long + ', ' + d.events.length + ' events'" :aria-pressed="d.key === anchorKey" @click="anchor = d.date">
+          <span class="cag__dow mi:[.cag__grid--month_&]:hidden mi:text-[12px] mi:font-semibold mi:text-label2 mi:uppercase mi:tracking-[.04em]">{{ d.dow }}</span><span class="cag__num mi:inline-grid mi:place-items-center mi:min-w-6.5 mi:h-6.5 mi:rounded-[13px] mi:font-bold mi:tabular-nums mi:[.cag__day.is-today_&]:[background:var(--mi-p)] mi:[.cag__day.is-today_&]:text-p-on">{{ d.num }}</span>
         </button>
-        <ul v-if="view !== 'month'" class="cag__events">
-          <li v-for="e in d.events" :key="e.id" class="cag__event" :data-kind="e.kind"><b>{{ e.time }}</b> {{ e.title }}</li>
+        <ul v-if="view !== 'month'" class="cag__events mi:grid mi:gap-1 mi:m-0 mi:p-0 mi:[list-style:none]">
+          <li v-for="e in d.events" :key="e.id" class="cag__event mi:py-[5px] mi:px-[7px] mi:rounded-[6px] mi:text-[12px] mi:leading-[1.3] mi:wrap-anywhere mi:[background:var(--mi-p-tint)] mi:text-p-text mi:[border-inline-start:3px_solid_var(--mi-p)] mi:[&[data-kind='focus']]:[background:var(--mi-s-tint)] mi:[&[data-kind='focus']]:text-s-text mi:[&[data-kind='focus']]:border-(--mi-s) mi:[&[data-kind='one']]:[background:var(--mi-fill3)] mi:[&[data-kind='one']]:text-label mi:[&[data-kind='one']]:border-label3" :data-kind="e.kind"><b class="mi:[.cag__event_&]:font-bold mi:[.cag__event_&]:tabular-nums">{{ e.time }}</b> {{ e.title }}</li>
         </ul>
-        <span v-else class="cag__dots" aria-hidden="true"><i v-for="e in d.events.slice(0, 3)" :key="e.id" :data-kind="e.kind" /></span>
+        <span v-else class="cag__dots mi:flex mi:gap-[3px]" aria-hidden="true"><i class="mi:[.cag__dots_&]:w-[5px] mi:[.cag__dots_&]:h-[5px] mi:[.cag__dots_&]:rounded-[50%] mi:[.cag__dots_&]:[background:var(--mi-p)] mi:[.cag__dots_&[data-kind='focus']]:[background:var(--mi-s)] mi:[.cag__dots_&[data-kind='one']]:[background:var(--mi-label3)]" v-for="e in d.events.slice(0, 3)" :key="e.id" :data-kind="e.kind" /></span>
       </li>
     </ol>
 
-    <p class="cag__log" aria-live="polite">{{ log }}</p>
+    <p class="cag__log mi:m-0 mi:text-[13px] mi:text-label2" aria-live="polite">{{ log }}</p>
   </section>
 </template>
 
@@ -117,35 +117,6 @@ function create(kind: string | number | undefined) {
 </script>
 
 <style scoped>
-.cag { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
-.cag__bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
-.cag__nav, .cag__tools { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; }
-
-.cag__grid { display: grid; gap: 6px; margin: 0; padding: 8px; list-style: none; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
 .cag__grid--month { grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
 @container (min-width: 720px) { .cag__grid--week { grid-template-columns: repeat(7, minmax(0, 1fr)); } }
-
-.cag__day { display: grid; align-content: start; gap: 6px; min-width: 0; padding: 8px; border-radius: var(--mi-radius-m); background: var(--mi-fill4); }
-.cag__grid--month .cag__day { padding: 4px; min-height: 52px; justify-items: center; }
-.cag__day.is-out { opacity: .45; }
-.cag__day.is-anchor { box-shadow: inset 0 0 0 2px var(--mi-p); }
-.cag__date { display: flex; align-items: baseline; gap: 6px; padding: 0; border: 0; background: none; font: inherit; color: inherit; cursor: pointer; border-radius: 6px; }
-.cag__date:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-.cag__grid--month .cag__date { flex-direction: column; align-items: center; gap: 0; }
-.cag__grid--month .cag__dow { display: none; }
-.cag__dow { font-size: 12px; font-weight: 600; color: var(--mi-label2); text-transform: uppercase; letter-spacing: .04em; }
-.cag__num { display: inline-grid; place-items: center; min-width: 26px; height: 26px; border-radius: 13px; font-weight: 700; font-variant-numeric: tabular-nums; }
-.cag__day.is-today .cag__num { background: var(--mi-p); color: var(--mi-p-on); }
-
-.cag__events { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; }
-.cag__event { padding: 5px 7px; border-radius: 6px; font-size: 12px; line-height: 1.3; overflow-wrap: anywhere; background: var(--mi-p-tint); color: var(--mi-p-text); border-inline-start: 3px solid var(--mi-p); }
-.cag__event[data-kind="focus"] { background: var(--mi-s-tint); color: var(--mi-s-text); border-color: var(--mi-s); }
-.cag__event[data-kind="one"] { background: var(--mi-fill3); color: var(--mi-label); border-color: var(--mi-label3); }
-.cag__event b { font-weight: 700; font-variant-numeric: tabular-nums; }
-.cag__dots { display: flex; gap: 3px; }
-.cag__dots i { width: 5px; height: 5px; border-radius: 50%; background: var(--mi-p); }
-.cag__dots i[data-kind="focus"] { background: var(--mi-s); }
-.cag__dots i[data-kind="one"] { background: var(--mi-label3); }
-
-.cag__log { margin: 0; font-size: 13px; color: var(--mi-label2); }
 </style>

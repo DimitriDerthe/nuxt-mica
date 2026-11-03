@@ -97,11 +97,11 @@ onBeforeUnmount(stopHold)
 </script>
 
 <template>
-  <span class="mi-stepper" :class="[`is-${variant}`, { 'is-disabled': disabled }]">
-    <output v-if="variant === 'default' && showValue" class="mi-stepper__value" aria-live="polite">{{ text }}</output>
+  <span class="mi-stepper mi:font-mi" :class="[`is-${variant}`, { 'is-disabled': disabled }]">
+    <output v-if="variant === 'default' && showValue" class="mi-stepper__value mi:min-w-6 mi:text-right mi:text-[17px] mi:font-semibold mi:tabular-nums" aria-live="polite">{{ text }}</output>
     <span
       v-if="variant === 'field'"
-      class="mi-stepper__field"
+      class="mi-stepper__field mi:inline-flex mi:items-center mi:[justify-content:flex-end] mi:min-w-13 mi:h-6.5 mi:py-0 mi:px-2 mi:rounded-[6px] mi:bg-field mi:shadow-[inset_0_0_0_1px_var(--mi-field-b)] mi:text-[13px] mi:tabular-nums mi:focus-visible:[outline:3px_solid_color-mix(in_srgb,_var(--mi-p)_55%,_transparent)] mi:focus-visible:outline-offset-[2px]"
       role="spinbutton"
       :tabindex="disabled ? -1 : 0"
       :aria-label="label"
@@ -112,22 +112,22 @@ onBeforeUnmount(stopHold)
       :aria-disabled="disabled || undefined"
       @keydown="onKeydown"
     >{{ text }}</span>
-    <span class="mi-stepper__ctl" role="group" :aria-label="label" @keydown="variant === 'default' ? onKeydown($event) : undefined">
+    <span class="mi-stepper__ctl mi:inline-flex mi:items-center mi:p-0.5 mi:rounded-[9px] mi:bg-fill3 mi:[.is-field_&]:flex-col mi:[.is-field_&]:p-0 mi:[.is-field_&]:rounded-[6px] mi:[.is-field_&]:bg-field mi:[.is-field_&]:shadow-[inset_0_0_0_1px_var(--mi-field-b)] mi:[.is-field_&]:overflow-hidden" role="group" :aria-label="label" @keydown="variant === 'default' ? onKeydown($event) : undefined">
       <template v-if="variant === 'default'">
-        <button type="button" class="mi-stepper__btn" :aria-label="decLabel" :disabled="disabled || atMin" @pointerdown="onPointerDown(-1, $event)" @click="onClick(-1, $event)">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14" /></svg>
+        <button type="button" class="mi-stepper__btn mi:relative mi:inline-flex mi:items-center mi:justify-center mi:w-11 mi:h-7.5 mi:p-0 mi:[border:0] mi:rounded-[7px] mi:bg-transparent mi:text-label mi:[-webkit-tap-highlight-color:transparent] mi:touch-manipulation mi:[.is-field_&]:w-5 mi:[.is-field_&]:h-[13px] mi:[.is-field_&]:rounded-none mi:disabled:text-label3 mi:disabled:cursor-default mi:before:content-[''] mi:before:absolute mi:before:inset-0 mi:before:rounded-[inherit] mi:before:bg-fill2 mi:before:opacity-0 mi:before:[transition:opacity_var(--mi-dur-1)_ease] mi:[&:active:not(:disabled)]:before:opacity-100" :aria-label="decLabel" :disabled="disabled || atMin" @pointerdown="onPointerDown(-1, $event)" @click="onClick(-1, $event)">
+          <svg class="mi:[.mi-stepper__btn_&]:relative" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14" /></svg>
         </button>
-        <span class="mi-stepper__sep" aria-hidden="true" />
-        <button type="button" class="mi-stepper__btn" :aria-label="incLabel" :disabled="disabled || atMax" @pointerdown="onPointerDown(1, $event)" @click="onClick(1, $event)">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
+        <span class="mi-stepper__sep mi:w-px mi:h-4.5 mi:bg-sep2" aria-hidden="true" />
+        <button type="button" class="mi-stepper__btn mi:relative mi:inline-flex mi:items-center mi:justify-center mi:w-11 mi:h-7.5 mi:p-0 mi:[border:0] mi:rounded-[7px] mi:bg-transparent mi:text-label mi:[-webkit-tap-highlight-color:transparent] mi:touch-manipulation mi:[.is-field_&]:w-5 mi:[.is-field_&]:h-[13px] mi:[.is-field_&]:rounded-none mi:disabled:text-label3 mi:disabled:cursor-default mi:before:content-[''] mi:before:absolute mi:before:inset-0 mi:before:rounded-[inherit] mi:before:bg-fill2 mi:before:opacity-0 mi:before:[transition:opacity_var(--mi-dur-1)_ease] mi:[&:active:not(:disabled)]:before:opacity-100" :aria-label="incLabel" :disabled="disabled || atMax" @pointerdown="onPointerDown(1, $event)" @click="onClick(1, $event)">
+          <svg class="mi:[.mi-stepper__btn_&]:relative" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
         </button>
       </template>
       <template v-else>
-        <button type="button" class="mi-stepper__btn" :aria-label="incLabel" tabindex="-1" :disabled="disabled || atMax" @pointerdown="onPointerDown(1, $event)" @click="onClick(1, $event)">
-          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 15l6-6 6 6" /></svg>
+        <button type="button" class="mi-stepper__btn mi:relative mi:inline-flex mi:items-center mi:justify-center mi:w-11 mi:h-7.5 mi:p-0 mi:[border:0] mi:rounded-[7px] mi:bg-transparent mi:text-label mi:[-webkit-tap-highlight-color:transparent] mi:touch-manipulation mi:[.is-field_&]:w-5 mi:[.is-field_&]:h-[13px] mi:[.is-field_&]:rounded-none mi:disabled:text-label3 mi:disabled:cursor-default mi:before:content-[''] mi:before:absolute mi:before:inset-0 mi:before:rounded-[inherit] mi:before:bg-fill2 mi:before:opacity-0 mi:before:[transition:opacity_var(--mi-dur-1)_ease] mi:[&:active:not(:disabled)]:before:opacity-100" :aria-label="incLabel" tabindex="-1" :disabled="disabled || atMax" @pointerdown="onPointerDown(1, $event)" @click="onClick(1, $event)">
+          <svg class="mi:[.mi-stepper__btn_&]:relative" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 15l6-6 6 6" /></svg>
         </button>
-        <button type="button" class="mi-stepper__btn" :aria-label="decLabel" tabindex="-1" :disabled="disabled || atMin" @pointerdown="onPointerDown(-1, $event)" @click="onClick(-1, $event)">
-          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
+        <button type="button" class="mi-stepper__btn mi:relative mi:inline-flex mi:items-center mi:justify-center mi:w-11 mi:h-7.5 mi:p-0 mi:[border:0] mi:rounded-[7px] mi:bg-transparent mi:text-label mi:[-webkit-tap-highlight-color:transparent] mi:touch-manipulation mi:[.is-field_&]:w-5 mi:[.is-field_&]:h-[13px] mi:[.is-field_&]:rounded-none mi:disabled:text-label3 mi:disabled:cursor-default mi:before:content-[''] mi:before:absolute mi:before:inset-0 mi:before:rounded-[inherit] mi:before:bg-fill2 mi:before:opacity-0 mi:before:[transition:opacity_var(--mi-dur-1)_ease] mi:[&:active:not(:disabled)]:before:opacity-100" :aria-label="decLabel" tabindex="-1" :disabled="disabled || atMin" @pointerdown="onPointerDown(-1, $event)" @click="onClick(-1, $event)">
+          <svg class="mi:[.mi-stepper__btn_&]:relative" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
         </button>
       </template>
     </span>
@@ -139,85 +139,8 @@ onBeforeUnmount(stopHold)
   display: inline-flex;
   align-items: center;
   gap: 14px;
-  font-family: var(--mi-font);
   color: var(--mi-label);
 }
 .mi-stepper.is-field { gap: 6px; }
 .mi-stepper.is-disabled { opacity: .4; }
-
-.mi-stepper__value {
-  min-width: 24px;
-  text-align: right;
-  font-size: 17px;
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-}
-
-.mi-stepper__field {
-  display: inline-flex;
-  align-items: center;
-  justify-content: flex-end;
-  min-width: 52px;
-  height: 26px;
-  padding: 0 8px;
-  border-radius: 6px;
-  background: var(--mi-field);
-  box-shadow: inset 0 0 0 1px var(--mi-field-b);
-  font-size: 13px;
-  font-variant-numeric: tabular-nums;
-}
-
-.mi-stepper__ctl {
-  display: inline-flex;
-  align-items: center;
-  padding: 2px;
-  border-radius: 9px;
-  background: var(--mi-fill3);
-}
-.is-field .mi-stepper__ctl {
-  flex-direction: column;
-  padding: 0;
-  border-radius: 6px;
-  background: var(--mi-field);
-  box-shadow: inset 0 0 0 1px var(--mi-field-b);
-  overflow: hidden;
-}
-
-.mi-stepper__btn {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 30px;
-  padding: 0;
-  border: 0;
-  border-radius: 7px;
-  background: transparent;
-  color: var(--mi-label);
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
-}
-.is-field .mi-stepper__btn { width: 20px; height: 13px; border-radius: 0; }
-.mi-stepper__btn:disabled { color: var(--mi-label3); cursor: default; }
-
-/* Pressed feedback is an opacity-faded layer, never an animated background. */
-.mi-stepper__btn::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: var(--mi-fill2);
-  opacity: 0;
-  transition: opacity var(--mi-dur-1) ease;
-}
-.mi-stepper__btn:active:not(:disabled)::before { opacity: 1; }
-.mi-stepper__btn svg { position: relative; }
-
-.mi-stepper__sep {
-  width: 1px;
-  height: 18px;
-  background: var(--mi-sep2);
-}
-.mi-stepper__field:focus-visible { outline: 3px solid color-mix(in srgb, var(--mi-p) 55%, transparent); outline-offset: 2px; }
 </style>

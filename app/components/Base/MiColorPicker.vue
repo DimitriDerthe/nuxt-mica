@@ -74,14 +74,14 @@ async function onSwatchKey(e: KeyboardEvent, i: number) {
 </script>
 
 <template>
-  <div class="mi-cp">
-    <div class="mi-cp__head">
-      <label class="mi-cp__title" :for="`${uid}-hex`">{{ title }}</label>
-      <div class="mi-cp__field" :class="{ 'mi-cp__field--bad': invalid }">
-        <span class="mi-cp__chip" :style="{ background: miHex(current, fallback) }" aria-hidden="true" />
+  <div class="mi-cp mi:flex-col">
+    <div class="mi-cp__head mi:flex mi:items-center mi:justify-between mi:gap-3">
+      <label class="mi-cp__title mi:text-[15px] mi:font-semibold mi:tracking-[-.01em]" :for="`${uid}-hex`">{{ title }}</label>
+      <div class="mi-cp__field mi:flex mi:items-center mi:gap-2 mi:h-9 mi:py-0 mi:px-2.5 mi:rounded-[10px] mi:bg-field mi:shadow-[inset_0_0_0_1px_var(--mi-field-b)] mi:focus-within:shadow-[inset_0_0_0_2px_var(--mi-p)]" :class="{ 'mi-cp__field--bad mi:shadow-[inset_0_0_0_2px_var(--mi-red)] mi:focus-within:shadow-[inset_0_0_0_2px_var(--mi-red)]': invalid }">
+        <span class="mi-cp__chip mi:w-4 mi:h-4 mi:flex-[none] mi:rounded-[50%] mi:shadow-[inset_0_0_0_1px_var(--mi-sep)]" :style="{ background: miHex(current, fallback) }" aria-hidden="true" />
         <input
           :id="`${uid}-hex`"
-          class="mi-cp__input"
+          class="mi-cp__input mi:w-21 mi:[border:0] mi:p-0 mi:bg-transparent mi:text-label mi:uppercase mi:[outline:none] mi:focus-visible:[outline:none]"
           type="text"
           inputmode="text"
           spellcheck="false"
@@ -97,15 +97,15 @@ async function onSwatchKey(e: KeyboardEvent, i: number) {
         >
       </div>
     </div>
-    <p v-if="invalid" :id="`${uid}-err`" class="mi-cp__err" role="alert">Enter a hex color such as #0071E3.</p>
-    <div class="mi-cp__swatches" role="radiogroup" :aria-label="`${title} presets`">
+    <p v-if="invalid" :id="`${uid}-err`" class="mi-cp__err mi:m-0 mi:text-[12px] mi:text-red-t" role="alert">Enter a hex color such as #0071E3.</p>
+    <div class="mi-cp__swatches mi:flex mi:flex-wrap mi:gap-2.5" role="radiogroup" :aria-label="`${title} presets`">
       <button
         v-for="(h, i) in swatches"
         :key="h"
         :ref="(el) => { if (el) swatchEls[i] = el as HTMLButtonElement }"
         type="button"
         role="radio"
-        class="mi-cp__sw"
+        class="mi-cp__sw mi:relative mi:inline-flex mi:items-center mi:justify-center mi:w-9 mi:h-9 mi:p-0 mi:[border:0] mi:rounded-[50%] mi:shadow-[inset_0_0_0_1px_rgba(0,0,0,.12)] mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring)] mi:[-webkit-tap-highlight-color:transparent] mi:active:transform-[scale(.92)]"
         :aria-checked="i === activeIndex"
         :aria-label="h"
         :title="h"
@@ -114,26 +114,15 @@ async function onSwatchKey(e: KeyboardEvent, i: number) {
         @click="apply(h)"
         @keydown="onSwatchKey($event, i)"
       >
-        <MiIcon class="mi-cp__tick" name="check" :size="16" :weight="3" />
+        <MiIcon class="mi-cp__tick mi:opacity-0 mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring),opacity_var(--mi-dur-1)_linear] mi:[.mi-cp__sw[aria-checked=true]_&]:opacity-100" name="check" :size="16" :weight="3" />
       </button>
     </div>
   </div>
 </template>
 
 <style scoped>
-.mi-cp{display:flex;flex-direction:column;gap:12px;font-family:var(--mi-font);color:var(--mi-label)}
-.mi-cp__head{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.mi-cp__title{font-size:15px;font-weight:600;letter-spacing:-.01em}
-.mi-cp__field{display:flex;align-items:center;gap:8px;height:36px;padding:0 10px;border-radius:10px;background:var(--mi-field);box-shadow:inset 0 0 0 1px var(--mi-field-b)}
-.mi-cp__field:focus-within{box-shadow:inset 0 0 0 2px var(--mi-p)}
-.mi-cp__field--bad,.mi-cp__field--bad:focus-within{box-shadow:inset 0 0 0 2px var(--mi-red)}
-.mi-cp__chip{width:16px;height:16px;flex:none;border-radius:50%;box-shadow:inset 0 0 0 1px var(--mi-sep)}
-.mi-cp__input{width:84px;border:0;padding:0;background:transparent;color:var(--mi-label);font:inherit;font-size:15px;font-variant-numeric:tabular-nums;text-transform:uppercase;outline:none}
-.mi-cp__input:focus-visible{outline:none}
-.mi-cp__err{margin:0;font-size:12px;color:var(--mi-red-t)}
-.mi-cp__swatches{display:flex;flex-wrap:wrap;gap:10px}
-.mi-cp__sw{position:relative;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;padding:0;border:0;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12);transition:transform var(--mi-dur-2) var(--mi-spring);-webkit-tap-highlight-color:transparent}
-.mi-cp__sw:active{transform:scale(.92)}
-.mi-cp__tick{opacity:0;transform:scale(.5);transition:transform var(--mi-dur-2) var(--mi-spring),opacity var(--mi-dur-1) linear}
-.mi-cp__sw[aria-checked=true] .mi-cp__tick{opacity:1;transform:scale(1)}
+.mi-cp{display:flex;gap:12px;font-family:var(--mi-font);color:var(--mi-label)}
+.mi-cp__input{font:inherit;font-size:15px;font-variant-numeric:tabular-nums}
+.mi-cp__tick{transform:scale(.5)}
+.mi-cp__sw[aria-checked=true] .mi-cp__tick{transform:scale(1)}
 </style>

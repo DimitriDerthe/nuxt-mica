@@ -1,11 +1,11 @@
 <template>
-  <section :id="meta.file" class="bf" :aria-labelledby="meta.file + '-t'">
-    <header class="bf__head">
-      <div class="bf__text">
-        <h2 :id="meta.file + '-t'" class="bf__title"><a :href="'#' + meta.file">{{ meta.title[lang] }}</a></h2>
-        <p class="bf__sum">{{ meta.summary[lang] }}</p>
+  <section :id="meta.file" class="bf mi:grid mi:gap-3.5 mi:min-w-0 mi:[scroll-margin-top:88px]" :aria-labelledby="meta.file + '-t'">
+    <header class="bf__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-y-3 mi:gap-x-5">
+      <div class="bf__text mi:grid mi:gap-1 mi:min-w-0 mi:flex-[1_1_320px]">
+        <h2 :id="meta.file + '-t'" class="bf__title mi:m-0 mi:text-[20px] mi:tracking-[-.02em]"><a class="mi:[.bf__title_&]:text-inherit mi:[.bf__title_&]:[text-decoration:none] mi:[.bf__title_&:hover]:text-p-text" :href="'#' + meta.file">{{ meta.title[lang] }}</a></h2>
+        <p class="bf__sum mi:m-0 mi:max-w-[70ch] mi:text-[14px] mi:leading-normal mi:text-label2">{{ meta.summary[lang] }}</p>
       </div>
-      <div class="bf__tools">
+      <div class="bf__tools mi:flex mi:flex-wrap mi:gap-2">
         <MiSegmented
           v-show="view === 'preview'" v-model="device" class="bf__devices" :label="t('blocks.width')"
           :options="devices.map(d => ({ value: d.id, ariaLabel: t('blocks.' + d.id) }))"
@@ -16,17 +16,17 @@
       </div>
     </header>
 
-    <div v-show="view === 'preview'" ref="stage" class="bf__stage" :class="{ 'bf__stage--bleed': meta.stage === 'bleed' }">
-      <div class="bf__frame" :style="{ width: frameWidth, minHeight: (meta.height ?? 360) + 'px' }">
+    <div v-show="view === 'preview'" ref="stage" class="bf__stage mi:relative mi:flex mi:flex-col mi:items-center mi:gap-2.5 mi:rounded-[22px] mi:overflow-hidden mi:[background:radial-gradient(circle_at_1px_1px,_var(--mi-fill3)_1px,_transparent_0)_0_0_/_18px_18px,_var(--mi-page)] mi:shadow-[0_0_0_1px_var(--mi-sep)]" :class="{ 'bf__stage--bleed': meta.stage === 'bleed' }">
+      <div class="bf__frame mi:relative mi:grid mi:max-w-full mi:box-border mi:[contain:layout] mi:overflow-clip mi:[overflow-clip-margin:6px] mi:[.bf__stage--bleed_&]:rounded-[16px] mi:[.bf__stage--bleed_&]:overflow-hidden mi:[.bf__stage--bleed_&]:shadow-[0_0_0_1px_var(--mi-sep),_var(--mi-sh2)] mi:[.bf__stage--bleed_&]:[background:var(--mi-page)]" :style="{ width: frameWidth, minHeight: (meta.height ?? 360) + 'px' }">
         <component :is="block" v-if="block" />
-        <MiSpinner v-else class="bf__spin" />
+        <MiSpinner v-else class="bf__spin mi:place-self-center" />
         <button
-          type="button" class="bf__grip" :aria-label="t('blocks.resize')" @pointerdown="grab" @keydown.left.prevent="nudge(-24)" @keydown.right.prevent="nudge(24)"
+          type="button" class="bf__grip mi:absolute mi:top-1/2 mi:-right-4 mi:hidden mi:place-items-center mi:w-3.5 mi:h-14 mi:-mt-7 mi:p-0 mi:[border:0] mi:rounded-[7px] mi:[background:transparent] mi:cursor-ew-resize mi:touch-none mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:min-[820px]:grid" :aria-label="t('blocks.resize')" @pointerdown="grab" @keydown.left.prevent="nudge(-24)" @keydown.right.prevent="nudge(24)"
         >
-          <span />
+          <span class="mi:[.bf__grip_&]:w-1 mi:[.bf__grip_&]:h-9 mi:[.bf__grip_&]:rounded-[2px] mi:[.bf__grip_&]:[background:var(--mi-fill)] mi:[.bf__grip_&]:[transition:transform_var(--mi-dur-1)_var(--mi-ease)] mi:[.bf__grip:hover_&]:transform-[scaleY(1.2)] mi:[.bf__grip:hover_&]:[background:var(--mi-p)] mi:[.bf__grip:focus-visible_&]:transform-[scaleY(1.2)] mi:[.bf__grip:focus-visible_&]:[background:var(--mi-p)]" />
         </button>
       </div>
-      <span class="bf__px" aria-live="polite">{{ pxLabel }}</span>
+      <span class="bf__px mi:text-label3" aria-live="polite">{{ pxLabel }}</span>
     </div>
 
     <SiteCode
@@ -113,33 +113,15 @@ function grab(e: PointerEvent) {
 </script>
 
 <style scoped>
-.bf { display: grid; gap: 14px; min-width: 0; scroll-margin-top: 88px; }
-.bf__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 20px; }
-.bf__text { display: grid; gap: 4px; min-width: 0; flex: 1 1 320px; }
-.bf__title { margin: 0; font-size: 20px; letter-spacing: -.02em; }
-.bf__title a { color: inherit; text-decoration: none; }
-.bf__title a:hover { color: var(--mi-p-text); }
-.bf__sum { margin: 0; max-width: 70ch; font-size: 14px; line-height: 1.5; color: var(--mi-label2); }
-.bf__tools { display: flex; flex-wrap: wrap; gap: 8px; }
 .bf__devices { display: none; }
 @media (min-width: 820px) { .bf__devices { display: inline-flex; } }
 
-.bf__stage {
-  position: relative; display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 28px 20px 14px; border-radius: 22px; overflow: hidden;
-  background: radial-gradient(circle at 1px 1px, var(--mi-fill3) 1px, transparent 0) 0 0 / 18px 18px, var(--mi-page); box-shadow: 0 0 0 1px var(--mi-sep);
+.bf__stage { padding: 28px 20px 14px;
 }
 .bf__stage--bleed { padding-top: 14px; }
-/* Clip spills at the frame, but leave room for rings, selection outlines and focus outlines drawn just outside a block's edge (paint containment cut them flush). */
-.bf__frame { position: relative; display: grid; max-width: 100%; box-sizing: border-box; contain: layout; overflow: clip; overflow-clip-margin: 6px; }
-.bf__stage--bleed .bf__frame { border-radius: 16px; overflow: hidden; box-shadow: 0 0 0 1px var(--mi-sep), var(--mi-sh2); background: var(--mi-page); }
 /* The frame draws the window edge: a block root with its own rounded ring would show a second arc in each corner. */
 .bf__stage--bleed .bf__frame > :deep(*) { border-radius: inherit; }
-.bf__spin { place-self: center; }
-.bf__grip { position: absolute; top: 50%; right: -16px; display: none; place-items: center; width: 14px; height: 56px; margin-top: -28px; padding: 0; border: 0; border-radius: 7px; background: transparent; cursor: ew-resize; touch-action: none; }
-.bf__grip span { width: 4px; height: 36px; border-radius: 2px; background: var(--mi-fill); transition: transform var(--mi-dur-1) var(--mi-ease); }
-.bf__grip:hover span, .bf__grip:focus-visible span { transform: scaleY(1.2); background: var(--mi-p); }
-.bf__grip:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-@media (min-width: 820px) { .bf__grip { display: grid; } .bf__stage { padding-inline: 32px; } }
-.bf__px { font: 500 11px/1 ui-monospace, "SF Mono", Menlo, monospace; color: var(--mi-label3); font-variant-numeric: tabular-nums; }
+@media (min-width: 820px) { .bf__stage { padding-inline: 32px; } }
+.bf__px { font: 500 11px/1 ui-monospace, "SF Mono", Menlo, monospace; font-variant-numeric: tabular-nums; }
 .bf__code :deep(.code__pre) { max-height: 620px; overflow: auto; }
 </style>

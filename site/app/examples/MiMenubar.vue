@@ -36,13 +36,8 @@ const last = ref('')
 </script>
 
 <template>
-  <div class="wrap">
+  <div class="wrap mi:grid mi:gap-3">
     <MiMenubar v-bind="p" @select="(m, i) => last = `${m} / ${i.label}`" />
-    <p v-if="last" class="last">Selected: {{ last }}</p>
+    <p v-if="last" class="last mi:m-0 mi:text-[14px] mi:opacity-70">Selected: {{ last }}</p>
   </div>
 </template>
-
-<style scoped>
-.wrap { display: grid; gap: 12px; }
-.last { margin: 0; font-size: 14px; opacity: .7; }
-</style>

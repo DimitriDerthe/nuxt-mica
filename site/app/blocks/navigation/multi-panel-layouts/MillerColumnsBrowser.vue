@@ -1,10 +1,10 @@
 <template>
-  <div class="mcb">
-    <header class="mcb__top">
+  <div class="mcb mi:@container mi:grid mi:grid-rows-[auto_1fr] mi:min-h-full mi:font-mi mi:text-label mi:[background:var(--mi-page)]">
+    <header class="mcb__top mi:flex mi:items-center mi:gap-2.5 mi:py-3 mi:px-3.5 mi:[background:var(--mi-card)] mi:shadow-[inset_0_-1px_0_var(--mi-sep)]">
       <MiIconButton v-if="depth > 0" class="mcb__back" label="Back" variant="gray" size="small" @click="depth--">
         <MiIcon name="chevron-left" :size="16" />
       </MiIconButton>
-      <div class="mcb__title">
+      <div class="mcb__title mi:grid mi:gap-0.5 mi:flex-1 mi:min-w-0">
         <MiText id="mcb-title" variant="headline" as="h2">Project files</MiText>
         <MiBreadcrumb class="mcb__crumbs" :items="crumbs" aria-label="Current location" @navigate="(_, i) => (depth = i)" />
       </div>
@@ -12,27 +12,27 @@
     </header>
 
     <!-- Miller columns: each pick opens the next column. Narrow widths show one column at a time. -->
-    <div class="mcb__cols">
-      <section v-for="(col, ci) in columns" :key="col.title" class="mcb__col" :class="{ 'is-shown': ci === depth }" :aria-label="col.title">
-        <MiText as="h3" variant="caption2" tone="label3" weight="semibold" class="mcb__col-head">{{ col.title }}</MiText>
-        <ul class="mcb__list">
+    <div class="mcb__cols mi:grid mi:min-h-0 mi:@[900px]:grid-cols-[repeat(3,_minmax(0,_1fr))_minmax(240px,_1.2fr)]">
+      <section v-for="(col, ci) in columns" :key="col.title" class="mcb__col mi:hidden mi:content-start mi:min-w-0 mi:[background:var(--mi-card)] mi:[&.is-shown]:grid mi:@[900px]:grid mi:@[900px]:animate-none mi:@[900px]:[&.is-shown]:grid mi:@[900px]:[.mcb__col+&]:shadow-[inset_1px_0_0_var(--mi-sep)]" :class="{ 'is-shown': ci === depth }" :aria-label="col.title">
+        <MiText as="h3" variant="caption2" tone="label3" weight="semibold" class="mcb__col-head mi:pt-3.5 mi:px-4 mi:pb-1.5">{{ col.title }}</MiText>
+        <ul class="mcb__list mi:grid mi:gap-px mi:m-0 mi:pt-0 mi:px-2 mi:pb-3 mi:[list-style:none]">
           <li v-for="row in col.rows" :key="row.id">
-            <button type="button" class="mcb__row" :aria-current="row.id === col.selected ? 'true' : undefined" @click="choose(ci, row.id)">
-              <MiIcon :name="row.icon" :size="17" class="mcb__icon" />
-              <span class="mcb__name">{{ row.label }}</span>
+            <button type="button" class="mcb__row mi:flex mi:items-center mi:gap-2.5 mi:w-full mi:min-h-10 mi:py-2 mi:px-2.5 mi:[border:0] mi:rounded-[9px] mi:text-start mi:text-inherit mi:[background:transparent] mi:cursor-pointer mi:aria-current:text-p-text mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px]" :aria-current="row.id === col.selected ? 'true' : undefined" @click="choose(ci, row.id)">
+              <MiIcon :name="row.icon" :size="17" class="mcb__icon mi:text-label2 mi:[.mcb__row[aria-current='true']_&]:text-inherit" />
+              <span class="mcb__name mi:flex-1 mi:min-w-0 mi:overflow-hidden mi:whitespace-nowrap mi:text-ellipsis">{{ row.label }}</span>
               <MiText as="span" variant="caption2" tone="label3" tabular>{{ row.meta }}</MiText>
-              <MiIcon v-if="ci < 2" name="chevron-right" :size="13" class="mcb__chev" />
+              <MiIcon v-if="ci < 2" name="chevron-right" :size="13" class="mcb__chev mi:text-label3" />
             </button>
           </li>
         </ul>
       </section>
 
       <!-- Last panel: preview and facts of the picked file. -->
-      <section class="mcb__preview" :class="{ 'is-shown': depth === 3 }" aria-labelledby="mcb-file">
-        <div class="mcb__sheet" :class="'is-' + file.kind" aria-hidden="true"><span /><span /><span /></div>
+      <section class="mcb__preview mi:hidden mi:content-start mi:min-w-0 mi:[background:var(--mi-card)] mi:[&.is-shown]:grid mi:gap-3 mi:p-4 mi:[background:var(--mi-page)] mi:@[900px]:grid mi:@[900px]:animate-none mi:@[900px]:[&.is-shown]:grid mi:@[900px]:shadow-[inset_1px_0_0_var(--mi-sep)]" :class="{ 'is-shown': depth === 3 }" aria-labelledby="mcb-file">
+        <div class="mcb__sheet mi:grid mi:content-end mi:gap-1.5 mi:aspect-[4_/_3] mi:p-4 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-[var(--mi-sh1),_inset_0_0_0_1px_var(--mi-sep)] mi:[&.is-drawing]:[background:repeating-linear-gradient(0deg,_transparent_0_15px,_color-mix(in_srgb,_var(--mi-p)_14%,_transparent)_15px_16px),_repeating-linear-gradient(90deg,_transparent_0_15px,_color-mix(in_srgb,_var(--mi-p)_14%,_transparent)_15px_16px),_var(--mi-card)]" :class="'is-' + file.kind" aria-hidden="true"><span class="mi:[.mcb__sheet_&]:h-1.5 mi:[.mcb__sheet_&]:rounded-[3px] mi:[.mcb__sheet_&]:[background:var(--mi-fill3)] mi:[.mcb__sheet_&:nth-child(2)]:w-[70%] mi:[.mcb__sheet_&:nth-child(3)]:w-[40%] mi:[.mcb__sheet.is-sheet_&]:[background:color-mix(in_srgb,_var(--mi-green)_35%,_var(--mi-fill3))]" /><span class="mi:[.mcb__sheet_&]:h-1.5 mi:[.mcb__sheet_&]:rounded-[3px] mi:[.mcb__sheet_&]:[background:var(--mi-fill3)] mi:[.mcb__sheet_&:nth-child(2)]:w-[70%] mi:[.mcb__sheet_&:nth-child(3)]:w-[40%] mi:[.mcb__sheet.is-sheet_&]:[background:color-mix(in_srgb,_var(--mi-green)_35%,_var(--mi-fill3))]" /><span class="mi:[.mcb__sheet_&]:h-1.5 mi:[.mcb__sheet_&]:rounded-[3px] mi:[.mcb__sheet_&]:[background:var(--mi-fill3)] mi:[.mcb__sheet_&:nth-child(2)]:w-[70%] mi:[.mcb__sheet_&:nth-child(3)]:w-[40%] mi:[.mcb__sheet.is-sheet_&]:[background:color-mix(in_srgb,_var(--mi-green)_35%,_var(--mi-fill3))]" /></div>
         <MiText id="mcb-file" variant="headline" as="h3">{{ file.name }}</MiText>
         <MiDetails :items="facts" label-width="72px" />
-        <div class="mcb__actions">
+        <div class="mcb__actions mi:flex mi:gap-2">
           <MiButton size="small">Open</MiButton>
           <MiButton size="small" variant="gray">Share</MiButton>
         </div>
@@ -108,43 +108,22 @@ function choose(level: number, id: string) {
 </script>
 
 <style scoped>
-.mcb { container-type: inline-size; display: grid; grid-template-rows: auto 1fr; min-height: 100%; font-family: var(--mi-font); color: var(--mi-label); background: var(--mi-page); }
-.mcb__top { display: flex; align-items: center; gap: 10px; padding: 12px 14px; background: var(--mi-card); box-shadow: inset 0 -1px 0 var(--mi-sep); }
-.mcb__title { display: grid; gap: 2px; flex: 1; min-width: 0; }
 .mcb__crumbs { min-width: 0; overflow: hidden; }
 .mcb__count { display: none; white-space: nowrap; }
-
-.mcb__cols { display: grid; min-height: 0; }
-.mcb__col, .mcb__preview { display: none; align-content: start; min-width: 0; background: var(--mi-card); }
-.mcb__col.is-shown, .mcb__preview.is-shown { display: grid; animation: mcb-in var(--mi-dur-3) var(--mi-spring); }
+.mcb__col.is-shown, .mcb__preview.is-shown { animation: mcb-in var(--mi-dur-3) var(--mi-spring); }
 @keyframes mcb-in { from { opacity: 0; transform: translateX(12px); } }
 @media (prefers-reduced-motion: reduce) { .mcb__col.is-shown, .mcb__preview.is-shown { animation: none; } }
 
-.mcb__col-head { margin: 0; padding: 14px 16px 6px; text-transform: uppercase; letter-spacing: .06em; }
-.mcb__list { display: grid; gap: 1px; margin: 0; padding: 0 8px 12px; list-style: none; }
-.mcb__row { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 40px; padding: 8px 10px; border: 0; border-radius: 9px; font: inherit; font-size: 14px; text-align: start; color: inherit; background: transparent; cursor: pointer; }
+.mcb__col-head { margin: 0; text-transform: uppercase; letter-spacing: .06em; }
+.mcb__row { font: inherit; font-size: 14px; }
 .mcb__row:hover { background: var(--mi-fill4); }
-.mcb__row[aria-current="true"] { color: var(--mi-p-text); background: var(--mi-p-tint); }
-.mcb__row:focus-visible { outline: 2px solid var(--mi-p); outline-offset: -2px; }
-.mcb__icon { flex: none; color: var(--mi-label2); }
-.mcb__row[aria-current="true"] .mcb__icon { color: inherit; }
-.mcb__name { flex: 1; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-.mcb__chev { flex: none; color: var(--mi-label3); }
-
-.mcb__preview { gap: 12px; padding: 16px; background: var(--mi-page); }
-.mcb__sheet { display: grid; align-content: end; gap: 6px; aspect-ratio: 4 / 3; padding: 16px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1), inset 0 0 0 1px var(--mi-sep); }
-.mcb__sheet span { height: 6px; border-radius: 3px; background: var(--mi-fill3); }
-.mcb__sheet span:nth-child(2) { width: 70%; }
-.mcb__sheet span:nth-child(3) { width: 40%; }
-.mcb__sheet.is-drawing { background: repeating-linear-gradient(0deg, transparent 0 15px, color-mix(in srgb, var(--mi-p) 14%, transparent) 15px 16px), repeating-linear-gradient(90deg, transparent 0 15px, color-mix(in srgb, var(--mi-p) 14%, transparent) 15px 16px), var(--mi-card); }
-.mcb__sheet.is-sheet span { background: color-mix(in srgb, var(--mi-green) 35%, var(--mi-fill3)); }
-.mcb__actions { display: flex; gap: 8px; }
+.mcb__row[aria-current="true"] { background: var(--mi-p-tint); }
+.mcb__icon { flex: none; }
+.mcb__chev { flex: none; }
 
 @container (min-width: 560px) { .mcb__count { display: inline; } }
 @container (min-width: 900px) {
   .mcb__back { display: none; }
-  .mcb__cols { grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(240px, 1.2fr); }
-  .mcb__col, .mcb__preview, .mcb__col.is-shown, .mcb__preview.is-shown { display: grid; animation: none; }
-  .mcb__col + .mcb__col, .mcb__preview { box-shadow: inset 1px 0 0 var(--mi-sep); }
+  .mcb__col.is-shown, .mcb__preview.is-shown { animation: none; }
 }
 </style>

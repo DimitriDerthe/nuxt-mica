@@ -91,15 +91,15 @@ const _slots = defineSlots<{
     :role="isLink && disabled ? 'link' : undefined"
     @click="onClick"
   >
-    <span v-if="loading" class="mi-btn__spin" aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round">
+    <span v-if="loading" class="mi-btn__spin mi:relative mi:z-1 mi:inline-flex mi:items-center mi:justify-center mi:flex-[none] mi:w-4 mi:h-4" aria-hidden="true">
+      <svg class="mi:[.mi-btn__spin_&]:flex-[none] mi:[.mi-btn__spin_&]:will-change-transform mi:motion-reduce:[.mi-btn__spin_&]:[animation-duration:2.4s]! mi:motion-reduce:[.mi-btn__spin_&]:[animation-iteration-count:infinite]!" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round">
         <path d="M12 3a9 9 0 019 9" />
         <path d="M21 12a9 9 0 11-9-9" opacity=".3" />
       </svg>
     </span>
-    <span v-else-if="$slots.leading" class="mi-btn__icon"><slot name="leading" /></span>
-    <span v-if="$slots.default" class="mi-btn__label"><slot /></span>
-    <span v-if="$slots.trailing" class="mi-btn__icon"><slot name="trailing" /></span>
+    <span v-else-if="$slots.leading" class="mi-btn__icon mi:relative mi:z-1 mi:inline-flex mi:items-center mi:justify-center mi:flex-[none]"><slot name="leading" /></span>
+    <span v-if="$slots.default" class="mi-btn__label mi:relative mi:z-1"><slot /></span>
+    <span v-if="$slots.trailing" class="mi-btn__icon mi:relative mi:z-1 mi:inline-flex mi:items-center mi:justify-center mi:flex-[none]"><slot name="trailing" /></span>
   </component>
 </template>
 
@@ -205,17 +205,9 @@ const _slots = defineSlots<{
 .mi-btn.is-disabled.mi-btn--bordered { background: transparent; border-color: var(--mi-sep); }
 .mi-btn.is-disabled.mi-btn--plain { background: transparent; }
 .mi-btn.is-busy { cursor: progress; }
-
-.mi-btn__label { position: relative; z-index: 1; }
-.mi-btn__icon,
-.mi-btn__spin { position: relative; z-index: 1; display: inline-flex; align-items: center; justify-content: center; flex: none; }
-.mi-btn__icon :deep(svg),
-.mi-btn__spin svg { width: var(--icon); height: var(--icon); flex: none; }
-.mi-btn__spin { width: 16px; height: 16px; }
-.mi-btn__spin svg { width: 16px; height: 16px; animation: mi-btn-spin 0.9s linear infinite; will-change: transform; }
+.mi-btn__icon :deep(svg) { width: var(--icon); height: var(--icon); flex: none; }
+.mi-btn__spin svg { width: var(--icon); height: var(--icon); }
+.mi-btn__spin svg { width: 16px; height: 16px; animation: mi-btn-spin 0.9s linear infinite; }
 
 @keyframes mi-btn-spin { to { transform: rotate(360deg); } }
-@media (prefers-reduced-motion: reduce) {
-  .mi-btn__spin svg { animation-duration: 2.4s !important; animation-iteration-count: infinite !important; }
-}
 </style>

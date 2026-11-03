@@ -1,7 +1,7 @@
 <template>
-  <div class="tse-cq">
-    <section class="tse" aria-labelledby="tse-title">
-      <header class="tse__head">
+  <div class="tse-cq mi:@container">
+    <section class="tse mi:grid mi:gap-5 mi:max-w-245 mi:mx-auto mi:p-4.5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:font-mi mi:text-label mi:@[560px]:py-6 mi:@[560px]:px-7" aria-labelledby="tse-title">
+      <header class="tse__head mi:flex mi:items-center mi:justify-between mi:gap-3 mi:min-h-11 mi:pb-3.5 mi:border-b mi:border-b-sep">
         <div>
           <MiText id="tse-title" as="h2" variant="headline" weight="semibold">Projects</MiText>
           <MiText variant="caption" tone="label2">Harbour Studio · {{ created ? 1 : 0 }} {{ created ? 'project' : 'projects' }}</MiText>
@@ -13,28 +13,28 @@
       </header>
 
       <!-- Step 1: nothing yet, so the page is a gallery of starting points. -->
-      <div v-if="!picked" class="tse__start">
-        <div class="tse__intro">
+      <div v-if="!picked" class="tse__start mi:grid mi:gap-5">
+        <div class="tse__intro mi:grid mi:gap-1.5 mi:max-w-[54ch]">
           <MiText as="h3" variant="title3" weight="semibold" balance>Start your first project from a shape that fits</MiText>
           <MiText variant="footnote" tone="label2">Templates bring their views, fields and a few sample tasks. Everything can be renamed or removed later.</MiText>
         </div>
 
-        <ul class="tse__gallery" aria-label="Templates">
+        <ul class="tse__gallery mi:grid mi:grid-cols-2 mi:gap-2.5 mi:m-0 mi:p-0 mi:[list-style:none] mi:@[560px]:grid-cols-3 mi:@[560px]:gap-3 mi:@[740px]:grid-cols-5" aria-label="Templates">
           <li v-for="t in templates" :key="t.id">
-            <button type="button" class="tse__tpl" @click="pick(t.id)">
-              <span class="tse__art-frame" aria-hidden="true">
+            <button type="button" class="tse__tpl mi:grid mi:gap-2.5 mi:w-full mi:h-full mi:pt-2 mi:px-2 mi:pb-3 mi:border mi:border-sep mi:rounded-lg mi:[background:var(--mi-card)] mi:text-inherit mi:[font:inherit] mi:text-start mi:cursor-pointer mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring)] mi:hover:transform-[translateY(-2px)] mi:hover:[background:var(--mi-fill4)] mi:active:transform-[translateY(0)_scale(.985)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" @click="pick(t.id)">
+              <span class="tse__art-frame mi:block mi:aspect-[16_/_10] mi:rounded-[calc(var(--mi-radius-l)_-_4px)] mi:[background:var(--mi-fill4)] mi:overflow-hidden" aria-hidden="true">
                 <TemplateArt :kind="t.id" :samples="true" />
               </span>
-              <span class="tse__tpl-text">
+              <span class="tse__tpl-text mi:grid mi:gap-0.5 mi:px-1 mi:text-[12px] mi:text-label2">
                 <strong>{{ t.name }}</strong>
                 <span>{{ t.meta }}</span>
               </span>
             </button>
           </li>
           <li>
-            <button type="button" class="tse__tpl tse__blank" @click="pick('blank')">
-              <span class="tse__plus" aria-hidden="true"><MiIcon name="plus" :size="20" /></span>
-              <span class="tse__tpl-text">
+            <button type="button" class="tse__tpl tse__blank mi:grid mi:gap-2.5 mi:w-full mi:h-full mi:pt-2 mi:px-2 mi:pb-3 mi:border mi:border-sep mi:rounded-lg mi:[background:var(--mi-card)] mi:text-inherit mi:[font:inherit] mi:text-start mi:cursor-pointer mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring)] mi:hover:transform-[translateY(-2px)] mi:hover:[background:var(--mi-fill4)] mi:active:transform-[translateY(0)_scale(.985)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:content-start mi:[border-style:dashed]" @click="pick('blank')">
+              <span class="tse__plus mi:grid mi:place-items-center mi:aspect-[16_/_10] mi:rounded-[calc(var(--mi-radius-l)_-_4px)] mi:text-label2 mi:[background:repeating-linear-gradient(135deg,_color-mix(in_srgb,_var(--mi-fill4)_70%,_transparent)_0_6px,_transparent_6px_12px)]" aria-hidden="true"><MiIcon name="plus" :size="20" /></span>
+              <span class="tse__tpl-text mi:grid mi:gap-0.5 mi:px-1 mi:text-[12px] mi:text-label2">
                 <strong>Blank project</strong>
                 <span>One list view, no fields</span>
               </span>
@@ -42,32 +42,32 @@
           </li>
         </ul>
 
-        <div class="tse__import">
-          <span class="tse__import-icon" aria-hidden="true"><MiIcon name="arrow-down" :size="16" /></span>
+        <div class="tse__import mi:grid mi:grid-cols-[auto_minmax(0,_1fr)] mi:items-center mi:gap-y-2.5 mi:gap-x-3 mi:py-3 mi:px-3.5 mi:rounded-lg mi:[background:var(--mi-fill4)] mi:@[560px]:grid-cols-[auto_minmax(0,_1fr)_auto]">
+          <span class="tse__import-icon mi:grid mi:place-items-center mi:w-7.5 mi:h-7.5 mi:rounded-[50%] mi:text-label2 mi:[background:var(--mi-card)]" aria-hidden="true"><MiIcon name="arrow-down" :size="16" /></span>
           <MiText variant="footnote" tone="label2" class="tse__import-text">Moving from another tool? Import keeps assignees, due dates and comments.</MiText>
-          <div class="tse__import-btns" role="group" aria-label="Import from">
+          <div class="tse__import-btns mi:col-span-full mi:flex mi:flex-wrap mi:gap-1.5 mi:@[560px]:col-[auto]" role="group" aria-label="Import from">
             <MiButton v-for="s in sources" :key="s" variant="gray" size="mini">{{ s }}</MiButton>
           </div>
         </div>
       </div>
 
       <!-- Step 2: the chosen template, previewed with the name you type and the sample switch. -->
-      <div v-else-if="!created" class="tse__preview">
-        <div class="tse__stage" aria-hidden="true">
-          <div class="tse__window">
-            <div class="tse__window-bar">
-              <i /><i /><i />
-              <span>{{ name.trim() || 'Untitled project' }}</span>
+      <div v-else-if="!created" class="tse__preview mi:grid mi:gap-5 mi:@[740px]:grid-cols-[minmax(0,_1.35fr)_minmax(0,_1fr)] mi:@[740px]:gap-7 mi:@[740px]:items-start">
+        <div class="tse__stage mi:p-4.5 mi:rounded-lg mi:[background:radial-gradient(120%_90%_at_0%_0%,_var(--mi-p-tint),_transparent_60%),_var(--mi-fill4)]" aria-hidden="true">
+          <div class="tse__window mi:grid mi:rounded-[12px] mi:[background:var(--mi-card)] mi:shadow-2 mi:overflow-hidden">
+            <div class="tse__window-bar mi:flex mi:items-center mi:gap-[5px] mi:py-[9px] mi:px-3 mi:border-b mi:border-b-sep">
+              <i class="mi:[.tse__window-bar_&]:w-2 mi:[.tse__window-bar_&]:h-2 mi:[.tse__window-bar_&]:rounded-[50%] mi:[.tse__window-bar_&]:[background:var(--mi-fill2)]" /><i class="mi:[.tse__window-bar_&]:w-2 mi:[.tse__window-bar_&]:h-2 mi:[.tse__window-bar_&]:rounded-[50%] mi:[.tse__window-bar_&]:[background:var(--mi-fill2)]" /><i class="mi:[.tse__window-bar_&]:w-2 mi:[.tse__window-bar_&]:h-2 mi:[.tse__window-bar_&]:rounded-[50%] mi:[.tse__window-bar_&]:[background:var(--mi-fill2)]" />
+              <span class="mi:[.tse__window-bar_&]:min-w-0 mi:[.tse__window-bar_&]:overflow-hidden mi:[.tse__window-bar_&]:text-ellipsis mi:[.tse__window-bar_&]:whitespace-nowrap">{{ name.trim() || 'Untitled project' }}</span>
             </div>
-            <div class="tse__window-tabs"><span v-for="(v, n) in current.views" :key="v" :class="{ 'is-on': n === 0 }">{{ v }}</span></div>
-            <div class="tse__window-body">
+            <div class="tse__window-tabs mi:flex mi:gap-3.5 mi:pt-2 mi:px-3.5 mi:pb-0 mi:border-b mi:border-b-sep mi:text-[11.5px] mi:text-label3 mi:overflow-hidden"><span class="mi:[.tse__window-tabs_&]:pb-[7px] mi:[.tse__window-tabs_&]:whitespace-nowrap" v-for="(v, n) in current.views" :key="v" :class="{ 'is-on mi:[.tse__window-tabs_&]:text-label mi:[.tse__window-tabs_&]:shadow-[inset_0_-2px_0_var(--mi-p)]': n === 0 }">{{ v }}</span></div>
+            <div class="tse__window-body mi:aspect-[16_/_9] mi:p-1.5 mi:[background:var(--mi-fill4)]">
               <TemplateArt :kind="current.id" :samples="samples" large />
             </div>
           </div>
         </div>
 
-        <form class="tse__form" @submit.prevent="create">
-          <div class="tse__form-head">
+        <form class="tse__form mi:grid mi:content-start mi:gap-4" @submit.prevent="create">
+          <div class="tse__form-head mi:grid mi:gap-1">
             <MiText as="h3" variant="title3" weight="semibold">{{ current.name }}</MiText>
             <MiText variant="footnote" tone="label2">{{ current.blurb }}</MiText>
           </div>
@@ -76,12 +76,12 @@
               <MiInput :id="id" v-model="name" :aria-describedby="describedBy" />
             </template>
           </MiField>
-          <dl class="tse__includes">
-            <div><dt>Views</dt><dd>{{ current.views.join(', ') }}</dd></div>
-            <div><dt>Fields</dt><dd>{{ current.fields }}</dd></div>
+          <dl class="tse__includes mi:grid mi:gap-2 mi:m-0 mi:py-3 mi:px-3.5 mi:rounded-lg mi:[background:var(--mi-fill4)] mi:text-[13px]">
+            <div class="mi:[.tse__includes_&]:grid mi:[.tse__includes_&]:grid-cols-[56px_minmax(0,_1fr)] mi:[.tse__includes_&]:gap-2"><dt>Views</dt><dd>{{ current.views.join(', ') }}</dd></div>
+            <div class="mi:[.tse__includes_&]:grid mi:[.tse__includes_&]:grid-cols-[56px_minmax(0,_1fr)] mi:[.tse__includes_&]:gap-2"><dt>Fields</dt><dd>{{ current.fields }}</dd></div>
           </dl>
-          <div v-if="current.id !== 'blank'" class="tse__switch">
-            <span id="tse-samples" class="tse__switch-text">
+          <div v-if="current.id !== 'blank'" class="tse__switch mi:flex mi:items-center mi:justify-between mi:gap-3">
+            <span id="tse-samples" class="tse__switch-text mi:grid mi:gap-px mi:text-[12px] mi:text-label2">
               <strong>Include sample tasks</strong>
               <span>{{ current.tasks }} tasks to show how it works</span>
             </span>
@@ -92,13 +92,13 @@
       </div>
 
       <!-- Step 3: done. -->
-      <div v-else class="tse__done" role="status">
-        <span class="tse__done-mark" aria-hidden="true"><MiIcon name="check" :size="22" :weight="2.4" /></span>
+      <div v-else class="tse__done mi:grid mi:justify-items-center mi:gap-2 mi:pt-9 mi:px-2 mi:pb-7" role="status">
+        <span class="tse__done-mark mi:grid mi:place-items-center mi:w-13 mi:h-13 mi:mb-1.5 mi:rounded-[50%] mi:text-p-on mi:[background:var(--mi-p)] mi:shadow-[0_0_0_8px_var(--mi-p-tint)]" aria-hidden="true"><MiIcon name="check" :size="22" :weight="2.4" /></span>
         <MiText as="h3" variant="title3" weight="semibold" align="center">{{ name.trim() }} is ready</MiText>
         <MiText variant="footnote" tone="label2" align="center">
           {{ current.views.length }} {{ current.views.length === 1 ? 'view' : 'views' }}{{ current.id !== 'blank' && samples ? `, ${current.tasks} sample tasks` : '' }}. Invite your team from the project header.
         </MiText>
-        <div class="tse__done-actions">
+        <div class="tse__done-actions mi:flex mi:flex-wrap mi:justify-center mi:gap-2.5 mi:mt-2.5">
           <MiButton>Open project</MiButton>
           <MiButton variant="gray" @click="reset">Start over</MiButton>
         </div>
@@ -174,53 +174,17 @@ const TemplateArt = defineComponent({
 </script>
 
 <style scoped>
-.tse-cq { container-type: inline-size; }
-.tse { display: grid; gap: 20px; max-width: 980px; margin-inline: auto; padding: 18px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); font-family: var(--mi-font); color: var(--mi-label); }
-.tse__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; padding-bottom: 14px; border-bottom: 1px solid var(--mi-sep); }
-
-.tse__start { display: grid; gap: 20px; }
-.tse__intro { display: grid; gap: 6px; max-width: 54ch; }
-
-.tse__gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 0; padding: 0; list-style: none; }
-.tse__tpl { display: grid; gap: 10px; width: 100%; height: 100%; padding: 8px 8px 12px; border: 1px solid var(--mi-sep); border-radius: var(--mi-radius-l); background: var(--mi-card); color: inherit; font: inherit; text-align: start; cursor: pointer; transition: transform var(--mi-dur-2) var(--mi-spring); }
-.tse__tpl:hover { transform: translateY(-2px); background: var(--mi-fill4); }
-.tse__tpl:active { transform: translateY(0) scale(.985); }
-.tse__tpl:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-.tse__art-frame { display: block; aspect-ratio: 16 / 10; border-radius: calc(var(--mi-radius-l) - 4px); background: var(--mi-fill4); overflow: hidden; }
-.tse__tpl-text { display: grid; gap: 2px; padding-inline: 4px; font-size: 12px; color: var(--mi-label2); }
 .tse__tpl-text strong { font-size: 14px; font-weight: 600; color: var(--mi-label); }
-.tse__blank { align-content: start; border-style: dashed; }
-.tse__plus { display: grid; place-items: center; aspect-ratio: 16 / 10; border-radius: calc(var(--mi-radius-l) - 4px); color: var(--mi-label2); background: repeating-linear-gradient(135deg, color-mix(in srgb, var(--mi-fill4) 70%, transparent) 0 6px, transparent 6px 12px); }
-
-.tse__import { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 10px 12px; padding: 12px 14px; border-radius: var(--mi-radius-l); background: var(--mi-fill4); }
-.tse__import-icon { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; color: var(--mi-label2); background: var(--mi-card); }
-.tse__import-btns { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 6px; }
 
 /* Preview */
-.tse__preview { display: grid; gap: 20px; animation: tse-in var(--mi-dur-4) var(--mi-spring) both; }
-.tse__stage { padding: 18px; border-radius: var(--mi-radius-l); background: radial-gradient(120% 90% at 0% 0%, var(--mi-p-tint), transparent 60%), var(--mi-fill4); }
-.tse__window { display: grid; border-radius: 12px; background: var(--mi-card); box-shadow: var(--mi-sh2); overflow: hidden; }
-.tse__window-bar { display: flex; align-items: center; gap: 5px; padding: 9px 12px; border-bottom: 1px solid var(--mi-sep); }
-.tse__window-bar i { width: 8px; height: 8px; border-radius: 50%; background: var(--mi-fill2); }
-.tse__window-bar span { margin-left: 8px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px; font-weight: 600; }
-.tse__window-tabs { display: flex; gap: 14px; padding: 8px 14px 0; border-bottom: 1px solid var(--mi-sep); font-size: 11.5px; color: var(--mi-label3); overflow: hidden; }
-.tse__window-tabs span { padding-bottom: 7px; white-space: nowrap; }
-.tse__window-tabs .is-on { color: var(--mi-label); font-weight: 600; box-shadow: inset 0 -2px 0 var(--mi-p); }
-.tse__window-body { aspect-ratio: 16 / 9; padding: 6px; background: var(--mi-fill4); }
-
-.tse__form { display: grid; align-content: start; gap: 16px; }
-.tse__form-head { display: grid; gap: 4px; }
-.tse__includes { display: grid; gap: 8px; margin: 0; padding: 12px 14px; border-radius: var(--mi-radius-l); background: var(--mi-fill4); font-size: 13px; }
-.tse__includes div { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 8px; }
+.tse__preview { animation: tse-in var(--mi-dur-4) var(--mi-spring) both; }
+.tse__window-bar span { margin-left: 8px; font-size: 13px; font-weight: 600; }
+.tse__window-tabs .is-on { font-weight: 600; }
 .tse__includes dt { color: var(--mi-label2); }
 .tse__includes dd { margin: 0; font-weight: 500; }
-.tse__switch { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.tse__switch-text { display: grid; gap: 1px; font-size: 12px; color: var(--mi-label2); }
 .tse__switch-text strong { font-size: 14px; font-weight: 600; color: var(--mi-label); }
 
-.tse__done { display: grid; justify-items: center; gap: 8px; padding: 36px 8px 28px; animation: tse-in var(--mi-dur-4) var(--mi-spring) both; }
-.tse__done-mark { display: grid; place-items: center; width: 52px; height: 52px; margin-bottom: 6px; border-radius: 50%; color: var(--mi-p-on); background: var(--mi-p); box-shadow: 0 0 0 8px var(--mi-p-tint); }
-.tse__done-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 10px; }
+.tse__done { animation: tse-in var(--mi-dur-4) var(--mi-spring) both; }
 @keyframes tse-in { from { opacity: 0; transform: translateY(8px); } }
 @media (prefers-reduced-motion: reduce) { .tse__preview, .tse__done { animation: none; } }
 
@@ -262,15 +226,4 @@ const TemplateArt = defineComponent({
 
 .tse :deep(.tse-art--blank) { display: grid; align-content: start; gap: 6%; padding: 8%; }
 .tse :deep(.tse-art__row) { display: block; height: 14%; min-height: 10px; border-radius: 4px; outline: 1.5px dashed var(--mi-sep2); outline-offset: -1.5px; }
-
-@container (min-width: 560px) {
-  .tse { padding: 24px 28px; }
-  .tse__gallery { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
-  .tse__import { grid-template-columns: auto minmax(0, 1fr) auto; }
-  .tse__import-btns { grid-column: auto; }
-}
-@container (min-width: 740px) {
-  .tse__gallery { grid-template-columns: repeat(5, minmax(0, 1fr)); }
-  .tse__preview { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 28px; align-items: start; }
-}
 </style>

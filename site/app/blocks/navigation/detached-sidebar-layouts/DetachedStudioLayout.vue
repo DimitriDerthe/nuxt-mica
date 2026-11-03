@@ -1,19 +1,19 @@
 <template>
-  <div class="ds">
-    <div class="ds__shell" @keydown.esc="open = false">
+  <div class="ds mi:@container mi:font-mi mi:text-label">
+    <div class="ds__shell mi:relative mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:h-160 mi:overflow-hidden mi:[background:radial-gradient(120%_80%_at_100%_0%,_var(--mi-p-tint),_transparent_60%),_radial-gradient(90%_70%_at_0%_100%,_var(--mi-s-tint),_transparent_55%),_var(--mi-page)] mi:@[780px]:grid-cols-[300px_minmax(0,_1fr)] mi:@[780px]:gap-1 mi:@[780px]:p-3.5" @keydown.esc="open = false">
       <!-- The sidebar floats as its own card, inset from every edge. Off-canvas under 780px. -->
-      <div id="ds-side" class="ds__side" :class="{ 'is-open': open }">
-        <MiSidebar v-model="current" class="ds__sb" :groups="groups" aria-label="Low Tide Audio" @select="open = false">
+      <div id="ds-side" class="ds__side mi:absolute mi:z-3 mi:top-2.5 mi:bottom-2.5 mi:left-2.5 mi:w-[min(300px,_calc(100%_-_56px))] mi:transform-[translateX(calc(-100%_-_24px))] mi:invisible mi:[transition:transform_var(--mi-dur-3)_var(--mi-ease),_visibility_0s_linear_var(--mi-dur-3)] mi:[&.is-open]:transform-none mi:[&.is-open]:visible mi:[&.is-open]:[transition:transform_var(--mi-dur-3)_var(--mi-ease)] mi:@[780px]:relative mi:@[780px]:inset-auto mi:@[780px]:w-auto mi:@[780px]:transform-none mi:@[780px]:visible mi:@[780px]:[transition:none]" :class="{ 'is-open': open }">
+        <MiSidebar v-model="current" class="ds__sb mi:[.ds_&]:box-border" :groups="groups" aria-label="Low Tide Audio" @select="open = false">
           <template #footer>
-            <div class="ds__player" :class="{ 'is-playing': playing }">
-              <div class="ds__wave" aria-hidden="true">
-                <span v-for="(b, i) in wave" :key="i" :style="{ '--h': b, '--d': (i % 6) * 90 + 'ms' }" :class="{ 'is-past': i < wave.length * progress }" />
+            <div class="ds__player mi:grid mi:gap-2.5 mi:mt-auto mi:p-3 mi:rounded-md mi:[background:var(--mi-card)] mi:shadow-1" :class="{ 'is-playing': playing }">
+              <div class="ds__wave mi:flex mi:items-center mi:gap-0.5 mi:h-7" aria-hidden="true">
+                <span class="mi:[.ds__wave_&]:flex-1 mi:[.ds__wave_&]:h-full mi:[.ds__wave_&]:rounded-[2px] mi:[.ds__wave_&]:[background:var(--mi-fill)] mi:[.ds__wave_&]:transform-[scaleY(var(--h))] mi:[.ds__wave_&]:origin-center" v-for="(b, i) in wave" :key="i" :style="{ '--h': b, '--d': (i % 6) * 90 + 'ms' }" :class="{ 'is-past mi:[.ds__wave_&]:[background:var(--mi-p)]': i < wave.length * progress }" />
               </div>
-              <div class="ds__player-row">
+              <div class="ds__player-row mi:flex mi:items-center mi:gap-2.5">
                 <MiIconButton :label="playing ? 'Pause preview' : 'Play preview'" size="small" :pressed="playing" @click="playing = !playing">
                   <MiIcon :svg="playing ? glyph.pause : glyph.play" :size="14" :filled="true" />
                 </MiIconButton>
-                <div class="ds__player-text">
+                <div class="ds__player-text mi:grid mi:min-w-0">
                   <MiText variant="caption" weight="semibold" :lines="1">Ep. 48 · The tide tables</MiText>
                   <MiText variant="caption2" tone="label2" tabular>{{ playing ? 'Playing' : 'Paused' }} · 12:40 / 41:05</MiText>
                 </div>
@@ -22,14 +22,14 @@
           </template>
         </MiSidebar>
       </div>
-      <div class="ds__scrim" :class="{ 'is-on': open }" aria-hidden="true" @click="open = false" />
+      <div class="ds__scrim mi:absolute mi:inset-0 mi:z-2 mi:[background:var(--mi-scrim)] mi:opacity-0 mi:pointer-events-none mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)] mi:[&.is-on]:opacity-100 mi:[&.is-on]:pointer-events-auto mi:@[780px]:hidden" :class="{ 'is-on': open }" aria-hidden="true" @click="open = false" />
 
-      <main class="ds__main" aria-labelledby="ds-title">
-        <header class="ds__top">
+      <main class="ds__main mi:min-w-0 mi:overflow-y-auto mi:p-4 mi:grid mi:content-start mi:gap-4.5 mi:@[600px]:py-5.5 mi:@[600px]:px-6 mi:@[780px]:pt-3.5 mi:@[780px]:pr-4.5 mi:@[780px]:pb-4.5 mi:@[780px]:pl-6.5" aria-labelledby="ds-title">
+        <header class="ds__top mi:flex mi:items-center mi:gap-3 mi:flex-wrap">
           <MiIconButton class="ds__burger" label="Open navigation" variant="gray" size="regular" aria-controls="ds-side" :aria-expanded="open" @click="open = true">
             <MiIcon :svg="glyph.burger" :size="18" />
           </MiIconButton>
-          <div class="ds__heading">
+          <div class="ds__heading mi:grid mi:flex-1 mi:min-w-0">
             <MiText variant="caption" tone="label2" weight="medium">{{ view.kicker }}</MiText>
             <MiText id="ds-title" variant="title2" as="h2" weight="bold">{{ view.title }}</MiText>
           </div>
@@ -40,10 +40,10 @@
         </header>
 
         <Transition name="ds-swap" mode="out-in">
-          <div :key="current" class="ds__cards">
-            <article v-for="c in view.cards" :key="c.title" class="ds__card">
-              <span class="ds__art" :style="{ '--a': `var(--mi-${c.color})` }" aria-hidden="true" />
-              <div class="ds__card-text">
+          <div :key="current" class="ds__cards mi:grid mi:gap-2.5 mi:grid-cols-[minmax(0,_1fr)] mi:@[600px]:grid-cols-2 mi:@[780px]:grid-cols-[minmax(0,_1fr)] mi:@[1000px]:grid-cols-2">
+            <article v-for="c in view.cards" :key="c.title" class="ds__card mi:flex mi:items-center mi:gap-3.5 mi:p-3.5 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1">
+              <span class="ds__art mi:flex-[none] mi:relative mi:w-12 mi:h-12 mi:rounded-[12px] mi:overflow-hidden mi:[background:color-mix(in_srgb,_var(--a)_18%,_var(--mi-card))] mi:before:content-[''] mi:before:absolute mi:before:rounded-[50%] mi:after:content-[''] mi:after:absolute mi:after:rounded-[50%] mi:before:w-15 mi:before:h-15 mi:before:-left-3 mi:before:-bottom-8.5 mi:before:[background:var(--a)] mi:before:opacity-85 mi:after:w-6.5 mi:after:h-6.5 mi:after:right-[7px] mi:after:top-[7px] mi:after:[background:color-mix(in_srgb,_var(--a)_45%,_var(--mi-card))]" :style="{ '--a': `var(--mi-${c.color})` }" aria-hidden="true" />
+              <div class="ds__card-text mi:grid mi:gap-0.5 mi:flex-1 mi:min-w-0">
                 <MiText variant="subheadline" as="h3" weight="semibold" :lines="1">{{ c.title }}</MiText>
                 <MiText variant="caption" tone="label2" :lines="2">{{ c.meta }}</MiText>
               </div>
@@ -179,68 +179,17 @@ const view = computed(() => views[current.value ?? 'overview'] ?? views.overview
 </script>
 
 <style scoped>
-.ds { container-type: inline-size; font-family: var(--mi-font); color: var(--mi-label); }
-.ds__shell {
-  position: relative; display: grid; grid-template-columns: minmax(0, 1fr); height: 640px; overflow: hidden;
-  /* Soft contour backdrop so the floating card reads as detached. */
-  background:
-    radial-gradient(120% 80% at 100% 0%, var(--mi-p-tint), transparent 60%),
-    radial-gradient(90% 70% at 0% 100%, var(--mi-s-tint), transparent 55%),
-    var(--mi-page);
-}
-
-.ds__side {
-  position: absolute; z-index: 3; top: 10px; bottom: 10px; left: 10px; width: min(300px, calc(100% - 56px));
-  transform: translateX(calc(-100% - 24px)); visibility: hidden;
-  transition: transform var(--mi-dur-3) var(--mi-ease), visibility 0s linear var(--mi-dur-3);
-}
-.ds__side.is-open { transform: none; visibility: visible; transition: transform var(--mi-dur-3) var(--mi-ease); }
-.ds .ds__sb { width: 100%; height: 100%; box-sizing: border-box; overflow-y: auto; box-shadow: var(--mi-sh3); }
-.ds__scrim { position: absolute; inset: 0; z-index: 2; background: var(--mi-scrim); opacity: 0; pointer-events: none; transition: opacity var(--mi-dur-3) var(--mi-ease); }
-.ds__scrim.is-on { opacity: 1; pointer-events: auto; }
-
-/* Mini player pinned to the bottom of the floating sidebar. */
-.ds__player { display: grid; gap: 10px; margin-top: auto; padding: 12px; border-radius: var(--mi-radius-m); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.ds__wave { display: flex; align-items: center; gap: 2px; height: 28px; }
-.ds__wave span { flex: 1; height: 100%; border-radius: 2px; background: var(--mi-fill); transform: scaleY(var(--h)); transform-origin: center; }
-.ds__wave span.is-past { background: var(--mi-p); }
+.ds .ds__sb { width: 100%; height: 100%; overflow-y: auto; box-shadow: var(--mi-sh3); }
 .is-playing .ds__wave span { animation: ds-bounce 900ms var(--mi-ease-in-out) var(--d) infinite alternate; }
 @keyframes ds-bounce { to { transform: scaleY(calc(var(--h) * .45)); } }
 @media (prefers-reduced-motion: reduce) { .is-playing .ds__wave span { animation: none; } }
-.ds__player-row { display: flex; align-items: center; gap: 10px; }
-.ds__player-text { display: grid; min-width: 0; }
-
-.ds__main { min-width: 0; overflow-y: auto; padding: 16px; display: grid; align-content: start; gap: 18px; }
-.ds__top { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-.ds__heading { display: grid; flex: 1; min-width: 0; }
-.ds__cards { display: grid; gap: 10px; grid-template-columns: minmax(0, 1fr); }
-.ds__card { display: flex; align-items: center; gap: 14px; padding: 14px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-/* Cover art: two overlapping arcs tinted with the show colour. */
-.ds__art { flex: none; position: relative; width: 48px; height: 48px; border-radius: 12px; overflow: hidden; background: color-mix(in srgb, var(--a) 18%, var(--mi-card)); }
-.ds__art::before, .ds__art::after { content: ""; position: absolute; border-radius: 50%; }
-.ds__art::before { width: 60px; height: 60px; left: -12px; bottom: -34px; background: var(--a); opacity: .85; }
-.ds__art::after { width: 26px; height: 26px; right: 7px; top: 7px; background: color-mix(in srgb, var(--a) 45%, var(--mi-card)); }
-.ds__card-text { display: grid; gap: 2px; flex: 1; min-width: 0; }
 
 .ds-swap-enter-active, .ds-swap-leave-active { transition: opacity var(--mi-dur-2) var(--mi-ease), transform var(--mi-dur-2) var(--mi-ease); }
 .ds-swap-enter-from { opacity: 0; transform: translateY(8px); }
 .ds-swap-leave-to { opacity: 0; }
 
-@container (min-width: 600px) {
-  .ds__cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .ds__main { padding: 22px 24px; }
-}
-
 @container (min-width: 780px) {
-  .ds__shell { grid-template-columns: 300px minmax(0, 1fr); gap: 4px; padding: 14px; }
-  .ds__side { position: relative; inset: auto; width: auto; transform: none; visibility: visible; transition: none; }
   .ds .ds__sb { box-shadow: var(--mi-sh2); }
-  .ds__burger, .ds__scrim { display: none; }
-  .ds__cards { grid-template-columns: minmax(0, 1fr); }
-  .ds__main { padding: 14px 18px 18px 26px; }
-}
-
-@container (min-width: 1000px) {
-  .ds__cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ds__burger { display: none; }
 }
 </style>

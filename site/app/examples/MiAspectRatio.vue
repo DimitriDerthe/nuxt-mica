@@ -11,17 +11,12 @@ defineProps<{ p: Record<string, unknown> }>()
 </script>
 
 <template>
-  <div class="ex">
+  <div class="ex mi:w-[min(100%,_360px)] mi:rounded-[14px] mi:overflow-hidden mi:shadow-1">
     <MiAspectRatio v-bind="p">
-      <div class="frame">
+      <div class="frame mi:w-full mi:h-full mi:grid mi:place-content-center mi:justify-items-center mi:gap-1.5 mi:bg-card mi:text-label2 mi:text-[14px]">
         <MiIcon name="image" :size="28" />
         <span>Cover image</span>
       </div>
     </MiAspectRatio>
   </div>
 </template>
-
-<style scoped>
-.ex { width: min(100%, 360px); border-radius: 14px; overflow: hidden; box-shadow: var(--mi-sh1); }
-.frame { width: 100%; height: 100%; display: grid; place-content: center; justify-items: center; gap: 6px; background: var(--mi-card); color: var(--mi-label2); font-size: 14px; }
-</style>

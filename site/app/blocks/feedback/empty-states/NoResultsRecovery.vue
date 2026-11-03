@@ -1,83 +1,83 @@
 <template>
-  <div class="nrr-cq">
-    <section class="nrr" aria-labelledby="nrr-title">
-      <header class="nrr__head">
-        <div class="nrr__title">
+  <div class="nrr-cq mi:@container">
+    <section class="nrr mi:grid mi:gap-5 mi:max-w-230 mi:mx-auto mi:p-4.5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:font-mi mi:text-label mi:@[640px]:py-6 mi:@[640px]:px-7" aria-labelledby="nrr-title">
+      <header class="nrr__head mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:gap-3 mi:pb-4 mi:border-b mi:border-b-sep mi:@[640px]:grid-cols-[auto_minmax(0,_1fr)] mi:@[640px]:items-center mi:@[640px]:gap-y-3.5 mi:@[640px]:gap-x-5">
+        <div class="nrr__title mi:flex mi:items-baseline mi:justify-between mi:gap-2 mi:@[640px]:flex-col mi:@[640px]:gap-0">
           <MiText id="nrr-title" as="h2" variant="headline" weight="semibold">Billing issues</MiText>
           <MiText variant="caption" tone="label2" tabular>214 issues · 38 open</MiText>
         </div>
         <MiSearch v-model="query" placeholder="Search issues" :cancelable="false" aria-label="Search issues" class="nrr__search" />
-        <div class="nrr__chips" role="group" aria-label="Active filters">
+        <div class="nrr__chips mi:flex mi:flex-wrap mi:items-center mi:gap-1.5 mi:@[640px]:col-span-full" role="group" aria-label="Active filters">
           <MiChip
             v-for="f in activeFilters" :key="f.id" removable size="small" tone="neutral"
             :remove-label="`Remove filter ${f.label}`" @remove="drop(f.id)"
           >
-            {{ f.label }}<span v-if="!results.length && regain(f.id) > 0" class="nrr__regain">+{{ regain(f.id) }}</span>
+            {{ f.label }}<span v-if="!results.length && regain(f.id) > 0" class="nrr__regain mi:ml-1.5 mi:py-0 mi:px-[5px] mi:rounded-[5px] mi:text-[11px] mi:font-bold mi:text-green-t mi:[background:color-mix(in_srgb,_var(--mi-green)_14%,_transparent)] mi:tabular-nums">+{{ regain(f.id) }}</span>
           </MiChip>
           <MiButton v-if="removed.length" variant="plain" size="mini" @click="removed = []">Restore filters</MiButton>
         </div>
       </header>
 
       <!-- Results come back as soon as a filter or a correction lets them through. -->
-      <div v-if="results.length" class="nrr__found">
+      <div v-if="results.length" class="nrr__found mi:grid mi:gap-1">
       <MiText variant="footnote" tone="label2" tabular aria-live="polite">{{ results.length }} {{ results.length === 1 ? 'issue' : 'issues' }} match “{{ query.trim() }}”</MiText>
-      <ul class="nrr__results" :aria-label="`${results.length} results`">
-        <li v-for="i in results" :key="i.id">
-          <span class="nrr__dot" :class="'is-' + i.status" :aria-label="i.status === 'open' ? 'Open' : 'Closed'" role="img" />
-          <div class="nrr__res-body">
-            <MiText variant="subheadline" weight="medium" :lines="2">{{ i.title }}</MiText>
-            <MiText variant="caption" tone="label2" tabular>{{ i.id }} · {{ i.labels.join(', ') }} · updated {{ i.updated === 1 ? 'yesterday' : i.updated + ' days ago' }}</MiText>
+      <ul class="nrr__results mi:grid mi:m-0 mi:p-0 mi:[list-style:none]" :aria-label="`${results.length} results`">
+        <li class="mi:[.nrr__results_li&]:grid-cols-[auto_minmax(0,_1fr)_auto] mi:[.nrr__results_li&]:gap-3 mi:[.nrr__results_li&]:py-3 mi:[.nrr__results_li&]:px-1" v-for="i in results" :key="i.id">
+          <span class="nrr__dot mi:w-3 mi:h-3 mi:mt-[5px] mi:rounded-[50%] mi:border-2 mi:border-green mi:[&.is-closed]:border-label3 mi:[&.is-closed]:[background:var(--mi-label3)]" :class="'is-' + i.status" :aria-label="i.status === 'open' ? 'Open' : 'Closed'" role="img" />
+          <div class="nrr__res-body mi:grid mi:gap-0.5 mi:min-w-0">
+            <MiText class="mi:[.nrr__results_li&]:grid-cols-[auto_minmax(0,_1fr)_auto] mi:[.nrr__results_li&]:gap-3 mi:[.nrr__results_li&]:py-3 mi:[.nrr__results_li&]:px-1" variant="subheadline" weight="medium" :lines="2">{{ i.title }}</MiText>
+            <MiText class="mi:[.nrr__results_li&]:grid-cols-[auto_minmax(0,_1fr)_auto] mi:[.nrr__results_li&]:gap-3 mi:[.nrr__results_li&]:py-3 mi:[.nrr__results_li&]:px-1" variant="caption" tone="label2" tabular>{{ i.id }} · {{ i.labels.join(', ') }} · updated {{ i.updated === 1 ? 'yesterday' : i.updated + ' days ago' }}</MiText>
           </div>
-          <MiAvatar :name="i.assignee" size="xs" tone="auto" />
+          <MiAvatar class="mi:[.nrr__results_li&]:grid-cols-[auto_minmax(0,_1fr)_auto] mi:[.nrr__results_li&]:gap-3 mi:[.nrr__results_li&]:py-3 mi:[.nrr__results_li&]:px-1" :name="i.assignee" size="xs" tone="auto" />
         </li>
       </ul>
       </div>
 
-      <div v-else class="nrr__empty">
-        <div class="nrr__why">
-          <div class="nrr__lead" aria-live="polite">
+      <div v-else class="nrr__empty mi:grid mi:gap-5 mi:@[780px]:grid-cols-[minmax(0,_1.4fr)_minmax(0,_1fr)] mi:@[780px]:gap-8">
+        <div class="nrr__why mi:grid mi:content-start mi:gap-4 mi:min-w-0">
+          <div class="nrr__lead mi:grid mi:gap-1.5" aria-live="polite">
             <MiText as="h3" variant="title3" weight="semibold" balance>No issues match “{{ query.trim() || '…' }}”</MiText>
             <MiText variant="footnote" tone="label2">
               <template v-if="culprit">
-                <strong class="nrr__strong">{{ culprit.label }}</strong> removed the last {{ culprit.before }}
+                <strong class="nrr__strong mi:font-semibold mi:text-label">{{ culprit.label }}</strong> removed the last {{ culprit.before }}
                 {{ culprit.before === 1 ? 'issue' : 'issues' }}. Each chip above shows what removing it brings back.
               </template>
               <template v-else>None of the words matched an issue title in this project.</template>
             </MiText>
           </div>
 
-          <div v-if="suggestion" class="nrr__fix">
+          <div v-if="suggestion" class="nrr__fix mi:flex mi:[align-items:flex-start] mi:gap-2.5 mi:py-3 mi:px-3.5 mi:rounded-lg mi:text-p-text mi:[background:var(--mi-p-tint)]">
             <MiIcon name="pencil" :size="16" />
             <MiText variant="footnote" class="nrr__fix-text">
-              Nothing contains <s>{{ suggestion.from }}</s>, so it was ignored. Did you mean
-              <button type="button" class="nrr__fix-btn" @click="applyFix">{{ suggestion.query }}</button>?
+              Nothing contains <s class="mi:[.nrr__fix-text_&]:decoration-red">{{ suggestion.from }}</s>, so it was ignored. Did you mean
+              <button type="button" class="nrr__fix-btn mi:p-0 mi:[border:0] mi:[background:none] mi:text-p-text mi:underline-offset-[3px] mi:cursor-pointer mi:rounded-[3px] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" @click="applyFix">{{ suggestion.query }}</button>?
             </MiText>
           </div>
 
           <!-- The funnel: how many issues survive each step, so the one that empties the list is obvious. -->
-          <div v-if="funnelMax" class="nrr__funnel-wrap">
-          <MiText id="nrr-funnel" as="h4" variant="footnote" weight="semibold" tone="label2" class="nrr__funnel-title">Where the {{ funnelMax }} matches went</MiText>
-          <ol class="nrr__funnel" aria-labelledby="nrr-funnel">
-            <li v-for="s in funnel" :key="s.label" :class="{ 'is-zero': s.count === 0, 'is-culprit': culprit && s.label === culprit.label }">
-              <span class="nrr__step">{{ s.label }}</span>
-              <span class="nrr__bar"><i :style="{ transform: `scaleX(${funnelMax ? s.count / funnelMax : 0})` }" /></span>
-              <span class="nrr__count">{{ s.count }}</span>
+          <div v-if="funnelMax" class="nrr__funnel-wrap mi:grid mi:gap-1">
+          <MiText id="nrr-funnel" as="h4" variant="footnote" weight="semibold" tone="label2" class="nrr__funnel-title mi:px-2.5">Where the {{ funnelMax }} matches went</MiText>
+          <ol class="nrr__funnel mi:grid mi:gap-0.5 mi:m-0 mi:p-0 mi:[list-style:none]" aria-labelledby="nrr-funnel">
+            <li class="mi:[.nrr__funnel_&]:relative mi:[.nrr__funnel_&]:grid-cols-[minmax(0,_1fr)_2.5ch] mi:[.nrr__funnel_&]:[grid-template-areas:'step_count'_'bar_bar'] mi:[.nrr__funnel_&]:items-center mi:[.nrr__funnel_&]:gap-y-1 mi:[.nrr__funnel_&]:gap-x-3 mi:[.nrr__funnel_&]:pt-2 mi:[.nrr__funnel_&]:px-2.5 mi:[.nrr__funnel_&]:pb-[9px]" v-for="s in funnel" :key="s.label" :class="{ 'is-zero': s.count === 0, 'is-culprit': culprit && s.label === culprit.label }">
+              <span class="nrr__step mi:[grid-area:step] mi:min-w-0 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:text-[13px] mi:text-label2 mi:[.nrr__funnel_li.is-culprit_&]:text-label mi:[.nrr__funnel_li.is-culprit_&]:font-semibold">{{ s.label }}</span>
+              <span class="nrr__bar mi:[grid-area:bar] mi:h-1.5 mi:rounded-[3px] mi:[background:var(--mi-fill3)] mi:overflow-hidden"><i class="mi:[.nrr__bar_&]:h-full mi:[.nrr__bar_&]:[background:var(--mi-p)] mi:[.nrr__bar_&]:origin-left mi:[.nrr__bar_&]:[transition:transform_var(--mi-dur-3)_var(--mi-spring)]" :style="{ transform: `scaleX(${funnelMax ? s.count / funnelMax : 0})` }" /></span>
+              <span class="nrr__count mi:[grid-area:count] mi:text-end mi:text-[13px] mi:font-650 mi:tabular-nums">{{ s.count }}</span>
             </li>
           </ol>
           </div>
         </div>
 
-        <aside class="nrr__else" aria-labelledby="nrr-else">
-          <MiText id="nrr-else" as="h3" variant="footnote" weight="semibold" tone="label2" class="nrr__else-title">Nearby, outside this search</MiText>
-          <ul>
+        <aside class="nrr__else mi:grid mi:content-start mi:gap-2 mi:min-w-0 mi:@[780px]:pl-7 mi:@[780px]:border-l mi:@[780px]:border-l-sep" aria-labelledby="nrr-else">
+          <MiText id="nrr-else" as="h3" variant="footnote" weight="semibold" tone="label2" class="nrr__else-title mi:px-1 mi:[.nrr__else_ul&]:gap-1.5 mi:[.nrr__else_ul&]:p-0 mi:[.nrr__else_ul&]:[list-style:none]">Nearby, outside this search</MiText>
+          <ul class="mi:[.nrr__else_ul&]:gap-1.5 mi:[.nrr__else_ul&]:p-0 mi:[.nrr__else_ul&]:[list-style:none]">
             <li v-for="n in nearby" :key="n.title">
-              <a href="#" class="nrr__near" @click.prevent>
-                <span class="nrr__near-icon"><MiIcon :name="n.icon" :size="16" /></span>
-                <span class="nrr__near-text">
-                  <span class="nrr__near-scope">{{ n.scope }}</span>
-                  <span class="nrr__near-title">{{ n.title }}</span>
+              <a href="#" class="nrr__near mi:flex mi:items-center mi:gap-3 mi:py-[11px] mi:px-3 mi:border mi:border-sep mi:rounded-lg mi:text-inherit mi:[text-decoration:none] mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:hover:[background:var(--mi-fill4)] mi:active:transform-[scale(.99)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" @click.prevent>
+                <span class="nrr__near-icon mi:grid mi:place-items-center mi:flex-[none] mi:w-8 mi:h-8 mi:rounded-md mi:text-label2 mi:[background:var(--mi-fill3)]"><MiIcon class="mi:[.nrr__else_ul&]:gap-1.5 mi:[.nrr__else_ul&]:p-0 mi:[.nrr__else_ul&]:[list-style:none]" :name="n.icon" :size="16" /></span>
+                <span class="nrr__near-text mi:grid mi:gap-px mi:min-w-0 mi:flex-1">
+                  <span class="nrr__near-scope mi:text-[11.5px] mi:text-label3">{{ n.scope }}</span>
+                  <span class="nrr__near-title mi:text-[13.5px] mi:font-550 mi:leading-[1.3]">{{ n.title }}</span>
                 </span>
-                <MiIcon name="chevron-right" :size="14" class="nrr__near-go" />
+                <MiIcon name="chevron-right" :size="14" class="nrr__near-go mi:[.nrr__else_ul&]:gap-1.5 mi:[.nrr__else_ul&]:p-0 mi:[.nrr__else_ul&]:[list-style:none] mi:text-label3 mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)]" />
               </a>
             </li>
           </ul>
@@ -179,72 +179,21 @@ const nearby = [
 </script>
 
 <style scoped>
-.nrr-cq { container-type: inline-size; }
-.nrr { display: grid; gap: 20px; max-width: 920px; margin-inline: auto; padding: 18px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); font-family: var(--mi-font); color: var(--mi-label); }
-
-.nrr__head { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; padding-bottom: 16px; border-bottom: 1px solid var(--mi-sep); }
-.nrr__title { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
-.nrr__chips { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
-.nrr__regain { margin-left: 6px; padding: 0 5px; border-radius: 5px; font-size: 11px; font-weight: 700; color: var(--mi-green-t); background: color-mix(in srgb, var(--mi-green) 14%, transparent); font-variant-numeric: tabular-nums; }
-
-.nrr__empty { display: grid; gap: 20px; }
-.nrr__why { display: grid; align-content: start; gap: 16px; min-width: 0; }
-.nrr__lead { display: grid; gap: 6px; }
-.nrr__strong { font-weight: 600; color: var(--mi-label); }
-
-.nrr__fix { display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; border-radius: var(--mi-radius-l); color: var(--mi-p-text); background: var(--mi-p-tint); }
 .nrr__fix > :first-child { flex: none; margin-top: 2px; }
 .nrr__fix-text { color: var(--mi-label); }
-.nrr__fix-text s { text-decoration-color: var(--mi-red); color: var(--mi-label2); }
-.nrr__fix-btn { padding: 0; border: 0; background: none; font: inherit; font-weight: 650; color: var(--mi-p-text); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1.5px; cursor: pointer; border-radius: 3px; }
+.nrr__fix-text s { color: var(--mi-label2); }
+.nrr__fix-btn { font: inherit; font-weight: 650; text-decoration: underline; text-decoration-thickness: 1.5px; }
 .nrr__fix-btn:hover { text-decoration-thickness: 2.5px; }
-.nrr__fix-btn:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-
-.nrr__funnel-wrap { display: grid; gap: 4px; }
-.nrr__funnel-title { padding-inline: 10px; }
-.nrr__funnel { display: grid; gap: 2px; margin: 0; padding: 0; list-style: none; }
-.nrr__funnel li { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) 2.5ch; grid-template-areas: "step count" "bar bar"; align-items: center; gap: 4px 12px; padding: 8px 10px 9px; border-radius: var(--mi-radius-m); }
-.nrr__step { grid-area: step; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px; color: var(--mi-label2); }
-.nrr__bar { grid-area: bar; height: 6px; border-radius: 3px; background: var(--mi-fill3); overflow: hidden; }
-.nrr__bar i { display: block; height: 100%; border-radius: inherit; background: var(--mi-p); transform-origin: left; transition: transform var(--mi-dur-3) var(--mi-spring); }
-.nrr__count { grid-area: count; text-align: end; font-size: 13px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.nrr__funnel li { display: grid; border-radius: var(--mi-radius-m); }
+.nrr__bar i { display: block; border-radius: inherit; }
 .nrr__funnel li.is-zero .nrr__count { color: var(--mi-label3); }
 .nrr__funnel li.is-culprit { background: color-mix(in srgb, var(--mi-red) 8%, transparent); }
-.nrr__funnel li.is-culprit .nrr__step { color: var(--mi-label); font-weight: 600; }
 .nrr__funnel li.is-culprit .nrr__count { color: var(--mi-red-t); }
-
-.nrr__else { display: grid; align-content: start; gap: 8px; min-width: 0; }
-.nrr__else-title { padding-inline: 4px; }
-.nrr__else ul { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
-.nrr__near { display: flex; align-items: center; gap: 12px; padding: 11px 12px; border: 1px solid var(--mi-sep); border-radius: var(--mi-radius-l); color: inherit; text-decoration: none; transition: transform var(--mi-dur-2) var(--mi-ease); }
-.nrr__near:hover { background: var(--mi-fill4); }
-.nrr__near:active { transform: scale(.99); }
-.nrr__near:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-.nrr__near-icon { display: grid; place-items: center; flex: none; width: 32px; height: 32px; border-radius: var(--mi-radius-m); color: var(--mi-label2); background: var(--mi-fill3); }
-.nrr__near-text { display: grid; gap: 1px; min-width: 0; flex: 1; }
-.nrr__near-scope { font-size: 11.5px; color: var(--mi-label3); }
-.nrr__near-title { font-size: 13.5px; font-weight: 550; line-height: 1.3; }
-.nrr__near-go { flex: none; color: var(--mi-label3); transition: transform var(--mi-dur-2) var(--mi-ease); }
+.nrr__else ul { display: grid; margin: 0; }
+.nrr__near-go { flex: none; }
 .nrr__near:hover .nrr__near-go { transform: translateX(2px); }
-
-.nrr__found { display: grid; gap: 4px; }
-.nrr__results { display: grid; margin: 0; padding: 0; list-style: none; }
-.nrr__results li { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: start; gap: 12px; padding: 12px 4px; animation: nrr-in var(--mi-dur-4) var(--mi-spring) both; }
+.nrr__results li { display: grid; align-items: start; animation: nrr-in var(--mi-dur-4) var(--mi-spring) both; }
 .nrr__results li + li { border-top: 1px solid var(--mi-sep); }
-.nrr__res-body { display: grid; gap: 2px; min-width: 0; }
-.nrr__dot { width: 12px; height: 12px; margin-top: 5px; border-radius: 50%; border: 2px solid var(--mi-green); }
-.nrr__dot.is-closed { border-color: var(--mi-label3); background: var(--mi-label3); }
 @keyframes nrr-in { from { opacity: 0; transform: translateY(6px); } }
 @media (prefers-reduced-motion: reduce) { .nrr__results li { animation: none; } }
-
-@container (min-width: 640px) {
-  .nrr { padding: 24px 28px; }
-  .nrr__head { grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 14px 20px; }
-  .nrr__title { flex-direction: column; gap: 0; }
-  .nrr__chips { grid-column: 1 / -1; }
-}
-@container (min-width: 780px) {
-  .nrr__empty { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 32px; }
-  .nrr__else { padding-left: 28px; border-left: 1px solid var(--mi-sep); }
-}
 </style>

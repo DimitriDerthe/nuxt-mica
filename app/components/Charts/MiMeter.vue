@@ -42,10 +42,10 @@ const _slots = defineSlots<{
 </script>
 
 <template>
-  <div class="mi-mt">
-    <span v-if="label" :id="`${id}-l`" class="mi-mt-label">{{ label }}</span>
+  <div class="mi-mt mi:flex-col">
+    <span v-if="label" :id="`${id}-l`" class="mi-mt-label mi:text-[13px] mi:font-semibold mi:text-label2">{{ label }}</span>
     <span
-      class="mi-mt-track"
+      class="mi-mt-track mi:block mi:rounded-[999px] mi:overflow-hidden mi:[contain:paint]"
       :class="`is-${size}`"
       role="meter"
       :aria-label="label ? undefined : ariaLabel"
@@ -56,22 +56,18 @@ const _slots = defineSlots<{
       :aria-valuetext="valueText ?? `${Math.round(pct)}%`"
       :style="{ background: tint }"
     >
-      <span class="mi-mt-fill" :style="{ background: safeColor ?? miChartColor(0), transform: `translate3d(${pct - 100}%,0,0)` }" />
+      <span class="mi-mt-fill mi:block mi:w-full mi:h-full mi:rounded-[999px] mi:[transition:transform_var(--mi-dur-4)_var(--mi-ease)]" :style="{ background: safeColor ?? miChartColor(0), transform: `translate3d(${pct - 100}%,0,0)` }" />
     </span>
-    <span v-if="caption || hint || $slots.default" class="mi-mt-foot">
+    <span v-if="caption || hint || $slots.default" class="mi-mt-foot mi:flex mi:justify-between mi:gap-3 mi:text-[13px] mi:text-label2">
       <slot><span>{{ caption }}</span><span>{{ hint }}</span></slot>
     </span>
   </div>
 </template>
 
 <style scoped>
-.mi-mt{display:flex;flex-direction:column;gap:10px;font-family:var(--mi-font);color:var(--mi-label)}
-.mi-mt-label{font-size:13px;font-weight:600;color:var(--mi-label2)}
-.mi-mt-track{display:block;border-radius:999px;overflow:hidden;contain:paint}
+.mi-mt{display:flex;gap:10px;font-family:var(--mi-font);color:var(--mi-label)}
 .mi-mt-track.is-sm{height:6px}
 .mi-mt-track.is-md{height:10px}
 .mi-mt-track.is-lg{height:14px}
-.mi-mt-fill{display:block;width:100%;height:100%;border-radius:999px;transition:transform var(--mi-dur-4) var(--mi-ease)}
-.mi-mt-foot{display:flex;justify-content:space-between;gap:12px;font-size:13px;color:var(--mi-label2)}
 @starting-style{.mi-mt-fill{transform:translate3d(-100%,0,0)}}
 </style>

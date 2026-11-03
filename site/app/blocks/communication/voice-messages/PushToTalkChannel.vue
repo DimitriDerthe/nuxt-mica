@@ -1,8 +1,8 @@
 <template>
-  <section class="pt" aria-labelledby="pt-title">
-    <div class="pt__card">
-      <header class="pt__head">
-        <div class="pt__head-text">
+  <section class="pt mi:@container mi:font-mi mi:text-label" aria-labelledby="pt-title">
+    <div class="pt__card mi:flex mi:flex-col mi:max-w-140 mi:mx-auto mi:rounded-xl mi:bg-card mi:shadow-2 mi:overflow-hidden">
+      <header class="pt__head mi:flex mi:flex-wrap mi:items-center mi:gap-3 mi:py-3.5 mi:px-4 mi:border-b mi:border-b-sep">
+        <div class="pt__head-text mi:flex-1 mi:min-w-0">
           <MiText id="pt-title" as="h2" variant="headline" weight="semibold">Dock 4 crew</MiText>
           <MiText variant="caption" tone="label2">Push-to-talk · 6 on shift</MiText>
         </div>
@@ -12,37 +12,37 @@
         </MiButton>
       </header>
 
-      <ol class="pt__clips" aria-label="Voice clips">
-        <li v-for="c in clips" :key="c.id" class="pt__clip" :class="{ 'is-me': c.who === 'You', 'is-playing': c.id === playingId }">
+      <ol class="pt__clips mi:[list-style:none] mi:m-0 mi:p-3 mi:grid mi:gap-1.5 mi:bg-page mi:@[480px]:p-4" aria-label="Voice clips">
+        <li v-for="c in clips" :key="c.id" class="pt__clip mi:flex mi:gap-2.5 mi:p-2.5 mi:rounded-lg mi:bg-card mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:[&.is-playing]:transform-[scale(1.01)] mi:[&.is-playing]:shadow-[inset_0_0_0_1.5px_var(--mi-p)]" :class="{ 'is-me': c.who === 'You', 'is-playing': c.id === playingId }">
           <MiAvatar :name="c.who === 'You' ? 'Ruth Adeyemi' : c.who" size="sm" :tone="c.who === 'You' ? 'primary' : 'auto'" decorative />
-          <div class="pt__clip-body">
-            <span class="pt__meta">
-              <strong>{{ c.who }}</strong> · {{ c.time }}
-              <span v-if="!c.heard" class="pt__new" aria-label="Not played yet" role="img" />
+          <div class="pt__clip-body mi:grid mi:gap-1.5 mi:flex-1 mi:min-w-0">
+            <span class="pt__meta mi:flex mi:items-center mi:gap-1 mi:text-[12.5px] mi:text-label2">
+              <strong class="mi:[.pt__meta_&]:text-label">{{ c.who }}</strong> · {{ c.time }}
+              <span v-if="!c.heard" class="pt__new mi:w-[7px] mi:h-[7px] mi:ml-1 mi:rounded-[50%] mi:bg-p" aria-label="Not played yet" role="img" />
             </span>
-            <div class="pt__player">
+            <div class="pt__player mi:flex mi:items-center mi:gap-2.5">
               <MiIconButton :label="(c.id === playingId ? 'Stop clip from ' : 'Play clip from ') + c.who" size="small" variant="tinted" @click="c.id === playingId ? stop() : play(c.id, false)">
                 <MiIcon :svg="c.id === playingId ? icons.stop : icons.play" :size="14" />
               </MiIconButton>
-              <span class="pt__wave" aria-hidden="true">
-                <span v-for="(h, i) in c.bars" :key="i" :style="{ transform: `scaleY(${h})` }" />
+              <span class="pt__wave mi:flex mi:items-center mi:gap-0.5 mi:flex-1 mi:min-w-0 mi:h-7 mi:overflow-hidden" aria-hidden="true">
+                <span class="mi:[.pt__wave_&]:flex-1 mi:[.pt__wave_&]:min-w-0.5 mi:[.pt__wave_&]:rounded-[2px] mi:[.pt__clip.is-playing_.pt__wave_&]:bg-p-tint2" v-for="(h, i) in c.bars" :key="i" :style="{ transform: `scaleY(${h})` }" />
               </span>
-              <span class="pt__dur">0:{{ String(c.seconds).padStart(2, '0') }}</span>
+              <span class="pt__dur mi:flex-[none] mi:text-[12px] mi:text-label3 mi:tabular-nums">0:{{ String(c.seconds).padStart(2, '0') }}</span>
             </div>
-            <span class="pt__track" aria-hidden="true">
-              <span v-if="c.id === playingId" :style="{ animationDuration: c.seconds + 's' }" @animationend="ended(c)" />
+            <span class="pt__track mi:block mi:h-[3px] mi:rounded-[2px] mi:bg-fill4 mi:overflow-hidden" aria-hidden="true">
+              <span class="mi:[.pt__track_&]:block mi:[.pt__track_&]:origin-left" v-if="c.id === playingId" :style="{ animationDuration: c.seconds + 's' }" @animationend="ended(c)" />
             </span>
           </div>
         </li>
       </ol>
 
-      <footer class="pt__talk">
+      <footer class="pt__talk mi:grid mi:justify-items-center mi:gap-2.5 mi:pt-5 mi:px-4 mi:pb-5.5 mi:border-t mi:border-t-sep">
         <button
-          type="button" class="pt__ptt" :class="{ 'is-rec': recording }" :aria-pressed="recording"
+          type="button" class="pt__ptt mi:relative mi:grid mi:place-items-center mi:w-19 mi:h-19 mi:[border:0] mi:rounded-[50%] mi:bg-p mi:text-p-on mi:cursor-pointer mi:touch-none mi:select-none mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring)] mi:focus-visible:[outline:3px_solid_var(--mi-p-tint2)] mi:focus-visible:outline-offset-[3px] mi:[&.is-rec]:transform-[scale(1.08)] mi:[&.is-rec]:bg-red" :class="{ 'is-rec': recording }" :aria-pressed="recording"
           aria-label="Hold to talk" @pointerdown.prevent="startRec" @pointerup="stopRec" @pointerleave="stopRec" @pointercancel="stopRec"
           @keydown.space.prevent="startRec" @keyup.space.prevent="stopRec"
         >
-          <span class="pt__ring" aria-hidden="true" />
+          <span class="pt__ring mi:absolute mi:-inset-1.5 mi:border-2 mi:border-red mi:rounded-[50%] mi:opacity-0 mi:pointer-events-none mi:motion-reduce:[.pt__ptt.is-rec_&]:opacity-60" aria-hidden="true" />
           <MiIcon :svg="icons.mic" :size="28" />
         </button>
         <MiText variant="footnote" tone="label2" role="status">{{ recording ? 'Recording… release to send' : hint }}</MiText>
@@ -117,34 +117,10 @@ function stopRec() {
 </script>
 
 <style scoped>
-.pt { container-type: inline-size; font-family: var(--mi-font); color: var(--mi-label); }
-.pt__card { display: flex; flex-direction: column; max-width: 560px; margin-inline: auto; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh2); overflow: hidden; }
-.pt__head { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 14px 16px; border-bottom: 1px solid var(--mi-sep); }
-.pt__head-text { flex: 1; min-width: 0; }
-
-.pt__clips { list-style: none; margin: 0; padding: 12px; display: grid; gap: 6px; background: var(--mi-page); }
-.pt__clip { display: flex; gap: 10px; padding: 10px; border-radius: var(--mi-radius-l); background: var(--mi-card); transition: transform var(--mi-dur-2) var(--mi-ease); }
-.pt__clip.is-playing { transform: scale(1.01); box-shadow: inset 0 0 0 1.5px var(--mi-p); }
-.pt__clip-body { display: grid; gap: 6px; flex: 1; min-width: 0; }
-.pt__meta { display: flex; align-items: center; gap: 4px; font-size: 12.5px; color: var(--mi-label2); }
-.pt__meta strong { color: var(--mi-label); }
-.pt__new { width: 7px; height: 7px; margin-left: 4px; border-radius: 50%; background: var(--mi-p); }
-.pt__player { display: flex; align-items: center; gap: 10px; }
-.pt__wave { display: flex; align-items: center; gap: 2px; flex: 1; min-width: 0; height: 28px; overflow: hidden; }
-.pt__wave span { flex: 1; min-width: 2px; height: 100%; border-radius: 2px; background: var(--mi-fill2); }
-.pt__clip.is-playing .pt__wave span { background: var(--mi-p-tint2); }
-.pt__dur { flex: none; font-size: 12px; color: var(--mi-label3); font-variant-numeric: tabular-nums; }
-.pt__track { display: block; height: 3px; border-radius: 2px; background: var(--mi-fill4); overflow: hidden; }
-.pt__track span { display: block; height: 100%; background: var(--mi-p); transform-origin: left; animation: pt-progress linear forwards; }
+.pt__wave span { height: 100%; background: var(--mi-fill2); }
+.pt__track span { height: 100%; background: var(--mi-p); animation: pt-progress linear forwards; }
 @keyframes pt-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
-
-.pt__talk { display: grid; justify-items: center; gap: 10px; padding: 20px 16px 22px; border-top: 1px solid var(--mi-sep); }
-.pt__ptt { position: relative; display: grid; place-items: center; width: 76px; height: 76px; border: 0; border-radius: 50%; background: var(--mi-p); color: var(--mi-p-on); cursor: pointer; touch-action: none; user-select: none; transition: transform var(--mi-dur-2) var(--mi-spring); }
-.pt__ptt:focus-visible { outline: 3px solid var(--mi-p-tint2); outline-offset: 3px; }
-.pt__ptt.is-rec { transform: scale(1.08); background: var(--mi-red); }
-.pt__ring { position: absolute; inset: -6px; border: 2px solid var(--mi-red); border-radius: 50%; opacity: 0; pointer-events: none; }
 .pt__ptt.is-rec .pt__ring { animation: pt-pulse 1.2s var(--mi-ease) infinite; }
 @keyframes pt-pulse { from { transform: scale(.9); opacity: .8; } to { transform: scale(1.35); opacity: 0; } }
-@container (min-width: 480px) { .pt__clips { padding: 16px; } }
-@media (prefers-reduced-motion: reduce) { .pt__ptt.is-rec .pt__ring { animation: none; opacity: .6; } }
+@media (prefers-reduced-motion: reduce) { .pt__ptt.is-rec .pt__ring { animation: none; } }
 </style>

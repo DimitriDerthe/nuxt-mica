@@ -1,25 +1,25 @@
 <template>
-  <section class="rod" aria-labelledby="rod-title">
-    <div class="rod__in">
+  <section class="rod mi:@container mi:min-h-full mi:font-mi mi:text-label mi:[background:var(--mi-page)]" aria-labelledby="rod-title">
+    <div class="rod__in mi:grid mi:content-start mi:min-h-full">
       <!-- Shell: a path bar and a status line. Everything else is the page itself. -->
-      <header class="rod__top">
-        <div class="rod__crumbs">
-          <span class="rod__glyph" aria-hidden="true"><i /><i /></span>
+      <header class="rod__top mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-2.5 mi:gap-x-4 mi:py-3 mi:px-4 mi:[background:var(--mi-card)] mi:border-b mi:border-b-sep mi:@[640px]:py-3 mi:@[640px]:px-5">
+        <div class="rod__crumbs mi:flex mi:items-center mi:gap-2.5 mi:min-w-0">
+          <span class="rod__glyph mi:relative mi:flex-[none] mi:w-6.5 mi:h-6.5 mi:rounded-[8px] mi:[background:var(--mi-label)]" aria-hidden="true"><i class="mi:[.rod__glyph_&]:absolute mi:[.rod__glyph_&]:left-1.5 mi:[.rod__glyph_&]:right-1.5 mi:[.rod__glyph_&]:h-[3px] mi:[.rod__glyph_&:first-child]:top-2 mi:[.rod__glyph_&:first-child]:right-2.5 mi:[.rod__glyph_&:last-child]:bottom-2 mi:[.rod__glyph_&:last-child]:left-2.5" /><i class="mi:[.rod__glyph_&]:absolute mi:[.rod__glyph_&]:left-1.5 mi:[.rod__glyph_&]:right-1.5 mi:[.rod__glyph_&]:h-[3px] mi:[.rod__glyph_&:first-child]:top-2 mi:[.rod__glyph_&:first-child]:right-2.5 mi:[.rod__glyph_&:last-child]:bottom-2 mi:[.rod__glyph_&:last-child]:left-2.5" /></span>
           <MiBreadcrumb :items="[{ label: 'Fenwick Freight', href: '#' }, { label: 'Platform', href: '#' }, { label: 'Releases' }]" aria-label="Location" />
         </div>
-        <button type="button" class="rod__cmd">
-          <MiIcon name="search" :size="15" />
-          <span>Find a service, build or incident</span>
-          <MiKbd>⌘K</MiKbd>
+        <button type="button" class="rod__cmd mi:hidden mi:items-center mi:gap-2 mi:w-75 mi:h-8 mi:pt-0 mi:pr-1.5 mi:pb-0 mi:pl-2.5 mi:border mi:border-sep mi:rounded-[9px] mi:[background:var(--mi-fill4)] mi:text-label3 mi:cursor-pointer mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:hover:text-label2 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:@[640px]:flex">
+          <MiIcon class="mi:[.rod__cmd_span&]:text-start mi:[.rod__cmd_span&]:text-ellipsis" name="search" :size="15" />
+          <span class="mi:[.rod__cmd_span&]:text-start mi:[.rod__cmd_span&]:text-ellipsis">Find a service, build or incident</span>
+          <MiKbd class="mi:[.rod__cmd_span&]:text-start mi:[.rod__cmd_span&]:text-ellipsis">⌘K</MiKbd>
         </button>
       </header>
 
-      <div class="rod__page">
-        <div class="rod__head">
+      <div class="rod__page mi:grid mi:gap-4 mi:pt-5 mi:px-4 mi:pb-6 mi:min-w-0 mi:@[640px]:pt-6 mi:@[640px]:px-5 mi:@[640px]:pb-7 mi:@[980px]:pt-7 mi:@[980px]:px-8 mi:@[980px]:pb-8 mi:@[980px]:gap-5">
+        <div class="rod__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
           <div>
             <MiText id="rod-title" as="h2" variant="title2" weight="bold">Release operations</MiText>
-            <p class="rod__status">
-              <span class="rod__status-dot" aria-hidden="true" />
+            <p class="rod__status mi:flex mi:items-baseline mi:gap-2 mi:mt-1 mi:mx-0 mi:mb-0 mi:text-[13px] mi:text-label2">
+              <span class="rod__status-dot mi:flex-[none] mi:w-2 mi:h-2 mi:rounded-[50%] mi:[background:var(--mi-orange)] mi:transform-[translateY(-1px)] mi:shadow-[0_0_0_3px_color-mix(in_srgb,_var(--mi-orange)_20%,_transparent)]" aria-hidden="true" />
               <span><strong>1 service degraded</strong> · 4 of 5 healthy · next deploy window 15:00 UTC</span>
             </p>
           </div>
@@ -30,31 +30,31 @@
         </div>
 
         <!-- Deployment timeline: one lane per environment, a build's promotion path drawn across lanes. -->
-        <article class="rod__card rod__deploys" aria-labelledby="rod-deploys">
-          <div class="rod__card-head">
+        <article class="rod__card rod__deploys mi:grid mi:content-start mi:gap-3.5 mi:min-w-0 mi:p-4.5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:@[980px]:py-5 mi:@[980px]:px-5.5" aria-labelledby="rod-deploys">
+          <div class="rod__card-head mi:flex mi:flex-wrap mi:[align-items:flex-start] mi:justify-between mi:gap-y-2 mi:gap-x-4">
             <div>
               <MiText id="rod-deploys" as="h3" variant="headline" weight="semibold">Deployments, last 24 hours</MiText>
               <MiText variant="caption" tone="label2">Select a deploy to trace its build through every environment</MiText>
             </div>
-            <ul class="rod__legend" aria-label="Deploy status">
-              <li v-for="(l, k) in statusLabel" :key="k"><i :class="'is-' + k" />{{ l }}</li>
+            <ul class="rod__legend mi:flex mi:flex-wrap mi:gap-y-1 mi:gap-x-3.5 mi:m-0 mi:p-0 mi:[list-style:none] mi:text-[12px] mi:text-label2" aria-label="Deploy status">
+              <li v-for="(l, k) in statusLabel" :key="k"><i class="mi:[.rod__legend_&]:w-2 mi:[.rod__legend_&]:h-2" :class="'is-' + k" />{{ l }}</li>
             </ul>
           </div>
 
-          <div class="rod__scroll">
-            <div class="rod__timeline">
-              <div class="rod__lane-names" aria-hidden="true">
+          <div class="rod__scroll mi:overflow-x-auto mi:-mx-4.5 mi:py-0 mi:px-4.5 mi:[scrollbar-width:thin] mi:@[760px]:overflow-visible mi:@[980px]:-mx-5.5 mi:@[980px]:py-0 mi:@[980px]:px-5.5">
+            <div class="rod__timeline mi:grid mi:grid-cols-[82px_minmax(0,_1fr)] mi:min-w-150 mi:pt-0 mi:pr-2.5 mi:pb-6.5 mi:pl-0 mi:@[760px]:min-w-0">
+              <div class="rod__lane-names mi:grid mi:auto-rows-[44px]" aria-hidden="true">
                 <span v-for="e in envs" :key="e.id">{{ e.label }}</span>
               </div>
-              <div class="rod__track">
-                <span v-for="h in hourTicks" :key="h.label" class="rod__tick" :style="{ left: x(h.ago) }"><em>{{ h.label }}</em></span>
-                <span class="rod__now" :style="{ left: x(0) }"><em>Now</em></span>
-                <div v-for="e in envs" :key="e.id" class="rod__lane" />
-                <svg class="rod__path" viewBox="0 0 100 3" preserveAspectRatio="none" aria-hidden="true">
-                  <polyline :points="pathPoints" vector-effect="non-scaling-stroke" />
+              <div class="rod__track mi:relative mi:grid mi:auto-rows-[44px]">
+                <span v-for="h in hourTicks" :key="h.label" class="rod__tick mi:absolute mi:top-0 mi:bottom-0 mi:w-0 mi:[border-left:1px_dashed_var(--mi-sep)] mi:pointer-events-none" :style="{ left: x(h.ago) }"><em class="mi:[.rod__tick_&]:-bottom-5.5">{{ h.label }}</em></span>
+                <span class="rod__now mi:absolute mi:top-0 mi:bottom-0 mi:w-0 mi:[border-left:1px_dashed_var(--mi-sep)] mi:pointer-events-none mi:border-l-[1.5px] mi:border-l-p" :style="{ left: x(0) }"><em class="mi:[.rod__now_&]:absolute mi:[.rod__now_&]:-bottom-5.5 mi:[.rod__now_&]:not-italic mi:[.rod__now_&]:transform-[translateX(-50%)] mi:[.rod__now_&]:tabular-nums">Now</em></span>
+                <div v-for="e in envs" :key="e.id" class="rod__lane mi:border-t mi:border-t-sep mi:[&:nth-of-type(odd)]:[background:color-mix(in_srgb,_var(--mi-fill4)_60%,_transparent)] mi:last-of-type:border-b mi:last-of-type:border-b-sep" />
+                <svg class="rod__path mi:absolute mi:inset-0 mi:w-full mi:h-full mi:overflow-visible mi:pointer-events-none" viewBox="0 0 100 3" preserveAspectRatio="none" aria-hidden="true">
+                  <polyline class="mi:[.rod__path_&]:fill-[color:none] mi:[.rod__path_&]:stroke-label mi:[.rod__path_&]:[stroke-width:1.5] mi:[.rod__path_&]:[stroke-dasharray:3_3] mi:[.rod__path_&]:opacity-55" :points="pathPoints" vector-effect="non-scaling-stroke" />
                 </svg>
                 <button
-                  v-for="d in deploys" :key="d.env + d.build" type="button" class="rod__dot"
+                  v-for="d in deploys" :key="d.env + d.build" type="button" class="rod__dot mi:[&.is-ok]:[background:var(--mi-green)] mi:absolute mi:w-3.5 mi:h-3.5 mi:mt-[-7px] mi:mr-0 mi:mb-0 mi:ml-[-7px] mi:p-0 mi:[border:0] mi:rounded-[50%] mi:shadow-[0_0_0_3px_var(--mi-card)] mi:cursor-pointer mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring),_opacity_var(--mi-dur-2)_var(--mi-ease)] mi:[&.is-dim]:opacity-38 mi:hover:opacity-100 mi:[&.is-running]:after:content-[''] mi:[&.is-running]:after:absolute mi:[&.is-running]:after:inset-[-5px] mi:[&.is-running]:after:rounded-[50%] mi:[&.is-running]:after:border-[1.5px] mi:[&.is-running]:after:border-p mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[4px]"
                   :class="['is-' + d.status, { 'is-dim': selected !== d.build, 'is-on': selected === d.build }]"
                   :style="{ left: x(d.ago), top: `${(envIndex(d.env) + 0.5) / envs.length * 100}%` }"
                   :aria-pressed="selected === d.build"
@@ -65,16 +65,16 @@
             </div>
           </div>
 
-          <div class="rod__build" aria-live="polite">
-            <div class="rod__build-id">
+          <div class="rod__build mi:grid mi:gap-3.5 mi:p-3.5 mi:rounded-lg mi:[background:var(--mi-fill4)] mi:@[640px]:grid-cols-[minmax(0,_1fr)_auto] mi:@[640px]:items-center" aria-live="polite">
+            <div class="rod__build-id mi:flex mi:items-center mi:gap-3 mi:min-w-0">
               <MiAvatar :name="build.author" size="sm" tone="auto" decorative />
               <div>
-                <MiText as="h4" variant="subheadline" weight="semibold" tabular>{{ build.version }} <span class="rod__sha">{{ build.sha }}</span></MiText>
+                <MiText as="h4" variant="subheadline" weight="semibold" tabular>{{ build.version }} <span class="rod__sha mi:ml-1 mi:py-px mi:px-1.5 mi:rounded-[5px] mi:text-[11.5px] mi:font-medium mi:text-label2 mi:[background:var(--mi-fill3)]">{{ build.sha }}</span></MiText>
                 <MiText variant="caption" tone="label2">{{ build.author }} · {{ build.summary }}</MiText>
               </div>
             </div>
-            <ol class="rod__hops" aria-label="Promotion path">
-              <li v-for="d in buildHops" :key="d.env" :class="'is-' + d.status">
+            <ol class="rod__hops mi:grid mi:grid-cols-[repeat(auto-fit,_minmax(0,_1fr))] mi:gap-1.5 mi:m-0 mi:p-0 mi:[list-style:none] mi:[counter-reset:hop] mi:@[640px]:grid-cols-[none] mi:@[640px]:grid-flow-col mi:@[640px]:auto-cols-[112px]" aria-label="Promotion path">
+              <li class="mi:[.rod__hops_&]:min-w-0 mi:[.rod__hops_&]:py-2 mi:[.rod__hops_&]:px-2.5" v-for="d in buildHops" :key="d.env" :class="'is-' + d.status">
                 <span>{{ envLabel(d.env) }}</span>
                 <strong>{{ clockAt(d.ago) }}</strong>
                 <em>{{ statusLabel[d.status] }}</em>
@@ -83,22 +83,22 @@
           </div>
         </article>
 
-        <div class="rod__row">
-          <article class="rod__card" aria-labelledby="rod-uptime">
-            <div class="rod__card-head">
+        <div class="rod__row mi:grid mi:gap-4 mi:min-w-0 mi:@[980px]:grid-cols-[minmax(0,_1.35fr)_minmax(0,_1fr)]">
+          <article class="rod__card mi:grid mi:content-start mi:gap-3.5 mi:min-w-0 mi:p-4.5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:@[980px]:py-5 mi:@[980px]:px-5.5" aria-labelledby="rod-uptime">
+            <div class="rod__card-head mi:flex mi:flex-wrap mi:[align-items:flex-start] mi:justify-between mi:gap-y-2 mi:gap-x-4">
               <div>
                 <MiText id="rod-uptime" as="h3" variant="headline" weight="semibold">Uptime, 90 days</MiText>
                 <MiText variant="caption" tone="label2" tabular>{{ hover || 'Hover a day for details' }}</MiText>
               </div>
             </div>
-            <ul class="rod__services">
+            <ul class="rod__services mi:grid mi:gap-3.5 mi:m-0 mi:p-0 mi:[list-style:none]">
               <li v-for="s in services" :key="s.name" :aria-label="`${s.name}: ${s.uptime} uptime, ${s.incidents} incidents in 90 days`">
-                <div class="rod__svc-head">
-                  <span class="rod__svc-name">{{ s.name }}</span>
-                  <span class="rod__svc-pct" :class="{ 'is-low': parseFloat(s.uptime) < 99.9 }">{{ s.uptime }}</span>
+                <div class="rod__svc-head mi:flex mi:justify-between mi:gap-2 mi:mb-1.5 mi:text-[13px]">
+                  <span class="rod__svc-name mi:font-semibold">{{ s.name }}</span>
+                  <span class="rod__svc-pct mi:font-semibold mi:text-label2 mi:tabular-nums" :class="{ 'is-low': parseFloat(s.uptime) < 99.9 }">{{ s.uptime }}</span>
                 </div>
-                <div class="rod__cells" aria-hidden="true">
-                  <span
+                <div class="rod__cells mi:grid mi:grid-cols-90 mi:gap-px mi:h-6 mi:@[640px]:gap-0.5" aria-hidden="true">
+                  <span class="mi:[.rod__cells_&]:[transition:transform_var(--mi-dur-1)_var(--mi-ease)] mi:[.rod__cells_&:hover]:transform-[scaleY(1.25)]"
                     v-for="(c, i) in s.days" :key="i" :class="'is-' + c"
                     @mouseenter="hover = `${dayLabel(i)} · ${s.name} · ${c === 'ok' ? 'no incidents' : c === 'warn' ? 'degraded performance' : 'partial outage'}`"
                     @mouseleave="hover = ''"
@@ -106,45 +106,45 @@
                 </div>
               </li>
             </ul>
-            <div class="rod__axis" aria-hidden="true"><span>Aug 5</span><span>Today</span></div>
+            <div class="rod__axis mi:flex mi:justify-between mi:text-[11px] mi:text-label3" aria-hidden="true"><span>Aug 5</span><span>Today</span></div>
           </article>
 
-          <div class="rod__stack">
-            <article class="rod__card" aria-labelledby="rod-inc">
-              <div class="rod__card-head">
+          <div class="rod__stack mi:grid mi:gap-4 mi:content-start mi:min-w-0 mi:@[640px]:grid-cols-2 mi:@[980px]:grid-cols-[minmax(0,_1fr)]">
+            <article class="rod__card mi:grid mi:content-start mi:gap-3.5 mi:min-w-0 mi:p-4.5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:@[980px]:py-5 mi:@[980px]:px-5.5" aria-labelledby="rod-inc">
+              <div class="rod__card-head mi:flex mi:flex-wrap mi:[align-items:flex-start] mi:justify-between mi:gap-y-2 mi:gap-x-4">
                 <MiText id="rod-inc" as="h3" variant="headline" weight="semibold">Open incidents</MiText>
                 <MiTextLink href="#">History</MiTextLink>
               </div>
-              <ul class="rod__incidents">
-                <li v-for="i in incidents" :key="i.id">
-                  <span class="rod__sev" :class="'is-' + i.sev">SEV{{ i.sev }}</span>
-                  <div class="rod__inc-body">
-                    <MiText variant="footnote" weight="semibold">{{ i.title }}</MiText>
-                    <MiText variant="caption" tone="label2" tabular>{{ i.id }} · {{ i.service }} · {{ i.state }}</MiText>
+              <ul class="rod__incidents mi:grid mi:m-0 mi:p-0 mi:[list-style:none]">
+                <li class="mi:[.rod__incidents_li&]:grid-cols-[auto_minmax(0,_1fr)_auto] mi:[.rod__incidents_li&:first-child]:pt-0 mi:[.rod__incidents_li&:last-child]:pb-0" v-for="i in incidents" :key="i.id">
+                  <span class="rod__sev mi:py-[3px] mi:px-[7px] mi:rounded-[6px] mi:text-[11px] mi:font-bold mi:tracking-[.02em] mi:tabular-nums" :class="'is-' + i.sev">SEV{{ i.sev }}</span>
+                  <div class="rod__inc-body mi:grid mi:gap-0.5 mi:min-w-0">
+                    <MiText class="mi:[.rod__incidents_li&]:grid-cols-[auto_minmax(0,_1fr)_auto] mi:[.rod__incidents_li&:first-child]:pt-0 mi:[.rod__incidents_li&:last-child]:pb-0" variant="footnote" weight="semibold">{{ i.title }}</MiText>
+                    <MiText class="mi:[.rod__incidents_li&]:grid-cols-[auto_minmax(0,_1fr)_auto] mi:[.rod__incidents_li&:first-child]:pt-0 mi:[.rod__incidents_li&:last-child]:pb-0" variant="caption" tone="label2" tabular>{{ i.id }} · {{ i.service }} · {{ i.state }}</MiText>
                   </div>
-                  <div class="rod__inc-time">
+                  <div class="rod__inc-time mi:grid mi:justify-items-end mi:gap-1.5">
                     <strong>{{ i.open }}</strong>
-                    <MiAvatar :name="i.lead" size="xs" tone="auto" />
+                    <MiAvatar class="mi:[.rod__incidents_li&]:grid-cols-[auto_minmax(0,_1fr)_auto] mi:[.rod__incidents_li&:first-child]:pt-0 mi:[.rod__incidents_li&:last-child]:pb-0" :name="i.lead" size="xs" tone="auto" />
                   </div>
                 </li>
               </ul>
             </article>
 
-            <article class="rod__card rod__oncall" aria-labelledby="rod-oncall">
-              <div class="rod__card-head">
+            <article class="rod__card rod__oncall mi:grid mi:content-start mi:gap-3.5 mi:min-w-0 mi:p-4.5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:relative mi:overflow-hidden mi:isolate mi:before:content-[''] mi:before:absolute mi:before:top-[-60%] mi:before:right-[-20%] mi:before:bottom-auto mi:before:left-auto mi:before:w-[60%] mi:before:aspect-[1] mi:before:-z-1 mi:before:rounded-[50%] mi:before:[background:radial-gradient(closest-side,_var(--mi-p-tint),_transparent)] mi:@[980px]:py-5 mi:@[980px]:px-5.5" aria-labelledby="rod-oncall">
+              <div class="rod__card-head mi:flex mi:flex-wrap mi:[align-items:flex-start] mi:justify-between mi:gap-y-2 mi:gap-x-4">
                 <MiText id="rod-oncall" as="h3" variant="headline" weight="semibold">On call</MiText>
                 <MiText variant="caption" tone="label2">Platform rotation</MiText>
               </div>
-              <div class="rod__primary">
+              <div class="rod__primary mi:grid mi:grid-cols-[auto_minmax(0,_1fr)_auto] mi:items-center mi:gap-3">
                 <MiAvatar name="Ruth Asante" size="md" tone="auto" decorative />
-                <div class="rod__primary-text">
+                <div class="rod__primary-text mi:grid mi:min-w-0">
                   <MiText variant="subheadline" weight="semibold">Ruth Asante</MiText>
                   <MiText variant="caption" tone="label2">Primary · Accra, 13:40 local</MiText>
                 </div>
                 <MiButton variant="tinted" size="small" :disabled="paged" @click="paged = true">{{ paged ? 'Paged' : 'Page' }}</MiButton>
               </div>
-              <div class="rod__shift" role="meter" aria-label="Shift progress" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100" aria-valuetext="62%, hands over Monday 09:00">
-                <span class="rod__shift-track"><i /></span>
+              <div class="rod__shift mi:grid mi:gap-1.5" role="meter" aria-label="Shift progress" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100" aria-valuetext="62%, hands over Monday 09:00">
+                <span class="rod__shift-track mi:block mi:h-[5px] mi:rounded-[3px] mi:[background:var(--mi-fill3)] mi:overflow-hidden"><i class="mi:[.rod__shift-track_&]:h-full mi:[.rod__shift-track_&]:origin-left" /></span>
                 <MiText variant="caption" tone="label2" tabular>62% of shift done · hands over to Kenji Watanabe, Mon 09:00</MiText>
               </div>
               <MiText variant="caption" tone="label2">Escalates to Dalia Ferreira after 15 min without acknowledgement.</MiText>
@@ -228,129 +228,46 @@ const paged = ref(false)
 </script>
 
 <style scoped>
-.rod { container-type: inline-size; min-height: 100%; font-family: var(--mi-font); color: var(--mi-label); background: var(--mi-page); }
-.rod__in { display: grid; align-content: start; min-height: 100%; }
-
-/* Path bar */
-.rod__top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; padding: 12px 16px; background: var(--mi-card); border-bottom: 1px solid var(--mi-sep); }
-.rod__crumbs { display: flex; align-items: center; gap: 10px; min-width: 0; }
-.rod__glyph { position: relative; flex: none; width: 26px; height: 26px; border-radius: 8px; background: var(--mi-label); }
-.rod__glyph i { position: absolute; left: 6px; right: 6px; height: 3px; border-radius: 2px; background: var(--mi-card); }
-.rod__glyph i:first-child { top: 8px; right: 10px; }
-.rod__glyph i:last-child { bottom: 8px; left: 10px; background: var(--mi-p); }
-.rod__cmd { display: none; align-items: center; gap: 8px; width: 300px; height: 32px; padding: 0 6px 0 10px; border: 1px solid var(--mi-sep); border-radius: 9px; background: var(--mi-fill4); color: var(--mi-label3); font: inherit; font-size: 13px; cursor: pointer; transition: transform var(--mi-dur-2) var(--mi-ease); }
-.rod__cmd span { flex: 1; text-align: start; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.rod__cmd:hover { color: var(--mi-label2); }
-.rod__cmd:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-
-.rod__page { display: grid; gap: 16px; padding: 20px 16px 24px; min-width: 0; }
-.rod__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.rod__status { display: flex; align-items: baseline; gap: 8px; margin: 4px 0 0; font-size: 13px; color: var(--mi-label2); }
+.rod__glyph i { border-radius: 2px; background: var(--mi-card); }
+.rod__glyph i:last-child { background: var(--mi-p); }
+.rod__cmd { font: inherit; font-size: 13px; }
+.rod__cmd span { flex: 1; white-space: nowrap; overflow: hidden; }
 .rod__status strong { font-weight: 600; color: var(--mi-orange-t); }
-.rod__status-dot { flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--mi-orange); transform: translateY(-1px); box-shadow: 0 0 0 3px color-mix(in srgb, var(--mi-orange) 20%, transparent); }
-
-.rod__card { display: grid; align-content: start; gap: 14px; min-width: 0; padding: 18px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.rod__card-head { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 8px 16px; }
-
-/* Deploy timeline */
-.rod__legend { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 0; padding: 0; list-style: none; font-size: 12px; color: var(--mi-label2); }
 .rod__legend li { display: inline-flex; align-items: center; gap: 6px; }
-.rod__legend i { width: 8px; height: 8px; border-radius: 50%; }
-.rod__legend .is-ok, .rod__dot.is-ok { background: var(--mi-green); }
+.rod__legend i { border-radius: 50%; }
+.rod__legend .is-ok { background: var(--mi-green); }
 .rod__legend .is-failed, .rod__dot.is-failed { background: var(--mi-red); }
 .rod__legend .is-rolledback, .rod__dot.is-rolledback { background: var(--mi-orange); }
 .rod__legend .is-running, .rod__dot.is-running { background: var(--mi-p); }
-.rod__scroll { overflow-x: auto; margin-inline: -18px; padding: 0 18px; scrollbar-width: thin; }
-.rod__timeline { display: grid; grid-template-columns: 82px minmax(0, 1fr); min-width: 600px; padding: 0 10px 26px 0; }
-.rod__lane-names { display: grid; grid-auto-rows: 44px; }
 .rod__lane-names span { display: flex; align-items: center; font-size: 12.5px; font-weight: 600; color: var(--mi-label2); }
-.rod__track { position: relative; display: grid; grid-auto-rows: 44px; }
-.rod__lane { border-top: 1px solid var(--mi-sep); }
-.rod__lane:nth-of-type(odd) { background: color-mix(in srgb, var(--mi-fill4) 60%, transparent); }
-.rod__lane:last-of-type { border-bottom: 1px solid var(--mi-sep); }
-.rod__tick, .rod__now { position: absolute; top: 0; bottom: 0; width: 0; border-left: 1px dashed var(--mi-sep); pointer-events: none; }
-.rod__now { border-left: 1.5px solid var(--mi-p); }
-.rod__tick em, .rod__now em { position: absolute; bottom: -22px; font-size: 11px; font-style: normal; color: var(--mi-label3); white-space: nowrap; transform: translateX(-50%); font-variant-numeric: tabular-nums; }
+.rod__tick em { position: absolute; font-size: 11px; font-style: normal; color: var(--mi-label3); white-space: nowrap; transform: translateX(-50%); font-variant-numeric: tabular-nums; }
+.rod__now em { font-size: 11px; color: var(--mi-label3); white-space: nowrap; }
 .rod__now em { color: var(--mi-p-text); font-weight: 600; }
-.rod__path { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
-.rod__path polyline { fill: none; stroke: var(--mi-label); stroke-width: 1.5; stroke-dasharray: 3 3; opacity: .55; }
-.rod__dot { position: absolute; width: 14px; height: 14px; margin: -7px 0 0 -7px; padding: 0; border: 0; border-radius: 50%; box-shadow: 0 0 0 3px var(--mi-card); cursor: pointer; transition: transform var(--mi-dur-2) var(--mi-spring), opacity var(--mi-dur-2) var(--mi-ease); }
-.rod__dot.is-dim { opacity: .38; }
-.rod__dot:hover { opacity: 1; transform: scale(1.25); }
+.rod__dot:hover { transform: scale(1.25); }
 .rod__dot.is-on { transform: scale(1.3); }
-.rod__dot.is-running::after { content: ""; position: absolute; inset: -5px; border-radius: 50%; border: 1.5px solid var(--mi-p); animation: rod-ping 1.8s var(--mi-ease) infinite; }
-.rod__dot:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 4px; }
+.rod__dot.is-running::after { animation: rod-ping 1.8s var(--mi-ease) infinite; }
 @keyframes rod-ping { from { transform: scale(.6); opacity: 1; } to { transform: scale(1.4); opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .rod__dot.is-running::after { animation: none; } }
-
-.rod__build { display: grid; gap: 14px; padding: 14px; border-radius: var(--mi-radius-l); background: var(--mi-fill4); }
-.rod__build-id { display: flex; align-items: center; gap: 12px; min-width: 0; }
-.rod__sha { margin-left: 4px; padding: 1px 6px; border-radius: 5px; font-size: 11.5px; font-weight: 500; color: var(--mi-label2); background: var(--mi-fill3); }
-.rod__hops { display: grid; grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); gap: 6px; margin: 0; padding: 0; list-style: none; counter-reset: hop; }
-.rod__hops li { position: relative; display: grid; gap: 1px; min-width: 0; padding: 8px 10px; border-radius: var(--mi-radius-m); background: var(--mi-card); font-size: 12px; color: var(--mi-label2); }
+.rod__hops li { position: relative; display: grid; gap: 1px; border-radius: var(--mi-radius-m); background: var(--mi-card); font-size: 12px; color: var(--mi-label2); }
 .rod__hops strong { font-size: 15px; font-weight: 650; color: var(--mi-label); font-variant-numeric: tabular-nums; }
 .rod__hops em { font-style: normal; font-weight: 600; }
 .rod__hops .is-ok em { color: var(--mi-green-t); }
 .rod__hops .is-failed em { color: var(--mi-red-t); }
 .rod__hops .is-rolledback em { color: var(--mi-orange-t); }
 .rod__hops .is-running em { color: var(--mi-p-text); }
-
-/* Uptime */
-.rod__row { display: grid; gap: 16px; min-width: 0; }
-.rod__stack { display: grid; gap: 16px; align-content: start; min-width: 0; }
-.rod__services { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; }
-.rod__svc-head { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 6px; font-size: 13px; }
-.rod__svc-name { font-weight: 600; }
-.rod__svc-pct { font-weight: 600; color: var(--mi-label2); font-variant-numeric: tabular-nums; }
 .rod__svc-pct.is-low { color: var(--mi-orange-t); }
-.rod__cells { display: grid; grid-template-columns: repeat(90, minmax(0, 1fr)); gap: 1px; height: 24px; }
-.rod__cells span { border-radius: 1.5px; background: color-mix(in srgb, var(--mi-green) 42%, var(--mi-card)); transition: transform var(--mi-dur-1) var(--mi-ease); }
+.rod__cells span { border-radius: 1.5px; background: color-mix(in srgb, var(--mi-green) 42%, var(--mi-card)); }
 .rod__cells span.is-warn { background: var(--mi-orange); }
 .rod__cells span.is-down { background: var(--mi-red); }
-.rod__cells span:hover { transform: scaleY(1.25); }
-.rod__axis { display: flex; justify-content: space-between; font-size: 11px; color: var(--mi-label3); }
-
-/* Incidents and on-call */
-.rod__incidents { display: grid; margin: 0; padding: 0; list-style: none; }
-.rod__incidents li { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: start; gap: 12px; padding: 12px 0; }
+.rod__incidents li { display: grid; align-items: start; gap: 12px; padding: 12px 0; }
 .rod__incidents li + li { border-top: 1px solid var(--mi-sep); }
-.rod__incidents li:first-child { padding-top: 0; }
-.rod__incidents li:last-child { padding-bottom: 0; }
-.rod__sev { padding: 3px 7px; border-radius: 6px; font-size: 11px; font-weight: 700; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
 .rod__sev.is-1 { color: var(--mi-p-on); background: var(--mi-red); }
 .rod__sev.is-2 { color: var(--mi-red-t); background: color-mix(in srgb, var(--mi-red) 14%, transparent); }
 .rod__sev.is-3 { color: var(--mi-orange-t); background: color-mix(in srgb, var(--mi-orange) 14%, transparent); }
-.rod__inc-body { display: grid; gap: 2px; min-width: 0; }
-.rod__inc-time { display: grid; justify-items: end; gap: 6px; }
 .rod__inc-time strong { font-size: 13px; font-weight: 650; font-variant-numeric: tabular-nums; }
-
-.rod__oncall { position: relative; overflow: hidden; isolation: isolate; }
-.rod__oncall::before { content: ""; position: absolute; inset: -60% -20% auto auto; width: 60%; aspect-ratio: 1; z-index: -1; border-radius: 50%; background: radial-gradient(closest-side, var(--mi-p-tint), transparent); }
-.rod__primary { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 12px; }
-.rod__primary-text { display: grid; min-width: 0; }
-.rod__shift { display: grid; gap: 6px; }
-.rod__shift-track { display: block; height: 5px; border-radius: 3px; background: var(--mi-fill3); overflow: hidden; }
-.rod__shift-track i { display: block; height: 100%; border-radius: inherit; background: var(--mi-p); transform: scaleX(.62); transform-origin: left; }
+.rod__shift-track i { display: block; border-radius: inherit; background: var(--mi-p); transform: scaleX(.62); }
 
 @container (min-width: 640px) {
-  .rod__top { padding: 12px 20px; }
-  .rod__cmd { display: flex; }
-  .rod__page { padding: 24px 20px 28px; }
-  .rod__build { grid-template-columns: minmax(0, 1fr) auto; align-items: center; }
-  .rod__hops { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 112px; }
   .rod__hops li { padding: 8px 12px; }
-  .rod__cells { gap: 2px; }
-  .rod__stack { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-@container (min-width: 760px) {
-  .rod__timeline { min-width: 0; }
-  .rod__scroll { overflow: visible; }
-}
-@container (min-width: 980px) {
-  .rod__page { padding: 28px 32px 32px; gap: 20px; }
-  .rod__row { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); }
-  .rod__stack { grid-template-columns: minmax(0, 1fr); }
-  .rod__card { padding: 20px 22px; }
-  .rod__scroll { margin-inline: -22px; padding: 0 22px; }
 }
 </style>

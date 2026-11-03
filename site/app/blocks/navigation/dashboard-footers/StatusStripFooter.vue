@@ -1,50 +1,50 @@
 <template>
-  <div class="ssf">
+  <div class="ssf mi:@container mi:grid mi:content-start mi:gap-0 mi:font-mi mi:text-label mi:rounded-xl mi:overflow-hidden mi:bg-page mi:shadow-[0_0_0_1px_var(--mi-sep)]">
     <!-- Faux end of a dashboard page, so the footer is seen in place. -->
-    <div class="ssf__page" aria-hidden="true">
-      <span class="ssf__ghost" /><span class="ssf__ghost" /><span class="ssf__ghost is-wide" />
+    <div class="ssf__page mi:grid mi:grid-cols-2 mi:gap-3 mi:p-4.5 mi:@[760px]:grid-cols-3 mi:@[760px]:p-6" aria-hidden="true">
+      <span class="ssf__ghost mi:h-18 mi:rounded-lg mi:bg-card mi:shadow-1 mi:[&.is-wide]:col-span-full mi:[&.is-wide]:h-11 mi:[&.is-wide]:opacity-60 mi:@[760px]:[&.is-wide]:col-[auto] mi:@[760px]:[&.is-wide]:h-18 mi:@[760px]:[&.is-wide]:opacity-100" /><span class="ssf__ghost mi:h-18 mi:rounded-lg mi:bg-card mi:shadow-1 mi:[&.is-wide]:col-span-full mi:[&.is-wide]:h-11 mi:[&.is-wide]:opacity-60 mi:@[760px]:[&.is-wide]:col-[auto] mi:@[760px]:[&.is-wide]:h-18 mi:@[760px]:[&.is-wide]:opacity-100" /><span class="ssf__ghost is-wide mi:h-18 mi:rounded-lg mi:bg-card mi:shadow-1 mi:[&.is-wide]:col-span-full mi:[&.is-wide]:h-11 mi:[&.is-wide]:opacity-60 mi:@[760px]:[&.is-wide]:col-[auto] mi:@[760px]:[&.is-wide]:h-18 mi:@[760px]:[&.is-wide]:opacity-100" />
     </div>
 
-    <footer class="ssf__foot" aria-labelledby="ssf-title">
-      <h2 id="ssf-title" class="ssf__sr">Service status and app information</h2>
+    <footer class="ssf__foot mi:grid mi:gap-4.5 mi:p-4.5 mi:bg-card mi:border-t mi:border-t-sep mi:@[760px]:grid-cols-[minmax(0,_1fr)_auto] mi:@[760px]:gap-x-12 mi:@[760px]:py-5 mi:@[760px]:px-6" aria-labelledby="ssf-title">
+      <h2 id="ssf-title" class="ssf__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">Service status and app information</h2>
 
-      <section class="ssf__status" aria-label="Uptime">
-        <div class="ssf__status-head">
-          <span class="ssf__beacon" :class="'is-' + overall.tone" aria-hidden="true" />
+      <section class="ssf__status mi:grid mi:gap-2.5 mi:min-w-0" aria-label="Uptime">
+        <div class="ssf__status-head mi:flex mi:flex-wrap mi:items-center mi:gap-y-1 mi:gap-x-2.5">
+          <span class="ssf__beacon mi:relative mi:w-2.5 mi:h-2.5 mi:rounded-[50%] mi:bg-green mi:after:content-[''] mi:after:absolute mi:after:inset-0 mi:after:rounded-[50%] mi:after:bg-inherit" :class="'is-' + overall.tone" aria-hidden="true" />
           <MiText variant="subheadline" weight="semibold">{{ overall.label }}</MiText>
           <MiText variant="caption" tone="label2" tabular class="ssf__avg">{{ average }}% over 60 days</MiText>
         </div>
         <!-- Uptime strip: one bar per day, roving focus with the arrow keys. -->
-        <div class="ssf__strip" role="group" aria-label="Daily uptime, last 60 days" @keydown.left.prevent="move(-1)" @keydown.right.prevent="move(1)">
+        <div class="ssf__strip mi:flex mi:items-stretch mi:gap-0.5 mi:h-7" role="group" aria-label="Daily uptime, last 60 days" @keydown.left.prevent="move(-1)" @keydown.right.prevent="move(1)">
           <button
-            v-for="(d, i) in days" :key="i" :ref="el => setBar(el, i)" type="button" class="ssf__bar"
+            v-for="(d, i) in days" :key="i" :ref="el => setBar(el, i)" type="button" class="ssf__bar mi:flex-[1_1_0] mi:min-w-0 mi:p-0 mi:[border:0] mi:rounded-[2px] mi:bg-green mi:opacity-75 mi:cursor-pointer mi:origin-bottom mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring),_opacity_var(--mi-dur-1)_linear] mi:[&.is-on]:transform-[scaleY(1.18)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]"
             :class="['is-' + d.tone, { 'is-on': i === pick }]" :tabindex="i === pick ? 0 : -1" :aria-label="`${d.date}: ${d.uptime}% uptime`"
             :aria-pressed="i === pick" @click="pick = i"
           />
         </div>
-        <p class="ssf__detail" aria-live="polite">
-          <b>{{ day.date }}</b> · <span class="ssf__num">{{ day.uptime }}%</span> · {{ day.note }}
+        <p class="ssf__detail mi:m-0 mi:text-[13px] mi:leading-[1.4] mi:text-label2" aria-live="polite">
+          <b class="mi:[.ssf__detail_&]:text-label mi:[.ssf__detail_&]:font-semibold">{{ day.date }}</b> · <span class="ssf__num mi:tabular-nums">{{ day.uptime }}%</span> · {{ day.note }}
         </p>
       </section>
 
-      <section class="ssf__meta" aria-label="Build and region">
-        <div class="ssf__build">
+      <section class="ssf__meta mi:grid mi:gap-3 mi:@[760px]:content-start" aria-label="Build and region">
+        <div class="ssf__build mi:flex mi:flex-wrap mi:items-center mi:gap-2">
           <MiText variant="caption" tone="label2">Version</MiText>
-          <code class="ssf__code">v4.12.0 · 8f3c21e</code>
+          <code class="ssf__code mi:py-[3px] mi:px-2 mi:rounded-[6px] mi:bg-fill4 mi:[font:500_12px/1.4_ui-monospace,_SFMono-Regular,_Menlo,_monospace]">v4.12.0 · 8f3c21e</code>
           <MiCopyButton value="4.12.0+8f3c21e" icon-only variant="ghost" label="Copy build id" copied-label="Build id copied" />
         </div>
-        <div class="ssf__region">
+        <div class="ssf__region mi:flex mi:flex-wrap mi:items-center mi:gap-2">
           <MiText id="ssf-region" variant="caption" tone="label2">Region</MiText>
           <MiNativeSelect v-model="region" size="sm" :options="regions.map(r => ({ value: r.id, label: r.label }))" aria-labelledby="ssf-region" />
-          <MiText variant="caption" tone="label2" tabular class="ssf__latency">{{ latency }} ms</MiText>
+          <MiText variant="caption" tone="label2" tabular class="ssf__latency mi:min-w-12">{{ latency }} ms</MiText>
         </div>
       </section>
 
-      <div class="ssf__bottom">
-        <nav class="ssf__links" aria-label="Footer">
-          <a href="#">Docs</a><a href="#">API reference</a><a href="#">Changelog</a><a href="#">Support</a>
+      <div class="ssf__bottom mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-2.5 mi:gap-x-5 mi:pt-3.5 mi:border-t mi:border-t-sep mi:@[760px]:col-span-full">
+        <nav class="ssf__links mi:flex mi:flex-wrap mi:gap-y-1.5 mi:gap-x-4.5" aria-label="Footer">
+          <a class="mi:[.ssf__links_&]:text-label2 mi:[.ssf__links_&]:text-[13px] mi:[.ssf__links_&]:font-medium mi:[.ssf__links_&]:[text-decoration:none] mi:[.ssf__links_&:hover]:text-label mi:[.ssf__links_&:focus-visible]:[outline:2px_solid_var(--mi-p)] mi:[.ssf__links_&:focus-visible]:outline-offset-[2px] mi:[.ssf__links_&:focus-visible]:rounded-[4px]" href="#">Docs</a><a class="mi:[.ssf__links_&]:text-label2 mi:[.ssf__links_&]:text-[13px] mi:[.ssf__links_&]:font-medium mi:[.ssf__links_&]:[text-decoration:none] mi:[.ssf__links_&:hover]:text-label mi:[.ssf__links_&:focus-visible]:[outline:2px_solid_var(--mi-p)] mi:[.ssf__links_&:focus-visible]:outline-offset-[2px] mi:[.ssf__links_&:focus-visible]:rounded-[4px]" href="#">API reference</a><a class="mi:[.ssf__links_&]:text-label2 mi:[.ssf__links_&]:text-[13px] mi:[.ssf__links_&]:font-medium mi:[.ssf__links_&]:[text-decoration:none] mi:[.ssf__links_&:hover]:text-label mi:[.ssf__links_&:focus-visible]:[outline:2px_solid_var(--mi-p)] mi:[.ssf__links_&:focus-visible]:outline-offset-[2px] mi:[.ssf__links_&:focus-visible]:rounded-[4px]" href="#">Changelog</a><a class="mi:[.ssf__links_&]:text-label2 mi:[.ssf__links_&]:text-[13px] mi:[.ssf__links_&]:font-medium mi:[.ssf__links_&]:[text-decoration:none] mi:[.ssf__links_&:hover]:text-label mi:[.ssf__links_&:focus-visible]:[outline:2px_solid_var(--mi-p)] mi:[.ssf__links_&:focus-visible]:outline-offset-[2px] mi:[.ssf__links_&:focus-visible]:rounded-[4px]" href="#">Support</a>
         </nav>
-        <MiText variant="caption" tone="label2" class="ssf__legal">
+        <MiText variant="caption" tone="label2" class="ssf__legal mi:flex-wrap mi:items-center mi:gap-1">
           Press <MiKbd>?</MiKbd> for shortcuts · © 2027 Parcelwise Ltd.
         </MiText>
       </div>
@@ -94,53 +94,15 @@ const latency = computed(() => regions.find(r => r.id === region.value)?.ms ?? 0
 </script>
 
 <style scoped>
-.ssf { container-type: inline-size; display: grid; align-content: start; gap: 0; font-family: var(--mi-font); color: var(--mi-label); border-radius: var(--mi-radius-xl); overflow: hidden; background: var(--mi-page); box-shadow: 0 0 0 1px var(--mi-sep); }
-.ssf__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-
-.ssf__page { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 18px; }
-.ssf__ghost { height: 72px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.ssf__ghost.is-wide { grid-column: 1 / -1; height: 44px; opacity: .6; }
-
-.ssf__foot { display: grid; gap: 18px; padding: 18px; background: var(--mi-card); border-top: 1px solid var(--mi-sep); }
-
-.ssf__status { display: grid; gap: 10px; min-width: 0; }
-.ssf__status-head { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; }
 .ssf__avg { margin-left: auto; }
-.ssf__beacon { position: relative; width: 10px; height: 10px; border-radius: 50%; background: var(--mi-green); }
-.ssf__beacon::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: inherit; animation: ssf-ping 2.4s var(--mi-ease) infinite; }
+.ssf__beacon::after { animation: ssf-ping 2.4s var(--mi-ease) infinite; }
 @keyframes ssf-ping { 0% { transform: scale(1); opacity: .6; } 70%, 100% { transform: scale(2.6); opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .ssf__beacon::after { animation: none; } }
-
-.ssf__strip { display: flex; align-items: stretch; gap: 2px; height: 28px; }
-.ssf__bar { flex: 1 1 0; min-width: 0; padding: 0; border: 0; border-radius: 2px; background: var(--mi-green); opacity: .75; cursor: pointer; transform-origin: bottom; transition: transform var(--mi-dur-2) var(--mi-spring), opacity var(--mi-dur-1) linear; }
 .ssf__bar.is-minor { background: var(--mi-orange); opacity: .9; }
 .ssf__bar.is-major { background: var(--mi-red); opacity: .9; }
 .ssf__bar:hover { opacity: 1; }
-.ssf__bar.is-on { opacity: 1; transform: scaleY(1.18); }
-.ssf__bar:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-.ssf__detail { margin: 0; font-size: 13px; line-height: 1.4; color: var(--mi-label2); }
-.ssf__detail b { color: var(--mi-label); font-weight: 600; }
-.ssf__num { font-variant-numeric: tabular-nums; }
-
-.ssf__meta { display: grid; gap: 12px; }
-.ssf__build, .ssf__region { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.ssf__bar.is-on { opacity: 1; }
 .ssf__build > :first-child, .ssf__region > :first-child { width: 56px; }
-.ssf__code { padding: 3px 8px; border-radius: 6px; background: var(--mi-fill4); font: 500 12px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; }
 .ssf__region :deep(select) { max-width: 220px; }
-.ssf__latency { min-width: 48px; }
-
-.ssf__bottom { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 20px; padding-top: 14px; border-top: 1px solid var(--mi-sep); }
-.ssf__links { display: flex; flex-wrap: wrap; gap: 6px 18px; }
-.ssf__links a { color: var(--mi-label2); font-size: 13px; font-weight: 500; text-decoration: none; }
-.ssf__links a:hover { color: var(--mi-label); }
-.ssf__links a:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; border-radius: 4px; }
-.ssf__legal { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 4px; }
-
-@container (min-width: 760px) {
-  .ssf__page { grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 24px; }
-  .ssf__ghost.is-wide { grid-column: auto; height: 72px; opacity: 1; }
-  .ssf__foot { grid-template-columns: minmax(0, 1fr) auto; column-gap: 48px; padding: 20px 24px; }
-  .ssf__bottom { grid-column: 1 / -1; }
-  .ssf__meta { align-content: start; }
-}
+.ssf__legal { display: inline-flex; }
 </style>

@@ -1,23 +1,23 @@
 <template>
-  <section class="tz" aria-labelledby="tz-title">
-    <header class="tz__head">
+  <section class="tz mi:@container mi:grid mi:content-start mi:gap-4.5 mi:font-mi mi:text-label" aria-labelledby="tz-title">
+    <header class="tz__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="tz-title" as="h2" variant="title3" weight="bold">Partner team</MiText>
         <MiText variant="footnote" tone="label2">Times shown against your day in Paris, 09:00 to 18:00 · now {{ fmtH(NOW) }}</MiText>
-        <p class="tz__legend" aria-hidden="true">
-          <span><i class="tz__band--them" />Their hours</span><span><i class="tz__band--you" />Yours</span><span><i class="tz__band--both" />Shared</span>
+        <p class="tz__legend mi:flex mi:flex-wrap mi:gap-3.5 mi:mt-2 mi:mx-0 mi:mb-0 mi:text-[12px] mi:text-label2" aria-hidden="true">
+          <span class="mi:[.tz__legend_&]:items-center mi:[.tz__legend_&]:gap-1.5"><i class="tz__band--them mi:[.tz__legend_&]:w-3.5 mi:[.tz__legend_&]:h-2 mi:[.tz__legend_&]:rounded-[3px] mi:[background:color-mix(in_srgb,_var(--mi-s)_32%,_transparent)]" />Their hours</span><span class="mi:[.tz__legend_&]:items-center mi:[.tz__legend_&]:gap-1.5"><i class="tz__band--you mi:[.tz__legend_&]:w-3.5 mi:[.tz__legend_&]:h-2 mi:[.tz__legend_&]:rounded-[3px] mi:top-[9px] mi:bg-p-tint2" />Yours</span><span class="mi:[.tz__legend_&]:items-center mi:[.tz__legend_&]:gap-1.5"><i class="tz__band--both mi:[.tz__legend_&]:w-3.5 mi:[.tz__legend_&]:h-2 mi:[.tz__legend_&]:rounded-[3px] mi:bg-p" />Shared</span>
         </p>
       </div>
       <MiSegmented v-model="sort" label="Sort contacts" :options="[{ value: 'overlap', label: 'Most overlap' }, { value: 'name', label: 'Name' }]" />
     </header>
 
-    <TransitionGroup tag="ul" name="tz-move" class="tz__grid">
-      <li v-for="c in sorted" :key="c.id" class="tz__card">
-        <div class="tz__top">
+    <TransitionGroup tag="ul" name="tz-move" class="tz__grid mi:[list-style:none] mi:m-0 mi:p-0 mi:grid mi:gap-3.5 mi:grid-cols-[minmax(0,_1fr)] mi:@[620px]:grid-cols-2 mi:@[960px]:grid-cols-3">
+      <li v-for="c in sorted" :key="c.id" class="tz__card mi:grid mi:gap-3 mi:content-start mi:p-4.5 mi:rounded-xl mi:bg-card mi:shadow-1">
+        <div class="tz__top mi:flex mi:items-center mi:gap-3">
           <MiBadge dot-only :tone="c.state.tone" placement="bottom-right" :dot-size="12">
             <template #target><MiAvatar :name="c.name" size="md" :tone="c.tone" decorative /></template>
           </MiBadge>
-          <div class="tz__who">
+          <div class="tz__who mi:flex-1 mi:min-w-0">
             <MiText as="h3" variant="headline" weight="semibold" :lines="1">{{ c.name }}</MiText>
             <MiText variant="footnote" tone="label2" :lines="1">{{ c.role }}</MiText>
           </div>
@@ -26,25 +26,25 @@
           </MiIconButton>
         </div>
 
-        <div class="tz__local">
-          <span class="tz__clock">{{ fmtH(local(c)) }}</span>
-          <span class="tz__where">{{ c.city }} · {{ c.offset >= 0 ? '+' : '' }}{{ c.offset }}h</span>
+        <div class="tz__local mi:flex mi:flex-wrap mi:items-baseline mi:gap-y-1.5 mi:gap-x-2.5">
+          <span class="tz__clock mi:text-[30px] mi:font-bold mi:tracking-[-.03em] mi:tabular-nums mi:leading-none">{{ fmtH(local(c)) }}</span>
+          <span class="tz__where mi:flex-1 mi:min-w-0 mi:text-[13px] mi:text-label2">{{ c.city }} · {{ c.offset >= 0 ? '+' : '' }}{{ c.offset }}h</span>
           <MiBadge :tone="c.state.tone" :label="c.state.label" dot />
         </div>
 
         <!-- Overlap bar: their working day mapped onto yours, the shared hours in brand colour. -->
-        <div class="tz__bar" role="img" :aria-label="c.overlap ? c.overlap + ' hours overlap with your working day' : 'No overlap with your working day'">
-          <span v-for="(s, i) in segs(c.start - c.offset, c.end - c.offset)" :key="'t' + i" class="tz__band tz__band--them" :style="band(s)" />
-          <span class="tz__band tz__band--you" :style="band([MY_START, MY_END])" />
-          <span v-if="c.overlap" class="tz__band tz__band--both" :style="band(c.window)" />
-          <span class="tz__now" :style="{ left: (NOW / 24) * 100 + '%' }" />
+        <div class="tz__bar mi:relative mi:h-3.5 mi:rounded-[7px] mi:bg-fill4 mi:overflow-hidden" role="img" :aria-label="c.overlap ? c.overlap + ' hours overlap with your working day' : 'No overlap with your working day'">
+          <span v-for="(s, i) in segs(c.start - c.offset, c.end - c.offset)" :key="'t' + i" class="tz__band tz__band--them mi:absolute mi:top-0 mi:bottom-0 mi:[background:color-mix(in_srgb,_var(--mi-s)_32%,_transparent)]" :style="band(s)" />
+          <span class="tz__band tz__band--you mi:absolute mi:top-0 mi:bottom-0 mi:top-[9px] mi:bg-p-tint2" :style="band([MY_START, MY_END])" />
+          <span v-if="c.overlap" class="tz__band tz__band--both mi:absolute mi:top-0 mi:bottom-0 mi:bg-p" :style="band(c.window)" />
+          <span class="tz__now mi:absolute mi:-top-0.5 mi:-bottom-0.5 mi:w-0.5 mi:-ml-px mi:bg-label" :style="{ left: (NOW / 24) * 100 + '%' }" />
         </div>
-        <div class="tz__ticks" aria-hidden="true"><span>00</span><span>06</span><span>12</span><span>18</span><span>24</span></div>
+        <div class="tz__ticks mi:flex mi:justify-between mi:-mt-1.5 mi:text-[10.5px] mi:text-label3 mi:tabular-nums" aria-hidden="true"><span>00</span><span>06</span><span>12</span><span>18</span><span>24</span></div>
         <MiText variant="footnote" :tone="c.overlap >= 4 ? 'green' : c.overlap ? 'label' : 'orange'" weight="medium">
           {{ c.overlap ? c.overlap + 'h overlap · ' + fmtH(c.window[0]) + ' to ' + fmtH(c.window[1]) + ' your time' : 'No shared hours, send async' }}
         </MiText>
 
-        <div class="tz__actions">
+        <div class="tz__actions mi:flex mi:items-center mi:gap-2 mi:pt-1">
           <MiButton variant="tinted" size="small" class="tz__msg">
             <template #leading><MiIcon name="chat" :size="16" /></template>Message
           </MiButton>
@@ -112,32 +112,8 @@ const sorted = computed(() => [...enriched.value].sort((a, b) => (sort.value ===
 </script>
 
 <style scoped>
-.tz { container-type: inline-size; display: grid; align-content: start; gap: 18px; font-family: var(--mi-font); color: var(--mi-label); }
-.tz__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.tz__legend { display: flex; flex-wrap: wrap; gap: 14px; margin: 8px 0 0; font-size: 12px; color: var(--mi-label2); }
-.tz__legend span { display: inline-flex; align-items: center; gap: 6px; }
-.tz__legend i { display: inline-block; width: 14px; height: 8px; border-radius: 3px; }
-.tz__grid { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); }
-@container (min-width: 620px) { .tz__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@container (min-width: 960px) { .tz__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-
-.tz__card { display: grid; gap: 12px; align-content: start; padding: 18px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.tz__top { display: flex; align-items: center; gap: 12px; }
-.tz__who { flex: 1; min-width: 0; }
-
-.tz__local { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 10px; }
-.tz__clock { font-size: 30px; font-weight: 700; letter-spacing: -.03em; font-variant-numeric: tabular-nums; line-height: 1; }
-.tz__where { flex: 1; min-width: 0; font-size: 13px; color: var(--mi-label2); }
-
-.tz__bar { position: relative; height: 14px; border-radius: 7px; background: var(--mi-fill4); overflow: hidden; }
-.tz__band { position: absolute; top: 0; bottom: 0; }
-.tz__band--them { background: color-mix(in srgb, var(--mi-s) 32%, transparent); }
-.tz__band--you { top: 9px; background: var(--mi-p-tint2); }
-.tz__band--both { background: var(--mi-p); }
-.tz__now { position: absolute; top: -2px; bottom: -2px; width: 2px; margin-left: -1px; background: var(--mi-label); }
-.tz__ticks { display: flex; justify-content: space-between; margin-top: -6px; font-size: 10.5px; color: var(--mi-label3); font-variant-numeric: tabular-nums; }
-
-.tz__actions { display: flex; align-items: center; gap: 8px; padding-top: 4px; }
+.tz__legend span { display: inline-flex; }
+.tz__legend i { display: inline-block; }
 .tz__msg { flex: 1; }
 
 .tz-move-move { transition: transform var(--mi-dur-4) var(--mi-spring); }

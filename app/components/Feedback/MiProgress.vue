@@ -61,17 +61,17 @@ const fillStyle = computed(() => (indeterminate.value ? undefined : { transform:
 </script>
 
 <template>
-  <div class="mi-prog" :class="`is-${size}`">
-    <div v-if="header" class="mi-prog-head">
-      <span class="mi-prog-label">{{ label }}</span>
-      <span v-if="showValue !== false && text" class="mi-prog-val">{{ text }}</span>
+  <div class="mi-prog mi:flex-col mi:[--h:6px]" :class="`is-${size}`">
+    <div v-if="header" class="mi-prog-head mi:flex mi:justify-between mi:gap-3 mi:text-[13px] mi:leading-[18px]">
+      <span class="mi-prog-label mi:font-semibold">{{ label }}</span>
+      <span v-if="showValue !== false && text" class="mi-prog-val mi:text-label2 mi:tabular-nums mi:ml-auto">{{ text }}</span>
     </div>
-    <span v-if="segmented" class="mi-prog-track is-seg" role="img" :aria-label="summary">
-      <span v-for="(s, i) in segs" :key="i" class="mi-prog-seg" :style="{ width: s.width + '%', background: s.color }" />
+    <span v-if="segmented" class="mi-prog-track is-seg mi:block mi:relative mi:h-(--h) mi:rounded-[999px] mi:bg-fill mi:overflow-hidden mi:[contain:paint] mi:[&.is-seg]:flex mi:[&.is-seg]:gap-0.5" role="img" :aria-label="summary">
+      <span v-for="(s, i) in segs" :key="i" class="mi-prog-seg mi:flex-[none] mi:h-full mi:rounded-[999px] mi:origin-[0_50%]" :style="{ width: s.width + '%', background: s.color }" />
     </span>
     <span
       v-else
-      class="mi-prog-track"
+      class="mi-prog-track mi:block mi:relative mi:h-(--h) mi:rounded-[999px] mi:bg-fill mi:overflow-hidden mi:[contain:paint] mi:[&.is-seg]:flex mi:[&.is-seg]:gap-0.5"
       role="progressbar"
       :aria-label="label"
       :aria-valuemin="indeterminate ? undefined : 0"
@@ -79,29 +79,20 @@ const fillStyle = computed(() => (indeterminate.value ? undefined : { transform:
       :aria-valuenow="indeterminate ? undefined : value ?? undefined"
       :aria-valuetext="indeterminate ? undefined : text || undefined"
     >
-      <span class="mi-prog-fill" :class="{ 'is-indet': indeterminate }" :style="[{ background: COLOR[tone] }, fillStyle]" />
+      <span class="mi-prog-fill mi:block mi:w-full mi:h-full mi:rounded-[999px] mi:[transition:transform_var(--mi-dur-4)_var(--mi-ease)] mi:[&.is-indet]:w-[36%] mi:[&.is-indet]:transform-[translate3d(-110%,0,0)] mi:[&.is-indet]:will-change-transform" :class="{ 'is-indet': indeterminate }" :style="[{ background: COLOR[tone] }, fillStyle]" />
     </span>
-    <ul v-if="segmented && legend" class="mi-prog-legend">
-      <li v-for="(s, i) in segs" :key="i"><span class="mi-prog-dot" :style="{ background: s.color }" />{{ s.label }}</li>
+    <ul v-if="segmented && legend" class="mi-prog-legend mi:flex mi:flex-wrap mi:gap-y-1 mi:gap-x-3.5 mi:m-0 mi:p-0 mi:[list-style:none] mi:text-[12px] mi:leading-4 mi:text-label2">
+      <li class="mi:[.mi-prog-legend_&]:inline-flex mi:[.mi-prog-legend_&]:items-center mi:[.mi-prog-legend_&]:gap-[5px]" v-for="(s, i) in segs" :key="i"><span class="mi-prog-dot mi:w-2 mi:h-2 mi:rounded-[50%] mi:flex-[none]" :style="{ background: s.color }" />{{ s.label }}</li>
     </ul>
   </div>
 </template>
 
 <style scoped>
-.mi-prog{display:flex;flex-direction:column;gap:8px;font-family:var(--mi-font);color:var(--mi-label);--h:6px}
+.mi-prog{display:flex;gap:8px;font-family:var(--mi-font);color:var(--mi-label)}
 .mi-prog.is-sm{--h:4px}
 .mi-prog.is-lg{--h:10px}
-.mi-prog-head{display:flex;justify-content:space-between;gap:12px;font-size:13px;line-height:18px}
-.mi-prog-label{font-weight:600}
-.mi-prog-val{color:var(--mi-label2);font-variant-numeric:tabular-nums;margin-left:auto}
-.mi-prog-track{display:block;position:relative;height:var(--h);border-radius:999px;background:var(--mi-fill);overflow:hidden;contain:paint}
-.mi-prog-track.is-seg{display:flex;gap:2px}
-.mi-prog-fill{display:block;width:100%;height:100%;border-radius:999px;transition:transform var(--mi-dur-4) var(--mi-ease)}
-.mi-prog-fill.is-indet{width:36%;transform:translate3d(-110%,0,0);animation:mi-prog-indet 1.3s cubic-bezier(.45,.05,.55,.95) infinite;will-change:transform}
-.mi-prog-seg{flex:none;height:100%;border-radius:999px;transform-origin:0 50%;animation:mi-prog-grow var(--mi-dur-4) var(--mi-ease) both}
-.mi-prog-legend{display:flex;flex-wrap:wrap;gap:4px 14px;margin:0;padding:0;list-style:none;font-size:12px;line-height:16px;color:var(--mi-label2)}
-.mi-prog-legend li{display:inline-flex;align-items:center;gap:5px}
-.mi-prog-dot{width:8px;height:8px;border-radius:50%;flex:none}
+.mi-prog-fill.is-indet{animation:mi-prog-indet 1.3s cubic-bezier(.45,.05,.55,.95) infinite}
+.mi-prog-seg{animation:mi-prog-grow var(--mi-dur-4) var(--mi-ease) both}
 @keyframes mi-prog-indet{0%{transform:translate3d(-110%,0,0)}100%{transform:translate3d(280%,0,0)}}
 @keyframes mi-prog-grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 </style>

@@ -1,37 +1,37 @@
 <template>
-  <section class="th" aria-labelledby="th-title">
-    <div class="th__shell">
+  <section class="th mi:@container mi:h-155 mi:font-mi mi:text-label mi:[background:var(--mi-page)]" aria-labelledby="th-title">
+    <div class="th__shell mi:grid mi:h-full mi:grid-cols-[minmax(0,_1fr)] mi:@[760px]:grid-cols-[minmax(0,_1fr)_380px]">
       <!-- Faux app canvas so the docked panel reads in context. -->
-      <div class="th__app" aria-hidden="true">
-        <span class="th__app-bar" />
-        <span v-for="n in 3" :key="n" class="th__app-row" />
-        <span class="th__app-tile" />
+      <div class="th__app mi:hidden mi:@[760px]:grid mi:@[760px]:content-start mi:@[760px]:gap-3.5 mi:@[760px]:p-7" aria-hidden="true">
+        <span class="th__app-bar mi:h-7 mi:w-[40%] mi:rounded-[8px] mi:[background:var(--mi-fill3)]" />
+        <span v-for="n in 3" :key="n" class="th__app-row mi:h-13 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1" />
+        <span class="th__app-tile mi:h-45 mi:rounded-xl mi:[background:linear-gradient(140deg,_var(--mi-p-tint),_var(--mi-s-tint))]" />
       </div>
 
-      <aside class="th__panel" aria-labelledby="th-title">
-        <header class="th__head">
+      <aside class="th__panel mi:flex mi:flex-col mi:min-h-0 mi:[background:var(--mi-card)] mi:border-l mi:border-l-sep" aria-labelledby="th-title">
+        <header class="th__head mi:flex mi:items-center mi:gap-2.5 mi:py-3.5 mi:px-4 mi:border-b mi:border-b-sep">
           <MiIconButton v-if="openId" label="All conversations" variant="gray" size="small" @click="openId = null"><MiIcon name="chevron-left" :size="16" /></MiIconButton>
-          <div class="th__head-text">
+          <div class="th__head-text mi:flex-1 mi:min-w-0">
             <MiText id="th-title" as="h2" variant="headline" weight="semibold" :lines="1">{{ ticket ? ticket.subject : 'Support' }}</MiText>
             <MiText variant="caption" tone="label2" :lines="1">{{ ticket ? ticket.status + ' · #' + ticket.id : 'Your conversations with Ledgerly' }}</MiText>
           </div>
         </header>
 
-        <div v-if="!ticket" class="th__list">
+        <div v-if="!ticket" class="th__list mi:flex-1 mi:min-h-0 mi:overflow-y-auto mi:p-4">
           <MiButton block @click="startNew">
             <template #leading><MiIcon name="plus" :size="15" /></template>
             New conversation
           </MiButton>
           <template v-for="g in groups" :key="g.label">
-            <h3 class="th__sec">{{ g.label }}</h3>
-            <ul class="th__items">
+            <h3 class="th__sec mi:mt-4.5 mi:mx-1 mi:mb-1.5 mi:text-[11px] mi:font-semibold mi:tracking-[.06em] mi:uppercase mi:text-label3">{{ g.label }}</h3>
+            <ul class="th__items mi:[list-style:none] mi:m-0 mi:p-0 mi:grid mi:gap-1.5">
               <li v-for="t in g.items" :key="t.id">
-                <button type="button" class="th__item" @click="openId = t.id">
-                  <span class="th__item-top">
-                    <span class="th__item-subject">{{ t.subject }}</span>
-                    <time>{{ t.updated }}</time>
+                <button type="button" class="th__item mi:grid mi:gap-1 mi:w-full mi:p-3 mi:border mi:border-sep mi:rounded-lg mi:[background:var(--mi-page)] mi:text-inherit mi:[font:inherit] mi:text-start mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" @click="openId = t.id">
+                  <span class="th__item-top mi:flex mi:justify-between mi:gap-2">
+                    <span class="th__item-subject mi:min-w-0 mi:font-semibold mi:text-[14px] mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ t.subject }}</span>
+                    <time class="mi:[.th__item-top_&]:flex-[none] mi:[.th__item-top_&]:text-[12px] mi:[.th__item-top_&]:text-label3">{{ t.updated }}</time>
                   </span>
-                  <span class="th__item-last">{{ t.messages[t.messages.length - 1]?.text }}</span>
+                  <span class="th__item-last mi:text-[13px] mi:text-label2 mi:[display:-webkit-box] mi:[-webkit-line-clamp:2] mi:[-webkit-box-orient:vertical] mi:overflow-hidden">{{ t.messages[t.messages.length - 1]?.text }}</span>
                   <MiRating v-if="t.rating" :model-value="t.rating" readonly size="sm" :label="'Rated ' + t.rating + ' of 5'" />
                 </button>
               </li>
@@ -40,21 +40,21 @@
         </div>
 
         <template v-else>
-          <div class="th__log" role="log" :aria-label="'Conversation: ' + ticket.subject">
-            <MiMessage v-for="m in ticket.messages" :key="m.id" :align="m.me ? 'end' : 'start'" :label="m.me ? 'You' : m.who" class="th__row" :class="{ 'is-end': m.me }">
+          <div class="th__log mi:flex-1 mi:min-h-0 mi:overflow-y-auto mi:grid mi:content-start mi:gap-3 mi:py-4 mi:px-3.5 mi:[background:var(--mi-page)]" role="log" :aria-label="'Conversation: ' + ticket.subject">
+            <MiMessage v-for="m in ticket.messages" :key="m.id" :align="m.me ? 'end' : 'start'" :label="m.me ? 'You' : m.who" class="th__row mi:[&.is-end]:ms-auto" :class="{ 'is-end': m.me }">
               <template #avatar><MiAvatar v-if="!m.me" :name="m.who" size="xs" tone="auto" decorative /></template>
               <MiBubble :align="m.me ? 'end' : 'start'" :variant="m.me ? 'default' : 'secondary'">{{ m.text }}</MiBubble>
               <template #footer>{{ m.me ? 'You' : m.who }} · {{ m.time }}</template>
             </MiMessage>
 
-            <div v-if="ticket.status === 'Resolved'" class="th__rate">
+            <div v-if="ticket.status === 'Resolved'" class="th__rate mi:grid mi:justify-items-center mi:gap-2.5 mi:mt-1.5 mi:p-4 mi:rounded-lg mi:[background:var(--mi-card)] mi:text-center">
               <MiText as="h3" variant="subheadline" weight="semibold">{{ ticket.rating ? 'Thanks for the feedback' : 'How did we do?' }}</MiText>
               <MiRating v-model="ticket.rating" size="lg" label="Rate this conversation" :readonly="ticket.rated" />
               <MiButton v-if="!ticket.rated" size="small" variant="tinted" :disabled="!ticket.rating" @click="ticket.rated = true">Send rating</MiButton>
             </div>
           </div>
 
-          <form class="th__composer" @submit.prevent="send">
+          <form class="th__composer mi:pt-3 mi:px-3.5 mi:pb-3.5 mi:border-t mi:border-t-sep" @submit.prevent="send">
             <MiInputGroup v-model="draft" aria-label="Message support" :placeholder="ticket.status === 'Resolved' ? 'Reply to reopen' : 'Message support'">
               <template #trailing>
                 <MiIconButton type="submit" label="Send" size="small" :disabled="!draft.trim()"><MiIcon name="arrow-up" :size="16" /></MiIconButton>
@@ -128,34 +128,5 @@ function startNew() {
 </script>
 
 <style scoped>
-.th { container-type: inline-size; height: 620px; font-family: var(--mi-font); color: var(--mi-label); background: var(--mi-page); }
-.th__shell { display: grid; height: 100%; grid-template-columns: minmax(0, 1fr); }
-.th__app { display: none; }
-@container (min-width: 760px) {
-  .th__shell { grid-template-columns: minmax(0, 1fr) 380px; }
-  .th__app { display: grid; align-content: start; gap: 14px; padding: 28px; }
-}
-.th__app-bar { height: 28px; width: 40%; border-radius: 8px; background: var(--mi-fill3); }
-.th__app-row { height: 52px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.th__app-tile { height: 180px; border-radius: var(--mi-radius-xl); background: linear-gradient(140deg, var(--mi-p-tint), var(--mi-s-tint)); }
-
-.th__panel { display: flex; flex-direction: column; min-height: 0; background: var(--mi-card); border-left: 1px solid var(--mi-sep); }
-.th__head { display: flex; align-items: center; gap: 10px; padding: 14px 16px; border-bottom: 1px solid var(--mi-sep); }
-.th__head-text { flex: 1; min-width: 0; }
-
-.th__list { flex: 1; min-height: 0; overflow-y: auto; padding: 16px; }
-.th__sec { margin: 18px 4px 6px; font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--mi-label3); }
-.th__items { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
-.th__item { display: grid; gap: 4px; width: 100%; padding: 12px; border: 1px solid var(--mi-sep); border-radius: var(--mi-radius-l); background: var(--mi-page); color: inherit; font: inherit; text-align: start; cursor: pointer; }
-.th__item:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-.th__item-top { display: flex; justify-content: space-between; gap: 8px; }
-.th__item-subject { min-width: 0; font-weight: 600; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.th__item-top time { flex: none; font-size: 12px; color: var(--mi-label3); }
-.th__item-last { font-size: 13px; color: var(--mi-label2); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-
-.th__log { flex: 1; min-height: 0; overflow-y: auto; display: grid; align-content: start; gap: 12px; padding: 16px 14px; background: var(--mi-page); }
 .th__row { max-width: 90%; }
-.th__row.is-end { margin-inline-start: auto; }
-.th__rate { display: grid; justify-items: center; gap: 10px; margin-top: 6px; padding: 16px; border-radius: var(--mi-radius-l); background: var(--mi-card); text-align: center; }
-.th__composer { padding: 12px 14px 14px; border-top: 1px solid var(--mi-sep); }
 </style>

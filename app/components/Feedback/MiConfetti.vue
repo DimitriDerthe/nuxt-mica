@@ -92,9 +92,5 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <canvas ref="canvas" class="mi-confetti" aria-hidden="true" :style="{ zIndex }" />
+  <canvas ref="canvas" class="mi-confetti mi:fixed mi:inset-0 mi:w-screen mi:h-screen mi:pointer-events-none" aria-hidden="true" :style="{ zIndex }" />
 </template>
-
-<style scoped>
-.mi-confetti { position: fixed; inset: 0; width: 100vw; height: 100vh; pointer-events: none; }
-</style>

@@ -1,25 +1,25 @@
 <template>
-  <section class="wss" aria-labelledby="wss-title">
-    <MiText id="wss-title" as="h2" variant="headline" class="wss__sr">Workspace settings</MiText>
-    <div class="wss__backdrop">
-      <div v-if="open" class="wss__shell">
+  <section class="wss mi:@container mi:font-mi mi:text-label" aria-labelledby="wss-title">
+    <MiText id="wss-title" as="h2" variant="headline" class="wss__sr mi:absolute mi:w-px mi:h-px mi:[clip-path:inset(50%)]">Workspace settings</MiText>
+    <div class="wss__backdrop mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:place-items-center mi:min-h-140 mi:p-4 mi:rounded-xl mi:box-border mi:[background:radial-gradient(70%_60%_at_20%_10%,_var(--mi-p-tint),_transparent_70%),_color-mix(in_srgb,_var(--mi-scrim)_70%,_var(--mi-fill4))] mi:@[700px]:p-8">
+      <div v-if="open" class="wss__shell mi:w-full mi:max-w-205">
         <MiSheet
           v-model="open" inline title="Workspace settings" cancel-label="Close" :confirm-label="dirty ? 'Save' : 'Saved'"
           :close-on-confirm="false" @confirm="save"
         >
-          <div class="wss__body">
-            <nav class="wss__nav" aria-label="Settings sections">
+          <div class="wss__body mi:grid mi:gap-3.5 mi:pt-1 mi:px-4 mi:pb-3 mi:@[640px]:grid-cols-[188px_minmax(0,_1fr)] mi:@[640px]:gap-5.5 mi:@[640px]:min-h-85">
+            <nav class="wss__nav mi:flex mi:gap-1 mi:overflow-x-auto mi:[scrollbar-width:none] mi:-mx-1 mi:py-0.5 mi:px-1 mi:@[640px]:flex-col mi:@[640px]:overflow-visible mi:@[640px]:m-0 mi:@[640px]:pt-0 mi:@[640px]:pr-4 mi:@[640px]:pb-0 mi:@[640px]:pl-0 mi:@[640px]:border-r mi:@[640px]:border-r-sep" aria-label="Settings sections">
               <button
-                v-for="s in sections" :key="s.id" type="button" class="wss__tab" :class="{ 'is-on': section === s.id }"
+                v-for="s in sections" :key="s.id" type="button" class="wss__tab mi:relative mi:flex mi:items-center mi:gap-2 mi:flex-[none] mi:py-2 mi:px-3 mi:[border:0] mi:rounded-[10px] mi:[font:500_14px/1.2_var(--mi-font)] mi:text-label2 mi:[background:transparent] mi:cursor-pointer mi:whitespace-nowrap mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px] mi:[&.is-on]:text-p-text mi:[&.is-on]:font-semibold" :class="{ 'is-on': section === s.id }"
                 :aria-current="section === s.id ? 'page' : undefined" @click="section = s.id"
               >
                 <MiIcon :name="s.icon" :size="17" />
                 <span>{{ s.label }}</span>
-                <i v-if="changedIn(s.id)" class="wss__dot" aria-label="Unsaved changes" />
+                <i v-if="changedIn(s.id)" class="wss__dot mi:w-1.5 mi:h-1.5 mi:rounded-[50%] mi:[background:var(--mi-orange)] mi:ml-auto" aria-label="Unsaved changes" />
               </button>
             </nav>
 
-            <div class="wss__panel">
+            <div class="wss__panel mi:grid mi:content-start mi:gap-4 mi:min-w-0">
               <template v-if="section === 'general'">
                 <MiText as="h3" variant="headline" weight="semibold">General</MiText>
                 <MiField label="Workspace name">
@@ -28,7 +28,7 @@
                 <MiField label="Default language">
                   <template #default="{ id }"><MiNativeSelect :id="id" v-model="s.lang" :options="langs" /></template>
                 </MiField>
-                <div class="wss__row">
+                <div class="wss__row mi:flex mi:items-center mi:justify-between mi:gap-3.5 mi:py-3 mi:px-0 mi:border-t mi:border-t-sep">
                   <div><MiText variant="subheadline" weight="medium">Week starts on</MiText><MiText variant="caption" tone="label2">Used by calendars and reports</MiText></div>
                   <MiSegmented v-model="s.week" label="Week starts on" :options="[{ value: 'mon', label: 'Mon' }, { value: 'sun', label: 'Sun' }]" />
                 </div>
@@ -36,7 +36,7 @@
 
               <template v-else-if="section === 'notify'">
                 <MiText as="h3" variant="headline" weight="semibold">Notifications</MiText>
-                <div v-for="n in notifyRows" :key="n.key" class="wss__row">
+                <div v-for="n in notifyRows" :key="n.key" class="wss__row mi:flex mi:items-center mi:justify-between mi:gap-3.5 mi:py-3 mi:px-0 mi:border-t mi:border-t-sep">
                   <div><MiText :id="'wss-n-' + n.key" variant="subheadline" weight="medium">{{ n.label }}</MiText><MiText variant="caption" tone="label2">{{ n.sub }}</MiText></div>
                   <MiSwitch v-model="s[n.key]" size="compact" :aria-labelledby="'wss-n-' + n.key" />
                 </div>
@@ -44,12 +44,12 @@
 
               <template v-else-if="section === 'members'">
                 <MiText as="h3" variant="headline" weight="semibold">Members</MiText>
-                <div v-for="m in members" :key="m.email" class="wss__member">
+                <div v-for="m in members" :key="m.email" class="wss__member mi:grid mi:grid-cols-[auto_minmax(0,_1fr)_auto] mi:items-center mi:gap-2.5">
                   <MiAvatar :name="m.name" size="sm" tone="auto" decorative />
-                  <div class="wss__member-text"><MiText variant="subheadline" weight="medium" :lines="1">{{ m.name }}</MiText><MiText variant="caption" tone="label2" :lines="1">{{ m.email }}</MiText></div>
+                  <div class="wss__member-text mi:min-w-0"><MiText variant="subheadline" weight="medium" :lines="1">{{ m.name }}</MiText><MiText variant="caption" tone="label2" :lines="1">{{ m.email }}</MiText></div>
                   <MiNativeSelect v-model="s.roles[m.email]" size="sm" :options="roleOptions" :aria-label="'Role for ' + m.name" class="wss__role" />
                 </div>
-                <div class="wss__row">
+                <div class="wss__row mi:flex mi:items-center mi:justify-between mi:gap-3.5 mi:py-3 mi:px-0 mi:border-t mi:border-t-sep">
                   <div><MiText id="wss-guests" variant="subheadline" weight="medium">Allow guests</MiText><MiText variant="caption" tone="label2">Guests see only the projects they're invited to</MiText></div>
                   <MiSwitch v-model="s.guests" size="compact" aria-labelledby="wss-guests" />
                 </div>
@@ -57,7 +57,7 @@
 
               <template v-else>
                 <MiText as="h3" variant="headline" weight="semibold">Security</MiText>
-                <div class="wss__row">
+                <div class="wss__row mi:flex mi:items-center mi:justify-between mi:gap-3.5 mi:py-3 mi:px-0 mi:border-t mi:border-t-sep">
                   <div><MiText id="wss-2fa" variant="subheadline" weight="medium">Require two-step verification</MiText><MiText variant="caption" tone="label2">{{ s.twofa ? 'Members without it are asked at next sign-in' : '4 of 12 members have it on' }}</MiText></div>
                   <MiSwitch v-model="s.twofa" size="compact" tone="success" aria-labelledby="wss-2fa" />
                 </div>
@@ -70,7 +70,7 @@
           </div>
 
           <template #footer>
-            <div class="wss__foot" aria-live="polite">
+            <div class="wss__foot mi:flex mi:items-center mi:justify-between mi:gap-2.5 mi:min-h-8 mi:py-2 mi:px-4 mi:border-t mi:border-t-sep" aria-live="polite">
               <MiText v-if="dirty" variant="footnote" weight="medium">{{ changes.length }} unsaved {{ changes.length === 1 ? 'change' : 'changes' }}</MiText>
               <MiText v-else variant="footnote" tone="label2">{{ savedAt ? 'Saved just now' : 'All changes saved' }}</MiText>
               <MiButton v-if="dirty" variant="plain" size="small" @click="discard">Discard</MiButton>
@@ -135,34 +135,9 @@ function discard() { Object.assign(s, JSON.parse(saved.value) as State) }
 </script>
 
 <style scoped>
-.wss { container-type: inline-size; font-family: var(--mi-font); color: var(--mi-label); }
-.wss__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-.wss__backdrop {
-  display: grid; grid-template-columns: minmax(0, 1fr); place-items: center; min-height: 560px; padding: 16px; border-radius: var(--mi-radius-xl); box-sizing: border-box;
-  background: radial-gradient(70% 60% at 20% 10%, var(--mi-p-tint), transparent 70%), color-mix(in srgb, var(--mi-scrim) 70%, var(--mi-fill4));
-}
-@container (min-width: 700px) { .wss__backdrop { padding: 32px; } }
-.wss__shell { width: 100%; max-width: 820px; }
-
-.wss__body { display: grid; gap: 14px; padding: 4px 16px 12px; }
-@container (min-width: 640px) { .wss__body { grid-template-columns: 188px minmax(0, 1fr); gap: 22px; min-height: 340px; } }
-
-.wss__nav { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; margin-inline: -4px; padding: 2px 4px; }
-@container (min-width: 640px) { .wss__nav { flex-direction: column; overflow: visible; margin: 0; padding: 0 16px 0 0; border-right: 1px solid var(--mi-sep); } }
-.wss__tab {
-  position: relative; display: flex; align-items: center; gap: 8px; flex: none; padding: 8px 12px; border: 0; border-radius: 10px;
-  font: 500 14px/1.2 var(--mi-font); color: var(--mi-label2); background: transparent; cursor: pointer; white-space: nowrap;
-}
+.wss__sr { overflow: hidden; white-space: nowrap; }
 .wss__tab:hover { background: var(--mi-fill4); }
-.wss__tab:focus-visible { outline: 2px solid var(--mi-p); outline-offset: -2px; }
-.wss__tab.is-on { color: var(--mi-p-text); background: var(--mi-p-tint); font-weight: 600; }
-.wss__dot { width: 6px; height: 6px; border-radius: 50%; background: var(--mi-orange); margin-left: auto; }
-
-.wss__panel { display: grid; align-content: start; gap: 16px; min-width: 0; }
-.wss__row { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 12px 0; border-top: 1px solid var(--mi-sep); }
+.wss__tab.is-on { background: var(--mi-p-tint); }
 .wss__row > div:first-child { min-width: 0; }
-.wss__member { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 10px; }
-.wss__member-text { min-width: 0; }
 .wss__role { width: 116px; }
-.wss__foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 32px; padding: 8px 16px; border-top: 1px solid var(--mi-sep); }
 </style>

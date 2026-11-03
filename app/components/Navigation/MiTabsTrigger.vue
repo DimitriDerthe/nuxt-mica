@@ -19,7 +19,7 @@ defineSlots<{
 
 <template>
   <button
-    :id="`mi-tab-${ctx?.uid}-${value}`" type="button" role="tab" class="mi-tabs__tab" :class="{ 'is-on': on }"
+    :id="`mi-tab-${ctx?.uid}-${value}`" type="button" role="tab" class="mi-tabs__tab mi:cursor-pointer mi:[transition:opacity_var(--mi-dur-1)_var(--mi-ease),transform_var(--mi-dur-1)_var(--mi-ease)] mi:[&.is-on]:shadow-1 mi:disabled:cursor-default mi:focus-visible:[outline:3px_solid_color-mix(in_srgb,var(--mi-p)_55%,transparent)] mi:focus-visible:outline-offset-[2px]" :class="{ 'is-on': on }"
     :aria-selected="on" :aria-controls="`mi-tabpanel-${ctx?.uid}-${value}`" :tabindex="on ? 0 : -1"
     :disabled="disabled || undefined" @click="ctx && (ctx.model.value = value)"
   >
@@ -28,9 +28,8 @@ defineSlots<{
 </template>
 
 <style scoped>
-.mi-tabs__tab{border:0;border-radius:8px;height:30px;padding:0 12px;background:transparent;color:var(--mi-label2);font:inherit;font-family:var(--mi-font);font-size:14px;font-weight:500;cursor:pointer;transition:opacity var(--mi-dur-1) var(--mi-ease),transform var(--mi-dur-1) var(--mi-ease)}
-.mi-tabs__tab.is-on{background:var(--mi-card);color:var(--mi-label);box-shadow:var(--mi-sh1)}
+.mi-tabs__tab{border:0;border-radius:8px;height:30px;padding:0 12px;background:transparent;color:var(--mi-label2);font:inherit;font-family:var(--mi-font);font-size:14px;font-weight:500}
+.mi-tabs__tab.is-on{background:var(--mi-card);color:var(--mi-label)}
 .mi-tabs__tab:active:not(:disabled){transform:scale(.97)}
-.mi-tabs__tab:disabled{color:var(--mi-label3);cursor:default}
-.mi-tabs__tab:focus-visible{outline:3px solid color-mix(in srgb,var(--mi-p) 55%,transparent);outline-offset:2px}
+.mi-tabs__tab:disabled{color:var(--mi-label3)}
 </style>

@@ -1,6 +1,6 @@
 <template>
-  <section class="cme" aria-labelledby="cme-title">
-    <header class="cme__head">
+  <section class="cme mi:@container/cme mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="cme-title">
+    <header class="cme__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="cme-title" as="h2" variant="title3" weight="semibold">Commit message</MiText>
         <MiText variant="footnote" tone="label2">quayside/web · 4 files staged on fix/invoice-rounding</MiText>
@@ -8,9 +8,9 @@
       <MiBadge :tone="errors.length ? 'danger' : warnings.length ? 'warning' : 'success'" :label="verdict" dot />
     </header>
 
-    <div class="cme__body">
-      <div class="cme__form">
-        <div class="cme__prefix">
+    <div class="cme__body mi:grid mi:gap-3.5 mi:@[860px]/cme:grid-cols-[minmax(0,_1fr)_minmax(0,_1fr)] mi:@[860px]/cme:items-start">
+      <div class="cme__form mi:grid mi:gap-3 mi:p-4.5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:min-w-0">
+        <div class="cme__prefix mi:grid mi:grid-cols-[minmax(0,_1fr)_minmax(0,_1fr)] mi:gap-2.5">
           <MiField label="Type"><MiSelect v-model="type" :options="types" size="sm" /></MiField>
           <MiField label="Scope" hint="Optional"><MiInput v-model="scope" size="sm" placeholder="billing" /></MiField>
         </div>
@@ -24,9 +24,9 @@
           </template>
         </MiField>
         <!-- 50/72 ruler: soft target at 50 characters, hard limit at 72. -->
-        <div class="cme__ruler" aria-hidden="true">
-          <span class="cme__fill" :class="{ 'is-long': header.length > 50 }" :style="{ transform: `scaleX(${Math.min(header.length, 72) / 72})` }" />
-          <span class="cme__tick" />
+        <div class="cme__ruler mi:relative mi:h-1 mi:-mt-1 mi:rounded-[2px] mi:bg-fill3 mi:overflow-hidden" aria-hidden="true">
+          <span class="cme__fill mi:absolute mi:inset-0 mi:rounded-[inherit] mi:bg-green mi:origin-left mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:[&.is-long]:bg-orange" :class="{ 'is-long': header.length > 50 }" :style="{ transform: `scaleX(${Math.min(header.length, 72) / 72})` }" />
+          <span class="cme__tick mi:absolute mi:top-0 mi:right-auto mi:bottom-0 mi:left-[calc(50_/_72_*_100%)] mi:w-0.5 mi:bg-card" />
         </div>
 
         <MiField label="Body" hint="Why the change, not how. Wrap at 72 columns.">
@@ -41,15 +41,15 @@
         </MiField>
       </div>
 
-      <div class="cme__side">
+      <div class="cme__side mi:grid mi:gap-3 mi:p-4.5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:min-w-0">
         <MiCodeBlock :code="message" filename="COMMIT_EDITMSG" size="sm" />
-        <ul class="cme__lint" aria-label="Message checks">
-          <li v-for="l in lints" :key="l.text" :class="`is-${l.level}`">
-            <MiIcon :name="l.level === 'ok' ? 'check-circle' : l.level === 'error' ? 'x-circle-fill' : 'warning'" :size="15" />{{ l.text }}
+        <ul class="cme__lint mi:grid mi:gap-1.5 mi:m-0 mi:p-0 mi:[list-style:none] mi:text-[13px]" aria-label="Message checks">
+          <li class="mi:[.cme__lint_li&]:[align-items:flex-start] mi:[.cme__lint_li&]:gap-2 mi:[.cme__lint_li&]:text-label2" v-for="l in lints" :key="l.text" :class="`is-${l.level}`">
+            <MiIcon class="mi:[.cme__lint_li&]:[align-items:flex-start] mi:[.cme__lint_li&]:gap-2 mi:[.cme__lint_li&]:text-label2" :name="l.level === 'ok' ? 'check-circle' : l.level === 'error' ? 'x-circle-fill' : 'warning'" :size="15" />{{ l.text }}
           </li>
         </ul>
         <MiButton block :disabled="errors.length > 0" @click="committed = true">Commit 4 files</MiButton>
-        <p class="cme__status" role="status" aria-live="polite">{{ committed ? `Committed as 3f9c2e1: ${header}` : '' }}</p>
+        <p class="cme__status mi:min-h-4.5 mi:m-0 mi:text-[13px] mi:text-label2 mi:wrap-anywhere" role="status" aria-live="polite">{{ committed ? `Committed as 3f9c2e1: ${header}` : '' }}</p>
       </div>
     </div>
   </section>
@@ -105,25 +105,10 @@ const subjectError = computed(() => errors.value.find(l => l.subject)?.text)
 </script>
 
 <style scoped>
-.cme { container: cme / inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
-.cme__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-
-.cme__body { display: grid; gap: 14px; }
-@container cme (min-width: 860px) { .cme__body { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; } }
-.cme__form, .cme__side { display: grid; gap: 12px; padding: 18px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); min-width: 0; }
-.cme__prefix { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
 .cme__mono :deep(input), .cme__mono :deep(textarea) { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13.5px; }
-
-.cme__ruler { position: relative; height: 4px; margin-top: -4px; border-radius: 2px; background: var(--mi-fill3); overflow: hidden; }
-.cme__fill { position: absolute; inset: 0; border-radius: inherit; background: var(--mi-green); transform-origin: left; transition: transform var(--mi-dur-2) var(--mi-ease); }
-.cme__fill.is-long { background: var(--mi-orange); }
-.cme__tick { position: absolute; inset: 0 auto 0 calc(50 / 72 * 100%); width: 2px; background: var(--mi-card); }
-
-.cme__lint { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; font-size: 13px; }
-.cme__lint li { display: flex; align-items: flex-start; gap: 8px; color: var(--mi-label2); }
+.cme__lint li { display: flex; }
 .cme__lint li :deep(svg) { flex: none; margin-top: 1px; }
 .cme__lint .is-ok :deep(svg) { color: var(--mi-green); }
 .cme__lint .is-warn :deep(svg) { color: var(--mi-orange); }
 .cme__lint .is-error { color: var(--mi-red-t); }
-.cme__status { min-height: 18px; margin: 0; font-size: 13px; color: var(--mi-label2); overflow-wrap: anywhere; }
 </style>

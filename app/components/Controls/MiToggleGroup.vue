@@ -80,7 +80,7 @@ function onKeydown(e: KeyboardEvent) {
 <template>
   <div
     ref="root"
-    class="mi-tgroup"
+    class="mi-tgroup mi:font-mi mi:[&.is-vertical]:flex-col"
     :class="[`is-${orientation}`, { 'is-joined': spacing === 0 }]"
     role="group"
     :aria-label="label"
@@ -92,7 +92,7 @@ function onKeydown(e: KeyboardEvent) {
       v-for="o in options"
       :key="o.value"
       type="button"
-      class="mi-tgroup__item"
+      class="mi-tgroup__item mi:inline-flex mi:items-center mi:justify-center mi:gap-1.5 mi:min-w-(--_h) mi:h-(--_h) mi:py-0 mi:px-2.5 mi:[border:.5px_solid_transparent] mi:rounded-[9px] mi:bg-transparent mi:text-label mi:whitespace-nowrap mi:cursor-pointer mi:[-webkit-tap-highlight-color:transparent] mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring),_opacity_var(--mi-dur-1)_ease] mi:[&.is-outline]:border-sep mi:[&.is-on]:text-p-text mi:active:transform-[scale(.96)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:focus-visible:z-1 mi:disabled:opacity-40 mi:disabled:cursor-default mi:disabled:pointer-events-none mi:[.is-joined_&]:rounded-none mi:[.is-joined_&:first-child]:rounded-[9px_0_0_9px] mi:[.is-joined_&:last-child]:rounded-[0_9px_9px_0] mi:[.is-joined.is-vertical_&:first-child]:rounded-[9px_9px_0_0] mi:[.is-joined.is-vertical_&:last-child]:rounded-[0_0_9px_9px] mi:[.is-joined:not(.is-vertical)_.mi-tgroup__item.is-outline+&.is-outline]:ms-[-.5px] mi:[.is-joined.is-vertical_.mi-tgroup__item.is-outline+&.is-outline]:mt-[-.5px]"
       :class="[`is-${variant}`, `is-${size}`, { 'is-on': isOn(o) }]"
       :aria-pressed="isOn(o)"
       :aria-label="o.ariaLabel ?? (o.label ? undefined : String(o.value))"
@@ -106,44 +106,16 @@ function onKeydown(e: KeyboardEvent) {
 </template>
 
 <style scoped>
-.mi-tgroup { display: inline-flex; gap: var(--_gap); font-family: var(--mi-font); }
-.mi-tgroup.is-vertical { flex-direction: column; align-items: stretch; }
+.mi-tgroup { display: inline-flex; gap: var(--_gap); }
+.mi-tgroup.is-vertical { align-items: stretch; }
 .mi-tgroup__item {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  min-width: var(--_h);
-  height: var(--_h);
-  padding: 0 10px;
-  border: .5px solid transparent;
-  border-radius: 9px;
-  background: transparent;
-  color: var(--mi-label);
   font: inherit;
   font-size: 14px;
   font-weight: 500;
-  white-space: nowrap;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  transition: transform var(--mi-dur-2) var(--mi-spring), opacity var(--mi-dur-1) ease;
 }
 .mi-tgroup__item.is-sm { --_h: 32px; font-size: 13px; padding: 0 8px; }
 .mi-tgroup__item.is-default { --_h: 36px; }
 .mi-tgroup__item.is-lg { --_h: 44px; font-size: 15px; padding: 0 14px; }
-.mi-tgroup__item.is-outline { border-color: var(--mi-sep); }
 .mi-tgroup__item:hover { background: var(--mi-fill3); }
-.mi-tgroup__item.is-on { background: var(--mi-p-tint); color: var(--mi-p-text); }
-.mi-tgroup__item:active { transform: scale(.96); }
-.mi-tgroup__item:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; z-index: 1; }
-.mi-tgroup__item:disabled { opacity: .4; cursor: default; pointer-events: none; }
-
-/* Connected bar: only the outer corners stay round, shared borders overlap. */
-.is-joined .mi-tgroup__item { border-radius: 0; }
-.is-joined .mi-tgroup__item:first-child { border-radius: 9px 0 0 9px; }
-.is-joined .mi-tgroup__item:last-child { border-radius: 0 9px 9px 0; }
-.is-joined.is-vertical .mi-tgroup__item:first-child { border-radius: 9px 9px 0 0; }
-.is-joined.is-vertical .mi-tgroup__item:last-child { border-radius: 0 0 9px 9px; }
-.is-joined:not(.is-vertical) .mi-tgroup__item.is-outline + .mi-tgroup__item.is-outline { margin-inline-start: -.5px; }
-.is-joined.is-vertical .mi-tgroup__item.is-outline + .mi-tgroup__item.is-outline { margin-top: -.5px; }
+.mi-tgroup__item.is-on { background: var(--mi-p-tint); }
 </style>

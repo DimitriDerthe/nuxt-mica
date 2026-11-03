@@ -173,14 +173,13 @@ watch(() => props.tone, () => { readInk(); sync() }, { flush: 'post' })
 
 <template>
   <span
-    class="mi-orb" :data-state="state" :role="name ? 'status' : undefined" :aria-label="name || undefined"
+    class="mi-orb mi:align-middle" :data-state="state" :role="name ? 'status' : undefined" :aria-label="name || undefined"
     :aria-hidden="name ? undefined : 'true'" :style="{ color, width: px + 'px', height: px + 'px' }"
   >
-    <canvas ref="canvas" class="mi-orb__canvas" :width="px" :height="px" aria-hidden="true" />
+    <canvas ref="canvas" class="mi-orb__canvas mi:block mi:w-full mi:h-full" :width="px" :height="px" aria-hidden="true" />
   </span>
 </template>
 
 <style scoped>
-.mi-orb { display: inline-flex; flex: none; line-height: 0; vertical-align: middle; }
-.mi-orb__canvas { display: block; width: 100%; height: 100%; }
+.mi-orb { display: inline-flex; flex: none; line-height: 0; }
 </style>

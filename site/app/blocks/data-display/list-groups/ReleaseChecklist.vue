@@ -1,6 +1,6 @@
 <template>
-  <section class="rc" aria-labelledby="rc-title">
-    <header class="rc__head">
+  <section class="rc mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="rc-title">
+    <header class="rc__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="rc-title" variant="title3" as="h2" weight="semibold">Release 4.2 checklist</MiText>
         <MiText variant="footnote" tone="label2" tabular aria-live="polite">{{ doneCount }} of {{ total }} done · store submission Thursday</MiText>
@@ -9,18 +9,18 @@
     </header>
 
     <!-- One segment per group, each filling with its own progress: the release reads like a fuel gauge. -->
-    <div class="rc__gauge" role="img" :aria-label="`${doneCount} of ${total} tasks done`">
-      <span v-for="g in groups" :key="g.id" class="rc__gauge-seg" :style="{ flexGrow: g.items.length }">
-        <i :style="{ transform: `scaleX(${ratio(g)})` }" :class="{ 'is-full': ratio(g) === 1 }" />
+    <div class="rc__gauge mi:flex mi:gap-1 mi:h-2" role="img" :aria-label="`${doneCount} of ${total} tasks done`">
+      <span v-for="g in groups" :key="g.id" class="rc__gauge-seg mi:basis-0 mi:rounded-[4px] mi:bg-fill3 mi:overflow-hidden" :style="{ flexGrow: g.items.length }">
+        <i class="mi:[.rc__gauge-seg_&]:block mi:[.rc__gauge-seg_&]:h-full mi:[.rc__gauge-seg_&]:bg-p mi:[.rc__gauge-seg_&]:origin-left mi:[.rc__gauge-seg_&]:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleX(${ratio(g)})` }" :class="{ 'is-full': ratio(g) === 1 }" />
       </span>
     </div>
 
-    <div class="rc__groups">
+    <div class="rc__groups mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:gap-y-1 mi:gap-x-4 mi:items-start mi:@[760px]:grid-cols-2">
       <MiList v-for="g in visibleGroups" :key="g.id" class="rc__group" :label="g.title">
         <template #header>
-          <span class="rc__group-head">
+          <span class="rc__group-head mi:flex mi:items-center mi:justify-between mi:gap-2 mi:w-full">
             <span>{{ g.title }}</span>
-            <span class="rc__count" :class="{ 'is-full': ratio(g) === 1 }">{{ g.items.filter(i => i.done).length }}/{{ g.items.length }}</span>
+            <span class="rc__count mi:py-px mi:px-[7px] mi:rounded-[99px] mi:tabular-nums mi:tracking-[0] mi:bg-fill2 mi:[&.is-full]:text-green-t mi:[&.is-full]:[background:color-mix(in_srgb,_var(--mi-green)_14%,_transparent)]" :class="{ 'is-full': ratio(g) === 1 }">{{ g.items.filter(i => i.done).length }}/{{ g.items.length }}</span>
           </span>
         </template>
 
@@ -33,14 +33,14 @@
         </MiListItem>
         <template v-else>
           <MiListItem v-for="item in rows(g)" :key="item.id" class="rc__row" :class="{ 'is-done': item.done }">
-            <template #title><span class="rc__task">{{ item.title }}</span></template>
+            <template #title><span class="rc__task mi:[.is-done_&]:text-label2">{{ item.title }}</span></template>
             <template #leading>
-              <MiCheckbox v-model="item.done"><span class="rc__sr">{{ item.title }}</span></MiCheckbox>
+              <MiCheckbox v-model="item.done"><span class="rc__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">{{ item.title }}</span></MiCheckbox>
             </template>
             <template #subtitle>
-              <span class="rc__meta">
+              <span class="rc__meta mi:inline-flex mi:flex-wrap mi:gap-1">
                 <span>{{ item.owner === ME ? 'You' : item.owner }}</span>
-                <span v-if="!item.done" :class="{ 'rc__late': item.due === 'Today' }">· {{ item.due }}</span>
+                <span v-if="!item.done" :class="{ 'rc__late mi:text-orange-t mi:font-semibold': item.due === 'Today' }">· {{ item.due }}</span>
               </span>
             </template>
             <template #trailing>
@@ -106,22 +106,7 @@ const reopen = (id: string) => { opened.value = new Set(opened.value).add(id) }
 </script>
 
 <style scoped>
-.rc { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
-.rc__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.rc__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-
-.rc__gauge { display: flex; gap: 4px; height: 8px; }
-.rc__gauge-seg { flex-basis: 0; border-radius: 4px; background: var(--mi-fill3); overflow: hidden; }
-.rc__gauge-seg i { display: block; height: 100%; background: var(--mi-p); transform-origin: left; transition: transform var(--mi-dur-4) var(--mi-spring); }
 .rc__gauge-seg i.is-full { background: var(--mi-green); }
-
-.rc__groups { display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px 16px; align-items: start; }
-@container (min-width: 760px) { .rc__groups { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .rc__group { min-width: 0; }
-.rc__group-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; }
-.rc__count { padding: 1px 7px; border-radius: 99px; font-variant-numeric: tabular-nums; letter-spacing: 0; background: var(--mi-fill2); }
-.rc__count.is-full { color: var(--mi-green-t); background: color-mix(in srgb, var(--mi-green) 14%, transparent); }
-.is-done .rc__task { color: var(--mi-label2); text-decoration: line-through; text-decoration-color: var(--mi-label3); }
-.rc__meta { display: inline-flex; flex-wrap: wrap; gap: 4px; }
-.rc__late { color: var(--mi-orange-t); font-weight: 600; }
+.is-done .rc__task { text-decoration: line-through; text-decoration-color: var(--mi-label3); }
 </style>

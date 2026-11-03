@@ -54,7 +54,7 @@ watch(open, (v) => {
       <button
         :id="`${id}-trigger`"
         type="button"
-        class="mi-ai__t"
+        class="mi-ai__t mi:flex mi:items-center mi:justify-between mi:gap-4 mi:w-full mi:min-h-14 mi:p-0 mi:[border:0] mi:bg-transparent mi:text-label mi:font-mi mi:text-[17px] mi:font-semibold mi:text-left mi:cursor-pointer mi:disabled:cursor-default mi:disabled:opacity-50"
         data-mi-acc-trigger
         :aria-expanded="open"
         :aria-controls="`${id}-panel`"
@@ -62,19 +62,19 @@ watch(open, (v) => {
         @click="toggle"
       >
         <span class="mi-ai__title"><slot name="title">{{ title }}</slot></span>
-        <svg class="mi-ai__chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg>
+        <svg class="mi-ai__chev mi:flex-[none] mi:text-p-text mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:[.mi-ai--open_&]:transform-[rotate(90deg)]" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg>
       </button>
     </component>
     <div
       :id="`${id}-panel`"
       ref="panel"
-      class="mi-ai__p"
+      class="mi-ai__p mi:grid mi:grid-rows-[0fr] mi:invisible mi:[transition:visibility_0s_linear_var(--mi-dur-3)] mi:[.mi-ai--open>&]:grid-rows-[1fr] mi:[.mi-ai--open>&]:visible mi:[.mi-ai--open>&]:delay-[0s]"
       role="region"
       :aria-labelledby="`${id}-trigger`"
       :inert="!open"
     >
-      <div class="mi-ai__clip">
-        <div class="mi-ai__body"><slot /></div>
+      <div class="mi-ai__clip mi:min-h-0 mi:overflow-hidden">
+        <div class="mi-ai__body mi:-mt-1 mi:pt-0 mi:pr-8 mi:pb-4.5 mi:pl-0 mi:font-mi mi:text-[15px] mi:leading-[22px] mi:text-label2 mi:opacity-0 mi:transform-[translate3d(0,-6px,0)] mi:[transition:opacity_var(--mi-dur-2)_linear,transform_var(--mi-dur-3)_var(--mi-ease)] mi:[.mi-ai--open_&]:opacity-100 mi:[.mi-ai--open_&]:transform-none"><slot /></div>
       </div>
     </div>
   </div>
@@ -83,13 +83,4 @@ watch(open, (v) => {
 <style scoped>
 .mi-ai + .mi-ai{border-top:.5px solid var(--mi-sep)}
 .mi-ai__h{margin:0;font:inherit}
-.mi-ai__t{display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;min-height:56px;padding:0;border:0;background:transparent;color:var(--mi-label);font-family:var(--mi-font);font-size:17px;font-weight:600;text-align:left;cursor:pointer}
-.mi-ai__t:disabled{cursor:default;opacity:.5}
-.mi-ai__chev{flex:none;color:var(--mi-p-text);transition:transform var(--mi-dur-2) var(--mi-ease)}
-.mi-ai--open .mi-ai__chev{transform:rotate(90deg)}
-.mi-ai__p{display:grid;grid-template-rows:0fr;visibility:hidden;transition:visibility 0s linear var(--mi-dur-3)}
-.mi-ai--open > .mi-ai__p{grid-template-rows:1fr;visibility:visible;transition-delay:0s}
-.mi-ai__clip{min-height:0;overflow:hidden}
-.mi-ai__body{margin-top:-4px;padding:0 32px 18px 0;font-family:var(--mi-font);font-size:15px;line-height:22px;color:var(--mi-label2);opacity:0;transform:translate3d(0,-6px,0);transition:opacity var(--mi-dur-2) linear,transform var(--mi-dur-3) var(--mi-ease)}
-.mi-ai--open .mi-ai__body{opacity:1;transform:none}
 </style>

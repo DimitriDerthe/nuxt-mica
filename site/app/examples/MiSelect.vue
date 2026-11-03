@@ -23,7 +23,7 @@ const plan = ref<string | number | null>('team')
 </script>
 
 <template>
-  <div class="card">
+  <div class="card mi:shadow-1">
     <MiField label="Plan" hint="You can switch plans at any time.">
       <MiSelect v-model="plan" v-bind="p" name="plan" />
     </MiField>
@@ -31,5 +31,5 @@ const plan = ref<string | number | null>('team')
 </template>
 
 <style scoped>
-.card { width: min(100%, 340px); margin-inline: auto; padding: 18px; border-radius: 20px; background: var(--mi-card); box-shadow: var(--mi-sh1); }
+.card { width: min(100%, 340px); margin-inline: auto; padding: 18px; border-radius: 20px; background: var(--mi-card); }
 </style>

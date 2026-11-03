@@ -1,26 +1,26 @@
 <template>
-  <section class="mat" aria-labelledby="mat-title">
-    <header class="mat__head">
+  <section class="mat mi:@container mi:relative mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="mat-title">
+    <header class="mat__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-y-3 mi:gap-x-6">
       <div>
         <MiText id="mat-title" variant="title3" as="h2" weight="semibold">Workspace members</MiText>
         <MiText variant="footnote" tone="label2">Northwind Studio · Business plan</MiText>
       </div>
       <!-- Seat ledger: the number admins actually manage, right above the list it comes from. -->
-      <div class="mat__seats">
+      <div class="mat__seats mi:grid mi:gap-1 mi:flex-[0_1_220px] mi:min-w-40">
         <MiMeter :value="used" :max="SEATS" size="sm" aria-label="Seats used" :value-text="`${used} of ${SEATS} seats`" />
         <MiText variant="caption" tone="label2" tabular>{{ used }} of {{ SEATS }} seats · {{ invited }} pending</MiText>
       </div>
     </header>
 
-    <div class="mat__toolbar">
+    <div class="mat__toolbar mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2.5">
       <MiSearch v-model="query" size="compact" placeholder="Name or email" aria-label="Search members" class="mat__search" />
       <MiSegmented v-model="role" label="Role" :options="roleFilters" />
     </div>
 
     <Transition name="mat-bulk">
-      <div v-if="selected.length" class="mat__bulk" role="region" aria-label="Bulk actions">
+      <div v-if="selected.length" class="mat__bulk mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-2 mi:gap-x-3 mi:pt-2 mi:pr-2 mi:pb-2 mi:pl-3.5 mi:rounded-lg mi:bg-p-tint" role="region" aria-label="Bulk actions">
         <MiText as="span" variant="subheadline" weight="semibold" tabular aria-live="polite">{{ selected.length }} selected</MiText>
-        <div class="mat__bulk-actions">
+        <div class="mat__bulk-actions mi:flex mi:flex-wrap mi:items-center mi:gap-1.5">
           <MiMenu :items="roleItems" label="Change role" aria-label="Change role of selected members" @select="bulkRole" />
           <MiButton size="small" variant="destructive" soft @click="removeSelected">Remove</MiButton>
           <MiIconButton size="small" variant="plain" label="Clear selection" @click="selected = []"><MiIcon name="close" :size="16" /></MiIconButton>
@@ -29,17 +29,17 @@
     </Transition>
 
     <!-- Wide: a sortable table. Narrow: the same rows as cards; both share filters and selection. -->
-    <div class="mat__table">
+    <div class="mat__table mi:hidden mi:min-w-0 mi:overflow-x-auto mi:@[760px]:block">
       <MiDataTable
         v-model:selected="selected" :columns="columns" :rows="rows" :filterable="false" selectable="multiple" :page-size="10"
         caption="Workspace members" empty-text="No member matches this search."
       >
         <template #cell-name="{ row }">
-          <span class="mat__who">
+          <span class="mat__who mi:flex mi:items-center mi:gap-2.5 mi:min-w-0 mi:py-1 mi:px-0">
             <MiAvatar :name="m(row).name" size="sm" tone="auto" decorative />
-            <span class="mat__who-text">
-              <span class="mat__name">{{ m(row).name }}<MiBadge v-if="m(row).status === 'invited'" tone="neutral" variant="outline" label="Invited" /></span>
-              <span class="mat__email">{{ m(row).email }}</span>
+            <span class="mat__who-text mi:grid mi:min-w-0">
+              <span class="mat__name mi:flex mi:items-center mi:gap-1.5 mi:font-semibold mi:whitespace-nowrap">{{ m(row).name }}<MiBadge v-if="m(row).status === 'invited'" tone="neutral" variant="outline" label="Invited" /></span>
+              <span class="mat__email mi:text-[12px] mi:text-label2 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ m(row).email }}</span>
             </span>
           </span>
         </template>
@@ -50,37 +50,37 @@
           />
         </template>
         <template #cell-active="{ row }">
-          <span class="mat__active"><i :class="'is-' + recency(m(row))" aria-hidden="true" />{{ m(row).lastLabel }}</span>
+          <span class="mat__active mi:inline-flex mi:items-center mi:gap-1.5 mi:text-[13px] mi:text-label2 mi:whitespace-nowrap"><i class="mi:[.mat__active_&]:w-[7px] mi:[.mat__active_&]:h-[7px] mi:[.mat__active_&]:rounded-[50%] mi:[.mat__active_&]:bg-label3" :class="'is-' + recency(m(row))" aria-hidden="true" />{{ m(row).lastLabel }}</span>
         </template>
         <template #cell-mfa="{ row }">
-          <span v-if="m(row).status === 'invited'" class="mat__mfa" aria-label="Not set up yet">–</span>
-          <span v-else class="mat__mfa" :class="{ 'is-off': !m(row).mfa }">
+          <span v-if="m(row).status === 'invited'" class="mat__mfa mi:inline-flex mi:items-center mi:gap-1 mi:text-[13px] mi:text-label2 mi:[&.is-off]:text-orange-t mi:[&.is-off]:font-semibold" aria-label="Not set up yet">–</span>
+          <span v-else class="mat__mfa mi:inline-flex mi:items-center mi:gap-1 mi:text-[13px] mi:text-label2 mi:[&.is-off]:text-orange-t mi:[&.is-off]:font-semibold" :class="{ 'is-off': !m(row).mfa }">
             <MiIcon :name="m(row).mfa ? 'lock' : 'warning'" :size="14" />{{ m(row).mfa ? 'On' : 'Off' }}
           </span>
         </template>
         <template #cell-weeks="{ row }">
-          <span class="mat__weeks" role="img" :aria-label="`${total(m(row))} sessions in 12 weeks`">
-            <i v-for="(w, i) in m(row).weeks" :key="i" :style="{ opacity: w ? 0.18 + (w / 7) * 0.82 : 1 }" :class="{ 'is-zero': !w }" />
+          <span class="mat__weeks mi:inline-grid mi:grid-cols-[repeat(12,_8px)] mi:gap-0.5" role="img" :aria-label="`${total(m(row))} sessions in 12 weeks`">
+            <i class="mi:[.mat__weeks_&]:w-2 mi:[.mat__weeks_&]:h-3.5 mi:[.mat__weeks_&]:rounded-[2px] mi:[.mat__weeks_&]:bg-p" v-for="(w, i) in m(row).weeks" :key="i" :style="{ opacity: w ? 0.18 + (w / 7) * 0.82 : 1 }" :class="{ 'is-zero': !w }" />
           </span>
         </template>
       </MiDataTable>
     </div>
 
-    <ul class="mat__cards">
-      <li v-for="mem in rows" :key="mem.id" class="mat__card" :class="{ 'is-sel': selected.includes(mem.id) }">
-        <MiCheckbox :model-value="selected.includes(mem.id)" @update:model-value="toggle(mem.id)"><span class="mat__sr">Select {{ mem.name }}</span></MiCheckbox>
+    <ul class="mat__cards mi:grid mi:gap-2 mi:m-0 mi:p-0 mi:[list-style:none] mi:@[760px]:hidden">
+      <li v-for="mem in rows" :key="mem.id" class="mat__card mi:grid mi:grid-cols-[auto_auto_minmax(0,_1fr)] mi:items-start mi:gap-2.5 mi:py-3 mi:px-3.5 mi:rounded-lg mi:bg-card mi:shadow-1 mi:[&.is-sel]:shadow-[0_0_0_2px_var(--mi-p),_var(--mi-sh1)]" :class="{ 'is-sel': selected.includes(mem.id) }">
+        <MiCheckbox :model-value="selected.includes(mem.id)" @update:model-value="toggle(mem.id)"><span class="mat__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">Select {{ mem.name }}</span></MiCheckbox>
         <MiAvatar :name="mem.name" size="sm" tone="auto" decorative />
-        <div class="mat__card-text">
+        <div class="mat__card-text mi:grid mi:gap-0.5 mi:min-w-0">
           <MiText as="h3" variant="subheadline" weight="semibold" :lines="1">{{ mem.name }}</MiText>
           <MiText variant="caption" tone="label2" :lines="1">{{ mem.email }}</MiText>
-          <span class="mat__card-meta">
+          <span class="mat__card-meta mi:flex mi:flex-wrap mi:items-center mi:gap-y-1.5 mi:gap-x-2.5 mi:mt-1.5">
             <MiBadge :tone="mem.role === 'owner' || mem.role === 'admin' ? 'primary' : 'neutral'" :label="roleName(mem.role)" />
-            <span class="mat__active"><i :class="'is-' + recency(mem)" aria-hidden="true" />{{ mem.lastLabel }}</span>
-            <span v-if="!mem.mfa && mem.status === 'active'" class="mat__mfa is-off"><MiIcon name="warning" :size="13" />No 2FA</span>
+            <span class="mat__active mi:inline-flex mi:items-center mi:gap-1.5 mi:text-[13px] mi:text-label2 mi:whitespace-nowrap"><i class="mi:[.mat__active_&]:w-[7px] mi:[.mat__active_&]:h-[7px] mi:[.mat__active_&]:rounded-[50%] mi:[.mat__active_&]:bg-label3" :class="'is-' + recency(mem)" aria-hidden="true" />{{ mem.lastLabel }}</span>
+            <span v-if="!mem.mfa && mem.status === 'active'" class="mat__mfa is-off mi:inline-flex mi:items-center mi:gap-1 mi:text-[13px] mi:text-label2 mi:[&.is-off]:text-orange-t mi:[&.is-off]:font-semibold"><MiIcon name="warning" :size="13" />No 2FA</span>
           </span>
         </div>
       </li>
-      <li v-if="!rows.length" class="mat__none"><MiText variant="footnote" tone="label2">No member matches this search.</MiText></li>
+      <li v-if="!rows.length" class="mat__none mi:p-5 mi:text-center"><MiText variant="footnote" tone="label2">No member matches this search.</MiText></li>
     </ul>
   </section>
 </template>
@@ -150,43 +150,13 @@ const removeSelected = () => {
 </script>
 
 <style scoped>
-.mat { container-type: inline-size; position: relative; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
-.mat__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 24px; }
-.mat__seats { display: grid; gap: 4px; flex: 0 1 220px; min-width: 160px; }
-.mat__toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
 .mat__search { flex: 1 1 200px; max-width: 300px; min-width: 0; }
-.mat__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-
-.mat__bulk { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; padding: 8px 8px 8px 14px; border-radius: var(--mi-radius-l); background: var(--mi-p-tint); }
-.mat__bulk-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
 .mat-bulk-enter-active, .mat-bulk-leave-active { transition: transform var(--mi-dur-3) var(--mi-spring), opacity var(--mi-dur-2) var(--mi-ease); }
 .mat-bulk-enter-from, .mat-bulk-leave-to { transform: translateY(-6px); opacity: 0; }
-
-.mat__table { display: none; min-width: 0; overflow-x: auto; }
-.mat__cards { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
-@container (min-width: 760px) { .mat__table { display: block; } .mat__cards { display: none; } }
-
-.mat__who { display: flex; align-items: center; gap: 10px; min-width: 0; padding: 4px 0; }
-.mat__who-text { display: grid; min-width: 0; }
-.mat__name { display: flex; align-items: center; gap: 6px; font-weight: 600; white-space: nowrap; }
-.mat__email { font-size: 12px; color: var(--mi-label2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.mat__active { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--mi-label2); white-space: nowrap; }
-.mat__active i { width: 7px; height: 7px; border-radius: 50%; background: var(--mi-label3); }
 .mat__active i.is-now { background: var(--mi-green); box-shadow: 0 0 0 3px color-mix(in srgb, var(--mi-green) 22%, transparent); }
 .mat__active i.is-recent { background: var(--mi-green); }
 .mat__active i.is-idle { background: var(--mi-orange); }
 .mat__active i.is-invited { background: transparent; box-shadow: inset 0 0 0 1.5px var(--mi-label3); }
-.mat__mfa { display: inline-flex; align-items: center; gap: 4px; font-size: 13px; color: var(--mi-label2); }
-.mat__mfa.is-off { color: var(--mi-orange-t); font-weight: 600; }
-/* Twelve squares, one per week, darker with more sessions: a dormant account fades out on its own. */
-.mat__weeks { display: inline-grid; grid-template-columns: repeat(12, 8px); gap: 2px; }
-.mat__weeks i { width: 8px; height: 14px; border-radius: 2px; background: var(--mi-p); }
 .mat__weeks i.is-zero { background: var(--mi-fill3); }
-
-.mat__card { display: grid; grid-template-columns: auto auto minmax(0, 1fr); align-items: start; gap: 10px; padding: 12px 14px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.mat__card.is-sel { box-shadow: 0 0 0 2px var(--mi-p), var(--mi-sh1); }
 .mat__card > :first-child { padding-top: 6px; }
-.mat__card-text { display: grid; gap: 2px; min-width: 0; }
-.mat__card-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin-top: 6px; }
-.mat__none { padding: 20px; text-align: center; }
 </style>

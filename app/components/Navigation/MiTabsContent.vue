@@ -17,7 +17,7 @@ defineSlots<{
 
 <template>
   <div
-    v-if="on" :id="`mi-tabpanel-${ctx?.uid}-${value}`" class="mi-tabs__panel" role="tabpanel"
+    v-if="on" :id="`mi-tabpanel-${ctx?.uid}-${value}`" class="mi-tabs__panel mi:font-mi mi:[outline:none] mi:focus-visible:[outline:3px_solid_color-mix(in_srgb,var(--mi-p)_55%,transparent)] mi:focus-visible:outline-offset-[2px]" role="tabpanel"
     :aria-labelledby="`mi-tab-${ctx?.uid}-${value}`" tabindex="0"
   >
     <slot />
@@ -25,6 +25,5 @@ defineSlots<{
 </template>
 
 <style scoped>
-.mi-tabs__panel{font-family:var(--mi-font);color:var(--mi-label);outline:none;flex:1;min-width:0}
-.mi-tabs__panel:focus-visible{outline:3px solid color-mix(in srgb,var(--mi-p) 55%,transparent);outline-offset:2px}
+.mi-tabs__panel{color:var(--mi-label);flex:1;min-width:0}
 </style>

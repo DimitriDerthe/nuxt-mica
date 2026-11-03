@@ -1,6 +1,6 @@
 <template>
-  <section class="mcs" aria-labelledby="mcs-title">
-    <header class="mcs__head">
+  <section class="mcs mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="mcs-title">
+    <header class="mcs__head mi:flex mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="mcs-title" variant="title3" as="h2" weight="semibold">Order at the table</MiText>
         <MiText variant="footnote" tone="label2">Café Sorrel · table 14</MiText>
@@ -10,21 +10,21 @@
       </MiButton>
     </header>
 
-    <div ref="pane" class="mcs__pane">
+    <div ref="pane" class="mcs__pane mi:relative mi:h-110 mi:overflow-y-auto mi:overscroll-contain mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-[var(--mi-sh1),_inset_0_0_0_1px_var(--mi-sep)] mi:@[720px]:h-120">
       <!-- Sticky chip bar: the chip of the category in view lights up and is kept centred in the strip. -->
-      <nav ref="strip" class="mcs__strip" aria-label="Menu categories">
+      <nav ref="strip" class="mcs__strip mi:sticky mi:top-0 mi:z-1 mi:flex mi:gap-1.5 mi:py-2.5 mi:px-3 mi:overflow-x-auto mi:[scrollbar-width:none] mi:[background:color-mix(in_srgb,_var(--mi-card)_88%,_transparent)] mi:[backdrop-filter:blur(12px)] mi:shadow-[inset_0_-1px_0_var(--mi-sep)] mi:@[720px]:py-3 mi:@[720px]:px-5" aria-label="Menu categories">
         <a
-          v-for="c in categories" :key="c.id" :href="'#' + c.id" :data-id="c.id" class="mcs__chip"
+          v-for="c in categories" :key="c.id" :href="'#' + c.id" :data-id="c.id" class="mcs__chip mi:inline-flex mi:items-center mi:gap-1.5 mi:flex-[none] mi:py-1.5 mi:px-3 mi:rounded-[999px] mi:text-[13px] mi:font-semibold mi:text-label2 mi:[text-decoration:none] mi:[background:var(--mi-fill4)] mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring)] mi:active:transform-[scale(.96)] mi:aria-current:text-p-on mi:aria-current:[background:var(--mi-p)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]"
           :aria-current="c.id === active ? 'true' : undefined" @click.prevent="go(c.id)"
-        >{{ c.label }}<span class="mcs__n">{{ c.items.length }}</span></a>
+        >{{ c.label }}<span class="mcs__n mi:text-[11px] mi:font-medium mi:opacity-70 mi:tabular-nums">{{ c.items.length }}</span></a>
       </nav>
 
-      <section v-for="c in categories" :id="c.id" :key="c.id" class="mcs__section" :aria-labelledby="c.id + '-h'">
+      <section v-for="c in categories" :id="c.id" :key="c.id" class="mcs__section mi:grid mi:gap-1 mi:pt-4.5 mi:px-3.5 mi:pb-1.5 mi:@[720px]:pt-5.5 mi:@[720px]:px-6 mi:@[720px]:pb-1.5" :aria-labelledby="c.id + '-h'">
         <MiText :id="c.id + '-h'" variant="headline" as="h3">{{ c.label }}</MiText>
-        <ul class="mcs__items">
-          <li v-for="it in c.items" :key="it.name" class="mcs__item">
-            <span class="mcs__plate" :style="{ '--a': `var(--mi-${c.hue})` }" aria-hidden="true" />
-            <span class="mcs__text">
+        <ul class="mcs__items mi:grid mi:m-0 mi:p-0 mi:[list-style:none] mi:@[720px]:grid-cols-2 mi:@[720px]:gap-x-7">
+          <li v-for="it in c.items" :key="it.name" class="mcs__item mi:flex mi:items-center mi:gap-3 mi:py-3 mi:px-0 mi:[.mcs__item+&]:shadow-[inset_0_1px_0_var(--mi-sep)] mi:@[720px]:[.mcs__item+&]:shadow-none mi:@[720px]:shadow-[inset_0_1px_0_var(--mi-sep)]">
+            <span class="mcs__plate mi:w-14 mi:h-14 mi:flex-[none] mi:rounded-[50%] mi:[background:radial-gradient(circle_at_40%_35%,_color-mix(in_srgb,_var(--a)_55%,_var(--mi-card))_0_30%,_var(--a)_31%_46%,_var(--mi-fill3)_47%)]" :style="{ '--a': `var(--mi-${c.hue})` }" aria-hidden="true" />
+            <span class="mcs__text mi:grid mi:gap-0.5 mi:flex-1 mi:min-w-0">
               <MiText as="span" variant="subheadline" weight="semibold">{{ it.name }}</MiText>
               <MiText as="span" variant="caption" tone="label2" :lines="2">{{ it.desc }}</MiText>
               <MiText as="span" variant="footnote" weight="semibold" tabular>£{{ it.price.toFixed(2) }}</MiText>
@@ -33,7 +33,7 @@
           </li>
         </ul>
       </section>
-      <p class="mcs__end">Kitchen closes at 15:30. Ask staff about allergens.</p>
+      <p class="mcs__end mi:m-0 mi:pt-4 mi:px-3.5 mi:pb-7 mi:text-[13px] mi:text-label3 mi:text-center">Kitchen closes at 15:30. Ask staff about allergens.</p>
     </div>
   </section>
 </template>
@@ -111,40 +111,3 @@ onMounted(() => {
 })
 onBeforeUnmount(() => io?.disconnect())
 </script>
-
-<style scoped>
-.mcs { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
-.mcs__head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
-
-.mcs__pane { position: relative; height: 440px; overflow-y: auto; overscroll-behavior: contain; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1), inset 0 0 0 1px var(--mi-sep); }
-
-.mcs__strip {
-  position: sticky; top: 0; z-index: 1; display: flex; gap: 6px; padding: 10px 12px; overflow-x: auto; scrollbar-width: none;
-  background: color-mix(in srgb, var(--mi-card) 88%, transparent); backdrop-filter: blur(12px); box-shadow: inset 0 -1px 0 var(--mi-sep);
-}
-.mcs__chip {
-  display: inline-flex; align-items: center; gap: 6px; flex: none; padding: 6px 12px; border-radius: 999px; font-size: 13px; font-weight: 600;
-  color: var(--mi-label2); text-decoration: none; background: var(--mi-fill4); transition: transform var(--mi-dur-2) var(--mi-spring);
-}
-.mcs__chip:active { transform: scale(.96); }
-.mcs__chip[aria-current="true"] { color: var(--mi-p-on); background: var(--mi-p); }
-.mcs__chip:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-.mcs__n { font-size: 11px; font-weight: 500; opacity: .7; font-variant-numeric: tabular-nums; }
-
-.mcs__section { display: grid; gap: 4px; padding: 18px 14px 6px; }
-.mcs__items { display: grid; margin: 0; padding: 0; list-style: none; }
-.mcs__item { display: flex; align-items: center; gap: 12px; padding: 12px 0; }
-.mcs__item + .mcs__item { box-shadow: inset 0 1px 0 var(--mi-sep); }
-.mcs__plate { width: 56px; height: 56px; flex: none; border-radius: 50%; background: radial-gradient(circle at 40% 35%, color-mix(in srgb, var(--a) 55%, var(--mi-card)) 0 30%, var(--a) 31% 46%, var(--mi-fill3) 47%); }
-.mcs__text { display: grid; gap: 2px; flex: 1; min-width: 0; }
-.mcs__end { margin: 0; padding: 16px 14px 28px; font-size: 13px; color: var(--mi-label3); text-align: center; }
-
-@container (min-width: 720px) {
-  .mcs__pane { height: 480px; }
-  .mcs__strip { padding: 12px 20px; }
-  .mcs__section { padding: 22px 24px 6px; }
-  .mcs__items { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 28px; }
-  .mcs__item + .mcs__item { box-shadow: none; }
-  .mcs__item { box-shadow: inset 0 1px 0 var(--mi-sep); }
-}
-</style>

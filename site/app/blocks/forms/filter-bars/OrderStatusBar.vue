@@ -1,6 +1,6 @@
 <template>
-  <section class="osb" aria-labelledby="osb-title">
-    <header class="osb__head">
+  <section class="osb mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="osb-title">
+    <header class="osb__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="osb-title" variant="title3" as="h2" weight="semibold">Orders</MiText>
         <MiText variant="footnote" tone="label2">Kōbō Ceramics · {{ money(total) }} across {{ rows.length }} orders</MiText>
@@ -8,55 +8,55 @@
       <MiSegmented v-model="range" label="Date range" :options="RANGES.map(r => ({ value: r.days, label: r.label }))" />
     </header>
 
-    <div class="osb__card">
+    <div class="osb__card mi:grid mi:gap-3 mi:p-3.5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:min-w-0">
       <!-- Status filter: pills with live counts, and the same split drawn as a clickable strip. -->
-      <div class="osb__pills" role="group" aria-label="Status">
+      <div class="osb__pills mi:flex mi:gap-1.5 mi:overflow-x-auto mi:[scrollbar-width:none] mi:-m-0.5 mi:p-0.5" role="group" aria-label="Status">
         <button
-          v-for="s in STATUSES" :key="s.id" type="button" class="osb__pill" :class="{ 'is-on': status === s.id }"
+          v-for="s in STATUSES" :key="s.id" type="button" class="osb__pill mi:inline-flex mi:items-center mi:gap-[7px] mi:flex-[none] mi:h-8 mi:py-0 mi:px-3 mi:[border:0] mi:rounded-[999px] mi:cursor-pointer mi:[background:var(--mi-fill4)] mi:text-label2 mi:[font:500_13px_var(--mi-font)] mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:active:transform-[scale(.96)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" :class="{ 'is-on': status === s.id }"
           :aria-pressed="status === s.id" @click="status = s.id"
         >
-          <i v-if="s.id !== 'all'" :style="{ background: s.color }" aria-hidden="true" />
-          {{ s.label }}<span>{{ s.id === 'all' ? pool.length : counts[s.id] ?? 0 }}</span>
+          <i class="mi:[.osb__pill_&]:w-[7px] mi:[.osb__pill_&]:h-[7px] mi:[.osb__pill_&]:rounded-[50%]" v-if="s.id !== 'all'" :style="{ background: s.color }" aria-hidden="true" />
+          {{ s.label }}<span class="mi:[.osb__pill_&]:tabular-nums mi:[.osb__pill_&]:text-label3 mi:[.osb__pill.is-on_&]:text-inherit mi:[.osb__pill.is-on_&]:opacity-70">{{ s.id === 'all' ? pool.length : counts[s.id] ?? 0 }}</span>
         </button>
       </div>
-      <div class="osb__strip" role="group" aria-label="Status distribution">
+      <div class="osb__strip mi:flex mi:gap-[3px] mi:h-2" role="group" aria-label="Status distribution">
         <button
-          v-for="s in STATUSES.slice(1)" v-show="counts[s.id]" :key="s.id" type="button" class="osb__seg"
+          v-for="s in STATUSES.slice(1)" v-show="counts[s.id]" :key="s.id" type="button" class="osb__seg mi:basis-0 mi:min-w-2 mi:h-full mi:p-0 mi:[border:0] mi:rounded-[4px] mi:cursor-pointer mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),_transform_var(--mi-dur-2)_var(--mi-ease)] mi:hover:transform-[scaleY(1.5)] mi:[&.is-dim]:opacity-25 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]"
           :class="{ 'is-dim': status !== 'all' && status !== s.id }" :style="{ flexGrow: counts[s.id] ?? 0, background: s.color }"
           :aria-label="`${s.label}: ${counts[s.id] ?? 0} orders`" @click="status = status === s.id ? 'all' : s.id"
         />
       </div>
 
-      <div class="osb__tools">
+      <div class="osb__tools mi:grid mi:gap-2 mi:grid-cols-[minmax(0,_1fr)_minmax(0,_1fr)] mi:items-center mi:pt-1 mi:border-t mi:border-t-sep mi:@[760px]:grid-cols-[minmax(200px,_1fr)_170px_auto_auto]">
         <MiSearch v-model="query" class="osb__search" size="compact" placeholder="Order, customer or SKU" :cancelable="false" />
         <MiNativeSelect v-model="channel" class="osb__channel" size="sm" aria-label="Channel" :options="CHANNELS" />
-        <div class="osb__flag">
+        <div class="osb__flag mi:flex mi:items-center mi:gap-2 mi:text-[13px] mi:text-label2 mi:whitespace-nowrap">
           <MiSwitch v-model="flagged" size="compact" aria-labelledby="osb-flag" />
           <span id="osb-flag">Flagged only</span>
         </div>
-        <MiMenu v-model="sort" variant="popup" class="osb__sort" aria-label="Sort orders" :items="SORTS" />
+        <MiMenu v-model="sort" variant="popup" class="osb__sort mi:justify-self-end" aria-label="Sort orders" :items="SORTS" />
       </div>
 
-      <div class="osb__scroll">
-        <table class="osb__table">
-          <caption class="osb__sr">Orders matching the filters</caption>
+      <div class="osb__scroll mi:overflow-x-auto mi:mt-0 mi:-mx-3.5 mi:-mb-3.5">
+        <table class="osb__table mi:w-full mi:min-w-165 mi:border-collapse mi:text-[13px]">
+          <caption class="osb__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)]">Orders matching the filters</caption>
           <thead>
-            <tr><th scope="col">Order</th><th scope="col">Customer</th><th scope="col">Placed</th><th scope="col">Channel</th><th scope="col" class="is-num">Total</th><th scope="col">Status</th></tr>
+            <tr><th scope="col">Order</th><th scope="col">Customer</th><th scope="col">Placed</th><th scope="col">Channel</th><th scope="col" class="is-num mi:[.osb__table_&]:tabular-nums">Total</th><th scope="col">Status</th></tr>
           </thead>
           <tbody>
             <tr v-for="o in rows" :key="o.id">
-              <td class="osb__id">
+              <td class="osb__id mi:[.osb__table_tbody_tr:last-child_td&]:[border-bottom:0] mi:font-semibold mi:tabular-nums">
                 {{ o.id }}
-                <MiIcon v-if="o.flag" :svg="FLAG" :size="14" label="Flagged" class="osb__flag-icon" />
+                <MiIcon v-if="o.flag" :svg="FLAG" :size="14" label="Flagged" class="osb__flag-icon mi:[.osb__table_tbody_tr:last-child_td&]:[border-bottom:0] mi:ml-1 mi:text-red" />
               </td>
-              <td>{{ o.customer }}</td>
-              <td class="osb__muted">{{ o.days === 0 ? 'Today' : o.days === 1 ? 'Yesterday' : o.days + ' days ago' }}</td>
-              <td class="osb__muted">{{ CHANNELS.find(c => c.value === o.channel)?.label }}</td>
-              <td class="is-num">{{ money(o.total) }}</td>
-              <td><span class="osb__status"><i :style="{ background: colorOf(o.status) }" />{{ labelOf(o.status) }}</span></td>
+              <td class="mi:[.osb__table_tbody_tr:last-child_td&]:[border-bottom:0]">{{ o.customer }}</td>
+              <td class="osb__muted mi:[.osb__table_tbody_tr:last-child_td&]:[border-bottom:0] mi:text-label2">{{ o.days === 0 ? 'Today' : o.days === 1 ? 'Yesterday' : o.days + ' days ago' }}</td>
+              <td class="osb__muted mi:[.osb__table_tbody_tr:last-child_td&]:[border-bottom:0] mi:text-label2">{{ CHANNELS.find(c => c.value === o.channel)?.label }}</td>
+              <td class="is-num mi:[.osb__table_tbody_tr:last-child_td&]:[border-bottom:0] mi:[.osb__table_&]:tabular-nums">{{ money(o.total) }}</td>
+              <td class="mi:[.osb__table_tbody_tr:last-child_td&]:[border-bottom:0]"><span class="osb__status mi:inline-flex mi:items-center mi:gap-1.5"><i class="mi:[.osb__status_&]:w-[7px] mi:[.osb__status_&]:h-[7px] mi:[.osb__status_&]:rounded-[50%]" :style="{ background: colorOf(o.status) }" />{{ labelOf(o.status) }}</span></td>
             </tr>
             <tr v-if="!rows.length">
-              <td colspan="6" class="osb__empty">No orders match. <button type="button" @click="resetAll">Reset filters</button></td>
+              <td colspan="6" class="osb__empty mi:[.osb__table_tbody_tr:last-child_td&]:[border-bottom:0] mi:[.osb__table_&]:text-center mi:[.osb__table_&]:text-label2">No orders match. <button class="mi:[.osb__empty_&]:cursor-pointer" type="button" @click="resetAll">Reset filters</button></td>
             </tr>
           </tbody>
         </table>
@@ -135,46 +135,13 @@ function resetAll() {
 </script>
 
 <style scoped>
-.osb { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
-.osb__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.osb__card { display: grid; gap: 12px; padding: 14px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); min-width: 0; }
-
-.osb__pills { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; margin: -2px; padding: 2px; }
-.osb__pill {
-  display: inline-flex; align-items: center; gap: 7px; flex: none; height: 32px; padding: 0 12px; border: 0; border-radius: 999px; cursor: pointer;
-  background: var(--mi-fill4); color: var(--mi-label2); font: 500 13px var(--mi-font); transition: transform var(--mi-dur-2) var(--mi-ease);
-}
-.osb__pill:active { transform: scale(.96); }
-.osb__pill:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-.osb__pill i { width: 7px; height: 7px; border-radius: 50%; }
-.osb__pill span { font-variant-numeric: tabular-nums; color: var(--mi-label3); }
 .osb__pill.is-on { background: var(--mi-label); color: var(--mi-card); }
-.osb__pill.is-on span { color: inherit; opacity: .7; }
-
-.osb__strip { display: flex; gap: 3px; height: 8px; }
-.osb__seg { flex-basis: 0; min-width: 8px; height: 100%; padding: 0; border: 0; border-radius: 4px; cursor: pointer; transition: opacity var(--mi-dur-2) var(--mi-ease), transform var(--mi-dur-2) var(--mi-ease); }
-.osb__seg:hover { transform: scaleY(1.5); }
-.osb__seg.is-dim { opacity: .25; }
-.osb__seg:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-
-.osb__tools { display: grid; gap: 8px; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; padding-top: 4px; border-top: 1px solid var(--mi-sep); }
 .osb__search { grid-column: 1 / -1; }
-@container (min-width: 760px) { .osb__tools { grid-template-columns: minmax(200px, 1fr) 170px auto auto; } .osb__search { grid-column: auto; } }
-.osb__flag { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--mi-label2); white-space: nowrap; }
-.osb__sort { justify-self: end; }
-
-.osb__scroll { overflow-x: auto; margin: 0 -14px -14px; }
-.osb__table { width: 100%; min-width: 660px; border-collapse: collapse; font-size: 13px; }
+@container (min-width: 760px) { .osb__search { grid-column: auto; } }
 .osb__table th { padding: 8px 14px; text-align: start; font-weight: 500; color: var(--mi-label2); border-bottom: 1px solid var(--mi-sep); white-space: nowrap; }
 .osb__table td { padding: 11px 14px; border-bottom: 1px solid var(--mi-sep); white-space: nowrap; }
-.osb__table tbody tr:last-child td { border-bottom: 0; }
-.osb__table .is-num { text-align: end; font-variant-numeric: tabular-nums; }
-.osb__id { font-weight: 600; font-variant-numeric: tabular-nums; }
-.osb__flag-icon { margin-left: 4px; vertical-align: -2px; color: var(--mi-red); }
-.osb__muted { color: var(--mi-label2); }
-.osb__status { display: inline-flex; align-items: center; gap: 6px; }
-.osb__status i { width: 7px; height: 7px; border-radius: 50%; }
-.osb__table td.osb__empty { padding: 28px 14px; text-align: center; color: var(--mi-label2); }
-.osb__empty button { border: 0; background: none; padding: 0; color: var(--mi-p-text); font: inherit; font-weight: 600; cursor: pointer; }
-.osb__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.osb__table .is-num { text-align: end; }
+.osb__flag-icon { vertical-align: -2px; }
+.osb__table td.osb__empty { padding: 28px 14px; }
+.osb__empty button { border: 0; background: none; padding: 0; color: var(--mi-p-text); font: inherit; font-weight: 600; }
 </style>

@@ -1,9 +1,9 @@
 <template>
-  <section class="sus" aria-labelledby="sus-title">
-    <div class="sus__in">
-      <header class="sus__bar">
-        <div class="sus__brand">
-          <MiIcon :svg="brandGlyph" :size="22" class="sus__brand-mark" />
+  <section class="sus mi:@container mi:grid mi:min-h-full mi:font-mi mi:text-label mi:[background:radial-gradient(80%_50%_at_100%_0%,_color-mix(in_srgb,_var(--mi-s)_10%,_transparent),_transparent_70%),_var(--mi-page)]" aria-labelledby="sus-title">
+    <div class="sus__in mi:grid mi:grid-rows-[auto_1fr] mi:min-h-full">
+      <header class="sus__bar mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-2 mi:gap-x-4 mi:py-4.5 mi:px-5 mi:@[560px]:py-5.5 mi:@[560px]:px-8">
+        <div class="sus__brand mi:flex mi:items-center mi:gap-[9px]">
+          <MiIcon :svg="brandGlyph" :size="22" class="sus__brand-mark mi:text-p" />
           <MiText as="span" variant="headline" weight="semibold">Tidemark</MiText>
         </div>
         <MiText as="span" variant="footnote" tone="label2" class="sus__have">
@@ -11,27 +11,27 @@
         </MiText>
       </header>
 
-      <div class="sus__body">
-        <form v-if="!created" class="sus__form" novalidate @submit.prevent="submit">
-          <div class="sus__head">
+      <div class="sus__body mi:grid mi:items-center mi:pt-2 mi:px-5 mi:pb-8 mi:@[860px]:pt-2 mi:@[860px]:px-10 mi:@[860px]:pb-10">
+        <form v-if="!created" class="sus__form mi:grid mi:gap-4.5 mi:w-full mi:max-w-110 mi:mx-auto mi:[grid-template-areas:'head'_'sso'_'or'_'pair'_'pw'_'strength'_'terms'_'submit'] mi:@[560px]:max-w-130 mi:@[860px]:max-w-230 mi:@[860px]:gap-x-12 mi:@[860px]:gap-y-4.5 mi:@[860px]:grid-cols-[minmax(0,_1fr)_300px] mi:@[860px]:[grid-template-areas:'head_strength'_'sso_strength'_'or_strength'_'pair_strength'_'pw_strength'_'terms_strength'_'submit_strength'] mi:@[1080px]:gap-x-18 mi:@[1080px]:grid-cols-[minmax(0,_1fr)_340px]" novalidate @submit.prevent="submit">
+          <div class="sus__head mi:[grid-area:head] mi:grid mi:gap-1.5">
             <MiText variant="caption" weight="semibold" tone="primary" class="sus__kicker">Free for teams up to 5</MiText>
             <MiText id="sus-title" as="h2" variant="title1" weight="bold" balance>Create your Tidemark account</MiText>
             <MiText variant="subheadline" tone="label2">Tide tables, crew rosters and harbour logs in one shared place.</MiText>
           </div>
 
-          <div class="sus__sso" role="group" aria-label="Sign up with a provider">
-            <button v-for="p in providers" :key="p.id" type="button" class="sus__sso-btn" :aria-label="`Sign up with ${p.id === 'saml' ? 'SAML single sign-on' : p.label}`" @click="sso(p.label)">
-              <span class="sus__sso-mark" :class="'sus__sso-mark--' + p.id" aria-hidden="true">
-                <MiIcon v-if="p.id === 'saml'" name="lock" :size="13" :weight="2.2" />
+          <div class="sus__sso mi:[grid-area:sso] mi:grid mi:grid-cols-3 mi:gap-2" role="group" aria-label="Sign up with a provider">
+            <button v-for="p in providers" :key="p.id" type="button" class="sus__sso-btn mi:flex mi:items-center mi:justify-center mi:gap-2 mi:min-w-0 mi:h-10.5 mi:py-0 mi:px-2.5 mi:[border:0] mi:rounded-md mi:cursor-pointer mi:[font:600_13px/1_var(--mi-font)] mi:text-label mi:[background:var(--mi-card)] mi:shadow-[inset_0_0_0_1px_var(--mi-sep),_var(--mi-sh1)] mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:hover:transform-[translateY(-1px)] mi:active:transform-[translateY(0)_scale(.98)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" :aria-label="`Sign up with ${p.id === 'saml' ? 'SAML single sign-on' : p.label}`" @click="sso(p.label)">
+              <span class="sus__sso-mark mi:[.sus__sso-btn_span&:last-child]:text-ellipsis mi:[.sus__sso-btn_span&:last-child]:whitespace-nowrap mi:grid mi:place-items-center mi:flex-[none] mi:w-5 mi:h-5 mi:rounded-[6px] mi:[font:700_10px/1_var(--mi-font)] mi:tracking-[-.02em] mi:text-label mi:[background:var(--mi-fill3)]" :class="'sus__sso-mark--' + p.id" aria-hidden="true">
+                <MiIcon class="mi:[.sus__sso-btn_span&:last-child]:text-ellipsis mi:[.sus__sso-btn_span&:last-child]:whitespace-nowrap" v-if="p.id === 'saml'" name="lock" :size="13" :weight="2.2" />
                 <template v-else>{{ p.mark }}</template>
               </span>
-              <span>{{ p.label }}</span>
+              <span class="mi:[.sus__sso-btn_span&:last-child]:text-ellipsis mi:[.sus__sso-btn_span&:last-child]:whitespace-nowrap">{{ p.label }}</span>
             </button>
           </div>
 
-          <div class="sus__or"><span>or with your work email</span></div>
+          <div class="sus__or mi:[grid-area:or] mi:flex mi:items-center mi:gap-3 mi:text-label3 mi:text-[12px] mi:before:content-[''] mi:before:flex-1 mi:before:h-px mi:before:[background:var(--mi-sep)] mi:after:content-[''] mi:after:flex-1 mi:after:h-px mi:after:[background:var(--mi-sep)]"><span>or with your work email</span></div>
 
-          <div class="sus__pair">
+          <div class="sus__pair mi:[grid-area:pair] mi:grid mi:gap-3.5 mi:@[560px]:grid-cols-[minmax(0,_1fr)_minmax(0,_1fr)]">
             <MiField label="Full name" :error="errors.name">
               <template #default="{ id, describedBy }">
                 <MiInput :id="id" v-model="name" autocomplete="name" :aria-describedby="describedBy" />
@@ -44,7 +44,7 @@
             </MiField>
           </div>
 
-          <MiField label="Password" :error="errors.password" class="sus__pw">
+          <MiField label="Password" :error="errors.password" class="sus__pw mi:[grid-area:pw]">
             <template #default="{ id, describedBy }">
               <MiInput
                 :id="id" v-model="password" type="password" autocomplete="new-password"
@@ -54,48 +54,48 @@
           </MiField>
 
           <!-- Strength as a shape: each rule is one facet that slides into place and fills. -->
-          <div class="sus__strength" :class="{ 'is-set': metCount === rules.length }">
+          <div class="sus__strength mi:[grid-area:strength] mi:grid mi:grid-cols-[84px_minmax(0,_1fr)] mi:[grid-template-areas:'gem_verdict'_'gem_rules'] mi:items-center mi:gap-y-1 mi:gap-x-4 mi:p-4 mi:rounded-xl mi:[background:radial-gradient(90%_70%_at_0%_0%,_color-mix(in_srgb,_var(--mi-p)_9%,_transparent),_transparent_70%),_var(--mi-card)] mi:shadow-[inset_0_0_0_1px_var(--mi-sep)] mi:@[560px]:grid-cols-[112px_minmax(0,_1fr)] mi:@[560px]:py-4.5 mi:@[560px]:px-5 mi:@[860px]:self-stretch mi:@[860px]:content-center mi:@[860px]:justify-items-center mi:@[860px]:text-center mi:@[860px]:grid-cols-[minmax(0,_1fr)] mi:@[860px]:[grid-template-areas:'gem'_'verdict'_'rules'] mi:@[860px]:gap-3.5 mi:@[860px]:py-8 mi:@[860px]:px-7" :class="{ 'is-set': metCount === rules.length }">
             <div
-              class="sus__gem-wrap" role="meter" aria-label="Password strength" :aria-valuenow="metCount"
+              class="sus__gem-wrap mi:[grid-area:gem] mi:relative mi:grid mi:place-items-center mi:aspect-[1] mi:@[860px]:w-43 mi:@[860px]:mb-1.5" role="meter" aria-label="Password strength" :aria-valuenow="metCount"
               aria-valuemin="0" :aria-valuemax="rules.length" :aria-valuetext="`${verdict}, ${metCount} of ${rules.length} rules met`"
             >
-              <span class="sus__halo" aria-hidden="true" />
-              <svg class="sus__gem" viewBox="0 0 200 200" aria-hidden="true">
-                <g v-for="(f, i) in facets" :key="i" class="sus__facet" :class="{ 'is-met': checks[i] }" :style="{ '--dx': f.dx + 'px', '--dy': f.dy + 'px' }">
-                  <path :d="f.d" class="sus__facet-line" />
-                  <path :d="f.d" class="sus__facet-fill" :style="{ fill: f.fill }" />
-                  <path :d="f.shine" class="sus__facet-shine" />
+              <span class="sus__halo mi:absolute mi:inset-[-6%] mi:rounded-[50%] mi:opacity-0 mi:transform-[scale(.7)] mi:[background:radial-gradient(closest-side,_color-mix(in_srgb,_var(--mi-p)_30%,_transparent),_transparent)] mi:[transition:opacity_var(--mi-dur-4)_var(--mi-ease),_transform_var(--mi-dur-4)_var(--mi-spring)]" aria-hidden="true" />
+              <svg class="sus__gem mi:relative mi:w-full mi:h-full mi:overflow-visible mi:transform-[rotate(-14deg)_scale(.9)] mi:[transition:transform_700ms_var(--mi-spring)]" viewBox="0 0 200 200" aria-hidden="true">
+                <g v-for="(f, i) in facets" :key="i" class="sus__facet mi:transform-[translate(var(--dx),_var(--dy))] mi:[transition:transform_520ms_var(--mi-spring)] mi:[&.is-met]:transform-[translate(0,_0)]" :class="{ 'is-met': checks[i] }" :style="{ '--dx': f.dx + 'px', '--dy': f.dy + 'px' }">
+                  <path :d="f.d" class="sus__facet-line mi:fill-[color:none] mi:stroke-label3 mi:[stroke-width:1.4] mi:[stroke-linejoin:round] mi:[stroke-dasharray:3_4]" />
+                  <path :d="f.d" class="sus__facet-fill mi:stroke-card mi:[stroke-width:1.5] mi:[stroke-linejoin:round] mi:opacity-0 mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)]" :style="{ fill: f.fill }" />
+                  <path :d="f.shine" class="sus__facet-shine mi:fill-card mi:opacity-0 mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)]" />
                 </g>
               </svg>
             </div>
-            <div class="sus__verdict" aria-live="polite">
+            <div class="sus__verdict mi:[grid-area:verdict] mi:grid mi:gap-px mi:self-end mi:@[860px]:justify-items-center" aria-live="polite">
               <MiText as="span" variant="headline" weight="semibold">{{ verdict }}</MiText>
               <MiText as="span" variant="caption" tone="label2" tabular>{{ metCount }} of {{ rules.length }} facets</MiText>
             </div>
-            <ul id="sus-rules" class="sus__rules" aria-label="Password rules">
-              <li v-for="(r, i) in rules" :key="r.id" :class="{ 'is-met': checks[i] }">
-                <span class="sus__tick" aria-hidden="true"><MiIcon name="check" :size="11" :weight="3" /></span>
+            <ul id="sus-rules" class="sus__rules mi:[grid-area:rules] mi:grid mi:gap-[5px] mi:mt-1.5 mi:mx-0 mi:mb-0 mi:p-0 mi:[list-style:none] mi:self-start mi:@[860px]:justify-self-stretch mi:@[860px]:gap-[9px] mi:@[860px]:mt-1 mi:@[860px]:pt-4.5 mi:@[860px]:border-t mi:@[860px]:border-t-sep mi:@[860px]:text-start" aria-label="Password rules">
+              <li class="mi:[.sus__rules_li&]:items-center mi:[.sus__rules_li&]:gap-2 mi:[.sus__rules_li&]:text-[13px] mi:[.sus__rules_li&]:leading-[1.3] mi:[.sus__rules_li&]:text-label2" v-for="(r, i) in rules" :key="r.id" :class="{ 'is-met': checks[i] }">
+                <span class="sus__tick mi:relative mi:grid mi:place-items-center mi:flex-[none] mi:w-4 mi:h-4 mi:rounded-[50%] mi:text-[color:var(--mi-p-on,_var(--mi-card))] mi:shadow-[inset_0_0_0_1.5px_var(--mi-fill)] mi:before:content-[''] mi:before:absolute mi:before:inset-0 mi:before:rounded-[50%] mi:before:[background:var(--mi-p)] mi:before:opacity-0 mi:before:transform-[scale(.4)] mi:before:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),_transform_var(--mi-dur-3)_var(--mi-spring)] mi:[.sus__rules_li.is-met_&]:before:opacity-100 mi:[.sus__rules_li.is-met_&]:before:transform-[scale(1)]" aria-hidden="true"><MiIcon class="mi:[.sus__rules_li&]:items-center mi:[.sus__rules_li&]:gap-2 mi:[.sus__rules_li&]:text-[13px] mi:[.sus__rules_li&]:leading-[1.3] mi:[.sus__rules_li&]:text-label2" name="check" :size="11" :weight="3" /></span>
                 <span>{{ r.label }}</span>
-                <span class="sr-only">{{ checks[i] ? 'met' : 'not met' }}</span>
+                <span class="sr-only mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip:rect(0_0_0_0)] mi:whitespace-nowrap">{{ checks[i] ? 'met' : 'not met' }}</span>
               </li>
             </ul>
           </div>
 
-          <div class="sus__terms">
+          <div class="sus__terms mi:[grid-area:terms] mi:grid mi:gap-1.5">
             <MiCheckbox v-model="terms">
               I agree to the <MiTextLink href="#" :chevron="false">Terms</MiTextLink> and <MiTextLink href="#" :chevron="false">Privacy notice</MiTextLink>
             </MiCheckbox>
             <MiText v-if="errors.terms" variant="footnote" tone="red" weight="medium" role="alert">{{ errors.terms }}</MiText>
           </div>
 
-          <div class="sus__submit">
+          <div class="sus__submit mi:[grid-area:submit] mi:grid mi:gap-2.5">
             <MiButton type="submit" size="large" block :loading="busy">Create account</MiButton>
             <MiText variant="caption" tone="label3" align="center">No card needed. Invite your crew after setup.</MiText>
           </div>
         </form>
 
-        <div v-else class="sus__done" aria-live="polite">
-          <span class="sus__done-glyph" aria-hidden="true"><MiIcon :svg="envelope" :size="26" /></span>
+        <div v-else class="sus__done mi:grid mi:justify-items-center mi:gap-2.5 mi:w-full mi:max-w-100 mi:mx-auto mi:py-8 mi:px-0" aria-live="polite">
+          <span class="sus__done-glyph mi:grid mi:place-items-center mi:w-14 mi:h-14 mi:mb-1.5 mi:rounded-[18px] mi:text-p-text mi:[background:var(--mi-p-tint)]" aria-hidden="true"><MiIcon :svg="envelope" :size="26" /></span>
           <MiText id="sus-title" as="h2" variant="title2" weight="bold" align="center">Confirm your email</MiText>
           <MiText variant="subheadline" tone="label2" align="center" balance>
             {{ viaSso ? `Your ${viaSso} identity is linked.` : 'Account created.' }} We sent a confirmation link to <strong>{{ email }}</strong>; it stays valid for 24 hours.
@@ -215,113 +215,17 @@ function reset() {
 </script>
 
 <style scoped>
-.sus {
-  container-type: inline-size; display: grid; min-height: 100%; font-family: var(--mi-font); color: var(--mi-label);
-  background:
-    radial-gradient(80% 50% at 100% 0%, color-mix(in srgb, var(--mi-s) 10%, transparent), transparent 70%),
-    var(--mi-page);
-}
-.sus__in { display: grid; grid-template-rows: auto 1fr; min-height: 100%; }
-.sus__bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; padding: 18px 20px; }
-.sus__brand { display: flex; align-items: center; gap: 9px; }
-.sus__brand-mark { color: var(--mi-p); }
 .sus__have { white-space: nowrap; }
-
-.sus__body { display: grid; align-items: center; padding: 8px 20px 32px; }
-.sus__form {
-  display: grid; gap: 18px; width: 100%; max-width: 440px; margin-inline: auto;
-  grid-template-areas: "head" "sso" "or" "pair" "pw" "strength" "terms" "submit";
-}
-.sus__head { grid-area: head; display: grid; gap: 6px; }
 .sus__kicker { letter-spacing: .02em; }
-.sus__sso { grid-area: sso; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
-.sus__sso-btn {
-  display: flex; align-items: center; justify-content: center; gap: 8px; min-width: 0; height: 42px; padding: 0 10px;
-  border: 0; border-radius: var(--mi-radius-m); cursor: pointer; font: 600 13px/1 var(--mi-font); color: var(--mi-label);
-  background: var(--mi-card); box-shadow: inset 0 0 0 1px var(--mi-sep), var(--mi-sh1);
-  transition: transform var(--mi-dur-2) var(--mi-ease);
-}
-.sus__sso-btn span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.sus__sso-btn:hover { transform: translateY(-1px); }
-.sus__sso-btn:active { transform: translateY(0) scale(.98); }
-.sus__sso-btn:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-.sus__sso-mark {
-  display: grid; place-items: center; flex: none; width: 20px; height: 20px; border-radius: 6px;
-  font: 700 10px/1 var(--mi-font); letter-spacing: -.02em; color: var(--mi-label); background: var(--mi-fill3);
-}
+.sus__sso-btn span:last-child { overflow: hidden; }
 .sus__sso-mark--google { color: var(--mi-blue); background: color-mix(in srgb, var(--mi-blue) 14%, transparent); }
 .sus__sso-mark--saml { color: var(--mi-p-text); background: var(--mi-p-tint); }
-
-.sus__or { grid-area: or; display: flex; align-items: center; gap: 12px; color: var(--mi-label3); font-size: 12px; }
-.sus__or::before, .sus__or::after { content: ""; flex: 1; height: 1px; background: var(--mi-sep); }
-.sus__pair { grid-area: pair; display: grid; gap: 14px; }
-.sus__pw { grid-area: pw; }
-
-/* Strength panel */
-.sus__strength {
-  grid-area: strength; display: grid; grid-template-columns: 84px minmax(0, 1fr); grid-template-areas: "gem verdict" "gem rules";
-  align-items: center; gap: 4px 16px; padding: 16px; border-radius: var(--mi-radius-xl);
-  background:
-    radial-gradient(90% 70% at 0% 0%, color-mix(in srgb, var(--mi-p) 9%, transparent), transparent 70%),
-    var(--mi-card);
-  box-shadow: inset 0 0 0 1px var(--mi-sep);
-}
-.sus__gem-wrap { grid-area: gem; position: relative; display: grid; place-items: center; aspect-ratio: 1; }
-.sus__halo {
-  position: absolute; inset: -6%; border-radius: 50%; opacity: 0; transform: scale(.7);
-  background: radial-gradient(closest-side, color-mix(in srgb, var(--mi-p) 30%, transparent), transparent);
-  transition: opacity var(--mi-dur-4) var(--mi-ease), transform var(--mi-dur-4) var(--mi-spring);
-}
-.sus__gem { position: relative; width: 100%; height: 100%; overflow: visible; transform: rotate(-14deg) scale(.9); transition: transform 700ms var(--mi-spring); }
 .sus__strength.is-set .sus__gem { transform: rotate(0deg) scale(1); }
 .sus__strength.is-set .sus__halo { opacity: 1; transform: scale(1); }
-.sus__facet { transform: translate(var(--dx), var(--dy)); transition: transform 520ms var(--mi-spring); }
-.sus__facet.is-met { transform: translate(0, 0); }
-.sus__facet-line { fill: none; stroke: var(--mi-label3); stroke-width: 1.4; stroke-linejoin: round; stroke-dasharray: 3 4; }
-.sus__facet-fill { stroke: var(--mi-card); stroke-width: 1.5; stroke-linejoin: round; opacity: 0; transition: opacity var(--mi-dur-3) var(--mi-ease); }
-.sus__facet-shine { fill: var(--mi-card); opacity: 0; transition: opacity var(--mi-dur-3) var(--mi-ease); }
 .sus__facet.is-met .sus__facet-fill { opacity: 1; }
 .sus__facet.is-met .sus__facet-shine { opacity: .22; }
-
-.sus__verdict { grid-area: verdict; display: grid; gap: 1px; align-self: end; }
-.sus__rules { grid-area: rules; display: grid; gap: 5px; margin: 6px 0 0; padding: 0; list-style: none; align-self: start; }
-.sus__rules li { display: flex; align-items: center; gap: 8px; font-size: 13px; line-height: 1.3; color: var(--mi-label2); }
+.sus__rules li { display: flex; }
 .sus__rules li.is-met { color: var(--mi-label); }
-.sus__tick {
-  position: relative; display: grid; place-items: center; flex: none; width: 16px; height: 16px; border-radius: 50%;
-  color: var(--mi-p-on, var(--mi-card)); box-shadow: inset 0 0 0 1.5px var(--mi-fill);
-}
-.sus__tick::before { content: ""; position: absolute; inset: 0; border-radius: 50%; background: var(--mi-p); opacity: 0; transform: scale(.4); transition: opacity var(--mi-dur-2) var(--mi-ease), transform var(--mi-dur-3) var(--mi-spring); }
 .sus__tick :deep(svg) { position: relative; opacity: 0; transform: scale(.5); transition: opacity var(--mi-dur-2) var(--mi-ease), transform var(--mi-dur-3) var(--mi-spring); }
-.sus__rules li.is-met .sus__tick::before, .sus__rules li.is-met .sus__tick :deep(svg) { opacity: 1; transform: scale(1); }
-
-.sus__terms { grid-area: terms; display: grid; gap: 6px; }
-.sus__submit { grid-area: submit; display: grid; gap: 10px; }
-
-.sus__done { display: grid; justify-items: center; gap: 10px; width: 100%; max-width: 400px; margin-inline: auto; padding: 32px 0; }
-.sus__done-glyph { display: grid; place-items: center; width: 56px; height: 56px; margin-bottom: 6px; border-radius: 18px; color: var(--mi-p-text); background: var(--mi-p-tint); }
-.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-
-@container (min-width: 560px) {
-  .sus__bar { padding: 22px 32px; }
-  .sus__pair { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
-  .sus__form { max-width: 520px; }
-  .sus__strength { grid-template-columns: 112px minmax(0, 1fr); padding: 18px 20px; }
-}
-@container (min-width: 860px) {
-  .sus__body { padding: 8px 40px 40px; }
-  .sus__form {
-    max-width: 920px; column-gap: 48px; row-gap: 18px;
-    grid-template-columns: minmax(0, 1fr) 300px;
-    grid-template-areas: "head strength" "sso strength" "or strength" "pair strength" "pw strength" "terms strength" "submit strength";
-  }
-  .sus__strength {
-    align-self: stretch; align-content: center; justify-items: center; text-align: center;
-    grid-template-columns: minmax(0, 1fr); grid-template-areas: "gem" "verdict" "rules"; gap: 14px; padding: 32px 28px;
-  }
-  .sus__gem-wrap { width: 172px; margin-bottom: 6px; }
-  .sus__verdict { justify-items: center; }
-  .sus__rules { justify-self: stretch; gap: 9px; margin-top: 4px; padding-top: 18px; border-top: 1px solid var(--mi-sep); text-align: start; }
-}
-@container (min-width: 1080px) { .sus__form { column-gap: 72px; grid-template-columns: minmax(0, 1fr) 340px; } }
+.sus__rules li.is-met .sus__tick :deep(svg) { opacity: 1; transform: scale(1); }
 </style>

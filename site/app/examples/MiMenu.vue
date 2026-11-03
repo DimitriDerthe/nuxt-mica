@@ -35,8 +35,8 @@ const actions = [
 </script>
 
 <template>
-  <div class="bar">
-    <div class="text">
+  <div class="bar mi:flex-wrap mi:justify-between">
+    <div class="text mi:grid mi:gap-0.5 mi:min-w-0">
       <MiText variant="headline" as="h3">Documents</MiText>
       <MiText variant="footnote" tone="label2">{{ last || '24 files · 1.2 GB' }}</MiText>
     </div>
@@ -52,6 +52,5 @@ const actions = [
 </template>
 
 <style scoped>
-.bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; width: min(100%, 440px); margin: 0 auto; padding: 14px 16px; border-radius: 16px; background: var(--mi-card); box-shadow: var(--mi-sh1); box-sizing: border-box; }
-.text { display: grid; gap: 2px; min-width: 0; }
+.bar { display: flex; align-items: center; gap: 12px 20px; width: min(100%, 440px); margin: 0 auto; padding: 14px 16px; border-radius: 16px; background: var(--mi-card); box-shadow: var(--mi-sh1); box-sizing: border-box; }
 </style>

@@ -1,10 +1,10 @@
 <template>
-  <section class="cd" aria-labelledby="cd-title">
-    <div class="cd__shell" :class="{ 'is-profile': showProfile }">
-      <div class="cd__conv">
-        <header class="cd__head">
+  <section class="cd mi:@container mi:h-170 mi:font-mi mi:text-label mi:[background:var(--mi-page)]" aria-labelledby="cd-title">
+    <div class="cd__shell mi:grid mi:h-full mi:grid-cols-[minmax(0,_1fr)] mi:@[960px]:grid-cols-[minmax(0,_1fr)_360px]" :class="{ 'is-profile': showProfile }">
+      <div class="cd__conv mi:[.cd__shell.is-profile_&]:hidden mi:@[960px]:[.cd__shell_&]:flex mi:@[960px]:[.cd__shell.is-profile_&]:flex mi:flex mi:flex-col mi:min-w-0 mi:min-h-0">
+        <header class="cd__head mi:flex mi:items-center mi:gap-3 mi:py-3 mi:px-4 mi:border-b mi:border-b-sep mi:[background:var(--mi-card)]">
           <MiAvatar name="Hana Kobayashi" size="sm" tone="teal" decorative />
-          <div class="cd__head-text">
+          <div class="cd__head-text mi:flex-1 mi:min-w-0">
             <MiText id="cd-title" as="h2" variant="headline" weight="semibold" :lines="1">Hana Kobayashi</MiText>
             <MiText variant="caption" tone="label2" :lines="1">Kestrel Logistics · ticket #8812 · open 2h</MiText>
           </div>
@@ -14,11 +14,11 @@
         <MiMessageScroller class="cd__log" label="Conversation with Hana Kobayashi">
           <MiMarker variant="separator">Today</MiMarker>
           <MiMessageScrollerItem v-for="m in feed" :key="m.id" :message-id="'cd-' + m.id">
-            <div v-if="m.kind === 'note'" class="cd__note" role="note">
-              <MiIcon name="lock" :size="14" />
-              <div class="cd__note-body">
-                <span class="cd__note-who">{{ m.who }} · internal note · {{ m.time }}</span>
-                <p>{{ m.text }}</p>
+            <div v-if="m.kind === 'note'" class="cd__note mi:flex mi:gap-2.5 mi:mx-auto mi:max-w-[min(92%,_36rem)] mi:py-2.5 mi:px-3.5 mi:rounded-md mi:[border:1px_dashed_color-mix(in_srgb,_var(--mi-orange)_55%,_transparent)] mi:[background:color-mix(in_srgb,_var(--mi-orange)_10%,_transparent)] mi:text-label" role="note">
+              <MiIcon class="mi:[.cd__note_p&]:text-[13.5px] mi:[.cd__note_p&]:leading-normal mi:[.cd__note_p&]:wrap-anywhere" name="lock" :size="14" />
+              <div class="cd__note-body mi:min-w-0">
+                <span class="cd__note-who mi:text-[11.5px] mi:font-semibold mi:text-orange-t">{{ m.who }} · internal note · {{ m.time }}</span>
+                <p class="mi:[.cd__note_p&]:text-[13.5px] mi:[.cd__note_p&]:leading-normal mi:[.cd__note_p&]:wrap-anywhere">{{ m.text }}</p>
               </div>
             </div>
             <MiMessage v-else :align="m.kind === 'agent' ? 'end' : 'start'" :label="m.who" class="cd__row" :class="{ 'is-end': m.kind === 'agent' }">
@@ -29,7 +29,7 @@
           </MiMessageScrollerItem>
         </MiMessageScroller>
 
-        <form class="cd__composer" :class="{ 'is-note': mode === 'note' }" @submit.prevent="send">
+        <form class="cd__composer mi:pt-3 mi:px-4 mi:pb-4 mi:border-t mi:border-t-sep mi:[background:var(--mi-card)] mi:[&.is-note]:[background:color-mix(in_srgb,_var(--mi-orange)_9%,_var(--mi-card))]" :class="{ 'is-note': mode === 'note' }" @submit.prevent="send">
           <MiInputGroup
             v-model="draft" multiline :rows="2"
             :aria-label="mode === 'note' ? 'Internal note' : 'Reply to Hana'"
@@ -39,7 +39,7 @@
               <MiSegmented v-model="mode" label="Message type" :options="modes" />
             </template>
             <template #block-end>
-              <div class="cd__bar">
+              <div class="cd__bar mi:flex mi:items-center mi:justify-between mi:gap-2 mi:w-full">
                 <MiText variant="caption" tone="label3">{{ mode === 'note' ? 'Notes are added to the timeline' : 'Sent by email and in-app' }}</MiText>
                 <MiButton type="submit" size="small" :disabled="!draft.trim()">{{ mode === 'note' ? 'Add note' : 'Send' }}</MiButton>
               </div>
@@ -48,17 +48,17 @@
         </form>
       </div>
 
-      <aside class="cd__dossier" aria-labelledby="cd-dossier-title">
-        <header class="cd__dossier-head">
+      <aside class="cd__dossier mi:hidden mi:[.cd__shell.is-profile_&]:flex mi:@[960px]:[.cd__shell_&]:flex mi:@[960px]:[.cd__shell_&]:border-l mi:@[960px]:[.cd__shell_&]:border-l-sep mi:flex-col mi:min-h-0 mi:min-w-0 mi:[background:var(--mi-card)]" aria-labelledby="cd-dossier-title">
+        <header class="cd__dossier-head mi:flex mi:items-center mi:gap-2.5 mi:min-h-15 mi:py-0 mi:px-4 mi:border-b mi:border-b-sep mi:box-border">
           <MiIconButton class="cd__back" label="Back to conversation" variant="gray" size="regular" @click="showProfile = false">
             <MiIcon name="chevron-left" />
           </MiIconButton>
           <MiText id="cd-dossier-title" as="h3" variant="subheadline" weight="semibold">Customer</MiText>
         </header>
-        <div class="cd__dossier-scroll">
-          <div class="cd__id">
+        <div class="cd__dossier-scroll mi:flex-1 mi:min-h-0 mi:overflow-y-auto mi:grid mi:content-start mi:gap-5 mi:p-5">
+          <div class="cd__id mi:flex mi:items-center mi:gap-3.5 mi:min-w-0">
             <MiAvatar name="Hana Kobayashi" size="lg" tone="teal" decorative />
-            <div class="cd__id-text">
+            <div class="cd__id-text mi:grid mi:gap-0.5 mi:min-w-0">
               <MiText variant="title3" weight="bold">Hana Kobayashi</MiText>
               <MiText variant="footnote" tone="label2">Head of Operations, Kestrel Logistics</MiText>
               <MiText variant="caption" tone="label3">Osaka · 23:41 local time</MiText>
@@ -66,7 +66,7 @@
           </div>
 
           <!-- The one thing to know before replying: health against renewal. -->
-          <div class="cd__health">
+          <div class="cd__health mi:flex mi:items-center mi:gap-3.5 mi:p-3.5 mi:rounded-lg mi:[background:linear-gradient(135deg,_var(--mi-p-tint),_transparent_70%),_var(--mi-page)]">
             <MiProgressRing :value="health" :size="64" label="Account health" />
             <div>
               <MiText variant="subheadline" weight="semibold">Healthy, renewal in 23 days</MiText>
@@ -78,7 +78,7 @@
 
           <MiDetails :items="facts" label-width="112px" />
 
-          <div class="cd__tl">
+          <div class="cd__tl mi:grid mi:gap-3">
             <MiText as="h4" variant="footnote" weight="semibold" tone="label2">Relationship timeline</MiText>
             <MiTimeline :items="timeline" aria-label="Relationship timeline" />
           </div>
@@ -143,43 +143,13 @@ function send() {
 </script>
 
 <style scoped>
-.cd { container-type: inline-size; height: 680px; font-family: var(--mi-font); color: var(--mi-label); background: var(--mi-page); }
-.cd__shell { display: grid; height: 100%; grid-template-columns: minmax(0, 1fr); }
-.cd__dossier { display: none; }
-.cd__shell.is-profile .cd__conv { display: none; }
-.cd__shell.is-profile .cd__dossier { display: flex; }
-
 @container (min-width: 960px) {
-  .cd__shell { grid-template-columns: minmax(0, 1fr) 360px; }
-  .cd__shell .cd__conv, .cd__shell.is-profile .cd__conv { display: flex; }
-  .cd__shell .cd__dossier { display: flex; border-left: 1px solid var(--mi-sep); }
   .cd__profile-btn, .cd__back { display: none; }
 }
-
-.cd__conv { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
-.cd__head { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--mi-sep); background: var(--mi-card); }
-.cd__head-text { flex: 1; min-width: 0; }
 .cd__log { flex: 1; min-height: 0; }
 .cd__row { max-width: min(88%, 38rem); }
 .cd__row.is-end { margin-inline-start: auto; }
 .cd .cd__bub { max-width: 100%; }
-
-/* Internal notes sit in the flow but read as paper, not chat. */
-.cd__note { display: flex; gap: 10px; margin-inline: auto; max-width: min(92%, 36rem); padding: 10px 14px; border-radius: var(--mi-radius-m); border: 1px dashed color-mix(in srgb, var(--mi-orange) 55%, transparent); background: color-mix(in srgb, var(--mi-orange) 10%, transparent); color: var(--mi-label); }
 .cd__note > :first-child { flex: none; margin-top: 2px; color: var(--mi-orange-t); }
-.cd__note-body { min-width: 0; }
-.cd__note-who { font-size: 11.5px; font-weight: 600; color: var(--mi-orange-t); }
-.cd__note p { margin: 2px 0 0; font-size: 13.5px; line-height: 1.5; overflow-wrap: anywhere; }
-
-.cd__composer { padding: 12px 16px 16px; border-top: 1px solid var(--mi-sep); background: var(--mi-card); }
-.cd__composer.is-note { background: color-mix(in srgb, var(--mi-orange) 9%, var(--mi-card)); }
-.cd__bar { display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; }
-
-.cd__dossier { flex-direction: column; min-height: 0; min-width: 0; background: var(--mi-card); }
-.cd__dossier-head { display: flex; align-items: center; gap: 10px; min-height: 60px; padding: 0 16px; border-bottom: 1px solid var(--mi-sep); box-sizing: border-box; }
-.cd__dossier-scroll { flex: 1; min-height: 0; overflow-y: auto; display: grid; align-content: start; gap: 20px; padding: 20px; }
-.cd__id { display: flex; align-items: center; gap: 14px; min-width: 0; }
-.cd__id-text { display: grid; gap: 2px; min-width: 0; }
-.cd__health { display: flex; align-items: center; gap: 14px; padding: 14px; border-radius: var(--mi-radius-l); background: linear-gradient(135deg, var(--mi-p-tint), transparent 70%), var(--mi-page); }
-.cd__tl { display: grid; gap: 12px; }
+.cd__note p { margin: 2px 0 0; }
 </style>

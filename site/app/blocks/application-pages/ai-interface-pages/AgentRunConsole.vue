@@ -1,34 +1,34 @@
 <template>
-  <section class="arc" aria-labelledby="arc-title">
-    <header class="arc__bar">
+  <section class="arc mi:@container mi:grid mi:grid-rows-[auto_minmax(0,_1fr)] mi:min-h-full mi:font-mi mi:text-label mi:bg-page" aria-labelledby="arc-title">
+    <header class="arc__bar mi:flex mi:flex-wrap mi:items-center mi:gap-3 mi:py-3.5 mi:px-4.5 mi:border-b mi:border-b-sep mi:bg-card">
       <MiOrb :state="orb" size="md" :paused="phase === 'denied' || phase === 'stopped'" label="" />
-      <div class="arc__bar-text">
+      <div class="arc__bar-text mi:flex-[1_1_220px] mi:grid mi:gap-0.5 mi:min-w-0">
         <MiText id="arc-title" as="h2" variant="headline" weight="semibold" :lines="1">Send the new renewal notice to Q1 renewals</MiText>
-        <div class="arc__status" aria-live="polite">
+        <div class="arc__status mi:text-[13px] mi:text-label2" aria-live="polite">
           <MiShimmerText :text="status" :paused="phase !== 'sending'" />
         </div>
       </div>
       <MiBadge class="arc__run" tone="neutral" variant="outline" label="Run 7f3a · Billing agent" />
     </header>
 
-    <div class="arc__in">
-      <aside class="arc__plan" aria-labelledby="arc-plan-title">
+    <div class="arc__in mi:grid mi:gap-3.5 mi:content-start mi:p-4 mi:grid-cols-[minmax(0,_1fr)] mi:@[760px]:grid-cols-[220px_minmax(0,_1fr)] mi:@[1080px]:grid-cols-[240px_minmax(0,_1fr)_260px]">
+      <aside class="arc__plan mi:grid mi:gap-1.5 mi:content-start mi:min-w-0 mi:p-4 mi:rounded-lg mi:bg-card mi:shadow-1" aria-labelledby="arc-plan-title">
         <MiText id="arc-plan-title" as="h3" variant="caption" weight="semibold" tone="label3" class="arc__label">Plan</MiText>
         <MiTrace :steps="steps" label="Agent plan and progress" />
       </aside>
 
-      <div class="arc__main">
+      <div class="arc__main mi:grid mi:gap-3.5 mi:content-start mi:min-w-0">
         <!-- The agent pauses before anything irreversible and hands the decision to a person. -->
-        <article class="arc__ask" :class="'is-' + phase" aria-labelledby="arc-ask-title">
-          <div class="arc__ask-head">
-            <span class="arc__ask-icon" aria-hidden="true"><MiIcon :name="phase === 'review' ? 'lock' : phase === 'sending' ? 'check-circle' : 'exclamation-circle'" :size="18" /></span>
+        <article class="arc__ask mi:grid mi:gap-3.5 mi:p-4.5 mi:rounded-xl mi:bg-card mi:shadow-[var(--mi-sh1),_inset_0_0_0_1.5px_color-mix(in_srgb,_var(--mi-p)_45%,_transparent)]" :class="'is-' + phase" aria-labelledby="arc-ask-title">
+          <div class="arc__ask-head mi:grid mi:grid-cols-[auto_minmax(0,_1fr)] mi:gap-3 mi:items-start">
+            <span class="arc__ask-icon mi:grid mi:place-items-center mi:w-8.5 mi:h-8.5 mi:rounded-[10px] mi:bg-p-tint mi:text-p-text mi:[.arc__ask.is-sending_&]:[background:color-mix(in_srgb,_var(--mi-green)_16%,_transparent)]" aria-hidden="true"><MiIcon :name="phase === 'review' ? 'lock' : phase === 'sending' ? 'check-circle' : 'exclamation-circle'" :size="18" /></span>
             <div>
               <MiText id="arc-ask-title" as="h3" variant="headline">Send {{ recipients }} emails through Postmark</MiText>
               <MiText variant="footnote" tone="label2">{{ askNote }}</MiText>
             </div>
           </div>
 
-          <div class="arc__who">
+          <div class="arc__who mi:flex mi:flex-wrap mi:items-center mi:gap-2.5 mi:py-2.5 mi:px-3 mi:rounded-md mi:bg-fill4">
             <MiAvatarGroup :items="sample" :max="3" size="sm" :label="`Recipients include ${sample.map(s => s.name).join(', ')}`" />
             <MiText variant="footnote" tone="label2">Northwind Labs, Fernhill Clinics, Brightpath and {{ recipients - 3 }} more account owners</MiText>
           </div>
@@ -38,15 +38,15 @@
             description="88 accounts. Monthly plans get the in-app banner instead."
           />
 
-          <div v-if="phase === 'review'" class="arc__actions">
+          <div v-if="phase === 'review'" class="arc__actions mi:flex mi:flex-wrap mi:items-center mi:gap-2.5">
             <MiButton @click="phase = 'sending'">Approve and send</MiButton>
             <MiButton variant="gray" @click="phase = 'denied'">Decline</MiButton>
           </div>
-          <div v-else-if="phase === 'sending'" class="arc__actions">
+          <div v-else-if="phase === 'sending'" class="arc__actions mi:flex mi:flex-wrap mi:items-center mi:gap-2.5">
             <MiProgressRing variant="stop" stoppable :size="32" label="Stop sending" @stop="phase = 'stopped'" />
             <MiText variant="footnote" tone="label2">Sending in batches of 50. Stop to cancel the rest.</MiText>
           </div>
-          <div v-else class="arc__actions">
+          <div v-else class="arc__actions mi:flex mi:flex-wrap mi:items-center mi:gap-2.5">
             <MiButton variant="tinted" size="small" @click="phase = 'review'">Reset the demo</MiButton>
           </div>
         </article>
@@ -54,7 +54,7 @@
         <MiCodeBlock :code="diff" filename="templates/renewal-notice.mjml" size="sm" :line-numbers="false" />
       </div>
 
-      <aside class="arc__facts" aria-labelledby="arc-facts-title">
+      <aside class="arc__facts mi:@[760px]:col-[2] mi:@[1080px]:col-[auto] mi:grid mi:gap-1.5 mi:content-start mi:min-w-0 mi:p-4 mi:rounded-lg mi:bg-card mi:shadow-1" aria-labelledby="arc-facts-title">
         <MiText id="arc-facts-title" as="h3" variant="caption" weight="semibold" tone="label3" class="arc__label">Run details</MiText>
         <MiDetails :items="facts" label-width="96px" />
         <MiTextLink href="#arc-audit" @click.prevent>Open the audit log</MiTextLink>
@@ -123,34 +123,14 @@ const facts = [
 </script>
 
 <style scoped>
-.arc { container-type: inline-size; display: grid; grid-template-rows: auto minmax(0, 1fr); min-height: 100%; font-family: var(--mi-font); color: var(--mi-label); background: var(--mi-page); }
-
-.arc__bar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 14px 18px; border-bottom: 1px solid var(--mi-sep); background: var(--mi-card); }
-.arc__bar-text { flex: 1 1 220px; display: grid; gap: 2px; min-width: 0; }
-.arc__status { font-size: 13px; color: var(--mi-label2); }
 .arc__run { display: none; }
 @container (min-width: 640px) { .arc__run { display: inline-flex; } }
 
-.arc__in { display: grid; gap: 14px; align-content: start; padding: 16px; grid-template-columns: minmax(0, 1fr); }
-@container (min-width: 760px) { .arc__in { grid-template-columns: 220px minmax(0, 1fr); } .arc__facts { grid-column: 2; } }
-@container (min-width: 1080px) { .arc__in { grid-template-columns: 240px minmax(0, 1fr) 260px; } .arc__facts { grid-column: auto; } }
-
 .arc__label { margin-bottom: 8px; text-transform: uppercase; letter-spacing: .06em; }
-.arc__plan, .arc__facts { display: grid; gap: 6px; align-content: start; min-width: 0; padding: 16px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); }
 .arc__facts > :last-child { margin-top: 6px; }
-.arc__main { display: grid; gap: 14px; align-content: start; min-width: 0; }
-
-.arc__ask {
-  display: grid; gap: 14px; padding: 18px; border-radius: var(--mi-radius-xl); background: var(--mi-card);
-  box-shadow: var(--mi-sh1), inset 0 0 0 1.5px color-mix(in srgb, var(--mi-p) 45%, transparent);
-}
 .arc__ask.is-sending { box-shadow: var(--mi-sh1), inset 0 0 0 1.5px color-mix(in srgb, var(--mi-green) 45%, transparent); }
 .arc__ask.is-denied, .arc__ask.is-stopped { box-shadow: var(--mi-sh1), inset 0 0 0 1px var(--mi-sep); }
-.arc__ask-head { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; align-items: start; }
-.arc__ask-icon { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: var(--mi-p-tint); color: var(--mi-p-text); }
-.arc__ask.is-sending .arc__ask-icon { background: color-mix(in srgb, var(--mi-green) 16%, transparent); color: var(--mi-green-t); }
+.arc__ask.is-sending .arc__ask-icon { color: var(--mi-green-t); }
 .arc__ask.is-denied .arc__ask-icon, .arc__ask.is-stopped .arc__ask-icon { background: var(--mi-fill4); color: var(--mi-label2); }
-.arc__who { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 10px 12px; border-radius: var(--mi-radius-m); background: var(--mi-fill4); }
 .arc__who > :last-child { flex: 1 1 200px; min-width: 0; }
-.arc__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
 </style>

@@ -1,27 +1,27 @@
 <template>
-  <div class="bh">
-    <header class="bh__header" aria-labelledby="bh-title">
-      <div class="bh__bar">
-        <span class="bh__brand"><span class="bh__brand-dot" aria-hidden="true" />Relay</span>
-        <nav class="bh__tabs" aria-label="Sections">
-          <a v-for="t in tabs" :key="t" href="#" class="bh__tab" :aria-current="t === 'Today' ? 'page' : undefined" @click.prevent>{{ t }}</a>
+  <div class="bh mi:@container mi:grid mi:content-start mi:min-h-full mi:font-mi mi:text-label mi:[background:var(--mi-page)]">
+    <header class="bh__header mi:grid mi:gap-5.5 mi:pt-3 mi:px-4 mi:pb-6 mi:shadow-[0_1px_0_var(--mi-sep)] mi:[background:radial-gradient(70%_120%_at_100%_0%,_color-mix(in_srgb,_var(--mi-p)_9%,_transparent),_transparent_65%),_var(--mi-card)] mi:@[640px]:pt-3.5 mi:@[640px]:px-7 mi:@[640px]:pb-7" aria-labelledby="bh-title">
+      <div class="bh__bar mi:flex mi:items-center mi:gap-3 mi:min-w-0">
+        <span class="bh__brand mi:inline-flex mi:items-center mi:gap-2 mi:text-[15px] mi:font-750 mi:tracking-[-.02em]"><span class="bh__brand-dot mi:w-3.5 mi:h-3.5 mi:rounded-[5px] mi:[background:linear-gradient(135deg,_var(--mi-p),_var(--mi-s))] mi:transform-[rotate(45deg)_scale(.8)]" aria-hidden="true" />Relay</span>
+        <nav class="bh__tabs mi:hidden mi:gap-0.5 mi:@[960px]:flex mi:@[960px]:ml-4.5" aria-label="Sections">
+          <a v-for="t in tabs" :key="t" href="#" class="bh__tab mi:py-1.5 mi:px-2.5 mi:rounded-[8px] mi:text-[13.5px] mi:font-medium mi:text-label2 mi:[text-decoration:none] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" :aria-current="t === 'Today' ? 'page' : undefined" @click.prevent>{{ t }}</a>
         </nav>
-        <div class="bh__tools">
+        <div class="bh__tools mi:flex mi:items-center mi:gap-2.5 mi:ml-auto">
           <MiSegmented v-model="scope" label="Briefing scope" :options="scopes" />
           <MiAvatar name="Inès Varga" size="sm" tone="auto" />
         </div>
       </div>
 
-      <div class="bh__grid">
-        <div class="bh__lead">
+      <div class="bh__grid mi:grid mi:gap-5 mi:@[960px]:grid-cols-[minmax(0,_1fr)_280px] mi:@[960px]:gap-10 mi:@[960px]:items-start">
+        <div class="bh__lead mi:grid mi:justify-items-start mi:gap-1.5 mi:min-w-0">
           <MiText as="p" variant="footnote" tone="label2" weight="medium" tabular class="bh__date">Monday 2 November · 08:12</MiText>
           <MiText id="bh-title" as="h2" variant="title1" weight="bold">Good morning, Inès.</MiText>
 
           <!-- The briefing is written from the data: approve a deploy and the sentence rewrites itself. -->
-          <p class="bh__brief" aria-live="polite">
+          <p class="bh__brief mi:max-w-[34ch] mi:mt-2 mi:mx-0 mi:mb-0 mi:text-[19px] mi:leading-[1.55] mi:tracking-[-.012em] mi:text-label2 mi:text-pretty mi:@[640px]:text-[21px] mi:@[960px]:text-[22px] mi:@[960px]:max-w-[36ch]" aria-live="polite">
             <template v-for="(t, i) in sentence" :key="i">
               <button
-                v-if="t.key" type="button" class="bh__count" :class="{ 'is-open': peek === t.key }" :style="{ '--c': `var(--mi-${clauseColor[t.key][0]})`, '--ct': `var(--mi-${clauseColor[t.key][1]})` }"
+                v-if="t.key" type="button" class="bh__count mi:inline mi:py-0 mi:px-0.5 mi:my-0 mi:-mx-0.5 mi:[border:0] mi:rounded-[4px] mi:text-label mi:[background:none] mi:cursor-pointer mi:underline-offset-[4px] mi:hover:text-(--ct) mi:[&.is-open]:text-(--ct) mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" :class="{ 'is-open': peek === t.key }" :style="{ '--c': `var(--mi-${clauseColor[t.key][0]})`, '--ct': `var(--mi-${clauseColor[t.key][1]})` }"
                 :aria-expanded="peek === t.key" aria-controls="bh-peek" @click="toggle(t.key)"
               >{{ t.text }}</button>
               <template v-else>{{ t.text }}</template>
@@ -29,17 +29,17 @@
           </p>
 
           <Transition name="bh-peek">
-            <section v-if="peek && peekItems.length" id="bh-peek" :key="peek" class="bh__peek" :aria-label="peekTitle">
-              <header class="bh__peek-head">
+            <section v-if="peek && peekItems.length" id="bh-peek" :key="peek" class="bh__peek mi:w-full mi:max-w-155 mi:box-border mi:mt-2.5 mi:pt-1.5 mi:pr-1.5 mi:pb-1.5 mi:pl-3.5 mi:rounded-[16px] mi:[background:var(--mi-elev)] mi:shadow-2" :aria-label="peekTitle">
+              <header class="bh__peek-head mi:flex mi:items-center mi:justify-between mi:gap-2 mi:pt-1 mi:px-0 mi:pb-0.5">
                 <MiText as="h3" variant="subheadline" weight="semibold">{{ peekTitle }}</MiText>
                 <MiIconButton size="small" variant="plain" label="Close details" @click="peek = null"><MiIcon name="close" :size="14" /></MiIconButton>
               </header>
-              <ul class="bh__peek-list">
-                <li v-for="it in peekItems" :key="it.id" class="bh__peek-row">
+              <ul class="bh__peek-list mi:grid mi:m-0 mi:pt-0 mi:pr-2 mi:pb-1 mi:pl-0 mi:[list-style:none]">
+                <li v-for="it in peekItems" :key="it.id" class="bh__peek-row mi:flex mi:items-center mi:gap-2.5 mi:py-[9px] mi:px-0 mi:[.bh__peek-row+&]:border-t mi:[.bh__peek-row+&]:border-t-sep">
                   <MiAvatar :name="it.who" size="xs" tone="auto" decorative />
-                  <span class="bh__peek-text">
-                    <span class="bh__peek-title">{{ it.title }}</span>
-                    <span class="bh__peek-meta">{{ it.who }} · {{ it.meta }}</span>
+                  <span class="bh__peek-text mi:grid mi:flex-1 mi:min-w-0 mi:leading-[1.3]">
+                    <span class="bh__peek-title mi:text-[13.5px] mi:font-550 mi:overflow-hidden mi:whitespace-nowrap mi:text-ellipsis mi:tabular-nums">{{ it.title }}</span>
+                    <span class="bh__peek-meta mi:text-[12px] mi:text-label2">{{ it.who }} · {{ it.meta }}</span>
                   </span>
                   <MiButton v-if="peek === 'deploys'" size="small" variant="tinted" @click="approve(it.id)">Approve</MiButton>
                   <MiButton v-else-if="peek === 'checks'" size="small" variant="gray" @click="ack(it.id)">Acknowledge</MiButton>
@@ -48,29 +48,29 @@
             </section>
           </Transition>
 
-          <ul class="bh__chips" aria-label="Quick actions">
+          <ul class="bh__chips mi:flex mi:flex-wrap mi:gap-2 mi:mt-4 mi:mx-0 mi:mb-0 mi:p-0 mi:[list-style:none]" aria-label="Quick actions">
             <li v-for="a in actions" :key="a.label">
-              <button type="button" class="bh__chip">
+              <button type="button" class="bh__chip mi:inline-flex mi:items-center mi:gap-[7px] mi:h-8 mi:py-0 mi:px-3 mi:[border:0] mi:rounded-[999px] mi:text-label mi:[background:var(--mi-card)] mi:cursor-pointer mi:shadow-[inset_0_0_0_1px_var(--mi-sep),_var(--mi-sh1)] mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease)] mi:hover:[background:var(--mi-fill4)] mi:active:transform-[scale(.97)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]">
                 <MiIcon :name="a.icon" :size="15" />
                 <span>{{ a.label }}</span>
-                <MiKbd v-if="a.key" class="bh__chip-key">{{ a.key }}</MiKbd>
+                <MiKbd v-if="a.key" class="bh__chip-key mi:-mr-1">{{ a.key }}</MiKbd>
               </button>
             </li>
           </ul>
         </div>
 
-        <aside class="bh__side" aria-label="Today at a glance">
-          <div class="bh__glance">
+        <aside class="bh__side mi:grid mi:grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))] mi:gap-2.5 mi:@[960px]:mt-6.5 mi:@[960px]:grid-cols-[minmax(0,_1fr)]" aria-label="Today at a glance">
+          <div class="bh__glance mi:grid mi:gap-1.5 mi:content-start mi:py-3.5 mi:px-4 mi:rounded-[16px] mi:[background:color-mix(in_srgb,_var(--mi-page)_70%,_var(--mi-card))] mi:shadow-[inset_0_0_0_1px_var(--mi-sep)]">
             <MiText as="span" variant="caption" tone="label2" weight="medium">Error budget · 30 days</MiText>
-            <span class="bh__big">{{ data.budget }}<small>%</small></span>
-            <div class="bh__meter" role="meter" aria-label="Error budget left" :aria-valuenow="data.budget" aria-valuemin="0" aria-valuemax="100">
-              <span :style="{ transform: `scaleX(${data.budget / 100})` }" />
+            <span class="bh__big mi:text-[30px] mi:font-750 mi:leading-[1.05] mi:tracking-[-.035em] mi:tabular-nums">{{ data.budget }}<small class="mi:[.bh__big_&]:text-[16px] mi:[.bh__big_&]:font-semibold mi:[.bh__big_&]:text-label2 mi:[.bh__big_&]:ml-px">%</small></span>
+            <div class="bh__meter mi:h-1.5 mi:rounded-[3px] mi:overflow-hidden mi:[background:var(--mi-fill3)]" role="meter" aria-label="Error budget left" :aria-valuenow="data.budget" aria-valuemin="0" aria-valuemax="100">
+              <span class="mi:[.bh__meter_&]:block mi:[.bh__meter_&]:h-full mi:[.bh__meter_&]:rounded-[3px] mi:[.bh__meter_&]:[background:var(--mi-green)] mi:[.bh__meter_&]:origin-left mi:[.bh__meter_&]:[transition:transform_var(--mi-dur-4)_var(--mi-ease)]" :style="{ transform: `scaleX(${data.budget / 100})` }" />
             </div>
             <MiText as="span" variant="caption" tone="label2" tabular>{{ data.budgetNote }}</MiText>
           </div>
-          <div class="bh__glance bh__glance--row">
-            <span class="bh__next-time">09:30</span>
-            <span class="bh__next-text">
+          <div class="bh__glance bh__glance--row mi:grid mi:gap-1.5 mi:content-start mi:py-3.5 mi:px-4 mi:rounded-[16px] mi:[background:color-mix(in_srgb,_var(--mi-page)_70%,_var(--mi-card))] mi:shadow-[inset_0_0_0_1px_var(--mi-sep)] mi:hidden mi:items-center mi:gap-3.5 mi:@[640px]:flex">
+            <span class="bh__next-time mi:text-[20px] mi:font-bold mi:tracking-[-.02em] mi:tabular-nums mi:text-p-text mi:pr-3.5 mi:border-r mi:border-r-sep">09:30</span>
+            <span class="bh__next-text mi:grid mi:min-w-0">
               <MiText as="span" variant="footnote" weight="semibold">Platform stand-up</MiText>
               <MiText as="span" variant="caption" tone="label2">in 1 h 18 min · Room 2</MiText>
             </span>
@@ -79,10 +79,10 @@
       </div>
     </header>
 
-    <main class="bh__body" aria-label="Dashboard">
-      <div class="bh__panel bh__panel--wide"><MiSkeleton :animated="false" :height="120" :radius="10" /></div>
-      <div class="bh__panel"><MiSkeleton variant="text" :lines="['70%', '90%', '55%']" :animated="false" /></div>
-      <div class="bh__panel"><MiSkeleton variant="text" :lines="['60%', '85%', '40%']" :animated="false" /></div>
+    <main class="bh__body mi:grid mi:gap-3 mi:p-4 mi:@[640px]:grid-cols-[1fr_1fr] mi:@[640px]:py-5 mi:@[640px]:px-7 mi:@[960px]:grid-cols-[2fr_1fr_1fr]" aria-label="Dashboard">
+      <div class="bh__panel bh__panel--wide mi:min-h-25 mi:p-4 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-[0_0_0_1px_var(--mi-sep)] mi:@[640px]:col-span-full mi:@[960px]:col-[auto]"><MiSkeleton :animated="false" :height="120" :radius="10" /></div>
+      <div class="bh__panel mi:min-h-25 mi:p-4 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-[0_0_0_1px_var(--mi-sep)]"><MiSkeleton variant="text" :lines="['70%', '90%', '55%']" :animated="false" /></div>
+      <div class="bh__panel mi:min-h-25 mi:p-4 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-[0_0_0_1px_var(--mi-sep)]"><MiSkeleton variant="text" :lines="['60%', '85%', '40%']" :animated="false" /></div>
     </main>
   </div>
 </template>
@@ -182,84 +182,18 @@ const actions: { label: string, icon: 'check-circle' | 'warning' | 'chat' | 'bel
 </script>
 
 <style scoped>
-.bh { container-type: inline-size; display: grid; align-content: start; min-height: 100%; font-family: var(--mi-font); color: var(--mi-label); background: var(--mi-page); }
-.bh__header {
-  display: grid; gap: 22px; padding: 12px 16px 24px; box-shadow: 0 1px 0 var(--mi-sep);
-  background: radial-gradient(70% 120% at 100% 0%, color-mix(in srgb, var(--mi-p) 9%, transparent), transparent 65%), var(--mi-card);
-}
-
-.bh__bar { display: flex; align-items: center; gap: 12px; min-width: 0; }
-.bh__brand { display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 750; letter-spacing: -.02em; }
-.bh__brand-dot { width: 14px; height: 14px; border-radius: 5px; background: linear-gradient(135deg, var(--mi-p), var(--mi-s)); transform: rotate(45deg) scale(.8); }
-.bh__tabs { display: none; gap: 2px; }
-.bh__tab { padding: 6px 10px; border-radius: 8px; font-size: 13.5px; font-weight: 500; color: var(--mi-label2); text-decoration: none; }
 .bh__tab:hover { color: var(--mi-label); background: var(--mi-fill4); }
 .bh__tab[aria-current="page"] { color: var(--mi-label); background: var(--mi-fill3); }
-.bh__tab:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 1px; }
-.bh__tools { display: flex; align-items: center; gap: 10px; margin-left: auto; }
-
-.bh__grid { display: grid; gap: 20px; }
-.bh__lead { display: grid; justify-items: start; gap: 6px; min-width: 0; }
 .bh__date { letter-spacing: .01em; }
-.bh__brief { max-width: 34ch; margin: 8px 0 0; font-size: 19px; line-height: 1.55; letter-spacing: -.012em; color: var(--mi-label2); text-wrap: pretty; }
-.bh__count {
-  display: inline; padding: 0 2px; margin: 0 -2px; border: 0; border-radius: 4px; font: inherit; font-weight: 650; color: var(--mi-label);
-  font-variant-numeric: tabular-nums; background: none; cursor: pointer;
-  text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--c) 55%, transparent); text-decoration-thickness: 2px; text-underline-offset: 4px;
+.bh__count { font: inherit; font-weight: 650;
+  font-variant-numeric: tabular-nums;
+  text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--c) 55%, transparent); text-decoration-thickness: 2px;
 }
-.bh__count:hover, .bh__count.is-open { color: var(--ct); text-decoration-color: var(--c); }
-.bh__count:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-
-.bh__peek { width: 100%; max-width: 620px; box-sizing: border-box; margin-top: 10px; padding: 6px 6px 6px 14px; border-radius: 16px; background: var(--mi-elev); box-shadow: var(--mi-sh2); }
-.bh__peek-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 4px 0 2px; }
-.bh__peek-list { display: grid; margin: 0; padding: 0 8px 4px 0; list-style: none; }
-.bh__peek-row { display: flex; align-items: center; gap: 10px; padding: 9px 0; }
-.bh__peek-row + .bh__peek-row { border-top: 1px solid var(--mi-sep); }
-.bh__peek-text { display: grid; flex: 1; min-width: 0; line-height: 1.3; }
-.bh__peek-title { font-size: 13.5px; font-weight: 550; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-variant-numeric: tabular-nums; }
-.bh__peek-meta { font-size: 12px; color: var(--mi-label2); }
+.bh__count:hover, .bh__count.is-open { text-decoration-color: var(--c); }
 .bh-peek-enter-active, .bh-peek-leave-active { transition: opacity var(--mi-dur-2) var(--mi-ease), transform var(--mi-dur-2) var(--mi-ease); }
 .bh-peek-enter-from, .bh-peek-leave-to { opacity: 0; transform: translateY(-6px); }
-
-.bh__chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 0; padding: 0; list-style: none; }
 .bh__chip {
-  display: inline-flex; align-items: center; gap: 7px; height: 32px; padding: 0 12px; border: 0; border-radius: 999px;
-  font: inherit; font-size: 13px; font-weight: 550; color: var(--mi-label); background: var(--mi-card); cursor: pointer;
-  box-shadow: inset 0 0 0 1px var(--mi-sep), var(--mi-sh1); transition: transform var(--mi-dur-1) var(--mi-ease);
+  font: inherit; font-size: 13px; font-weight: 550;
 }
-.bh__chip:hover { background: var(--mi-fill4); }
-.bh__chip:active { transform: scale(.97); }
-.bh__chip:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
 .bh__chip :deep(svg) { color: var(--mi-label2); }
-.bh__chip-key { margin-right: -4px; }
-
-.bh__side { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
-.bh__glance { display: grid; gap: 6px; align-content: start; padding: 14px 16px; border-radius: 16px; background: color-mix(in srgb, var(--mi-page) 70%, var(--mi-card)); box-shadow: inset 0 0 0 1px var(--mi-sep); }
-.bh__big { font-size: 30px; font-weight: 750; line-height: 1.05; letter-spacing: -.035em; font-variant-numeric: tabular-nums; }
-.bh__big small { font-size: 16px; font-weight: 600; color: var(--mi-label2); margin-left: 1px; }
-.bh__meter { height: 6px; border-radius: 3px; overflow: hidden; background: var(--mi-fill3); }
-.bh__meter span { display: block; height: 100%; border-radius: 3px; background: var(--mi-green); transform-origin: left; transition: transform var(--mi-dur-4) var(--mi-ease); }
-.bh__glance--row { display: none; align-items: center; gap: 14px; }
-.bh__next-time { font-size: 20px; font-weight: 700; letter-spacing: -.02em; font-variant-numeric: tabular-nums; color: var(--mi-p-text); padding-right: 14px; border-right: 1px solid var(--mi-sep); }
-.bh__next-text { display: grid; min-width: 0; }
-
-.bh__body { display: grid; gap: 12px; padding: 16px; }
-.bh__panel { min-height: 100px; padding: 16px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: 0 0 0 1px var(--mi-sep); }
-
-@container (min-width: 640px) {
-  .bh__header { padding: 14px 28px 28px; }
-  .bh__brief { font-size: 21px; }
-  .bh__glance--row { display: flex; }
-  .bh__body { grid-template-columns: 1fr 1fr; padding: 20px 28px; }
-  .bh__panel--wide { grid-column: 1 / -1; }
-}
-@container (min-width: 960px) {
-  .bh__tabs { display: flex; margin-left: 18px; }
-  .bh__grid { grid-template-columns: minmax(0, 1fr) 280px; gap: 40px; align-items: start; }
-  .bh__side { margin-top: 26px; }
-  .bh__brief { font-size: 22px; max-width: 36ch; }
-  .bh__side { grid-template-columns: minmax(0, 1fr); }
-  .bh__body { grid-template-columns: 2fr 1fr 1fr; }
-  .bh__panel--wide { grid-column: auto; }
-}
 </style>

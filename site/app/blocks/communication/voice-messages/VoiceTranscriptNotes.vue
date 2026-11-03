@@ -1,61 +1,61 @@
 <template>
-  <section class="vn" aria-labelledby="vn-title">
-    <div class="vn__card">
-      <header class="vn__head">
+  <section class="vn mi:@container mi:font-mi mi:text-label" aria-labelledby="vn-title">
+    <div class="vn__card mi:flex mi:flex-col mi:h-145 mi:max-w-155 mi:mx-auto mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-2 mi:overflow-hidden">
+      <header class="vn__head mi:flex mi:items-center mi:gap-3 mi:py-3.5 mi:px-4 mi:border-b mi:border-b-sep">
         <MiAvatar name="Tobias Lund" size="sm" tone="blue" decorative />
-        <div class="vn__head-text">
+        <div class="vn__head-text mi:min-w-0">
           <MiText id="vn-title" as="h2" variant="headline" weight="semibold">Tobias Lund</MiText>
           <MiText variant="caption" tone="label2">Site lead · Malmö warehouse</MiText>
         </div>
       </header>
 
-      <div class="vn__log" role="log" aria-label="Voice messages with Tobias Lund">
+      <div class="vn__log mi:flex-1 mi:min-h-0 mi:overflow-y-auto mi:flex mi:flex-col mi:gap-3.5 mi:p-4 mi:[background:var(--mi-page)]" role="log" aria-label="Voice messages with Tobias Lund">
         <MiMarker variant="separator">Today</MiMarker>
         <MiMessage
           v-for="n in notes" :key="n.id" :align="n.me ? 'end' : 'start'" :label="n.me ? 'You' : 'Tobias Lund'"
-          class="vn__msg" :class="{ 'is-end': n.me }"
+          class="vn__msg mi:[&.is-end]:ms-auto" :class="{ 'is-end': n.me }"
         >
           <template v-if="!n.me" #avatar><MiAvatar name="Tobias Lund" size="xs" tone="blue" decorative /></template>
-          <div class="vn__note" :class="{ 'is-mine': n.me, 'is-playing': playing === n.id }">
-            <div class="vn__player">
-              <button type="button" class="vn__play" :aria-label="(playing === n.id ? 'Pause' : 'Play') + ' voice message, ' + fmt(n.dur)" @click="toggle(n)">
+          <div class="vn__note mi:[--tone:var(--mi-p)] mi:grid mi:gap-1.5 mi:w-[min(20rem,_76cqi)] mi:box-border mi:py-2.5 mi:px-3 mi:rounded-[20px_20px_20px_6px] mi:[background:var(--mi-fill2)] mi:[&.is-mine]:[--tone:var(--mi-p-on)] mi:[&.is-mine]:rounded-[20px_20px_6px_20px] mi:[&.is-mine]:[background:var(--mi-p)] mi:[&.is-mine]:text-p-on" :class="{ 'is-mine': n.me, 'is-playing': playing === n.id }">
+            <div class="vn__player mi:flex mi:items-center mi:gap-2.5">
+              <button type="button" class="vn__play mi:grid mi:place-items-center mi:flex-[none] mi:w-9.5 mi:h-9.5 mi:p-0 mi:[border:0] mi:rounded-[50%] mi:[background:var(--tone)] mi:text-p-on mi:cursor-pointer mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease)] mi:[.vn__note.is-mine_&]:text-p mi:active:transform-[scale(.92)] mi:focus-visible:[outline:2px_solid_currentColor] mi:focus-visible:outline-offset-[2px]" :aria-label="(playing === n.id ? 'Pause' : 'Play') + ' voice message, ' + fmt(n.dur)" @click="toggle(n)">
                 <MiIcon :svg="playing === n.id ? icons.pause : icons.play" :size="18" :filled="playing !== n.id" />
               </button>
               <!-- Waveform: the played layer is revealed with a counter-translated mask (transform only). -->
-              <div class="vn__wave" :style="{ '--p': progress(n) }">
-                <span class="vn__bars" aria-hidden="true"><span v-for="(h, i) in n.bars" :key="i" :style="{ transform: `scaleY(${h})` }" /></span>
-                <span class="vn__mask" aria-hidden="true"><span class="vn__mask-in"><span class="vn__bars vn__bars--on"><span v-for="(h, i) in n.bars" :key="i" :style="{ transform: `scaleY(${h})` }" /></span></span></span>
+              <div class="vn__wave mi:relative mi:flex-1 mi:min-w-0 mi:h-8 mi:overflow-hidden" :style="{ '--p': progress(n) }">
+                <span class="vn__bars mi:absolute mi:inset-0 mi:flex mi:items-center mi:gap-0.5" aria-hidden="true"><span class="mi:[.vn__bars_&]:flex-1 mi:[.vn__bars_&]:h-full mi:[.vn__bars_&]:rounded-[2px]" v-for="(h, i) in n.bars" :key="i" :style="{ transform: `scaleY(${h})` }" /></span>
+                <span class="vn__mask mi:absolute mi:inset-0 mi:overflow-hidden mi:[transition:transform_100ms_linear] mi:pointer-events-none mi:transform-[translateX(calc((var(--p)_-_1)_*_100%))]" aria-hidden="true"><span class="vn__mask-in mi:absolute mi:inset-0 mi:overflow-hidden mi:[transition:transform_100ms_linear] mi:transform-[translateX(calc((1_-_var(--p))_*_100%))]"><span class="vn__bars vn__bars--on mi:absolute mi:inset-0 mi:flex mi:items-center mi:gap-0.5"><span class="mi:[.vn__bars_&]:flex-1 mi:[.vn__bars_&]:h-full mi:[.vn__bars_&]:rounded-[2px]" v-for="(h, i) in n.bars" :key="i" :style="{ transform: `scaleY(${h})` }" /></span></span></span>
                 <input
-                  v-model.number="pos[n.id]" class="vn__seek" type="range" min="0" :max="n.dur" step="0.1"
+                  v-model.number="pos[n.id]" class="vn__seek mi:absolute mi:inset-0 mi:w-full mi:h-full mi:m-0 mi:opacity-0 mi:cursor-pointer mi:focus-visible:opacity-100 mi:focus-visible:accent-p" type="range" min="0" :max="n.dur" step="0.1"
                   :aria-label="'Seek in voice message'" :aria-valuetext="fmt(pos[n.id] ?? 0) + ' of ' + fmt(n.dur)"
                 >
               </div>
-              <button type="button" class="vn__speed" :aria-label="'Playback speed ' + n.speed + 'x'" @click="n.speed = n.speed === 2 ? 1 : n.speed + 0.5">{{ n.speed }}×</button>
+              <button type="button" class="vn__speed mi:focus-visible:[outline:2px_solid_currentColor] mi:focus-visible:outline-offset-[2px] mi:flex-[none] mi:min-w-10 mi:py-1 mi:px-2 mi:[border:0] mi:rounded-[999px] mi:[background:color-mix(in_srgb,_currentColor_14%,_transparent)] mi:text-inherit mi:cursor-pointer" :aria-label="'Playback speed ' + n.speed + 'x'" @click="n.speed = n.speed === 2 ? 1 : n.speed + 0.5">{{ n.speed }}×</button>
             </div>
-            <div class="vn__meta">
-              <span class="vn__time">{{ fmt(playing === n.id || (pos[n.id] ?? 0) > 0 ? pos[n.id] ?? 0 : n.dur) }}</span>
-              <span v-if="!n.me && !n.heard" class="vn__new" aria-label="not played yet" />
-              <button type="button" class="vn__tx-btn" :aria-expanded="n.showText" @click="n.showText = !n.showText">{{ n.showText ? 'Hide transcript' : 'Transcript' }}</button>
-              <span class="vn__clock">{{ n.time }}</span>
+            <div class="vn__meta mi:flex mi:items-center mi:gap-2 mi:pl-12 mi:text-[12px]">
+              <span class="vn__time mi:tabular-nums mi:opacity-75">{{ fmt(playing === n.id || (pos[n.id] ?? 0) > 0 ? pos[n.id] ?? 0 : n.dur) }}</span>
+              <span v-if="!n.me && !n.heard" class="vn__new mi:w-[7px] mi:h-[7px] mi:rounded-[50%] mi:[background:var(--mi-p)]" aria-label="not played yet" />
+              <button type="button" class="vn__tx-btn mi:focus-visible:[outline:2px_solid_currentColor] mi:focus-visible:outline-offset-[2px] mi:p-0 mi:[border:0] mi:[background:none] mi:text-inherit mi:underline-offset-[2px] mi:cursor-pointer" :aria-expanded="n.showText" @click="n.showText = !n.showText">{{ n.showText ? 'Hide transcript' : 'Transcript' }}</button>
+              <span class="vn__clock mi:ml-auto mi:opacity-60">{{ n.time }}</span>
             </div>
             <!-- Transcript follows playback word by word. -->
-            <p v-if="n.showText" class="vn__tx">
-              <span v-for="(w, i) in n.words" :key="i" :class="{ 'is-said': i < spoken(n), 'is-now': i === spoken(n) - 1 && playing === n.id }">{{ w + ' ' }}</span>
+            <p v-if="n.showText" class="vn__tx mi:mt-1 mi:mx-0 mi:mb-0.5 mi:pt-2 mi:border-t mi:border-t-[color:color-mix(in_srgb,_currentColor_14%,_transparent)] mi:text-[14px] mi:leading-[1.55]">
+              <span class="mi:[.vn__tx_&]:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)]" v-for="(w, i) in n.words" :key="i" :class="{ 'is-said': i < spoken(n), 'is-now mi:[.vn__tx_&]:underline-offset-[3px]': i === spoken(n) - 1 && playing === n.id }">{{ w + ' ' }}</span>
             </p>
           </div>
         </MiMessage>
       </div>
 
-      <div class="vn__composer" :class="{ 'is-rec': recording }">
+      <div class="vn__composer mi:flex mi:items-center mi:gap-2.5 mi:min-h-16 mi:py-2.5 mi:px-3.5 mi:border-t mi:border-t-sep mi:box-border" :class="{ 'is-rec': recording }">
         <template v-if="recording">
           <MiIconButton label="Discard recording" variant="gray" size="regular" @click="stopRec(false)"><MiIcon name="trash" :size="18" /></MiIconButton>
-          <span class="vn__rec-dot" aria-hidden="true" />
-          <span class="vn__rec-time" role="timer" aria-live="off">{{ fmt(recSecs) }}</span>
-          <span class="vn__rec-bars" aria-hidden="true"><span v-for="i in 24" :key="i" :style="{ animationDelay: (i * 83 % 500) + 'ms' }" /></span>
+          <span class="vn__rec-dot mi:flex-[none] mi:w-2.5 mi:h-2.5 mi:rounded-[50%] mi:[background:var(--mi-red)]" aria-hidden="true" />
+          <span class="vn__rec-time mi:flex-[none] mi:min-w-9 mi:text-[14px] mi:font-semibold mi:tabular-nums" role="timer" aria-live="off">{{ fmt(recSecs) }}</span>
+          <span class="vn__rec-bars mi:flex-1 mi:min-w-0 mi:flex mi:items-center mi:gap-0.5 mi:h-7 mi:overflow-hidden" aria-hidden="true"><span class="mi:[.vn__rec-bars_&]:flex-1 mi:[.vn__rec-bars_&]:min-w-0.5 mi:[.vn__rec-bars_&]:h-full mi:[.vn__rec-bars_&]:rounded-[2px] mi:[.vn__rec-bars_&]:origin-center" v-for="i in 24" :key="i" :style="{ animationDelay: (i * 83 % 500) + 'ms' }" /></span>
           <MiIconButton label="Send voice message" size="regular" @click="stopRec(true)"><MiIcon name="arrow-up" :size="18" /></MiIconButton>
         </template>
         <template v-else>
-          <MiText variant="footnote" tone="label2" class="vn__hint">Reply with your voice</MiText>
+          <MiText variant="footnote" tone="label2" class="vn__hint mi:flex-1">Reply with your voice</MiText>
           <MiButton size="small" @click="startRec">
             <template #leading><MiIcon :svg="icons.mic" :size="16" /></template>Record
           </MiButton>
@@ -144,50 +144,17 @@ onBeforeUnmount(() => clearInterval(timer))
 </script>
 
 <style scoped>
-.vn { container-type: inline-size; font-family: var(--mi-font); color: var(--mi-label); }
-.vn__card { display: flex; flex-direction: column; height: 580px; max-width: 620px; margin-inline: auto; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh2); overflow: hidden; }
-.vn__head { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-bottom: 1px solid var(--mi-sep); }
-.vn__head-text { min-width: 0; }
-.vn__log { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; padding: 16px; background: var(--mi-page); }
 .vn__msg { max-width: 100%; }
-.vn__msg.is-end { margin-inline-start: auto; }
-
-.vn__note { --tone: var(--mi-p); display: grid; gap: 6px; width: min(20rem, 76cqi); box-sizing: border-box; padding: 10px 12px; border-radius: 20px 20px 20px 6px; background: var(--mi-fill2); }
-.vn__note.is-mine { --tone: var(--mi-p-on); border-radius: 20px 20px 6px 20px; background: var(--mi-p); color: var(--mi-p-on); }
-.vn__player { display: flex; align-items: center; gap: 10px; }
-.vn__play { display: grid; place-items: center; flex: none; width: 38px; height: 38px; padding: 0; border: 0; border-radius: 50%; background: var(--tone); color: var(--mi-p-on); cursor: pointer; transition: transform var(--mi-dur-1) var(--mi-ease); }
-.vn__note.is-mine .vn__play { color: var(--mi-p); }
-.vn__play:active { transform: scale(.92); }
-.vn__play:focus-visible, .vn__speed:focus-visible, .vn__tx-btn:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
-
-.vn__wave { position: relative; flex: 1; min-width: 0; height: 32px; overflow: hidden; }
-.vn__bars { position: absolute; inset: 0; display: flex; align-items: center; gap: 2px; }
-.vn__bars span { flex: 1; height: 100%; border-radius: 2px; background: color-mix(in srgb, currentColor 30%, transparent); }
+.vn__bars span { background: color-mix(in srgb, currentColor 30%, transparent); }
 .vn__bars--on span { background: var(--tone); }
-.vn__mask, .vn__mask-in { position: absolute; inset: 0; overflow: hidden; transition: transform 100ms linear; }
-.vn__mask { pointer-events: none; transform: translateX(calc((var(--p) - 1) * 100%)); }
-.vn__mask-in { transform: translateX(calc((1 - var(--p)) * 100%)); }
-.vn__seek { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
-.vn__seek:focus-visible { opacity: 1; accent-color: var(--mi-p); }
-.vn__speed { flex: none; min-width: 40px; padding: 4px 8px; border: 0; border-radius: 999px; background: color-mix(in srgb, currentColor 14%, transparent); color: inherit; font: inherit; font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; cursor: pointer; }
-
-.vn__meta { display: flex; align-items: center; gap: 8px; padding-left: 48px; font-size: 12px; }
-.vn__time { font-variant-numeric: tabular-nums; opacity: .75; }
-.vn__new { width: 7px; height: 7px; border-radius: 50%; background: var(--mi-p); }
-.vn__tx-btn { padding: 0; border: 0; background: none; color: inherit; font: inherit; font-weight: 600; text-decoration: underline; text-underline-offset: 2px; text-decoration-color: color-mix(in srgb, currentColor 40%, transparent); cursor: pointer; }
-.vn__clock { margin-left: auto; opacity: .6; }
-.vn__tx { margin: 4px 0 2px; padding-top: 8px; border-top: 1px solid color-mix(in srgb, currentColor 14%, transparent); font-size: 14px; line-height: 1.55; }
-.vn__tx span { opacity: .5; transition: opacity var(--mi-dur-2) var(--mi-ease); }
+.vn__speed { font: inherit; font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.vn__tx-btn { font: inherit; font-weight: 600; text-decoration: underline; text-decoration-color: color-mix(in srgb, currentColor 40%, transparent); }
+.vn__tx span { opacity: .5; }
 .vn__tx span.is-said { opacity: 1; }
-.vn__tx span.is-now { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
-
-.vn__composer { display: flex; align-items: center; gap: 10px; min-height: 64px; padding: 10px 14px; border-top: 1px solid var(--mi-sep); box-sizing: border-box; }
-.vn__hint { flex: 1; }
-.vn__rec-dot { flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--mi-red); animation: vn-blink 1s steps(2, start) infinite; }
+.vn__tx span.is-now { text-decoration: underline; text-decoration-thickness: 2px; }
+.vn__rec-dot { animation: vn-blink 1s steps(2, start) infinite; }
 @keyframes vn-blink { to { opacity: .2; } }
-.vn__rec-time { flex: none; min-width: 36px; font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
-.vn__rec-bars { flex: 1; min-width: 0; display: flex; align-items: center; gap: 2px; height: 28px; overflow: hidden; }
-.vn__rec-bars span { flex: 1; min-width: 2px; height: 100%; border-radius: 2px; background: var(--mi-red); transform-origin: center; animation: vn-rec 640ms ease-in-out infinite alternate; }
+.vn__rec-bars span { background: var(--mi-red); animation: vn-rec 640ms ease-in-out infinite alternate; }
 @keyframes vn-rec { from { transform: scaleY(.15); } to { transform: scaleY(.9); } }
 @media (prefers-reduced-motion: reduce) { .vn__rec-bars span, .vn__rec-dot { animation: none; } }
 </style>

@@ -1,17 +1,17 @@
 <template>
-  <section class="pfi" aria-labelledby="pfi-title">
-    <div class="pfi__toolbar">
-      <div class="pfi__toggles">
-        <label class="pfi__toggle">
+  <section class="pfi mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="pfi-title">
+    <div class="pfi__toolbar mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2.5 mi:print:hidden">
+      <div class="pfi__toggles mi:flex mi:flex-wrap mi:gap-y-2 mi:gap-x-4">
+        <label class="pfi__toggle mi:inline-flex mi:items-center mi:gap-2 mi:cursor-pointer">
           <MiSwitch v-model="early" size="compact" label="Apply early-payment discount" />
           <MiText as="span" variant="footnote">2% early-payment discount</MiText>
         </label>
-        <label class="pfi__toggle">
+        <label class="pfi__toggle mi:inline-flex mi:items-center mi:gap-2 mi:cursor-pointer">
           <MiSwitch v-model="paid" size="compact" tone="success" label="Mark as paid" />
           <MiText as="span" variant="footnote">Mark as paid</MiText>
         </label>
       </div>
-      <div class="pfi__buttons">
+      <div class="pfi__buttons mi:flex mi:flex-wrap mi:gap-y-2 mi:gap-x-4">
         <MiButton variant="gray" size="small" @click="print">
           <template #leading><MiIcon :svg="printer" :size="16" /></template>
           Print
@@ -20,59 +20,59 @@
       </div>
     </div>
 
-    <article class="pfi__paper">
-      <header class="pfi__head">
-        <div class="pfi__from">
-          <span class="pfi__logo" aria-hidden="true" />
+    <article class="pfi__paper mi:relative mi:grid mi:gap-5.5 mi:pt-5.5 mi:px-4.5 mi:pb-0 mi:overflow-hidden mi:rounded-[6px] mi:[background:var(--mi-card)] mi:shadow-[0_0_0_1px_var(--mi-sep),_0_18px_40px_-24px_color-mix(in_srgb,_var(--mi-label)_40%,_transparent)] mi:@[720px]:pt-10 mi:@[720px]:px-12 mi:@[720px]:pb-0 mi:@[720px]:gap-7 mi:print:shadow-none">
+      <header class="pfi__head mi:flex mi:flex-wrap mi:justify-between mi:gap-4.5 mi:pb-4.5 mi:border-b-2 mi:border-b-label">
+        <div class="pfi__from mi:flex mi:gap-3 mi:max-w-90">
+          <span class="pfi__logo mi:flex-[none] mi:w-9 mi:h-9 mi:rounded-[50%] mi:[background:linear-gradient(var(--mi-card),_var(--mi-card))_padding-box,_conic-gradient(from_0deg,_var(--mi-p),_var(--mi-s),_var(--mi-p))_border-box] mi:border-6 mi:border-transparent mi:box-border" aria-hidden="true" />
           <div>
             <MiText variant="headline" weight="bold">Moraine Studio</MiText>
             <MiText variant="caption" tone="label2">22 quai des Chartrons, 33000 Bordeaux · VAT FR 41 902 118 554</MiText>
           </div>
         </div>
-        <div class="pfi__title">
+        <div class="pfi__title mi:grid mi:justify-items-start mi:@[560px]:justify-items-end">
           <MiText id="pfi-title" as="h2" variant="title1" weight="bold">Invoice</MiText>
           <MiText variant="footnote" tone="label2" tabular>INV-2026-0147</MiText>
-          <span v-if="paid" class="pfi__stamp">Paid · 4 Nov</span>
+          <span v-if="paid" class="pfi__stamp mi:inline-block mi:mt-2.5 mi:py-[5px] mi:px-3 mi:border-3 mi:border-green mi:rounded-[10px] mi:text-[16px] mi:font-extrabold mi:tracking-[.08em] mi:uppercase mi:text-green-t mi:opacity-85 mi:transform-[rotate(-6deg)]">Paid · 4 Nov</span>
         </div>
       </header>
 
       <MiDetails :items="facts" label-width="96px" class="pfi__facts" />
 
-      <div class="pfi__table-wrap">
-        <table class="pfi__table">
-          <caption class="pfi__sr">Line items</caption>
-          <thead><tr><th scope="col">Description</th><th scope="col" class="num">Qty</th><th scope="col" class="num">Rate</th><th scope="col" class="num">Amount</th></tr></thead>
+      <div class="pfi__table-wrap mi:overflow-x-auto mi:-mx-1 mi:px-1">
+        <table class="pfi__table mi:w-full mi:min-w-120 mi:border-collapse mi:text-[14px]">
+          <caption class="pfi__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">Line items</caption>
+          <thead><tr><th class="mi:[.pfi__table_&]:text-[11px] mi:[.pfi__table_&]:font-semibold mi:[.pfi__table_&]:text-label2" scope="col">Description</th><th scope="col" class="num mi:[.pfi__table_&]:text-[11px] mi:[.pfi__table_&]:font-semibold mi:[.pfi__table_&]:text-label2 mi:[.pfi__table_&]:whitespace-nowrap mi:[.pfi__table_&]:tabular-nums">Qty</th><th scope="col" class="num mi:[.pfi__table_&]:text-[11px] mi:[.pfi__table_&]:font-semibold mi:[.pfi__table_&]:text-label2 mi:[.pfi__table_&]:whitespace-nowrap mi:[.pfi__table_&]:tabular-nums">Rate</th><th scope="col" class="num mi:[.pfi__table_&]:text-[11px] mi:[.pfi__table_&]:font-semibold mi:[.pfi__table_&]:text-label2 mi:[.pfi__table_&]:whitespace-nowrap mi:[.pfi__table_&]:tabular-nums">Amount</th></tr></thead>
           <tbody>
             <tr v-for="l in lines" :key="l.name">
-              <td><span class="pfi__item">{{ l.name }}</span><span class="pfi__item-sub">{{ l.sub }}</span></td>
-              <td class="num">{{ l.qty }} {{ l.unit }}</td>
-              <td class="num">{{ eur(l.rate) }}</td>
-              <td class="num strong">{{ eur(l.qty * l.rate) }}</td>
+              <td class="mi:[.pfi__table_&]:align-top"><span class="pfi__item mi:block mi:font-semibold">{{ l.name }}</span><span class="pfi__item-sub mi:block mi:text-[12px] mi:text-label2">{{ l.sub }}</span></td>
+              <td class="num mi:[.pfi__table_&]:align-top mi:[.pfi__table_&]:whitespace-nowrap mi:[.pfi__table_&]:tabular-nums">{{ l.qty }} {{ l.unit }}</td>
+              <td class="num mi:[.pfi__table_&]:align-top mi:[.pfi__table_&]:whitespace-nowrap mi:[.pfi__table_&]:tabular-nums">{{ eur(l.rate) }}</td>
+              <td class="num strong mi:[.pfi__table_&]:align-top mi:[.pfi__table_&]:whitespace-nowrap mi:[.pfi__table_&]:tabular-nums mi:[.pfi__table_&]:font-semibold">{{ eur(l.qty * l.rate) }}</td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <div class="pfi__bottom">
-        <MiText variant="caption" tone="label2" class="pfi__note">
+      <div class="pfi__bottom mi:grid mi:gap-4.5 mi:@[640px]:grid-cols-[minmax(0,_1fr)_280px] mi:@[640px]:items-end">
+        <MiText variant="caption" tone="label2" class="pfi__note mi:max-w-[46ch]">
           Thank you for a second season together. Payment by bank transfer within 30 days; please quote the reference below.
         </MiText>
-        <dl class="pfi__totals">
-          <div><dt>Subtotal</dt><dd>{{ eur(subtotal) }}</dd></div>
-          <div v-if="early" class="is-discount"><dt>Early payment −2%</dt><dd>−{{ eur(discount) }}</dd></div>
-          <div><dt>VAT 20%</dt><dd>{{ eur(vat) }}</dd></div>
-          <div class="is-total"><dt>Total due</dt><dd>{{ eur(paid ? 0 : total) }}</dd></div>
+        <dl class="pfi__totals mi:grid mi:m-0 mi:tabular-nums">
+          <div class="mi:[.pfi__totals_&]:flex mi:[.pfi__totals_&]:justify-between mi:[.pfi__totals_&]:gap-3 mi:[.pfi__totals_&]:text-[14px]"><dt class="mi:[.pfi__totals_&]:text-label2">Subtotal</dt><dd class="mi:[.pfi__totals_&]:m-0">{{ eur(subtotal) }}</dd></div>
+          <div v-if="early" class="is-discount mi:[.pfi__totals_&]:flex mi:[.pfi__totals_&]:justify-between mi:[.pfi__totals_&]:gap-3 mi:[.pfi__totals_&]:text-[14px]"><dt class="mi:[.pfi__totals_&]:text-label2">Early payment −2%</dt><dd class="mi:[.pfi__totals_&]:m-0 mi:[.pfi__totals_.is-discount_&]:text-green-t">−{{ eur(discount) }}</dd></div>
+          <div class="mi:[.pfi__totals_&]:flex mi:[.pfi__totals_&]:justify-between mi:[.pfi__totals_&]:gap-3 mi:[.pfi__totals_&]:text-[14px]"><dt class="mi:[.pfi__totals_&]:text-label2">VAT 20%</dt><dd class="mi:[.pfi__totals_&]:m-0">{{ eur(vat) }}</dd></div>
+          <div class="is-total mi:[.pfi__totals_&]:flex mi:[.pfi__totals_&]:justify-between mi:[.pfi__totals_&]:gap-3 mi:[.pfi__totals_&]:text-[14px] mi:[.pfi__totals_&]:mt-1.5 mi:[.pfi__totals_&]:border-t-2 mi:[.pfi__totals_&]:border-t-label mi:[.pfi__totals_&]:text-[18px] mi:[.pfi__totals_&]:font-bold"><dt class="mi:[.pfi__totals_&]:text-label2 mi:[.pfi__totals_.is-total_&]:text-label">Total due</dt><dd class="mi:[.pfi__totals_&]:m-0">{{ eur(paid ? 0 : total) }}</dd></div>
         </dl>
       </div>
 
       <!-- Tear-off slip: a perforated edge with punched notches, and a barcode drawn from the reference. -->
-      <footer class="pfi__stub">
-        <div class="pfi__stub-text">
+      <footer class="pfi__stub mi:relative mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-4 mi:mt-1 mi:-mx-4.5 mi:mb-0 mi:py-5.5 mi:px-4.5 mi:[border-top:2px_dashed_var(--mi-sep2,_var(--mi-sep))] mi:[background:var(--mi-fill4)] mi:@[720px]:-mx-12 mi:@[720px]:py-6 mi:@[720px]:px-12 mi:before:content-[''] mi:before:absolute mi:before:-top-3 mi:before:w-5.5 mi:before:h-5.5 mi:before:rounded-[50%] mi:before:[background:var(--mi-page)] mi:before:shadow-[inset_0_0_0_1px_var(--mi-sep)] mi:after:content-[''] mi:after:absolute mi:after:-top-3 mi:after:w-5.5 mi:after:h-5.5 mi:after:rounded-[50%] mi:after:[background:var(--mi-page)] mi:after:shadow-[inset_0_0_0_1px_var(--mi-sep)] mi:before:left-[-11px] mi:after:right-[-11px]">
+        <div class="pfi__stub-text mi:grid mi:gap-0.5 mi:min-w-0">
           <MiText variant="caption" weight="semibold" tone="label2" class="pfi__stub-label">Payment slip</MiText>
           <MiText variant="subheadline" weight="semibold" tabular>IBAN FR76 3000 4000 0312 3456 7890 143</MiText>
           <MiText variant="caption" tone="label2" tabular>Reference MOR-0147-SALT · due 2 Dec 2026 · {{ eur(total) }}</MiText>
         </div>
-        <div class="pfi__barcode" role="img" aria-label="Payment reference barcode">
+        <div class="pfi__barcode mi:flex mi:w-42 mi:max-w-full mi:h-10" role="img" aria-label="Payment reference barcode">
           <span v-for="(w, i) in bars" :key="i" :style="{ flexGrow: w }" :class="{ 'is-gap': i % 2 === 1 }" />
         </div>
       </footer>
@@ -115,61 +115,18 @@ function print() { window.print() }
 </script>
 
 <style scoped>
-.pfi { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
-.pfi__toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
-.pfi__toggles, .pfi__buttons { display: flex; flex-wrap: wrap; gap: 8px 16px; }
-.pfi__toggle { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
-.pfi__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-
-.pfi__paper {
-  position: relative; display: grid; gap: 22px; padding: 22px 18px 0; overflow: hidden;
-  border-radius: 6px; background: var(--mi-card); box-shadow: 0 0 0 1px var(--mi-sep), 0 18px 40px -24px color-mix(in srgb, var(--mi-label) 40%, transparent);
-}
-@container (min-width: 720px) { .pfi__paper { padding: 40px 48px 0; gap: 28px; } }
-.pfi__head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 18px; padding-bottom: 18px; border-bottom: 2px solid var(--mi-label); }
-.pfi__from { display: flex; gap: 12px; max-width: 360px; }
-.pfi__logo { flex: none; width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(var(--mi-card), var(--mi-card)) padding-box, conic-gradient(from 0deg, var(--mi-p), var(--mi-s), var(--mi-p)) border-box; border: 6px solid transparent; box-sizing: border-box; }
-.pfi__title { display: grid; justify-items: start; }
-@container (min-width: 560px) { .pfi__title { justify-items: end; } }
 .pfi__title h2 { letter-spacing: -.03em; }
-
-.pfi__table-wrap { overflow-x: auto; margin-inline: -4px; padding-inline: 4px; }
-.pfi__table { width: 100%; min-width: 480px; border-collapse: collapse; font-size: 14px; }
-.pfi__table th { padding: 0 0 10px; font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; text-align: start; color: var(--mi-label2); border-bottom: 1px solid var(--mi-sep); }
-.pfi__table td { padding: 12px 0; vertical-align: top; border-bottom: 1px solid var(--mi-sep); }
-.pfi__table .num { text-align: end; padding-left: 16px; white-space: nowrap; font-variant-numeric: tabular-nums; }
-.pfi__table .strong { font-weight: 600; }
-.pfi__item { display: block; font-weight: 600; }
-.pfi__item-sub { display: block; font-size: 12px; color: var(--mi-label2); }
-
-.pfi__bottom { display: grid; gap: 18px; }
-@container (min-width: 640px) { .pfi__bottom { grid-template-columns: minmax(0, 1fr) 280px; align-items: end; } }
-.pfi__note { max-width: 46ch; }
-.pfi__totals { display: grid; margin: 0; font-variant-numeric: tabular-nums; }
-.pfi__totals div { display: flex; justify-content: space-between; gap: 12px; padding: 6px 0; font-size: 14px; }
-.pfi__totals dt { color: var(--mi-label2); }
-.pfi__totals dd { margin: 0; }
-.pfi__totals .is-discount dd { color: var(--mi-green-t); }
-.pfi__totals .is-total { margin-top: 6px; padding-top: 12px; border-top: 2px solid var(--mi-label); font-size: 18px; font-weight: 700; }
-.pfi__totals .is-total dt { color: var(--mi-label); }
-
-.pfi__stub { position: relative; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; margin: 4px -18px 0; padding: 22px 18px; border-top: 2px dashed var(--mi-sep2, var(--mi-sep)); background: var(--mi-fill4); }
-@container (min-width: 720px) { .pfi__stub { margin-inline: -48px; padding: 24px 48px; } }
-.pfi__stub::before, .pfi__stub::after { content: ""; position: absolute; top: -12px; width: 22px; height: 22px; border-radius: 50%; background: var(--mi-page); box-shadow: inset 0 0 0 1px var(--mi-sep); }
-.pfi__stub::before { left: -11px; }
-.pfi__stub::after { right: -11px; }
-.pfi__stub-text { display: grid; gap: 2px; min-width: 0; }
+.pfi__table th { padding: 0 0 10px; letter-spacing: .06em; text-transform: uppercase; text-align: start; border-bottom: 1px solid var(--mi-sep); }
+.pfi__table td { padding: 12px 0; border-bottom: 1px solid var(--mi-sep); }
+.pfi__table .num { text-align: end; padding-left: 16px; }
+.pfi__totals div { padding: 6px 0; }
+.pfi__totals .is-total { padding-top: 12px; }
 .pfi__stub-label { text-transform: uppercase; letter-spacing: .08em; }
-.pfi__barcode { display: flex; width: 168px; max-width: 100%; height: 40px; }
 .pfi__barcode span { background: var(--mi-label); }
 .pfi__barcode span.is-gap { background: transparent; }
 
-.pfi__stamp {
-  display: inline-block; margin-top: 10px; padding: 5px 12px; border: 3px solid var(--mi-green); border-radius: 10px;
-  font-size: 16px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--mi-green-t);
-  opacity: .85; transform: rotate(-6deg); animation: pfi-stamp var(--mi-dur-4) var(--mi-spring);
+.pfi__stamp { animation: pfi-stamp var(--mi-dur-4) var(--mi-spring);
 }
 @keyframes pfi-stamp { from { opacity: 0; transform: rotate(-6deg) scale(1.6); } }
 @media (prefers-reduced-motion: reduce) { .pfi__stamp { animation: none; } }
-@media print { .pfi__toolbar { display: none; } .pfi__paper { box-shadow: none; } }
 </style>

@@ -1,50 +1,50 @@
 <template>
-  <section class="cfc" aria-labelledby="cfc-title">
-    <div class="cfc__layout">
+  <section class="cfc mi:@container mi:font-mi mi:text-label" aria-labelledby="cfc-title">
+    <div class="cfc__layout mi:grid mi:gap-5 mi:@[680px]:grid-cols-[minmax(260px,_340px)_minmax(0,_1fr)] mi:@[680px]:items-start mi:@[980px]:grid-cols-[340px_minmax(0,_420px)] mi:@[980px]:justify-center">
       <!-- Settings: what a card shows, and how dense the board gets. -->
-      <div class="cfc__panel">
+      <div class="cfc__panel mi:grid mi:content-start mi:gap-5 mi:p-5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1">
         <div>
           <MiText id="cfc-title" variant="title3" as="h2" weight="semibold">Card layout</MiText>
           <MiText variant="footnote" tone="label2">Applies to every card on the Mobile app board.</MiText>
         </div>
-        <div class="cfc__group">
+        <div class="cfc__group mi:grid mi:gap-2.5">
           <MiText variant="footnote" weight="semibold" tone="label2" as="h3">Density</MiText>
           <MiSegmented v-model="density" label="Density" :options="densities" />
         </div>
-        <div class="cfc__group">
+        <div class="cfc__group mi:grid mi:gap-2.5">
           <MiText variant="footnote" weight="semibold" tone="label2" as="h3">Fields on the card</MiText>
           <MiCheckbox v-for="f in fields" :key="f.id" v-model="show[f.id]" :label="f.label" :description="f.hint" />
         </div>
-        <div class="cfc__fit" role="status">
-          <p class="cfc__fit-num">{{ fit }}</p>
+        <div class="cfc__fit mi:flex mi:items-baseline mi:gap-2.5 mi:py-3 mi:px-3.5 mi:rounded-md mi:[background:var(--mi-p-tint)]" role="status">
+          <p class="cfc__fit-num mi:m-0 mi:text-[30px] mi:leading-none mi:font-bold mi:tracking-[-.03em] mi:text-p-text mi:tabular-nums">{{ fit }}</p>
           <MiText variant="footnote" tone="label2">cards fit in a 900 px column without scrolling</MiText>
         </div>
       </div>
 
       <!-- Live preview column. -->
-      <div class="cfc__preview" :class="'is-' + density" aria-label="Preview" role="region">
-        <div class="cfc__col-head">
+      <div class="cfc__preview mi:[--gap:10px] mi:[--pad:12px] mi:grid mi:content-start mi:gap-3 mi:p-3.5 mi:rounded-xl mi:[background:var(--mi-fill4)] mi:[&.is-compact]:[--gap:6px] mi:[&.is-compact]:[--pad:8px_10px] mi:[&.is-detailed]:[--gap:12px] mi:[&.is-detailed]:[--pad:14px]" :class="'is-' + density" aria-label="Preview" role="region">
+        <div class="cfc__col-head mi:flex mi:items-center mi:justify-between mi:gap-2 mi:px-1">
           <MiText variant="subheadline" weight="semibold" as="h3">In review</MiText>
           <MiBadge :count="cards.length" tone="neutral" count-noun="cards" />
         </div>
-        <ul class="cfc__cards">
-          <li v-for="c in cards" :key="c.id" class="cfc__card">
-            <span v-if="show.cover && c.cover" class="cfc__cover" :style="{ '--a': c.cover }" aria-hidden="true" />
-            <div v-if="show.labels && density !== 'compact'" class="cfc__labels">
-              <span v-for="l in c.labels" :key="l.name" class="cfc__label" :style="{ '--c': l.color }">{{ l.name }}</span>
+        <ul class="cfc__cards mi:grid mi:gap-(--gap) mi:m-0 mi:p-0 mi:[list-style:none]">
+          <li v-for="c in cards" :key="c.id" class="cfc__card mi:grid mi:gap-2 mi:p-(--pad) mi:overflow-hidden mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1 mi:[.is-compact_&]:grid-cols-[minmax(0,_1fr)_auto] mi:[.is-compact_&]:items-center mi:[.is-compact_&]:gap-2">
+            <span v-if="show.cover && c.cover" class="cfc__cover mi:block mi:h-16 mi:-mt-3 mi:-mx-3 mi:mb-0 mi:[background:radial-gradient(120%_140%_at_0%_0%,_var(--a),_transparent_60%),_linear-gradient(135deg,_var(--mi-s-tint),_var(--mi-p-tint))] mi:[.is-detailed_&]:-mt-3.5 mi:[.is-detailed_&]:-mx-3.5 mi:[.is-detailed_&]:mb-0 mi:[.is-compact_&]:hidden" :style="{ '--a': c.cover }" aria-hidden="true" />
+            <div v-if="show.labels && density !== 'compact'" class="cfc__labels mi:flex mi:flex-wrap mi:gap-1">
+              <span v-for="l in c.labels" :key="l.name" class="cfc__label mi:py-0.5 mi:px-2 mi:rounded-[999px] mi:text-[11px] mi:font-semibold mi:[background:color-mix(in_srgb,_var(--c)_16%,_transparent)] mi:text-label" :style="{ '--c': l.color }">{{ l.name }}</span>
             </div>
-            <p class="cfc__title">
-              <span class="cfc__key">{{ c.key }}</span>{{ c.title }}
+            <p class="cfc__title mi:m-0 mi:text-[14px] mi:font-semibold mi:leading-[1.35] mi:min-w-0 mi:[.is-compact_&]:whitespace-nowrap mi:[.is-compact_&]:overflow-hidden mi:[.is-compact_&]:text-ellipsis">
+              <span class="cfc__key mi:mr-1.5 mi:text-[12px] mi:font-medium mi:text-label3 mi:tabular-nums">{{ c.key }}</span>{{ c.title }}
             </p>
-            <p v-if="density === 'detailed'" class="cfc__desc">{{ c.desc }}</p>
-            <div v-if="show.subtasks && density !== 'compact'" class="cfc__sub">
-              <span class="cfc__sub-bar"><i :style="{ transform: `scaleX(${c.done / c.total})` }" /></span>
+            <p v-if="density === 'detailed'" class="cfc__desc mi:m-0 mi:text-[13px] mi:leading-[1.4] mi:text-label2">{{ c.desc }}</p>
+            <div v-if="show.subtasks && density !== 'compact'" class="cfc__sub mi:flex mi:items-center mi:gap-2 mi:text-[12px] mi:text-label2 mi:tabular-nums">
+              <span class="cfc__sub-bar mi:flex-1 mi:h-1 mi:rounded-[2px] mi:[background:var(--mi-fill3)] mi:overflow-hidden"><i class="mi:[.cfc__sub-bar_&]:block mi:[.cfc__sub-bar_&]:h-full mi:[.cfc__sub-bar_&]:[background:var(--mi-green)] mi:[.cfc__sub-bar_&]:origin-left" :style="{ transform: `scaleX(${c.done / c.total})` }" /></span>
               <span>{{ c.done }}/{{ c.total }}</span>
             </div>
-            <div v-if="metaVisible" class="cfc__meta">
-              <span v-if="show.due" class="cfc__due" :class="{ 'is-late': c.late }"><MiIcon name="calendar" :size="13" />{{ c.due }}</span>
-              <span v-if="show.estimate" class="cfc__est">{{ c.points }} pt</span>
-              <MiAvatar v-if="show.assignee" :name="c.owner" tone="auto" size="xs" class="cfc__owner" />
+            <div v-if="metaVisible" class="cfc__meta mi:flex mi:items-center mi:gap-2.5 mi:text-[12px] mi:text-label2">
+              <span v-if="show.due" class="cfc__due mi:inline-flex mi:items-center mi:gap-1 mi:[&.is-late]:text-red-t mi:[&.is-late]:font-semibold" :class="{ 'is-late': c.late }"><MiIcon name="calendar" :size="13" />{{ c.due }}</span>
+              <span v-if="show.estimate" class="cfc__est mi:py-px mi:px-1.5 mi:rounded-[4px] mi:[background:var(--mi-fill3)] mi:tabular-nums">{{ c.points }} pt</span>
+              <MiAvatar v-if="show.assignee" :name="c.owner" tone="auto" size="xs" class="cfc__owner mi:ml-auto" />
             </div>
           </li>
         </ul>
@@ -91,40 +91,6 @@ const fit = computed(() => {
 </script>
 
 <style scoped>
-.cfc { container-type: inline-size; font-family: var(--mi-font); color: var(--mi-label); }
-.cfc__layout { display: grid; gap: 20px; }
-.cfc__panel { display: grid; align-content: start; gap: 20px; padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.cfc__group { display: grid; gap: 10px; }
 .cfc__group h3 { margin: 0; text-transform: uppercase; letter-spacing: .05em; font-size: 11px; }
-.cfc__fit { display: flex; align-items: baseline; gap: 10px; padding: 12px 14px; border-radius: var(--mi-radius-m); background: var(--mi-p-tint); }
-.cfc__fit-num { margin: 0; font-size: 30px; line-height: 1; font-weight: 700; letter-spacing: -.03em; color: var(--mi-p-text); font-variant-numeric: tabular-nums; }
-
-.cfc__preview { --gap: 10px; --pad: 12px; display: grid; align-content: start; gap: 12px; padding: 14px; border-radius: var(--mi-radius-xl); background: var(--mi-fill4); }
-.cfc__preview.is-compact { --gap: 6px; --pad: 8px 10px; }
-.cfc__preview.is-detailed { --gap: 12px; --pad: 14px; }
-.cfc__col-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-inline: 4px; }
 .cfc__col-head h3 { margin: 0; }
-.cfc__cards { display: grid; gap: var(--gap); margin: 0; padding: 0; list-style: none; }
-.cfc__card { display: grid; gap: 8px; padding: var(--pad); overflow: hidden; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.is-compact .cfc__card { grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 8px; }
-.cfc__cover { display: block; height: 64px; margin: -12px -12px 0; background: radial-gradient(120% 140% at 0% 0%, var(--a), transparent 60%), linear-gradient(135deg, var(--mi-s-tint), var(--mi-p-tint)); }
-.is-detailed .cfc__cover { margin: -14px -14px 0; }
-.is-compact .cfc__cover { display: none; }
-.cfc__labels { display: flex; flex-wrap: wrap; gap: 4px; }
-.cfc__label { padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; background: color-mix(in srgb, var(--c) 16%, transparent); color: var(--mi-label); }
-.cfc__title { margin: 0; font-size: 14px; font-weight: 600; line-height: 1.35; min-width: 0; }
-.is-compact .cfc__title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.cfc__key { margin-right: 6px; font-size: 12px; font-weight: 500; color: var(--mi-label3); font-variant-numeric: tabular-nums; }
-.cfc__desc { margin: 0; font-size: 13px; line-height: 1.4; color: var(--mi-label2); }
-.cfc__sub { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--mi-label2); font-variant-numeric: tabular-nums; }
-.cfc__sub-bar { flex: 1; height: 4px; border-radius: 2px; background: var(--mi-fill3); overflow: hidden; }
-.cfc__sub-bar i { display: block; height: 100%; background: var(--mi-green); transform-origin: left; }
-.cfc__meta { display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--mi-label2); }
-.cfc__due { display: inline-flex; align-items: center; gap: 4px; }
-.cfc__due.is-late { color: var(--mi-red-t); font-weight: 600; }
-.cfc__est { padding: 1px 6px; border-radius: 4px; background: var(--mi-fill3); font-variant-numeric: tabular-nums; }
-.cfc__owner { margin-left: auto; }
-
-@container (min-width: 680px) { .cfc__layout { grid-template-columns: minmax(260px, 340px) minmax(0, 1fr); align-items: start; } }
-@container (min-width: 980px) { .cfc__layout { grid-template-columns: 340px minmax(0, 420px); justify-content: center; } }
 </style>

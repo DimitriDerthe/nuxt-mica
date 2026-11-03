@@ -126,7 +126,7 @@ onBeforeUnmount(() => { if (raf) cancelAnimationFrame(raf) })
 <template>
   <MiChartCard :title="title" :subtitle="subtitle" :surface="card">
     <div
-      class="mi-hm"
+      class="mi-hm mi:block mi:rounded-[8px] mi:touch-pan-y mi:font-mi"
       tabindex="0"
       role="group"
       :aria-label="ariaLabel ?? 'Heatmap. Use the arrow keys to read each day.'"
@@ -136,9 +136,9 @@ onBeforeUnmount(() => { if (raf) cancelAnimationFrame(raf) })
       @keydown="onKey"
       @blur="commit(-1, false)"
     >
-      <svg class="mi-hm-svg" :viewBox="`0 0 ${width} ${height}`" width="100%" :height="height" role="img" :aria-label="ariaLabel ?? `Heatmap of ${data.length} days over ${weeks} weeks`">
+      <svg class="mi-hm-svg mi:block mi:max-w-full" :viewBox="`0 0 ${width} ${height}`" width="100%" :height="height" role="img" :aria-label="ariaLabel ?? `Heatmap of ${data.length} days over ${weeks} weeks`">
         <template v-for="r in labelRows" :key="r">
-          <text class="mi-hm-day" x="0" :y="TOP + r * pitch + 12" font-size="10">{{ dayLabels[r] }}</text>
+          <text class="mi-hm-day mi:fill-label2" x="0" :y="TOP + r * pitch + 12" font-size="10">{{ dayLabels[r] }}</text>
         </template>
         <rect
           v-for="c in cells"
@@ -153,7 +153,7 @@ onBeforeUnmount(() => { if (raf) cancelAnimationFrame(raf) })
         ><title>{{ c.t }}</title></rect>
         <rect
           v-if="cur"
-          class="mi-hm-ring"
+          class="mi-hm-ring mi:stroke-label mi:opacity-0 mi:pointer-events-none mi:[&.is-on]:opacity-100 mi:[&.is-glide]:[transition:transform_var(--mi-dur-1)_var(--mi-ease),opacity_var(--mi-dur-1)_ease] mi:[&:not(.is-glide)]:[transition:opacity_var(--mi-dur-1)_ease]"
           :class="{ 'is-on': hl >= 0, 'is-glide': glide }"
           :x="-1.5"
           :y="-1.5"
@@ -167,23 +167,15 @@ onBeforeUnmount(() => { if (raf) cancelAnimationFrame(raf) })
       </svg>
     </div>
     <MiChartLegend v-if="legend" variant="ramp" :items="legendItems" :less-label="lessLabel" :more-label="moreLabel" />
-    <span class="mi-hm-sr" role="status" aria-live="polite">{{ live }}</span>
+    <span class="mi-hm-sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap" role="status" aria-live="polite">{{ live }}</span>
   </MiChartCard>
 </template>
 
 <style scoped>
-.mi-hm{display:block;border-radius:8px;touch-action:pan-y;font-family:var(--mi-font)}
-.mi-hm-svg{display:block;max-width:100%}
-.mi-hm-day{fill:var(--mi-label2)}
 .mi-hm-cell{pointer-events:all}
 .mi-hm-cell.l0{fill:var(--mi-h0)}
 .mi-hm-cell.l1{fill:var(--mi-h1)}
 .mi-hm-cell.l2{fill:var(--mi-h2)}
 .mi-hm-cell.l3{fill:var(--mi-h3)}
 .mi-hm-cell.l4{fill:var(--mi-h4)}
-.mi-hm-ring{stroke:var(--mi-label);opacity:0;pointer-events:none}
-.mi-hm-ring.is-on{opacity:1}
-.mi-hm-ring.is-glide{transition:transform var(--mi-dur-1) var(--mi-ease),opacity var(--mi-dur-1) ease}
-.mi-hm-ring:not(.is-glide){transition:opacity var(--mi-dur-1) ease}
-.mi-hm-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 </style>

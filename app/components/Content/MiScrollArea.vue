@@ -67,31 +67,20 @@ defineExpose({ update, el: view })
 </script>
 
 <template>
-  <div class="mi-sa">
-    <div ref="view" class="mi-sa__view" :class="`mi-sa__view--${orientation}`" :style="{ maxHeight }" role="region" :aria-label="label" tabindex="0" @scroll.passive="onScroll">
+  <div class="mi-sa mi:relative mi:overflow-hidden mi:font-mi mi:text-label">
+    <div ref="view" class="mi-sa__view mi:overflow-auto mi:[scrollbar-width:none] mi:overscroll-contain mi:max-h-[inherit] mi:[&::-webkit-scrollbar]:hidden" :class="`mi-sa__view--${orientation}`" :style="{ maxHeight }" role="region" :aria-label="label" tabindex="0" @scroll.passive="onScroll">
       <slot />
     </div>
-    <div v-if="orientation !== 'horizontal' && v.show" class="mi-sa__bar mi-sa__bar--v" aria-hidden="true" data-bar="v">
-      <div class="mi-sa__thumb" :style="{ height: v.size + 'px', transform: `translateY(${v.pos}px)` }" @pointerdown="drag('v', $event)" />
+    <div v-if="orientation !== 'horizontal' && v.show" class="mi-sa__bar mi-sa__bar--v mi:absolute mi:opacity-0 mi:[transition:opacity_var(--mi-dur-2)_linear] mi:[.mi-sa:hover_&]:opacity-100 mi:[.mi-sa:focus-within_&]:opacity-100 mi:top-0.5 mi:right-0.5 mi:bottom-0.5 mi:w-1.5" aria-hidden="true" data-bar="v">
+      <div class="mi-sa__thumb mi:rounded-[3px] mi:bg-label3 mi:cursor-grab mi:touch-none mi:[.mi-sa__bar--v_&]:w-full mi:[.mi-sa__bar--h_&]:h-full mi:hover:bg-label2" :style="{ height: v.size + 'px', transform: `translateY(${v.pos}px)` }" @pointerdown="drag('v', $event)" />
     </div>
-    <div v-if="orientation !== 'vertical' && h.show" class="mi-sa__bar mi-sa__bar--h" aria-hidden="true" data-bar="h">
-      <div class="mi-sa__thumb" :style="{ width: h.size + 'px', transform: `translateX(${h.pos}px)` }" @pointerdown="drag('h', $event)" />
+    <div v-if="orientation !== 'vertical' && h.show" class="mi-sa__bar mi-sa__bar--h mi:absolute mi:opacity-0 mi:[transition:opacity_var(--mi-dur-2)_linear] mi:[.mi-sa:hover_&]:opacity-100 mi:[.mi-sa:focus-within_&]:opacity-100 mi:left-0.5 mi:right-0.5 mi:bottom-0.5 mi:h-1.5" aria-hidden="true" data-bar="h">
+      <div class="mi-sa__thumb mi:rounded-[3px] mi:bg-label3 mi:cursor-grab mi:touch-none mi:[.mi-sa__bar--v_&]:w-full mi:[.mi-sa__bar--h_&]:h-full mi:hover:bg-label2" :style="{ width: h.size + 'px', transform: `translateX(${h.pos}px)` }" @pointerdown="drag('h', $event)" />
     </div>
   </div>
 </template>
 
 <style scoped>
-.mi-sa{position:relative;overflow:hidden;font-family:var(--mi-font);color:var(--mi-label)}
-.mi-sa__view{overflow:auto;scrollbar-width:none;overscroll-behavior:contain;max-height:inherit}
-.mi-sa__view::-webkit-scrollbar{display:none}
 .mi-sa__view--vertical{overflow-x:hidden}
 .mi-sa__view--horizontal{overflow-y:hidden}
-.mi-sa__bar{position:absolute;opacity:0;transition:opacity var(--mi-dur-2) linear}
-.mi-sa:hover .mi-sa__bar,.mi-sa:focus-within .mi-sa__bar{opacity:1}
-.mi-sa__bar--v{top:2px;right:2px;bottom:2px;width:6px}
-.mi-sa__bar--h{left:2px;right:2px;bottom:2px;height:6px}
-.mi-sa__thumb{border-radius:3px;background:var(--mi-label3);cursor:grab;touch-action:none}
-.mi-sa__bar--v .mi-sa__thumb{width:100%}
-.mi-sa__bar--h .mi-sa__thumb{height:100%}
-.mi-sa__thumb:hover{background:var(--mi-label2)}
 </style>

@@ -1,34 +1,34 @@
 <template>
-  <div class="ce">
-    <div class="ce__shell">
+  <div class="ce mi:@container mi:font-mi mi:text-label">
+    <div class="ce__shell mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:h-175 mi:overflow-hidden mi:[background:var(--mi-page)] mi:@[820px]:grid-cols-[216px_minmax(0,_1fr)]">
       <!-- Sidebar (wide screens) -->
-      <aside class="ce__side" aria-label="Vale Community Energy">
-        <div class="ce__brand">
-          <span class="ce__logo" aria-hidden="true"><MiIcon :svg="glyph.sun" :size="18" /></span>
+      <aside class="ce__side mi:hidden mi:@[820px]:flex mi:@[820px]:flex-col mi:@[820px]:gap-5.5 mi:@[820px]:pt-4.5 mi:@[820px]:px-3 mi:@[820px]:pb-3.5 mi:@[820px]:[background:var(--mi-side)] mi:@[820px]:border-r mi:@[820px]:border-r-sep" aria-label="Vale Community Energy">
+        <div class="ce__brand mi:@[820px]:flex mi:@[820px]:items-center mi:@[820px]:gap-2.5 mi:@[820px]:py-0 mi:@[820px]:px-1.5">
+          <span class="ce__logo mi:grid mi:place-items-center mi:rounded-[10px] mi:text-p-on mi:[background:linear-gradient(140deg,_var(--mi-orange),_var(--mi-p))]" aria-hidden="true"><MiIcon :svg="glyph.sun" :size="18" /></span>
           <MiText variant="subheadline" weight="bold">Vale Energy</MiText>
         </div>
-        <nav class="ce__nav" aria-label="Sections">
+        <nav class="ce__nav mi:@[820px]:grid mi:@[820px]:gap-0.5" aria-label="Sections">
           <button
-            v-for="n in nav" :key="n.id" type="button" class="ce__nav-item" :class="{ 'is-active': n.id === section }"
+            v-for="n in nav" :key="n.id" type="button" class="ce__nav-item mi:@[820px]:flex mi:@[820px]:items-center mi:@[820px]:gap-2.5 mi:@[820px]:min-h-9 mi:@[820px]:py-0 mi:@[820px]:px-2.5 mi:@[820px]:[border:0] mi:@[820px]:rounded-[10px] mi:@[820px]:[background:none] mi:@[820px]:text-label2 mi:@[820px]:[font:500_14px/1_var(--mi-font)] mi:@[820px]:text-left mi:@[820px]:cursor-pointer mi:@[820px]:focus-visible:[outline:2px_solid_var(--mi-p)] mi:@[820px]:focus-visible:outline-offset-[-2px] mi:@[820px]:[&.is-active]:shadow-1 mi:@[820px]:[&.is-active]:font-semibold" :class="{ 'is-active': n.id === section }"
             :aria-current="n.id === section ? 'page' : undefined" @click="section = n.id"
           >
             <MiIcon :name="n.glyph" :size="18" />{{ n.label }}
             <MiBadge v-if="n.badge" class="ce__nav-badge" :count="n.badge" tone="primary" />
           </button>
         </nav>
-        <div class="ce__member">
+        <div class="ce__member mi:@[820px]:grid mi:@[820px]:gap-0.5 mi:@[820px]:mt-auto mi:@[820px]:p-3.5 mi:@[820px]:rounded-lg mi:@[820px]:[background:var(--mi-card)] mi:@[820px]:shadow-1">
           <MiText variant="caption2" tone="label2" weight="semibold">Your share</MiText>
           <MiText variant="title3" weight="bold" tabular>40 shares</MiText>
           <MiText variant="caption" tone="label2">Next payout €61.20 on 1 April</MiText>
         </div>
       </aside>
 
-      <div class="ce__body">
-        <header class="ce__top">
-          <span class="ce__logo ce__logo--top" aria-hidden="true"><MiIcon :svg="glyph.sun" :size="16" /></span>
-          <div class="ce__top-title">
-            <MiText variant="caption" tone="label2">Vale Community Energy</MiText>
-            <MiText id="ce-title" variant="title3" as="h2" weight="bold">{{ current.label }}</MiText>
+      <div class="ce__body mi:grid mi:grid-rows-[auto_minmax(0,_1fr)_auto] mi:min-w-0 mi:min-h-0 mi:@[820px]:grid-rows-[auto_minmax(0,_1fr)]">
+        <header class="ce__top mi:flex mi:flex-wrap mi:items-center mi:gap-2.5 mi:py-3 mi:px-4 mi:[background:var(--mi-card)] mi:border-b mi:border-b-sep mi:@[820px]:py-3.5 mi:@[820px]:px-6">
+          <span class="ce__logo ce__logo--top mi:grid mi:place-items-center mi:rounded-[10px] mi:text-p-on mi:[background:linear-gradient(140deg,_var(--mi-orange),_var(--mi-p))] mi:flex-[none] mi:@[820px]:hidden" aria-hidden="true"><MiIcon :svg="glyph.sun" :size="16" /></span>
+          <div class="ce__top-title mi:grid mi:flex-[1_1_0] mi:min-w-0">
+            <MiText class="mi:[.ce__top-title>&]:text-ellipsis" variant="caption" tone="label2">Vale Community Energy</MiText>
+            <MiText class="mi:[.ce__top-title>&]:text-ellipsis" id="ce-title" variant="title3" as="h2" weight="bold">{{ current.label }}</MiText>
           </div>
           <!-- Narrow: search is an icon button that opens a full-width field under the bar. -->
           <MiIconButton class="ce__search-btn" label="Search" variant="gray" size="regular" :pressed="searchOpen" aria-controls="ce-search" :aria-expanded="searchOpen" @click="searchOpen = !searchOpen">
@@ -41,61 +41,61 @@
           <MiAvatar name="Gwen Pritchard" size="sm" tone="auto" />
         </header>
 
-        <main class="ce__main" aria-labelledby="ce-title">
+        <main class="ce__main mi:min-h-0 mi:p-4 mi:@[560px]:p-5 mi:@[820px]:p-6" aria-labelledby="ce-title">
           <Transition name="ce-swap" mode="out-in">
             <!-- Overview -->
-            <div v-if="section === 'overview'" key="overview" class="ce__grid">
-              <section class="ce__sky" aria-labelledby="ce-sky-title">
-                <div class="ce__sky-text">
+            <div v-if="section === 'overview'" key="overview" class="ce__grid mi:grid mi:gap-3 mi:grid-cols-[minmax(0,_1fr)] mi:@[560px]:grid-cols-3 mi:@[1040px]:grid-cols-[repeat(3,_minmax(0,_1fr))_minmax(0,_1.1fr)]">
+              <section class="ce__sky mi:relative mi:grid mi:gap-2 mi:p-4.5 mi:rounded-xl mi:isolate mi:[background:var(--mi-card)] mi:shadow-1 mi:before:content-[''] mi:before:absolute mi:before:inset-0 mi:before:-z-1 mi:before:[background:linear-gradient(180deg,_color-mix(in_srgb,_var(--mi-orange)_12%,_transparent),_transparent_70%)] mi:@[560px]:col-span-full mi:@[560px]:grid-cols-[minmax(0,_1fr)_minmax(0,_1.3fr)] mi:@[560px]:items-end mi:@[1040px]:col-[1_/_4]" aria-labelledby="ce-sky-title">
+                <div class="ce__sky-text mi:grid mi:gap-1 mi:content-start">
                   <MiText variant="caption" tone="label2" weight="medium">Now · 13:20 · clear skies</MiText>
                   <MiText id="ce-sky-title" variant="title1" as="h3" weight="bold" tabular>412 kW</MiText>
                   <MiText variant="footnote" tone="label2">across 4 sites, 77% of peak capacity</MiText>
-                  <div class="ce__battery" role="meter" aria-label="Community battery" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100">
-                    <span class="ce__battery-fill" :style="{ transform: 'scaleX(.78)' }" />
-                    <MiText variant="caption" weight="semibold" class="ce__battery-label">Battery 78% · charging</MiText>
+                  <div class="ce__battery mi:relative mi:h-6.5 mi:mt-2 mi:rounded-[8px] mi:[background:var(--mi-fill4)] mi:max-w-70" role="meter" aria-label="Community battery" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100">
+                    <span class="ce__battery-fill mi:absolute mi:inset-0 mi:[background:color-mix(in_srgb,_var(--mi-green)_32%,_transparent)] mi:origin-left" :style="{ transform: 'scaleX(.78)' }" />
+                    <MiText variant="caption" weight="semibold" class="ce__battery-label mi:relative mi:py-[5px] mi:px-2.5">Battery 78% · charging</MiText>
                   </div>
                 </div>
                 <!-- Sun path: a circular arc, so dash length and the sun position stay in step. -->
-                <svg class="ce__arc" viewBox="0 0 320 124" role="img" aria-label="Sun position: a little past midday, sunset at 19:42">
-                  <path d="M0 110H320" class="ce__horizon" />
-                  <path :d="arc" class="ce__arc-track" pathLength="1" />
-                  <path :d="arc" class="ce__arc-done" pathLength="1" :stroke-dasharray="`${sunT} 1`" />
-                  <circle :cx="sun.x" :cy="sun.y" r="16" class="ce__sun-glow" />
-                  <circle :cx="sun.x" :cy="sun.y" r="7" class="ce__sun" />
-                  <text x="16" y="122" class="ce__arc-label">07:05</text>
-                  <text x="304" y="122" text-anchor="end" class="ce__arc-label">19:42</text>
+                <svg class="ce__arc mi:w-full mi:h-auto mi:max-h-37.5" viewBox="0 0 320 124" role="img" aria-label="Sun position: a little past midday, sunset at 19:42">
+                  <path d="M0 110H320" class="ce__horizon mi:stroke-sep mi:[stroke-width:1]" />
+                  <path :d="arc" class="ce__arc-track mi:fill-[color:none] mi:stroke-fill mi:[stroke-width:2] mi:[stroke-dasharray:.012_.012]" pathLength="1" />
+                  <path :d="arc" class="ce__arc-done mi:fill-[color:none] mi:stroke-orange mi:[stroke-width:2.5] mi:[stroke-linecap:round]" pathLength="1" :stroke-dasharray="`${sunT} 1`" />
+                  <circle :cx="sun.x" :cy="sun.y" r="16" class="ce__sun-glow mi:fill-orange/22" />
+                  <circle :cx="sun.x" :cy="sun.y" r="7" class="ce__sun mi:fill-orange" />
+                  <text x="16" y="122" class="ce__arc-label mi:[font:600_9px_var(--mi-font)] mi:fill-label2">07:05</text>
+                  <text x="304" y="122" text-anchor="end" class="ce__arc-label mi:[font:600_9px_var(--mi-font)] mi:fill-label2">19:42</text>
                 </svg>
               </section>
 
               <MiStatTile v-for="s in stats" :key="s.label" v-bind="s" comparison="vs yesterday" />
 
-              <section class="ce__card ce__chart" aria-labelledby="ce-chart-title">
-                <div class="ce__card-head">
+              <section class="ce__card ce__chart mi:grid mi:content-start mi:p-4 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1 mi:min-w-0 mi:@[560px]:col-span-full mi:@[1040px]:col-[1_/_4]" aria-labelledby="ce-chart-title">
+                <div class="ce__card-head mi:flex mi:items-center mi:justify-between mi:gap-2.5 mi:flex-wrap">
                   <MiText id="ce-chart-title" variant="headline" as="h3">Generation vs. demand</MiText>
                   <MiSegmented v-model="range" label="Range" :options="[{ value: 'day', label: 'Today' }, { value: 'week', label: '7 days' }]" />
                 </div>
                 <MiLineChart :key="String(range)" :categories="chart.categories" :series="chart.series" :card="false" :height="180" :unit="chart.unit" :toolbar="false" />
               </section>
 
-              <section class="ce__card ce__sites" aria-labelledby="ce-sites-title">
+              <section class="ce__card ce__sites mi:grid mi:content-start mi:p-4 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1 mi:min-w-0 mi:@[560px]:col-span-full mi:@[1040px]:col-[4] mi:@[1040px]:row-[1_/_span_3]" aria-labelledby="ce-sites-title">
                 <MiText id="ce-sites-title" variant="headline" as="h3">Sites right now</MiText>
-                <ul class="ce__site-list">
-                  <li v-for="s in sites" :key="s.name" class="ce__site">
-                    <div class="ce__site-top">
+                <ul class="ce__site-list mi:grid mi:gap-3.5 mi:m-0 mi:p-0 mi:[list-style:none]">
+                  <li v-for="s in sites" :key="s.name" class="ce__site mi:grid mi:gap-1.5">
+                    <div class="ce__site-top mi:flex mi:justify-between mi:gap-2.5">
                       <MiText variant="subheadline" weight="medium" :lines="1">{{ s.name }}</MiText>
                       <MiText variant="footnote" tabular :tone="s.fault ? 'red' : 'label2'">{{ s.fault ? 'Inverter fault' : s.now + ' kW' }}</MiText>
                     </div>
-                    <div class="ce__site-bar" aria-hidden="true"><span :style="{ transform: `scaleX(${s.now / s.peak})` }" /></div>
+                    <div class="ce__site-bar mi:h-1.5 mi:rounded-[3px] mi:[background:var(--mi-fill4)]" aria-hidden="true"><span class="mi:[.ce__site-bar_&]:rounded-[inherit] mi:[.ce__site-bar_&]:[background:linear-gradient(90deg,_var(--mi-orange),_var(--mi-p))] mi:[.ce__site-bar_&]:origin-left mi:[.ce__site-bar_&]:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleX(${s.now / s.peak})` }" /></div>
                   </li>
                 </ul>
               </section>
             </div>
 
             <!-- Other sections: compact working views -->
-            <div v-else-if="section === 'sites'" key="sites" class="ce__stack">
-              <div class="ce__table-wrap">
-                <table class="ce__table">
-                  <caption class="ce__sr">Sites and their output today</caption>
+            <div v-else-if="section === 'sites'" key="sites" class="ce__stack mi:grid mi:gap-3">
+              <div class="ce__table-wrap mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1">
+                <table class="ce__table mi:w-full mi:min-w-120 mi:border-collapse mi:text-[14px]">
+                  <caption class="ce__sr mi:absolute mi:w-px mi:h-px mi:[clip-path:inset(50%)]">Sites and their output today</caption>
                   <thead><tr><th scope="col">Site</th><th scope="col">Peak</th><th scope="col">Today</th><th scope="col">Status</th></tr></thead>
                   <tbody>
                     <tr v-for="s in sites" :key="s.name">
@@ -106,19 +106,19 @@
                 </table>
               </div>
             </div>
-            <div v-else-if="section === 'members'" key="members" class="ce__stack">
-              <div class="ce__card ce__members">
+            <div v-else-if="section === 'members'" key="members" class="ce__stack mi:grid mi:gap-3">
+              <div class="ce__card ce__members mi:grid mi:content-start mi:p-4 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1 mi:min-w-0">
                 <MiText variant="headline" as="h3">412 members · 9 joined this month</MiText>
                 <MiAvatarGroup :items="members" :max="6" size="md" />
                 <MiProgress :value="412" :max="500" label="Towards the 500-member goal" value-text="412 / 500" />
               </div>
             </div>
-            <div v-else-if="section === 'payouts'" key="payouts" class="ce__stack">
+            <div v-else-if="section === 'payouts'" key="payouts" class="ce__stack mi:grid mi:gap-3">
               <MiBarChart title="Dividends paid" subtitle="Per share, last 6 quarters" :data="payouts" unit="¢" value-labels="all" />
             </div>
-            <div v-else key="settings" class="ce__stack">
-              <div class="ce__card ce__prefs">
-                <div v-for="p in prefs" :key="p.id" class="ce__pref">
+            <div v-else key="settings" class="ce__stack mi:grid mi:gap-3">
+              <div class="ce__card ce__prefs mi:grid mi:content-start mi:p-4 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1 mi:min-w-0 mi:py-1">
+                <div v-for="p in prefs" :key="p.id" class="ce__pref mi:flex mi:items-center mi:justify-between mi:gap-4 mi:py-3 mi:px-0 mi:[.ce__pref+&]:border-t mi:[.ce__pref+&]:border-t-sep">
                   <div><MiText :id="'ce-pref-' + p.id" variant="subheadline" weight="medium">{{ p.label }}</MiText><MiText variant="caption" tone="label2">{{ p.hint }}</MiText></div>
                   <MiSwitch v-model="p.on" :aria-labelledby="'ce-pref-' + p.id" />
                 </div>
@@ -128,7 +128,7 @@
         </main>
 
         <!-- Narrow screens: bottom tab bar -->
-        <div class="ce__tabs">
+        <div class="ce__tabs mi:[background:var(--mi-card)] mi:@[820px]:hidden">
           <MiTabBar :model-value="section" :items="nav.map(n => ({ id: n.id, label: n.short, icon: n.glyph, badge: n.badge }))" aria-label="Sections" @update:model-value="v => v && (section = v)" />
         </div>
       </div>
@@ -204,100 +204,48 @@ const prefs = reactive([
 </script>
 
 <style scoped>
-.ce { container-type: inline-size; font-family: var(--mi-font); color: var(--mi-label); }
-.ce__shell { display: grid; grid-template-columns: minmax(0, 1fr); height: 700px; overflow: hidden; background: var(--mi-page); }
-.ce__side { display: none; }
-.ce__body { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; min-width: 0; min-height: 0; }
-
-.ce__logo { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 10px; color: var(--mi-p-on); background: linear-gradient(140deg, var(--mi-orange), var(--mi-p)); }
-.ce__logo--top { flex: none; width: 30px; height: 30px; }
-
-.ce__top { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 12px 16px; background: var(--mi-card); border-bottom: 1px solid var(--mi-sep); }
-.ce__top-title { display: grid; flex: 1 1 0; min-width: 0; }
-.ce__top-title > * { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.ce__logo { width: 32px; height: 32px; }
+.ce__logo--top { width: 30px; height: 30px; }
+.ce__top-title > * { overflow: hidden; white-space: nowrap; }
 .ce__top > :not(.ce__top-title):not(.ce__search) { flex: none; }
 /* Doubled class so it beats the display set by MiSearch itself. */
 .ce__top .ce__search { display: none; width: 240px; }
 .ce__top .ce__search.is-open { display: inline-flex; order: 5; flex: 1 1 100%; width: auto; }
 
-.ce__main { min-height: 0; overflow-y: auto; padding: 16px; }
-.ce__grid { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); }
-.ce__stack { display: grid; gap: 12px; }
-.ce__card { display: grid; gap: 12px; align-content: start; padding: 16px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); min-width: 0; }
-.ce__card-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.ce__main { overflow-y: auto; }
+.ce__card { gap: 12px; }
 
 /* Sky hero */
-.ce__sky { position: relative; display: grid; gap: 8px; padding: 18px; border-radius: var(--mi-radius-xl); overflow: hidden; isolation: isolate; background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.ce__sky::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, color-mix(in srgb, var(--mi-orange) 12%, transparent), transparent 70%); }
-.ce__sky-text { display: grid; gap: 4px; align-content: start; }
-.ce__battery { position: relative; height: 26px; margin-top: 8px; border-radius: 8px; overflow: hidden; background: var(--mi-fill4); max-width: 280px; }
-.ce__battery-fill { position: absolute; inset: 0; background: color-mix(in srgb, var(--mi-green) 32%, transparent); transform-origin: left; }
-.ce__battery-label { position: relative; display: block; padding: 5px 10px; }
-.ce__arc { width: 100%; height: auto; max-height: 150px; overflow: visible; }
-.ce__horizon { stroke: var(--mi-sep); stroke-width: 1; }
-.ce__arc-track { fill: none; stroke: var(--mi-fill); stroke-width: 2; stroke-dasharray: .012 .012; }
-.ce__arc-done { fill: none; stroke: var(--mi-orange); stroke-width: 2.5; stroke-linecap: round; }
-.ce__sun-glow { fill: color-mix(in srgb, var(--mi-orange) 22%, transparent); }
-.ce__sun { fill: var(--mi-orange); }
-.ce__arc-label { font: 600 9px var(--mi-font); fill: var(--mi-label2); }
-
-/* Sites */
-.ce__site-list { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; }
-.ce__site { display: grid; gap: 6px; }
-.ce__site-top { display: flex; justify-content: space-between; gap: 10px; }
-.ce__site-bar { height: 6px; border-radius: 3px; background: var(--mi-fill4); overflow: hidden; }
-.ce__site-bar span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--mi-orange), var(--mi-p)); transform-origin: left; transition: transform var(--mi-dur-4) var(--mi-spring); }
+.ce__sky { overflow: hidden; }
+.ce__battery { overflow: hidden; }
+.ce__battery-label { display: block; }
+.ce__arc { overflow: visible; }
+.ce__site-bar { overflow: hidden; }
+.ce__site-bar span { display: block; height: 100%; }
 
 /* Sites table */
-.ce__table-wrap { overflow-x: auto; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.ce__table { width: 100%; min-width: 480px; border-collapse: collapse; font-size: 14px; }
+.ce__table-wrap { overflow-x: auto; }
 .ce__table th, .ce__table td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--mi-sep); white-space: nowrap; }
 .ce__table thead th { font-size: 12px; font-weight: 600; color: var(--mi-label2); }
 .ce__table tbody th { font-weight: 500; }
 .ce__table tbody tr:last-child > * { border-bottom: 0; }
 .ce__table td { font-variant-numeric: tabular-nums; color: var(--mi-label2); }
-.ce__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.ce__sr { overflow: hidden; white-space: nowrap; }
 .ce__members { gap: 16px; }
-.ce__prefs { gap: 0; padding-block: 4px; }
-.ce__pref { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 0; }
-.ce__pref + .ce__pref { border-top: 1px solid var(--mi-sep); }
-
-.ce__tabs { background: var(--mi-card); }
+.ce__prefs { gap: 0; }
 
 .ce-swap-enter-active, .ce-swap-leave-active { transition: opacity var(--mi-dur-2) var(--mi-ease), transform var(--mi-dur-2) var(--mi-ease); }
 .ce-swap-enter-from { opacity: 0; transform: translateY(8px); }
 .ce-swap-leave-to { opacity: 0; }
 
-@container (min-width: 560px) {
-  .ce__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .ce__sky, .ce__chart, .ce__sites { grid-column: 1 / -1; }
-  .ce__sky { grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); align-items: end; }
-  .ce__main { padding: 20px; }
-}
-
 @container (min-width: 820px) {
-  .ce__shell { grid-template-columns: 216px minmax(0, 1fr); }
-  .ce__side { display: flex; flex-direction: column; gap: 22px; padding: 18px 12px 14px; background: var(--mi-side); border-right: 1px solid var(--mi-sep); }
-  .ce__brand { display: flex; align-items: center; gap: 10px; padding: 0 6px; }
-  .ce__nav { display: grid; gap: 2px; }
-  .ce__nav-item { display: flex; align-items: center; gap: 10px; min-height: 36px; padding: 0 10px; border: 0; border-radius: 10px; background: none; color: var(--mi-label2); font: 500 14px/1 var(--mi-font); text-align: left; cursor: pointer; }
   .ce__nav-item:hover { color: var(--mi-label); background: var(--mi-fill4); }
-  .ce__nav-item:focus-visible { outline: 2px solid var(--mi-p); outline-offset: -2px; }
-  .ce__nav-item.is-active { color: var(--mi-label); background: var(--mi-card); box-shadow: var(--mi-sh1); font-weight: 600; }
+  .ce__nav-item.is-active { color: var(--mi-label); background: var(--mi-card); }
   .ce__nav-badge { margin-left: auto; }
-  .ce__member { display: grid; gap: 2px; margin-top: auto; padding: 14px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-  .ce__logo--top, .ce__tabs { display: none; }
-  .ce__body { grid-template-rows: auto minmax(0, 1fr); }
-  .ce__top { padding: 14px 24px; }
-  .ce__main { padding: 24px; }
 }
 
 @container (min-width: 1040px) {
   .ce__top .ce__search { display: inline-flex; order: 0; flex: none; width: 240px; }
   .ce__top .ce__search-btn { display: none; }
-  .ce__grid { grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(0, 1.1fr); }
-  .ce__sky { grid-column: 1 / 4; }
-  .ce__sites { grid-column: 4; grid-row: 1 / span 3; }
-  .ce__chart { grid-column: 1 / 4; }
 }
 </style>

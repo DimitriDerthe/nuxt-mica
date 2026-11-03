@@ -1,61 +1,61 @@
 <template>
-  <section class="rgt" aria-labelledby="rgt-title">
-    <header class="rgt__head">
+  <section class="rgt mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="rgt-title">
+    <header class="rgt__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="rgt-title" variant="title3" as="h2" weight="semibold">Delivery roadmap</MiText>
         <MiText variant="footnote" tone="label2">{{ rows.length }} projects · {{ money(spent) }} of {{ money(budget) }} spent</MiText>
       </div>
-      <div class="rgt__tools">
+      <div class="rgt__tools mi:flex mi:flex-wrap mi:gap-2">
         <MiSegmented v-model="team" label="Team" :options="teams" />
         <MiSegmented v-model="range" label="Time range" :options="ranges" />
       </div>
     </header>
 
-    <div class="rgt__table">
+    <div class="rgt__table mi:hidden mi:relative mi:min-w-0 mi:overflow-x-auto mi:@[820px]:block">
       <MiTable :columns="columns" :rows="rows" caption="Projects with their schedule" density="relaxed" :zebra="false" empty-text="No project for this team.">
         <template #cell-name="{ row }">
-          <span class="rgt__proj">
-            <span class="rgt__name">{{ x(row).name }}</span>
-            <span class="rgt__team">{{ x(row).team }} · <MiAvatar :name="x(row).lead" size="xs" tone="auto" decorative /> {{ x(row).lead.split(' ')[0] }}</span>
+          <span class="rgt__proj mi:grid mi:min-w-0">
+            <span class="rgt__name mi:font-semibold mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ x(row).name }}</span>
+            <span class="rgt__team mi:inline-flex mi:items-center mi:gap-1 mi:text-[12px] mi:text-label2 mi:whitespace-nowrap">{{ x(row).team }} · <MiAvatar :name="x(row).lead" size="xs" tone="auto" decorative /> {{ x(row).lead.split(' ')[0] }}</span>
           </span>
         </template>
         <template #cell-status="{ row }"><MiBadge :tone="tones[x(row).status]" :label="labels[x(row).status]" dot /></template>
         <template #cell-burn="{ row }">
-          <span class="rgt__burn">
-            <span class="rgt__burn-num">{{ money(x(row).spent) }} <small>/ {{ money(x(row).budget) }}</small></span>
-            <span class="rgt__burn-bar" :class="{ 'is-hot': x(row).spent / x(row).budget > 0.9 }"><i :style="{ transform: `scaleX(${x(row).spent / x(row).budget})` }" /></span>
+          <span class="rgt__burn mi:grid mi:gap-1">
+            <span class="rgt__burn-num mi:text-[12.5px] mi:font-semibold mi:tabular-nums mi:whitespace-nowrap">{{ money(x(row).spent) }} <small class="mi:[.rgt__burn-num_&]:text-[11px] mi:[.rgt__burn-num_&]:font-normal mi:[.rgt__burn-num_&]:text-label2">/ {{ money(x(row).budget) }}</small></span>
+            <span class="rgt__burn-bar mi:block mi:h-1 mi:rounded-[2px] mi:[background:var(--mi-fill3)] mi:overflow-hidden" :class="{ 'is-hot': x(row).spent / x(row).budget > 0.9 }"><i class="mi:[.rgt__burn-bar_&]:block mi:[.rgt__burn-bar_&]:h-full mi:[.rgt__burn-bar_&]:[background:var(--mi-label2)] mi:[.rgt__burn-bar_&]:origin-left mi:[.rgt__burn-bar.is-hot_&]:[background:var(--mi-red)]" :style="{ transform: `scaleX(${x(row).spent / x(row).budget})` }" /></span>
           </span>
         </template>
         <template #cell-schedule="{ row, index }">
           <!-- Gantt cell: month lines and today's line repeat in every row, so they read as one chart; the first row carries the scale. -->
-          <span class="rgt__lane" :class="{ 'has-scale': index === 0 }" :aria-label="`${x(row).name}: ${x(row).startLabel} to ${x(row).endLabel}`" role="img">
+          <span class="rgt__lane mi:relative mi:block mi:[&.has-scale]:pt-4" :class="{ 'has-scale': index === 0 }" :aria-label="`${x(row).name}: ${x(row).startLabel} to ${x(row).endLabel}`" role="img">
             <template v-for="m in frame.months" :key="m.label">
-              <i class="rgt__grid" :style="{ insetInlineStart: m.at + '%' }" />
-              <span v-if="index === 0" class="rgt__month" :style="{ insetInlineStart: m.at + '%' }">{{ m.label }}</span>
+              <i class="rgt__grid mi:absolute mi:-top-3 mi:-bottom-3 mi:w-px mi:[background:var(--mi-sep)] mi:[.rgt__lane--card_&]:top-0 mi:[.rgt__lane--card_&]:bottom-0 mi:[.rgt__lane.has-scale_&]:top-0.5" :style="{ insetInlineStart: m.at + '%' }" />
+              <span v-if="index === 0" class="rgt__month mi:absolute mi:top-0 mi:ps-1 mi:text-[10.5px] mi:font-semibold mi:text-label2 mi:whitespace-nowrap" :style="{ insetInlineStart: m.at + '%' }">{{ m.label }}</span>
             </template>
-            <b v-if="x(row).bar.show" class="rgt__bar" :class="barClass(x(row))" :style="barStyle(x(row))" />
-            <span v-else class="rgt__off">{{ x(row).start > frame.end ? 'Starts ' + x(row).startLabel : 'Ended ' + x(row).endLabel }}</span>
-            <i class="rgt__today" :style="{ insetInlineStart: frame.today + '%' }" />
+            <b v-if="x(row).bar.show" class="rgt__bar mi:absolute mi:top-[7px] mi:bottom-[7px] mi:rounded-[6px] mi:[.rgt__lane--card_&]:top-[5px] mi:[.rgt__lane--card_&]:bottom-[5px] mi:[&.is-active]:[background:var(--mi-p)] mi:[&.is-risk]:[background:var(--mi-orange)] mi:[&.is-review]:[background:var(--mi-s)] mi:[&.is-planned]:shadow-[inset_0_0_0_1.5px_var(--mi-label3)] mi:[&.cut-start]:[border-start-start-radius:0] mi:[&.cut-start]:[border-end-start-radius:0] mi:[&.cut-end]:[border-start-end-radius:0] mi:[&.cut-end]:[border-end-end-radius:0] mi:[.rgt__lane.has-scale_&]:top-[23px] mi:[.rgt__lane.has-scale_&]:bottom-[7px]" :class="barClass(x(row))" :style="barStyle(x(row))" />
+            <span v-else class="rgt__off mi:absolute mi:inset-0 mi:flex mi:items-center mi:[justify-content:flex-end] mi:pe-1.5 mi:text-[11px] mi:text-label3">{{ x(row).start > frame.end ? 'Starts ' + x(row).startLabel : 'Ended ' + x(row).endLabel }}</span>
+            <i class="rgt__today mi:absolute mi:-top-3 mi:-bottom-3 mi:w-0.5 mi:-ms-px mi:[background:color-mix(in_srgb,_var(--mi-red)_70%,_transparent)] mi:[.rgt__lane--card_&]:top-[-3px] mi:[.rgt__lane--card_&]:bottom-[-3px] mi:[.rgt__lane.has-scale_&]:top-0.5" :style="{ insetInlineStart: frame.today + '%' }" />
           </span>
         </template>
-        <template #cell-end="{ row }"><span class="rgt__due">{{ x(row).endLabel }}</span></template>
+        <template #cell-end="{ row }"><span class="rgt__due mi:text-[13px] mi:tabular-nums mi:whitespace-nowrap">{{ x(row).endLabel }}</span></template>
       </MiTable>
     </div>
 
-    <ul class="rgt__cards">
-      <li v-for="p in rows" :key="p.id" class="rgt__card">
-        <div class="rgt__card-top">
-          <span class="rgt__proj"><span class="rgt__name">{{ p.name }}</span><span class="rgt__team">{{ p.team }} · {{ p.lead }}</span></span>
+    <ul class="rgt__cards mi:grid mi:gap-2 mi:m-0 mi:p-0 mi:[list-style:none] mi:@[820px]:hidden">
+      <li v-for="p in rows" :key="p.id" class="rgt__card mi:grid mi:gap-2 mi:py-3 mi:px-3.5 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1">
+        <div class="rgt__card-top mi:flex mi:[align-items:flex-start] mi:justify-between mi:gap-2">
+          <span class="rgt__proj mi:grid mi:min-w-0"><span class="rgt__name mi:font-semibold mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ p.name }}</span><span class="rgt__team mi:inline-flex mi:items-center mi:gap-1 mi:text-[12px] mi:text-label2 mi:whitespace-nowrap">{{ p.team }} · {{ p.lead }}</span></span>
           <MiBadge :tone="tones[p.status]" :label="labels[p.status]" dot />
         </div>
-        <span class="rgt__lane rgt__lane--card" aria-hidden="true">
-          <i v-for="m in frame.months" :key="m.label" class="rgt__grid" :style="{ insetInlineStart: m.at + '%' }" />
-          <b v-if="p.bar.show" class="rgt__bar" :class="barClass(p)" :style="barStyle(p)" />
-          <i class="rgt__today" :style="{ insetInlineStart: frame.today + '%' }" />
+        <span class="rgt__lane rgt__lane--card mi:relative mi:block mi:my-0.5 mi:mx-0 mi:[&.has-scale]:pt-4" aria-hidden="true">
+          <i v-for="m in frame.months" :key="m.label" class="rgt__grid mi:absolute mi:-top-3 mi:-bottom-3 mi:w-px mi:[background:var(--mi-sep)] mi:[.rgt__lane--card_&]:top-0 mi:[.rgt__lane--card_&]:bottom-0 mi:[.rgt__lane.has-scale_&]:top-0.5" :style="{ insetInlineStart: m.at + '%' }" />
+          <b v-if="p.bar.show" class="rgt__bar mi:absolute mi:top-[7px] mi:bottom-[7px] mi:rounded-[6px] mi:[.rgt__lane--card_&]:top-[5px] mi:[.rgt__lane--card_&]:bottom-[5px] mi:[&.is-active]:[background:var(--mi-p)] mi:[&.is-risk]:[background:var(--mi-orange)] mi:[&.is-review]:[background:var(--mi-s)] mi:[&.is-planned]:shadow-[inset_0_0_0_1.5px_var(--mi-label3)] mi:[&.cut-start]:[border-start-start-radius:0] mi:[&.cut-start]:[border-end-start-radius:0] mi:[&.cut-end]:[border-start-end-radius:0] mi:[&.cut-end]:[border-end-end-radius:0] mi:[.rgt__lane.has-scale_&]:top-[23px] mi:[.rgt__lane.has-scale_&]:bottom-[7px]" :class="barClass(p)" :style="barStyle(p)" />
+          <i class="rgt__today mi:absolute mi:-top-3 mi:-bottom-3 mi:w-0.5 mi:-ms-px mi:[background:color-mix(in_srgb,_var(--mi-red)_70%,_transparent)] mi:[.rgt__lane--card_&]:top-[-3px] mi:[.rgt__lane--card_&]:bottom-[-3px] mi:[.rgt__lane.has-scale_&]:top-0.5" :style="{ insetInlineStart: frame.today + '%' }" />
         </span>
         <MiText variant="caption" tone="label2" tabular>{{ p.startLabel }} → {{ p.endLabel }} · {{ money(p.spent) }} of {{ money(p.budget) }}</MiText>
       </li>
-      <li v-if="!rows.length" class="rgt__none"><MiText variant="footnote" tone="label2">No project for this team.</MiText></li>
+      <li v-if="!rows.length" class="rgt__none mi:p-5 mi:text-center"><MiText variant="footnote" tone="label2">No project for this team.</MiText></li>
     </ul>
   </section>
 </template>
@@ -132,48 +132,10 @@ const columns = [
 </script>
 
 <style scoped>
-.rgt { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
-.rgt__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.rgt__tools { display: flex; flex-wrap: wrap; gap: 8px; }
-
-.rgt__table { display: none; position: relative; min-width: 0; overflow-x: auto; }
-.rgt__cards { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
-@container (min-width: 820px) { .rgt__table { display: block; } .rgt__cards { display: none; } }
-
-.rgt__proj { display: grid; min-width: 0; }
-.rgt__name { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.rgt__team { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; color: var(--mi-label2); white-space: nowrap; }
-.rgt__burn { display: grid; gap: 4px; }
-.rgt__burn-num { font-size: 12.5px; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
-.rgt__burn-num small { font-size: 11px; font-weight: 400; color: var(--mi-label2); }
-.rgt__burn-bar { display: block; height: 4px; border-radius: 2px; background: var(--mi-fill3); overflow: hidden; }
-.rgt__burn-bar i { display: block; height: 100%; background: var(--mi-label2); transform-origin: left; }
-.rgt__burn-bar.is-hot i { background: var(--mi-red); }
-
 /* Gantt lane */
-.rgt__lane { position: relative; display: block; height: 30px; min-width: 220px; }
-.rgt__lane--card { height: 22px; min-width: 0; margin: 2px 0; }
-.rgt__grid { position: absolute; top: -12px; bottom: -12px; width: 1px; background: var(--mi-sep); }
-.rgt__lane--card .rgt__grid { top: 0; bottom: 0; }
-.rgt__today { position: absolute; top: -12px; bottom: -12px; width: 2px; margin-inline-start: -1px; background: color-mix(in srgb, var(--mi-red) 70%, transparent); }
-.rgt__lane--card .rgt__today { top: -3px; bottom: -3px; }
-.rgt__bar { position: absolute; top: 7px; bottom: 7px; border-radius: 6px; }
-.rgt__lane--card .rgt__bar { top: 5px; bottom: 5px; }
-.rgt__bar.is-active { background: var(--mi-p); }
-.rgt__bar.is-risk { background: var(--mi-orange); }
-.rgt__bar.is-review { background: var(--mi-s); }
-.rgt__bar.is-planned { background: transparent; box-shadow: inset 0 0 0 1.5px var(--mi-label3); background-image: repeating-linear-gradient(135deg, var(--mi-fill3) 0 4px, transparent 4px 8px); }
-.rgt__bar.cut-start { border-start-start-radius: 0; border-end-start-radius: 0; }
-.rgt__bar.cut-end { border-start-end-radius: 0; border-end-end-radius: 0; }
-.rgt__off { position: absolute; inset: 0; display: flex; align-items: center; justify-content: flex-end; padding-inline-end: 6px; font-size: 11px; color: var(--mi-label3); }
-.rgt__due { font-size: 13px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.rgt__lane { height: 30px; min-width: 220px; }
+.rgt__lane--card { height: 22px; min-width: 0; }
+.rgt__bar.is-planned { background: transparent; background-image: repeating-linear-gradient(135deg, var(--mi-fill3) 0 4px, transparent 4px 8px); }
 
-.rgt__lane.has-scale { height: 46px; padding-top: 16px; }
-.rgt__lane.has-scale .rgt__bar { top: 23px; bottom: 7px; }
-.rgt__lane.has-scale .rgt__grid, .rgt__lane.has-scale .rgt__today { top: 2px; }
-.rgt__month { position: absolute; top: 0; padding-inline-start: 4px; font-size: 10.5px; font-weight: 600; color: var(--mi-label2); white-space: nowrap; }
-
-.rgt__card { display: grid; gap: 8px; padding: 12px 14px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.rgt__card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
-.rgt__none { padding: 20px; text-align: center; }
+.rgt__lane.has-scale { height: 46px; }
 </style>

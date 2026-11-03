@@ -112,21 +112,21 @@ defineSlots<{
 </script>
 
 <template>
-  <div class="mi-cb" v-bind="rootAttrs">
+  <div class="mi-cb mi:relative" v-bind="rootAttrs">
     <MiFieldBox
       v-bind="btnAttrs" :id="id" ref="box" tag="button" type="button" class="mi-cb__trigger" :size="size"
       :invalid="isInvalid" :disabled="isDisabled" role="combobox" aria-haspopup="listbox"
       :aria-expanded="popup.open.value" :aria-controls="popup.open.value ? listId : undefined"
       :aria-invalid="isInvalid || undefined" @click="popup.open.value ? popup.hide(false) : openList()" @keydown="onTriggerKey"
     >
-      <span class="mi-cb__value" :class="{ 'is-placeholder': !summary.length }">
+      <span class="mi-cb__value mi:flex-1 mi:flex mi:flex-wrap mi:gap-1 mi:min-w-0 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:py-0.5 mi:px-0 mi:[&.is-placeholder]:text-label2" :class="{ 'is-placeholder': !summary.length }">
         <template v-if="!summary.length">{{ placeholder }}</template>
-        <template v-else-if="multiple"><span v-for="(s, ci) in summary" :key="s" class="mi-cb__chip">{{ s }}<span class="mi-cb__x" role="button" :aria-label="`Remove ${s}`" @click.stop="removeChip(selected[ci]!)">&times;</span></span></template>
+        <template v-else-if="multiple"><span v-for="(s, ci) in summary" :key="s" class="mi-cb__chip mi:py-px mi:px-2 mi:rounded-[6px] mi:bg-p-tint mi:text-p-text mi:text-[14px]">{{ s }}<span class="mi-cb__x mi:ml-1 mi:cursor-pointer mi:opacity-70" role="button" :aria-label="`Remove ${s}`" @click.stop="removeChip(selected[ci]!)">&times;</span></span></template>
         <template v-else>{{ summary[0] }}</template>
       </span>
-      <svg class="mi-cb__chev" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 9l5-5 5 5M7 15l5 5 5-5" /></svg>
+      <svg class="mi-cb__chev mi:absolute mi:right-3 mi:top-1/2 mi:-mt-1.5 mi:text-label2 mi:pointer-events-none" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 9l5-5 5 5M7 15l5 5 5-5" /></svg>
     </MiFieldBox>
-    <button v-if="clearable && selected.length && !isDisabled" type="button" class="mi-cb__clear" aria-label="Clear" @click="clear">&times;</button>
+    <button v-if="clearable && selected.length && !isDisabled" type="button" class="mi-cb__clear mi:absolute mi:right-7.5 mi:top-1/2 mi:w-5.5 mi:h-5.5 mi:mt-[-11px] mi:[border:0] mi:rounded-[6px] mi:bg-transparent mi:text-label2 mi:cursor-pointer" aria-label="Clear" @click="clear">&times;</button>
     <template v-if="name">
       <input v-for="v in selected" :key="v" type="hidden" :name="multiple ? `${name}[]` : name" :value="v">
     </template>
@@ -158,14 +158,8 @@ defineSlots<{
 </template>
 
 <style scoped>
-.mi-cb { position: relative; display: flex; min-width: 0; }
+.mi-cb { display: flex; min-width: 0; }
 .mi-cb .mi-cb__trigger { padding: 0 36px 0 14px; cursor: pointer; }
-.mi-cb__value { flex: 1; display: flex; flex-wrap: wrap; gap: 4px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 2px 0; }
-.mi-cb__value.is-placeholder { color: var(--mi-label2); }
-.mi-cb__chip { padding: 1px 8px; border-radius: 6px; background: var(--mi-p-tint); color: var(--mi-p-text); font-size: 14px; }
-.mi-cb__x { margin-left: 4px; cursor: pointer; opacity: .7; }
-.mi-cb__clear { position: absolute; right: 30px; top: 50%; width: 22px; height: 22px; margin-top: -11px; border: 0; border-radius: 6px; background: transparent; color: var(--mi-label2); cursor: pointer; }
-.mi-cb__chev { position: absolute; right: 12px; top: 50%; margin-top: -6px; color: var(--mi-label2); pointer-events: none; }
 </style>
 
 <style>

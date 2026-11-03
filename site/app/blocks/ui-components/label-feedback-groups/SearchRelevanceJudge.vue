@@ -1,8 +1,8 @@
 <template>
-  <div class="srj">
-    <section class="srj__card" aria-labelledby="srj-title">
-      <header class="srj__head">
-        <div class="srj__query">
+  <div class="srj mi:@container mi:font-mi mi:text-label">
+    <section class="srj__card mi:grid mi:gap-4 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:@[720px]:py-6 mi:@[720px]:px-7" aria-labelledby="srj-title">
+      <header class="srj__head mi:grid mi:gap-3.5 mi:@[720px]:grid-cols-[minmax(0,_1fr)_240px] mi:@[720px]:items-end">
+        <div class="srj__query mi:grid mi:gap-0.5">
           <MiText variant="caption" tone="label2" weight="semibold">Relevance review · help center search</MiText>
           <MiText id="srj-title" variant="title3" as="h2" weight="semibold">“refund a partial payment”</MiText>
         </div>
@@ -11,14 +11,14 @@
         </div>
       </header>
 
-      <ol class="srj__list">
-        <li v-for="(r, i) in results" :key="r.id" class="srj__row" :class="verdicts[r.id] ? 'is-' + verdicts[r.id] : ''">
-          <span class="srj__rank" aria-hidden="true">{{ i + 1 }}</span>
-          <div class="srj__body">
+      <ol class="srj__list mi:grid mi:m-0 mi:p-0 mi:[list-style:none]">
+        <li v-for="(r, i) in results" :key="r.id" class="srj__row mi:relative mi:grid mi:grid-cols-[24px_minmax(0,_1fr)] mi:gap-y-2.5 mi:gap-x-3 mi:py-3.5 mi:px-0 mi:border-t mi:border-t-sep mi:@[720px]:grid-cols-[24px_minmax(0,_1fr)_auto] mi:@[720px]:items-start" :class="verdicts[r.id] ? 'is-' + verdicts[r.id] : ''">
+          <span class="srj__rank mi:grid mi:place-items-center mi:w-6 mi:h-6 mi:rounded-[50%] mi:text-[12px] mi:font-semibold mi:bg-fill3 mi:text-label2 mi:[.srj__row.is-good_&]:[background:color-mix(in_srgb,_var(--mi-green)_18%,_transparent)] mi:[.srj__row.is-good_&]:text-green-t" aria-hidden="true">{{ i + 1 }}</span>
+          <div class="srj__body mi:[.srj__row.is-off_&]:opacity-62 mi:grid mi:gap-1 mi:min-w-0 mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)]">
             <MiText variant="subheadline" weight="semibold" as="h3">{{ r.title }}</MiText>
             <MiText variant="caption" tone="label2" :lines="2">{{ r.snippet }}</MiText>
             <!-- Label group: where the result comes from and how fresh it is. -->
-            <ul class="srj__labels" :aria-label="`About ${r.title}`">
+            <ul class="srj__labels mi:flex mi:flex-wrap mi:gap-1.5 mi:mt-1 mi:mx-0 mi:mb-0 mi:p-0 mi:[list-style:none]" :aria-label="`About ${r.title}`">
               <li><MiBadge variant="outline" tone="neutral" :label="r.source" /></li>
               <li><MiBadge variant="tint" :tone="r.stale ? 'warning' : 'neutral'" :label="r.updated" /></li>
               <li v-if="r.clicks"><MiBadge variant="tint" tone="primary" :label="`${r.clicks}% click rate`" /></li>
@@ -26,12 +26,12 @@
           </div>
           <MiToggleGroup
             v-model="verdicts[r.id]" :options="choices" size="sm" variant="outline" :spacing="0"
-            :label="`Judge result ${i + 1}`" class="srj__vote"
+            :label="`Judge result ${i + 1}`" class="srj__vote mi:col-[2] mi:justify-self-start mi:@[720px]:col-[3]"
           />
         </li>
       </ol>
 
-      <footer class="srj__foot">
+      <footer class="srj__foot mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-2.5 mi:gap-x-4 mi:pt-3.5 mi:border-t mi:border-t-sep">
         <MiText variant="footnote" tone="label2" aria-live="polite">{{ footNote }}</MiText>
         <MiButton :disabled="judged < results.length || sent" @click="sent = true">
           {{ sent ? 'Judgements saved' : 'Save judgements' }}
@@ -73,35 +73,6 @@ const footNote = computed(() => {
 </script>
 
 <style scoped>
-.srj { container-type: inline-size; font-family: var(--mi-font); color: var(--mi-label); }
-.srj__card { display: grid; gap: 16px; padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.srj__head { display: grid; gap: 14px; }
-.srj__query { display: grid; gap: 2px; }
-
-.srj__list { display: grid; margin: 0; padding: 0; list-style: none; }
-.srj__row {
-  position: relative; display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 10px 12px; padding: 14px 0;
-  border-top: 1px solid var(--mi-sep);
-}
-/* A thin verdict mark on the rank; the colour is the only thing that changes. */
-.srj__rank {
-  display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; font-size: 12px; font-weight: 600;
-  background: var(--mi-fill3); color: var(--mi-label2);
-}
-.srj__row.is-good .srj__rank { background: color-mix(in srgb, var(--mi-green) 18%, transparent); color: var(--mi-green-t); }
 .srj__row.is-part .srj__rank { background: color-mix(in srgb, var(--mi-orange) 18%, transparent); color: var(--mi-orange-t); }
 .srj__row.is-off .srj__rank { background: color-mix(in srgb, var(--mi-red) 16%, transparent); color: var(--mi-red-t); }
-.srj__row.is-off .srj__body { opacity: .62; }
-.srj__body { display: grid; gap: 4px; min-width: 0; transition: opacity var(--mi-dur-2) var(--mi-ease); }
-.srj__labels { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 0; padding: 0; list-style: none; }
-.srj__vote { grid-column: 2; justify-self: start; }
-
-.srj__foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; padding-top: 14px; border-top: 1px solid var(--mi-sep); }
-
-@container (min-width: 720px) {
-  .srj__card { padding: 24px 28px; }
-  .srj__head { grid-template-columns: minmax(0, 1fr) 240px; align-items: end; }
-  .srj__row { grid-template-columns: 24px minmax(0, 1fr) auto; align-items: start; }
-  .srj__vote { grid-column: 3; }
-}
 </style>

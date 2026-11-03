@@ -1,41 +1,41 @@
 <template>
-  <section class="rrd" aria-labelledby="rrd-heading">
-    <MiText id="rrd-heading" variant="title3" as="h2" weight="semibold" class="rrd__sr">Edit a recurring event</MiText>
+  <section class="rrd mi:relative mi:@container mi:grid mi:content-start mi:min-h-full mi:font-mi mi:text-label mi:rounded-xl mi:overflow-hidden mi:isolate" aria-labelledby="rrd-heading">
+    <MiText id="rrd-heading" variant="title3" as="h2" weight="semibold" class="rrd__sr mi:absolute mi:w-px mi:h-px mi:[clip-path:inset(50%)]">Edit a recurring event</MiText>
 
     <!-- Faux page and scrim behind the dialog; decorative only. -->
-    <div class="rrd__backdrop" aria-hidden="true">
-      <div class="rrd__ghost rrd__ghost--bar" />
-      <div class="rrd__ghost-row"><div v-for="n in 7" :key="n" class="rrd__ghost rrd__ghost--day" /></div>
+    <div class="rrd__backdrop mi:absolute mi:inset-0 mi:-z-1 mi:grid mi:content-start mi:gap-3.5 mi:p-5 mi:bg-page mi:after:content-[''] mi:after:absolute mi:after:inset-0 mi:after:bg-scrim" aria-hidden="true">
+      <div class="rrd__ghost rrd__ghost--bar mi:rounded-md mi:bg-card mi:shadow-1 mi:h-11" />
+      <div class="rrd__ghost-row mi:grid mi:grid-cols-7 mi:gap-2"><div v-for="n in 7" :key="n" class="rrd__ghost rrd__ghost--day mi:rounded-md mi:bg-card mi:shadow-1 mi:h-105" /></div>
     </div>
 
-    <div class="rrd__center">
+    <div class="rrd__center mi:grid mi:place-items-center mi:py-6 mi:px-3 mi:@[600px]:py-10 mi:@[600px]:px-6">
       <MiDialog :model-value="true" inline variant="dialog" icon="calendar" title="Repeat: Design sync" :close-on-action="false">
-        <div class="rrd__body">
-          <div class="rrd__row">
+        <div class="rrd__body mi:grid mi:gap-4.5 mi:text-start">
+          <div class="rrd__row mi:flex mi:flex-wrap mi:items-center mi:gap-y-2.5 mi:gap-x-3">
             <MiText variant="subheadline" weight="medium">Every</MiText>
             <MiStepper v-model="interval" :min="1" :max="6" label="Repeat interval" show-value />
             <MiSegmented v-model="unit" label="Repeat unit" :options="units" />
           </div>
 
-          <div v-if="unit === 'week'" class="rrd__field">
+          <div v-if="unit === 'week'" class="rrd__field mi:grid mi:gap-2">
             <MiText variant="footnote" weight="semibold" tone="label2">On</MiText>
             <MiToggleGroup v-model="days" multiple :options="weekdayOptions" label="Weekdays" variant="outline" size="sm" :spacing="1" />
           </div>
 
-          <div class="rrd__field">
+          <div class="rrd__field mi:grid mi:gap-2">
             <MiText variant="footnote" weight="semibold" tone="label2">Ends</MiText>
-            <div class="rrd__ends">
+            <div class="rrd__ends mi:flex mi:flex-wrap mi:items-center mi:gap-y-2.5 mi:gap-x-4">
               <MiRadioGroup v-model="ends" :options="endOptions" label="Ends" orientation="horizontal" />
               <MiStepper v-if="ends === 'count'" v-model="count" :min="2" :max="52" label="Occurrences" unit="×" show-value />
             </div>
           </div>
 
           <!-- The rule read back in plain words, then the next dates it produces. -->
-          <div class="rrd__preview" aria-live="polite">
+          <div class="rrd__preview mi:grid mi:gap-2.5 mi:p-3.5 mi:rounded-lg mi:bg-fill4" aria-live="polite">
             <MiText variant="subheadline" weight="semibold">{{ sentence }}</MiText>
-            <ol class="rrd__dates">
-              <li v-for="d in upcoming" :key="d.getTime()" :class="{ 'is-first': d.getTime() === START.getTime() }">
-                <span>{{ dayFmt.format(d) }}</span><strong>{{ d.getDate() }}</strong><span>{{ monFmt.format(d) }}</span>
+            <ol class="rrd__dates mi:grid mi:grid-cols-[repeat(auto-fill,_minmax(52px,_1fr))] mi:gap-1.5 mi:m-0 mi:p-0 mi:[list-style:none]">
+              <li class="mi:[.rrd__dates_&]:grid mi:[.rrd__dates_&]:justify-items-center mi:[.rrd__dates_&]:py-1.5 mi:[.rrd__dates_&]:px-0 mi:[.rrd__dates_&]:rounded-md mi:[.rrd__dates_&]:bg-card mi:[.rrd__dates_&]:text-[11px]" v-for="d in upcoming" :key="d.getTime()" :class="{ 'is-first mi:[.rrd__dates_&]:bg-p': d.getTime() === START.getTime() }">
+                <span>{{ dayFmt.format(d) }}</span><strong class="mi:[.rrd__dates_&]:text-[18px] mi:[.rrd__dates_&]:leading-[1.2] mi:[.rrd__dates_&]:tabular-nums mi:[.rrd__dates_li.is-first_&]:text-p-on">{{ d.getDate() }}</strong><span>{{ monFmt.format(d) }}</span>
               </li>
             </ol>
             <MiText v-if="lastDate" variant="footnote" tone="label2">Last one on {{ longFmt.format(lastDate) }}.</MiText>
@@ -43,8 +43,8 @@
         </div>
 
         <template #actions>
-          <div class="rrd__actions">
-            <div class="rrd__field">
+          <div class="rrd__actions mi:grid mi:gap-3.5 mi:w-full mi:text-start">
+            <div class="rrd__field mi:grid mi:gap-2">
               <MiText variant="footnote" weight="semibold" tone="label2">Apply changes to</MiText>
               <MiSegmented v-model="scope" label="Apply changes to" :options="scopes" />
             </div>
@@ -123,30 +123,8 @@ const saved = computed(() => savedRule.value === ruleKey.value)
 </script>
 
 <style scoped>
-.rrd { position: relative; container-type: inline-size; display: grid; align-content: start; min-height: 100%; font-family: var(--mi-font); color: var(--mi-label); border-radius: var(--mi-radius-xl); overflow: hidden; isolation: isolate; }
-.rrd__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-
-.rrd__backdrop { position: absolute; inset: 0; z-index: -1; display: grid; align-content: start; gap: 14px; padding: 20px; background: var(--mi-page); }
-.rrd__backdrop::after { content: ""; position: absolute; inset: 0; background: var(--mi-scrim); }
-.rrd__ghost { border-radius: var(--mi-radius-m); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.rrd__ghost--bar { height: 44px; }
-.rrd__ghost-row { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; }
-.rrd__ghost--day { height: 420px; }
-
-.rrd__center { display: grid; place-items: center; padding: 24px 12px; }
-.rrd__body { display: grid; gap: 18px; text-align: start; }
-.rrd__row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; }
-.rrd__field { display: grid; gap: 8px; }
-.rrd__ends { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; }
-
-.rrd__preview { display: grid; gap: 10px; padding: 14px; border-radius: var(--mi-radius-l); background: var(--mi-fill4); }
-.rrd__dates { display: grid; grid-template-columns: repeat(auto-fill, minmax(52px, 1fr)); gap: 6px; margin: 0; padding: 0; list-style: none; }
-.rrd__dates li { display: grid; justify-items: center; padding: 6px 0; border-radius: var(--mi-radius-m); background: var(--mi-card); font-size: 11px; color: var(--mi-label2); }
-.rrd__dates strong { font-size: 18px; line-height: 1.2; color: var(--mi-label); font-variant-numeric: tabular-nums; }
-.rrd__dates li.is-first { background: var(--mi-p); color: var(--mi-p-on); }
-.rrd__dates li.is-first strong { color: var(--mi-p-on); }
-
-.rrd__actions { display: grid; gap: 14px; width: 100%; text-align: start; }
-
-@container (min-width: 600px) { .rrd__center { padding: 40px 24px; } }
+.rrd__sr { overflow: hidden; white-space: nowrap; }
+.rrd__dates li { color: var(--mi-label2); }
+.rrd__dates strong { color: var(--mi-label); }
+.rrd__dates li.is-first { color: var(--mi-p-on); }
 </style>

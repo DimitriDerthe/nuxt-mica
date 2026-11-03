@@ -13,9 +13,9 @@ const open = ref(false)
 </script>
 
 <template>
-  <div class="ex-box">
+  <div class="ex-box mi:shadow-1">
     <MiCollapsible v-model:open="open" v-bind="p">
-      <div class="ex-body">
+      <div class="ex-body mi:grid mi:gap-2 mi:pt-2 mi:px-0 mi:pb-3 mi:text-[15px] mi:text-label2">
         <span>Retry failed jobs automatically</span>
         <span>Keep logs for 30 days</span>
       </div>
@@ -24,6 +24,5 @@ const open = ref(false)
 </template>
 
 <style scoped>
-.ex-box { width: min(100%, 320px); padding: 8px 16px; border-radius: 14px; background: var(--mi-card); box-shadow: var(--mi-sh1); box-sizing: border-box; }
-.ex-body { display: grid; gap: 8px; padding: 8px 0 12px; font-size: 15px; color: var(--mi-label2); }
+.ex-box { width: min(100%, 320px); padding: 8px 16px; border-radius: 14px; background: var(--mi-card); box-sizing: border-box; }
 </style>

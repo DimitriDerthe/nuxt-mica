@@ -25,14 +25,14 @@ const last = ref('')
 
 <template>
   <div class="ex">
-    <div class="row">
+    <div class="row mi:flex mi:items-center mi:justify-between mi:gap-4 mi:py-4 mi:px-4.5 mi:rounded-[18px] mi:bg-card mi:shadow-1">
       <div>
-        <div class="name">Delete this project</div>
-        <div class="sub">Permanently remove Atlas and its files.</div>
+        <div class="name mi:text-[15px] mi:font-semibold mi:text-label">Delete this project</div>
+        <div class="sub mi:text-[13px] mi:text-label2">Permanently remove Atlas and its files.</div>
       </div>
       <MiButton variant="destructive" soft size="small" @click="open = true">Delete…</MiButton>
     </div>
-    <p class="note" aria-live="polite">{{ last }}</p>
+    <p class="note mi:text-[13px] mi:text-label2 mi:min-h-4.5 mi:mt-2.5 mi:mx-1 mi:mb-0" aria-live="polite">{{ last }}</p>
     <MiDialog
       v-model="open" v-bind="p"
       @action="id => (last = 'Action: ' + id)" @close="r => (last = last || 'Closed (' + r + ')')"
@@ -43,8 +43,4 @@ const last = ref('')
 
 <style scoped>
 .ex { width: min(100%, 400px); }
-.row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 18px; border-radius: 18px; background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.name { font-size: 15px; font-weight: 600; color: var(--mi-label); }
-.sub, .note { font-size: 13px; color: var(--mi-label2); }
-.note { min-height: 18px; margin: 10px 4px 0; }
 </style>

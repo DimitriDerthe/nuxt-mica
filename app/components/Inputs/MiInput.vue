@@ -80,13 +80,13 @@ defineSlots<{
 
 <template>
   <MiFieldBox :size="size" :invalid="isInvalid" :success="isSuccess" :disabled="isDisabled" v-bind="rootAttrs">
-    <span v-if="prefix || $slots.prefix" class="mi-in__addon mi-in__addon--start"><slot name="prefix">{{ prefix }}</slot></span>
-    <span v-if="$slots.leading" class="mi-in__lead"><slot name="leading" /></span>
+    <span v-if="prefix || $slots.prefix" class="mi-in__addon mi-in__addon--start mi:self-stretch mi:flex mi:items-center mi:py-0 mi:px-3 mi:bg-fill4 mi:text-[.88em] mi:text-label2 mi:whitespace-nowrap mi:border-r mi:border-r-field-b mi:rounded-[var(--mi-box-r)_0_0_var(--mi-box-r)]"><slot name="prefix">{{ prefix }}</slot></span>
+    <span v-if="$slots.leading" class="mi-in__lead mi:flex mi:items-center mi:pl-3 mi:text-label2"><slot name="leading" /></span>
     <input
       v-bind="inputAttrs"
       :id="id"
       ref="el"
-      class="mi-in__field"
+      class="mi-in__field mi:self-stretch"
       :class="{ 'has-lead': $slots.leading, 'has-addon': prefix || $slots.prefix, 'has-action': showClear || hasToggle || suffix || $slots.suffix }"
       :type="inputType"
       :value="model"
@@ -96,11 +96,11 @@ defineSlots<{
       :aria-describedby="describedBy"
       @input="model = ($event.target as HTMLInputElement).value"
     >
-    <button v-if="showClear" type="button" class="mi-in__btn mi-in__btn--clear" :aria-label="clearLabel" @click="clear">
+    <button v-if="showClear" type="button" class="mi-in__btn mi-in__btn--clear mi:flex-[none] mi:flex mi:items-center mi:justify-center mi:h-8 mi:m-0 mi:p-0 mi:[border:0] mi:bg-transparent mi:text-label2 mi:cursor-pointer mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease),_opacity_var(--mi-dur-1)_var(--mi-ease)] mi:active:transform-[scale(.88)] mi:focus-visible:[outline:3px_solid_color-mix(in_srgb,_var(--mi-p)_55%,_transparent)] mi:focus-visible:outline-offset-[-2px] mi:disabled:cursor-not-allowed mi:disabled:opacity-50" :aria-label="clearLabel" @click="clear">
       <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="currentColor" /><path d="M9 9l6 6M15 9l-6 6" stroke-width="2" stroke-linecap="round" style="stroke: var(--mi-field)" /></svg>
     </button>
     <button
-      v-if="hasToggle" type="button" class="mi-in__btn mi-in__btn--toggle" :disabled="isDisabled"
+      v-if="hasToggle" type="button" class="mi-in__btn mi-in__btn--toggle mi:flex-[none] mi:flex mi:items-center mi:justify-center mi:h-8 mi:m-0 mi:p-0 mi:[border:0] mi:bg-transparent mi:text-label2 mi:cursor-pointer mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease),_opacity_var(--mi-dur-1)_var(--mi-ease)] mi:h-full mi:active:transform-[scale(.88)] mi:focus-visible:[outline:3px_solid_color-mix(in_srgb,_var(--mi-p)_55%,_transparent)] mi:focus-visible:outline-offset-[-2px] mi:disabled:cursor-not-allowed mi:disabled:opacity-50" :disabled="isDisabled"
       :aria-label="revealed ? hideLabel : showLabel" :aria-pressed="revealed" @click="revealed = !revealed"
     >
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -108,13 +108,13 @@ defineSlots<{
         <template v-else><path d="M4 4l16 16" /><path d="M9.9 5.8A9.6 9.6 0 0 1 12 5.5c6 0 9.5 6.5 9.5 6.5a16 16 0 0 1-3 3.8M6.3 7.6A15.6 15.6 0 0 0 2.5 12S6 18.5 12 18.5c1.4 0 2.7-.3 3.8-.8" /><path d="M10 10a3 3 0 0 0 4 4" /></template>
       </svg>
     </button>
-    <span v-if="suffix || $slots.suffix" class="mi-in__addon mi-in__addon--end"><slot name="suffix">{{ suffix }}</slot></span>
+    <span v-if="suffix || $slots.suffix" class="mi-in__addon mi-in__addon--end mi:self-stretch mi:flex mi:items-center mi:py-0 mi:px-3 mi:bg-fill4 mi:text-[.88em] mi:text-label2 mi:whitespace-nowrap mi:border-l mi:border-l-field-b mi:rounded-[0_var(--mi-box-r)_var(--mi-box-r)_0]"><slot name="suffix">{{ suffix }}</slot></span>
   </MiFieldBox>
 </template>
 
 <style scoped>
 .mi-in__field {
-  flex: 1; min-width: 0; align-self: stretch; margin: 0; padding: 0 14px; border: 0; border-radius: inherit; background: transparent;
+  flex: 1; min-width: 0; margin: 0; padding: 0 14px; border: 0; border-radius: inherit; background: transparent;
   color: inherit; font: inherit; letter-spacing: inherit; outline: none; text-overflow: ellipsis;
 }
 .mi-in__field::placeholder { color: var(--mi-label2); opacity: 1; }
@@ -122,17 +122,7 @@ defineSlots<{
 .mi-in__field.has-addon { padding-left: 12px; }
 .mi-in__field.has-lead { padding-left: 6px; }
 .mi-in__field.has-action { padding-right: 4px; }
-.mi-in__lead { display: flex; align-items: center; padding-left: 12px; color: var(--mi-label2); }
-.mi-in__addon { align-self: stretch; display: flex; align-items: center; padding: 0 12px; background: var(--mi-fill4); font-size: .88em; color: var(--mi-label2); white-space: nowrap; }
-.mi-in__addon--start { border-right: 1px solid var(--mi-field-b); border-radius: var(--mi-box-r) 0 0 var(--mi-box-r); }
-.mi-in__addon--end { border-left: 1px solid var(--mi-field-b); border-radius: 0 var(--mi-box-r) var(--mi-box-r) 0; }
-.mi-in__btn {
-  flex: none; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; margin: 0; padding: 0;
-  border: 0; border-radius: 50%; background: transparent; color: var(--mi-label2); cursor: pointer;
-  transition: transform var(--mi-dur-1) var(--mi-ease), opacity var(--mi-dur-1) var(--mi-ease);
+.mi-in__btn { width: 32px; border-radius: 50%;
 }
-.mi-in__btn--toggle { width: 44px; height: 100%; border-radius: 0 var(--mi-box-r) var(--mi-box-r) 0; }
-.mi-in__btn:active { transform: scale(.88); }
-.mi-in__btn:focus-visible { outline: 3px solid color-mix(in srgb, var(--mi-p) 55%, transparent); outline-offset: -2px; }
-.mi-in__btn:disabled { cursor: not-allowed; opacity: .5; }
+.mi-in__btn--toggle { width: 44px; border-radius: 0 var(--mi-box-r) var(--mi-box-r) 0; }
 </style>

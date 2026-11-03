@@ -27,9 +27,9 @@ function undoable() {
 </script>
 
 <template>
-  <div class="ex">
-    <p class="cap">Toasts appear at the bottom of the window. The toaster keeps the newest three.</p>
-    <div class="btns">
+  <div class="ex mi:grid mi:gap-3.5 mi:justify-items-center mi:w-[min(100%,_420px)] mi:text-center">
+    <p class="cap mi:m-0 mi:text-[14px] mi:leading-[1.45] mi:text-label2">Toasts appear at the bottom of the window. The toaster keeps the newest three.</p>
+    <div class="btns mi:flex mi:flex-wrap mi:justify-center mi:gap-2">
       <MiButton size="small" @click="toast.success('Changes saved')">Success</MiButton>
       <MiButton variant="gray" size="small" @click="toast.error('Couldn’t reach the server', { description: 'Retrying in 10 seconds.' })">Error</MiButton>
       <MiButton variant="gray" size="small" @click="undoable">With action</MiButton>
@@ -38,9 +38,3 @@ function undoable() {
     </div>
   </div>
 </template>
-
-<style scoped>
-.ex { display: grid; gap: 14px; justify-items: center; width: min(100%, 420px); text-align: center; }
-.cap { margin: 0; font-size: 14px; line-height: 1.45; color: var(--mi-label2); }
-.btns { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
-</style>

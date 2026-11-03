@@ -1,11 +1,11 @@
 <template>
-  <section class="spp" aria-labelledby="spp-title">
-    <header class="spp__head">
-      <div class="spp__intro">
+  <section class="spp mi:@container mi:grid mi:content-start mi:gap-5 mi:font-mi mi:text-label" aria-labelledby="spp-title">
+    <header class="spp__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3.5">
+      <div class="spp__intro mi:grid mi:gap-1.5 mi:max-w-130">
         <MiText id="spp-title" as="h2" variant="title2" weight="bold" balance>Plans that grow with your crew</MiText>
         <MiText variant="subheadline" tone="label2">Every plan includes unlimited projects and offline field sync.</MiText>
       </div>
-      <div class="spp__controls">
+      <div class="spp__controls mi:grid mi:justify-items-start mi:gap-1.5 mi:@[720px]:justify-items-end">
         <MiSegmented v-model="cycle" variant="tinted" label="Billing cycle" :options="cycles" />
         <MiText variant="caption" weight="semibold" :tone="cycle === 'year' ? 'green' : 'label2'">
           {{ cycle === 'year' ? '2 months free, applied' : 'Switch to yearly: 2 months free' }}
@@ -13,40 +13,40 @@
       </div>
     </header>
 
-    <div class="spp__seats">
+    <div class="spp__seats mi:py-4 mi:px-4.5 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1">
       <MiSlider v-model="seats" :min="1" :max="120" label="Team size" :format="fmtSeats" class="spp__slider" />
     </div>
 
-    <div class="spp__plans" role="radiogroup" aria-label="Plan">
+    <div class="spp__plans mi:grid mi:gap-3 mi:@[820px]:grid-cols-3" role="radiogroup" aria-label="Plan">
       <button
-        v-for="p in priced" :key="p.id" type="button" role="radio" class="spp__plan"
+        v-for="p in priced" :key="p.id" type="button" role="radio" class="spp__plan mi:relative mi:grid mi:content-start mi:gap-2.5 mi:p-5 mi:[border:0] mi:rounded-xl mi:text-start mi:[font:inherit] mi:text-label mi:[background:var(--mi-card)] mi:shadow-[inset_0_0_0_1px_var(--mi-sep)] mi:cursor-pointer mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring),_opacity_var(--mi-dur-3)_var(--mi-ease)] mi:[&:hover:not(.is-off)]:transform-[translateY(-2px)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:[&.is-picked]:shadow-[inset_0_0_0_2px_var(--mi-p),_var(--mi-sh2)] mi:[&.is-picked]:[background:linear-gradient(170deg,_var(--mi-p-tint),_transparent_55%),_var(--mi-card)] mi:[&.is-off]:opacity-55 mi:[&.is-off]:cursor-not-allowed"
         :class="{ 'is-picked': picked === p.id, 'is-best': p.id === bestFit, 'is-off': !p.fits }"
         :aria-checked="picked === p.id" :aria-disabled="!p.fits || undefined" @click="p.fits && (picked = p.id)"
       >
-        <span class="spp__plan-top">
-          <span class="spp__name">{{ p.name }}</span>
+        <span class="spp__plan-top mi:flex mi:items-center mi:gap-2 mi:pr-7">
+          <span class="spp__name mi:text-[17px] mi:font-bold mi:tracking-[-.01em]">{{ p.name }}</span>
           <MiBadge v-if="p.id === bestFit" tone="primary" variant="solid" label="Best fit" />
         </span>
-        <span class="spp__blurb">{{ p.blurb }}</span>
-        <span class="spp__price">
-          <span class="spp__amount">{{ eur(p.perSeat) }}</span>
-          <span class="spp__per">per seat / month</span>
+        <span class="spp__blurb mi:text-[13px] mi:text-label2">{{ p.blurb }}</span>
+        <span class="spp__price mi:flex mi:items-baseline mi:gap-2 mi:mt-1.5">
+          <span class="spp__amount mi:text-[34px] mi:font-750 mi:tracking-[-.04em] mi:leading-none mi:tabular-nums">{{ eur(p.perSeat) }}</span>
+          <span class="spp__per mi:text-[12px] mi:text-label2">per seat / month</span>
         </span>
-        <span class="spp__total">
+        <span class="spp__total mi:min-h-4.5 mi:text-[12px] mi:font-medium mi:text-label2 mi:tabular-nums">
           <template v-if="p.fits">{{ eur(p.total) }} billed {{ cycle === 'year' ? 'yearly' : 'monthly' }}<template v-if="cycle === 'year'"> · you save {{ eur(p.saving) }}</template></template>
           <template v-else>{{ p.limit }}</template>
         </span>
-        <span class="spp__features">
-          <span v-for="f in p.features" :key="f"><MiIcon name="check" :size="14" :weight="2.4" />{{ f }}</span>
+        <span class="spp__features mi:grid mi:gap-1.5 mi:mt-1.5 mi:mx-0 mi:mb-0 mi:pt-3 mi:px-0 mi:pb-0 mi:[list-style:none] mi:border-t mi:border-t-sep mi:text-[13px]">
+          <span class="mi:[.spp__features>&]:flex mi:[.spp__features>&]:items-center mi:[.spp__features>&]:gap-2" v-for="f in p.features" :key="f"><MiIcon name="check" :size="14" :weight="2.4" />{{ f }}</span>
         </span>
-        <span class="spp__radio" aria-hidden="true" />
+        <span class="spp__radio mi:absolute mi:top-5 mi:right-5 mi:w-5 mi:h-5 mi:box-border mi:rounded-[50%] mi:border-2 mi:border-fill mi:[.spp__plan.is-picked_&]:border-6 mi:[.spp__plan.is-picked_&]:border-p" aria-hidden="true" />
       </button>
     </div>
 
-    <footer class="spp__foot" aria-live="polite">
+    <footer class="spp__foot mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-3 mi:py-3.5 mi:px-4.5 mi:rounded-lg mi:[background:var(--mi-fill4)]" aria-live="polite">
       <MiText variant="subheadline">
         <strong>{{ current.name }}</strong> for {{ seats }} {{ seats === 1 ? 'seat' : 'seats' }}:
-        <strong class="spp__sum">{{ eur(current.total) }}</strong> / {{ cycle === 'year' ? 'year' : 'month' }}, excl. VAT
+        <strong class="spp__sum mi:tabular-nums">{{ eur(current.total) }}</strong> / {{ cycle === 'year' ? 'year' : 'month' }}, excl. VAT
       </MiText>
       <MiButton>Continue with {{ current.name }}</MiButton>
     </footer>
@@ -92,38 +92,6 @@ const fmtSeats = (v: number) => v + (v === 1 ? ' seat' : ' seats')
 </script>
 
 <style scoped>
-.spp { container-type: inline-size; display: grid; align-content: start; gap: 20px; font-family: var(--mi-font); color: var(--mi-label); }
-.spp__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 14px; }
-.spp__intro { display: grid; gap: 6px; max-width: 520px; }
-.spp__controls { display: grid; justify-items: start; gap: 6px; }
-@container (min-width: 720px) { .spp__controls { justify-items: end; } }
-.spp__seats { padding: 16px 18px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-
-.spp__plans { display: grid; gap: 12px; }
-@container (min-width: 820px) { .spp__plans { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-.spp__plan {
-  position: relative; display: grid; align-content: start; gap: 10px; padding: 20px; border: 0; border-radius: var(--mi-radius-xl); text-align: start;
-  font: inherit; color: var(--mi-label); background: var(--mi-card); box-shadow: inset 0 0 0 1px var(--mi-sep); cursor: pointer;
-  transition: transform var(--mi-dur-3) var(--mi-spring), opacity var(--mi-dur-3) var(--mi-ease);
-}
-.spp__plan:hover:not(.is-off) { transform: translateY(-2px); }
-.spp__plan:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-.spp__plan.is-picked { box-shadow: inset 0 0 0 2px var(--mi-p), var(--mi-sh2); background: linear-gradient(170deg, var(--mi-p-tint), transparent 55%), var(--mi-card); }
-.spp__plan.is-off { opacity: .55; cursor: not-allowed; }
-.spp__plan-top { display: flex; align-items: center; gap: 8px; padding-right: 28px; }
-.spp__name { font-size: 17px; font-weight: 700; letter-spacing: -.01em; }
-.spp__blurb { font-size: 13px; color: var(--mi-label2); }
-.spp__price { display: flex; align-items: baseline; gap: 8px; margin-top: 6px; }
-.spp__amount { font-size: 34px; font-weight: 750; letter-spacing: -.04em; line-height: 1; font-variant-numeric: tabular-nums; }
-.spp__per { font-size: 12px; color: var(--mi-label2); }
-.spp__total { min-height: 18px; font-size: 12px; font-weight: 500; color: var(--mi-label2); font-variant-numeric: tabular-nums; }
 .spp__plan.is-picked .spp__total { color: var(--mi-p-text); }
-.spp__features { display: grid; gap: 6px; margin: 6px 0 0; padding: 12px 0 0; list-style: none; border-top: 1px solid var(--mi-sep); font-size: 13px; }
-.spp__features > span { display: flex; align-items: center; gap: 8px; }
 .spp__features :deep(svg) { color: var(--mi-p-text); flex: none; }
-.spp__radio { position: absolute; top: 20px; right: 20px; width: 20px; height: 20px; box-sizing: border-box; border-radius: 50%; border: 2px solid var(--mi-fill); }
-.spp__plan.is-picked .spp__radio { border: 6px solid var(--mi-p); }
-
-.spp__foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 18px; border-radius: var(--mi-radius-l); background: var(--mi-fill4); }
-.spp__sum { font-variant-numeric: tabular-nums; }
 </style>

@@ -18,13 +18,13 @@ const scale = [
 
 <template>
   <div class="specimen">
-    <div class="hero">
+    <div class="hero mi:p-5 mi:rounded-[18px] mi:bg-card mi:shadow-1 mi:text-label">
       <MiText v-bind="p">Quiet interfaces, loud ideas. Mica sets every word on a calm, readable rhythm.</MiText>
     </div>
-    <ol class="scale">
-      <li v-for="[v, px] in scale" :key="v" :class="{ on: v === p.variant }">
-        <span class="tag">{{ v }} <em>{{ px }}</em></span>
-        <MiText :variant="v" :lines="1" as="span" class="sample">The quick brown fox</MiText>
+    <ol class="scale mi:grid mi:m-0 mi:p-0 mi:[list-style:none]">
+      <li class="mi:[.scale_li&]:grid-cols-[112px_minmax(0,_1fr)] mi:[.scale_li&]:items-baseline mi:[.scale_li&]:gap-3 mi:[.scale_li&]:py-1.5 mi:[.scale_li&]:px-2.5 mi:[.scale_li&]:rounded-[10px] mi:max-[480px]:[.scale_li&]:grid-cols-[92px_minmax(0,_1fr)] mi:max-[480px]:[.scale_li&]:gap-2" v-for="[v, px] in scale" :key="v" :class="{ 'on mi:[.scale_&]:bg-p-tint': v === p.variant }">
+        <span class="tag mi:[font:12px/1.3_ui-monospace,_'SF_Mono',_Menlo,_monospace] mi:text-label2">{{ v }} <em class="mi:[.tag_&]:not-italic">{{ px }}</em></span>
+        <MiText :variant="v" :lines="1" as="span" class="sample mi:[.scale_li&]:grid-cols-[112px_minmax(0,_1fr)] mi:[.scale_li&]:items-baseline mi:[.scale_li&]:gap-3 mi:[.scale_li&]:py-1.5 mi:[.scale_li&]:px-2.5 mi:[.scale_li&]:rounded-[10px] mi:min-w-0 mi:max-[480px]:[.scale_li&]:grid-cols-[92px_minmax(0,_1fr)] mi:max-[480px]:[.scale_li&]:gap-2">The quick brown fox</MiText>
       </li>
     </ol>
   </div>
@@ -32,12 +32,7 @@ const scale = [
 
 <style scoped>
 .specimen { display: grid; gap: 20px; width: 100%; max-width: 640px; margin: auto; }
-.hero { padding: 20px; border-radius: 18px; background: var(--mi-card); box-shadow: var(--mi-sh1); color: var(--mi-label); }
-.scale { display: grid; margin: 0; padding: 0; list-style: none; }
-.scale li { display: grid; grid-template-columns: 112px minmax(0, 1fr); align-items: baseline; gap: 12px; padding: 6px 10px; border-radius: 10px; border-bottom: 1px solid var(--mi-sep); color: var(--mi-label); }
-.scale li.on { background: var(--mi-p-tint); border-bottom-color: transparent; }
-.tag { font: 12px/1.3 ui-monospace, "SF Mono", Menlo, monospace; color: var(--mi-label2); }
-.tag em { font-style: normal; color: var(--mi-label3); }
-.sample { min-width: 0; }
-@media (max-width: 480px) { .scale li { grid-template-columns: 92px minmax(0, 1fr); gap: 8px; } }
+.scale li { display: grid; border-bottom: 1px solid var(--mi-sep); color: var(--mi-label); }
+.scale li.on { border-bottom-color: transparent; }
+.tag em { color: var(--mi-label3); }
 </style>

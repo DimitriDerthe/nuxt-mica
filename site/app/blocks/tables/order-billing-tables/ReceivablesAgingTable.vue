@@ -1,45 +1,45 @@
 <template>
-  <section class="rcv" aria-labelledby="rcv-title">
-    <header class="rcv__head">
+  <section class="rcv mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="rcv-title">
+    <header class="rcv__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="rcv-title" variant="title3" as="h2" weight="semibold">Receivables</MiText>
         <MiText variant="footnote" tone="label2">Field &amp; Form studio · as of Nov 2, 2026</MiText>
       </div>
-      <div class="rcv__total">
+      <div class="rcv__total mi:grid mi:justify-items-end">
         <MiText as="span" variant="caption" tone="label2">Outstanding</MiText>
-        <span class="rcv__big">{{ money(outstanding) }}</span>
+        <span class="rcv__big mi:text-[clamp(26px,_6cqi,_34px)] mi:font-bold mi:tracking-[-.035em] mi:leading-[1.1] mi:tabular-nums">{{ money(outstanding) }}</span>
       </div>
     </header>
 
     <!-- Aging strip: the outstanding total split by lateness; each bucket is a filter. -->
-    <div class="rcv__aging" role="group" aria-label="Filter by age">
+    <div class="rcv__aging mi:flex mi:gap-1" role="group" aria-label="Filter by age">
       <button
-        v-for="b in buckets" :key="b.id" type="button" class="rcv__bucket" :class="['rcv__bucket--' + b.id, { 'is-on': bucket === b.id, 'is-dim': bucket && bucket !== b.id }]"
+        v-for="b in buckets" :key="b.id" type="button" class="rcv__bucket mi:grid mi:content-start mi:gap-1 mi:basis-0 mi:min-w-0 mi:pt-0 mi:px-0 mi:pb-1 mi:[border:0] mi:[background:none] mi:text-start mi:[font:inherit] mi:text-inherit mi:cursor-pointer mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)] mi:[&.is-dim]:opacity-40 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[3px] mi:focus-visible:rounded-[6px]" :class="['rcv__bucket--' + b.id, { 'is-on': bucket === b.id, 'is-dim': bucket && bucket !== b.id }]"
         :style="{ flexGrow: Math.max(b.sum, outstanding * 0.12) }" :aria-pressed="bucket === b.id" @click="pick(b.id)"
       >
-        <span class="rcv__bucket-bar" aria-hidden="true" />
-        <span class="rcv__bucket-label">{{ b.label }}</span>
-        <span class="rcv__bucket-sum">{{ money(b.sum, true) }}</span>
+        <span class="rcv__bucket-bar mi:h-2.5 mi:rounded-[5px] mi:origin-bottom mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring)] mi:[.rcv__bucket:hover_&]:transform-[scaleY(1.5)] mi:[.rcv__bucket.is-on_&]:transform-[scaleY(1.5)] mi:[.rcv__bucket--current_&]:[background:var(--mi-fill4)] mi:[.rcv__bucket--d30_&]:[background:var(--mi-orange)] mi:[.rcv__bucket--d60_&]:[background:color-mix(in_srgb,_var(--mi-red)_70%,_var(--mi-orange))] mi:[.rcv__bucket--d90_&]:[background:var(--mi-red)]" aria-hidden="true" />
+        <span class="rcv__bucket-label mi:text-[11px] mi:text-label2 mi:whitespace-nowrap mi:overflow-hidden mi:text-ellipsis">{{ b.label }}</span>
+        <span class="rcv__bucket-sum mi:text-[14px] mi:font-650 mi:tabular-nums mi:whitespace-nowrap">{{ money(b.sum, true) }}</span>
       </button>
     </div>
 
-    <div class="rcv__toolbar">
+    <div class="rcv__toolbar mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-2 mi:gap-x-3">
       <MiSegmented v-model="status" label="Status" :options="statuses" />
       <MiText variant="caption" tone="label2" tabular aria-live="polite">{{ rows.length }} invoices · {{ money(rows.reduce((n, r) => n + r.amount, 0)) }}</MiText>
     </div>
 
-    <div class="rcv__table">
+    <div class="rcv__table mi:hidden mi:min-w-0 mi:overflow-x-auto mi:rounded-lg mi:@[720px]:block">
       <MiTable :columns="columns" :rows="rows" caption="Invoices" density="relaxed" :zebra="false" empty-text="No invoice in this bucket.">
         <template #cell-number="{ row }">
-          <span class="rcv__inv"><span class="rcv__mono">{{ r(row).number }}</span><span class="rcv__cust">{{ r(row).customer }}</span></span>
+          <span class="rcv__inv mi:grid mi:min-w-0"><span class="rcv__mono mi:font-[ui-monospace,_SFMono-Regular,_Menlo,_monospace] mi:text-[12.5px] mi:font-semibold">{{ r(row).number }}</span><span class="rcv__cust mi:text-[12px] mi:text-label2 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ r(row).customer }}</span></span>
         </template>
         <template #cell-due="{ row }">
-          <span class="rcv__due">
+          <span class="rcv__due mi:grid mi:leading-[1.3]">
             <span>{{ r(row).dueLabel }}</span>
-            <span v-if="r(row).late > 0 && r(row).status === 'open'" class="rcv__late" :class="'rcv__late--' + r(row).bucket">{{ r(row).late }} days late</span>
+            <span v-if="r(row).late > 0 && r(row).status === 'open'" class="rcv__late mi:text-[11.5px] mi:font-semibold" :class="'rcv__late--' + r(row).bucket">{{ r(row).late }} days late</span>
           </span>
         </template>
-        <template #cell-amount="{ row }"><span class="rcv__amount">{{ money(r(row).amount) }}</span></template>
+        <template #cell-amount="{ row }"><span class="rcv__amount mi:font-semibold mi:tabular-nums mi:whitespace-nowrap">{{ money(r(row).amount) }}</span></template>
         <template #cell-status="{ row }">
           <MiBadge :tone="badge(r(row)).tone" :label="badge(r(row)).label" dot />
         </template>
@@ -54,24 +54,24 @@
       </MiTable>
     </div>
 
-    <ul class="rcv__cards">
-      <li v-for="inv in rows" :key="inv.id" class="rcv__card" :class="'rcv__card--' + (inv.status === 'open' ? inv.bucket : 'paid')">
-        <div class="rcv__card-top">
-          <span class="rcv__inv"><span class="rcv__mono">{{ inv.number }}</span><span class="rcv__cust">{{ inv.customer }}</span></span>
-          <span class="rcv__amount">{{ money(inv.amount) }}</span>
+    <ul class="rcv__cards mi:grid mi:gap-2 mi:m-0 mi:p-0 mi:[list-style:none] mi:@[720px]:hidden">
+      <li v-for="inv in rows" :key="inv.id" class="rcv__card mi:grid mi:gap-2.5 mi:py-3 mi:px-3.5 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1 mi:[border-inline-start:3px_solid_transparent]" :class="'rcv__card--' + (inv.status === 'open' ? inv.bucket : 'paid')">
+        <div class="rcv__card-top mi:flex mi:[align-items:flex-start] mi:justify-between mi:gap-2.5">
+          <span class="rcv__inv mi:grid mi:min-w-0"><span class="rcv__mono mi:font-[ui-monospace,_SFMono-Regular,_Menlo,_monospace] mi:text-[12.5px] mi:font-semibold">{{ inv.number }}</span><span class="rcv__cust mi:text-[12px] mi:text-label2 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ inv.customer }}</span></span>
+          <span class="rcv__amount mi:font-semibold mi:tabular-nums mi:whitespace-nowrap">{{ money(inv.amount) }}</span>
         </div>
-        <div class="rcv__card-foot">
+        <div class="rcv__card-foot mi:flex mi:flex-wrap mi:items-center mi:gap-y-1.5 mi:gap-x-2.5">
           <MiBadge :tone="badge(inv).tone" :label="badge(inv).label" dot />
           <MiText as="span" variant="caption" tone="label2">{{ inv.status === 'paid' ? 'Paid ' + inv.paidLabel : (inv.late > 0 ? inv.late + ' days late' : 'Due ' + inv.dueLabel) }}</MiText>
           <MiButton
             v-if="inv.status === 'open' && inv.late > 0" size="mini" :variant="reminded.has(inv.id) ? 'plain' : 'tinted'"
-            :disabled="reminded.has(inv.id)" class="rcv__card-btn" @click="remind(inv.id)"
+            :disabled="reminded.has(inv.id)" class="rcv__card-btn mi:ms-auto" @click="remind(inv.id)"
           >
             {{ reminded.has(inv.id) ? 'Reminded' : 'Remind' }}
           </MiButton>
         </div>
       </li>
-      <li v-if="!rows.length" class="rcv__none"><MiText variant="footnote" tone="label2">No invoice in this bucket.</MiText></li>
+      <li v-if="!rows.length" class="rcv__none mi:p-5 mi:text-center"><MiText variant="footnote" tone="label2">No invoice in this bucket.</MiText></li>
     </ul>
   </section>
 </template>
@@ -144,47 +144,8 @@ const remind = (id: string) => { reminded.value = new Set(reminded.value).add(id
 </script>
 
 <style scoped>
-.rcv { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
-.rcv__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.rcv__total { display: grid; justify-items: end; }
-.rcv__big { font-size: clamp(26px, 6cqi, 34px); font-weight: 700; letter-spacing: -.035em; line-height: 1.1; font-variant-numeric: tabular-nums; }
-
-.rcv__aging { display: flex; gap: 4px; }
-.rcv__bucket {
-  display: grid; align-content: start; gap: 4px; flex-basis: 0; min-width: 0; padding: 0 0 4px; border: 0; background: none; text-align: start; font: inherit; color: inherit; cursor: pointer;
-  transition: opacity var(--mi-dur-2) var(--mi-ease);
-}
-.rcv__bucket.is-dim { opacity: .4; }
-.rcv__bucket:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 3px; border-radius: 6px; }
-.rcv__bucket-bar { height: 10px; border-radius: 5px; transform-origin: bottom; transition: transform var(--mi-dur-2) var(--mi-spring); }
-.rcv__bucket:hover .rcv__bucket-bar, .rcv__bucket.is-on .rcv__bucket-bar { transform: scaleY(1.5); }
-.rcv__bucket--current .rcv__bucket-bar { background: var(--mi-fill4); }
-.rcv__bucket--d30 .rcv__bucket-bar { background: var(--mi-orange); }
-.rcv__bucket--d60 .rcv__bucket-bar { background: color-mix(in srgb, var(--mi-red) 70%, var(--mi-orange)); }
-.rcv__bucket--d90 .rcv__bucket-bar { background: var(--mi-red); }
-.rcv__bucket-label { font-size: 11px; color: var(--mi-label2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.rcv__bucket-sum { font-size: 14px; font-weight: 650; font-variant-numeric: tabular-nums; white-space: nowrap; }
-
-.rcv__toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; }
-
-.rcv__table { display: none; min-width: 0; overflow-x: auto; border-radius: var(--mi-radius-l); }
-.rcv__cards { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
-@container (min-width: 720px) { .rcv__table { display: block; } .rcv__cards { display: none; } }
-
-.rcv__inv { display: grid; min-width: 0; }
-.rcv__mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12.5px; font-weight: 600; }
-.rcv__cust { font-size: 12px; color: var(--mi-label2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.rcv__due { display: grid; line-height: 1.3; }
-.rcv__late { font-size: 11.5px; font-weight: 600; }
 .rcv__late--d30 { color: var(--mi-orange-t); }
 .rcv__late--d60, .rcv__late--d90 { color: var(--mi-red-t); }
-.rcv__amount { font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
-
-.rcv__card { display: grid; gap: 10px; padding: 12px 14px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); border-inline-start: 3px solid transparent; }
 .rcv__card--d30 { border-inline-start-color: var(--mi-orange); }
 .rcv__card--d60, .rcv__card--d90 { border-inline-start-color: var(--mi-red); }
-.rcv__card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
-.rcv__card-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
-.rcv__card-btn { margin-inline-start: auto; }
-.rcv__none { padding: 20px; text-align: center; }
 </style>

@@ -53,7 +53,7 @@ function setAll(on: boolean) {
 </script>
 
 <template>
-  <div class="mi-checkbox-group" role="group" :aria-label="label">
+  <div class="mi-checkbox-group mi:flex-col" role="group" :aria-label="label">
     <MiCheckbox
       v-if="parentLabel && options"
       class="mi-checkbox--parent"
@@ -63,7 +63,7 @@ function setAll(on: boolean) {
       :disabled="disabled"
       @update:model-value="setAll"
     />
-    <div class="mi-checkbox-group__items" :class="{ 'is-nested': !!parentLabel }">
+    <div class="mi-checkbox-group__items mi:flex mi:flex-col mi:gap-1 mi:[&.is-nested]:pl-8" :class="{ 'is-nested': !!parentLabel }">
       <slot>
         <MiCheckbox v-for="o in options" :key="o.value" :value="o.value" :label="o.label" :description="o.description" :disabled="o.disabled" />
       </slot>
@@ -72,7 +72,5 @@ function setAll(on: boolean) {
 </template>
 
 <style scoped>
-.mi-checkbox-group { display: flex; flex-direction: column; gap: 4px; font-family: var(--mi-font); }
-.mi-checkbox-group__items { display: flex; flex-direction: column; gap: 4px; }
-.mi-checkbox-group__items.is-nested { padding-left: 32px; }
+.mi-checkbox-group { display: flex; gap: 4px; font-family: var(--mi-font); }
 </style>

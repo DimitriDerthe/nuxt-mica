@@ -1,34 +1,34 @@
 <template>
-  <section class="hd" aria-labelledby="hd-title">
-    <div class="hd__shell">
+  <section class="hd mi:@container mi:h-155 mi:font-mi mi:text-label mi:bg-page" aria-labelledby="hd-title">
+    <div class="hd__shell mi:grid mi:h-full mi:grid-cols-[minmax(0,_1fr)] mi:@[760px]:grid-cols-[minmax(0,_1fr)_380px]">
       <!-- The app page the help sidebar sits beside (wide containers only). -->
-      <div class="hd__app" aria-hidden="true">
-        <div class="hd__app-head"><span class="hd__app-title">Billing</span><span class="hd__pill">Team plan</span></div>
-        <div class="hd__app-card">
-          <span class="hd__k">Next invoice</span><span class="hd__v">€348.00 on 1 December</span>
-          <span class="hd__k">Seats</span><span class="hd__v">12 of 12 used</span>
-          <span class="hd__k">Payment method</span><span class="hd__v">Visa ending 4410</span>
+      <div class="hd__app mi:hidden mi:@[760px]:grid mi:content-start mi:gap-5 mi:p-7 mi:opacity-75" aria-hidden="true">
+        <div class="hd__app-head mi:flex mi:items-center mi:gap-2.5"><span class="hd__app-title mi:text-[24px] mi:font-bold mi:tracking-[-.02em]">Billing</span><span class="hd__pill mi:py-[3px] mi:px-2.5 mi:rounded-[999px] mi:bg-p-tint mi:text-p-text mi:text-[12px] mi:font-semibold">Team plan</span></div>
+        <div class="hd__app-card mi:grid mi:grid-cols-[auto_1fr] mi:gap-y-3 mi:gap-x-6 mi:p-5 mi:rounded-lg mi:bg-card mi:shadow-1 mi:text-[14px]">
+          <span class="hd__k mi:text-label2">Next invoice</span><span class="hd__v mi:font-medium">€348.00 on 1 December</span>
+          <span class="hd__k mi:text-label2">Seats</span><span class="hd__v mi:font-medium">12 of 12 used</span>
+          <span class="hd__k mi:text-label2">Payment method</span><span class="hd__v mi:font-medium">Visa ending 4410</span>
         </div>
-        <div class="hd__app-rows"><span /><span /><span /><span /></div>
+        <div class="hd__app-rows mi:grid mi:gap-2.5"><span class="mi:[.hd__app-rows_&]:h-11 mi:[.hd__app-rows_&]:rounded-md" /><span class="mi:[.hd__app-rows_&]:h-11 mi:[.hd__app-rows_&]:rounded-md" /><span class="mi:[.hd__app-rows_&]:h-11 mi:[.hd__app-rows_&]:rounded-md" /><span class="mi:[.hd__app-rows_&]:h-11 mi:[.hd__app-rows_&]:rounded-md" /></div>
       </div>
 
-      <aside class="hd__side">
-        <header class="hd__head">
+      <aside class="hd__side mi:@[760px]:border-l mi:@[760px]:border-l-sep mi:@[760px]:shadow-2 mi:flex mi:flex-col mi:min-h-0 mi:min-w-0 mi:bg-card">
+        <header class="hd__head mi:pt-4 mi:px-4 mi:pb-2">
           <MiText id="hd-title" as="h2" variant="headline" weight="bold">Help</MiText>
           <MiText variant="caption" tone="label2">Felix and Jun are online</MiText>
         </header>
 
-        <MiTabs v-model="tab" aria-label="Help sections" class="hd__tabs">
-          <MiTabsList aria-label="Help sections" class="hd__tablist">
+        <MiTabs v-model="tab" aria-label="Help sections" class="hd__tabs mi:min-h-0">
+          <MiTabsList aria-label="Help sections" class="hd__tablist mi:my-0 mi:mx-4">
             <MiTabsTrigger value="chat">Chat</MiTabsTrigger>
             <MiTabsTrigger value="guides">Guides</MiTabsTrigger>
           </MiTabsList>
 
-          <MiTabsContent value="chat" class="hd__panel">
+          <MiTabsContent value="chat" class="hd__panel mi:min-h-0 mi:flex mi:flex-col">
             <MiMessageScroller class="hd__log" label="Support chat">
               <MiMessageScrollerItem v-for="m in log" :key="m.id" :message-id="'hd-' + m.id">
                 <MiMarker v-if="m.kind === 'status'" role="status" class="hd__status">{{ m.text }}</MiMarker>
-                <MiMessage v-else :align="m.kind === 'me' ? 'end' : 'start'" :label="m.who" class="hd__row" :class="{ 'is-end': m.kind === 'me' }">
+                <MiMessage v-else :align="m.kind === 'me' ? 'end' : 'start'" :label="m.who" class="hd__row mi:[&.is-end]:ms-auto" :class="{ 'is-end': m.kind === 'me' }">
                   <template v-if="m.kind !== 'me'" #avatar><MiAvatar :name="m.who" size="xs" tone="indigo" decorative /></template>
                   <MiBubble :align="m.kind === 'me' ? 'end' : 'start'" :variant="m.kind === 'me' ? 'default' : 'secondary'" class="hd__bub">{{ m.text }}</MiBubble>
                 </MiMessage>
@@ -37,17 +37,17 @@
 
             <!-- Deflection: guides that match what is being typed, before it is sent. -->
             <Transition name="hd-rise">
-              <div v-if="suggestions.length" class="hd__suggest" aria-live="polite">
+              <div v-if="suggestions.length" class="hd__suggest mi:grid mi:gap-1 mi:my-0 mi:mx-3 mi:p-2.5 mi:rounded-[var(--mi-radius-l)_var(--mi-radius-l)_0_0] mi:bg-p-tint mi:origin-bottom" aria-live="polite">
                 <MiText variant="caption" weight="semibold" tone="label2">Might answer this</MiText>
-                <button v-for="a in suggestions" :key="a.id" type="button" class="hd__sug" @click="openGuide(a.id)">
-                  <MiIcon name="document" :size="15" />
-                  <span>{{ a.title }}</span>
-                  <MiIcon name="chevron-right" :size="14" />
+                <button v-for="a in suggestions" :key="a.id" type="button" class="hd__sug mi:flex mi:items-center mi:gap-2 mi:w-full mi:py-2 mi:px-2.5 mi:[border:0] mi:rounded-md mi:bg-card mi:text-label mi:text-start mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" @click="openGuide(a.id)">
+                  <MiIcon class="mi:[.hd__sug_span&]:min-w-0" name="document" :size="15" />
+                  <span class="mi:[.hd__sug_span&]:min-w-0">{{ a.title }}</span>
+                  <MiIcon class="mi:[.hd__sug_span&]:min-w-0" name="chevron-right" :size="14" />
                 </button>
               </div>
             </Transition>
 
-            <form class="hd__composer" @submit.prevent="send">
+            <form class="hd__composer mi:pt-0 mi:px-3 mi:pb-3.5 mi:before:content-[''] mi:before:block mi:before:h-2.5" @submit.prevent="send">
               <MiInputGroup v-model="draft" size="sm" aria-label="Message support" placeholder="Ask about billing, seats, invoices…">
                 <template #trailing>
                   <MiIconButton type="submit" label="Send" size="small" :disabled="!draft.trim()"><MiIcon name="arrow-up" :size="15" /></MiIconButton>
@@ -56,18 +56,18 @@
             </form>
           </MiTabsContent>
 
-          <MiTabsContent value="guides" class="hd__panel hd__panel--guides">
+          <MiTabsContent value="guides" class="hd__panel hd__panel--guides mi:min-h-0 mi:flex mi:flex-col mi:gap-3 mi:p-4 mi:overflow-y-auto">
             <template v-if="article">
-              <article class="hd__article" aria-labelledby="hd-art-title">
+              <article class="hd__article mi:grid mi:gap-2 mi:justify-items-start" aria-labelledby="hd-art-title">
                 <MiButton variant="plain" size="small" @click="articleId = null">
                   <template #leading><MiIcon name="chevron-left" :size="15" /></template>All guides
                 </MiButton>
                 <MiText id="hd-art-title" as="h3" variant="title3" weight="bold">{{ article.title }}</MiText>
                 <MiText variant="caption" tone="label3">{{ article.read }} min read</MiText>
-                <p v-for="(p, i) in article.body" :key="i" class="hd__art-p">{{ p }}</p>
-                <div class="hd__helpful">
+                <p v-for="(p, i) in article.body" :key="i" class="hd__art-p mi:m-0 mi:text-[14.5px] mi:leading-[1.6]">{{ p }}</p>
+                <div class="hd__helpful mi:grid mi:gap-2 mi:w-full mi:mt-2 mi:p-3 mi:rounded-md mi:bg-fill4">
                   <MiText variant="footnote" tone="label2">{{ helpful === null ? 'Did this answer your question?' : helpful ? 'Glad it helped.' : 'Sorry. Ask us in Chat, we reply in about 6 min.' }}</MiText>
-                  <div v-if="helpful === null" class="hd__yn">
+                  <div v-if="helpful === null" class="hd__yn mi:flex mi:gap-1.5">
                     <MiButton variant="gray" size="small" @click="helpful = true">Yes</MiButton>
                     <MiButton variant="gray" size="small" @click="helpful = false; tab = 'chat'">No, chat</MiButton>
                   </div>
@@ -134,51 +134,19 @@ function send() {
 </script>
 
 <style scoped>
-.hd { container-type: inline-size; height: 620px; font-family: var(--mi-font); color: var(--mi-label); background: var(--mi-page); }
-.hd__shell { display: grid; height: 100%; grid-template-columns: minmax(0, 1fr); }
-.hd__app { display: none; }
-@container (min-width: 760px) {
-  .hd__shell { grid-template-columns: minmax(0, 1fr) 380px; }
-  .hd__app { display: grid; }
-  .hd__side { border-left: 1px solid var(--mi-sep); box-shadow: var(--mi-sh2); }
-}
-
-.hd__app { align-content: start; gap: 20px; padding: 28px; opacity: .75; }
-.hd__app-head { display: flex; align-items: center; gap: 10px; }
-.hd__app-title { font-size: 24px; font-weight: 700; letter-spacing: -.02em; }
-.hd__pill { padding: 3px 10px; border-radius: 999px; background: var(--mi-p-tint); color: var(--mi-p-text); font-size: 12px; font-weight: 600; }
-.hd__app-card { display: grid; grid-template-columns: auto 1fr; gap: 12px 24px; padding: 20px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); font-size: 14px; }
-.hd__k { color: var(--mi-label2); }
-.hd__v { font-weight: 500; }
-.hd__app-rows { display: grid; gap: 10px; }
-.hd__app-rows span { height: 44px; border-radius: var(--mi-radius-m); background: var(--mi-fill4); }
-
-.hd__side { display: flex; flex-direction: column; min-height: 0; min-width: 0; background: var(--mi-card); }
-.hd__head { padding: 16px 16px 8px; }
-.hd__tabs { flex: 1; min-height: 0; display: flex; flex-direction: column; }
-.hd__tablist { margin: 0 16px; }
-.hd__panel { flex: 1; min-height: 0; display: flex; flex-direction: column; }
-.hd__panel--guides { gap: 12px; padding: 16px; overflow-y: auto; }
+.hd__app-rows span { background: var(--mi-fill4); }
+.hd__tabs { flex: 1; display: flex; flex-direction: column; }
+.hd__panel { flex: 1; }
 
 .hd__log { flex: 1; min-height: 0; background: var(--mi-page); }
 .hd__row { max-width: 90%; }
-.hd__row.is-end { margin-inline-start: auto; }
 .hd .hd__bub { max-width: 100%; }
 .hd__status { justify-content: center; }
-
-.hd__suggest { display: grid; gap: 4px; margin: 0 12px; padding: 10px; border-radius: var(--mi-radius-l) var(--mi-radius-l) 0 0; background: var(--mi-p-tint); transform-origin: bottom; }
-.hd__sug { display: flex; align-items: center; gap: 8px; width: 100%; padding: 8px 10px; border: 0; border-radius: var(--mi-radius-m); background: var(--mi-card); color: var(--mi-label); font: inherit; font-size: 13.5px; font-weight: 500; text-align: start; cursor: pointer; }
-.hd__sug span { flex: 1; min-width: 0; }
+.hd__sug { font: inherit; font-size: 13.5px; font-weight: 500; }
+.hd__sug span { flex: 1; }
 .hd__sug > :first-child { color: var(--mi-p-text); }
-.hd__sug:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 1px; }
-.hd__composer { padding: 0 12px 14px; }
-.hd__composer::before { content: ""; display: block; height: 10px; }
 
 .hd__list { margin-inline: -4px; }
-.hd__article { display: grid; gap: 8px; justify-items: start; }
-.hd__art-p { margin: 0; font-size: 14.5px; line-height: 1.6; }
-.hd__helpful { display: grid; gap: 8px; width: 100%; margin-top: 8px; padding: 12px; border-radius: var(--mi-radius-m); background: var(--mi-fill4); }
-.hd__yn { display: flex; gap: 6px; }
 
 .hd-rise-enter-active, .hd-rise-leave-active { transition: opacity var(--mi-dur-2) var(--mi-ease), transform var(--mi-dur-2) var(--mi-ease); }
 .hd-rise-enter-from, .hd-rise-leave-to { opacity: 0; transform: translateY(8px); }

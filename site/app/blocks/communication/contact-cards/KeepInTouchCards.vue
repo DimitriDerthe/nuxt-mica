@@ -1,6 +1,6 @@
 <template>
-  <section class="kt" aria-labelledby="kt-title">
-    <header class="kt__head">
+  <section class="kt mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="kt-title">
+    <header class="kt__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="kt-title" as="h2" variant="title3" weight="semibold">Keep in touch</MiText>
         <MiText variant="footnote" tone="label2">{{ dueCount }} of {{ contacts.length }} relationships are due for a catch-up.</MiText>
@@ -8,33 +8,33 @@
       <MiSegmented v-model="view" label="Show" :options="views" />
     </header>
 
-    <ul class="kt__grid">
-      <li v-for="c in shown" :key="c.id" class="kt__card" :class="{ 'is-due': isDue(c) }">
-        <div class="kt__top">
+    <ul class="kt__grid mi:[list-style:none] mi:m-0 mi:p-0 mi:grid mi:gap-3 mi:grid-cols-[minmax(0,_1fr)] mi:@[600px]:grid-cols-2 mi:@[940px]:grid-cols-3">
+      <li v-for="c in shown" :key="c.id" class="kt__card mi:grid mi:content-start mi:gap-3.5 mi:p-4.5 mi:rounded-xl mi:bg-card mi:shadow-1" :class="{ 'is-due': isDue(c) }">
+        <div class="kt__top mi:flex mi:items-center mi:gap-3">
           <MiAvatar :name="c.name" size="md" tone="auto" decorative />
-          <div class="kt__id">
+          <div class="kt__id mi:flex-1 mi:min-w-0">
             <MiText as="h3" variant="headline" weight="semibold" :lines="1">{{ c.name }}</MiText>
             <MiText variant="caption" tone="label2" :lines="1">{{ c.role }} · {{ c.company }}</MiText>
           </div>
           <MiBadge v-if="isDue(c)" tone="warning" label="Due" dot />
         </div>
 
-        <div class="kt__cadence">
-          <span class="kt__cadence-row">
+        <div class="kt__cadence mi:grid mi:gap-1.5">
+          <span class="kt__cadence-row mi:flex mi:justify-between mi:gap-2">
             <MiText variant="caption" tone="label2">{{ c.days === 0 ? 'Talked today' : c.days + ' days since ' + c.last }}</MiText>
             <MiText variant="caption" tone="label3">every {{ c.every }} days</MiText>
           </span>
           <div
-            class="kt__bar" role="meter" :aria-label="'Time since last contact with ' + c.name"
+            class="kt__bar mi:h-1.5 mi:rounded-[3px] mi:bg-fill3 mi:overflow-hidden" role="meter" :aria-label="'Time since last contact with ' + c.name"
             :aria-valuenow="c.days" aria-valuemin="0" :aria-valuemax="c.every" :aria-valuetext="c.days + ' of ' + c.every + ' days'"
           >
-            <span :style="{ transform: `scaleX(${Math.min(c.days / c.every, 1)})` }" />
+            <span class="mi:[.kt__bar_&]:block mi:[.kt__bar_&]:h-full mi:[.kt__bar_&]:rounded-[inherit] mi:[.kt__bar_&]:bg-p mi:[.kt__bar_&]:origin-left mi:[.kt__bar_&]:[transition:transform_var(--mi-dur-4)_var(--mi-spring)] mi:[.kt__card.is-due_.kt__bar_&]:bg-orange" :style="{ transform: `scaleX(${Math.min(c.days / c.every, 1)})` }" />
           </div>
         </div>
 
-        <MiText variant="footnote" tone="label2" :lines="2" class="kt__note">{{ c.note }}</MiText>
+        <MiText variant="footnote" tone="label2" :lines="2" class="kt__note mi:min-h-[2.6em]">{{ c.note }}</MiText>
 
-        <div class="kt__acts">
+        <div class="kt__acts mi:flex mi:items-center mi:gap-1 mi:pt-3 mi:border-t mi:border-t-sep">
           <MiButton variant="gray" size="small" @click="log(c)">
             <template #leading><MiIcon name="check" :size="14" /></template>
             Log catch-up
@@ -44,7 +44,7 @@
         </div>
       </li>
     </ul>
-    <p class="kt__status" role="status">{{ status }}</p>
+    <p class="kt__status mi:m-0 mi:min-h-4.5 mi:text-[13px] mi:text-label2" role="status">{{ status }}</p>
   </section>
 </template>
 
@@ -82,22 +82,5 @@ function log(c: Contact) {
 </script>
 
 <style scoped>
-.kt { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
-.kt__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.kt__grid { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); }
-@container (min-width: 600px) { .kt__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@container (min-width: 940px) { .kt__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-
-.kt__card { display: grid; align-content: start; gap: 14px; padding: 18px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.kt__top { display: flex; align-items: center; gap: 12px; }
-.kt__id { flex: 1; min-width: 0; }
-.kt__cadence { display: grid; gap: 6px; }
-.kt__cadence-row { display: flex; justify-content: space-between; gap: 8px; }
-.kt__bar { height: 6px; border-radius: 3px; background: var(--mi-fill3); overflow: hidden; }
-.kt__bar span { display: block; height: 100%; border-radius: inherit; background: var(--mi-p); transform-origin: left; transition: transform var(--mi-dur-4) var(--mi-spring); }
-.kt__card.is-due .kt__bar span { background: var(--mi-orange); }
-.kt__note { min-height: 2.6em; }
-.kt__acts { display: flex; align-items: center; gap: 4px; padding-top: 12px; border-top: 1px solid var(--mi-sep); }
 .kt__acts > :first-child { margin-right: auto; }
-.kt__status { margin: 0; min-height: 18px; font-size: 13px; color: var(--mi-label2); }
 </style>

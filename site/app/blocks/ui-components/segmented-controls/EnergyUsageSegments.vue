@@ -1,7 +1,7 @@
 <template>
-  <div class="eus">
-    <section class="eus__card" aria-labelledby="eus-title">
-      <header class="eus__head">
+  <div class="eus mi:@container mi:font-mi mi:text-label">
+    <section class="eus__card mi:grid mi:gap-4.5 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:@[720px]:py-6 mi:@[720px]:px-7" aria-labelledby="eus-title">
+      <header class="eus__head mi:flex mi:flex-wrap mi:[align-items:flex-start] mi:justify-between mi:gap-y-3 mi:gap-x-4">
         <div>
           <MiText id="eus-title" variant="title3" as="h2" weight="semibold">Home energy</MiText>
           <MiText variant="footnote" tone="label2">12 Rue des Lilas · smart meter synced 2 min ago</MiText>
@@ -9,18 +9,18 @@
         <MiSegmented v-model="unit" variant="tinted" label="Unit" :options="units" />
       </header>
 
-      <div class="eus__controls">
+      <div class="eus__controls mi:grid mi:gap-2.5 mi:@[720px]:flex mi:@[720px]:flex-wrap mi:@[720px]:items-center mi:@[720px]:justify-between mi:@[720px]:gap-3">
         <MiSegmented v-model="range" label="Period" :options="ranges" />
         <!-- Circuit filter: same segmented idea, as a button group for longer labels. -->
-        <div class="eus__scroll">
+        <div class="eus__scroll mi:overflow-x-auto mi:[scrollbar-width:none]">
           <MiButtonGroup v-model="circuit" variant="segmented" label="Circuit" :options="circuits" />
         </div>
       </div>
 
-      <div class="eus__body">
-        <div class="eus__summary" aria-live="polite">
+      <div class="eus__body mi:grid mi:gap-4 mi:@[720px]:grid-cols-[220px_minmax(0,_1fr)] mi:@[720px]:gap-7 mi:@[720px]:items-end">
+        <div class="eus__summary mi:grid mi:content-start mi:gap-1" aria-live="polite">
           <MiText variant="caption" tone="label2" weight="medium">{{ circuitLabel }} · {{ period.caption }}</MiText>
-          <p class="eus__big">{{ format(total) }}</p>
+          <p class="eus__big mi:my-0.5 mi:mx-0 mi:text-[clamp(34px,_8cqi,_48px)] mi:leading-none mi:font-bold mi:tracking-[-.04em] mi:tabular-nums">{{ format(total) }}</p>
           <MiText variant="footnote" :tone="delta <= 0 ? 'green' : 'red'" weight="semibold">
             {{ delta <= 0 ? '▼' : '▲' }} {{ Math.abs(delta) }}% vs previous {{ range }}
           </MiText>
@@ -29,7 +29,7 @@
 
         <MiBarChart
           :data="bars" :card="false" :height="200" :max-bar-width="28" :format-value="v => format(v)"
-          :aria-label="`${circuitLabel} usage per ${period.step}, ${period.caption}`" class="eus__chart"
+          :aria-label="`${circuitLabel} usage per ${period.step}, ${period.caption}`" class="eus__chart mi:min-w-0"
         />
       </div>
     </section>
@@ -77,23 +77,3 @@ function format(v: number): string {
   return unit.value === 'cost' ? `€${v.toFixed(2)}` : `${v.toFixed(1)} kWh`
 }
 </script>
-
-<style scoped>
-.eus { container-type: inline-size; font-family: var(--mi-font); color: var(--mi-label); }
-.eus__card { display: grid; gap: 18px; padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.eus__head { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 12px 16px; }
-.eus__controls { display: grid; gap: 10px; }
-/* The circuit group can be wider than a phone; it scrolls inside its own strip. */
-.eus__scroll { overflow-x: auto; scrollbar-width: none; }
-
-.eus__body { display: grid; gap: 16px; }
-.eus__summary { display: grid; align-content: start; gap: 4px; }
-.eus__big { margin: 2px 0; font-size: clamp(34px, 8cqi, 48px); line-height: 1; font-weight: 700; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
-.eus__chart { min-width: 0; }
-
-@container (min-width: 720px) {
-  .eus__card { padding: 24px 28px; }
-  .eus__controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
-  .eus__body { grid-template-columns: 220px minmax(0, 1fr); gap: 28px; align-items: end; }
-}
-</style>

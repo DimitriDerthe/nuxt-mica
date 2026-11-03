@@ -1,33 +1,33 @@
 <template>
-  <section class="iss" aria-labelledby="iss-title">
-    <header class="iss__head">
-      <div class="iss__id">
-        <span class="iss__glyph" aria-hidden="true"><MiIcon name="desktop" :size="20" /></span>
+  <section class="iss mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="iss-title">
+    <header class="iss__head mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-3">
+      <div class="iss__id mi:flex mi:items-center mi:gap-3 mi:min-w-0">
+        <span class="iss__glyph mi:grid mi:place-items-center mi:flex-[none] mi:w-10 mi:h-10 mi:rounded-md mi:bg-p-tint mi:text-p-text" aria-hidden="true"><MiIcon name="desktop" :size="20" /></span>
         <div>
           <MiText id="iss-title" variant="title3" as="h2" weight="semibold">api-prod-3</MiText>
           <MiText variant="footnote" tone="label2">General purpose · Paris 2 · created 14 Mar 2024</MiText>
         </div>
       </div>
-      <div class="iss__actions">
+      <div class="iss__actions mi:flex mi:flex-wrap mi:items-center mi:gap-2.5">
         <MiBadge tone="success" label="Running" dot />
         <MiCopyButton :get-value="toYaml" label="Copy as YAML" copied-label="YAML copied" variant="outline" />
       </div>
     </header>
 
-    <div class="iss__search">
+    <div class="iss__search mi:grid mi:gap-1.5 mi:@[640px]:grid-cols-[minmax(0,_360px)_auto] mi:@[640px]:items-center mi:@[640px]:justify-between">
       <MiSearch v-model="query" size="compact" placeholder="Find a spec, e.g. IPv6 or backup" aria-label="Find a spec" />
       <MiText variant="caption" tone="label2" aria-live="polite">{{ query ? matchCount + ' matching specs' : total + ' specs' }}</MiText>
     </div>
 
-    <div v-if="matchCount" class="iss__grid">
-      <section v-for="g in groups" :key="g.id" class="iss__card" :aria-labelledby="'iss-' + g.id">
-        <div class="iss__card-head">
+    <div v-if="matchCount" class="iss__grid mi:grid mi:gap-3 mi:@[640px]:grid-cols-2 mi:@[1000px]:grid-cols-3">
+      <section v-for="g in groups" :key="g.id" class="iss__card mi:grid mi:content-start mi:gap-2.5 mi:py-4 mi:px-4.5 mi:rounded-lg mi:bg-card mi:shadow-1 mi:min-w-0" :aria-labelledby="'iss-' + g.id">
+        <div class="iss__card-head mi:flex mi:items-center mi:gap-2 mi:text-label2">
           <MiIcon :name="g.icon" :size="16" />
           <MiText :id="'iss-' + g.id" variant="headline" as="h3">{{ g.title }}</MiText>
         </div>
         <MiDetails :items="g.items" label-width="132px">
           <template #value="{ item }">
-            <span class="iss__value">
+            <span class="iss__value mi:inline-flex mi:flex-wrap mi:items-center mi:gap-1 mi:min-w-0 mi:wrap-anywhere">
               <code v-if="COPYABLE.has(item.key)">{{ item.value }}</code>
               <template v-else>{{ item.value }}</template>
               <MiCopyButton v-if="COPYABLE.has(item.key)" :value="String(item.value)" icon-only variant="ghost" :label="'Copy ' + item.label" />
@@ -36,7 +36,7 @@
         </MiDetails>
       </section>
     </div>
-    <MiText v-else variant="footnote" tone="label2" class="iss__empty">Nothing matches “{{ query }}”.</MiText>
+    <MiText v-else variant="footnote" tone="label2" class="iss__empty mi:p-7 mi:text-center mi:rounded-lg mi:bg-card">Nothing matches “{{ query }}”.</MiText>
   </section>
 </template>
 
@@ -93,25 +93,6 @@ const toYaml = () => ['name: api-prod-3', ...GROUPS.flatMap(g => [`${g.id}:`, ..
 </script>
 
 <style scoped>
-.iss { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
-.iss__head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
-.iss__id { display: flex; align-items: center; gap: 12px; min-width: 0; }
-.iss__glyph { display: grid; place-items: center; flex: none; width: 40px; height: 40px; border-radius: var(--mi-radius-m); background: var(--mi-p-tint); color: var(--mi-p-text); }
-.iss__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
-.iss__search { display: grid; gap: 6px; }
-.iss__grid { display: grid; gap: 12px; }
-.iss__card { display: grid; align-content: start; gap: 10px; padding: 16px 18px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); min-width: 0; }
-.iss__card-head { display: flex; align-items: center; gap: 8px; color: var(--mi-label2); }
 .iss__card-head :deep(h3) { color: var(--mi-label); }
-.iss__value { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 4px; min-width: 0; overflow-wrap: anywhere; }
 .iss__value code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }
-.iss__empty { padding: 28px; text-align: center; border-radius: var(--mi-radius-l); background: var(--mi-card); }
-
-@container (min-width: 640px) {
-  .iss__search { grid-template-columns: minmax(0, 360px) auto; align-items: center; justify-content: space-between; }
-  .iss__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-@container (min-width: 1000px) {
-  .iss__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-}
 </style>

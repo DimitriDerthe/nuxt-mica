@@ -1,27 +1,27 @@
 <template>
-  <section class="mrt" aria-labelledby="mrt-title">
-    <header class="mrt__head">
+  <section class="mrt mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="mrt-title">
+    <header class="mrt__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="mrt-title" variant="title3" as="h2" weight="semibold">Repricing</MiText>
         <MiText variant="footnote" tone="label2">Outpost Supply · spring range · target margin {{ target }}%</MiText>
       </div>
-      <div class="mrt__summary" role="status">
+      <div class="mrt__summary mi:grid mi:justify-items-end" role="status">
         <MiText variant="caption" tone="label2">Blended margin</MiText>
-        <span class="mrt__blend" :class="{ 'is-low': blended < target }">{{ blended.toFixed(1) }}%</span>
+        <span class="mrt__blend mi:text-[26px] mi:font-bold mi:tracking-[-.03em] mi:tabular-nums mi:text-green-t mi:[&.is-low]:text-orange-t" :class="{ 'is-low': blended < target }">{{ blended.toFixed(1) }}%</span>
       </div>
     </header>
 
     <!-- Bulk move: preview a percentage on every price, then apply it to the drafts. -->
-    <div class="mrt__bulk">
+    <div class="mrt__bulk mi:grid mi:gap-3 mi:items-end mi:py-3.5 mi:px-4 mi:rounded-lg mi:bg-fill4 mi:@[600px]:grid-cols-[minmax(0,_1fr)_auto]">
       <MiSlider v-model="shift" :min="-10" :max="20" label="Move every price" :format="v => (v > 0 ? '+' : '') + v + '%'" class="mrt__slider" />
       <MiButton size="small" variant="tinted" :disabled="shift === 0" @click="applyShift">Apply to {{ products.length }} prices</MiButton>
     </div>
 
-    <div class="mrt__scroll">
+    <div class="mrt__scroll mi:min-w-0 mi:overflow-x-auto mi:rounded-xl mi:bg-card mi:shadow-1">
       <MiTable :columns="columns" :rows="rows" caption="Prices and margins" :zebra="false">
         <template #cell-name="{ row }">
-          <span class="mrt__name">
-            <i v-if="isChanged(String(row.id))" class="mrt__dot" aria-label="Edited" role="img" />
+          <span class="mrt__name mi:inline-flex mi:flex-wrap mi:items-baseline mi:gap-x-2 mi:font-semibold">
+            <i v-if="isChanged(String(row.id))" class="mrt__dot mi:w-[7px] mi:h-[7px] mi:rounded-[50%] mi:bg-p mi:self-center" aria-label="Edited" role="img" />
             {{ byId(row.id).name }}
             <MiText as="span" variant="caption" tone="label3">{{ byId(row.id).sku }}</MiText>
           </span>
@@ -33,20 +33,20 @@
           />
         </template>
         <template #cell-margin="{ row }">
-          <span class="mrt__margin">
-            <span class="mrt__bar" role="meter" :aria-label="'Margin of ' + byId(row.id).name" :aria-valuenow="Math.round(marginOf(String(row.id)))" aria-valuemin="0" aria-valuemax="100">
-              <i :class="{ 'is-low': marginOf(String(row.id)) < target }" :style="{ transform: `scaleX(${Math.min(1, Math.max(0, marginOf(String(row.id))) / 80)})` }" />
-              <b :style="{ insetInlineStart: (target / 80) * 100 + '%' }" />
+          <span class="mrt__margin mi:flex mi:items-center mi:gap-2.5">
+            <span class="mrt__bar mi:relative mi:flex-1 mi:h-1.5 mi:rounded-[3px] mi:bg-fill2 mi:overflow-visible" role="meter" :aria-label="'Margin of ' + byId(row.id).name" :aria-valuenow="Math.round(marginOf(String(row.id)))" aria-valuemin="0" aria-valuemax="100">
+              <i class="mi:[.mrt__bar_&]:inset-0 mi:[.mrt__bar_&]:bg-green mi:[.mrt__bar_&]:origin-left mi:[.mrt__bar_&]:[transition:transform_var(--mi-dur-3)_var(--mi-spring)]" :class="{ 'is-low': marginOf(String(row.id)) < target }" :style="{ transform: `scaleX(${Math.min(1, Math.max(0, marginOf(String(row.id))) / 80)})` }" />
+              <b class="mi:[.mrt__bar_&]:-top-1 mi:[.mrt__bar_&]:-bottom-1 mi:[.mrt__bar_&]:-ms-px mi:[.mrt__bar_&]:bg-label mi:[.mrt__bar_&]:opacity-50" :style="{ insetInlineStart: (target / 80) * 100 + '%' }" />
             </span>
-            <span class="mrt__pct" :class="{ 'is-low': marginOf(String(row.id)) < target }">{{ marginOf(String(row.id)).toFixed(1) }}%</span>
+            <span class="mrt__pct mi:w-12 mi:text-end mi:font-semibold mi:tabular-nums mi:[&.is-low]:text-orange-t" :class="{ 'is-low': marginOf(String(row.id)) < target }">{{ marginOf(String(row.id)).toFixed(1) }}%</span>
           </span>
         </template>
       </MiTable>
     </div>
 
-    <footer class="mrt__foot">
+    <footer class="mrt__foot mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2.5">
       <MiText variant="footnote" tone="label2" aria-live="polite">{{ status }}</MiText>
-      <div class="mrt__foot-actions">
+      <div class="mrt__foot-actions mi:flex mi:gap-2">
         <MiButton size="small" variant="gray" :disabled="!changed.length" @click="reset">Discard</MiButton>
         <MiButton size="small" :disabled="!changed.length || invalid" @click="save">Publish {{ changed.length || '' }} {{ changed.length === 1 ? 'price' : 'prices' }}</MiButton>
       </div>
@@ -126,31 +126,11 @@ function save() {
 </script>
 
 <style scoped>
-.mrt { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
-.mrt__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.mrt__summary { display: grid; justify-items: end; }
-.mrt__blend { font-size: 26px; font-weight: 700; letter-spacing: -.03em; font-variant-numeric: tabular-nums; color: var(--mi-green-t); }
-.mrt__blend.is-low { color: var(--mi-orange-t); }
-
-.mrt__bulk { display: grid; gap: 12px; align-items: end; padding: 14px 16px; border-radius: var(--mi-radius-l); background: var(--mi-fill4); }
-@container (min-width: 600px) { .mrt__bulk { grid-template-columns: minmax(0, 1fr) auto; } }
 .mrt__slider { min-width: 0; }
-
-.mrt__scroll { min-width: 0; overflow-x: auto; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
 .mrt__scroll > * { min-width: 680px; }
-.mrt__name { display: inline-flex; flex-wrap: wrap; align-items: baseline; column-gap: 8px; font-weight: 600; }
-.mrt__dot { width: 7px; height: 7px; border-radius: 50%; background: var(--mi-p); align-self: center; }
 .mrt__input { width: 112px; }
-
-.mrt__margin { display: flex; align-items: center; gap: 10px; }
-.mrt__bar { position: relative; flex: 1; height: 6px; border-radius: 3px; background: var(--mi-fill2); overflow: visible; }
-.mrt__bar i { position: absolute; inset: 0; border-radius: inherit; background: var(--mi-green); transform-origin: left; transition: transform var(--mi-dur-3) var(--mi-spring); }
+.mrt__bar i { position: absolute; border-radius: inherit; }
 .mrt__bar i.is-low { background: var(--mi-orange); }
 /* Target tick: a margin short of it reads as a bar that stops before the line. */
-.mrt__bar b { position: absolute; top: -4px; bottom: -4px; width: 2px; margin-inline-start: -1px; border-radius: 1px; background: var(--mi-label); opacity: .5; }
-.mrt__pct { width: 48px; text-align: end; font-weight: 600; font-variant-numeric: tabular-nums; }
-.mrt__pct.is-low { color: var(--mi-orange-t); }
-
-.mrt__foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
-.mrt__foot-actions { display: flex; gap: 8px; }
+.mrt__bar b { position: absolute; width: 2px; border-radius: 1px; }
 </style>

@@ -30,71 +30,43 @@ function onKey(e: KeyboardEvent) {
 </script>
 
 <template>
-  <ol ref="root" class="mi-st" :class="`is-${orientation}`" :style="{ '--mi-st-n': steps.length }" :aria-label="ariaLabel" @keydown="onKey">
-    <li v-for="(s, i) in steps" :key="i" class="mi-st__item" :class="`is-${state(i)}`">
-      <span class="mi-st__rail">
+  <ol ref="root" class="mi-st mi:[list-style:none] mi:flex-col mi:font-mi" :class="`is-${orientation}`" :style="{ '--mi-st-n': steps.length }" :aria-label="ariaLabel" @keydown="onKey">
+    <li v-for="(s, i) in steps" :key="i" class="mi-st__item mi:flex mi:gap-3.5 mi:[.is-horizontal_&]:flex-1 mi:[.is-horizontal_&]:min-w-0 mi:[.is-horizontal_&:last-child]:flex-[0_1_auto] mi:[.is-horizontal_&:last-child]:max-w-[calc(100%_/_var(--mi-st-n))] mi:@max-[380px]:[.is-horizontal_&]:pb-7.5" :class="`is-${state(i)}`">
+      <span class="mi-st__rail mi:flex mi:flex-col mi:items-center mi:[.is-horizontal_&]:flex-row mi:[.is-horizontal_&]:items-center">
         <component
           :is="clickable ? 'button' : 'span'" class="mi-st__dot" v-bind="clickable ? { type: 'button', 'aria-label': `Go to step ${i + 1}` } : {}"
           :aria-current="i === model ? 'step' : undefined" @click="pick(i)"
         >
-          <span class="mi-st__fill" />
-          <span class="mi-st__mark" aria-hidden="true">
+          <span class="mi-st__fill mi:absolute mi:inset-0 mi:rounded-[50%] mi:-z-1 mi:opacity-0 mi:transform-[scale(.6)] mi:bg-p mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),transform_var(--mi-dur-3)_var(--mi-spring)] mi:[.is-current_&]:opacity-100 mi:[.is-current_&]:transform-[scale(1)] mi:[.is-current_&]:bg-p-tint mi:[.is-done_&]:opacity-100 mi:[.is-done_&]:transform-[scale(1)]" />
+          <span class="mi-st__mark mi:flex mi:items-center mi:justify-center" aria-hidden="true">
             <MiNavGlyph v-if="state(i) === 'done'" name="check" :size="14" :stroke="3" />
             <template v-else>{{ i + 1 }}</template>
           </span>
         </component>
-        <span v-if="i < steps.length - 1" class="mi-st__line"><span class="mi-st__line-fill" /></span>
+        <span v-if="i < steps.length - 1" class="mi-st__line mi:relative mi:w-0.5 mi:flex-1 mi:min-h-5.5 mi:bg-sep2 mi:overflow-hidden mi:rounded-[1px] mi:[.is-horizontal_&]:w-auto mi:[.is-horizontal_&]:h-0.5 mi:[.is-horizontal_&]:min-h-0 mi:[.is-horizontal_&]:flex-1 mi:[.is-horizontal_&]:my-0 mi:[.is-horizontal_&]:mx-2"><span class="mi-st__line-fill mi:absolute mi:inset-0 mi:bg-p mi:transform-[scaleY(0)] mi:origin-top mi:[transition:transform_var(--mi-dur-3)_var(--mi-ease)] mi:[.is-done_&]:transform-[scaleY(1)] mi:[.is-horizontal_&]:transform-[scaleX(0)] mi:[.is-horizontal_&]:origin-left mi:[.is-horizontal_.is-done_&]:transform-[scaleX(1)] mi:[.is-horizontal_.mi-st__item.is-done_&]:transform-[scaleX(1)]" /></span>
       </span>
-      <span class="mi-st__text">
-        <span v-if="orientation === 'horizontal'" class="mi-st__count" aria-hidden="true">Step {{ i + 1 }} of {{ steps.length }}</span>
-        <span class="mi-st__label">{{ s.label }}</span>
-        <span v-if="s.description" class="mi-st__sub">{{ s.description }}</span>
+      <span class="mi-st__text mi:flex mi:flex-col mi:pt-[3px] mi:px-0 mi:pb-4.5 mi:[.mi-st__item:last-child_&]:pb-[3px] mi:[.is-horizontal_&]:p-0 mi:[.is-horizontal_&]:min-w-0 mi:@max-[380px]:[.is-horizontal_.mi-st__item:not(.is-current)_&]:w-px mi:@max-[380px]:[.is-horizontal_.mi-st__item:not(.is-current)_&]:h-px mi:@max-[380px]:[.is-horizontal_.mi-st__item:not(.is-current)_&]:overflow-hidden mi:@max-[380px]:[.is-horizontal_.mi-st__item:not(.is-current)_&]:[clip-path:inset(50%)] mi:@max-[380px]:[.is-horizontal_.mi-st__item.is-current_&]:left-0 mi:@max-[380px]:[.is-horizontal_.mi-st__item.is-current_&]:right-0 mi:@max-[380px]:[.is-horizontal_.mi-st__item.is-current_&]:bottom-0 mi:@max-[380px]:[.is-horizontal_.mi-st__item.is-current_&]:flex-row mi:@max-[380px]:[.is-horizontal_.mi-st__item.is-current_&]:items-baseline mi:@max-[380px]:[.is-horizontal_.mi-st__item.is-current_&]:gap-2">
+        <span v-if="orientation === 'horizontal'" class="mi-st__count mi:hidden mi:@max-[380px]:[.is-horizontal_&]:block mi:@max-[380px]:[.is-horizontal_&]:flex-[none] mi:@max-[380px]:[.is-horizontal_&]:text-[13px] mi:@max-[380px]:[.is-horizontal_&]:text-label2" aria-hidden="true">Step {{ i + 1 }} of {{ steps.length }}</span>
+        <span class="mi-st__label mi:text-[15px] mi:font-semibold mi:text-label mi:[.is-todo_&]:text-label2 mi:[.is-horizontal_&]:break-words mi:[.is-horizontal_&]:pr-2 mi:@max-[560px]:[.is-horizontal_&]:text-[13px] mi:@max-[560px]:[.is-horizontal_&]:whitespace-nowrap mi:@max-[560px]:[.is-horizontal_&]:overflow-hidden mi:@max-[560px]:[.is-horizontal_&]:text-ellipsis">{{ s.label }}</span>
+        <span v-if="s.description" class="mi-st__sub mi:text-[13px] mi:text-label2 mi:[.is-horizontal_&]:break-words mi:[.is-horizontal_&]:pr-2 mi:@max-[560px]:[.is-horizontal_&]:hidden">{{ s.description }}</span>
       </span>
     </li>
   </ol>
 </template>
 
 <style scoped>
-.mi-st{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;font-family:var(--mi-font)}
-.mi-st__item{display:flex;gap:14px}
-.mi-st__rail{display:flex;flex-direction:column;align-items:center}
+.mi-st{margin:0;padding:0;display:flex}
 .mi-st__dot{position:relative;width:28px;height:28px;flex:none;border:0;padding:0;border-radius:50%;background:transparent;color:var(--mi-label2);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 1.5px var(--mi-ctl,var(--mi-label3));isolation:isolate;transition:transform var(--mi-dur-1) var(--mi-ease)}
 span.mi-st__dot{cursor:default}
 .mi-st__dot:active{transform:scale(.92)}
-.mi-st__fill{position:absolute;inset:0;border-radius:50%;z-index:-1;opacity:0;transform:scale(.6);background:var(--mi-p);transition:opacity var(--mi-dur-2) var(--mi-ease),transform var(--mi-dur-3) var(--mi-spring)}
-.mi-st__mark{display:flex;align-items:center;justify-content:center}
 .is-current .mi-st__dot{color:var(--mi-p-text);box-shadow:inset 0 0 0 2px var(--mi-p)}
-.is-current .mi-st__fill{opacity:1;transform:scale(1);background:var(--mi-p-tint)}
 .is-done .mi-st__dot{color:var(--mi-p-on);box-shadow:none}
-.is-done .mi-st__fill{opacity:1;transform:scale(1)}
-.mi-st__line{position:relative;width:2px;flex:1;min-height:22px;background:var(--mi-sep2);overflow:hidden;border-radius:1px}
-.mi-st__line-fill{position:absolute;inset:0;background:var(--mi-p);transform:scaleY(0);transform-origin:top;transition:transform var(--mi-dur-3) var(--mi-ease)}
-.is-done .mi-st__line-fill{transform:scaleY(1)}
-.mi-st__text{display:flex;flex-direction:column;padding:3px 0 18px}
-.mi-st__label{font-size:15px;font-weight:600;color:var(--mi-label)}
-.is-todo .mi-st__label{color:var(--mi-label2)}
-.mi-st__sub{font-size:13px;color:var(--mi-label2)}
-.mi-st__count{display:none}
-.mi-st__item:last-child .mi-st__text{padding-bottom:3px}
 /* Horizontal steps size to their container: descriptions drop under 560px; under 380px one caption under the bar names the current step. */
 .is-horizontal{position:relative;flex-direction:row;gap:0;container-type:inline-size}
-.is-horizontal .mi-st__item{flex:1;flex-direction:column;gap:10px;min-width:0}
-.is-horizontal .mi-st__item:last-child{flex:0 1 auto;max-width:calc(100% / var(--mi-st-n))}
-.is-horizontal .mi-st__label,.is-horizontal .mi-st__sub{overflow-wrap:break-word;padding-right:8px}
-.is-horizontal .mi-st__rail{flex-direction:row;align-items:center}
-.is-horizontal .mi-st__line{width:auto;height:2px;min-height:0;flex:1;margin:0 8px}
-.is-horizontal .mi-st__line-fill{transform:scaleX(0);transform-origin:left}
-.is-horizontal .is-done .mi-st__line-fill,.is-horizontal .mi-st__item.is-done .mi-st__line-fill{transform:scaleX(1)}
-.is-horizontal .mi-st__text{padding:0;min-width:0}
-@container (max-width:560px){
-  .is-horizontal .mi-st__sub{display:none}
-  .is-horizontal .mi-st__label{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-}
+.is-horizontal .mi-st__item{flex-direction:column;gap:10px}
 @container (max-width:380px){
-  .is-horizontal .mi-st__item{padding-bottom:30px}
-  .is-horizontal .mi-st__item:not(.is-current) .mi-st__text{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
-  .is-horizontal .mi-st__item.is-current .mi-st__text{position:absolute;left:0;right:0;bottom:0;flex-direction:row;align-items:baseline;gap:8px}
-  .is-horizontal .mi-st__count{display:block;flex:none;font-size:13px;color:var(--mi-label2)}
+  .is-horizontal .mi-st__item:not(.is-current) .mi-st__text{position:absolute}
+  .is-horizontal .mi-st__item.is-current .mi-st__text{position:absolute}
 }
 .mi-st__dot:focus-visible{outline:3px solid color-mix(in srgb,var(--mi-p) 55%,transparent);outline-offset:2px}
 </style>

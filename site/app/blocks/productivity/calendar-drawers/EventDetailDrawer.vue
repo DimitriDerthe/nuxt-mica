@@ -1,25 +1,25 @@
 <template>
-  <section class="cd" aria-labelledby="event-drawer-title">
-    <MiText id="event-drawer-title" variant="title3" as="h2" weight="semibold" class="cd__sr">Event details drawer</MiText>
+  <section class="cd mi:@container mi:font-mi mi:text-label" aria-labelledby="event-drawer-title">
+    <MiText id="event-drawer-title" variant="title3" as="h2" weight="semibold" class="cd__sr mi:absolute mi:w-px mi:h-px mi:[clip-path:inset(50%)]">Event details drawer</MiText>
 
-    <div class="cd__stage">
+    <div class="cd__stage mi:grid mi:gap-3.5 mi:grid-cols-[minmax(0,_1fr)] mi:@[760px]:grid-cols-[minmax(0,_1fr)_minmax(340px,_380px)] mi:@[760px]:items-start mi:@[760px]:gap-5">
       <!-- Faux calendar page behind the drawer; still clickable, so picking a row swaps the drawer content. -->
-      <div class="cd__page">
-        <div class="cd__page-head">
+      <div class="cd__page mi:relative mi:grid mi:gap-3.5 mi:p-4.5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:after:content-[''] mi:after:absolute mi:after:inset-0 mi:after:rounded-[inherit] mi:after:[background:var(--mi-scrim)] mi:after:opacity-35 mi:after:pointer-events-none">
+        <div class="cd__page-head mi:flex mi:[align-items:flex-end] mi:justify-between mi:gap-3">
           <div>
             <MiText variant="caption" tone="label2" weight="semibold" as="p" class="cd__eyebrow">Thursday</MiText>
             <MiText variant="title2" as="h3" weight="bold">November 5</MiText>
           </div>
           <MiBadge tone="neutral" :label="agenda.length + ' events'" />
         </div>
-        <ol class="cd__agenda">
+        <ol class="cd__agenda mi:grid mi:gap-1 mi:m-0 mi:p-0 mi:[list-style:none]">
           <li v-for="e in agenda" :key="e.id">
-            <button type="button" class="cd__row" :class="{ 'is-on': e.id === openId }" :aria-current="e.id === openId ? 'true' : undefined" @click="openId = e.id">
-              <span class="cd__row-time">{{ e.start }}</span>
-              <span class="cd__row-bar" :style="{ '--c': e.kind === 'video' ? 'var(--mi-s)' : 'var(--mi-p)' }" aria-hidden="true" />
-              <span class="cd__row-text">
-                <span class="cd__row-title">{{ e.title }}</span>
-                <span class="cd__row-where">{{ e.kind === 'video' ? 'Video call' : e.where }}</span>
+            <button type="button" class="cd__row mi:grid mi:grid-cols-[44px_3px_minmax(0,_1fr)_auto] mi:items-center mi:gap-3 mi:w-full mi:py-2.5 mi:px-3 mi:[border:0] mi:rounded-md mi:[background:transparent] mi:[font:inherit] mi:text-inherit mi:text-start mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" :class="{ 'is-on': e.id === openId }" :aria-current="e.id === openId ? 'true' : undefined" @click="openId = e.id">
+              <span class="cd__row-time mi:text-[13px] mi:font-semibold mi:tabular-nums mi:text-label2">{{ e.start }}</span>
+              <span class="cd__row-bar mi:self-stretch mi:rounded-[2px] mi:[background:var(--c)]" :style="{ '--c': e.kind === 'video' ? 'var(--mi-s)' : 'var(--mi-p)' }" aria-hidden="true" />
+              <span class="cd__row-text mi:grid mi:min-w-0">
+                <span class="cd__row-title mi:text-[15px] mi:font-semibold mi:whitespace-nowrap mi:overflow-hidden mi:text-ellipsis">{{ e.title }}</span>
+                <span class="cd__row-where mi:text-[13px] mi:text-label2 mi:whitespace-nowrap mi:overflow-hidden mi:text-ellipsis">{{ e.kind === 'video' ? 'Video call' : e.where }}</span>
               </span>
               <MiBadge v-if="rsvp[e.id] !== 'going'" :tone="rsvp[e.id] === 'maybe' ? 'warning' : 'danger'" :label="rsvp[e.id] === 'maybe' ? 'Maybe' : 'Declined'" variant="outline" />
             </button>
@@ -29,29 +29,29 @@
 
       <div class="cd__drawer">
         <MiDrawer :model-value="true" inline swipe-direction="right" :title="ev.title" :description="ev.start + ' – ' + ev.end + ' · ' + ev.where">
-          <div class="cd__body">
+          <div class="cd__body mi:grid mi:gap-4.5">
             <!-- The one idea: work back from the start time to when you should leave. -->
-            <div v-if="ev.travel" class="cd__trip" role="group" aria-label="Getting there">
-              <div class="cd__trip-top">
+            <div v-if="ev.travel" class="cd__trip mi:grid mi:gap-2.5 mi:p-3.5 mi:rounded-lg mi:[background:var(--mi-p-tint)]" role="group" aria-label="Getting there">
+              <div class="cd__trip-top mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-2">
                 <div>
                   <MiText variant="caption" tone="label2" weight="medium">Leave by</MiText>
-                  <p class="cd__leave">{{ leaveBy }}</p>
+                  <p class="cd__leave mi:m-0 mi:text-[34px] mi:leading-none mi:font-bold mi:tracking-[-.04em] mi:tabular-nums mi:text-p-text">{{ leaveBy }}</p>
                 </div>
-                <div class="cd__trip-mode">
+                <div class="cd__trip-mode mi:flex mi:items-center mi:gap-1.5 mi:text-[13px] mi:font-medium mi:text-label2">
                   <MiIcon :svg="modeIcon[ev.travel.mode]" :size="18" />
                   <span>{{ ev.travel.line }} · {{ ev.travel.minutes }} min</span>
                 </div>
               </div>
-              <div class="cd__track" :style="{ gridTemplateColumns: `${slack}fr ${ev.travel.minutes}fr 5fr` }" aria-hidden="true">
-                <span class="cd__seg cd__seg--free" /><span class="cd__seg cd__seg--go" /><span class="cd__seg cd__seg--buf" />
+              <div class="cd__track mi:grid mi:gap-[3px] mi:h-2" :style="{ gridTemplateColumns: `${slack}fr ${ev.travel.minutes}fr 5fr` }" aria-hidden="true">
+                <span class="cd__seg cd__seg--free mi:rounded-[4px] mi:[background:var(--mi-fill2)]" /><span class="cd__seg cd__seg--go mi:rounded-[4px] mi:[background:var(--mi-p)]" /><span class="cd__seg cd__seg--buf mi:rounded-[4px] mi:[background:var(--mi-orange)]" />
               </div>
-              <div class="cd__track-legend">
+              <div class="cd__track-legend mi:flex mi:justify-between mi:gap-2 mi:-mt-1">
                 <MiText variant="caption2" tone="label2">{{ ev.prev }} {{ ev.prevLabel }} ends</MiText>
                 <MiText variant="caption2" tone="label2">{{ ev.start }} start</MiText>
               </div>
               <MiText variant="footnote" tone="label2">{{ slack }} min free after {{ ev.prevLabel }}, plus a 5 minute buffer at the door.</MiText>
             </div>
-            <div v-else class="cd__trip cd__trip--call">
+            <div v-else class="cd__trip cd__trip--call mi:grid mi:gap-2.5 mi:p-3.5 mi:rounded-lg mi:[background:var(--mi-p-tint)] mi:grid-cols-[auto_minmax(0,_1fr)] mi:items-start mi:gap-3 mi:text-p-text">
               <MiIcon :svg="modeIcon.video" :size="20" />
               <div>
                 <MiText variant="subheadline" weight="semibold">{{ ev.where }}</MiText>
@@ -59,7 +59,7 @@
               </div>
             </div>
 
-            <div class="cd__section">
+            <div class="cd__section mi:grid mi:gap-2">
               <MiText variant="footnote" weight="semibold" tone="label2" as="h4">Your answer</MiText>
               <MiSegmented :model-value="rsvp[ev.id]" label="Your answer" :options="answers" @update:model-value="setRsvp" />
             </div>
@@ -68,12 +68,12 @@
               <MiListItem v-for="g in guestsWithYou" :key="g.name" :title="g.name" :subtitle="g.role">
                 <template #leading><MiAvatar :name="g.name" tone="auto" size="sm" decorative /></template>
                 <template #trailing>
-                  <span class="cd__status" :class="'is-' + g.status">{{ statusText[g.status] }}</span>
+                  <span class="cd__status mi:text-[12px] mi:font-semibold mi:py-0.5 mi:px-2 mi:rounded-[999px] mi:[background:var(--mi-fill3)] mi:text-label2 mi:[&.is-going]:[background:color-mix(in_srgb,_var(--mi-green)_16%,_transparent)] mi:[&.is-maybe]:[background:color-mix(in_srgb,_var(--mi-orange)_16%,_transparent)] mi:[&.is-no]:[background:color-mix(in_srgb,_var(--mi-red)_14%,_transparent)]" :class="'is-' + g.status">{{ statusText[g.status] }}</span>
                 </template>
               </MiListItem>
             </MiList>
 
-            <div class="cd__remind">
+            <div class="cd__remind mi:flex mi:items-center mi:justify-between mi:gap-3">
               <div>
                 <MiText id="event-drawer-remind" variant="subheadline" weight="medium">{{ ev.travel ? 'Ping me when it is time to leave' : 'Ping me 5 minutes before' }}</MiText>
                 <MiText variant="footnote" tone="label2">{{ remind ? 'On · ' + (ev.travel ? leaveBy : minus(ev.start, 5)) : 'Off' }}</MiText>
@@ -81,14 +81,14 @@
               <MiSwitch v-model="remind" aria-labelledby="event-drawer-remind" />
             </div>
 
-            <div class="cd__notes">
+            <div class="cd__notes mi:grid mi:gap-1.5 mi:py-3 mi:px-3.5 mi:rounded-md mi:[background:var(--mi-fill4)]">
               <MiText variant="footnote" weight="semibold" tone="label2" as="h4">Notes</MiText>
               <MiText variant="subheadline">{{ ev.notes }}</MiText>
             </div>
           </div>
 
           <template #footer>
-            <div class="cd__foot">
+            <div class="cd__foot mi:grid mi:grid-cols-[1fr_1fr] mi:gap-2">
               <MiButton variant="gray" block>Message guests</MiButton>
               <MiButton block>{{ ev.kind === 'video' ? 'Join call' : 'Open in Maps' }}</MiButton>
             </div>
@@ -143,55 +143,13 @@ const modeIcon = {
 </script>
 
 <style scoped>
-.cd { container-type: inline-size; font-family: var(--mi-font); color: var(--mi-label); }
-.cd__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-
-.cd__stage { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); }
-@container (min-width: 760px) { .cd__stage { grid-template-columns: minmax(0, 1fr) minmax(340px, 380px); align-items: start; gap: 20px; } }
-
-.cd__page {
-  position: relative; display: grid; gap: 14px; padding: 18px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1);
-}
-/* Faux scrim: the page reads as "behind" the drawer without hiding it. */
-.cd__page::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: var(--mi-scrim); opacity: .35; pointer-events: none; }
-.cd__page-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
+.cd__sr { overflow: hidden; white-space: nowrap; }
 .cd__eyebrow { margin: 0; text-transform: uppercase; letter-spacing: .06em; }
-.cd__agenda { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; }
-.cd__row {
-  display: grid; grid-template-columns: 44px 3px minmax(0, 1fr) auto; align-items: center; gap: 12px; width: 100%; padding: 10px 12px;
-  border: 0; border-radius: var(--mi-radius-m); background: transparent; font: inherit; color: inherit; text-align: start; cursor: pointer;
-}
 .cd__row:hover { background: var(--mi-fill4); }
 .cd__row.is-on { background: var(--mi-p-tint); }
-.cd__row:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-.cd__row-time { font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--mi-label2); }
-.cd__row-bar { align-self: stretch; border-radius: 2px; background: var(--c); }
-.cd__row-text { display: grid; min-width: 0; }
-.cd__row-title { font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.cd__row-where { font-size: 13px; color: var(--mi-label2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-.cd__body { display: grid; gap: 18px; }
-.cd__trip { display: grid; gap: 10px; padding: 14px; border-radius: var(--mi-radius-l); background: var(--mi-p-tint); }
-.cd__trip--call { grid-template-columns: auto minmax(0, 1fr); align-items: start; gap: 12px; color: var(--mi-p-text); }
 .cd__trip--call :deep(p) { color: var(--mi-label); }
-.cd__trip-top { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 8px; }
-.cd__leave { margin: 0; font-size: 34px; line-height: 1; font-weight: 700; letter-spacing: -.04em; font-variant-numeric: tabular-nums; color: var(--mi-p-text); }
-.cd__trip-mode { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; color: var(--mi-label2); }
-.cd__track { display: grid; gap: 3px; height: 8px; }
-.cd__seg { border-radius: 4px; }
-.cd__seg--free { background: var(--mi-fill2); }
-.cd__seg--go { background: var(--mi-p); }
-.cd__seg--buf { background: var(--mi-orange); }
-.cd__track-legend { display: flex; justify-content: space-between; gap: 8px; margin-top: -4px; }
-
-.cd__section { display: grid; gap: 8px; }
 .cd__section h4, .cd__notes h4 { margin: 0; text-transform: uppercase; letter-spacing: .05em; font-size: 11px; }
-.cd__status { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: var(--mi-fill3); color: var(--mi-label2); }
-.cd__status.is-going { background: color-mix(in srgb, var(--mi-green) 16%, transparent); color: var(--mi-green-t); }
-.cd__status.is-maybe { background: color-mix(in srgb, var(--mi-orange) 16%, transparent); color: var(--mi-orange-t); }
-.cd__status.is-no { background: color-mix(in srgb, var(--mi-red) 14%, transparent); color: var(--mi-red-t); }
-
-.cd__remind { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.cd__notes { display: grid; gap: 6px; padding: 12px 14px; border-radius: var(--mi-radius-m); background: var(--mi-fill4); }
-.cd__foot { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.cd__status.is-going { color: var(--mi-green-t); }
+.cd__status.is-maybe { color: var(--mi-orange-t); }
+.cd__status.is-no { color: var(--mi-red-t); }
 </style>

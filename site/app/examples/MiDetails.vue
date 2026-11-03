@@ -20,13 +20,12 @@ defineProps<{ p: Record<string, unknown> }>()
 </script>
 
 <template>
-  <section class="ex-box" aria-labelledby="ex-details-h">
-    <h3 id="ex-details-h" class="ex-h">Order summary</h3>
+  <section class="ex-box mi:box-border" aria-labelledby="ex-details-h">
+    <h3 id="ex-details-h" class="ex-h mi:mt-0 mi:mx-0 mi:mb-2.5 mi:text-[17px] mi:font-semibold mi:text-label">Order summary</h3>
     <MiDetails v-bind="p" />
   </section>
 </template>
 
 <style scoped>
-.ex-box { width: min(100%, 440px); padding: 16px 18px; border-radius: 18px; background: var(--mi-card); box-shadow: var(--mi-sh1); box-sizing: border-box; }
-.ex-h { margin: 0 0 10px; font-size: 17px; font-weight: 600; color: var(--mi-label); }
+.ex-box { width: min(100%, 440px); padding: 16px 18px; border-radius: 18px; background: var(--mi-card); box-shadow: var(--mi-sh1); }
 </style>

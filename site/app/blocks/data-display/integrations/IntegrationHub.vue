@@ -1,6 +1,6 @@
 <template>
-  <section class="hub" aria-labelledby="hub-title">
-    <header class="hub__head">
+  <section class="hub mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="hub-title">
+    <header class="hub__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="hub-title" variant="title3" as="h2" weight="semibold">Integrations</MiText>
         <MiText variant="footnote" tone="label2" tabular>{{ connected.length }} connected · {{ totalEvents.toLocaleString('en-US') }} events in the last 24 h</MiText>
@@ -8,16 +8,16 @@
       <MiSearch v-model="query" size="compact" class="hub__search" placeholder="Search apps" aria-label="Search integrations" />
     </header>
 
-    <div class="hub__chips" role="group" aria-label="Category">
+    <div class="hub__chips mi:flex mi:flex-wrap mi:gap-1.5" role="group" aria-label="Category">
       <MiChip v-for="c in cats" :key="c" selectable size="small" tone="neutral" :label="c" :model-value="cat === c" @update:model-value="cat = c" />
     </div>
 
     <MiText as="h3" variant="footnote" weight="semibold" tone="label2" class="hub__section">Connected</MiText>
-    <ul class="hub__connected">
-      <li v-for="app in connectedShown" :key="app.id" class="hub__live" :class="{ 'is-paused': !app.on, 'is-warn': app.failed && app.on }">
-        <div class="hub__live-top">
-          <span class="hub__mono" :style="{ '--tint': app.tint }" aria-hidden="true">{{ app.name.slice(0, 1) }}</span>
-          <div class="hub__live-name">
+    <ul class="hub__connected mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:gap-3 mi:m-0 mi:p-0 mi:[list-style:none] mi:@[620px]:grid-cols-2">
+      <li v-for="app in connectedShown" :key="app.id" class="hub__live mi:grid mi:gap-3.5 mi:p-4 mi:rounded-xl mi:bg-card mi:shadow-1 mi:[&.is-warn]:shadow-[inset_0_0_0_1px_color-mix(in_srgb,_var(--mi-red)_35%,_transparent),_var(--mi-sh1)]" :class="{ 'is-paused': !app.on, 'is-warn': app.failed && app.on }">
+        <div class="hub__live-top mi:grid mi:grid-cols-[auto_minmax(0,_1fr)_auto] mi:items-center mi:gap-3">
+          <span class="hub__mono mi:grid mi:place-items-center mi:flex-[none] mi:w-10 mi:h-10 mi:font-bold mi:text-(--tint) mi:[background:color-mix(in_srgb,_var(--tint)_13%,_var(--mi-card))] mi:shadow-[inset_0_0_0_1px_color-mix(in_srgb,_var(--tint)_20%,_transparent)] mi:[.is-paused_&]:[filter:grayscale(1)] mi:[.is-paused_&]:opacity-60" :style="{ '--tint': app.tint }" aria-hidden="true">{{ app.name.slice(0, 1) }}</span>
+          <div class="hub__live-name mi:min-w-0">
             <MiText as="h4" variant="headline" :lines="1">{{ app.name }}</MiText>
             <MiText variant="caption" tone="label2" :lines="1">{{ app.on ? app.flow : 'Paused · nothing is syncing' }}</MiText>
           </div>
@@ -25,14 +25,14 @@
         </div>
 
         <!-- Sync pulse: 24 hourly bars of delivered events, failed deliveries overlaid in red. -->
-        <div class="hub__pulse" role="img" :aria-label="`${app.name}: ${sum(app.hours)} events, ${app.failed} failed in 24 hours`">
-          <span v-for="(v, i) in app.hours" :key="i" class="hub__bar">
-            <i :style="{ transform: `scaleY(${app.on ? v / peak(app) : 0.04})` }" />
-            <b v-if="app.on && app.fails[i]" :style="{ transform: `scaleY(${Math.max(0.18, app.fails[i] / peak(app))})` }" />
+        <div class="hub__pulse mi:grid mi:grid-cols-24 mi:items-end mi:gap-0.5 mi:h-11" role="img" :aria-label="`${app.name}: ${sum(app.hours)} events, ${app.failed} failed in 24 hours`">
+          <span v-for="(v, i) in app.hours" :key="i" class="hub__bar mi:relative mi:flex mi:flex-col mi:[justify-content:flex-end] mi:h-full">
+            <i class="mi:[.hub__bar_&]:[background:color-mix(in_srgb,_var(--mi-p)_70%,_transparent)] mi:[.is-paused_.hub__bar_&]:bg-fill3" :style="{ transform: `scaleY(${app.on ? v / peak(app) : 0.04})` }" />
+            <b class="mi:[.hub__bar_&]:absolute mi:[.hub__bar_&]:bottom-0 mi:[.hub__bar_&]:bg-red" v-if="app.on && app.fails[i]" :style="{ transform: `scaleY(${Math.max(0.18, app.fails[i] / peak(app))})` }" />
           </span>
         </div>
 
-        <div class="hub__live-foot">
+        <div class="hub__live-foot mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-1.5 mi:gap-x-2.5 mi:min-h-7">
           <MiText as="span" variant="caption" tone="label2" tabular>{{ sum(app.hours).toLocaleString('en-US') }} events · synced {{ app.last }}</MiText>
           <MiButton v-if="app.failed && app.on" size="mini" variant="tinted" brand="secondary">Review {{ app.failed }} failures</MiButton>
         </div>
@@ -40,10 +40,10 @@
     </ul>
 
     <MiText as="h3" variant="footnote" weight="semibold" tone="label2" class="hub__section">Available</MiText>
-    <ul class="hub__available">
-      <li v-for="app in availableShown" :key="app.id" class="hub__tile">
-        <span class="hub__mono hub__mono--sm" :style="{ '--tint': app.tint }" aria-hidden="true">{{ app.name.slice(0, 1) }}</span>
-        <div class="hub__tile-text">
+    <ul class="hub__available mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:gap-3 mi:m-0 mi:p-0 mi:[list-style:none] mi:@[620px]:grid-cols-2 mi:@[980px]:grid-cols-3">
+      <li v-for="app in availableShown" :key="app.id" class="hub__tile mi:grid mi:grid-cols-[auto_minmax(0,_1fr)_auto] mi:items-start mi:gap-3 mi:p-3.5 mi:rounded-lg mi:bg-card mi:shadow-1">
+        <span class="hub__mono hub__mono--sm mi:grid mi:place-items-center mi:flex-[none] mi:w-10 mi:h-10 mi:font-bold mi:text-(--tint) mi:[background:color-mix(in_srgb,_var(--tint)_13%,_var(--mi-card))] mi:shadow-[inset_0_0_0_1px_color-mix(in_srgb,_var(--tint)_20%,_transparent)] mi:w-8.5 mi:h-8.5 mi:[.is-paused_&]:[filter:grayscale(1)] mi:[.is-paused_&]:opacity-60" :style="{ '--tint': app.tint }" aria-hidden="true">{{ app.name.slice(0, 1) }}</span>
+        <div class="hub__tile-text mi:grid mi:gap-0.5 mi:min-w-0">
           <MiText as="h4" variant="subheadline" weight="semibold">{{ app.name }}</MiText>
           <MiText variant="caption" tone="label2" :lines="2">{{ app.flow }}</MiText>
         </div>
@@ -100,36 +100,13 @@ const connect = (id: string) => {
 </script>
 
 <style scoped>
-.hub { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
-.hub__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .hub__search { flex: 0 1 260px; min-width: 0; }
-.hub__chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .hub__section { margin-top: 6px; text-transform: uppercase; letter-spacing: .06em; }
 
-.hub__connected, .hub__available { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; margin: 0; padding: 0; list-style: none; }
-@container (min-width: 620px) { .hub__connected, .hub__available { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@container (min-width: 980px) { .hub__available { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-
-.hub__mono {
-  display: grid; place-items: center; flex: none; width: 40px; height: 40px; border-radius: 12px; font-size: 17px; font-weight: 700;
-  color: var(--tint); background: color-mix(in srgb, var(--tint) 13%, var(--mi-card));
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tint) 20%, transparent);
+.hub__mono { border-radius: 12px; font-size: 17px;
 }
-.hub__mono--sm { width: 34px; height: 34px; border-radius: 10px; font-size: 15px; }
-
-.hub__live { display: grid; gap: 14px; padding: 16px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.hub__live.is-warn { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--mi-red) 35%, transparent), var(--mi-sh1); }
-.hub__live-top { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 12px; }
-.hub__live-name { min-width: 0; }
-.hub__pulse { display: grid; grid-template-columns: repeat(24, minmax(0, 1fr)); align-items: end; gap: 2px; height: 44px; }
-.hub__bar { position: relative; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; }
+.hub__mono--sm { border-radius: 10px; font-size: 15px; }
 .hub__bar i, .hub__bar b { display: block; width: 100%; border-radius: 2px; transform-origin: bottom; transition: transform var(--mi-dur-4) var(--mi-spring); }
-.hub__bar i { height: 100%; background: color-mix(in srgb, var(--mi-p) 70%, transparent); }
-.hub__bar b { position: absolute; bottom: 0; height: 100%; background: var(--mi-red); }
-.is-paused .hub__bar i { background: var(--mi-fill3); }
-.is-paused .hub__mono { filter: grayscale(1); opacity: .6; }
-.hub__live-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 10px; min-height: 28px; }
-
-.hub__tile { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: start; gap: 12px; padding: 14px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.hub__tile-text { display: grid; gap: 2px; min-width: 0; }
+.hub__bar i { height: 100%; }
+.hub__bar b { height: 100%; }
 </style>

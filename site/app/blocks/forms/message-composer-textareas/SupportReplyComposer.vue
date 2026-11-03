@@ -1,9 +1,9 @@
 <template>
-  <section class="src" aria-labelledby="src-title">
-    <header class="src__head">
-      <div class="src__who">
-        <MiAvatar name="Marta Kowalski" size="sm" tone="auto" decorative />
-        <div>
+  <section class="src mi:@container/src mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="src-title">
+    <header class="src__head mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2.5">
+      <div class="src__who mi:flex mi:items-center mi:gap-2.5 mi:min-w-0 mi:flex-[1_1_240px]">
+        <MiAvatar class="mi:[.src__who>div&]:min-w-0" name="Marta Kowalski" size="sm" tone="auto" decorative />
+        <div class="mi:[.src__who>div&]:min-w-0">
           <MiText id="src-title" as="h2" variant="headline" :lines="1">Invoice shows the old VAT number</MiText>
           <MiText variant="caption" tone="label2">#48213 · Marta Kowalski · Studio plan</MiText>
         </div>
@@ -11,9 +11,9 @@
       <MiBadge :label="solved ? 'Solved' : 'Open'" :tone="solved ? 'success' : 'primary'" dot />
     </header>
 
-    <ol class="src__thread" aria-label="Conversation">
+    <ol class="src__thread mi:grid mi:gap-3.5 mi:m-0 mi:p-4 mi:[list-style:none] mi:rounded-xl mi:bg-fill4 mi:max-h-85 mi:overflow-y-auto mi:overscroll-contain" aria-label="Conversation">
       <li v-for="m in thread" :key="m.id">
-        <div v-if="m.kind === 'note'" class="src__note-msg">
+        <div v-if="m.kind === 'note'" class="src__note-msg mi:grid mi:gap-1 mi:max-w-130 mi:mx-auto mi:py-2.5 mi:px-3.5 mi:rounded-[12px] mi:[background:color-mix(in_srgb,_var(--mi-yellow)_16%,_var(--mi-card))] mi:[border:1px_dashed_color-mix(in_srgb,_var(--mi-orange)_45%,_transparent)]">
           <MiText variant="caption" weight="semibold">{{ m.author }} · internal note · {{ m.time }}</MiText>
           <MiText variant="footnote">{{ m.text }}</MiText>
         </div>
@@ -21,13 +21,13 @@
           <template #avatar><MiAvatar :name="m.author" size="xs" tone="auto" decorative /></template>
           <template #header><MiText variant="caption2" tone="label2">{{ m.author }} · {{ m.time }}</MiText></template>
           <MiBubble :variant="m.kind === 'agent' ? 'default' : 'muted'" :align="m.kind === 'agent' ? 'end' : 'start'">{{ m.text }}</MiBubble>
-          <template v-if="m.files" #footer><span class="src__att"><MiIcon :svg="clip" :size="13" />{{ m.files }}</span></template>
+          <template v-if="m.files" #footer><span class="src__att mi:inline-flex mi:items-center mi:gap-1 mi:text-[11px] mi:text-label2"><MiIcon :svg="clip" :size="13" />{{ m.files }}</span></template>
         </MiMessage>
       </li>
     </ol>
 
-    <form class="src__composer" :class="{ 'is-note': mode === 'note' }" novalidate @submit.prevent="send(false)" @keydown.enter.meta.prevent="send(false)" @keydown.enter.ctrl.prevent="send(false)">
-      <div class="src__bar">
+    <form class="src__composer mi:grid mi:gap-2.5 mi:p-3.5 mi:rounded-xl mi:bg-card mi:shadow-2 mi:[&.is-note]:[background:color-mix(in_srgb,_var(--mi-yellow)_12%,_var(--mi-card))]" :class="{ 'is-note': mode === 'note' }" novalidate @submit.prevent="send(false)" @keydown.enter.meta.prevent="send(false)" @keydown.enter.ctrl.prevent="send(false)">
+      <div class="src__bar mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-2 mi:gap-x-3">
         <MiSegmented v-model="mode" label="Message type" :options="modes" />
         <MiText variant="caption" tone="label2" :lines="1">{{ mode === 'note' ? 'Only your team sees notes' : 'To marta@kowalski.design' }}</MiText>
       </div>
@@ -38,21 +38,21 @@
         :placeholder="mode === 'note' ? 'Leave context for the next person on this ticket…' : 'Write your reply…'"
       >
         <template #block-start>
-          <div class="src__snips" role="group" aria-label="Saved replies">
-            <button v-for="s in snippets" :key="s.label" type="button" class="src__snip" @click="insert(s.text)">{{ s.label }}</button>
+          <div class="src__snips mi:flex mi:gap-1.5 mi:overflow-x-auto mi:[scrollbar-width:none] mi:py-0.5 mi:px-0" role="group" aria-label="Saved replies">
+            <button v-for="s in snippets" :key="s.label" type="button" class="src__snip mi:flex-[none] mi:py-1 mi:px-2.5 mi:border mi:border-sep mi:rounded-[999px] mi:bg-transparent mi:cursor-pointer mi:text-label2 mi:hover:text-label mi:hover:bg-fill3 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" @click="insert(s.text)">{{ s.label }}</button>
           </div>
         </template>
         <template #block-end>
-          <div class="src__tools">
-            <div class="src__left">
+          <div class="src__tools mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2 mi:w-full">
+            <div class="src__left mi:flex mi:flex-wrap mi:items-center mi:gap-1.5 mi:min-w-0">
               <MiIconButton label="Attach files" variant="plain" size="small" @click="picker?.click()">
                 <MiIcon :svg="clip" :size="18" />
               </MiIconButton>
-              <input ref="picker" type="file" multiple class="src__file" tabindex="-1" aria-hidden="true" @change="addFiles">
+              <input ref="picker" type="file" multiple class="src__file mi:hidden" tabindex="-1" aria-hidden="true" @change="addFiles">
               <MiChip v-for="(f, i) in files" :key="f" :label="f" size="small" tone="neutral" removable :remove-label="'Remove ' + f" @remove="files.splice(i, 1)" />
             </div>
-            <div class="src__right">
-              <label v-if="mode === 'reply'" class="src__solve">
+            <div class="src__right mi:flex mi:items-center mi:gap-3 mi:ms-auto">
+              <label v-if="mode === 'reply'" class="src__solve mi:inline-flex mi:items-center mi:gap-1.5 mi:text-[13px] mi:text-label2 mi:cursor-pointer">
                 <MiSwitch v-model="solveOnSend" size="compact" label="Mark solved on send" />
                 <span aria-hidden="true">Solve</span>
               </label>
@@ -65,10 +65,10 @@
       </MiInputGroup>
 
       <!-- Forgotten-attachment guard: the reply mentions a file but none is attached. -->
-      <div v-if="guard" class="src__guard" role="alert">
+      <div v-if="guard" class="src__guard mi:flex mi:flex-wrap mi:items-center mi:gap-y-2 mi:gap-x-2.5 mi:py-2.5 mi:px-3 mi:rounded-[12px] mi:text-orange-t mi:[background:color-mix(in_srgb,_var(--mi-orange)_12%,_transparent)]" role="alert">
         <MiIcon name="warning" :size="18" />
         <MiText variant="footnote">Your reply mentions an attachment, but nothing is attached.</MiText>
-        <div class="src__guard-actions">
+        <div class="src__guard-actions mi:flex mi:gap-1.5">
           <MiButton size="small" variant="gray" @click="guard = false; picker?.click()">Attach file</MiButton>
           <MiButton size="small" variant="plain" @click="send(true)">Send anyway</MiButton>
         </div>
@@ -135,43 +135,13 @@ function send(force: boolean) {
 </script>
 
 <style scoped>
-.src { container: src / inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
-.src__head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
-.src__who { display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1 1 240px; }
-.src__who > div { min-width: 0; }
-
-.src__thread { display: grid; gap: 14px; margin: 0; padding: 16px; list-style: none; border-radius: var(--mi-radius-xl); background: var(--mi-fill4); max-height: 340px; overflow-y: auto; overscroll-behavior: contain; }
-.src__note-msg {
-  display: grid; gap: 4px; max-width: 520px; margin-inline: auto; padding: 10px 14px; border-radius: 12px;
-  background: color-mix(in srgb, var(--mi-yellow) 16%, var(--mi-card)); border: 1px dashed color-mix(in srgb, var(--mi-orange) 45%, transparent);
-}
-
-.src__composer {
-  display: grid; gap: 10px; padding: 14px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh2);
-}
-/* Note mode: the composer turns into a sticky note so nobody sends a note to the customer by mistake. */
-.src__composer.is-note { background: color-mix(in srgb, var(--mi-yellow) 12%, var(--mi-card)); }
-.src__bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; }
-.src__snips { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding: 2px 0; }
 .src__snip {
-  flex: none; padding: 4px 10px; border: 1px solid var(--mi-sep); border-radius: 999px; background: transparent; cursor: pointer;
-  font: inherit; font-size: 12px; color: var(--mi-label2);
+  font: inherit; font-size: 12px;
 }
-.src__snip:hover { color: var(--mi-label); background: var(--mi-fill3); }
-.src__snip:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 1px; }
-.src__tools { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; width: 100%; }
-.src__left { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; min-width: 0; }
-.src__right { display: flex; align-items: center; gap: 12px; margin-inline-start: auto; }
-.src__solve { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--mi-label2); cursor: pointer; }
-.src__file { display: none; }
-.src__att { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; color: var(--mi-label2); }
 
-.src__guard {
-  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; padding: 10px 12px; border-radius: 12px; color: var(--mi-orange-t);
-  background: color-mix(in srgb, var(--mi-orange) 12%, transparent); animation: src-in var(--mi-dur-3) var(--mi-ease);
+.src__guard { animation: src-in var(--mi-dur-3) var(--mi-ease);
 }
 .src__guard :deep(p) { color: var(--mi-label); flex: 1 1 200px; }
-.src__guard-actions { display: flex; gap: 6px; }
 @keyframes src-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .src__guard { animation: none; } }
 </style>

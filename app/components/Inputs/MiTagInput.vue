@@ -112,39 +112,30 @@ defineExpose({ focus: () => el.value?.focus() })
   <MiFieldBox
     class="mi-tg" :invalid="isInvalid" :success="isSuccess" :disabled="isDisabled" v-bind="rootAttrs" @click.self="el?.focus()"
   >
-    <ul class="mi-tg__list" @click.self="el?.focus()">
-      <li v-for="(t, i) in model" :key="t" class="mi-tg__chip">
-        <span class="mi-tg__label">{{ t }}</span>
-        <button type="button" class="mi-tg__x" :disabled="isDisabled" :aria-label="`${removeLabel} ${t}`" @click="remove(i)" @keydown="onChipKey($event, i)">
+    <ul class="mi-tg__list mi:flex mi:flex-wrap mi:items-center mi:gap-1.5 mi:flex-1 mi:min-w-0 mi:m-0 mi:p-0 mi:[list-style:none]" @click.self="el?.focus()">
+      <li v-for="(t, i) in model" :key="t" class="mi-tg__chip mi:inline-flex mi:items-center mi:gap-0.5 mi:h-7 mi:max-w-full mi:pt-0 mi:pr-0.5 mi:pb-0 mi:pl-2.5 mi:rounded-[7px] mi:bg-p-tint mi:text-p-text mi:text-[14px] mi:font-medium">
+        <span class="mi-tg__label mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ t }}</span>
+        <button type="button" class="mi-tg__x mi:flex mi:items-center mi:justify-center mi:flex-[none] mi:w-6 mi:h-6 mi:m-0 mi:p-0 mi:[border:0] mi:rounded-[5px] mi:bg-transparent mi:text-inherit mi:cursor-pointer mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease)] mi:active:transform-[scale(.85)] mi:focus-visible:[outline:2px_solid_color-mix(in_srgb,_var(--mi-p)_70%,_transparent)] mi:focus-visible:outline-offset-[-1px]" :disabled="isDisabled" :aria-label="`${removeLabel} ${t}`" @click="remove(i)" @keydown="onChipKey($event, i)">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
         </button>
       </li>
-      <li class="mi-tg__entry">
+      <li class="mi-tg__entry mi:flex-1 mi:min-w-35 mi:flex">
         <input
-          v-bind="inputAttrs" :id="id" ref="el" v-model="text" class="mi-tg__input" type="text" autocomplete="off"
+          v-bind="inputAttrs" :id="id" ref="el" v-model="text" class="mi-tg__input mi:[outline:none]" type="text" autocomplete="off"
           :placeholder="full ? '' : placeholder" :disabled="isDisabled || full" :aria-invalid="isInvalid || undefined"
           :aria-describedby="describedBy" @keydown="onKeydown" @paste="onPaste" @blur="commit"
         >
       </li>
     </ul>
-    <span class="mi-tg__sr" role="status" aria-live="polite">{{ status }}</span>
+    <span class="mi-tg__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap" role="status" aria-live="polite">{{ status }}</span>
   </MiFieldBox>
 </template>
 
 <style scoped>
 .mi-tg { min-height: 44px; padding: 6px 8px; cursor: text; }
-.mi-tg__list { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; flex: 1; min-width: 0; margin: 0; padding: 0; list-style: none; }
-.mi-tg__chip {
-  display: inline-flex; align-items: center; gap: 2px; height: 28px; max-width: 100%; padding: 0 2px 0 10px; border-radius: 7px;
-  background: var(--mi-p-tint); color: var(--mi-p-text); font-size: 14px; font-weight: 500; animation: mi-tg-in var(--mi-dur-3) var(--mi-spring) both;
+.mi-tg__chip { animation: mi-tg-in var(--mi-dur-3) var(--mi-spring) both;
 }
-.mi-tg__label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.mi-tg__x { display: flex; align-items: center; justify-content: center; flex: none; width: 24px; height: 24px; margin: 0; padding: 0; border: 0; border-radius: 5px; background: transparent; color: inherit; cursor: pointer; transition: transform var(--mi-dur-1) var(--mi-ease); }
-.mi-tg__x:active { transform: scale(.85); }
-.mi-tg__x:focus-visible { outline: 2px solid color-mix(in srgb, var(--mi-p) 70%, transparent); outline-offset: -1px; }
-.mi-tg__entry { flex: 1; min-width: 140px; display: flex; }
-.mi-tg__input { flex: 1; min-width: 0; height: 28px; margin: 0; padding: 0; border: 0; background: transparent; color: inherit; font: inherit; font-size: 15px; letter-spacing: inherit; outline: none; }
+.mi-tg__input { flex: 1; min-width: 0; height: 28px; margin: 0; padding: 0; border: 0; background: transparent; color: inherit; font: inherit; font-size: 15px; letter-spacing: inherit; }
 .mi-tg__input::placeholder { color: var(--mi-label2); opacity: 1; }
-.mi-tg__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 @keyframes mi-tg-in { from { opacity: 0; transform: scale(.8); } to { opacity: 1; transform: none; } }
 </style>

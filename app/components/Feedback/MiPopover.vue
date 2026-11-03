@@ -171,13 +171,13 @@ defineSlots<{
 </script>
 
 <template>
-  <span v-if="$slots.trigger" ref="anchor" class="mi-pop-anchor" :class="{ 'is-inline': inline }" @click="onAnchorClick">
+  <span v-if="$slots.trigger" ref="anchor" class="mi-pop-anchor mi:[&.is-inline]:flex-col mi:[&.is-inline]:[align-items:flex-start]" :class="{ 'is-inline': inline }" @click="onAnchorClick">
     <slot name="trigger" :open="open" :toggle="toggle" :attrs="{ 'aria-haspopup': 'dialog', 'aria-expanded': open, 'aria-controls': panelId }" />
   </span>
   <Teleport to="body" :disabled="inline">
     <div
       v-if="inline || rendered"
-      class="mi mi-pop-pos"
+      class="mi mi-pop-pos mi:top-0"
       :class="{ 'is-inline': inline }"
       :style="inline ? undefined : { transform: `translate3d(${geo.x}px,${geo.y}px,0)`, zIndex: MI_OVERLAY_Z.popover }"
     >
@@ -186,7 +186,7 @@ defineSlots<{
         :id="panelId"
         ref="panel"
         v-bind="$attrs"
-        class="mi-pop"
+        class="mi-pop mi:box-border mi:max-w-[min(280px,calc(100vw_-_16px))] mi:tracking-[-.01em] mi:[outline:none] mi:opacity-0 mi:pointer-events-none mi:[&.is-in]:opacity-100 mi:[&.is-in]:pointer-events-auto"
         :class="{ 'is-in': inline || (open && ready), 'is-flush': flush }"
         :data-side="sideNow"
         role="dialog"
@@ -194,7 +194,7 @@ defineSlots<{
         tabindex="-1"
         :style="panelStyle"
       >
-        <span v-if="arrow" class="mi-pop-arrow" aria-hidden="true" />
+        <span v-if="arrow" class="mi-pop-arrow mi:absolute mi:w-3.5 mi:h-3.5 mi:rounded-[3px] mi:bg-elev mi:transform-[rotate(45deg)] mi:pointer-events-none mi:[.mi-pop[data-side=bottom]_&]:-top-1.5 mi:[.mi-pop[data-side=bottom]_&]:left-[calc(var(--mi-arrow)_-_7px)] mi:[.mi-pop[data-side=bottom]_&]:shadow-[-.5px_-.5px_0_.5px_var(--mi-mat-b),-2px_-2px_5px_var(--mi-mat-b)] mi:[.mi-pop[data-side=bottom]_&]:[clip-path:polygon(-50%_-50%,150%_-50%,-50%_150%)] mi:[.mi-pop[data-side=top]_&]:-bottom-1.5 mi:[.mi-pop[data-side=left]_&]:-right-1.5" aria-hidden="true" />
         <slot />
       </div>
     </div>
@@ -203,19 +203,15 @@ defineSlots<{
 
 <style scoped>
 .mi-pop-anchor{display:inline-flex}
-.mi-pop-anchor.is-inline{display:flex;flex-direction:column;align-items:flex-start}
-.mi-pop-pos{position:fixed;left:0;top:0;font-family:var(--mi-font)}
+.mi-pop-anchor.is-inline{display:flex}
+.mi-pop-pos{position:fixed;left:0;font-family:var(--mi-font)}
 .mi-pop-pos.is-inline{position:static;display:block}
-.mi-pop{position:relative;box-sizing:border-box;min-width:120px;max-width:min(280px,calc(100vw - 16px));padding:16px;border-radius:14px;background:var(--mi-elev);box-shadow:var(--mi-sh3),0 0 0 .5px var(--mi-mat-b);color:var(--mi-label);letter-spacing:-.01em;outline:none;opacity:0;transform:scale(.94);pointer-events:none}
+.mi-pop{position:relative;min-width:120px;padding:16px;border-radius:14px;background:var(--mi-elev);box-shadow:var(--mi-sh3),0 0 0 .5px var(--mi-mat-b);color:var(--mi-label);transform:scale(.94)}
 .mi-pop.is-flush{padding:0}
-.mi-pop.is-in{opacity:1;transform:none;pointer-events:auto;transition:transform var(--mi-dur-3) var(--mi-spring),opacity var(--mi-dur-2) var(--mi-ease)}
+.mi-pop.is-in{transform:none;transition:transform var(--mi-dur-3) var(--mi-spring),opacity var(--mi-dur-2) var(--mi-ease)}
 .mi-pop:not(.is-in){transition:transform var(--mi-dur-2) var(--mi-ease),opacity var(--mi-dur-1) var(--mi-ease)}
-.mi-pop-arrow{position:absolute;width:14px;height:14px;border-radius:3px;background:var(--mi-elev);transform:rotate(45deg);pointer-events:none}
-/* The panel shadow falls downward, so the arrow carries its own hairline and a short shadow to stay visible on light pages;
-   clip-path keeps only its outer half so no edge shows over the panel. */
-.mi-pop[data-side=bottom] .mi-pop-arrow{top:-6px;left:calc(var(--mi-arrow) - 7px);box-shadow:-.5px -.5px 0 .5px var(--mi-mat-b),-2px -2px 5px var(--mi-mat-b);clip-path:polygon(-50% -50%,150% -50%,-50% 150%)}
-.mi-pop[data-side=top] .mi-pop-arrow{bottom:-6px;left:calc(var(--mi-arrow) - 7px);box-shadow:.5px .5px 0 .5px var(--mi-mat-b),2px 2px 5px var(--mi-mat-b);clip-path:polygon(150% 150%,-50% 150%,150% -50%)}
+.mi-pop[data-side=top] .mi-pop-arrow{left:calc(var(--mi-arrow) - 7px);box-shadow:.5px .5px 0 .5px var(--mi-mat-b),2px 2px 5px var(--mi-mat-b);clip-path:polygon(150% 150%,-50% 150%,150% -50%)}
 .mi-pop[data-side=right] .mi-pop-arrow{left:-6px;top:calc(var(--mi-arrow) - 7px);box-shadow:-.5px .5px 0 .5px var(--mi-mat-b),-2px 2px 5px var(--mi-mat-b);clip-path:polygon(-50% 150%,-50% -50%,150% 150%)}
-.mi-pop[data-side=left] .mi-pop-arrow{right:-6px;top:calc(var(--mi-arrow) - 7px);box-shadow:.5px -.5px 0 .5px var(--mi-mat-b),2px -2px 5px var(--mi-mat-b);clip-path:polygon(150% -50%,150% 150%,-50% -50%)}
+.mi-pop[data-side=left] .mi-pop-arrow{top:calc(var(--mi-arrow) - 7px);box-shadow:.5px -.5px 0 .5px var(--mi-mat-b),2px -2px 5px var(--mi-mat-b);clip-path:polygon(150% -50%,150% 150%,-50% -50%)}
 .mi-pop-pos.is-inline .mi-pop{margin-top:6px}
 </style>

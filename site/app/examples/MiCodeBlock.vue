@@ -14,7 +14,7 @@ const source = `export function clamp(n: number, min: number, max: number) {
 </script>
 
 <template>
-  <div class="ex">
+  <div class="ex mi:w-[min(100%,_560px)]">
     <MiCodeBlock v-bind="p">
       <MiCodeBlockHeader>
         <MiCodeBlockTitle>math.ts</MiCodeBlockTitle>
@@ -32,5 +32,5 @@ const source = `export function clamp(n: number, min: number, max: number) {
 </template>
 
 <style scoped>
-.ex { width: min(100%, 560px); margin-inline: auto; }
+.ex { margin-inline: auto; }
 </style>

@@ -1,19 +1,19 @@
 <template>
-  <main class="bx wrap">
-    <header class="bx__head">
-      <p class="eyebrow">{{ t('blocks.eyebrow') }}</p>
-      <h1 class="bx__title">{{ t('blocks.title') }}</h1>
-      <p class="bx__lead">{{ t('blocks.lead') }}</p>
-      <dl class="bx__stats">
-        <div><dt>{{ t('blocks.statBlocks') }}</dt><dd>{{ total }}</dd></div>
-        <div><dt>{{ t('blocks.statCategories') }}</dt><dd>{{ categories }}</dd></div>
-        <div><dt>{{ t('blocks.statFamilies') }}</dt><dd>{{ families.length }}</dd></div>
+  <main class="bx wrap mi:max-w-306 mi:my-0 mi:mx-auto mi:py-0 mi:px-3 mi:box-border mi:pt-[clamp(40px,_7vw,_88px)] mi:pb-24">
+    <header class="bx__head mi:grid mi:gap-3 mi:max-w-190">
+      <p class="eyebrow mi:m-0 mi:text-[14px] mi:font-semibold mi:text-p-text">{{ t('blocks.eyebrow') }}</p>
+      <h1 class="bx__title mi:m-0 mi:text-[clamp(40px,_6vw,_72px)] mi:leading-none mi:tracking-[-.05em] mi:font-bold">{{ t('blocks.title') }}</h1>
+      <p class="bx__lead mi:m-0 mi:text-[clamp(16px,_1.5vw,_19px)] mi:leading-[1.55] mi:text-label2 mi:max-w-[60ch]">{{ t('blocks.lead') }}</p>
+      <dl class="bx__stats mi:flex mi:flex-wrap mi:gap-y-2 mi:gap-x-7 mi:mt-2.5 mi:mx-0 mi:mb-0">
+        <div class="mi:[.bx__stats_&]:grid mi:[.bx__stats_&]:gap-0.5"><dt class="mi:[.bx__stats_&]:order-2">{{ t('blocks.statBlocks') }}</dt><dd class="mi:[.bx__stats_&]:m-0 mi:[.bx__stats_&]:tracking-[-.03em]">{{ total }}</dd></div>
+        <div class="mi:[.bx__stats_&]:grid mi:[.bx__stats_&]:gap-0.5"><dt class="mi:[.bx__stats_&]:order-2">{{ t('blocks.statCategories') }}</dt><dd class="mi:[.bx__stats_&]:m-0 mi:[.bx__stats_&]:tracking-[-.03em]">{{ categories }}</dd></div>
+        <div class="mi:[.bx__stats_&]:grid mi:[.bx__stats_&]:gap-0.5"><dt class="mi:[.bx__stats_&]:order-2">{{ t('blocks.statFamilies') }}</dt><dd class="mi:[.bx__stats_&]:m-0 mi:[.bx__stats_&]:tracking-[-.03em]">{{ families.length }}</dd></div>
       </dl>
     </header>
 
-    <div class="bx__tools">
+    <div class="bx__tools mi:sticky mi:top-18 mi:z-5 mi:grid mi:gap-3 mi:mt-9 mi:-mx-3 mi:mb-0 mi:p-3 mi:rounded-[18px] mi:bg-mat mi:shadow-[0_0_0_.5px_var(--mi-mat-b)] mi:min-[900px]:grid-cols-[300px_1fr] mi:min-[900px]:items-center">
       <MiSearch v-model="q" :placeholder="t('blocks.search')" :aria-label="t('blocks.search')" hotkey="k" :cancelable="false" class="bx__search" />
-      <div class="bx__chips" role="group" :aria-label="t('blocks.family')">
+      <div class="bx__chips mi:flex mi:gap-1.5 mi:overflow-x-auto mi:[scrollbar-width:none] mi:p-0.5" role="group" :aria-label="t('blocks.family')">
         <MiChip :model-value="fam === ''" selectable tone="neutral" :label="t('blocks.all')" @update:model-value="fam = ''" />
         <MiChip
           v-for="f in families" :key="f.id" :model-value="fam === f.id" selectable tone="neutral" :label="f.title[lang]"
@@ -22,18 +22,18 @@
       </div>
     </div>
 
-    <section v-for="f in visible" :id="f.id" :key="f.id" class="bx__family" :aria-labelledby="'f-' + f.id">
-      <div class="bx__fhead">
-        <h2 :id="'f-' + f.id" class="bx__ftitle">{{ f.title[lang] }} <span>{{ f.cats.length }}</span></h2>
-        <p class="bx__fsum">{{ f.summary[lang] }}</p>
+    <section v-for="f in visible" :id="f.id" :key="f.id" class="bx__family mi:pt-12 mi:[scroll-margin-top:150px]" :aria-labelledby="'f-' + f.id">
+      <div class="bx__fhead mi:grid mi:gap-1 mi:mb-4">
+        <h2 :id="'f-' + f.id" class="bx__ftitle mi:flex mi:items-baseline mi:gap-2.5 mi:m-0 mi:text-[24px] mi:tracking-[-.025em]">{{ f.title[lang] }} <span>{{ f.cats.length }}</span></h2>
+        <p class="bx__fsum mi:m-0 mi:text-[14px] mi:text-label2">{{ f.summary[lang] }}</p>
       </div>
-      <ul class="bx__grid">
+      <ul class="bx__grid mi:grid mi:gap-3.5 mi:grid-cols-[repeat(auto-fill,_minmax(min(100%,_280px),_1fr))] mi:[list-style:none] mi:m-0 mi:p-0">
         <li v-for="x in f.cats" :key="x.id">
-          <NuxtLink :to="localePath(`/blocks/${x.owner.family}/${x.owner.category}`)" class="card">
+          <NuxtLink :to="localePath(`/blocks/${x.owner.family}/${x.owner.category}`)" class="card mi:grid mi:gap-3 mi:pt-2.5 mi:px-2.5 mi:pb-3.5 mi:rounded-[20px] mi:bg-card mi:shadow-[0_0_0_1px_var(--mi-sep)] mi:text-inherit mi:[text-decoration:none] mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:hover:transform-[translate3d(0,_-3px,_0)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:motion-reduce:hover:transform-none">
             <BlockThumb :family="x.owner.family" :category="x.owner.category" :file="x.blocks[0]?.file" />
-            <span class="card__row">
-              <span class="card__title">{{ x.title[lang] }}</span>
-              <span class="card__n">{{ t('blocks.n', { n: x.blocks.length }, x.blocks.length) }}</span>
+            <span class="card__row mi:flex mi:items-baseline mi:justify-between mi:gap-2.5 mi:py-0 mi:px-1.5">
+              <span class="card__title mi:text-[15px] mi:font-semibold mi:tracking-[-.01em]">{{ x.title[lang] }}</span>
+              <span class="card__n mi:text-[12px] mi:text-label3 mi:tabular-nums">{{ t('blocks.n', { n: x.blocks.length }, x.blocks.length) }}</span>
             </span>
           </NuxtLink>
         </li>
@@ -78,32 +78,13 @@ useSiteSeo(() => `${t('blocks.title')} · Mica`, () => t('blocks.lead'))
 </script>
 
 <style scoped>
-.wrap { max-width: 1224px; margin: 0 auto; padding: 0 12px; box-sizing: border-box; }
-.bx { padding-top: clamp(40px, 7vw, 88px); padding-bottom: 96px; }
-.bx__head { display: grid; gap: 12px; max-width: 760px; animation: bx-in var(--mi-dur-4) var(--mi-ease) backwards; }
-.eyebrow { margin: 0; font-size: 14px; font-weight: 600; color: var(--mi-p-text); }
-.bx__title { margin: 0; font-size: clamp(40px, 6vw, 72px); line-height: 1; letter-spacing: -.05em; font-weight: 700; }
-.bx__lead { margin: 0; font-size: clamp(16px, 1.5vw, 19px); line-height: 1.55; color: var(--mi-label2); max-width: 60ch; }
-.bx__stats { display: flex; flex-wrap: wrap; gap: 8px 28px; margin: 10px 0 0; }
-.bx__stats div { display: grid; gap: 2px; }
-.bx__stats dt { order: 2; font-size: 13px; color: var(--mi-label2); }
-.bx__stats dd { margin: 0; font-size: 28px; font-weight: 700; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
-.bx__tools { position: sticky; top: 72px; z-index: 5; display: grid; gap: 12px; margin: 36px -12px 0; padding: 12px; border-radius: 18px; background: var(--mi-mat); box-shadow: 0 0 0 .5px var(--mi-mat-b); -webkit-backdrop-filter: blur(20px) saturate(180%); backdrop-filter: blur(20px) saturate(180%); }
-@media (min-width: 900px) { .bx__tools { grid-template-columns: 300px 1fr; align-items: center; } }
-.bx__chips { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding: 2px; }
+.bx__head { animation: bx-in var(--mi-dur-4) var(--mi-ease) backwards; }
+.bx__stats dt { font-size: 13px; color: var(--mi-label2); }
+.bx__stats dd { font-size: 28px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.bx__tools { -webkit-backdrop-filter: blur(20px) saturate(180%); backdrop-filter: blur(20px) saturate(180%); }
 .bx__chips > * { flex: none; }
-.bx__family { padding-top: 48px; scroll-margin-top: 150px; }
-.bx__fhead { display: grid; gap: 4px; margin-bottom: 16px; }
-.bx__ftitle { display: flex; align-items: baseline; gap: 10px; margin: 0; font-size: 24px; letter-spacing: -.025em; }
 .bx__ftitle span { font-size: 13px; font-weight: 600; color: var(--mi-label3); font-variant-numeric: tabular-nums; }
-.bx__fsum { margin: 0; font-size: 14px; color: var(--mi-label2); }
-.bx__grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); list-style: none; margin: 0; padding: 0; }
-.card { display: grid; gap: 12px; padding: 10px 10px 14px; border-radius: 20px; background: var(--mi-card); box-shadow: 0 0 0 1px var(--mi-sep); color: inherit; text-decoration: none; transition: transform var(--mi-dur-2) var(--mi-ease); }
-.card:hover { transform: translate3d(0, -3px, 0); }
-.card:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-.card__row { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; padding: 0 6px; }
-.card__title { font-size: 15px; font-weight: 600; letter-spacing: -.01em; }
-.card__n { flex: none; font-size: 12px; color: var(--mi-label3); font-variant-numeric: tabular-nums; }
+.card__n { flex: none; }
 @keyframes bx-in { from { opacity: 0; transform: translate3d(0, 14px, 0); } }
-@media (prefers-reduced-motion: reduce) { .bx__head { animation: none; } .card:hover { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .bx__head { animation: none; } }
 </style>

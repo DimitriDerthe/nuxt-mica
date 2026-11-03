@@ -24,7 +24,7 @@ const sections = (props.p.items as { id: string, label: string }[])
 </script>
 
 <template>
-  <div class="ex-ss">
+  <div class="ex-ss mi:grid-cols-[160px_minmax(0,_1fr)] mi:w-[min(100%,_560px)]">
     <MiScrollspy v-model:active="active" v-bind="p" class="ex-ss__nav" />
     <div class="ex-ss__body">
       <section v-for="s in sections" :id="s.id" :key="s.id">
@@ -36,7 +36,7 @@ const sections = (props.p.items as { id: string, label: string }[])
 </template>
 
 <style scoped>
-.ex-ss { display: grid; grid-template-columns: 160px minmax(0, 1fr); gap: 16px; width: min(100%, 560px); }
+.ex-ss { display: grid; gap: 16px; }
 .ex-ss__nav { align-self: start; position: sticky; top: 0; }
 .ex-ss section { display: grid; gap: 6px; min-height: 180px; padding-bottom: 24px; }
 </style>

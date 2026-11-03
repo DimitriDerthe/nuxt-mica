@@ -27,7 +27,7 @@ const stepped = computed(() => !!props.name && miSteppedIcons.includes(props.nam
 <template>
   <svg
     class="mi-icon"
-    :class="{ 'mi-icon--spin': spin, 'mi-icon--steps': spin && stepped }"
+    :class="{ 'mi-icon--spin mi:will-change-transform': spin, 'mi-icon--steps': spin && stepped }"
     viewBox="0 0 24 24"
     :width="size"
     :height="size"
@@ -46,7 +46,7 @@ const stepped = computed(() => !!props.name && miSteppedIcons.includes(props.nam
 
 <style scoped>
 .mi-icon{display:inline-block;flex:none;vertical-align:middle;overflow:visible}
-.mi-icon--spin{animation:mi-icon-spin .8s linear infinite;will-change:transform;transform-origin:50% 50%}
+.mi-icon--spin{animation:mi-icon-spin .8s linear infinite;transform-origin:50% 50%}
 .mi-icon--steps{animation-timing-function:steps(8,end)}
 @keyframes mi-icon-spin{to{transform:rotate(360deg)}}
 </style>

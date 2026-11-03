@@ -1,6 +1,6 @@
 <template>
-  <section class="el" aria-labelledby="el-title">
-    <header class="el__head">
+  <section class="el mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="el-title">
+    <header class="el__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="el-title" variant="title3" as="h2" weight="semibold">Edge latency</MiText>
         <MiText variant="footnote" tone="label2">p95 response time per region · SLO {{ SLO }} ms</MiText>
@@ -8,65 +8,65 @@
       <MiSegmented v-model="windowId" label="Time window" :options="windows" />
     </header>
 
-    <div class="el__summary">
-      <div class="el__fleet">
+    <div class="el__summary mi:grid mi:gap-3 mi:grid-cols-[minmax(0,_1fr)] mi:@[640px]:grid-cols-[minmax(0,_1.4fr)_minmax(0,_1fr)]">
+      <div class="el__fleet mi:rounded-lg mi:bg-card mi:shadow-1 mi:grid mi:gap-1.5 mi:py-4 mi:px-4.5">
         <MiText variant="caption" tone="label2" weight="medium">Fleet p95, {{ win.label }}</MiText>
-        <div class="el__fleet-row">
-          <p class="el__big">{{ fleetNow }}<small> ms</small></p>
+        <div class="el__fleet-row mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-2.5">
+          <p class="el__big mi:m-0 mi:text-[36px] mi:leading-none mi:font-bold mi:tracking-[-.04em] mi:tabular-nums">{{ fleetNow }}<small> ms</small></p>
           <MiSparkline :key="'fleet-' + String(windowId)" :values="fleet" :width="140" :height="40" stroke="var(--mi-p)" label="Fleet p95 trend" />
         </div>
       </div>
-      <dl class="el__facts">
-        <div><dt>Requests</dt><dd>{{ totalRps }}<small>/s</small></dd></div>
-        <div><dt>Degraded</dt><dd :class="{ 'is-warn': degradedCount > 0 }">{{ degradedCount }}<small> of {{ regions.length }}</small></dd></div>
+      <dl class="el__facts mi:rounded-lg mi:bg-card mi:shadow-1 mi:grid mi:grid-cols-[1fr_1fr] mi:m-0">
+        <div class="mi:[.el__facts>&]:grid mi:[.el__facts>&]:content-center mi:[.el__facts>&]:gap-1 mi:[.el__facts>&]:py-3.5 mi:[.el__facts>&]:px-4.5"><dt>Requests</dt><dd class="mi:[.el__facts_&]:m-0 mi:[.el__facts_&]:tabular-nums">{{ totalRps }}<small>/s</small></dd></div>
+        <div class="mi:[.el__facts>&]:grid mi:[.el__facts>&]:content-center mi:[.el__facts>&]:gap-1 mi:[.el__facts>&]:py-3.5 mi:[.el__facts>&]:px-4.5"><dt>Degraded</dt><dd class="mi:[.el__facts_&]:m-0 mi:[.el__facts_&]:tabular-nums" :class="{ 'is-warn': degradedCount > 0 }">{{ degradedCount }}<small> of {{ regions.length }}</small></dd></div>
       </dl>
     </div>
 
-    <div class="el__tools">
+    <div class="el__tools mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3 mi:items-center">
       <MiSegmented v-model="sort" label="Sort regions" :options="sorts" />
-      <div class="el__switch">
+      <div class="el__switch mi:inline-flex mi:items-center mi:gap-2">
         <MiSwitch v-model="onlyDegraded" size="compact" label="Show degraded regions only" />
         <MiText variant="footnote" as="span" aria-hidden="true">Degraded only</MiText>
       </div>
     </div>
 
-    <div class="el__table" role="table" aria-label="Regions">
-      <div class="el__row el__row--head" role="row">
-        <span role="columnheader">Region</span>
-        <span role="columnheader">Trend</span>
-        <span role="columnheader">p95</span>
-        <span role="columnheader">SLO headroom</span>
-        <span role="columnheader">Errors</span>
+    <div class="el__table mi:rounded-xl mi:bg-card mi:shadow-1 mi:overflow-hidden" role="table" aria-label="Regions">
+      <div class="el__row el__row--head mi:grid mi:items-center mi:gap-y-1.5 mi:gap-x-3 mi:py-3 mi:px-4 mi:border-t mi:border-t-sep mi:grid-cols-[minmax(0,_1fr)_auto] mi:[grid-template-areas:'region_p95'_'spark_headroom'_'spark_err'] mi:hidden mi:[.el__rows>&:first-child]:[border-top:0] mi:@[720px]:[grid-template-areas:none] mi:@[720px]:gap-4 mi:@[720px]:grid-cols-[minmax(0,_1.5fr)_120px_100px_minmax(110px,_1fr)_64px] mi:@[720px]:grid mi:@[720px]:py-2.5 mi:@[720px]:bg-fill4 mi:@[720px]:text-[12px] mi:@[720px]:font-semibold mi:@[720px]:text-label2 mi:@[720px]:[.el__row--head+.el__rows>&:first-child]:border-t mi:@[720px]:[.el__row--head+.el__rows>&:first-child]:border-t-sep" role="row">
+        <span class="mi:@[720px]:[.el__row>&]:[grid-area:auto]" role="columnheader">Region</span>
+        <span class="mi:@[720px]:[.el__row>&]:[grid-area:auto]" role="columnheader">Trend</span>
+        <span class="mi:@[720px]:[.el__row>&]:[grid-area:auto]" role="columnheader">p95</span>
+        <span class="mi:@[720px]:[.el__row>&]:[grid-area:auto]" role="columnheader">SLO headroom</span>
+        <span class="mi:@[720px]:[.el__row>&]:[grid-area:auto]" role="columnheader">Errors</span>
       </div>
-      <TransitionGroup name="el-row" tag="div" role="rowgroup" class="el__rows">
-        <div v-for="r in rows" :key="r.code" class="el__row" :class="{ 'is-degraded': r.degraded }" role="row">
-          <span class="el__region" role="cell">
-            <i class="el__dot" aria-hidden="true" />
-            <span class="el__name">{{ r.city }}</span>
-            <span class="el__code">{{ r.code }}</span>
-            <span class="el__sr">{{ r.degraded ? 'degraded' : 'healthy' }}</span>
+      <TransitionGroup name="el-row" tag="div" role="rowgroup" class="el__rows mi:relative mi:grid">
+        <div v-for="r in rows" :key="r.code" class="el__row mi:grid mi:items-center mi:gap-y-1.5 mi:gap-x-3 mi:py-3 mi:px-4 mi:border-t mi:border-t-sep mi:grid-cols-[minmax(0,_1fr)_auto] mi:[grid-template-areas:'region_p95'_'spark_headroom'_'spark_err'] mi:[.el__rows>&:first-child]:[border-top:0] mi:@[720px]:[grid-template-areas:none] mi:@[720px]:gap-4 mi:@[720px]:grid-cols-[minmax(0,_1.5fr)_120px_100px_minmax(110px,_1fr)_64px] mi:@[720px]:[.el__row--head+.el__rows>&:first-child]:border-t mi:@[720px]:[.el__row--head+.el__rows>&:first-child]:border-t-sep" :class="{ 'is-degraded': r.degraded }" role="row">
+          <span class="el__region mi:[grid-area:region] mi:flex mi:items-center mi:gap-2 mi:min-w-0 mi:@[720px]:[.el__row>&]:[grid-area:auto]" role="cell">
+            <i class="el__dot mi:flex-[none] mi:w-2 mi:h-2 mi:rounded-[50%] mi:bg-green mi:[.is-degraded_&]:bg-orange mi:[.is-degraded_&]:shadow-[0_0_0_3px_color-mix(in_srgb,_var(--mi-orange)_22%,_transparent)]" aria-hidden="true" />
+            <span class="el__name mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:text-[15px] mi:font-semibold">{{ r.city }}</span>
+            <span class="el__code mi:flex-[none] mi:py-px mi:px-1.5 mi:rounded-[6px] mi:bg-fill4 mi:[font:600_11px/1.5_ui-monospace,_SFMono-Regular,_Menlo,_monospace] mi:text-label2">{{ r.code }}</span>
+            <span class="el__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">{{ r.degraded ? 'degraded' : 'healthy' }}</span>
           </span>
-          <span class="el__spark" role="cell">
+          <span class="el__spark mi:[grid-area:spark] mi:flex mi:@[720px]:[.el__row>&]:[grid-area:auto]" role="cell">
             <MiSparkline
               :key="r.code + String(windowId)" :values="r.series" :width="112" :height="28"
               :stroke="r.degraded ? 'var(--mi-orange)' : undefined" :color="r.degraded ? 'var(--mi-orange)' : 'var(--mi-p)'"
               :label="`${r.city} p95 trend, ${r.series[0]} to ${r.now} ms`"
             />
           </span>
-          <span class="el__p95" role="cell">
+          <span class="el__p95 mi:[grid-area:p95] mi:justify-self-end mi:text-[13px] mi:text-label2 mi:tabular-nums mi:whitespace-nowrap mi:@[720px]:[.el__row>&]:[grid-area:auto] mi:@[720px]:justify-self-end" role="cell">
             <b>{{ r.now }}</b> ms
-            <small :class="r.delta > 0 ? 'is-worse' : 'is-better'">{{ r.delta > 0 ? '+' : '' }}{{ r.delta }}</small>
+            <small class="mi:[.el__p95_&]:ml-1.5" :class="r.delta > 0 ? 'is-worse' : 'is-better'">{{ r.delta > 0 ? '+' : '' }}{{ r.delta }}</small>
           </span>
-          <span class="el__headroom" role="cell">
-            <span class="el__track" role="meter" :aria-label="`${r.city} share of SLO used`" :aria-valuenow="r.used" aria-valuemin="0" aria-valuemax="100">
-              <span :class="r.used >= 100 ? 'is-breach' : r.used >= 80 ? 'is-warn' : ''" :style="{ transform: `scaleX(${Math.min(r.used, 100) / 100})` }" />
+          <span class="el__headroom mi:[grid-area:headroom] mi:grid mi:gap-1 mi:justify-items-end mi:w-30 mi:justify-self-end mi:@[720px]:[.el__row>&]:[grid-area:auto] mi:@[720px]:w-auto mi:@[720px]:justify-self-stretch mi:@[720px]:justify-items-start" role="cell">
+            <span class="el__track mi:block mi:w-full mi:h-1.5 mi:rounded-[3px] mi:bg-fill3 mi:overflow-hidden" role="meter" :aria-label="`${r.city} share of SLO used`" :aria-valuenow="r.used" aria-valuemin="0" aria-valuemax="100">
+              <span class="mi:[.el__track_&]:block mi:[.el__track_&]:h-full mi:[.el__track_&]:rounded-[inherit] mi:[.el__track_&]:bg-green mi:[.el__track_&]:origin-left mi:[.el__track_&]:[transition:transform_var(--mi-dur-4)_var(--mi-spring)] mi:motion-reduce:[.el__track_&]:[transition:none]" :class="r.used >= 100 ? 'is-breach' : r.used >= 80 ? 'is-warn' : ''" :style="{ transform: `scaleX(${Math.min(r.used, 100) / 100})` }" />
             </span>
-            <small>{{ r.used >= 100 ? 'Breach' : (100 - r.used) + '% left' }}</small>
+            <small class="mi:[.el__headroom_&]:tabular-nums">{{ r.used >= 100 ? 'Breach' : (100 - r.used) + '% left' }}</small>
           </span>
-          <span class="el__err" role="cell" :class="{ 'is-warn': r.errors >= ERR_LIMIT }">{{ r.errors.toFixed(2) }}%</span>
+          <span class="el__err mi:[grid-area:err] mi:justify-self-end mi:text-[12px] mi:text-label2 mi:tabular-nums mi:@[720px]:[.el__row>&]:[grid-area:auto] mi:@[720px]:justify-self-end mi:[&.is-warn]:text-red-t mi:[&.is-warn]:font-semibold" role="cell" :class="{ 'is-warn': r.errors >= ERR_LIMIT }">{{ r.errors.toFixed(2) }}%</span>
         </div>
       </TransitionGroup>
-      <p v-if="!rows.length" class="el__empty">Every region is inside its SLO for {{ win.label }}.</p>
+      <p v-if="!rows.length" class="el__empty mi:m-0 mi:py-6 mi:px-4 mi:text-center mi:text-[14px] mi:text-label2">Every region is inside its SLO for {{ win.label }}.</p>
     </div>
   </section>
 </template>
@@ -133,73 +133,23 @@ const degradedCount = computed(() => regions.value.filter(r => r.degraded).lengt
 </script>
 
 <style scoped>
-.el { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
-.el__head, .el__tools { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.el__tools { align-items: center; }
-.el__switch { display: inline-flex; align-items: center; gap: 8px; }
-.el__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-
-.el__summary { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); }
-@container (min-width: 640px) { .el__summary { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); } }
-.el__fleet, .el__facts { border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.el__fleet { display: grid; gap: 6px; padding: 16px 18px; }
-.el__fleet-row { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 10px; }
-.el__big { margin: 0; font-size: 36px; line-height: 1; font-weight: 700; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
 .el__big small, .el__facts small { font-size: 14px; font-weight: 500; letter-spacing: 0; color: var(--mi-label2); }
-.el__facts { display: grid; grid-template-columns: 1fr 1fr; margin: 0; }
-.el__facts > div { display: grid; align-content: center; gap: 4px; padding: 14px 18px; }
 .el__facts > div + div { border-left: 1px solid var(--mi-sep); }
 .el__facts dt { font-size: 12px; font-weight: 500; color: var(--mi-label2); }
-.el__facts dd { margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.el__facts dd { font-size: 24px; font-weight: 700; letter-spacing: -.03em; }
 .el__facts dd.is-warn { color: var(--mi-orange-t); }
-
-.el__table { border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); overflow: hidden; }
-.el__rows { position: relative; display: grid; }
-/* Narrow: two lines per region. Wide: one aligned row with every column. */
-.el__row {
-  display: grid; align-items: center; gap: 6px 12px; padding: 12px 16px; border-top: 1px solid var(--mi-sep);
-  grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "region p95" "spark headroom" "spark err";
-}
-.el__row--head { display: none; }
-.el__rows > .el__row:first-child { border-top: 0; }
-.el__region { grid-area: region; display: flex; align-items: center; gap: 8px; min-width: 0; }
-.el__spark { grid-area: spark; display: flex; }
-.el__p95 { grid-area: p95; justify-self: end; font-size: 13px; color: var(--mi-label2); font-variant-numeric: tabular-nums; white-space: nowrap; }
-.el__headroom { grid-area: headroom; display: grid; gap: 4px; justify-items: end; width: 120px; justify-self: end; }
-.el__err { grid-area: err; justify-self: end; font-size: 12px; color: var(--mi-label2); font-variant-numeric: tabular-nums; }
-
-@container (min-width: 720px) {
-  .el__row {
-    grid-template-areas: none; gap: 16px;
-    grid-template-columns: minmax(0, 1.5fr) 120px 100px minmax(110px, 1fr) 64px;
-  }
-  .el__row > * { grid-area: auto; }
-  .el__row--head { display: grid; padding-block: 10px; background: var(--mi-fill4); font-size: 12px; font-weight: 600; color: var(--mi-label2); }
-  .el__row--head + .el__rows > .el__row:first-child { border-top: 1px solid var(--mi-sep); }
-  .el__p95, .el__err { justify-self: end; }
-  .el__headroom { width: auto; justify-self: stretch; justify-items: start; }
-}
-
-.el__dot { flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--mi-green); }
-.is-degraded .el__dot { background: var(--mi-orange); box-shadow: 0 0 0 3px color-mix(in srgb, var(--mi-orange) 22%, transparent); }
-.el__name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 15px; font-weight: 600; }
-.el__code { flex: none; padding: 1px 6px; border-radius: 6px; background: var(--mi-fill4); font: 600 11px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--mi-label2); }
 .el__p95 b { font-size: 15px; font-weight: 700; color: var(--mi-label); }
-.el__p95 small { margin-left: 6px; font-size: 11px; font-weight: 600; }
+.el__p95 small { font-size: 11px; font-weight: 600; }
 .el__p95 small.is-worse { color: var(--mi-orange-t); }
 .el__p95 small.is-better { color: var(--mi-green-t); }
-.el__track { display: block; width: 100%; height: 6px; border-radius: 3px; background: var(--mi-fill3); overflow: hidden; }
-.el__track span { display: block; height: 100%; border-radius: inherit; background: var(--mi-green); transform-origin: left; transition: transform var(--mi-dur-4) var(--mi-spring); }
 .el__track span.is-warn { background: var(--mi-orange); }
 .el__track span.is-breach { background: var(--mi-red); }
-.el__headroom small { font-size: 11px; color: var(--mi-label2); font-variant-numeric: tabular-nums; }
-.el__err.is-warn { color: var(--mi-red-t); font-weight: 600; }
-.el__empty { margin: 0; padding: 24px 16px; text-align: center; font-size: 14px; color: var(--mi-label2); }
+.el__headroom small { font-size: 11px; color: var(--mi-label2); }
 
 /* Re-sorting slides rows into place with transform only. */
 .el-row-move { transition: transform var(--mi-dur-4) var(--mi-spring); }
 .el-row-enter-active, .el-row-leave-active { transition: opacity var(--mi-dur-2) var(--mi-ease); }
 .el-row-enter-from, .el-row-leave-to { opacity: 0; }
 .el-row-leave-active { position: absolute; inset-inline: 0; }
-@media (prefers-reduced-motion: reduce) { .el-row-move, .el__track span { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .el-row-move { transition: none; } }
 </style>

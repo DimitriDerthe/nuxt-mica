@@ -1,48 +1,48 @@
 <template>
-  <section class="bv" aria-labelledby="bv-title">
-    <header class="bv__head">
+  <section class="bv mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="bv-title">
+    <header class="bv__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="bv-title" variant="title3" as="h2" weight="semibold">Spend against plan</MiText>
         <MiText variant="footnote" tone="label2">Operating budget by department · {{ quarterLabel }} FY25, USD</MiText>
       </div>
-      <div class="bv__controls">
+      <div class="bv__controls mi:flex mi:flex-wrap mi:gap-2">
         <MiSegmented v-model="quarter" label="Quarter" :options="quarters" />
         <MiSegmented v-model="sort" label="Sort departments by" :options="sorts" />
       </div>
     </header>
 
-    <div class="bv__body">
-      <div class="bv__chart">
-        <div class="bv__axis" aria-hidden="true">
-          <span>Under plan</span>
-          <span>Over plan</span>
+    <div class="bv__body mi:grid mi:gap-3 mi:grid-cols-[minmax(0,_1fr)] mi:@[820px]:grid-cols-[minmax(0,_1fr)_300px]">
+      <div class="bv__chart mi:grid mi:gap-1.5 mi:content-start mi:min-w-0 mi:p-4.5 mi:rounded-xl mi:bg-card mi:shadow-1">
+        <div class="bv__axis mi:grid mi:grid-cols-[1fr_1fr] mi:py-0 mi:px-2.5 mi:text-[11px] mi:font-semibold mi:tracking-[.04em] mi:uppercase mi:text-label3" aria-hidden="true">
+          <span class="mi:[.bv__axis_&:last-child]:text-end">Under plan</span>
+          <span class="mi:[.bv__axis_&:last-child]:text-end">Over plan</span>
         </div>
         <!-- Diverging bars: each half of the track grows away from the plan line with scaleX. -->
-        <TransitionGroup tag="ul" name="bv-move" class="bv__rows" aria-label="Variance by department">
+        <TransitionGroup tag="ul" name="bv-move" class="bv__rows mi:grid mi:gap-0.5 mi:m-0 mi:p-0 mi:[list-style:none]" aria-label="Variance by department">
           <li v-for="r in rows" :key="r.name">
             <button
-              type="button" class="bv__row" :class="{ 'is-on': picked === r.name }" :aria-pressed="picked === r.name"
+              type="button" class="bv__row mi:grid mi:grid-cols-[minmax(0,_1fr)_auto] mi:[grid-template-areas:'name_val'_'track_track'] mi:items-center mi:gap-y-1.5 mi:gap-x-3 mi:w-full mi:p-2.5 mi:[border:0] mi:rounded-md mi:bg-transparent mi:text-inherit mi:[font:inherit] mi:text-start mi:cursor-pointer mi:[transition:background-color_var(--mi-dur-2)_var(--mi-ease)] mi:@[560px]:grid-cols-[140px_minmax(0,_1fr)_64px] mi:@[560px]:[grid-template-areas:'name_track_val'] mi:hover:bg-fill4 mi:[&.is-on]:bg-fill4 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" :class="{ 'is-on': picked === r.name }" :aria-pressed="picked === r.name"
               :aria-label="`${r.name}, ${signedMoney(r.variance)}, ${signedPct(r.pct)} against plan`" @click="picked = r.name"
             >
-              <span class="bv__name">{{ r.name }}</span>
-              <span class="bv__track" aria-hidden="true">
-                <span class="bv__bar" :class="r.over ? 'is-over' : 'is-under'" :style="{ transform: `scaleX(${r.scale})` }" />
+              <span class="bv__name mi:[grid-area:name] mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:text-[14px] mi:font-medium">{{ r.name }}</span>
+              <span class="bv__track mi:[grid-area:track] mi:relative mi:h-3 mi:rounded-[6px] mi:bg-fill4 mi:after:content-[''] mi:after:absolute mi:after:left-1/2 mi:after:top-[-3px] mi:after:bottom-[-3px] mi:after:w-0.5 mi:after:-ml-px mi:after:rounded-[1px] mi:after:bg-label3" aria-hidden="true">
+                <span class="bv__bar mi:absolute mi:top-0 mi:bottom-0 mi:w-1/2 mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)] mi:[&.is-over]:left-1/2 mi:[&.is-over]:rounded-[0_6px_6px_0] mi:[&.is-over]:origin-left mi:[&.is-under]:right-1/2 mi:[&.is-under]:rounded-[6px_0_0_6px] mi:[&.is-under]:origin-right" :class="r.over ? 'is-over' : 'is-under'" :style="{ transform: `scaleX(${r.scale})` }" />
               </span>
-              <span class="bv__val" :class="r.over ? 'is-over' : 'is-under'">{{ signedPct(r.pct) }}</span>
+              <span class="bv__val mi:[grid-area:val] mi:text-end mi:text-[13px] mi:font-semibold mi:tabular-nums mi:[&.is-over]:text-orange-t mi:[&.is-under]:text-p-text" :class="r.over ? 'is-over' : 'is-under'">{{ signedPct(r.pct) }}</span>
             </button>
           </li>
         </TransitionGroup>
       </div>
 
-      <aside class="bv__side" aria-labelledby="bv-side-title">
-        <article class="bv__total">
+      <aside class="bv__side mi:grid mi:gap-3 mi:content-start mi:[@container_(min-width:_560px)_and_(max-width:_819px)]:grid-cols-[minmax(0,_1fr)_minmax(0,_1.4fr)]" aria-labelledby="bv-side-title">
+        <article class="bv__total mi:grid mi:gap-2 mi:content-start mi:min-w-0 mi:p-4.5 mi:rounded-lg mi:bg-card mi:shadow-1">
           <MiText variant="caption" tone="label2" weight="medium" as="h3">Company net</MiText>
-          <p class="bv__big" :class="net > 0 ? 'is-over' : 'is-under'">{{ signedMoney(net) }}</p>
+          <p class="bv__big mi:m-0 mi:text-[clamp(30px,_6cqi,_38px)] mi:leading-none mi:font-bold mi:tracking-[-.04em] mi:tabular-nums mi:[&.is-over]:text-orange-t" :class="net > 0 ? 'is-over' : 'is-under'">{{ signedMoney(net) }}</p>
           <MiText variant="footnote" tone="label2">{{ money(totalActual) }} spent of {{ money(totalPlan) }} planned</MiText>
         </article>
 
-        <article class="bv__detail" aria-live="polite">
-          <div class="bv__detail-top">
+        <article class="bv__detail mi:grid mi:gap-2 mi:content-start mi:min-w-0 mi:p-4.5 mi:rounded-lg mi:bg-card mi:shadow-1" aria-live="polite">
+          <div class="bv__detail-top mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2">
             <MiText id="bv-side-title" variant="headline" as="h3">{{ current.name }}</MiText>
             <MiBadge :tone="current.over ? 'warning' : 'success'" :label="current.over ? 'Over plan' : 'Under plan'" dot />
           </div>
@@ -104,44 +104,8 @@ const signedPct = (p: number) => (p > 0 ? '+' : p < 0 ? '−' : '') + Math.abs(p
 </script>
 
 <style scoped>
-.bv { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
-.bv__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.bv__controls { display: flex; flex-wrap: wrap; gap: 8px; }
-.bv__body { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); }
-@container (min-width: 820px) { .bv__body { grid-template-columns: minmax(0, 1fr) 300px; } }
-
-.bv__chart { display: grid; gap: 6px; align-content: start; min-width: 0; padding: 18px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.bv__axis { display: grid; grid-template-columns: 1fr 1fr; padding: 0 10px; font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--mi-label3); }
-.bv__axis span:last-child { text-align: end; }
-.bv__rows { display: grid; gap: 2px; margin: 0; padding: 0; list-style: none; }
-
-/* Narrow: name and value share a line, the bar runs full width underneath. */
-.bv__row {
-  display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "name val" "track track"; align-items: center; gap: 6px 12px;
-  width: 100%; padding: 10px; border: 0; border-radius: var(--mi-radius-m); background: transparent; color: inherit; font: inherit; text-align: start; cursor: pointer;
-  transition: background-color var(--mi-dur-2) var(--mi-ease);
-}
-@container (min-width: 560px) { .bv__row { grid-template-columns: 140px minmax(0, 1fr) 64px; grid-template-areas: "name track val"; } }
-.bv__row:hover, .bv__row.is-on { background: var(--mi-fill4); }
-.bv__row:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 1px; }
-.bv__name { grid-area: name; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; font-weight: 500; }
-.bv__val { grid-area: val; text-align: end; font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; }
-.bv__val.is-over { color: var(--mi-orange-t); }
-.bv__val.is-under { color: var(--mi-p-text); }
-
-.bv__track { grid-area: track; position: relative; height: 12px; border-radius: 6px; background: var(--mi-fill4); }
-/* The plan line sits in the middle of the track. */
-.bv__track::after { content: ""; position: absolute; left: 50%; top: -3px; bottom: -3px; width: 2px; margin-left: -1px; border-radius: 1px; background: var(--mi-label3); }
-.bv__bar { position: absolute; top: 0; bottom: 0; width: 50%; transition: transform var(--mi-dur-4) var(--mi-spring); }
-.bv__bar.is-over { left: 50%; border-radius: 0 6px 6px 0; background: var(--mi-orange); transform-origin: left; }
-.bv__bar.is-under { right: 50%; border-radius: 6px 0 0 6px; background: color-mix(in srgb, var(--mi-p) 70%, var(--mi-card)); transform-origin: right; }
+.bv__bar.is-over { background: var(--mi-orange); }
+.bv__bar.is-under { background: color-mix(in srgb, var(--mi-p) 70%, var(--mi-card)); }
 
 .bv-move-move { transition: transform var(--mi-dur-4) var(--mi-spring); }
-
-.bv__side { display: grid; gap: 12px; align-content: start; }
-@container (min-width: 560px) and (max-width: 819px) { .bv__side { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); } }
-.bv__total, .bv__detail { display: grid; gap: 8px; align-content: start; min-width: 0; padding: 18px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.bv__big { margin: 0; font-size: clamp(30px, 6cqi, 38px); line-height: 1; font-weight: 700; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
-.bv__big.is-over { color: var(--mi-orange-t); }
-.bv__detail-top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
 </style>

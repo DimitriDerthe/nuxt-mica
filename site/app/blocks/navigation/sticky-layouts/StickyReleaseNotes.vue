@@ -1,9 +1,9 @@
 <template>
-  <div class="srn">
+  <div class="srn mi:@container mi:font-mi mi:text-label">
     <!-- The block scrolls inside its own box so every sticky layer is visible in the preview. -->
-    <div ref="scroller" class="srn__scroller" tabindex="0" aria-label="Release notes, scrollable">
-      <header class="srn__head">
-        <div class="srn__head-text">
+    <div ref="scroller" class="srn__scroller mi:[--srn-head:60px] mi:[--srn-toc:48px] mi:relative mi:h-160 mi:overflow-y-auto mi:overscroll-contain mi:[background:var(--mi-page)] mi:[scrollbar-width:thin] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px] mi:@[760px]:[--srn-toc:0px]" tabindex="0" aria-label="Release notes, scrollable">
+      <header class="srn__head mi:sticky mi:top-0 mi:z-4 mi:flex mi:items-center mi:gap-3 mi:h-(--srn-head) mi:py-0 mi:px-4 mi:box-border mi:[background:var(--mi-mat)] mi:border-b mi:border-b-sep mi:@[760px]:py-0 mi:@[760px]:px-7">
+        <div class="srn__head-text mi:grid mi:flex-1 mi:min-w-0">
           <MiText variant="caption" tone="label2" weight="medium">Tessera CMS</MiText>
           <MiText id="srn-title" variant="headline" as="h2">Release notes</MiText>
         </div>
@@ -11,46 +11,46 @@
           <template #leading><MiIcon :name="subscribed ? 'check' : 'bell'" :size="15" /></template>
           {{ subscribed ? 'Subscribed' : 'Subscribe' }}
         </MiButton>
-        <span class="srn__progress" aria-hidden="true"><span /></span>
+        <span class="srn__progress mi:absolute mi:left-0 mi:right-0 mi:-bottom-px mi:h-0.5 mi:hidden mi:supports-[animation-timeline:_scroll()]:block" aria-hidden="true"><span class="mi:[.srn__progress_&]:h-full mi:[.srn__progress_&]:origin-left mi:[.srn__progress_&]:transform-[scaleX(0)]" /></span>
       </header>
 
-      <div class="srn__layout">
-        <nav class="srn__toc" aria-label="Versions">
-          <MiText variant="caption2" tone="label2" weight="semibold" class="srn__toc-label">Versions</MiText>
-          <ul>
+      <div class="srn__layout mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:@[760px]:grid-cols-[220px_minmax(0,_1fr)] mi:@[760px]:gap-3 mi:@[760px]:py-0 mi:@[760px]:px-7">
+        <nav class="srn__toc mi:sticky mi:top-(--srn-head) mi:z-3 mi:h-(--srn-toc) mi:box-border mi:flex mi:items-center mi:py-0 mi:px-3 mi:[background:var(--mi-page)] mi:border-b mi:border-b-sep mi:overflow-x-auto mi:[scrollbar-width:none] mi:@[760px]:top-[calc(var(--srn-head)_+_20px)] mi:@[760px]:self-start mi:@[760px]:h-auto mi:@[760px]:grid mi:@[760px]:gap-2 mi:@[760px]:items-start mi:@[760px]:p-0 mi:@[760px]:mt-5 mi:@[760px]:[background:none] mi:@[760px]:[border:0] mi:@[760px]:overflow-visible" aria-label="Versions">
+          <MiText variant="caption2" tone="label2" weight="semibold" class="srn__toc-label mi:[.srn__toc_ul&]:gap-1.5 mi:[.srn__toc_ul&]:p-0 mi:[.srn__toc_ul&]:[list-style:none] mi:@[760px]:pl-3.5 mi:@[760px]:[.srn__toc_ul&]:gap-0.5 mi:@[760px]:[.srn__toc_ul&]:border-l mi:@[760px]:[.srn__toc_ul&]:border-l-sep">Versions</MiText>
+          <ul class="mi:[.srn__toc_ul&]:gap-1.5 mi:[.srn__toc_ul&]:p-0 mi:[.srn__toc_ul&]:[list-style:none] mi:@[760px]:[.srn__toc_ul&]:gap-0.5 mi:@[760px]:[.srn__toc_ul&]:border-l mi:@[760px]:[.srn__toc_ul&]:border-l-sep">
             <li v-for="r in releases" :key="r.id">
-              <a :href="'#srn-' + r.id" class="srn__toc-link" :class="{ 'is-active': r.id === active }" :aria-current="r.id === active ? 'location' : undefined" @click.prevent="jump(r.id)">
-                <b>{{ r.version }}</b><span>{{ r.title }}</span>
+              <a :href="'#srn-' + r.id" class="srn__toc-link mi:inline-flex mi:items-center mi:gap-1.5 mi:py-1.5 mi:px-3 mi:rounded-[99px] mi:text-label2 mi:text-[13px] mi:[text-decoration:none] mi:whitespace-nowrap mi:[&.is-active]:[background:var(--mi-p-tint)] mi:[&.is-active]:text-p-text mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px] mi:@[760px]:relative mi:@[760px]:grid mi:@[760px]:gap-px mi:@[760px]:pt-1.5 mi:@[760px]:pr-3 mi:@[760px]:pb-1.5 mi:@[760px]:pl-3.5 mi:@[760px]:rounded-[0_var(--mi-radius-s)_var(--mi-radius-s)_0] mi:@[760px]:whitespace-normal mi:@[760px]:[&.is-active]:[background:none] mi:@[760px]:[&.is-active]:text-label mi:@[760px]:before:content-[''] mi:@[760px]:before:absolute mi:@[760px]:before:-left-px mi:@[760px]:before:top-1.5 mi:@[760px]:before:bottom-1.5 mi:@[760px]:before:w-0.5 mi:@[760px]:before:[background:var(--mi-p)] mi:@[760px]:before:transform-[scaleY(0)] mi:@[760px]:before:[transition:transform_var(--mi-dur-2)_var(--mi-spring)] mi:@[760px]:[&.is-active]:before:transform-[scaleY(1)]" :class="{ 'is-active': r.id === active }" :aria-current="r.id === active ? 'location' : undefined" @click.prevent="jump(r.id)">
+                <b class="mi:[.srn__toc-link_&]:font-bold mi:[.srn__toc-link_&]:tabular-nums">{{ r.version }}</b><span class="mi:@[760px]:[.srn__toc-link_&]:text-[12px]">{{ r.title }}</span>
               </a>
             </li>
           </ul>
         </nav>
 
-        <div class="srn__content">
-          <section v-for="r in releases" :id="'srn-' + r.id" :key="r.id" :ref="el => track(el)" class="srn__release" :data-id="r.id" :aria-labelledby="'srn-h-' + r.id">
-            <div class="srn__release-head">
+        <div class="srn__content mi:min-w-0 mi:pt-0 mi:px-4 mi:pb-6 mi:@[760px]:pt-1 mi:@[760px]:px-0 mi:@[760px]:pb-8">
+          <section v-for="r in releases" :id="'srn-' + r.id" :key="r.id" :ref="el => track(el)" class="srn__release mi:[scroll-margin-top:calc(var(--srn-head)_+_var(--srn-toc))] mi:pb-2" :data-id="r.id" :aria-labelledby="'srn-h-' + r.id">
+            <div class="srn__release-head mi:sticky mi:top-[calc(var(--srn-head)_+_var(--srn-toc))] mi:z-2 mi:flex mi:flex-wrap mi:items-baseline mi:gap-y-1 mi:gap-x-2.5 mi:my-0 mi:-mx-4 mi:pt-3.5 mi:px-4 mi:pb-2.5 mi:[background:color-mix(in_srgb,_var(--mi-page)_92%,_transparent)] mi:@[760px]:m-0 mi:@[760px]:pt-4.5 mi:@[760px]:px-0 mi:@[760px]:pb-2.5">
               <MiText :id="'srn-h-' + r.id" variant="title3" as="h3" weight="bold">{{ r.version }} · {{ r.title }}</MiText>
               <MiText variant="caption" tone="label2">{{ r.date }}</MiText>
               <MiBadge v-if="r.latest" label="Latest" tone="success" variant="tint" dot />
             </div>
-            <div v-for="g in r.groups" :key="g.kind" class="srn__group">
-              <span class="srn__kind" :class="'is-' + g.kind.toLowerCase()">{{ g.kind }}</span>
-              <ul class="srn__items">
-                <li v-for="item in g.items" :key="item">{{ item }}</li>
+            <div v-for="g in r.groups" :key="g.kind" class="srn__group mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:gap-2 mi:py-3 mi:px-4 mi:mt-2 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1 mi:@[760px]:grid-cols-[96px_minmax(0,_1fr)] mi:@[760px]:items-start mi:@[760px]:py-3.5 mi:@[760px]:px-4.5">
+              <span class="srn__kind mi:justify-self-start mi:py-0.5 mi:px-2 mi:rounded-[6px] mi:text-[11px] mi:font-bold mi:tracking-[.04em] mi:uppercase mi:@[760px]:mt-0.5" :class="'is-' + g.kind.toLowerCase()">{{ g.kind }}</span>
+              <ul class="srn__items mi:grid mi:gap-1.5 mi:m-0 mi:pl-4.5 mi:text-[14px] mi:leading-normal">
+                <li class="mi:[.srn__items_&]:marker:text-label3" v-for="item in g.items" :key="item">{{ item }}</li>
               </ul>
             </div>
           </section>
 
-          <div class="srn__end">
+          <div class="srn__end mi:pt-6 mi:px-0 mi:pb-2 mi:text-center">
             <MiText variant="footnote" tone="label2">That's everything since 5.0. Older notes live in the archive.</MiText>
           </div>
         </div>
       </div>
 
       <!-- Sticky feedback bar pinned to the bottom of the scroll box. -->
-      <div class="srn__feedback" role="group" aria-label="Feedback on these notes">
+      <div class="srn__feedback mi:sticky mi:bottom-0 mi:z-4 mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-2 mi:gap-x-3 mi:py-2.5 mi:px-4 mi:[background:var(--mi-mat)] mi:border-t mi:border-t-sep mi:@[760px]:py-3 mi:@[760px]:px-7" role="group" aria-label="Feedback on these notes">
         <MiText variant="footnote" weight="medium" aria-live="polite">{{ vote ? 'Thanks, noted for the next release.' : 'Were these notes useful?' }}</MiText>
-        <div v-if="!vote" class="srn__votes">
+        <div v-if="!vote" class="srn__votes mi:flex mi:gap-1.5">
           <MiButton variant="gray" size="small" @click="vote = 'yes'">Yes</MiButton>
           <MiButton variant="gray" size="small" @click="vote = 'no'">Not really</MiButton>
         </div>
@@ -134,80 +134,30 @@ function jump(id: string) {
 </script>
 
 <style scoped>
-.srn { container-type: inline-size; font-family: var(--mi-font); color: var(--mi-label); }
-.srn__scroller {
-  --srn-head: 60px; --srn-toc: 48px;
-  position: relative; height: 640px; overflow-y: auto; overscroll-behavior: contain; background: var(--mi-page); scrollbar-width: thin;
-}
-.srn__scroller:focus-visible { outline: 2px solid var(--mi-p); outline-offset: -2px; }
-
 /* Layer 1: header */
-.srn__head {
-  position: sticky; top: 0; z-index: 4; display: flex; align-items: center; gap: 12px; height: var(--srn-head); padding: 0 16px; box-sizing: border-box;
-  background: var(--mi-mat); backdrop-filter: saturate(1.6) blur(18px); -webkit-backdrop-filter: saturate(1.6) blur(18px); border-bottom: 1px solid var(--mi-sep);
+.srn__head { backdrop-filter: saturate(1.6) blur(18px); -webkit-backdrop-filter: saturate(1.6) blur(18px);
 }
-.srn__head-text { display: grid; flex: 1; min-width: 0; }
-/* Reading progress driven by the scroll timeline: transform only, no script. */
-.srn__progress { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; display: none; }
-.srn__progress span { display: block; height: 100%; background: linear-gradient(90deg, var(--mi-p), var(--mi-s)); transform-origin: left; transform: scaleX(0); }
+.srn__progress span { display: block; background: linear-gradient(90deg, var(--mi-p), var(--mi-s)); }
 @supports (animation-timeline: scroll()) {
-  .srn__progress { display: block; }
   .srn__progress span { animation: srn-progress linear both; animation-timeline: scroll(nearest block); }
 }
 @keyframes srn-progress { to { transform: scaleX(1); } }
-
-/* Layer 2: version index (chips on narrow, side column on wide) */
-.srn__layout { display: grid; grid-template-columns: minmax(0, 1fr); }
-.srn__toc { position: sticky; top: var(--srn-head); z-index: 3; height: var(--srn-toc); box-sizing: border-box; display: flex; align-items: center; padding: 0 12px; background: var(--mi-page); border-bottom: 1px solid var(--mi-sep); overflow-x: auto; scrollbar-width: none; }
 .srn__toc-label { display: none; }
-.srn__toc ul { display: flex; gap: 6px; margin: 0; padding: 0; list-style: none; }
-.srn__toc-link { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 99px; color: var(--mi-label2); font-size: 13px; text-decoration: none; white-space: nowrap; }
-.srn__toc-link b { font-weight: 700; font-variant-numeric: tabular-nums; }
+.srn__toc ul { display: flex; margin: 0; }
 .srn__toc-link span { display: none; }
-.srn__toc-link.is-active { background: var(--mi-p-tint); color: var(--mi-p-text); }
-.srn__toc-link:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 1px; }
-
-/* Layer 3: each version heading sticks under the layers above it */
-.srn__content { min-width: 0; padding: 0 16px 24px; }
-.srn__release { scroll-margin-top: calc(var(--srn-head) + var(--srn-toc)); padding-bottom: 8px; }
-.srn__release-head {
-  position: sticky; top: calc(var(--srn-head) + var(--srn-toc)); z-index: 2; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px;
-  margin: 0 -16px; padding: 14px 16px 10px; background: color-mix(in srgb, var(--mi-page) 92%, transparent);
-}
-.srn__group { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; padding: 12px 16px; margin-top: 8px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.srn__kind { justify-self: start; padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
 .srn__kind.is-added { background: color-mix(in srgb, var(--mi-green) 15%, transparent); color: var(--mi-green-t); }
 .srn__kind.is-improved { background: var(--mi-p-tint); color: var(--mi-p-text); }
 .srn__kind.is-fixed { background: color-mix(in srgb, var(--mi-orange) 16%, transparent); color: var(--mi-orange-t); }
 .srn__kind.is-changed { background: color-mix(in srgb, var(--mi-purple) 15%, transparent); color: var(--mi-purple); }
 .srn__kind.is-removed { background: color-mix(in srgb, var(--mi-red) 14%, transparent); color: var(--mi-red-t); }
-.srn__items { display: grid; gap: 6px; margin: 0; padding-left: 18px; font-size: 14px; line-height: 1.5; }
-.srn__items li::marker { color: var(--mi-label3); }
-.srn__end { padding: 24px 0 8px; text-align: center; }
 
 /* Layer 4: feedback bar sticks to the bottom */
-.srn__feedback {
-  position: sticky; bottom: 0; z-index: 4; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; padding: 10px 16px;
-  background: var(--mi-mat); backdrop-filter: saturate(1.6) blur(18px); -webkit-backdrop-filter: saturate(1.6) blur(18px); border-top: 1px solid var(--mi-sep);
+.srn__feedback { backdrop-filter: saturate(1.6) blur(18px); -webkit-backdrop-filter: saturate(1.6) blur(18px);
 }
-.srn__votes { display: flex; gap: 6px; }
 
 @container (min-width: 760px) {
-  .srn__scroller { --srn-toc: 0px; }
-  .srn__head { padding: 0 28px; }
-  .srn__layout { grid-template-columns: 220px minmax(0, 1fr); gap: 12px; padding: 0 28px; }
-  .srn__toc { top: calc(var(--srn-head) + 20px); align-self: start; height: auto; display: grid; gap: 8px; align-items: start; padding: 0; margin-top: 20px; background: none; border: 0; overflow: visible; }
-  .srn__toc-label { display: block; letter-spacing: .08em; text-transform: uppercase; padding-left: 14px; }
-  .srn__toc ul { display: grid; gap: 2px; border-left: 1px solid var(--mi-sep); }
-  .srn__toc-link { position: relative; display: grid; gap: 1px; padding: 6px 12px 6px 14px; border-radius: 0 var(--mi-radius-s) var(--mi-radius-s) 0; white-space: normal; }
-  .srn__toc-link span { display: block; font-size: 12px; color: var(--mi-label2); }
-  .srn__toc-link.is-active { background: none; color: var(--mi-label); }
-  .srn__toc-link::before { content: ""; position: absolute; left: -1px; top: 6px; bottom: 6px; width: 2px; background: var(--mi-p); transform: scaleY(0); transition: transform var(--mi-dur-2) var(--mi-spring); }
-  .srn__toc-link.is-active::before { transform: scaleY(1); }
-  .srn__content { padding: 4px 0 32px; }
-  .srn__release-head { margin: 0; padding: 18px 0 10px; }
-  .srn__group { grid-template-columns: 96px minmax(0, 1fr); align-items: start; padding: 14px 18px; }
-  .srn__kind { margin-top: 2px; }
-  .srn__feedback { padding: 12px 28px; }
+  .srn__toc-label { display: block; letter-spacing: .08em; text-transform: uppercase; }
+  .srn__toc ul { display: grid; }
+  .srn__toc-link span { display: block; color: var(--mi-label2); }
 }
 </style>

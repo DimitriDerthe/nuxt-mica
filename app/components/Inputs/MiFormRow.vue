@@ -38,30 +38,15 @@ defineSlots<{
 </script>
 
 <template>
-  <label v-if="label" class="mi-fr__label" :class="{ 'is-top': top }" :for="id">{{ label }}<span v-if="required" class="mi-fr__req" aria-hidden="true"> *</span></label>
-  <span v-else class="mi-fr__label" aria-hidden="true" />
-  <div class="mi-fr__ctl" :class="{ 'has-msg': has }"><slot :id="id" /></div>
+  <label v-if="label" class="mi-fr__label mi:text-[15px] mi:font-medium mi:text-right mi:[&.is-top]:self-start mi:[&.is-top]:pt-2 mi:@max-[640px]:text-left mi:@max-[640px]:text-[13px] mi:@max-[640px]:font-semibold mi:@max-[640px]:text-label2 mi:@max-[640px]:[&.is-top]:pt-0" :class="{ 'is-top': top }" :for="id">{{ label }}<span v-if="required" class="mi-fr__req mi:text-red-t" aria-hidden="true"> *</span></label>
+  <span v-else class="mi-fr__label mi:text-[15px] mi:font-medium mi:text-right mi:[&.is-top]:self-start mi:[&.is-top]:pt-2 mi:@max-[640px]:text-left mi:@max-[640px]:text-[13px] mi:@max-[640px]:font-semibold mi:@max-[640px]:text-label2 mi:@max-[640px]:[&.is-top]:pt-0" aria-hidden="true" />
+  <div class="mi-fr__ctl mi:flex mi:min-w-0 mi:@max-[640px]:mb-2.5 mi:@max-[640px]:[&.has-msg]:mb-0" :class="{ 'has-msg': has }"><slot :id="id" /></div>
   <template v-if="has">
-    <span class="mi-fr__gap" aria-hidden="true" />
-    <span :id="msgId" class="mi-fr__msg" :class="{ 'is-error': error }" :role="error ? 'alert' : undefined">{{ error || hint }}</span>
+    <span class="mi-fr__gap mi:@max-[640px]:hidden" aria-hidden="true" />
+    <span :id="msgId" class="mi-fr__msg mi:-mt-2 mi:text-[13px] mi:text-label2 mi:[&.is-error]:text-red-t mi:@max-[640px]:-mt-0.5 mi:@max-[640px]:mx-0 mi:@max-[640px]:mb-2.5" :class="{ 'is-error': error }" :role="error ? 'alert' : undefined">{{ error || hint }}</span>
   </template>
 </template>
 
 <style scoped>
-.mi-fr__label { font-size: 15px; font-weight: 500; text-align: right; }
-.mi-fr__label.is-top { align-self: start; padding-top: 8px; }
-.mi-fr__req { color: var(--mi-red-t); }
-.mi-fr__ctl { display: flex; min-width: 0; }
 .mi-fr__ctl > :slotted(*) { flex: 1 1 auto; min-width: 0; }
-.mi-fr__msg { margin-top: -8px; font-size: 13px; color: var(--mi-label2); }
-.mi-fr__msg.is-error { color: var(--mi-red-t); }
-@container (max-width: 640px) {
-  .mi-fr__label { text-align: left; font-size: 13px; font-weight: 600; color: var(--mi-label2); }
-  .mi-fr__label.is-top { padding-top: 0; }
-  .mi-fr__gap { display: none; }
-  /* Stacked rows keep 10px under their last line, the control or its message, before the next label. */
-  .mi-fr__ctl { margin-bottom: 10px; }
-  .mi-fr__ctl.has-msg { margin-bottom: 0; }
-  .mi-fr__msg { margin: -2px 0 10px; }
-}
 </style>

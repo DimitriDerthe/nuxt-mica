@@ -1,47 +1,47 @@
 <template>
-  <section class="icb" aria-labelledby="icb-title">
-    <header class="icb__head">
+  <section class="icb mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="icb-title">
+    <header class="icb__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="icb-title" variant="title3" as="h2" weight="semibold">Support inbox</MiText>
         <MiText variant="footnote" tone="label2">Counts, caps, presence dots and label badges that stay in sync as you read</MiText>
       </div>
-      <div class="icb__head-actions">
+      <div class="icb__head-actions mi:flex mi:flex-wrap mi:items-center mi:gap-2">
         <MiSegmented v-model="cap" label="Count cap" :options="caps" />
         <MiButton size="small" variant="gray" :disabled="!unreadTotal" @click="readAll">Mark all read</MiButton>
       </div>
     </header>
 
-    <div class="icb__layout">
+    <div class="icb__layout mi:grid mi:gap-3 mi:grid-cols-[minmax(0,_1fr)] mi:items-start mi:@[680px]:grid-cols-[220px_minmax(0,_1fr)]">
       <!-- Folders: count badges with a cap, a muted tone for drafts, and the agents' presence. -->
-      <nav class="icb__nav" aria-label="Folders">
+      <nav class="icb__nav mi:grid mi:gap-0.5 mi:p-2 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1" aria-label="Folders">
         <button
-          v-for="f in folders" :key="f.id" type="button" class="icb__folder" :aria-current="folder === f.id ? 'page' : undefined"
+          v-for="f in folders" :key="f.id" type="button" class="icb__folder mi:flex mi:items-center mi:gap-2.5 mi:min-h-9.5 mi:py-1.5 mi:px-2.5 mi:[border:0] mi:rounded-md mi:[background:none] mi:text-label mi:cursor-pointer mi:text-start mi:[&[aria-current='page']]:text-p-text mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px]" :aria-current="folder === f.id ? 'page' : undefined"
           @click="folder = f.id"
         >
           <MiIcon :name="f.icon" :size="17" />
-          <span class="icb__folder-name">{{ f.label }}</span>
+          <span class="icb__folder-name mi:flex-1">{{ f.label }}</span>
           <MiBadge :count="f.count" :max="Number(cap)" :tone="f.tone" :variant="f.id === 'drafts' ? 'tint' : 'solid'" :count-noun="f.noun" />
         </button>
         <MiSeparator />
-        <MiText variant="caption" tone="label2" weight="semibold" class="icb__agents-title">On shift</MiText>
-        <div class="icb__agents">
+        <MiText variant="caption" tone="label2" weight="semibold" class="icb__agents-title mi:pt-2 mi:px-2.5 mi:pb-0.5">On shift</MiText>
+        <div class="icb__agents mi:flex mi:gap-2.5 mi:pt-1.5 mi:px-2.5 mi:pb-1">
           <MiBadge v-for="a in agents" :key="a.name" dot-only :tone="a.tone" placement="bottom-right" :dot-size="9" :aria-label="a.name + ', ' + a.state">
             <template #target><MiAvatar :name="a.name" size="sm" tone="auto" decorative /></template>
           </MiBadge>
         </div>
       </nav>
 
-      <ul class="icb__list" :aria-label="current.label">
+      <ul class="icb__list mi:grid mi:m-0 mi:p-1.5 mi:[list-style:none] mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1" :aria-label="current.label">
         <li v-for="m in shown" :key="m.id">
-          <button type="button" class="icb__msg" :class="{ 'is-unread': m.unread }" @click="read(m)">
+          <button type="button" class="icb__msg mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px] mi:relative mi:flex mi:w-full mi:pt-3 mi:pr-3 mi:pb-3 mi:pl-6.5 mi:[border:0] mi:rounded-md mi:[background:none] mi:[font:inherit] mi:text-inherit mi:text-start mi:cursor-pointer mi:hover:[background:var(--mi-fill4)]" :class="{ 'is-unread': m.unread }" @click="read(m)">
             <MiBadge v-if="m.unread" dot-only :dot-size="8" tone="primary" aria-label="Unread" class="icb__unread" />
-            <span class="icb__msg-main">
-              <span class="icb__msg-top">
-                <span class="icb__from">{{ m.from }}</span>
+            <span class="icb__msg-main mi:grid mi:gap-[3px] mi:flex-1 mi:min-w-0">
+              <span class="icb__msg-top mi:flex mi:justify-between mi:gap-2">
+                <span class="icb__from mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:text-[15px] mi:text-label2 mi:[.icb__msg.is-unread_&]:font-bold mi:[.icb__msg.is-unread_&]:text-label">{{ m.from }}</span>
                 <MiText as="span" variant="caption" tone="label3" tabular>{{ m.time }}</MiText>
               </span>
               <MiText as="span" variant="footnote" tone="label2" :lines="1">{{ m.subject }}</MiText>
-              <span class="icb__tags">
+              <span class="icb__tags mi:flex mi:flex-wrap mi:gap-1 mi:mt-[3px] mi:empty:hidden">
                 <MiBadge v-if="m.vip" tone="secondary" variant="solid" label="VIP" shape="pill" />
                 <MiBadge v-for="l in m.labels" :key="l" v-bind="labelStyle[l]" :label="l" shape="pill" />
                 <MiBadge v-if="m.external" variant="outline" tone="neutral" label="External" />
@@ -49,7 +49,7 @@
             </span>
           </button>
         </li>
-        <li v-if="!shown.length" class="icb__empty"><MiText variant="footnote" tone="label2">Drafts open in the composer.</MiText></li>
+        <li v-if="!shown.length" class="icb__empty mi:py-5 mi:px-3 mi:text-center"><MiText variant="footnote" tone="label2">Drafts open in the composer.</MiText></li>
       </ul>
     </div>
   </section>
@@ -106,32 +106,9 @@ function readAll() {
 </script>
 
 <style scoped>
-.icb { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
-.icb__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.icb__head-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
-
-.icb__layout { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); align-items: start; }
-@container (min-width: 680px) { .icb__layout { grid-template-columns: 220px minmax(0, 1fr); } }
-
-.icb__nav { display: grid; gap: 2px; padding: 8px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.icb__folder { display: flex; align-items: center; gap: 10px; min-height: 38px; padding: 6px 10px; border: 0; border-radius: var(--mi-radius-m); background: none; font: inherit; font-size: 14px; color: var(--mi-label); cursor: pointer; text-align: start; }
+.icb__folder { font: inherit; font-size: 14px; }
 .icb__folder:hover { background: var(--mi-fill4); }
-.icb__folder[aria-current="page"] { background: var(--mi-p-tint); color: var(--mi-p-text); font-weight: 600; }
-.icb__folder:focus-visible, .icb__msg:focus-visible { outline: 2px solid var(--mi-p); outline-offset: -2px; }
-.icb__folder-name { flex: 1; }
-.icb__agents-title { padding: 8px 10px 2px; }
-.icb__agents { display: flex; gap: 10px; padding: 6px 10px 4px; }
-
-.icb__list { display: grid; margin: 0; padding: 6px; list-style: none; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
+.icb__folder[aria-current="page"] { background: var(--mi-p-tint); font-weight: 600; }
 .icb__list > li + li { border-top: 1px solid var(--mi-sep); }
-.icb__msg { position: relative; display: flex; width: 100%; padding: 12px 12px 12px 26px; border: 0; border-radius: var(--mi-radius-m); background: none; font: inherit; color: inherit; text-align: start; cursor: pointer; }
-.icb__msg:hover { background: var(--mi-fill4); }
 .icb__unread { position: absolute; top: 19px; left: 10px; }
-.icb__msg-main { display: grid; gap: 3px; flex: 1; min-width: 0; }
-.icb__msg-top { display: flex; justify-content: space-between; gap: 8px; }
-.icb__from { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 15px; color: var(--mi-label2); }
-.icb__msg.is-unread .icb__from { font-weight: 700; color: var(--mi-label); }
-.icb__tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 3px; }
-.icb__tags:empty { display: none; }
-.icb__empty { padding: 20px 12px; text-align: center; }
 </style>

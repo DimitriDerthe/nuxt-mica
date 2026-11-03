@@ -1,90 +1,90 @@
 <template>
-  <section class="apal" aria-labelledby="apal-title">
-    <h2 id="apal-title" class="apal__sr">Search and ask</h2>
+  <section class="apal mi:[--apal-t3:color-mix(in_srgb,_var(--mi-label2)_78%,_transparent)] mi:@container mi:grid mi:content-start mi:font-mi mi:text-label" aria-labelledby="apal-title">
+    <h2 id="apal-title" class="apal__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">Search and ask</h2>
 
-    <div class="apal__stage">
+    <div class="apal__stage mi:relative mi:grid mi:[place-items:start_center] mi:min-h-135 mi:pt-8 mi:px-3 mi:pb-6 mi:rounded-xl mi:overflow-hidden mi:isolate mi:[background:var(--mi-page)] mi:@[560px]:pt-13 mi:@[560px]:px-8 mi:@[560px]:pb-8">
       <!-- Faux help center behind the palette: a sidebar and an article, blurred once. -->
-      <div class="apal__app" aria-hidden="true">
-        <div class="apal__app-side"><i v-for="n in 7" :key="n" /></div>
-        <div class="apal__app-doc"><b /><i v-for="n in 4" :key="n" /><u /><i v-for="n in 3" :key="`b${n}`" /></div>
+      <div class="apal__app mi:absolute mi:inset-0 mi:-z-2 mi:grid mi:grid-cols-[26%_1fr] mi:gap-7 mi:p-5.5 mi:[filter:blur(3px)]" aria-hidden="true">
+        <div class="apal__app-side mi:grid mi:content-start mi:gap-3"><i class="mi:[.apal__app-side_&:nth-child(3)]:[background:var(--mi-p-tint)]" v-for="n in 7" :key="n" /></div>
+        <div class="apal__app-doc mi:grid mi:content-start mi:gap-3 mi:max-w-155"><b class="mi:[.apal__app-doc_&]:w-[55%]" /><i v-for="n in 4" :key="n" /><u class="mi:[.apal__app_&]:block mi:[.apal__app_&]:rounded-[6px] mi:[.apal__app_&]:[background:var(--mi-fill3)] mi:[.apal__app-doc_&]:shadow-1" /><i v-for="n in 3" :key="`b${n}`" /></div>
       </div>
-      <div class="apal__scrim" aria-hidden="true" />
+      <div class="apal__scrim mi:absolute mi:inset-0 mi:-z-1 mi:[background:color-mix(in_srgb,_var(--mi-page)_50%,_transparent)]" aria-hidden="true" />
 
-      <div class="apal__palette" role="dialog" aria-modal="false" aria-labelledby="apal-title">
-        <div class="apal__search">
-          <MiIcon name="search" :size="18" class="apal__glass" />
+      <div class="apal__palette mi:grid mi:w-full mi:max-w-160 mi:rounded-xl mi:overflow-hidden mi:[background:var(--mi-elev)] mi:border mi:border-sep mi:shadow-3" role="dialog" aria-modal="false" aria-labelledby="apal-title">
+        <div class="apal__search mi:flex mi:items-center mi:gap-2.5 mi:py-3.5 mi:px-4 mi:border-b mi:border-b-sep">
+          <MiIcon name="search" :size="18" class="apal__glass mi:text-(--apal-t3)" />
           <input
-            v-model="query" class="apal__input" type="text" role="combobox" aria-expanded="true" aria-autocomplete="list" aria-controls="apal-list"
+            v-model="query" class="apal__input mi:flex-1 mi:min-w-0 mi:h-7 mi:p-0 mi:[border:0] mi:[outline:none] mi:[background:none] mi:text-label mi:placeholder:text-(--apal-t3)" type="text" role="combobox" aria-expanded="true" aria-autocomplete="list" aria-controls="apal-list"
             :aria-activedescendant="activeId" aria-label="Search or ask a question" placeholder="Search or ask anything…" autocomplete="off" spellcheck="false"
             @keydown="onKey"
           >
-          <span v-if="query" class="apal__tab"><MiKbd>Tab</MiKbd> Ask AI</span>
+          <span v-if="query" class="apal__tab mi:hidden mi:flex-[none] mi:items-center mi:gap-1.5 mi:text-[12px] mi:text-(--apal-t3) mi:@[560px]:inline-flex"><MiKbd>Tab</MiKbd> Ask AI</span>
         </div>
 
-        <div id="apal-list" class="apal__list" role="listbox" aria-label="Results">
+        <div id="apal-list" class="apal__list mi:max-h-100 mi:overflow-y-auto mi:overscroll-contain mi:p-2" role="listbox" aria-label="Results">
           <!-- Ask row: the model's proposed answer sits on top, regular results keep their place below. -->
           <div
-            v-if="query.trim()" id="apal-opt-ask" role="option" class="apal__ask" :class="{ 'is-active': activeId === 'apal-opt-ask' }"
+            v-if="query.trim()" id="apal-opt-ask" role="option" class="apal__ask mi:grid mi:grid-cols-[28px_minmax(0,_1fr)] mi:gap-3 mi:p-3 mi:rounded-lg mi:cursor-pointer mi:[background:radial-gradient(120%_140%_at_0%_0%,_color-mix(in_srgb,_var(--mi-p)_9%,_transparent),_transparent_60%)] mi:shadow-[inset_0_0_0_1px_color-mix(in_srgb,_var(--mi-p)_14%,_var(--mi-sep))] mi:[&.is-active]:shadow-[inset_0_0_0_1.5px_color-mix(in_srgb,_var(--mi-p)_55%,_transparent)]" :class="{ 'is-active': activeId === 'apal-opt-ask' }"
             :aria-selected="activeId === 'apal-opt-ask'" :aria-label="`Ask Lumen AI: ${query}`" aria-describedby="apal-answer"
             @mousemove="active = 0" @click="ask"
           >
-            <span class="apal__orb"><MiOrb :state="phase === 'thinking' ? 'thinking' : 'idle'" size="sm" label="" /></span>
-            <div class="apal__ask-body">
-              <div class="apal__ask-head">
-                <span class="apal__ask-title">Ask Lumen AI</span>
-                <span class="apal__ask-q">“{{ query.trim() }}”</span>
-                <span class="apal__ask-go"><MiKbd>↵</MiKbd> Continue in chat</span>
+            <span class="apal__orb mi:grid mi:place-items-center mi:w-7 mi:h-7 mi:rounded-[50%] mi:[background:var(--mi-p-tint)]"><MiOrb :state="phase === 'thinking' ? 'thinking' : 'idle'" size="sm" label="" /></span>
+            <div class="apal__ask-body mi:grid mi:gap-2 mi:min-w-0">
+              <div class="apal__ask-head mi:flex mi:flex-wrap mi:items-baseline mi:gap-y-0.5 mi:gap-x-2 mi:min-h-7 mi:pt-1">
+                <span class="apal__ask-title mi:text-[14px] mi:font-semibold mi:text-p-text">Ask Lumen AI</span>
+                <span class="apal__ask-q mi:hidden mi:min-w-0 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:text-[14px] mi:text-label2 mi:flex-[1_1_140px] mi:@[560px]:block">“{{ query.trim() }}”</span>
+                <span class="apal__ask-go mi:hidden mi:items-center mi:gap-1.5 mi:text-[12px] mi:text-(--apal-t3) mi:@[560px]:inline-flex mi:@[560px]:ml-auto"><MiKbd>↵</MiKbd> Continue in chat</span>
               </div>
-              <div id="apal-answer" class="apal__answer" aria-live="polite">
-                <MiShimmerText v-if="phase === 'thinking'" class="apal__reading" :text="`Reading ${answer ? answer.sources.length : 'your'} sources…`" />
+              <div id="apal-answer" class="apal__answer mi:grid mi:gap-2" aria-live="polite">
+                <MiShimmerText v-if="phase === 'thinking'" class="apal__reading mi:text-[13px]" :text="`Reading ${answer ? answer.sources.length : 'your'} sources…`" />
                 <template v-else-if="answer">
-                  <p class="apal__summary">{{ answer.summary }}</p>
-                  <ol class="apal__steps">
-                    <li v-for="(s, i) in answer.steps" :key="i">{{ s }}</li>
+                  <p class="apal__summary mi:m-0 mi:text-[14px] mi:leading-normal mi:text-label mi:text-pretty">{{ answer.summary }}</p>
+                  <ol class="apal__steps mi:grid mi:gap-1 mi:m-0 mi:p-0 mi:[list-style:none] mi:[counter-reset:s]">
+                    <li class="mi:[.apal__steps_&]:relative mi:[.apal__steps_&]:pl-6.5 mi:[.apal__steps_&]:text-[13px] mi:[.apal__steps_&]:leading-[1.45] mi:[.apal__steps_&]:[counter-increment:s] mi:[.apal__steps_&]:before:content-[counter(s)] mi:[.apal__steps_&]:before:absolute mi:[.apal__steps_&]:before:left-0 mi:[.apal__steps_&]:before:top-px mi:[.apal__steps_&]:before:grid mi:[.apal__steps_&]:before:place-items-center mi:[.apal__steps_&]:before:w-4.5 mi:[.apal__steps_&]:before:h-4.5 mi:[.apal__steps_&]:before:rounded-[50%] mi:[.apal__steps_&]:before:text-[10px] mi:[.apal__steps_&]:before:font-bold mi:[.apal__steps_&]:before:text-label2 mi:[.apal__steps_&]:before:[background:var(--mi-fill3)] mi:[.apal__steps_&]:before:tabular-nums" v-for="(s, i) in answer.steps" :key="i">{{ s }}</li>
                   </ol>
-                  <span class="apal__sources">
-                    <span v-for="s in answer.sources" :key="s.title" class="apal__source" :data-kind="s.kind">{{ s.title }}</span>
+                  <span class="apal__sources mi:flex mi:flex-wrap mi:gap-1.5 mi:pt-0.5">
+                    <span v-for="s in answer.sources" :key="s.title" class="apal__source mi:inline-flex mi:items-center mi:gap-[5px] mi:h-5.5 mi:py-0 mi:px-2 mi:rounded-[6px] mi:text-[11.5px] mi:font-medium mi:text-label2 mi:[background:var(--mi-fill4)] mi:border mi:border-sep mi:before:content-[''] mi:before:w-1.5 mi:before:h-1.5 mi:before:rounded-[2px] mi:before:[background:var(--mi-p)] mi:[&[data-kind='runbook']]:before:[background:var(--mi-orange)] mi:[&[data-kind='thread']]:before:rounded-[50%] mi:[&[data-kind='thread']]:before:[background:var(--mi-green)]" :data-kind="s.kind">{{ s.title }}</span>
                   </span>
                 </template>
-                <p v-else class="apal__hint">Searches 214 docs, 38 runbooks and the #support channel.</p>
+                <p v-else class="apal__hint mi:m-0 mi:text-[13px] mi:text-(--apal-t3)">Searches 214 docs, 38 runbooks and the #support channel.</p>
               </div>
             </div>
           </div>
 
           <template v-for="g in groups" :key="g.label">
             <div role="group" :aria-labelledby="`apal-g-${g.id}`">
-              <div :id="`apal-g-${g.id}`" class="apal__group">{{ g.label }}</div>
+              <div :id="`apal-g-${g.id}`" class="apal__group mi:pt-3.5 mi:px-2.5 mi:pb-1.5 mi:text-[11px] mi:font-semibold mi:tracking-[.04em] mi:uppercase mi:text-(--apal-t3)">{{ g.label }}</div>
               <div
-                v-for="r in g.items" :id="`apal-opt-${r.id}`" :key="r.id" role="option" class="apal__opt"
+                v-for="r in g.items" :id="`apal-opt-${r.id}`" :key="r.id" role="option" class="apal__opt mi:flex mi:items-center mi:gap-2.5 mi:min-h-10.5 mi:py-1.5 mi:px-2.5 mi:rounded-md mi:cursor-pointer mi:[&.is-active]:[background:var(--mi-fill3)]"
                 :class="{ 'is-active': activeId === `apal-opt-${r.id}` }" :aria-selected="activeId === `apal-opt-${r.id}`"
                 @mousemove="active = options.indexOf(`apal-opt-${r.id}`)" @click="openResult(r)"
               >
                 <MiAvatar v-if="r.kind === 'person'" :name="r.title" size="xs" tone="auto" decorative />
-                <span v-else class="apal__ico" :data-kind="r.kind"><MiIcon :name="icons[r.kind]" :size="15" /></span>
-                <span class="apal__opt-text">
-                  <span class="apal__opt-title">{{ r.title }}</span>
-                  <span class="apal__opt-sub">{{ r.sub }}</span>
+                <span v-else class="apal__ico mi:grid mi:place-items-center mi:flex-[none] mi:w-6 mi:h-6 mi:rounded-[7px] mi:text-label2 mi:[background:var(--mi-fill4)]" :data-kind="r.kind"><MiIcon :name="icons[r.kind]" :size="15" /></span>
+                <span class="apal__opt-text mi:flex mi:flex-1 mi:flex-wrap mi:items-baseline mi:gap-y-0 mi:gap-x-2 mi:min-w-0">
+                  <span class="apal__opt-title mi:text-[14px] mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ r.title }}</span>
+                  <span class="apal__opt-sub mi:text-[12px] mi:text-(--apal-t3) mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ r.sub }}</span>
                 </span>
-                <MiIcon v-if="r.kind !== 'recent'" name="arrow-right" :size="14" class="apal__go" />
+                <MiIcon v-if="r.kind !== 'recent'" name="arrow-right" :size="14" class="apal__go mi:text-(--apal-t3) mi:opacity-0 mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease),_opacity_var(--mi-dur-2)_var(--mi-ease)] mi:[.apal__opt.is-active_&]:opacity-100" />
               </div>
             </div>
           </template>
 
-          <p v-if="query.trim() && !groups.length" class="apal__none">No page matches. Ask AI above instead.</p>
+          <p v-if="query.trim() && !groups.length" class="apal__none mi:m-0 mi:pt-4.5 mi:px-2.5 mi:pb-2 mi:text-[13px] mi:text-label2">No page matches. Ask AI above instead.</p>
         </div>
 
-        <div v-if="!query.trim()" class="apal__suggest">
-          <span class="apal__suggest-label">Suggested</span>
-          <div class="apal__chips">
+        <div v-if="!query.trim()" class="apal__suggest mi:grid mi:gap-2 mi:pt-1 mi:px-4.5 mi:pb-3.5">
+          <span class="apal__suggest-label mi:text-[11px] mi:font-semibold mi:tracking-[.04em] mi:uppercase mi:text-(--apal-t3)">Suggested</span>
+          <div class="apal__chips mi:flex mi:flex-wrap mi:gap-1.5">
             <MiButton v-for="s in suggestions" :key="s" size="small" variant="gray" @click="query = s">{{ s }}</MiButton>
           </div>
         </div>
 
-        <footer class="apal__foot">
-          <span class="apal__key"><MiKbdGroup><MiKbd>↑</MiKbd><MiKbd>↓</MiKbd></MiKbdGroup> move</span>
-          <span class="apal__key"><MiKbd>↵</MiKbd> open</span>
-          <span class="apal__key"><MiKbd>esc</MiKbd> {{ query ? 'clear' : 'close' }}</span>
-          <span class="apal__status" role="status" aria-live="polite">{{ status }}</span>
+        <footer class="apal__foot mi:flex mi:flex-wrap mi:items-center mi:gap-y-2 mi:gap-x-3.5 mi:py-[9px] mi:px-4 mi:border-t mi:border-t-sep mi:text-[12px] mi:text-label2 mi:[background:color-mix(in_srgb,_var(--mi-fill4)_50%,_transparent)]">
+          <span class="apal__key mi:inline-flex mi:items-center mi:gap-1.5"><MiKbdGroup><MiKbd>↑</MiKbd><MiKbd>↓</MiKbd></MiKbdGroup> move</span>
+          <span class="apal__key mi:inline-flex mi:items-center mi:gap-1.5"><MiKbd>↵</MiKbd> open</span>
+          <span class="apal__key mi:inline-flex mi:items-center mi:gap-1.5"><MiKbd>esc</MiKbd> {{ query ? 'clear' : 'close' }}</span>
+          <span class="apal__status mi:ml-auto mi:font-medium mi:text-p-text" role="status" aria-live="polite">{{ status }}</span>
         </footer>
       </div>
     </div>
@@ -211,86 +211,19 @@ function onKey(e: KeyboardEvent) {
 </script>
 
 <style scoped>
-.apal { --apal-t3: color-mix(in srgb, var(--mi-label2) 78%, transparent); container-type: inline-size; display: grid; align-content: start; font-family: var(--mi-font); color: var(--mi-label); }
-.apal__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-
-.apal__stage { position: relative; display: grid; place-items: start center; min-height: 540px; padding: 32px 12px 24px; border-radius: var(--mi-radius-xl); overflow: hidden; isolation: isolate; background: var(--mi-page); }
-.apal__app { position: absolute; inset: 0; z-index: -2; display: grid; grid-template-columns: 26% 1fr; gap: 28px; padding: 22px; filter: blur(3px); }
-.apal__app i, .apal__app b, .apal__app u { display: block; border-radius: 6px; background: var(--mi-fill3); }
-.apal__app-side { display: grid; align-content: start; gap: 12px; }
+.apal__app i, .apal__app b { display: block; border-radius: 6px; background: var(--mi-fill3); }
 .apal__app-side i { height: 12px; }
-.apal__app-side i:nth-child(3) { width: 70%; background: var(--mi-p-tint); }
-.apal__app-doc { display: grid; align-content: start; gap: 12px; max-width: 620px; }
-.apal__app-doc b { height: 30px; width: 55%; margin-bottom: 10px; background: var(--mi-fill2); }
+.apal__app-side i:nth-child(3) { width: 70%; }
+.apal__app-doc b { height: 30px; margin-bottom: 10px; background: var(--mi-fill2); }
 .apal__app-doc i { height: 11px; }
 .apal__app-doc i:nth-child(odd) { width: 88%; }
-.apal__app-doc u { height: 120px; margin: 8px 0; background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.apal__scrim { position: absolute; inset: 0; z-index: -1; background: color-mix(in srgb, var(--mi-page) 50%, transparent); }
-
-.apal__palette { display: grid; width: 100%; max-width: 640px; border-radius: var(--mi-radius-xl); overflow: hidden; background: var(--mi-elev); border: 1px solid var(--mi-sep); box-shadow: var(--mi-sh3); }
-
-.apal__search { display: flex; align-items: center; gap: 10px; padding: 14px 16px; border-bottom: 1px solid var(--mi-sep); }
-.apal__glass { flex: none; color: var(--apal-t3); }
-.apal__input { flex: 1; min-width: 0; height: 28px; padding: 0; border: 0; outline: none; background: none; font: inherit; font-size: 16px; color: var(--mi-label); }
-.apal__input::placeholder { color: var(--apal-t3); }
-.apal__tab { display: none; flex: none; align-items: center; gap: 6px; font-size: 12px; color: var(--apal-t3); }
-
-.apal__list { max-height: 400px; overflow-y: auto; overscroll-behavior: contain; padding: 8px; }
-
-/* Ask row: a quiet brand wash, the orb as the only moving thing. */
-.apal__ask {
-  display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 12px; padding: 12px; border-radius: var(--mi-radius-l); cursor: pointer;
-  background: radial-gradient(120% 140% at 0% 0%, color-mix(in srgb, var(--mi-p) 9%, transparent), transparent 60%);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--mi-p) 14%, var(--mi-sep));
-}
-.apal__ask.is-active { box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--mi-p) 55%, transparent); }
-.apal__orb { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--mi-p-tint); }
-.apal__ask-body { display: grid; gap: 8px; min-width: 0; }
-.apal__ask-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; min-height: 28px; padding-top: 4px; }
-.apal__ask-title { font-size: 14px; font-weight: 600; color: var(--mi-p-text); }
-.apal__ask-q { display: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; color: var(--mi-label2); flex: 1 1 140px; }
-.apal__ask-go { display: none; align-items: center; gap: 6px; font-size: 12px; color: var(--apal-t3); }
-.apal__answer { display: grid; gap: 8px; }
-.apal__reading { font-size: 13px; color: var(--mi-label2); }
-.apal__summary { margin: 0; font-size: 14px; line-height: 1.5; color: var(--mi-label); text-wrap: pretty; }
-.apal__steps { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; counter-reset: s; }
-.apal__steps li { position: relative; padding-left: 26px; font-size: 13px; line-height: 1.45; color: var(--mi-label2); counter-increment: s; }
-.apal__steps li::before {
-  content: counter(s); position: absolute; left: 0; top: 1px; display: grid; place-items: center; width: 18px; height: 18px; border-radius: 50%;
-  font-size: 10px; font-weight: 700; color: var(--mi-label2); background: var(--mi-fill3); font-variant-numeric: tabular-nums;
-}
-.apal__sources { display: flex; flex-wrap: wrap; gap: 6px; padding-top: 2px; }
-.apal__source { display: inline-flex; align-items: center; gap: 5px; height: 22px; padding: 0 8px; border-radius: 6px; font-size: 11.5px; font-weight: 500; color: var(--mi-label2); background: var(--mi-fill4); border: 1px solid var(--mi-sep); }
-.apal__source::before { content: ""; width: 6px; height: 6px; border-radius: 2px; background: var(--mi-p); }
-.apal__source[data-kind="runbook"]::before { background: var(--mi-orange); }
-.apal__source[data-kind="thread"]::before { border-radius: 50%; background: var(--mi-green); }
-.apal__hint { margin: 0; font-size: 13px; color: var(--apal-t3); }
-
-.apal__group { padding: 14px 10px 6px; font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--apal-t3); }
-.apal__opt { display: flex; align-items: center; gap: 10px; min-height: 42px; padding: 6px 10px; border-radius: var(--mi-radius-m); cursor: pointer; }
-.apal__opt.is-active { background: var(--mi-fill3); }
-.apal__ico { display: grid; place-items: center; flex: none; width: 24px; height: 24px; border-radius: 7px; color: var(--mi-label2); background: var(--mi-fill4); }
+.apal__app-doc u { height: 120px; margin: 8px 0; background: var(--mi-card); }
+.apal__glass { flex: none; }
+.apal__input { font: inherit; font-size: 16px; }
+.apal__reading { color: var(--mi-label2); }
+.apal__steps li { color: var(--mi-label2); }
 .apal__ico[data-kind="setting"] { color: var(--mi-s-text); background: var(--mi-s-tint); }
 .apal__ico[data-kind="recent"] { background: none; color: var(--apal-t3); }
-.apal__opt-text { display: flex; flex: 1; flex-wrap: wrap; align-items: baseline; gap: 0 8px; min-width: 0; }
-.apal__opt-title { font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.apal__opt-sub { font-size: 12px; color: var(--apal-t3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.apal__go { flex: none; color: var(--apal-t3); opacity: 0; transform: translateX(-4px); transition: transform var(--mi-dur-2) var(--mi-ease), opacity var(--mi-dur-2) var(--mi-ease); }
-.apal__opt.is-active .apal__go { opacity: 1; transform: none; }
-.apal__none { margin: 0; padding: 18px 10px 8px; font-size: 13px; color: var(--mi-label2); }
-
-.apal__suggest { display: grid; gap: 8px; padding: 4px 18px 14px; }
-.apal__suggest-label { font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--apal-t3); }
-.apal__chips { display: flex; flex-wrap: wrap; gap: 6px; }
-
-.apal__foot { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; padding: 9px 16px; border-top: 1px solid var(--mi-sep); font-size: 12px; color: var(--mi-label2); background: color-mix(in srgb, var(--mi-fill4) 50%, transparent); }
-.apal__key { display: inline-flex; align-items: center; gap: 6px; }
-.apal__status { margin-left: auto; font-weight: 500; color: var(--mi-p-text); }
-
-@container (min-width: 560px) {
-  .apal__stage { padding: 52px 32px 32px; }
-  .apal__tab { display: inline-flex; }
-  .apal__ask-go { display: inline-flex; margin-left: auto; }
-  .apal__ask-q { display: block; }
-}
+.apal__go { flex: none; transform: translateX(-4px); }
+.apal__opt.is-active .apal__go { transform: none; }
 </style>

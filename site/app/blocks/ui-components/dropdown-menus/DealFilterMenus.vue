@@ -1,6 +1,6 @@
 <template>
-  <section class="dfm" aria-labelledby="dfm-title">
-    <header class="dfm__head">
+  <section class="dfm mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="dfm-title">
+    <header class="dfm__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="dfm-title" variant="title3" as="h2" weight="semibold">Open deals</MiText>
         <MiText variant="footnote" tone="label2">{{ shown.length }} of {{ deals.length }} deals · {{ money(pipeline) }} in view</MiText>
@@ -9,7 +9,7 @@
     </header>
 
     <!-- Multi-select filter menus: checked entries toggle, the trigger counts them. -->
-    <div class="dfm__bar" role="group" aria-label="Filters">
+    <div class="dfm__bar mi:flex mi:flex-wrap mi:items-center mi:gap-2" role="group" aria-label="Filters">
       <MiMenu v-for="f in filterDefs" :key="f.key" :items="menuItems(f.key)" :aria-label="'Filter by ' + f.label" @select="(item) => toggle(f.key, item.value)">
         <template #trigger="{ props: tp }">
           <MiButton v-bind="tp" size="small" :variant="picked[f.key].length ? 'tinted' : 'bordered'">
@@ -25,23 +25,23 @@
       <MiButton v-if="chips.length" size="small" variant="plain" @click="clear">Clear all</MiButton>
     </div>
 
-    <div class="dfm__grid">
-      <ul class="dfm__list" aria-label="Deals" aria-live="polite">
-        <li v-for="d in shown" :key="d.id" class="dfm__deal">
+    <div class="dfm__grid mi:grid mi:gap-3.5 mi:grid-cols-[minmax(0,_1fr)] mi:items-start mi:@[760px]:grid-cols-[minmax(0,_1fr)_260px]">
+      <ul class="dfm__list mi:grid mi:m-0 mi:p-1.5 mi:[list-style:none] mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1" aria-label="Deals" aria-live="polite">
+        <li v-for="d in shown" :key="d.id" class="dfm__deal mi:grid mi:grid-cols-[auto_minmax(0,_1fr)_auto] mi:items-center mi:gap-y-1 mi:gap-x-3 mi:p-2.5 mi:@[520px]:grid-cols-[auto_minmax(0,_1fr)_auto_72px]">
           <MiAvatar :name="d.owner" size="xs" tone="auto" decorative />
-          <div class="dfm__deal-main">
+          <div class="dfm__deal-main mi:grid mi:min-w-0">
             <MiText variant="subheadline" weight="semibold" :lines="1">{{ d.company }}</MiText>
             <MiText variant="caption" tone="label2">{{ d.owner }} · closes {{ d.closes }}</MiText>
           </div>
-          <span class="dfm__stage" :data-stage="d.stage">{{ d.stage }}</span>
-          <span class="dfm__amount">{{ money(d.amount) }}</span>
+          <span class="dfm__stage mi:hidden mi:py-[3px] mi:px-2 mi:rounded-[6px] mi:text-[12px] mi:font-semibold mi:whitespace-nowrap mi:[background:var(--mi-fill3)] mi:text-label2 mi:[&[data-stage='Negotiation']]:[background:var(--mi-p-tint)] mi:[&[data-stage='Negotiation']]:text-p-text mi:[&[data-stage='Verbal_yes']]:[background:color-mix(in_srgb,_var(--mi-green)_16%,_transparent)] mi:[&[data-stage='Verbal_yes']]:text-green-t mi:@[520px]:inline-block" :data-stage="d.stage">{{ d.stage }}</span>
+          <span class="dfm__amount mi:font-bold mi:tabular-nums mi:@[520px]:text-end">{{ money(d.amount) }}</span>
         </li>
-        <li v-if="!shown.length" class="dfm__empty"><MiText variant="footnote" tone="label2">No deal matches these filters.</MiText></li>
+        <li v-if="!shown.length" class="dfm__empty mi:py-6 mi:px-3 mi:text-center"><MiText variant="footnote" tone="label2">No deal matches these filters.</MiText></li>
       </ul>
 
       <!-- The Stage menu shown pinned open beside its trigger; it drives the same filter. -->
-      <aside class="dfm__shown" aria-label="Stage filter, shown open">
-        <span class="dfm__fake" aria-hidden="true">Stage<template v-if="picked.stage.length"> · {{ picked.stage.length }}</template><MiIcon name="chevron-down" :size="14" /></span>
+      <aside class="dfm__shown mi:grid mi:justify-items-start mi:gap-2 mi:p-4 mi:rounded-xl mi:[background:radial-gradient(120%_80%_at_0%_0%,_var(--mi-p-tint),_transparent_60%),_var(--mi-fill4)] mi:overflow-hidden" aria-label="Stage filter, shown open">
+        <span class="dfm__fake mi:inline-flex mi:items-center mi:gap-1.5 mi:py-[5px] mi:px-3 mi:rounded-[999px] mi:text-[13px] mi:font-semibold mi:[background:var(--mi-p-tint)] mi:text-p-text mi:shadow-[0_0_0_3px_var(--mi-card)]" aria-hidden="true">Stage<template v-if="picked.stage.length"> · {{ picked.stage.length }}</template><MiIcon name="chevron-down" :size="14" /></span>
         <MiContextMenu inline :items="pinned" label="Stage filter" :width="220" @select="(id) => toggle('stage', id)" />
       </aside>
     </div>
@@ -101,25 +101,6 @@ const money = (n: number) => '$' + (n / 1000).toFixed(n % 1000 ? 1 : 0) + 'k'
 </script>
 
 <style scoped>
-.dfm { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
-.dfm__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.dfm__bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
-
-.dfm__grid { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); align-items: start; }
-@container (min-width: 760px) { .dfm__grid { grid-template-columns: minmax(0, 1fr) 260px; } }
-
-.dfm__list { display: grid; margin: 0; padding: 6px; list-style: none; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
 .dfm__list > li + li { border-top: 1px solid var(--mi-sep); }
-.dfm__deal { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 4px 12px; padding: 10px; }
-.dfm__deal-main { display: grid; min-width: 0; }
-.dfm__stage { display: none; padding: 3px 8px; border-radius: 6px; font-size: 12px; font-weight: 600; white-space: nowrap; background: var(--mi-fill3); color: var(--mi-label2); }
-.dfm__stage[data-stage="Negotiation"] { background: var(--mi-p-tint); color: var(--mi-p-text); }
-.dfm__stage[data-stage="Verbal yes"] { background: color-mix(in srgb, var(--mi-green) 16%, transparent); color: var(--mi-green-t); }
-.dfm__amount { font-weight: 700; font-variant-numeric: tabular-nums; }
-@container (min-width: 520px) { .dfm__deal { grid-template-columns: auto minmax(0, 1fr) auto 72px; } .dfm__stage { display: inline-block; } .dfm__amount { text-align: end; } }
-.dfm__empty { padding: 24px 12px; text-align: center; }
-
-.dfm__shown { display: grid; justify-items: start; gap: 8px; padding: 16px; border-radius: var(--mi-radius-xl); background: radial-gradient(120% 80% at 0% 0%, var(--mi-p-tint), transparent 60%), var(--mi-fill4); overflow: hidden; }
 .dfm__shown > * { max-width: 100%; }
-.dfm__fake { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 999px; font-size: 13px; font-weight: 600; background: var(--mi-p-tint); color: var(--mi-p-text); box-shadow: 0 0 0 3px var(--mi-card); }
 </style>

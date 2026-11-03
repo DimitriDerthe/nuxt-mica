@@ -1,28 +1,28 @@
 <template>
-  <div class="dsf-cq">
-    <section class="dsf" aria-labelledby="dsf-title">
-      <div class="dsf__pitch">
-        <span class="dsf__mark" aria-hidden="true">M</span>
+  <div class="dsf-cq mi:@container">
+    <section class="dsf mi:grid mi:gap-6 mi:p-5.5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:font-mi mi:text-label mi:overflow-hidden mi:@[780px]:grid-cols-[minmax(0,_1fr)_minmax(0,_1fr)] mi:@[780px]:gap-9 mi:@[780px]:p-7 mi:isolate" aria-labelledby="dsf-title">
+      <div class="dsf__pitch mi:grid mi:gap-2.5 mi:content-start">
+        <span class="dsf__mark mi:grid mi:place-items-center mi:w-10 mi:h-10 mi:rounded-[12px] mi:bg-label mi:text-card mi:[font:800_20px/1_Georgia,_'Times_New_Roman',_serif] mi:[&.is-sm]:w-5.5 mi:[&.is-sm]:h-5.5 mi:[&.is-sm]:rounded-[6px]" aria-hidden="true">M</span>
         <MiText id="dsf-title" variant="title2" as="h2" weight="bold" balance>The Margin</MiText>
         <MiText variant="subheadline" tone="label2">Product economics for people who ship. Pricing teardowns, unit economics and the numbers behind growth, from operators at 40+ companies.</MiText>
 
-        <div v-if="joined" class="dsf__joined" role="status">
+        <div v-if="joined" class="dsf__joined mi:grid mi:gap-3.5 mi:mt-2 mi:p-4 mi:rounded-lg mi:[background:color-mix(in_srgb,_var(--mi-green)_10%,_transparent)]" role="status">
           <MiText variant="headline" as="h3">Check your inbox</MiText>
           <MiText variant="footnote" tone="label2">We sent a confirmation link to {{ email }}. Your first {{ freqObj.noun }} arrives {{ nextLabel }}.</MiText>
           <MiButton variant="plain" size="small" @click="joined = false">Change preferences</MiButton>
         </div>
 
-        <form v-else class="dsf__form" novalidate @submit.prevent="join">
+        <form v-else class="dsf__form mi:grid mi:gap-3.5 mi:mt-2" novalidate @submit.prevent="join">
           <MiField label="Work email" :error="tried && !emailOk ? 'Enter an email address like you@company.com.' : ''">
             <MiInput v-model="email" type="email" autocomplete="email" placeholder="you@company.com" />
           </MiField>
-          <div class="dsf__row">
+          <div class="dsf__row mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2">
             <MiText variant="subheadline" weight="semibold" aria-hidden="true">How often</MiText>
             <MiSegmented v-model="freq" label="How often" :options="FREQS.map(f => ({ value: f.id, label: f.label }))" />
           </div>
-          <fieldset class="dsf__topics">
+          <fieldset class="dsf__topics mi:grid mi:gap-2 mi:m-0 mi:p-0 mi:[border:0] mi:min-w-0">
             <legend>Topics <span>{{ topics.length }} of {{ TOPICS.length }}</span></legend>
-            <div class="dsf__chips">
+            <div class="dsf__chips mi:flex mi:flex-wrap mi:gap-1.5">
               <MiChip
                 v-for="t in TOPICS" :key="t" selectable size="small" :label="t" :model-value="topics.includes(t)"
                 @update:model-value="on => (topics = on ? [...topics, t] : topics.filter(x => x !== t))"
@@ -36,22 +36,22 @@
       </div>
 
       <!-- Preview of the very next issue, built from the choices on the left. -->
-      <article class="dsf__mail" aria-label="Preview of your next issue">
-        <div class="dsf__mail-head">
-          <span class="dsf__mail-from"><span class="dsf__mark is-sm" aria-hidden="true">M</span><b>The Margin</b></span>
-          <span class="dsf__mail-date">{{ nextLabel }}</span>
+      <article class="dsf__mail mi:relative mi:grid mi:gap-3 mi:content-start mi:p-4.5 mi:rounded-lg mi:bg-elev mi:shadow-[var(--mi-sh2),_0_0_0_1px_var(--mi-sep)] mi:min-w-0 mi:before:content-[''] mi:before:absolute mi:before:inset-0 mi:before:-z-1 mi:before:rounded-[inherit] mi:before:bg-fill3 mi:after:content-[''] mi:after:absolute mi:after:inset-0 mi:after:-z-1 mi:after:rounded-[inherit] mi:after:bg-fill3 mi:before:transform-[translateY(8px)_scale(.96)] mi:before:opacity-70 mi:after:transform-[translateY(16px)_scale(.92)] mi:after:opacity-40" aria-label="Preview of your next issue">
+        <div class="dsf__mail-head mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2 mi:text-[13px]">
+          <span class="dsf__mail-from mi:inline-flex mi:items-center mi:gap-2"><span class="dsf__mark is-sm mi:grid mi:place-items-center mi:w-10 mi:h-10 mi:rounded-[12px] mi:bg-label mi:text-card mi:[font:800_20px/1_Georgia,_'Times_New_Roman',_serif] mi:[&.is-sm]:w-5.5 mi:[&.is-sm]:h-5.5 mi:[&.is-sm]:rounded-[6px]" aria-hidden="true">M</span><b>The Margin</b></span>
+          <span class="dsf__mail-date mi:text-label3 mi:tabular-nums">{{ nextLabel }}</span>
         </div>
-        <p class="dsf__subject">{{ subject }}</p>
-        <ol class="dsf__stories">
+        <p class="dsf__subject mi:m-0 mi:[font:700_18px/1.3_Georgia,_'Times_New_Roman',_serif] mi:tracking-[-.01em]">{{ subject }}</p>
+        <ol class="dsf__stories mi:relative mi:grid mi:gap-0 mi:m-0 mi:p-0 mi:[list-style:none]">
           <TransitionGroup name="dsf-story">
-            <li v-for="s in stories" :key="s.title">
-              <span class="dsf__topic">{{ s.topic }}</span>
-              <span class="dsf__story-title">{{ s.title }}</span>
-              <span class="dsf__story-meta">{{ s.mins }} min</span>
+            <li class="mi:[.dsf__stories_&]:grid-cols-[minmax(0,_1fr)_auto] mi:[.dsf__stories_&]:gap-y-0.5 mi:[.dsf__stories_&]:gap-x-2.5 mi:[.dsf__stories_&]:border-t mi:[.dsf__stories_&]:border-t-sep" v-for="s in stories" :key="s.title">
+              <span class="dsf__topic mi:col-span-full mi:text-[11px] mi:font-bold mi:tracking-[.06em] mi:uppercase mi:text-p-text">{{ s.topic }}</span>
+              <span class="dsf__story-title mi:text-[14px] mi:font-medium">{{ s.title }}</span>
+              <span class="dsf__story-meta mi:text-[12px] mi:text-label3">{{ s.mins }} min</span>
             </li>
           </TransitionGroup>
         </ol>
-        <div class="dsf__mail-foot">
+        <div class="dsf__mail-foot mi:flex mi:justify-between mi:pt-2.5 mi:border-t mi:border-t-sep mi:text-[12px] mi:text-label2">
           <span>{{ readMins }} min read</span>
           <span>{{ stories.length }} {{ stories.length === 1 ? 'story' : 'stories' }}</span>
         </div>
@@ -115,39 +115,10 @@ function join() {
 </script>
 
 <style scoped>
-.dsf-cq { container-type: inline-size; }
-.dsf { display: grid; gap: 24px; padding: 22px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); font-family: var(--mi-font); color: var(--mi-label); overflow: hidden; }
-@container (min-width: 780px) { .dsf { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 36px; padding: 28px; } }
-.dsf__pitch { display: grid; gap: 10px; align-content: start; }
-.dsf__mark { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: var(--mi-label); color: var(--mi-card); font: 800 20px/1 Georgia, 'Times New Roman', serif; }
-.dsf__mark.is-sm { width: 22px; height: 22px; border-radius: 6px; font-size: 12px; }
-.dsf__form, .dsf__joined { display: grid; gap: 14px; margin-top: 8px; }
-.dsf__row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
-.dsf__topics { display: grid; gap: 8px; margin: 0; padding: 0; border: 0; min-width: 0; }
+.dsf__mark.is-sm { font-size: 12px; }
 .dsf__topics legend { display: flex; justify-content: space-between; width: 100%; padding: 0; margin-bottom: 8px; font-size: 15px; font-weight: 600; }
 .dsf__topics legend span { font-weight: 400; font-size: 13px; color: var(--mi-label3); }
-.dsf__chips { display: flex; flex-wrap: wrap; gap: 6px; }
-.dsf__joined { padding: 16px; border-radius: var(--mi-radius-l); background: color-mix(in srgb, var(--mi-green) 10%, transparent); }
-
-/* The preview sits on a tilted paper stack. */
-.dsf__mail {
-  position: relative; display: grid; gap: 12px; align-content: start; padding: 18px; border-radius: var(--mi-radius-l);
-  background: var(--mi-elev); box-shadow: var(--mi-sh2), 0 0 0 1px var(--mi-sep); min-width: 0;
-}
-.dsf__mail::before, .dsf__mail::after { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: var(--mi-fill3); }
-.dsf__mail::before { transform: translateY(8px) scale(.96); opacity: .7; }
-.dsf__mail::after { transform: translateY(16px) scale(.92); opacity: .4; }
-.dsf { isolation: isolate; }
-.dsf__mail-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; font-size: 13px; }
-.dsf__mail-from { display: inline-flex; align-items: center; gap: 8px; }
-.dsf__mail-date { color: var(--mi-label3); font-variant-numeric: tabular-nums; }
-.dsf__subject { margin: 0; font: 700 18px/1.3 Georgia, 'Times New Roman', serif; letter-spacing: -.01em; }
-.dsf__stories { position: relative; display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
-.dsf__stories li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 10px; padding: 10px 0; border-top: 1px solid var(--mi-sep); }
-.dsf__topic { grid-column: 1 / -1; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--mi-p-text); }
-.dsf__story-title { font-size: 14px; font-weight: 500; }
-.dsf__story-meta { font-size: 12px; color: var(--mi-label3); }
-.dsf__mail-foot { display: flex; justify-content: space-between; padding-top: 10px; border-top: 1px solid var(--mi-sep); font-size: 12px; color: var(--mi-label2); }
+.dsf__stories li { display: grid; padding: 10px 0; }
 .dsf-story-enter-active, .dsf-story-leave-active { transition: opacity var(--mi-dur-3) var(--mi-ease), transform var(--mi-dur-3) var(--mi-spring); }
 .dsf-story-enter-from, .dsf-story-leave-to { opacity: 0; transform: translateX(12px); }
 .dsf-story-leave-active { position: absolute; left: 0; right: 0; }

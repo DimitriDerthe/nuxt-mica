@@ -1,51 +1,51 @@
 <template>
-  <section class="nm" aria-labelledby="nm-title">
+  <section class="nm mi:@container mi:relative mi:grid mi:content-start mi:min-h-full mi:font-mi mi:text-label" aria-labelledby="nm-title">
     <!-- Faux app behind the modal: the inbox the settings were opened from. -->
-    <div class="nm__page" :inert="open || undefined">
-      <div class="nm__page-head">
+    <div class="nm__page mi:grid mi:content-start mi:gap-3 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1" :inert="open || undefined">
+      <div class="nm__page-head mi:flex mi:items-center mi:justify-between mi:gap-2">
         <MiText id="nm-title" as="h2" variant="headline" weight="semibold">Inbox</MiText>
-        <MiIconButton label="Notification settings" variant="gray" size="small" @click="open = true"><MiIcon name="bell" :size="16" /></MiIconButton>
+        <MiIconButton label="Notification settings" variant="gray" size="small" @click="open = true"><MiIcon class="mi:[.nm__feed_li>div&]:min-w-0" name="bell" :size="16" /></MiIconButton>
       </div>
-      <ul class="nm__feed">
-        <li v-for="n in feed" :key="n.title">
-          <MiAvatar :name="n.who" size="sm" tone="auto" decorative />
-          <div><MiText variant="subheadline" weight="medium" :lines="1">{{ n.title }}</MiText><MiText variant="caption" tone="label2">{{ n.when }}</MiText></div>
+      <ul class="nm__feed mi:grid mi:m-0 mi:p-0 mi:[list-style:none]">
+        <li class="mi:[.nm__feed_li&]:gap-3 mi:[.nm__feed_li&]:border-t mi:[.nm__feed_li&]:border-t-sep mi:[.nm__feed_li&]:min-w-0" v-for="n in feed" :key="n.title">
+          <MiAvatar class="mi:[.nm__feed_li&]:gap-3 mi:[.nm__feed_li&]:border-t mi:[.nm__feed_li&]:border-t-sep mi:[.nm__feed_li&]:min-w-0 mi:[.nm__feed_li>div&]:min-w-0" :name="n.who" size="sm" tone="auto" decorative />
+          <div class="mi:[.nm__feed_li>div&]:min-w-0"><MiText class="mi:[.nm__feed_li&]:gap-3 mi:[.nm__feed_li&]:border-t mi:[.nm__feed_li&]:border-t-sep mi:[.nm__feed_li&]:min-w-0" variant="subheadline" weight="medium" :lines="1">{{ n.title }}</MiText><MiText class="mi:[.nm__feed_li&]:gap-3 mi:[.nm__feed_li&]:border-t mi:[.nm__feed_li&]:border-t-sep mi:[.nm__feed_li&]:min-w-0" variant="caption" tone="label2">{{ n.when }}</MiText></div>
         </li>
       </ul>
     </div>
 
-    <div v-if="open" class="nm__scrim">
+    <div v-if="open" class="nm__scrim mi:absolute mi:inset-0 mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:place-items-center mi:p-4 mi:rounded-xl mi:[background:color-mix(in_srgb,_var(--mi-scrim)_85%,_transparent)] mi:overflow-auto">
       <MiDialog v-model="open" inline variant="dialog" title="Notify me about" icon="bell" :close-on-action="false">
         <!-- Matrix: one row per event, one column per channel; column headers toggle the whole channel. -->
-        <table class="nm__matrix">
-          <caption class="nm__sr">Notification channels per event</caption>
+        <table class="nm__matrix mi:w-full mi:border-collapse mi:text-start mi:text-[14px]">
+          <caption class="nm__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">Notification channels per event</caption>
           <thead>
             <tr>
-              <th scope="col" class="nm__event">Event</th>
+              <th scope="col" class="nm__event mi:font-normal">Event</th>
               <th v-for="c in channels" :key="c.id" scope="col">
-                <span class="nm__ch">{{ c.label }}</span>
-                <div class="nm__cell"><MiCheckbox :model-value="colAll(c.id)" :indeterminate="colSome(c.id)" @update:model-value="setCol(c.id, $event)">
-                  <span class="nm__sr">All {{ c.label }}</span>
+                <span class="nm__ch mi:block mi:mb-1">{{ c.label }}</span>
+                <div class="nm__cell mi:flex mi:justify-center"><MiCheckbox :model-value="colAll(c.id)" :indeterminate="colSome(c.id)" @update:model-value="setCol(c.id, $event)">
+                  <span class="nm__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">All {{ c.label }}</span>
                 </MiCheckbox></div>
               </th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="e in events" :key="e.id">
-              <th scope="row" class="nm__event">
-                <span class="nm__event-name">{{ e.label }}</span>
-                <span class="nm__event-sub">{{ e.sub }}</span>
+              <th scope="row" class="nm__event mi:font-normal">
+                <span class="nm__event-name mi:block mi:font-medium">{{ e.label }}</span>
+                <span class="nm__event-sub mi:block mi:text-[12px] mi:text-label2">{{ e.sub }}</span>
               </th>
               <td v-for="c in channels" :key="c.id">
-                <div class="nm__cell"><MiCheckbox v-model="prefs[e.id][c.id]">
-                  <span class="nm__sr">{{ e.label }} by {{ c.label }}</span>
+                <div class="nm__cell mi:flex mi:justify-center"><MiCheckbox v-model="prefs[e.id][c.id]">
+                  <span class="nm__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">{{ e.label }} by {{ c.label }}</span>
                 </MiCheckbox></div>
               </td>
             </tr>
           </tbody>
         </table>
 
-        <div class="nm__quiet">
+        <div class="nm__quiet mi:[.nm__feed_li>div&]:min-w-0 mi:flex mi:items-center mi:justify-between mi:gap-3 mi:mt-3.5 mi:text-start">
           <div>
             <MiText id="nm-quiet" variant="subheadline" weight="medium">Quiet hours</MiText>
             <MiText variant="caption" tone="label2">No push 22:00–07:00, Europe/Berlin</MiText>
@@ -54,7 +54,7 @@
         </div>
 
         <template #actions="{ close }">
-          <div class="nm__actions">
+          <div class="nm__actions mi:[.nm__feed_li>div&]:min-w-0 mi:grid mi:gap-2 mi:w-full mi:justify-items-center">
             <MiText variant="caption" tone="label2" aria-live="polite">{{ changes ? `${changes} unsaved ${changes === 1 ? 'change' : 'changes'}` : savedNote }}</MiText>
             <MiButton block :disabled="!changes" @click="save">Save</MiButton>
             <MiButton variant="plain" block @click="discard(); close()">Cancel</MiButton>
@@ -62,7 +62,7 @@
         </template>
       </MiDialog>
     </div>
-    <div v-else class="nm__reopen">
+    <div v-else class="nm__reopen mi:absolute mi:left-1/2 mi:bottom-4.5 mi:transform-[translateX(-50%)]">
       <MiButton variant="tinted" size="small" @click="open = true">Open notification settings</MiButton>
     </div>
   </section>
@@ -117,33 +117,15 @@ const feed = [
 </script>
 
 <style scoped>
-.nm { container-type: inline-size; position: relative; display: grid; align-content: start; min-height: 100%; font-family: var(--mi-font); color: var(--mi-label); }
-.nm__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-
-.nm__page { display: grid; align-content: start; gap: 12px; padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.nm__page-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.nm__feed { display: grid; margin: 0; padding: 0; list-style: none; }
-.nm__feed li { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid var(--mi-sep); min-width: 0; }
-.nm__feed li > div { display: grid; min-width: 0; }
+.nm__feed li { display: flex; align-items: center; padding: 12px 0; }
+.nm__feed li > div { display: grid; }
 
 .nm__scrim {
-  position: absolute; inset: 0; display: grid; grid-template-columns: minmax(0, 1fr); place-items: center; padding: 16px; border-radius: var(--mi-radius-xl);
-  background: color-mix(in srgb, var(--mi-scrim) 85%, transparent); overflow: auto;
   -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px);
 }
-
-.nm__matrix { width: 100%; border-collapse: collapse; text-align: start; font-size: 14px; }
 .nm__matrix th, .nm__matrix td { padding: 8px 0; border-bottom: 1px solid var(--mi-sep); text-align: center; vertical-align: middle; }
 .nm__matrix thead th { padding-top: 0; font-size: 11px; font-weight: 600; color: var(--mi-label2); }
 .nm__matrix td, .nm__matrix thead th:not(.nm__event) { width: 52px; }
-.nm__cell { display: flex; justify-content: center; }
-.nm__ch { display: block; margin-bottom: 4px; }
-th.nm__event { text-align: start; font-weight: 400; }
+th.nm__event { text-align: start; }
 thead th.nm__event { vertical-align: bottom; }
-.nm__event-name { display: block; font-weight: 500; }
-.nm__event-sub { display: block; font-size: 12px; color: var(--mi-label2); }
-
-.nm__quiet { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 14px; text-align: start; }
-.nm__actions { display: grid; gap: 8px; width: 100%; justify-items: center; }
-.nm__reopen { position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%); }
 </style>

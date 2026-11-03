@@ -1,27 +1,27 @@
 <template>
-  <section class="dw" aria-labelledby="dw-title">
-    <div class="dw__shell" :class="{ 'is-open': inChannel }">
-      <nav class="dw__side" aria-labelledby="dw-title">
-        <header class="dw__ws">
-          <span class="dw__ws-mark" aria-hidden="true">H</span>
-          <div class="dw__ws-text">
+  <section class="dw mi:@container mi:h-165 mi:font-mi mi:text-label mi:[background:var(--mi-page)]" aria-labelledby="dw-title">
+    <div class="dw__shell mi:grid mi:h-full mi:grid-cols-[minmax(0,_1fr)] mi:@[720px]:grid-cols-[236px_minmax(0,_1fr)] mi:@[1080px]:grid-cols-[236px_minmax(0,_1fr)_280px]" :class="{ 'is-open': inChannel }">
+      <nav class="dw__side mi:[.dw__shell.is-open_&]:hidden mi:@[720px]:[.dw__shell_&]:flex mi:@[720px]:[.dw__shell.is-open_&]:flex mi:flex mi:flex-col mi:min-h-0 mi:[background:var(--mi-card)] mi:border-r mi:border-r-sep" aria-labelledby="dw-title">
+        <header class="dw__ws mi:flex mi:items-center mi:gap-2.5 mi:p-4 mi:border-b mi:border-b-sep">
+          <span class="dw__ws-mark mi:grid mi:place-items-center mi:flex-[none] mi:w-8.5 mi:h-8.5 mi:rounded-[10px] mi:[background:linear-gradient(140deg,_var(--mi-p),_var(--mi-s))] mi:text-p-on mi:font-extrabold" aria-hidden="true">H</span>
+          <div class="dw__ws-text mi:min-w-0">
             <MiText id="dw-title" as="h2" variant="headline" weight="bold" :lines="1">Halden Studio</MiText>
             <MiText variant="caption" tone="label2">14 online</MiText>
           </div>
         </header>
-        <div class="dw__side-scroll">
+        <div class="dw__side-scroll mi:flex-1 mi:min-h-0 mi:overflow-y-auto mi:pt-2 mi:px-2 mi:pb-4">
           <template v-for="sec in sections" :key="sec.label">
-            <h3 class="dw__sec">{{ sec.label }}</h3>
-            <ul class="dw__chans">
+            <h3 class="dw__sec mi:mt-3.5 mi:mx-2.5 mi:mb-1.5 mi:text-[11px] mi:font-semibold mi:tracking-[.06em] mi:uppercase mi:text-label3">{{ sec.label }}</h3>
+            <ul class="dw__chans mi:[list-style:none] mi:m-0 mi:p-0 mi:grid mi:gap-px">
               <li v-for="c in sec.items" :key="c.id">
                 <button
-                  type="button" class="dw__chan" :class="{ 'is-on': c.id === activeId, 'is-unread': c.unread > 0 }"
+                  type="button" class="dw__chan mi:flex mi:items-center mi:gap-2.5 mi:w-full mi:min-h-10 mi:py-1.5 mi:px-2.5 mi:[border:0] mi:rounded-md mi:[background:transparent] mi:text-label2 mi:text-start mi:cursor-pointer mi:[&.is-on]:text-p-text mi:[&.is-unread]:text-label mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px]" :class="{ 'is-on': c.id === activeId, 'is-unread': c.unread > 0 }"
                   :aria-current="c.id === activeId ? 'page' : undefined" @click="openChannel(c.id)"
                 >
                   <MiAvatar v-if="c.dm" :name="c.name" size="xs" tone="auto" decorative />
-                  <MiIcon v-else :svg="icons.hash" :size="16" class="dw__hash" />
-                  <span class="dw__chan-name">{{ c.name }}</span>
-                  <span v-if="c.dm && c.online" class="dw__online" aria-label="online" role="img" />
+                  <MiIcon v-else :svg="icons.hash" :size="16" class="dw__hash mi:text-label3" />
+                  <span class="dw__chan-name mi:flex-1 mi:min-w-0 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ c.name }}</span>
+                  <span v-if="c.dm && c.online" class="dw__online mi:w-2 mi:h-2 mi:rounded-[50%] mi:[background:var(--mi-green)]" aria-label="online" role="img" />
                   <MiBadge v-if="c.unread" :count="c.unread" tone="primary" variant="solid" />
                 </button>
               </li>
@@ -30,16 +30,16 @@
         </div>
       </nav>
 
-      <div class="dw__main">
-        <header class="dw__head">
+      <div class="dw__main mi:hidden mi:[.dw__shell.is-open_&]:flex mi:@[720px]:[.dw__shell_&]:flex mi:flex-col mi:min-w-0 mi:min-h-0">
+        <header class="dw__head mi:flex mi:items-center mi:gap-3 mi:py-3 mi:px-4 mi:border-b mi:border-b-sep mi:[background:var(--mi-card)]">
           <MiIconButton class="dw__back" label="Back to channels" variant="gray" size="regular" @click="inChannel = false">
             <MiIcon name="chevron-left" />
           </MiIconButton>
-          <div class="dw__head-text">
+          <div class="dw__head-text mi:flex-1 mi:min-w-0">
             <MiText as="h3" variant="headline" weight="semibold" :lines="1">{{ active.dm ? active.name : '#' + active.name }}</MiText>
             <MiText variant="caption" tone="label2" :lines="1">{{ active.topic }}</MiText>
           </div>
-          <button v-if="decisions.length" type="button" class="dw__dchip" @click="jumpTo(decisions[decisions.length - 1]?.id)">
+          <button v-if="decisions.length" type="button" class="dw__dchip mi:@[1080px]:[.dw__head_&]:hidden mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px] mi:inline-flex mi:items-center mi:gap-1.5 mi:flex-[none] mi:py-1.5 mi:px-2.5 mi:[border:0] mi:rounded-[999px] mi:[background:var(--mi-p-tint)] mi:text-p-text mi:cursor-pointer" @click="jumpTo(decisions[decisions.length - 1]?.id)">
             <MiIcon name="check-circle" :size="15" />
             {{ decisions.length }} {{ decisions.length === 1 ? 'decision' : 'decisions' }}
           </button>
@@ -48,13 +48,13 @@
         <MiMessageScroller :key="activeId" ref="scroller" class="dw__log" :label="'Messages in ' + active.name">
           <MiMarker variant="separator">Today</MiMarker>
           <MiMessageScrollerItem v-for="m in active.messages" :key="m.id" :message-id="'dw-' + m.id">
-            <MiMessage :align="m.me ? 'end' : 'start'" :label="m.who" class="dw__row" :class="{ 'is-end': m.me, 'is-decision': m.decision }">
+            <MiMessage :align="m.me ? 'end' : 'start'" :label="m.who" class="dw__row mi:[&.is-end]:ms-auto" :class="{ 'is-end': m.me, 'is-decision': m.decision }">
               <template #avatar><MiAvatar :name="m.who" size="sm" :tone="m.me ? 'primary' : 'auto'" decorative /></template>
-              <template #header><span class="dw__who">{{ m.me ? 'You' : m.who }} <time>{{ m.time }}</time></span></template>
-              <MiBubble :align="m.me ? 'end' : 'start'" :variant="m.me ? 'default' : 'secondary'" class="dw__bub">{{ m.text }}</MiBubble>
+              <template #header><span class="dw__who mi:font-semibold mi:text-label">{{ m.me ? 'You' : m.who }} <time class="mi:[.dw__who_&]:ml-1.5 mi:[.dw__who_&]:font-normal mi:[.dw__who_&]:text-label3">{{ m.time }}</time></span></template>
+              <MiBubble :align="m.me ? 'end' : 'start'" :variant="m.me ? 'default' : 'secondary'" class="dw__bub mi:[.dw__row.is-decision_&]:shadow-[0_0_0_2px_var(--mi-p-tint2)]">{{ m.text }}</MiBubble>
               <template #footer>
-                <span v-if="m.decision" class="dw__flag"><MiIcon name="check-circle-fill" :size="14" />Decision</span>
-                <button type="button" class="dw__mark" @click="m.decision = !m.decision">
+                <span v-if="m.decision" class="dw__flag mi:inline-flex mi:items-center mi:gap-1 mi:text-p-text mi:font-semibold"><MiIcon name="check-circle-fill" :size="14" />Decision</span>
+                <button type="button" class="dw__mark mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px] mi:py-0.5 mi:px-1.5 mi:[border:0] mi:rounded-[6px] mi:[background:transparent] mi:text-label3 mi:cursor-pointer mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)] mi:hover:text-label mi:hover:[background:var(--mi-fill4)] mi:can-hover:opacity-0 mi:can-hover:[.dw__row:hover_&]:opacity-100 mi:can-hover:focus-visible:opacity-100" @click="m.decision = !m.decision">
                   {{ m.decision ? 'Unmark' : 'Mark as decision' }}
                 </button>
               </template>
@@ -62,7 +62,7 @@
           </MiMessageScrollerItem>
         </MiMessageScroller>
 
-        <form class="dw__composer" @submit.prevent="send">
+        <form class="dw__composer mi:pt-3 mi:px-4 mi:pb-4 mi:border-t mi:border-t-sep mi:[background:var(--mi-card)]" @submit.prevent="send">
           <MiInputGroup v-model="draft" :aria-label="'Message ' + active.name" :placeholder="'Message ' + (active.dm ? active.name.split(' ')[0] : '#' + active.name)">
             <template #trailing>
               <MiIconButton type="submit" label="Send message" size="small" :disabled="!draft.trim()">
@@ -74,21 +74,21 @@
       </div>
 
       <!-- Decision log: anything marked in the conversation is collected here, newest last. -->
-      <aside class="dw__log-panel" aria-labelledby="dw-dec-title">
+      <aside class="dw__log-panel mi:hidden mi:@[1080px]:flex mi:flex-col mi:gap-1 mi:min-h-0 mi:overflow-y-auto mi:py-4.5 mi:px-4 mi:border-l mi:border-l-sep mi:[background:var(--mi-card)]" aria-labelledby="dw-dec-title">
         <MiText id="dw-dec-title" as="h3" variant="subheadline" weight="semibold">Decision log</MiText>
         <MiText variant="caption" tone="label2">Marked in #{{ active.name }}. Select one to find it in the conversation.</MiText>
-        <ol v-if="decisions.length" class="dw__decs">
+        <ol v-if="decisions.length" class="dw__decs mi:[list-style:none] mi:mt-3 mi:mx-0 mi:mb-0 mi:p-0 mi:grid mi:gap-2">
           <li v-for="(d, i) in decisions" :key="d.id">
-            <button type="button" class="dw__dec" @click="jumpTo(d.id)">
-              <span class="dw__dec-n">{{ i + 1 }}</span>
-              <span class="dw__dec-body">
-                <span class="dw__dec-text">{{ d.text }}</span>
-                <span class="dw__dec-meta">{{ d.me ? 'You' : d.who }} · {{ d.time }}</span>
+            <button type="button" class="dw__dec mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px] mi:flex mi:gap-2.5 mi:w-full mi:p-3 mi:border mi:border-sep mi:rounded-lg mi:[background:var(--mi-page)] mi:text-inherit mi:[font:inherit] mi:text-start mi:cursor-pointer mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:hover:transform-[translateY(-1px)]" @click="jumpTo(d.id)">
+              <span class="dw__dec-n mi:grid mi:place-items-center mi:flex-[none] mi:w-5.5 mi:h-5.5 mi:rounded-[50%] mi:[background:var(--mi-p)] mi:text-p-on mi:text-[12px] mi:font-bold">{{ i + 1 }}</span>
+              <span class="dw__dec-body mi:grid mi:gap-1 mi:min-w-0">
+                <span class="dw__dec-text mi:text-[13.5px] mi:leading-[1.45]">{{ d.text }}</span>
+                <span class="dw__dec-meta mi:text-[12px] mi:text-label3">{{ d.me ? 'You' : d.who }} · {{ d.time }}</span>
               </span>
             </button>
           </li>
         </ol>
-        <p v-else class="dw__empty">No decisions yet. Hover a message and choose “Mark as decision”.</p>
+        <p v-else class="dw__empty mi:mt-3 mi:mx-0 mi:mb-0 mi:text-[13px] mi:leading-normal mi:text-label2">No decisions yet. Hover a message and choose “Mark as decision”.</p>
       </aside>
     </div>
   </section>
@@ -181,70 +181,17 @@ function send() {
 </script>
 
 <style scoped>
-.dw { container-type: inline-size; height: 660px; font-family: var(--mi-font); color: var(--mi-label); background: var(--mi-page); }
-.dw__shell { display: grid; height: 100%; grid-template-columns: minmax(0, 1fr); }
-.dw__main, .dw__log-panel { display: none; }
-.dw__shell.is-open .dw__side { display: none; }
-.dw__shell.is-open .dw__main { display: flex; }
-
 @container (min-width: 720px) {
-  .dw__shell { grid-template-columns: 236px minmax(0, 1fr); }
-  .dw__shell .dw__side, .dw__shell.is-open .dw__side { display: flex; }
-  .dw__shell .dw__main { display: flex; }
   .dw__back { display: none; }
 }
-@container (min-width: 1080px) {
-  .dw__shell { grid-template-columns: 236px minmax(0, 1fr) 280px; }
-  .dw__log-panel { display: flex; }
-  .dw__head .dw__dchip { display: none; }
-}
-
-/* Sidebar */
-.dw__side { display: flex; flex-direction: column; min-height: 0; background: var(--mi-card); border-right: 1px solid var(--mi-sep); }
-.dw__ws { display: flex; align-items: center; gap: 10px; padding: 16px; border-bottom: 1px solid var(--mi-sep); }
-.dw__ws-mark { display: grid; place-items: center; flex: none; width: 34px; height: 34px; border-radius: 10px; background: linear-gradient(140deg, var(--mi-p), var(--mi-s)); color: var(--mi-p-on); font-weight: 800; }
-.dw__ws-text { min-width: 0; }
-.dw__side-scroll { flex: 1; min-height: 0; overflow-y: auto; padding: 8px 8px 16px; }
-.dw__sec { margin: 14px 10px 6px; font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--mi-label3); }
-.dw__chans { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; }
-.dw__chan { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 40px; padding: 6px 10px; border: 0; border-radius: var(--mi-radius-m); background: transparent; color: var(--mi-label2); font: inherit; font-size: 14.5px; text-align: start; cursor: pointer; }
+.dw__chan { font: inherit; font-size: 14.5px; }
 .dw__chan:hover { background: var(--mi-fill4); }
-.dw__chan.is-on { background: var(--mi-p-tint); color: var(--mi-p-text); font-weight: 600; }
-.dw__chan.is-unread { color: var(--mi-label); font-weight: 600; }
-.dw__chan:focus-visible, .dw__dec:focus-visible, .dw__mark:focus-visible, .dw__dchip:focus-visible { outline: 2px solid var(--mi-p); outline-offset: -2px; }
-.dw__hash { color: var(--mi-label3); }
-.dw__chan-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.dw__online { width: 8px; height: 8px; border-radius: 50%; background: var(--mi-green); }
-
-/* Conversation */
-.dw__main { flex-direction: column; min-width: 0; min-height: 0; }
-.dw__head { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--mi-sep); background: var(--mi-card); }
-.dw__head-text { flex: 1; min-width: 0; }
-.dw__dchip { display: inline-flex; align-items: center; gap: 6px; flex: none; padding: 6px 10px; border: 0; border-radius: 999px; background: var(--mi-p-tint); color: var(--mi-p-text); font: inherit; font-size: 12.5px; font-weight: 600; cursor: pointer; }
+.dw__chan.is-on { background: var(--mi-p-tint); font-weight: 600; }
+.dw__chan.is-unread { font-weight: 600; }
+.dw__dchip { font: inherit; font-size: 12.5px; font-weight: 600; }
 .dw__log { flex: 1; min-height: 0; }
 .dw__row { max-width: min(88%, 40rem); }
-.dw__row.is-end { margin-inline-start: auto; }
 .dw .dw__bub { max-width: 100%; }
-.dw__row.is-decision .dw__bub { box-shadow: 0 0 0 2px var(--mi-p-tint2); border-radius: 18px; }
-.dw__who { font-weight: 600; color: var(--mi-label); }
-.dw__who time { margin-left: 6px; font-weight: 400; color: var(--mi-label3); }
-.dw__flag { display: inline-flex; align-items: center; gap: 4px; color: var(--mi-p-text); font-weight: 600; }
-.dw__mark { padding: 2px 6px; border: 0; border-radius: 6px; background: transparent; color: var(--mi-label3); font: inherit; font-size: 12px; cursor: pointer; transition: opacity var(--mi-dur-2) var(--mi-ease); }
-.dw__mark:hover { color: var(--mi-label); background: var(--mi-fill4); }
-@media (hover: hover) {
-  .dw__mark { opacity: 0; }
-  .dw__row:hover .dw__mark, .dw__mark:focus-visible { opacity: 1; }
-}
-.dw__composer { padding: 12px 16px 16px; border-top: 1px solid var(--mi-sep); background: var(--mi-card); }
-
-/* Decision log */
-.dw__log-panel { flex-direction: column; gap: 4px; min-height: 0; overflow-y: auto; padding: 18px 16px; border-left: 1px solid var(--mi-sep); background: var(--mi-card); }
-.dw__decs { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 8px; }
-.dw__dec { display: flex; gap: 10px; width: 100%; padding: 12px; border: 1px solid var(--mi-sep); border-radius: var(--mi-radius-l); background: var(--mi-page); color: inherit; font: inherit; text-align: start; cursor: pointer; transition: transform var(--mi-dur-2) var(--mi-ease); }
-.dw__dec:hover { transform: translateY(-1px); }
-.dw__dec-n { display: grid; place-items: center; flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--mi-p); color: var(--mi-p-on); font-size: 12px; font-weight: 700; }
-.dw__dec-body { display: grid; gap: 4px; min-width: 0; }
-.dw__dec-text { font-size: 13.5px; line-height: 1.45; }
-.dw__dec-meta { font-size: 12px; color: var(--mi-label3); }
-.dw__empty { margin: 12px 0 0; font-size: 13px; line-height: 1.5; color: var(--mi-label2); }
+.dw__row.is-decision .dw__bub { border-radius: 18px; }
+.dw__mark { font: inherit; font-size: 12px; }
 </style>

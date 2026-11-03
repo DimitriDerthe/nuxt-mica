@@ -12,9 +12,9 @@ defineProps<{ p: Record<string, unknown> }>()
 <template>
   <div class="ex-row">
     <MiAvatar v-bind="p" />
-    <div class="ex-who">
-      <span class="ex-name">{{ p.name || 'Camille Laurent' }}</span>
-      <span class="ex-role">Product designer · Paris</span>
+    <div class="ex-who mi:grid mi:gap-0.5 mi:flex-1 mi:min-w-0">
+      <span class="ex-name mi:text-[16px] mi:font-semibold mi:text-label mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ p.name || 'Camille Laurent' }}</span>
+      <span class="ex-role mi:text-[13px] mi:text-label2 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">Product designer · Paris</span>
     </div>
     <MiButton size="small" variant="tinted">Message</MiButton>
   </div>
@@ -22,7 +22,4 @@ defineProps<{ p: Record<string, unknown> }>()
 
 <style scoped>
 .ex-row { display: flex; align-items: center; gap: 12px; width: min(100%, 360px); padding: 12px 14px; border-radius: 16px; background: var(--mi-card); box-shadow: var(--mi-sh1); box-sizing: border-box; }
-.ex-who { display: grid; gap: 2px; flex: 1; min-width: 0; }
-.ex-name { font-size: 16px; font-weight: 600; color: var(--mi-label); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.ex-role { font-size: 13px; color: var(--mi-label2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 </style>

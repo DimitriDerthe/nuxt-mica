@@ -1,6 +1,6 @@
 <template>
-  <section class="ar" aria-labelledby="ar-title">
-    <header class="ar__head">
+  <section class="ar mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="ar-title">
+    <header class="ar__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="ar-title" variant="title3" as="h2" weight="semibold">Activation review</MiText>
         <MiText variant="footnote" tone="label2">Lumen Notes · new workspaces, weeks 31 to 42</MiText>
@@ -8,24 +8,24 @@
       <MiSegmented v-model="platform" label="Platform" :options="platforms" />
     </header>
 
-    <div class="ar__grid">
+    <div class="ar__grid mi:grid mi:gap-3 mi:grid-cols-[minmax(0,_1fr)] mi:@[720px]:grid-cols-2">
       <!-- The data story: one generated paragraph that says what the charts below show. -->
-      <article class="ar__story">
-        <div class="ar__story-copy">
+      <article class="ar__story mi:@[720px]:col-[span_2] mi:relative mi:grid mi:gap-4 mi:p-5 mi:rounded-xl mi:overflow-hidden mi:isolate mi:[background:var(--mi-card)] mi:shadow-1 mi:before:content-[''] mi:before:absolute mi:before:top-0 mi:before:right-auto mi:before:bottom-0 mi:before:left-0 mi:before:w-1 mi:before:[background:linear-gradient(var(--mi-p),_var(--mi-s))] mi:@[1000px]:grid-cols-[minmax(0,_1fr)_minmax(0,_1.3fr)] mi:@[1000px]:items-center">
+        <div class="ar__story-copy mi:grid mi:gap-2.5 mi:justify-items-start">
           <MiBadge tone="primary" label="This quarter in one paragraph" />
-          <p class="ar__lede" aria-live="polite">
-            Activation on {{ p.name }} averaged <b>{{ after.toFixed(1) }}%</b> over the six weeks since the onboarding checklist shipped,
-            <b :class="lift >= 0 ? 'is-up' : 'is-down'">{{ lift >= 0 ? 'up' : 'down' }} {{ Math.abs(lift).toFixed(1) }} pt</b> on the six weeks before.
-            It cleared the {{ p.target }}% target in <b>{{ hits }} of 12</b> weeks, and <b>{{ topMix.share }}%</b> of new workspaces started by {{ topMix.label.toLowerCase() }}.
+          <p class="ar__lede mi:m-0 mi:text-[17px] mi:leading-[1.55] mi:tracking-[-.01em] mi:text-label2 mi:text-pretty" aria-live="polite">
+            Activation on {{ p.name }} averaged <b class="mi:[.ar__lede_&]:font-650 mi:[.ar__lede_&]:tabular-nums">{{ after.toFixed(1) }}%</b> over the six weeks since the onboarding checklist shipped,
+            <b class="mi:[.ar__lede_&]:font-650 mi:[.ar__lede_&]:tabular-nums" :class="lift >= 0 ? 'is-up' : 'is-down'">{{ lift >= 0 ? 'up' : 'down' }} {{ Math.abs(lift).toFixed(1) }} pt</b> on the six weeks before.
+            It cleared the {{ p.target }}% target in <b class="mi:[.ar__lede_&]:font-650 mi:[.ar__lede_&]:tabular-nums">{{ hits }} of 12</b> weeks, and <b class="mi:[.ar__lede_&]:font-650 mi:[.ar__lede_&]:tabular-nums">{{ topMix.share }}%</b> of new workspaces started by {{ topMix.label.toLowerCase() }}.
           </p>
         </div>
-        <div class="ar__tiles">
+        <div class="ar__tiles mi:grid mi:gap-2.5 mi:grid-cols-[minmax(0,_1fr)] mi:@[560px]:grid-cols-3">
           <MiStatTile v-for="t in p.tiles" :key="t.label" v-bind="t" comparison="vs prior 12 weeks" />
         </div>
       </article>
 
-      <article class="ar__card ar__card--wide">
-        <div class="ar__card-head">
+      <article class="ar__card ar__card--wide mi:@[720px]:col-[span_2] mi:grid mi:gap-3.5 mi:content-start mi:min-w-0 mi:p-4.5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1">
+        <div class="ar__card-head mi:grid mi:gap-0.5">
           <MiText variant="headline" as="h3">Weekly activation rate</MiText>
           <MiText variant="footnote" tone="label2">Share of new workspaces that reach 3 shared notes in 7 days</MiText>
         </div>
@@ -36,16 +36,16 @@
         <MiChartLegend :items="trendLegend" aria-label="Lines" />
       </article>
 
-      <article class="ar__card">
-        <div class="ar__card-head">
+      <article class="ar__card mi:grid mi:gap-3.5 mi:content-start mi:min-w-0 mi:p-4.5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1">
+        <div class="ar__card-head mi:grid mi:gap-0.5">
           <MiText variant="headline" as="h3">First action</MiText>
           <MiText variant="footnote" tone="label2">What new workspaces did first</MiText>
         </div>
         <MiStackedBar :key="'mix-' + String(platform)" :segments="mix" :height="20" :legend-columns="1" aria-label="First action of new workspaces" />
       </article>
 
-      <article class="ar__card">
-        <div class="ar__card-head">
+      <article class="ar__card mi:grid mi:gap-3.5 mi:content-start mi:min-w-0 mi:p-4.5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1">
+        <div class="ar__card-head mi:grid mi:gap-0.5">
           <MiText variant="headline" as="h3">Time to first value</MiText>
           <MiText variant="footnote" tone="label2">Days until the third shared note, median <b>{{ p.median }}</b></MiText>
         </div>
@@ -133,32 +133,10 @@ const topMix = computed(() => {
 </script>
 
 <style scoped>
-.ar { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
-.ar__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.ar__grid { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); }
-@container (min-width: 720px) {
-  .ar__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .ar__story, .ar__card--wide { grid-column: span 2; }
-}
-
-.ar__story {
-  position: relative; display: grid; gap: 16px; padding: 20px; border-radius: var(--mi-radius-xl); overflow: hidden; isolation: isolate;
-  background: var(--mi-card); box-shadow: var(--mi-sh1);
-}
-/* A quiet brand wash on the left edge marks the story as the summary of the board. */
-.ar__story::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 4px; background: linear-gradient(var(--mi-p), var(--mi-s)); }
-@container (min-width: 1000px) { .ar__story { grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); align-items: center; } }
-.ar__story-copy { display: grid; gap: 10px; justify-items: start; }
-.ar__lede { margin: 0; font-size: 17px; line-height: 1.55; letter-spacing: -.01em; color: var(--mi-label2); text-wrap: pretty; }
-.ar__lede b { font-weight: 650; color: var(--mi-label); font-variant-numeric: tabular-nums; }
+.ar__lede b { color: var(--mi-label); }
 .ar__lede b.is-up { color: var(--mi-green-t); }
 .ar__lede b.is-down { color: var(--mi-red-t); }
-.ar__tiles { display: grid; gap: 10px; grid-template-columns: minmax(0, 1fr); }
-@container (min-width: 560px) { .ar__tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-
-.ar__card { display: grid; gap: 14px; align-content: start; min-width: 0; padding: 18px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
 /* The last hover column of the chart reaches past the plot; keep it inside the card. */
 .ar__card :deep(.mi-lc-svg) { overflow: hidden; }
-.ar__card-head { display: grid; gap: 2px; }
 .ar__card-head b { color: var(--mi-label); font-weight: 600; }
 </style>

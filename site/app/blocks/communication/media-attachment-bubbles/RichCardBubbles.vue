@@ -1,7 +1,7 @@
 <template>
-  <section class="rc" aria-labelledby="rc-title">
-    <div class="rc__card">
-      <header class="rc__head">
+  <section class="rc mi:@container mi:font-mi mi:text-label" aria-labelledby="rc-title">
+    <div class="rc__card mi:max-w-150 mi:mx-auto mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-2 mi:overflow-hidden">
+      <header class="rc__head mi:flex mi:items-center mi:gap-3 mi:py-3.5 mi:px-4 mi:border-b mi:border-b-sep">
         <MiAvatar name="Climbing crew" initials="CC" size="sm" tone="teal" decorative />
         <div>
           <MiText id="rc-title" as="h2" variant="headline" weight="semibold">Climbing crew</MiText>
@@ -9,17 +9,17 @@
         </div>
       </header>
 
-      <div class="rc__log" role="log" aria-label="Messages in Climbing crew">
+      <div class="rc__log mi:grid mi:gap-3.5 mi:pt-4 mi:px-3 mi:pb-4.5 mi:[background:var(--mi-page)] mi:@[480px]:px-4.5" role="log" aria-label="Messages in Climbing crew">
         <!-- Link preview: the thumbnail is drawn with token gradients, no remote image. -->
         <MiMessage label="Jade Martin">
           <template #avatar><MiAvatar name="Jade Martin" size="xs" tone="pink" decorative /></template>
           <template #header>Jade · 18:04</template>
           <MiBubble variant="secondary" class="rc__bub">
-            <a href="#" class="rc__link" @click.prevent>
-              <span class="rc__link-art" aria-hidden="true"><svg viewBox="0 0 120 60"><path d="M0 60 30 22l16 18 22-30 52 50Z" /><circle cx="96" cy="14" r="7" /></svg></span>
-              <span class="rc__link-text">
-                <span class="rc__link-host">boulderhall-nord.de</span>
-                <span class="rc__link-title">New wall opens Saturday: 40 fresh problems, 4A to 7C</span>
+            <a href="#" class="rc__link mi:grid mi:overflow-hidden mi:rounded-[12px] mi:[background:var(--mi-card)] mi:text-inherit mi:[text-decoration:none] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" @click.prevent>
+              <span class="rc__link-art mi:block mi:aspect-[2_/_1] mi:[background:linear-gradient(160deg,_var(--mi-p-tint2),_var(--mi-s-tint))]" aria-hidden="true"><svg class="mi:[.rc__link-art_&]:block mi:[.rc__link-art_&]:w-full mi:[.rc__link-art_&]:h-full" viewBox="0 0 120 60"><path class="mi:[.rc__link-art_&]:fill-[color:color-mix(in_srgb,_var(--mi-p)_55%,_var(--mi-card))]" d="M0 60 30 22l16 18 22-30 52 50Z" /><circle class="mi:[.rc__link-art_&]:fill-s mi:[.rc__link-art_&]:opacity-70" cx="96" cy="14" r="7" /></svg></span>
+              <span class="rc__link-text mi:grid mi:gap-0.5 mi:py-2.5 mi:px-3">
+                <span class="rc__link-host mi:text-[11.5px] mi:text-label3">boulderhall-nord.de</span>
+                <span class="rc__link-title mi:text-[13.5px] mi:font-semibold mi:leading-[1.35]">New wall opens Saturday: 40 fresh problems, 4A to 7C</span>
               </span>
             </a>
             Reset day! Anyone in?
@@ -31,14 +31,14 @@
           <template #avatar><MiAvatar name="Omar Haddad" size="xs" tone="indigo" decorative /></template>
           <template #header>Omar · 18:09</template>
           <MiBubble variant="secondary" class="rc__bub">
-            <div class="rc__event">
-              <span class="rc__date" aria-hidden="true"><b>SAT</b>14</span>
-              <div class="rc__event-text">
+            <div class="rc__event mi:flex mi:items-center mi:gap-3">
+              <span class="rc__date mi:grid mi:place-items-center mi:flex-[none] mi:w-12 mi:h-13 mi:rounded-[12px] mi:[background:var(--mi-card)] mi:text-[20px] mi:font-bold mi:leading-none" aria-hidden="true"><b class="mi:[.rc__date_&]:text-[10px] mi:[.rc__date_&]:tracking-[.08em] mi:[.rc__date_&]:text-red">SAT</b>14</span>
+              <div class="rc__event-text mi:min-w-0">
                 <MiText as="h3" variant="subheadline" weight="semibold">Opening session</MiText>
                 <MiText variant="caption" tone="label2">Sat, Jun 14 · 10:00 to 13:00 · Boulderhalle Nord</MiText>
               </div>
             </div>
-            <div class="rc__rsvp">
+            <div class="rc__rsvp mi:flex mi:items-center mi:gap-2">
               <MiAvatarGroup :items="going" :max="4" size="xs" />
               <MiText variant="caption" tone="label2">{{ going.length }} going</MiText>
             </div>
@@ -56,9 +56,9 @@
         <!-- Shared contact: one tap saves it. -->
         <MiMessage align="end" label="You">
           <MiBubble align="end" variant="tinted" class="rc__bub">
-            <div class="rc__contact">
+            <div class="rc__contact mi:flex mi:items-center mi:gap-3">
               <MiAvatar name="Nils Becker" size="md" tone="green" decorative />
-              <div class="rc__contact-text">
+              <div class="rc__contact-text mi:min-w-0">
                 <MiText as="h3" variant="subheadline" weight="semibold">Nils Becker</MiText>
                 <MiText variant="caption" tone="label2">Route setter · lends shoes, size 38 to 45</MiText>
               </div>
@@ -89,30 +89,7 @@ const going = computed<Member[]>(() => (rsvp.value === 'yes' ? [...others, { nam
 </script>
 
 <style scoped>
-.rc { container-type: inline-size; font-family: var(--mi-font); color: var(--mi-label); }
-.rc__card { max-width: 600px; margin-inline: auto; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh2); overflow: hidden; }
-.rc__head { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-bottom: 1px solid var(--mi-sep); }
-.rc__log { display: grid; gap: 14px; padding: 16px 12px 18px; background: var(--mi-page); }
-@container (min-width: 480px) { .rc__log { padding-inline: 18px; } }
 .rc .rc__bub { display: grid; gap: 10px; max-width: min(100%, 22rem); }
 
-.rc__link { display: grid; overflow: hidden; border-radius: 12px; background: var(--mi-card); color: inherit; text-decoration: none; }
-.rc__link:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-.rc__link-art { display: block; aspect-ratio: 2 / 1; background: linear-gradient(160deg, var(--mi-p-tint2), var(--mi-s-tint)); }
-.rc__link-art svg { display: block; width: 100%; height: 100%; }
-.rc__link-art path { fill: color-mix(in srgb, var(--mi-p) 55%, var(--mi-card)); }
-.rc__link-art circle { fill: var(--mi-s); opacity: .7; }
-.rc__link-text { display: grid; gap: 2px; padding: 10px 12px; }
-.rc__link-host { font-size: 11.5px; color: var(--mi-label3); }
-.rc__link-title { font-size: 13.5px; font-weight: 600; line-height: 1.35; }
-
-.rc__event { display: flex; align-items: center; gap: 12px; }
-.rc__event-text { min-width: 0; }
-.rc__date { display: grid; place-items: center; flex: none; width: 48px; height: 52px; border-radius: 12px; background: var(--mi-card); font-size: 20px; font-weight: 700; line-height: 1; }
-.rc__date b { font-size: 10px; letter-spacing: .08em; color: var(--mi-red); }
-.rc__rsvp { display: flex; align-items: center; gap: 8px; }
-
 .rc__file { max-width: 22rem; }
-.rc__contact { display: flex; align-items: center; gap: 12px; }
-.rc__contact-text { min-width: 0; }
 </style>

@@ -1,7 +1,7 @@
 <template>
-  <section class="asr" aria-labelledby="asr-title">
-    <div class="asr__wrap">
-      <header class="asr__head">
+  <section class="asr mi:@container mi:font-mi mi:text-label" aria-labelledby="asr-title">
+    <div class="asr__wrap mi:grid mi:gap-4.5">
+      <header class="asr__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
         <div>
           <MiText id="asr-title" variant="title3" as="h2" weight="semibold">What teams say about Ledgerline</MiText>
           <MiText variant="footnote" tone="label2">Verified reviews from finance teams · compared with the expense software average</MiText>
@@ -9,10 +9,10 @@
         <MiSegmented v-model="size" label="Company size" :options="SIZES" />
       </header>
 
-      <div class="asr__layout">
-        <aside class="asr__scores" aria-labelledby="asr-scores-title">
-          <div class="asr__overall">
-            <p class="asr__big">{{ seg.overall.toFixed(1) }}</p>
+      <div class="asr__layout mi:grid mi:gap-4 mi:grid-cols-[minmax(0,_1fr)] mi:@[760px]:grid-cols-[300px_minmax(0,_1fr)] mi:@[760px]:items-start">
+        <aside class="asr__scores mi:grid mi:gap-2 mi:p-4.5 mi:rounded-xl mi:bg-card mi:shadow-1" aria-labelledby="asr-scores-title">
+          <div class="asr__overall mi:flex mi:items-center mi:gap-3.5 mi:pb-3 mi:mb-1 mi:border-b mi:border-b-sep">
+            <p class="asr__big mi:m-0 mi:text-[48px] mi:leading-none mi:font-bold mi:tracking-[-.04em] mi:tabular-nums">{{ seg.overall.toFixed(1) }}</p>
             <div>
               <MiRating :model-value="Math.round(seg.overall * 2) / 2" half readonly size="sm" :label="`Average ${seg.overall} out of 5`" />
               <MiText variant="caption" tone="label2">{{ seg.count }} reviews</MiText>
@@ -21,31 +21,31 @@
           <MiText id="asr-scores-title" variant="footnote" as="h3" weight="semibold">Scores by attribute</MiText>
           <MiText variant="caption" tone="label2">Pick one to rank reviews by it. The tick marks the category average.</MiText>
 
-          <div class="asr__attrs" role="group" aria-label="Rank reviews by attribute">
+          <div class="asr__attrs mi:grid mi:gap-1 mi:mt-1" role="group" aria-label="Rank reviews by attribute">
             <button
-              v-for="a in ATTRS" :key="a.id" type="button" class="asr__attr" :aria-pressed="focus === a.id"
+              v-for="a in ATTRS" :key="a.id" type="button" class="asr__attr mi:grid mi:gap-1.5 mi:p-2.5 mi:[border:0] mi:rounded-md mi:bg-transparent mi:[font:inherit] mi:text-inherit mi:text-start mi:cursor-pointer mi:focus-visible:[outline:3px_solid_color-mix(in_srgb,_var(--mi-p)_45%,_transparent)] mi:focus-visible:outline-offset-[1px]" :aria-pressed="focus === a.id"
               @click="focus = focus === a.id ? null : a.id"
             >
-              <span class="asr__attr-top">
+              <span class="asr__attr-top mi:flex mi:justify-between mi:gap-2 mi:text-[13px]">
                 <span>{{ a.label }}</span>
-                <b :class="{ 'is-up': seg.scores[a.id] >= a.avg }">{{ seg.scores[a.id].toFixed(1) }}</b>
+                <b class="mi:[.asr__attr-top_&]:tabular-nums" :class="{ 'is-up': seg.scores[a.id] >= a.avg }">{{ seg.scores[a.id].toFixed(1) }}</b>
               </span>
-              <span class="asr__track" role="img" :aria-label="`${seg.scores[a.id]} against a category average of ${a.avg}`">
-                <span class="asr__fill" :style="{ transform: `scaleX(${seg.scores[a.id] / 5})` }" />
-                <span class="asr__avg" :style="{ transform: `translateX(${(a.avg / 5) * 100}cqw)` }" />
+              <span class="asr__track mi:relative mi:block mi:h-2 mi:rounded-[4px] mi:bg-fill3 mi:@container" role="img" :aria-label="`${seg.scores[a.id]} against a category average of ${a.avg}`">
+                <span class="asr__fill mi:absolute mi:inset-0 mi:rounded-[inherit] mi:bg-p mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleX(${seg.scores[a.id] / 5})` }" />
+                <span class="asr__avg mi:absolute mi:top-[-3px] mi:-left-px mi:w-0.5 mi:h-3.5 mi:rounded-[1px] mi:bg-label mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `translateX(${(a.avg / 5) * 100}cqw)` }" />
               </span>
             </button>
           </div>
         </aside>
 
-        <div class="asr__list">
+        <div class="asr__list mi:grid mi:gap-2.5 mi:min-w-0">
           <MiText variant="caption" tone="label2" aria-live="polite">
             {{ reviews.length }} reviews{{ focus ? `, highest ${label(focus)} first` : ', most recent first' }}
           </MiText>
-          <article v-for="r in reviews" :key="r.id" class="asr__review" :aria-labelledby="`asr-r-${r.id}`">
-            <header class="asr__who">
+          <article v-for="r in reviews" :key="r.id" class="asr__review mi:grid mi:gap-2 mi:p-4 mi:rounded-lg mi:bg-card mi:shadow-1" :aria-labelledby="`asr-r-${r.id}`">
+            <header class="asr__who mi:flex mi:items-center mi:gap-2.5 mi:flex-wrap">
               <MiAvatar :name="r.name" size="sm" tone="auto" decorative />
-              <div class="asr__who-text">
+              <div class="asr__who-text mi:flex-1 mi:min-w-35">
                 <MiText variant="footnote" weight="semibold">{{ r.name }}</MiText>
                 <MiText variant="caption" tone="label2">{{ r.role }} · {{ r.employees }} employees</MiText>
               </div>
@@ -53,9 +53,9 @@
               <MiRating v-else :model-value="r.stars" readonly size="sm" :label="`${r.stars} out of 5`" />
             </header>
             <MiText :id="`asr-r-${r.id}`" variant="subheadline" as="h3" weight="semibold">{{ r.title }}</MiText>
-            <dl class="asr__pc">
-              <div><dt><MiIcon name="plus" :size="14" :weight="2.4" />Liked</dt><dd>{{ r.pro }}</dd></div>
-              <div><dt><MiIcon name="minus" :size="14" :weight="2.4" />Disliked</dt><dd>{{ r.con }}</dd></div>
+            <dl class="asr__pc mi:grid mi:gap-1.5 mi:m-0 mi:text-[14px] mi:@[1000px]:grid-cols-[1fr_1fr] mi:@[1000px]:gap-4">
+              <div><dt class="mi:[.asr__pc_dt&]:items-center mi:[.asr__pc_dt&]:gap-1 mi:[.asr__pc_dt&]:text-[12px] mi:[.asr__pc_dt&]:font-semibold"><MiIcon class="mi:[.asr__pc_dt&]:items-center mi:[.asr__pc_dt&]:gap-1 mi:[.asr__pc_dt&]:text-[12px] mi:[.asr__pc_dt&]:font-semibold mi:[.asr__pc_dd&]:mt-0.5 mi:[.asr__pc_dd&]:mx-0 mi:[.asr__pc_dd&]:mb-0" name="plus" :size="14" :weight="2.4" />Liked</dt><dd class="mi:[.asr__pc_dd&]:mt-0.5 mi:[.asr__pc_dd&]:mx-0 mi:[.asr__pc_dd&]:mb-0">{{ r.pro }}</dd></div>
+              <div><dt class="mi:[.asr__pc_dt&]:items-center mi:[.asr__pc_dt&]:gap-1 mi:[.asr__pc_dt&]:text-[12px] mi:[.asr__pc_dt&]:font-semibold"><MiIcon class="mi:[.asr__pc_dt&]:items-center mi:[.asr__pc_dt&]:gap-1 mi:[.asr__pc_dt&]:text-[12px] mi:[.asr__pc_dt&]:font-semibold mi:[.asr__pc_dd&]:mt-0.5 mi:[.asr__pc_dd&]:mx-0 mi:[.asr__pc_dd&]:mb-0" name="minus" :size="14" :weight="2.4" />Disliked</dt><dd class="mi:[.asr__pc_dd&]:mt-0.5 mi:[.asr__pc_dd&]:mx-0 mi:[.asr__pc_dd&]:mb-0">{{ r.con }}</dd></div>
             </dl>
             <MiText v-if="r.from" variant="caption" tone="label2">Switched from {{ r.from }} · {{ r.date }}</MiText>
             <MiText v-else variant="caption" tone="label2">{{ r.date }}</MiText>
@@ -108,37 +108,11 @@ const label = (id: AttrId) => ATTRS.find(a => a.id === id)?.label.toLowerCase() 
 </script>
 
 <style scoped>
-.asr { container-type: inline-size; font-family: var(--mi-font); color: var(--mi-label); }
-.asr__wrap { display: grid; gap: 18px; }
-.asr__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.asr__layout { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); }
-@container (min-width: 760px) { .asr__layout { grid-template-columns: 300px minmax(0, 1fr); align-items: start; } }
-
-.asr__scores { display: grid; gap: 8px; padding: 18px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.asr__overall { display: flex; align-items: center; gap: 14px; padding-bottom: 12px; margin-bottom: 4px; border-bottom: 1px solid var(--mi-sep); }
-.asr__big { margin: 0; font-size: 48px; line-height: 1; font-weight: 700; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
-.asr__attrs { display: grid; gap: 4px; margin-top: 4px; }
-.asr__attr {
-  display: grid; gap: 6px; padding: 10px; border: 0; border-radius: var(--mi-radius-m); background: transparent;
-  font: inherit; color: inherit; text-align: start; cursor: pointer;
-}
 .asr__attr:hover { background: var(--mi-fill4); }
 .asr__attr[aria-pressed="true"] { background: var(--mi-p-tint); }
-.asr__attr:focus-visible { outline: 3px solid color-mix(in srgb, var(--mi-p) 45%, transparent); outline-offset: 1px; }
-.asr__attr-top { display: flex; justify-content: space-between; gap: 8px; font-size: 13px; }
-.asr__attr-top b { font-variant-numeric: tabular-nums; color: var(--mi-label2); }
+.asr__attr-top b { color: var(--mi-label2); }
 .asr__attr-top b.is-up { color: var(--mi-green-t); }
-.asr__track { position: relative; display: block; height: 8px; border-radius: 4px; background: var(--mi-fill3); container-type: inline-size; }
-.asr__fill { position: absolute; inset: 0; border-radius: inherit; background: var(--mi-p); transform-origin: left; transition: transform var(--mi-dur-4) var(--mi-spring); }
-.asr__avg { position: absolute; top: -3px; left: -1px; width: 2px; height: 14px; border-radius: 1px; background: var(--mi-label); transition: transform var(--mi-dur-4) var(--mi-spring); }
-
-.asr__list { display: grid; gap: 10px; min-width: 0; }
-.asr__review { display: grid; gap: 8px; padding: 16px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.asr__who { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-.asr__who-text { flex: 1; min-width: 140px; }
-.asr__pc { display: grid; gap: 6px; margin: 0; font-size: 14px; }
-@container (min-width: 1000px) { .asr__pc { grid-template-columns: 1fr 1fr; gap: 16px; } }
-.asr__pc dt { display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; color: var(--mi-green-t); }
+.asr__pc dt { display: flex; color: var(--mi-green-t); }
 .asr__pc div + div dt { color: var(--mi-red-t); }
-.asr__pc dd { margin: 2px 0 0; color: var(--mi-label2); }
+.asr__pc dd { color: var(--mi-label2); }
 </style>

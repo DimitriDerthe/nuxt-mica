@@ -333,23 +333,23 @@ defineSlots<{
 </script>
 
 <template>
-  <div v-if="$slots.default" class="mi-cm-area" @contextmenu="onContextMenu" @keydown="onAreaKey" @pointerdown="onAreaDown" @pointermove.passive="onAreaMove" @pointerup="onAreaUp" @pointercancel="onAreaUp">
+  <div v-if="$slots.default" class="mi-cm-area mi:contents" @contextmenu="onContextMenu" @keydown="onAreaKey" @pointerdown="onAreaDown" @pointermove.passive="onAreaMove" @pointerup="onAreaUp" @pointercancel="onAreaUp">
     <slot />
   </div>
   <Teleport to="body" :disabled="inline">
-    <div v-if="inline || rendered" class="mi mi-cm-root" :class="{ 'is-inline': inline }" :style="inline ? undefined : { zIndex: MI_OVERLAY_Z.popover }">
-      <div v-if="!inline" class="mi-cm-backdrop" @pointerdown="close" @contextmenu="onBackdropContext" />
+    <div v-if="inline || rendered" class="mi mi-cm-root mi:fixed mi:inset-0 mi:font-mi mi:[&.is-inline]:static mi:[&.is-inline]:inset-auto" :class="{ 'is-inline': inline }" :style="inline ? undefined : { zIndex: MI_OVERLAY_Z.popover }">
+      <div v-if="!inline" class="mi-cm-backdrop mi:absolute mi:inset-0" @pointerdown="close" @contextmenu="onBackdropContext" />
       <div
         v-for="(lv, li) in (inline ? levels.slice(0, 1) : levels)"
         :key="li + ':' + (lv.parent?.id ?? '')"
-        class="mi-cm-pos"
+        class="mi-cm-pos mi:fixed mi:left-0 mi:top-0 mi:[&.is-static]:static"
         :class="{ 'is-static': inline }"
         :style="inline ? undefined : { transform: `translate3d(${pos[li]?.x ?? 0}px,${pos[li]?.y ?? 0}px,0)` }"
       >
         <div
           :ref="(el) => setPanel(li, el)"
           v-bind="li === 0 ? $attrs : undefined"
-          class="mi-cm-panel"
+          class="mi-cm-panel mi:max-h-[calc(100dvh_-_16px)] mi:overflow-y-auto mi:overscroll-contain mi:shadow-3 mi:flex mi:flex-col mi:[outline:none] mi:tracking-[-.01em] mi:transform-[scale(.96)] mi:origin-[0_0] mi:pointer-events-none mi:[&.is-in]:transform-none mi:[&.is-in]:pointer-events-auto mi:[&.is-in]:[transition:transform_var(--mi-dur-2)_var(--mi-spring),opacity_var(--mi-dur-1)_var(--mi-ease)] mi:[&:not(.is-in)]:[transition:transform_var(--mi-dur-2)_var(--mi-ease),opacity_var(--mi-dur-1)_var(--mi-ease)] mi:[.is-static>&]:transform-none mi:[.is-static>&]:pointer-events-auto"
           :class="{ 'is-in': inline || (open && pos[li]?.ready) }"
           role="menu"
           :aria-label="lv.parent?.label ?? label"
@@ -359,11 +359,11 @@ defineSlots<{
           @keydown="onPanelKey(li, $event)"
         >
           <template v-for="it in lv.items" :key="it.id">
-            <span v-if="isSep(it)" role="separator" class="mi-cm-sep" />
+            <span v-if="isSep(it)" role="separator" class="mi-cm-sep mi:block mi:flex-[none] mi:h-px mi:my-[5px] mi:mx-2.5 mi:[background:var(--mi-sep)]" />
             <button
               v-else
               type="button"
-              class="mi-cm-item"
+              class="mi-cm-item mi:appearance-none mi:flex-[none] mi:min-h-7.5 mi:flex mi:items-center mi:gap-2.5 mi:py-0 mi:px-2.5 mi:m-0 mi:[border:0] mi:rounded-[6px] mi:[background:transparent] mi:text-label mi:font-[inherit] mi:text-[14px] mi:leading-5 mi:text-left mi:whitespace-nowrap mi:cursor-default mi:focus-visible:[outline:none] mi:disabled:opacity-40"
               :class="{ 'is-destructive': it.destructive, 'is-hl': inline && highlighted === it.id, 'is-open': path[li] === it.id }"
               :role="role(it)"
               :data-id="it.id"
@@ -376,13 +376,13 @@ defineSlots<{
               @pointerenter="onItemEnter(li, it, $event)"
               @click="activate(li, it, $event)"
             >
-              <span v-if="hasLead(lv.items)" class="mi-cm-lead">
+              <span v-if="hasLead(lv.items)" class="mi-cm-lead mi:w-4 mi:h-4 mi:flex-[none] mi:flex mi:items-center mi:justify-center">
                 <MiFbIcon v-if="it.type === 'checkbox'" v-show="it.checked" name="check" :size="16" :stroke="2.6" />
                 <MiFbIcon v-else-if="it.icon" :name="it.icon" :size="16" />
               </span>
-              <span class="mi-cm-label">{{ it.label }}</span>
-              <span v-if="it.shortcut" class="mi-cm-short">{{ it.shortcut }}</span>
-              <MiFbIcon v-if="it.children?.length" class="mi-cm-chev" name="chevron-right" :size="12" :stroke="2.6" />
+              <span class="mi-cm-label mi:flex-1 mi:min-w-0 mi:overflow-hidden mi:text-ellipsis">{{ it.label }}</span>
+              <span v-if="it.shortcut" class="mi-cm-short mi:text-[13px] mi:text-label2">{{ it.shortcut }}</span>
+              <MiFbIcon v-if="it.children?.length" class="mi-cm-chev mi:text-label2 mi:[.mi-cm-item:focus_&]:text-inherit mi:[.mi-cm-item.is-open_&]:text-inherit" name="chevron-right" :size="12" :stroke="2.6" />
             </button>
           </template>
         </div>
@@ -392,28 +392,12 @@ defineSlots<{
 </template>
 
 <style scoped>
-.mi-cm-area{display:contents}
-.mi-cm-root{position:fixed;inset:0;font-family:var(--mi-font)}
-.mi-cm-root.is-inline{position:static;inset:auto}
-.mi-cm-backdrop{position:absolute;inset:0}
-.mi-cm-pos{position:fixed;left:0;top:0}
-.mi-cm-pos.is-static{position:static}
-.mi-cm-panel{max-width:calc(100vw - 16px);max-height:calc(100dvh - 16px);overflow-y:auto;overscroll-behavior:contain;padding:5px;border-radius:12px;background:var(--mi-menu,var(--mi-mat));-webkit-backdrop-filter:blur(30px) saturate(180%);backdrop-filter:blur(30px) saturate(180%);box-shadow:var(--mi-sh3);display:flex;flex-direction:column;outline:none;color:var(--mi-label);letter-spacing:-.01em;opacity:0;transform:scale(.96);transform-origin:0 0;pointer-events:none}
-.mi-cm-panel.is-in{opacity:1;transform:none;pointer-events:auto;transition:transform var(--mi-dur-2) var(--mi-spring),opacity var(--mi-dur-1) var(--mi-ease)}
-.mi-cm-panel:not(.is-in){transition:transform var(--mi-dur-2) var(--mi-ease),opacity var(--mi-dur-1) var(--mi-ease)}
-.is-static>.mi-cm-panel{opacity:1;transform:none;pointer-events:auto}
-.mi-cm-item{appearance:none;flex:none;min-height:30px;display:flex;align-items:center;gap:10px;padding:0 10px;margin:0;border:0;border-radius:6px;background:transparent;color:var(--mi-label);font-family:inherit;font-size:14px;line-height:20px;text-align:left;white-space:nowrap;cursor:default}
-.mi-cm-item:focus-visible{outline:none}
+.mi-cm-panel{max-width:calc(100vw - 16px);padding:5px;border-radius:12px;background:var(--mi-menu,var(--mi-mat));-webkit-backdrop-filter:blur(30px) saturate(180%);backdrop-filter:blur(30px) saturate(180%);color:var(--mi-label);opacity:0}
+.mi-cm-panel.is-in{opacity:1}
+.is-static>.mi-cm-panel{opacity:1}
 .mi-cm-item:focus,.mi-cm-item.is-hl,.mi-cm-item.is-open{background:var(--mi-p);color:var(--mi-p-on)}
-.mi-cm-item:disabled{opacity:.4}
 .mi-cm-item.is-destructive{color:var(--mi-red-t)}
 .mi-cm-item.is-destructive:focus,.mi-cm-item.is-destructive.is-hl{color:var(--mi-p-on)}
-.mi-cm-lead{width:16px;height:16px;flex:none;display:flex;align-items:center;justify-content:center}
-.mi-cm-label{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis}
-.mi-cm-short{font-size:13px;color:var(--mi-label2)}
 .mi-cm-item:focus .mi-cm-short,.mi-cm-item.is-hl .mi-cm-short,.mi-cm-item.is-open .mi-cm-short{color:inherit}
 .mi-cm-item.is-destructive .mi-cm-short{color:inherit}
-.mi-cm-chev{color:var(--mi-label2)}
-.mi-cm-item:focus .mi-cm-chev,.mi-cm-item.is-open .mi-cm-chev{color:inherit}
-.mi-cm-sep{display:block;flex:none;height:1px;margin:5px 10px;background:var(--mi-sep)}
 </style>

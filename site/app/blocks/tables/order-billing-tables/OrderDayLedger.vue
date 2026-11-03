@@ -1,6 +1,6 @@
 <template>
-  <section class="odl" aria-labelledby="odl-title">
-    <header class="odl__head">
+  <section class="odl mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="odl-title">
+    <header class="odl__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="odl-title" variant="title3" as="h2" weight="semibold">Orders by day</MiText>
         <MiText variant="footnote" tone="label2">Kettle &amp; Crumb roastery · net {{ money(net) }} across {{ visible.length }} orders</MiText>
@@ -8,22 +8,22 @@
       <MiSegmented v-model="status" label="Status" :options="statuses" />
     </header>
 
-    <div class="odl__scroll">
-      <table class="odl__table">
-        <caption class="odl__sr">Orders grouped by day with daily subtotals</caption>
+    <div class="odl__scroll mi:min-w-0 mi:overflow-x-auto mi:rounded-xl mi:bg-card mi:shadow-1">
+      <table class="odl__table mi:w-full mi:min-w-160 mi:border-collapse mi:text-[14px] mi:tabular-nums">
+        <caption class="odl__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">Orders grouped by day with daily subtotals</caption>
         <thead>
           <tr>
-            <th scope="col"><span class="odl__sr">Details</span></th>
-            <th scope="col">Order</th>
-            <th scope="col">Customer</th>
-            <th scope="col">Fulfillment</th>
-            <th scope="col" class="odl__end">Total</th>
+            <th class="mi:[.odl__table_thead_th&]:text-[12px] mi:[.odl__table_thead_th&]:text-label2 mi:[.odl__table_thead_th&]:border-b mi:[.odl__table_thead_th&]:border-b-sep" scope="col"><span class="odl__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">Details</span></th>
+            <th class="mi:[.odl__table_thead_th&]:text-[12px] mi:[.odl__table_thead_th&]:text-label2 mi:[.odl__table_thead_th&]:border-b mi:[.odl__table_thead_th&]:border-b-sep" scope="col">Order</th>
+            <th class="mi:[.odl__table_thead_th&]:text-[12px] mi:[.odl__table_thead_th&]:text-label2 mi:[.odl__table_thead_th&]:border-b mi:[.odl__table_thead_th&]:border-b-sep" scope="col">Customer</th>
+            <th class="mi:[.odl__table_thead_th&]:text-[12px] mi:[.odl__table_thead_th&]:text-label2 mi:[.odl__table_thead_th&]:border-b mi:[.odl__table_thead_th&]:border-b-sep" scope="col">Fulfillment</th>
+            <th scope="col" class="odl__end mi:[.odl__table_thead_th&]:text-[12px] mi:[.odl__table_thead_th&]:text-label2 mi:[.odl__table_thead_th&]:border-b mi:[.odl__table_thead_th&]:border-b-sep">Total</th>
           </tr>
         </thead>
         <!-- One tbody per day: a day row carrying the subtotal, then the orders. -->
         <tbody v-for="day in days" :key="day.date">
           <tr class="odl__day">
-            <th scope="rowgroup" colspan="4">{{ day.date }} <span>{{ day.orders.length }} {{ day.orders.length === 1 ? 'order' : 'orders' }}</span></th>
+            <th scope="rowgroup" colspan="4">{{ day.date }} <span class="mi:[.odl__day_&]:ms-1.5 mi:[.odl__day_&]:text-label2">{{ day.orders.length }} {{ day.orders.length === 1 ? 'order' : 'orders' }}</span></th>
             <td class="odl__end">{{ money(day.subtotal) }}</td>
           </tr>
           <template v-for="o in day.orders" :key="o.id">
@@ -33,26 +33,26 @@
                   size="small" variant="plain" :label="(open === o.id ? 'Hide' : 'Show') + ' items of ' + o.id"
                   :aria-expanded="open === o.id" :aria-controls="'odl-items-' + o.id" @click="open = open === o.id ? null : o.id"
                 >
-                  <MiIcon name="chevron-right" :size="16" class="odl__chev" />
+                  <MiIcon name="chevron-right" :size="16" class="odl__chev mi:[.odl__table_thead_th&]:text-[12px] mi:[.odl__table_thead_th&]:text-label2 mi:[.odl__table_thead_th&]:border-b mi:[.odl__table_thead_th&]:border-b-sep mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)]" />
                 </MiIconButton>
               </td>
-              <td class="odl__id">{{ o.id }}<MiText as="span" variant="caption" tone="label3">{{ o.time }}</MiText></td>
-              <td class="odl__who"><MiAvatar :name="o.customer" size="xs" tone="auto" decorative />{{ o.customer }}</td>
+              <td class="odl__id mi:grid mi:font-semibold mi:leading-[1.2]">{{ o.id }}<MiText as="span" variant="caption" tone="label3">{{ o.time }}</MiText></td>
+              <td class="odl__who mi:whitespace-nowrap"><MiAvatar :name="o.customer" size="xs" tone="auto" decorative />{{ o.customer }}</td>
               <td>
-                <span class="odl__steps" role="img" :aria-label="stepLabel(o)">
-                  <i v-for="(s, i) in steps" :key="s" :class="{ 'is-done': i < o.step }" />
+                <span class="odl__steps mi:flex mi:gap-[3px] mi:w-18 mi:mb-[3px]" role="img" :aria-label="stepLabel(o)">
+                  <i class="mi:[.odl__steps_&]:flex-1 mi:[.odl__steps_&]:h-1 mi:[.odl__steps_&]:rounded-[2px]" v-for="(s, i) in steps" :key="s" :class="{ 'is-done': i < o.step }" />
                 </span>
                 <MiText as="span" variant="caption" :tone="o.refunded ? 'red' : 'label2'">{{ stepLabel(o) }}</MiText>
               </td>
-              <td class="odl__end" :class="{ 'is-refund': o.refunded }">{{ money(total(o)) }}</td>
+              <td class="odl__end" :class="{ 'is-refund mi:text-label3 mi:[text-decoration:line-through]': o.refunded }">{{ money(total(o)) }}</td>
             </tr>
             <tr v-if="open === o.id" :id="'odl-items-' + o.id" class="odl__items">
               <td />
               <td colspan="4">
-                <ul class="odl__lines">
-                  <li v-for="l in o.lines" :key="l.sku"><span>{{ l.qty }} × {{ l.name }}</span><span>{{ money(l.qty * l.price) }}</span></li>
+                <ul class="odl__lines mi:grid mi:gap-1 mi:mt-0 mi:mx-0 mi:mb-2.5 mi:py-2.5 mi:px-3 mi:[list-style:none] mi:rounded-md mi:bg-fill4 mi:text-[13px]">
+                  <li class="mi:[.odl__lines_&]:flex mi:[.odl__lines_&]:justify-between mi:[.odl__lines_&]:gap-3" v-for="l in o.lines" :key="l.sku"><span>{{ l.qty }} × {{ l.name }}</span><span>{{ money(l.qty * l.price) }}</span></li>
                 </ul>
-                <div class="odl__actions">
+                <div class="odl__actions mi:flex mi:flex-wrap mi:gap-2 mi:pb-1">
                   <MiButton v-if="!o.refunded && o.step < 3" size="small" variant="tinted" @click="advance(o)">Mark {{ steps[o.step]?.toLowerCase() }}</MiButton>
                   <MiButton v-if="!o.refunded" size="small" variant="destructive" soft @click="refund(o)">Refund {{ money(total(o)) }}</MiButton>
                 </div>
@@ -63,7 +63,7 @@
       </table>
     </div>
 
-    <p class="odl__log" aria-live="polite">{{ log }}</p>
+    <p class="odl__log mi:m-0 mi:text-[13px] mi:text-label2" aria-live="polite">{{ log }}</p>
   </section>
 </template>
 
@@ -114,38 +114,20 @@ const money = (n: number) => '$' + n.toLocaleString('en-US', { minimumFractionDi
 </script>
 
 <style scoped>
-.odl { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
-.odl__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.odl__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-
-.odl__scroll { min-width: 0; overflow-x: auto; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.odl__table { width: 100%; min-width: 640px; border-collapse: collapse; font-size: 14px; font-variant-numeric: tabular-nums; }
 .odl__table th, .odl__table td { padding: 8px 12px; text-align: start; vertical-align: middle; }
-.odl__table thead th { font-size: 12px; font-weight: 600; color: var(--mi-label2); border-bottom: 1px solid var(--mi-sep); }
+.odl__table thead th { font-weight: 600; }
 .odl__table th:first-child, .odl__table td:first-child { width: 44px; padding-inline: 8px 0; }
 .odl__table .odl__end { text-align: end; font-weight: 600; }
 
 .odl__day th, .odl__day td { padding-block: 10px 6px; background: var(--mi-fill4); font-size: 13px; font-weight: 600; }
 .odl__day th { padding-inline-start: 16px; }
-.odl__day span { margin-inline-start: 6px; font-weight: 400; color: var(--mi-label2); }
+.odl__day span { font-weight: 400; }
 .odl__row td { border-bottom: 1px solid var(--mi-sep); }
 .odl__row.is-open td { border-bottom-color: transparent; }
-.odl__chev { transition: transform var(--mi-dur-2) var(--mi-ease); }
 .odl__row.is-open .odl__chev { transform: rotate(90deg); }
-.odl__id { display: grid; font-weight: 600; line-height: 1.2; }
-.odl__who { white-space: nowrap; }
 .odl__who > :first-child { margin-inline-end: 8px; vertical-align: middle; }
-.is-refund { color: var(--mi-label3); text-decoration: line-through; }
-
-/* Three-step track: lit segments are completed steps. */
-.odl__steps { display: flex; gap: 3px; width: 72px; margin-bottom: 3px; }
-.odl__steps i { flex: 1; height: 4px; border-radius: 2px; background: var(--mi-fill2); }
+.odl__steps i { background: var(--mi-fill2); }
 .odl__steps i.is-done { background: var(--mi-p); }
 
 .odl__items td { padding-top: 0; border-bottom: 1px solid var(--mi-sep); }
-.odl__lines { display: grid; gap: 4px; margin: 0 0 10px; padding: 10px 12px; list-style: none; border-radius: var(--mi-radius-m); background: var(--mi-fill4); font-size: 13px; }
-.odl__lines li { display: flex; justify-content: space-between; gap: 12px; }
-.odl__actions { display: flex; flex-wrap: wrap; gap: 8px; padding-bottom: 4px; }
-
-.odl__log { margin: 0; font-size: 13px; color: var(--mi-label2); }
 </style>

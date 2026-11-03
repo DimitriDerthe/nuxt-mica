@@ -100,7 +100,7 @@ defineSlots<{
     >
       <template v-if="mode === 'count'">{{ countText }}</template>
       <template v-else-if="mode === 'label'"><slot>{{ label }}</slot></template>
-      <span v-if="mode === 'dot'" class="mi-badge-dotfill" :style="{ width: dotSize + 'px', height: dotSize + 'px' }" />
+      <span v-if="mode === 'dot'" class="mi-badge-dotfill mi:block mi:rounded-[50%] mi:[background:var(--t-dot)] mi:flex-[none] mi:[.mi-badge.m-dot.is-anchored_&]:shadow-[0_0_0_2px_var(--ring,var(--mi-card))]" :style="{ width: dotSize + 'px', height: dotSize + 'px' }" />
     </span>
   </span>
   <span
@@ -111,10 +111,10 @@ defineSlots<{
     :role="name ? 'img' : undefined"
     :aria-label="name"
   >
-    <span v-if="dot && mode === 'label'" class="mi-badge-dot" aria-hidden="true" />
+    <span v-if="dot && mode === 'label'" class="mi-badge-dot mi:w-1.5 mi:h-1.5 mi:rounded-[50%] mi:[background:var(--t-dot)] mi:flex-[none]" aria-hidden="true" />
     <template v-if="mode === 'count'">{{ countText }}</template>
     <template v-else-if="mode === 'label'"><slot>{{ label }}</slot></template>
-    <span v-else class="mi-badge-dotfill" :style="{ width: dotSize + 'px', height: dotSize + 'px' }" />
+    <span v-else class="mi-badge-dotfill mi:block mi:rounded-[50%] mi:[background:var(--t-dot)] mi:flex-[none] mi:[.mi-badge.m-dot.is-anchored_&]:shadow-[0_0_0_2px_var(--ring,var(--mi-card))]" :style="{ width: dotSize + 'px', height: dotSize + 'px' }" />
   </span>
 </template>
 
@@ -127,13 +127,10 @@ defineSlots<{
 .mi-badge.m-label.v-tint{background:var(--t-bg);color:var(--t-text)}
 .mi-badge.m-label.v-solid{background:var(--t-solid);color:var(--t-on);font-weight:700}
 .mi-badge.m-label.v-outline{color:var(--mi-label2);box-shadow:inset 0 0 0 1px var(--mi-sep2)}
-.mi-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--t-dot);flex:none}
 .mi-badge.m-count{min-width:20px;height:20px;padding:0 6px;border-radius:999px;font-size:12px;line-height:16px;font-weight:700;background:var(--t-solid);color:var(--t-on);font-variant-numeric:tabular-nums}
 .mi-badge.m-count:not(.is-anchored){box-shadow:none}
 .mi-badge.m-dot{padding:0;background:transparent;border-radius:50%}
 .mi-badge.m-dot.is-anchored{background:transparent}
-.mi-badge-dotfill{display:block;border-radius:50%;background:var(--t-dot);flex:none}
 .mi-badge.m-dot.is-anchored{box-shadow:none}
-.mi-badge.m-dot.is-anchored .mi-badge-dotfill{box-shadow:0 0 0 2px var(--ring,var(--mi-card))}
 .mi-badge.m-label.is-anchored{height:20px;padding:0 6px}
 </style>

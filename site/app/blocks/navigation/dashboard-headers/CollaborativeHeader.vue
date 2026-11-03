@@ -1,85 +1,85 @@
 <template>
-  <div class="ch">
-    <div ref="scrollEl" class="ch__scroll" @keydown.esc="following = null">
+  <div class="ch mi:@container mi:font-mi mi:text-label">
+    <div ref="scrollEl" class="ch__scroll mi:relative mi:h-115 mi:overflow-y-auto mi:[background:var(--mi-card)] mi:[scroll-padding-top:80px]" @keydown.esc="following = null">
       <!-- Sticky, translucent: the document scrolls underneath it. -->
-      <header class="ch__header">
-        <div class="ch__row">
-          <span class="ch__tile" aria-hidden="true"><MiIcon name="document" :size="16" /></span>
+      <header class="ch__header mi:sticky mi:top-0 mi:z-3 mi:grid mi:gap-2 mi:py-2.5 mi:px-3 mi:[background:var(--mi-mat)] mi:shadow-[0_1px_0_var(--mi-sep)] mi:@[520px]:py-2.5 mi:@[520px]:px-4 mi:@[980px]:py-2.5 mi:@[980px]:px-5">
+        <div class="ch__row mi:flex mi:items-center mi:gap-2.5 mi:min-w-0">
+          <span class="ch__tile mi:grid mi:place-items-center mi:flex-[none] mi:w-7 mi:h-7 mi:rounded-[8px] mi:text-p-text mi:[background:var(--mi-p-tint)]" aria-hidden="true"><MiIcon name="document" :size="16" /></span>
 
-          <nav class="ch__crumbs" aria-label="Location">
-            <ol>
-              <li v-for="(c, i) in trail" :key="c" class="ch__crumb" :class="crumbClass(i)">
-                <a href="#" @click.prevent>{{ c }}</a>
+          <nav class="ch__crumbs mi:flex-1 mi:min-w-0" aria-label="Location">
+            <ol class="mi:[.ch__crumbs_ol&]:[list-style:none]">
+              <li v-for="(c, i) in trail" :key="c" class="ch__crumb mi:flex mi:items-center mi:text-[13.5px] mi:text-label2 mi:[.ch__crumb+&]:before:content-['/'] mi:[.ch__crumb+&]:before:py-0 mi:[.ch__crumb+&]:before:px-1.5 mi:[.ch__crumb+&]:before:text-label3 mi:[&.is-root]:hidden" :class="crumbClass(i)">
+                <a class="mi:[.ch__crumb_a&]:[text-decoration:none]" href="#" @click.prevent>{{ c }}</a>
               </li>
               <!-- One "…" per width step, each listing only the folders hidden at that step. -->
-              <li v-for="fold in folds" :key="fold.size" class="ch__crumb ch__crumb--more" :class="'is-' + fold.size">
-                <MiMenu :items="fold.items" aria-label="Show hidden folders">
+              <li v-for="fold in folds" :key="fold.size" class="ch__crumb ch__crumb--more mi:flex mi:items-center mi:text-[13.5px] mi:text-label2 mi:[.ch__crumb+&]:before:content-['/'] mi:[.ch__crumb+&]:before:py-0 mi:[.ch__crumb+&]:before:px-1.5 mi:[.ch__crumb+&]:before:text-label3 mi:[&.is-root]:hidden mi:before:hidden mi:@[520px]:before:inline" :class="'is-' + fold.size">
+                <MiMenu class="mi:[.ch__crumbs_ol&]:[list-style:none] mi:[.ch__crumb_a&]:[text-decoration:none]" :items="fold.items" aria-label="Show hidden folders">
                   <template #trigger="{ props }">
-                    <button v-bind="props" type="button" class="ch__more" aria-label="Show hidden folders">…</button>
+                    <button v-bind="props" type="button" class="ch__more mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px] mi:h-6 mi:min-w-6.5 mi:py-0 mi:px-1.5 mi:[border:0] mi:rounded-[6px] mi:text-label2 mi:[background:var(--mi-fill4)] mi:cursor-pointer mi:hover:text-label mi:hover:[background:var(--mi-fill3)]" aria-label="Show hidden folders">…</button>
                   </template>
                 </MiMenu>
               </li>
-              <li class="ch__crumb ch__crumb--title">
-                <input v-model="title" class="ch__title" aria-label="Document title" spellcheck="false" :size="Math.max(8, title.length)">
+              <li class="ch__crumb ch__crumb--title mi:flex mi:items-center mi:text-[13.5px] mi:text-label2 mi:[.ch__crumb+&]:before:content-['/'] mi:[.ch__crumb+&]:before:py-0 mi:[.ch__crumb+&]:before:px-1.5 mi:[.ch__crumb+&]:before:text-label3 mi:[&.is-root]:hidden">
+                <input v-model="title" class="ch__title mi:w-full mi:max-w-full mi:min-w-0 mi:py-[3px] mi:px-1.5 mi:ml-[-3px] mi:[border:0] mi:rounded-[6px] mi:[outline:none] mi:text-label mi:[background:none] mi:text-ellipsis mi:hover:[background:var(--mi-fill4)] mi:focus:[background:var(--mi-card)] mi:focus:shadow-[0_0_0_1px_var(--mi-p),_0_0_0_4px_color-mix(in_srgb,_var(--mi-p)_20%,_transparent)]" aria-label="Document title" spellcheck="false" :size="Math.max(8, title.length)">
               </li>
             </ol>
           </nav>
 
-          <div class="ch__status" role="status" aria-live="polite">
+          <div class="ch__status mi:hidden mi:items-center mi:gap-[5px] mi:flex-[none] mi:text-[12px] mi:text-label2 mi:@[520px]:inline-flex" role="status" aria-live="polite">
             <MiSpinner v-if="syncing" :size="14" label="" />
-            <MiIcon v-else name="check" :size="14" class="ch__ok" />
-            <span class="ch__status-text">{{ syncing ? 'Syncing…' : 'Saved' }}</span>
+            <MiIcon v-else name="check" :size="14" class="ch__ok mi:text-green" />
+            <span class="ch__status-text mi:@[520px]:hidden mi:@[760px]:inline">{{ syncing ? 'Syncing…' : 'Saved' }}</span>
           </div>
 
-          <div class="ch__end">
+          <div class="ch__end mi:flex mi:items-center mi:gap-1.5 mi:flex-[none]">
             <!-- Presence: each ring wears the colour of that person's cursor; click to follow. -->
-            <ul class="ch__people" aria-label="People in this document">
+            <ul class="ch__people mi:flex mi:items-center mi:mt-0 mi:mr-1 mi:mb-0 mi:ml-0 mi:p-0 mi:[list-style:none]" aria-label="People in this document">
               <li v-for="(p, i) in people" :key="p.name" :class="{ 'is-extra': i >= 1 }">
                 <button
-                  type="button" class="ch__face" :class="{ 'is-following': following === p.name }" :style="{ '--c': `var(--mi-${p.color})` }"
+                  type="button" class="ch__face mi:relative mi:grid mi:place-items-center mi:p-0 mi:[border:0] mi:rounded-[50%] mi:[background:none] mi:cursor-pointer mi:shadow-[0_0_0_2px_var(--mi-card),_0_0_0_3.5px_var(--c)] mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[4px]" :class="{ 'is-following': following === p.name }" :style="{ '--c': `var(--mi-${p.color})` }"
                   :aria-pressed="following === p.name" :title="p.name + ' · ' + p.where" @click="follow(p.name)"
                 >
                   <MiAvatar :name="p.name" :size="26" tone="auto" decorative />
-                  <span class="ch__sr">{{ following === p.name ? 'Stop following ' : 'Follow ' }}{{ p.name }}, {{ p.where }}</span>
+                  <span class="ch__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">{{ following === p.name ? 'Stop following ' : 'Follow ' }}{{ p.name }}, {{ p.where }}</span>
                 </button>
               </li>
-              <li class="ch__extra" aria-hidden="true">+{{ people.length - 1 }}</li>
+              <li class="ch__extra mi:grid mi:place-items-center mi:w-6.5 mi:h-6.5 mi:rounded-[50%] mi:text-[10.5px] mi:font-650 mi:text-label2 mi:[background:var(--mi-fill3)] mi:shadow-[0_0_0_2px_var(--mi-card)] mi:@[520px]:hidden" aria-hidden="true">+{{ people.length - 1 }}</li>
             </ul>
-            <span class="ch__comments"><MiBadge :count="comments" placement="top-right" :offset="1" count-noun="open comments" tone="primary">
+            <span class="ch__comments mi:hidden mi:@[520px]:inline-flex"><MiBadge :count="comments" placement="top-right" :offset="1" count-noun="open comments" tone="primary">
               <template #target>
                 <MiIconButton size="toolbar" variant="plain" label="Comments"><MiIcon name="chat" :size="18" /></MiIconButton>
               </template>
             </MiBadge></span>
             <MiButton size="small" class="ch__share" aria-label="Share document">
               <template #leading><MiIcon name="lock" :size="14" /></template>
-              <span class="ch__share-label">Share</span>
+              <span class="ch__share-label mi:hidden mi:@[520px]:inline">Share</span>
             </MiButton>
           </div>
         </div>
 
         <Transition name="ch-follow">
-          <div v-if="following" class="ch__follow" :style="{ '--c': `var(--mi-${followed!.color})` }">
-            <span class="ch__follow-dot" aria-hidden="true" />
+          <div v-if="following" class="ch__follow mi:justify-self-start mi:inline-flex mi:items-center mi:gap-2 mi:pt-1 mi:pr-1 mi:pb-1 mi:pl-2.5 mi:rounded-[999px] mi:text-[12.5px] mi:text-label mi:[background:color-mix(in_srgb,_var(--c)_14%,_var(--mi-card))] mi:shadow-[inset_0_0_0_1px_color-mix(in_srgb,_var(--c)_40%,_transparent)]" :style="{ '--c': `var(--mi-${followed!.color})` }">
+            <span class="ch__follow-dot mi:w-[7px] mi:h-[7px] mi:rounded-[50%] mi:[background:var(--c)]" aria-hidden="true" />
             <span>Following <strong>{{ followed!.name.split(' ')[0] }}</strong> · {{ followed!.where }}</span>
-            <button type="button" class="ch__follow-stop" @click="following = null">Stop <MiKbd>Esc</MiKbd></button>
+            <button type="button" class="ch__follow-stop mi:inline-flex mi:items-center mi:gap-1.5 mi:h-6 mi:pt-0 mi:pr-1 mi:pb-0 mi:pl-2.5 mi:[border:0] mi:rounded-[999px] mi:text-label2 mi:[background:var(--mi-card)] mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" @click="following = null">Stop <MiKbd>Esc</MiKbd></button>
           </div>
         </Transition>
       </header>
 
-      <article class="ch__doc" :class="{ 'is-following': following }" aria-labelledby="ch-doc-title">
+      <article class="ch__doc mi:grid mi:gap-2.5 mi:max-w-160 mi:my-0 mi:mx-auto mi:pt-7 mi:px-4.5 mi:pb-20 mi:@[980px]:pt-10" :class="{ 'is-following': following }" aria-labelledby="ch-doc-title">
         <MiText as="p" variant="footnote" tone="label2" tabular>Last edited by Mara Lindqvist · {{ editedText }}</MiText>
         <MiText id="ch-doc-title" as="h2" variant="title1" weight="bold" balance>{{ title || 'Untitled' }}</MiText>
-        <section v-for="(b, bi) in blocks" :key="b.h" class="ch__block">
+        <section v-for="(b, bi) in blocks" :key="b.h" class="ch__block mi:relative mi:grid mi:gap-1.5 mi:mt-4.5">
           <MiText as="h3" variant="headline" weight="semibold">{{ b.h }}</MiText>
-          <p class="ch__p">
-            {{ b.before }}<mark v-if="b.mark" class="ch__sel" :style="{ '--c': `var(--mi-${b.mark.color})` }">{{ b.mark.text }}</mark>{{ b.after }}
+          <p class="ch__p mi:m-0 mi:text-[16px] mi:leading-[1.7] mi:text-label">
+            {{ b.before }}<mark v-if="b.mark" class="ch__sel mi:text-inherit mi:rounded-[3px] mi:[background:color-mix(in_srgb,_var(--c)_22%,_transparent)] mi:shadow-[0_0_0_1px_color-mix(in_srgb,_var(--c)_30%,_transparent)]" :style="{ '--c': `var(--mi-${b.mark.color})` }">{{ b.mark.text }}</mark>{{ b.after }}
           </p>
           <span
-            v-for="p in people.filter(x => x.block === bi)" :key="p.name" class="ch__cursor" :class="{ 'is-on': following === p.name }"
+            v-for="p in people.filter(x => x.block === bi)" :key="p.name" class="ch__cursor mi:absolute mi:left-(--x) mi:top-(--y) mi:z-1 mi:flex mi:[align-items:flex-start] mi:pointer-events-none mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)] mi:[.is-following_&]:opacity-20 mi:[.is-following_&.is-on]:opacity-100" :class="{ 'is-on': following === p.name }"
             :style="{ '--c': `var(--mi-${p.color})`, '--x': p.x, '--y': p.y + 'px', '--d': p.delay }" aria-hidden="true"
           >
-            <svg viewBox="0 0 16 16" class="ch__arrow"><path d="M2 1.5 13.5 7 8 8.4 5.6 14z" /></svg>
-            <span class="ch__tag">{{ p.name.split(' ')[0] }}</span>
+            <svg viewBox="0 0 16 16" class="ch__arrow mi:w-4 mi:h-4 mi:fill-(--c) mi:stroke-card mi:[stroke-width:1.2] mi:[filter:drop-shadow(0_1px_1px_color-mix(in_srgb,_var(--mi-label)_25%,_transparent))]"><path d="M2 1.5 13.5 7 8 8.4 5.6 14z" /></svg>
+            <span class="ch__tag mi:mt-3 mi:mr-0 mi:mb-0 mi:ml-[-3px] mi:py-0.5 mi:px-[7px] mi:rounded-[6px_9px_9px_9px] mi:text-[11px] mi:font-650 mi:leading-[15px] mi:text-card mi:[background:var(--c)] mi:whitespace-nowrap mi:[.ch__cursor.is-on_&]:shadow-[0_0_0_3px_color-mix(in_srgb,_var(--c)_28%,_transparent)]">{{ p.name.split(' ')[0] }}</span>
           </span>
         </section>
       </article>
@@ -159,83 +159,33 @@ function crumbClass(i: number) {
 </script>
 
 <style scoped>
-.ch { container-type: inline-size; font-family: var(--mi-font); color: var(--mi-label); }
-.ch__scroll { position: relative; height: 460px; overflow-y: auto; background: var(--mi-card); scroll-padding-top: 80px; }
-
-.ch__header {
-  position: sticky; top: 0; z-index: 3; display: grid; gap: 8px; padding: 10px 12px;
-  background: var(--mi-mat); backdrop-filter: saturate(1.6) blur(18px); -webkit-backdrop-filter: saturate(1.6) blur(18px);
-  box-shadow: 0 1px 0 var(--mi-sep);
+.ch__header { backdrop-filter: saturate(1.6) blur(18px); -webkit-backdrop-filter: saturate(1.6) blur(18px);
 }
-.ch__row { display: flex; align-items: center; gap: 10px; min-width: 0; }
-.ch__tile { display: grid; place-items: center; flex: none; width: 28px; height: 28px; border-radius: 8px; color: var(--mi-p-text); background: var(--mi-p-tint); }
-
-.ch__crumbs { flex: 1; min-width: 0; }
-.ch__crumbs ol { display: flex; align-items: center; min-width: 0; margin: 0; padding: 0; list-style: none; }
-.ch__crumb { display: flex; align-items: center; flex: none; min-width: 0; font-size: 13.5px; color: var(--mi-label2); }
-.ch__crumb + .ch__crumb::before { content: "/"; padding: 0 6px; color: var(--mi-label3); }
-.ch__crumb a { color: inherit; text-decoration: none; border-radius: 5px; padding: 2px 3px; white-space: nowrap; }
+.ch__crumbs ol { display: flex; align-items: center; min-width: 0; margin: 0; padding: 0; }
+.ch__crumb { flex: none; min-width: 0; }
+.ch__crumb a { color: inherit; border-radius: 5px; padding: 2px 3px; white-space: nowrap; }
 .ch__crumb a:hover { color: var(--mi-label); background: var(--mi-fill4); }
-.ch__crumb a:focus-visible, .ch__more:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 1px; }
-.ch__crumb.is-mid, .ch__crumb.is-near, .ch__crumb.is-root { display: none; }
-.ch__crumb--more::before { display: none; }
+.ch__crumb a:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 1px; }
+.ch__crumb.is-mid, .ch__crumb.is-near { display: none; }
 .ch__crumb--more.is-sm, .ch__crumb--more.is-md { display: none; }
-.ch__more { height: 24px; min-width: 26px; padding: 0 6px; border: 0; border-radius: 6px; font: inherit; font-weight: 700; color: var(--mi-label2); background: var(--mi-fill4); cursor: pointer; }
-.ch__more:hover { color: var(--mi-label); background: var(--mi-fill3); }
+.ch__more { font: inherit; font-weight: 700; }
 .ch__crumb--title { flex: 1 1 auto; min-width: 0; }
 .ch__title {
-  width: 100%; max-width: 100%; min-width: 0; padding: 3px 6px; margin-left: -3px; border: 0; border-radius: 6px; outline: none;
-  font: inherit; font-size: 14px; font-weight: 650; color: var(--mi-label); background: none; text-overflow: ellipsis;
+  font: inherit; font-size: 14px; font-weight: 650;
 }
-.ch__title:hover { background: var(--mi-fill4); }
-.ch__title:focus { background: var(--mi-card); box-shadow: 0 0 0 1px var(--mi-p), 0 0 0 4px color-mix(in srgb, var(--mi-p) 20%, transparent); }
-
-.ch__status { display: none; align-items: center; gap: 5px; flex: none; font-size: 12px; color: var(--mi-label2); }
-.ch__ok { color: var(--mi-green); }
-
-.ch__end { display: flex; align-items: center; gap: 6px; flex: none; }
-.ch__people { display: flex; align-items: center; margin: 0 4px 0 0; padding: 0; list-style: none; }
 .ch__people li + li { margin-left: -4px; }
 .ch__people .is-extra { display: none; }
-.ch__face {
-  position: relative; display: grid; place-items: center; padding: 0; border: 0; border-radius: 50%; background: none; cursor: pointer;
-  box-shadow: 0 0 0 2px var(--mi-card), 0 0 0 3.5px var(--c); transition: transform var(--mi-dur-2) var(--mi-spring);
-}
 .ch__face:hover { transform: translateY(-2px); z-index: 1; }
 .ch__face.is-following { transform: scale(1.12); z-index: 2; }
-.ch__face:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 4px; }
-.ch__extra { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; font-size: 10.5px; font-weight: 650; color: var(--mi-label2); background: var(--mi-fill3); box-shadow: 0 0 0 2px var(--mi-card); }
-.ch__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .ch__share { flex: none; }
-.ch__comments { display: none; }
-.ch__share-label { display: none; }
-
-.ch__follow {
-  justify-self: start; display: inline-flex; align-items: center; gap: 8px; padding: 4px 4px 4px 10px; border-radius: 999px; font-size: 12.5px;
-  color: var(--mi-label); background: color-mix(in srgb, var(--c) 14%, var(--mi-card)); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c) 40%, transparent);
-}
 .ch__follow strong { font-weight: 650; }
-.ch__follow-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--c); }
-.ch__follow-stop { display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 4px 0 10px; border: 0; border-radius: 999px; font: inherit; font-size: 12px; color: var(--mi-label2); background: var(--mi-card); cursor: pointer; }
-.ch__follow-stop:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 1px; }
+.ch__follow-stop { font: inherit; font-size: 12px; }
 .ch-follow-enter-active, .ch-follow-leave-active { transition: opacity var(--mi-dur-2) var(--mi-ease), transform var(--mi-dur-2) var(--mi-ease); }
 .ch-follow-enter-from, .ch-follow-leave-to { opacity: 0; transform: translateY(-4px); }
 
-/* Document */
-.ch__doc { display: grid; gap: 10px; max-width: 640px; margin: 0 auto; padding: 28px 18px 80px; }
-.ch__block { position: relative; display: grid; gap: 6px; margin-top: 18px; }
-.ch__p { margin: 0; font-size: 16px; line-height: 1.7; color: var(--mi-label); }
-.ch__sel { color: inherit; border-radius: 3px; background: color-mix(in srgb, var(--c) 22%, transparent); box-shadow: 0 0 0 1px color-mix(in srgb, var(--c) 30%, transparent); }
-
 .ch__cursor {
-  position: absolute; left: var(--x); top: var(--y); z-index: 1; display: flex; align-items: flex-start; pointer-events: none;
-  animation: ch-drift 7s var(--mi-ease-in-out) var(--d) infinite; transition: opacity var(--mi-dur-3) var(--mi-ease);
+  animation: ch-drift 7s var(--mi-ease-in-out) var(--d) infinite;
 }
-.ch__arrow { width: 16px; height: 16px; fill: var(--c); stroke: var(--mi-card); stroke-width: 1.2; filter: drop-shadow(0 1px 1px color-mix(in srgb, var(--mi-label) 25%, transparent)); }
-.ch__tag { margin: 12px 0 0 -3px; padding: 2px 7px; border-radius: 6px 9px 9px 9px; font-size: 11px; font-weight: 650; line-height: 15px; color: var(--mi-card); background: var(--c); white-space: nowrap; }
-.is-following .ch__cursor { opacity: .2; }
-.is-following .ch__cursor.is-on { opacity: 1; }
-.ch__cursor.is-on .ch__tag { box-shadow: 0 0 0 3px color-mix(in srgb, var(--c) 28%, transparent); }
 @keyframes ch-drift {
   0%, 100% { transform: translate(0, 0); }
   30% { transform: translate(18px, 4px); }
@@ -245,28 +195,18 @@ function crumbClass(i: number) {
 @media (prefers-reduced-motion: reduce) { .ch__cursor { animation: none; } }
 
 @container (min-width: 520px) {
-  .ch__header { padding: 10px 16px; }
   .ch__crumb.is-root { display: flex; }
-  .ch__crumb--more::before { display: inline; }
   .ch__crumb--more.is-xs { display: none; }
   .ch__crumb--more.is-sm { display: flex; }
-  .ch__status { display: inline-flex; }
-  .ch__share-label { display: inline; }
-  .ch__comments { display: inline-flex; }
-  .ch__status-text { display: none; }
   .ch__people .is-extra { display: list-item; }
-  .ch__extra { display: none; }
 }
 @container (min-width: 760px) {
   .ch__crumb.is-near { display: flex; }
   .ch__crumb--more.is-sm { display: none; }
   .ch__crumb--more.is-md { display: flex; }
-  .ch__status-text { display: inline; }
 }
 @container (min-width: 980px) {
   .ch__crumb.is-mid { display: flex; }
   .ch__crumb--more.is-md { display: none; }
-  .ch__header { padding: 10px 20px; }
-  .ch__doc { padding-top: 40px; }
 }
 </style>

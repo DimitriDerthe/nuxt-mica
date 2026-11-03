@@ -1,11 +1,11 @@
 <template>
-  <section class="ro" aria-labelledby="shift-roster-title">
-    <header class="ro__head">
+  <section class="ro mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="shift-roster-title">
+    <header class="ro__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="shift-roster-title" variant="title3" as="h2" weight="semibold">Support desk roster</MiText>
         <MiText variant="footnote" tone="label2">Week of November 9 · Early 07–15 · Late 14–22</MiText>
       </div>
-      <div class="ro__actions">
+      <div class="ro__actions mi:flex mi:flex-wrap mi:items-center mi:gap-2">
         <MiBadge v-if="published" tone="success" dot label="Published · team notified" />
         <MiBadge v-else :tone="gaps ? 'warning' : 'neutral'" :label="gaps ? gaps + (gaps > 1 ? ' gaps' : ' gap') + ' to cover' : 'Draft · fully covered'" />
         <MiButton variant="gray" size="small" :disabled="!gaps" @click="fillGaps">Fill gaps</MiButton>
@@ -13,45 +13,45 @@
       </div>
     </header>
 
-    <div class="ro__brush">
+    <div class="ro__brush mi:flex mi:flex-wrap mi:items-center mi:gap-2.5">
       <MiText id="shift-roster-brush" as="span" variant="footnote" weight="semibold" tone="label2">Paint with</MiText>
       <MiSegmented v-model="brush" variant="tinted" label="Shift to paint" :options="brushes" />
       <MiText as="span" variant="footnote" tone="label2" class="ro__hint">Click a cell to paint it; click again to clear.</MiText>
     </div>
 
-    <div class="ro__scroll" tabindex="0" role="region" aria-label="Roster grid">
-      <table class="ro__table">
+    <div class="ro__scroll mi:overflow-x-auto mi:overscroll-x-contain mi:[scroll-snap-type:x_mandatory] mi:[scroll-padding-inline-start:160px] mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" tabindex="0" role="region" aria-label="Roster grid">
+      <table class="ro__table mi:w-full mi:min-w-165 mi:border-separate mi:[border-spacing:0] mi:table-fixed">
         <thead>
           <tr>
-            <th scope="col" class="ro__who">Agent</th>
-            <th v-for="d in days" :key="d.key" scope="col" class="ro__day" :class="{ 'is-weekend': d.weekend }">
-              <span class="ro__dow">{{ d.dow }}</span><span class="ro__date">{{ d.date }}</span>
+            <th scope="col" class="ro__who mi:sticky mi:start-0 mi:z-2 mi:w-40 mi:[background:var(--mi-card)] mi:text-start mi:[border-inline-end:1px_solid_var(--mi-sep)] mi:@[900px]:w-52.5 mi:[thead_&]:text-[12px] mi:[thead_&]:text-label2 mi:[thead_&]:uppercase mi:[thead_&]:tracking-[.05em] mi:[thead_&]:border-b mi:[thead_&]:border-b-sep mi:[tbody_tr+tr_th&]:border-t mi:[tbody_tr+tr_th&]:border-t-sep mi:[tfoot_tr:first-child_th&]:[border-top-width:2px]">Agent</th>
+            <th v-for="d in days" :key="d.key" scope="col" class="ro__day mi:pt-3 mi:px-1 mi:pb-2.5 mi:snap-start mi:text-center mi:[&.is-weekend]:[background:color-mix(in_srgb,_var(--mi-fill4)_70%,_transparent)] mi:[thead_&]:border-b mi:[thead_&]:border-b-sep mi:[tbody_tr+tr_th&]:border-t mi:[tbody_tr+tr_th&]:border-t-sep mi:[tfoot_tr:first-child_th&]:[border-top-width:2px]" :class="{ 'is-weekend': d.weekend }">
+              <span class="ro__dow mi:block mi:text-[11px] mi:font-semibold mi:uppercase mi:tracking-[.05em] mi:text-label2">{{ d.dow }}</span><span class="ro__date mi:block mi:text-[18px] mi:font-bold mi:tracking-[-.02em] mi:tabular-nums">{{ d.date }}</span>
             </th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="p in people" :key="p.name">
-            <th scope="row" class="ro__who">
-              <div class="ro__person">
-                <MiAvatar :name="p.name" tone="auto" size="sm" decorative />
-                <div class="ro__pinfo">
-                  <span class="ro__name">{{ p.name }}</span>
-                  <div class="ro__hours">
-                    <div class="ro__meter" role="meter" :aria-label="p.name + ' weekly hours'" aria-valuemin="0" aria-valuemax="40" :aria-valuenow="hoursOf(p)">
-                      <span :class="{ 'is-over': hoursOf(p) > 40 }" :style="{ transform: `scaleX(${Math.min(hoursOf(p) / 40, 1)})` }" />
+            <th scope="row" class="ro__who mi:sticky mi:start-0 mi:z-2 mi:w-40 mi:[background:var(--mi-card)] mi:text-start mi:[border-inline-end:1px_solid_var(--mi-sep)] mi:@[900px]:w-52.5 mi:[thead_&]:text-[12px] mi:[thead_&]:text-label2 mi:[thead_&]:uppercase mi:[thead_&]:tracking-[.05em] mi:[tbody_tr+tr_th&]:border-t mi:[tbody_tr+tr_th&]:border-t-sep mi:[tfoot_tr:first-child_th&]:[border-top-width:2px]">
+              <div class="ro__person mi:flex mi:items-center mi:gap-2.5 mi:py-2.5 mi:px-3 mi:min-w-0">
+                <MiAvatar class="mi:[tbody_tr+tr_th&]:border-t mi:[tbody_tr+tr_th&]:border-t-sep mi:[tbody_tr+tr_td&]:border-t mi:[tbody_tr+tr_td&]:border-t-sep mi:[tfoot_tr:first-child_th&]:[border-top-width:2px] mi:[tfoot_tr:first-child_td&]:[border-top-width:2px]" :name="p.name" tone="auto" size="sm" decorative />
+                <div class="ro__pinfo mi:grid mi:gap-[5px] mi:min-w-0 mi:flex-1">
+                  <span class="ro__name mi:text-[14px] mi:font-semibold mi:whitespace-nowrap mi:overflow-hidden mi:text-ellipsis">{{ p.name }}</span>
+                  <div class="ro__hours mi:flex mi:items-center mi:gap-1.5">
+                    <div class="ro__meter mi:flex-1 mi:h-1 mi:rounded-[2px] mi:[background:var(--mi-fill3)] mi:overflow-hidden" role="meter" :aria-label="p.name + ' weekly hours'" aria-valuemin="0" aria-valuemax="40" :aria-valuenow="hoursOf(p)">
+                      <span class="mi:[.ro__meter_&]:origin-left mi:[.ro__meter_&]:[transition:transform_var(--mi-dur-3)_var(--mi-spring)]" :class="{ 'is-over': hoursOf(p) > 40 }" :style="{ transform: `scaleX(${Math.min(hoursOf(p) / 40, 1)})` }" />
                     </div>
-                    <span class="ro__h" :class="{ 'is-over': hoursOf(p) > 40 }">{{ hoursOf(p) }}h</span>
+                    <span class="ro__h mi:text-[11px] mi:font-semibold mi:text-label2 mi:tabular-nums mi:[&.is-over]:text-orange-t" :class="{ 'is-over': hoursOf(p) > 40 }">{{ hoursOf(p) }}h</span>
                   </div>
                 </div>
               </div>
             </th>
-            <td v-for="(s, i) in p.week" :key="i" class="ro__cell-td" :class="{ 'is-weekend': days[i]?.weekend }">
+            <td v-for="(s, i) in p.week" :key="i" class="ro__cell-td mi:[&.is-weekend]:[background:color-mix(in_srgb,_var(--mi-fill4)_70%,_transparent)] mi:[tbody_tr+tr_td&]:border-t mi:[tbody_tr+tr_td&]:border-t-sep mi:py-1.5 mi:px-1 mi:[tfoot_tr:first-child_td&]:[border-top-width:2px]" :class="{ 'is-weekend': days[i]?.weekend }">
               <button
-                type="button" class="ro__cell" :class="['is-' + s, { 'is-turn': quickTurn(p, i) }]" :disabled="s === 'P'"
+                type="button" class="ro__cell mi:relative mi:flex mi:items-center mi:justify-center mi:gap-1 mi:w-full mi:h-10 mi:[border:0] mi:rounded-[10px] mi:cursor-pointer mi:[background:transparent] mi:text-label3 mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring)] mi:[&:hover:not(:disabled)]:[background:var(--mi-fill4)] mi:[&:active:not(:disabled)]:transform-[scale(.94)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px] mi:[&.is-E]:[background:var(--mi-p-tint)] mi:[&.is-E]:text-p-text mi:[&.is-L]:[background:var(--mi-s-tint)] mi:[&.is-L]:text-s-text mi:[&.is-P]:cursor-not-allowed mi:[&.is-P]:text-orange-t mi:[&.is-P]:[background:repeating-linear-gradient(135deg,_color-mix(in_srgb,_var(--mi-orange)_16%,_transparent)_0_6px,_transparent_6px_12px)] mi:[&.is-turn]:after:content-[''] mi:[&.is-turn]:after:absolute mi:[&.is-turn]:after:top-[5px] mi:[&.is-turn]:after:end-[5px] mi:[&.is-turn]:after:w-[7px] mi:[&.is-turn]:after:h-[7px] mi:[&.is-turn]:after:rounded-[50%] mi:[&.is-turn]:after:[background:var(--mi-orange)]" :class="['is-' + s, { 'is-turn': quickTurn(p, i) }]" :disabled="s === 'P'"
                 :aria-label="`${p.name}, ${days[i]?.long}: ${label[s]}${quickTurn(p, i) ? ', quick turnaround' : ''}`"
                 @click="paint(p, i)"
               >
-                <MiIcon v-if="s === 'P'" name="lock" :size="12" />
+                <MiIcon class="mi:[tbody_tr+tr_th&]:border-t mi:[tbody_tr+tr_th&]:border-t-sep mi:[tbody_tr+tr_td&]:border-t mi:[tbody_tr+tr_td&]:border-t-sep mi:[tfoot_tr:first-child_th&]:[border-top-width:2px] mi:[tfoot_tr:first-child_td&]:[border-top-width:2px]" v-if="s === 'P'" name="lock" :size="12" />
                 <span>{{ short[s] }}</span>
               </button>
             </td>
@@ -59,10 +59,10 @@
         </tbody>
         <tfoot>
           <tr v-for="shift in covShifts" :key="shift">
-            <th scope="row" class="ro__who ro__cov-label">{{ label[shift] }} coverage</th>
-            <td v-for="(d, i) in days" :key="d.key" class="ro__cov-td">
-              <span class="ro__cov" :class="'is-' + coverage(shift, i).state">
-                <MiIcon :name="coverage(shift, i).state === 'ok' ? 'check' : coverage(shift, i).state === 'short' ? 'exclamation-circle' : 'plus'" :size="12" :weight="2.4" />
+            <th scope="row" class="ro__who ro__cov-label mi:sticky mi:start-0 mi:z-2 mi:w-40 mi:[background:var(--mi-card)] mi:text-start mi:[border-inline-end:1px_solid_var(--mi-sep)] mi:@[900px]:w-52.5 mi:[thead_&]:text-[12px] mi:[thead_&]:text-label2 mi:[thead_&]:uppercase mi:[thead_&]:tracking-[.05em] mi:[tbody_tr+tr_th&]:border-t mi:[tbody_tr+tr_th&]:border-t-sep mi:[tfoot_th&]:border-t mi:[tfoot_th&]:border-t-sep mi:[tfoot_tr:first-child_th&]:[border-top-width:2px] mi:py-2.5 mi:px-3.5 mi:text-[12px] mi:font-semibold mi:text-label2">{{ label[shift] }} coverage</th>
+            <td v-for="(d, i) in days" :key="d.key" class="ro__cov-td mi:[tbody_tr+tr_td&]:border-t mi:[tbody_tr+tr_td&]:border-t-sep mi:[tfoot_td&]:border-t mi:[tfoot_td&]:border-t-sep mi:[tfoot_tr:first-child_td&]:[border-top-width:2px] mi:py-2 mi:px-1 mi:text-center">
+              <span class="ro__cov mi:inline-flex mi:items-center mi:gap-1 mi:py-[3px] mi:px-2 mi:rounded-[999px] mi:text-[12px] mi:font-semibold mi:tabular-nums mi:[&.is-ok]:text-green-t" :class="'is-' + coverage(shift, i).state">
+                <MiIcon class="mi:[tbody_tr+tr_th&]:border-t mi:[tbody_tr+tr_th&]:border-t-sep mi:[tbody_tr+tr_td&]:border-t mi:[tbody_tr+tr_td&]:border-t-sep mi:[tfoot_th&]:border-t mi:[tfoot_th&]:border-t-sep mi:[tfoot_td&]:border-t mi:[tfoot_td&]:border-t-sep mi:[tfoot_tr:first-child_th&]:[border-top-width:2px] mi:[tfoot_tr:first-child_td&]:[border-top-width:2px]" :name="coverage(shift, i).state === 'ok' ? 'check' : coverage(shift, i).state === 'short' ? 'exclamation-circle' : 'plus'" :size="12" :weight="2.4" />
                 {{ coverage(shift, i).have }}/{{ coverage(shift, i).need }}
               </span>
             </td>
@@ -71,13 +71,13 @@
       </table>
     </div>
 
-    <ul class="ro__legend" aria-label="Legend">
-      <li><span class="ro__swatch is-E" />Early</li>
-      <li><span class="ro__swatch is-L" />Late</li>
-      <li><span class="ro__swatch is-P" />Approved leave</li>
-      <li><span class="ro__swatch is-turn" />Late then Early: under 11h rest</li>
+    <ul class="ro__legend mi:flex mi:flex-wrap mi:gap-y-2 mi:gap-x-4 mi:m-0 mi:p-0 mi:[list-style:none] mi:text-[12px] mi:text-label2" aria-label="Legend">
+      <li class="mi:[.ro__legend_&]:items-center mi:[.ro__legend_&]:gap-1.5"><span class="ro__swatch is-E mi:[&.is-E]:text-p-text mi:[&.is-L]:text-s-text mi:[&.is-P]:cursor-not-allowed mi:[&.is-P]:text-orange-t mi:relative mi:w-3.5 mi:h-3.5 mi:rounded-[4px] mi:[&.is-turn]:w-2 mi:[&.is-turn]:rounded-[50%]" />Early</li>
+      <li class="mi:[.ro__legend_&]:items-center mi:[.ro__legend_&]:gap-1.5"><span class="ro__swatch is-L mi:[&.is-E]:text-p-text mi:[&.is-L]:text-s-text mi:[&.is-P]:cursor-not-allowed mi:[&.is-P]:text-orange-t mi:relative mi:w-3.5 mi:h-3.5 mi:rounded-[4px] mi:[&.is-turn]:w-2 mi:[&.is-turn]:rounded-[50%]" />Late</li>
+      <li class="mi:[.ro__legend_&]:items-center mi:[.ro__legend_&]:gap-1.5"><span class="ro__swatch is-P mi:[&.is-E]:text-p-text mi:[&.is-L]:text-s-text mi:[&.is-P]:cursor-not-allowed mi:[&.is-P]:text-orange-t mi:relative mi:w-3.5 mi:h-3.5 mi:rounded-[4px] mi:[&.is-turn]:w-2 mi:[&.is-turn]:rounded-[50%]" />Approved leave</li>
+      <li class="mi:[.ro__legend_&]:items-center mi:[.ro__legend_&]:gap-1.5"><span class="ro__swatch is-turn mi:[&.is-E]:text-p-text mi:[&.is-L]:text-s-text mi:[&.is-P]:cursor-not-allowed mi:[&.is-P]:text-orange-t mi:relative mi:w-3.5 mi:h-3.5 mi:rounded-[4px] mi:[&.is-turn]:w-2 mi:[&.is-turn]:rounded-[50%]" />Late then Early: under 11h rest</li>
     </ul>
-    <p class="ro__sr" role="status">{{ announce }}</p>
+    <p class="ro__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap mi:m-0" role="status">{{ announce }}</p>
   </section>
 </template>
 
@@ -159,69 +159,23 @@ function publish() {
 </script>
 
 <style scoped>
-.ro { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
-.ro__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.ro__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
-.ro__brush { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
 .ro__hint { display: none; }
 @container (min-width: 640px) { .ro__hint { display: inline; } }
-
-.ro__scroll {
-  overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline-start: 160px;
-  border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1);
-}
-.ro__scroll:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-.ro__table { width: 100%; min-width: 660px; border-collapse: separate; border-spacing: 0; table-layout: fixed; }
 .ro__table th, .ro__table td { padding: 0; font-weight: inherit; }
-.ro__who { position: sticky; inset-inline-start: 0; z-index: 2; width: 160px; background: var(--mi-card); text-align: start; border-inline-end: 1px solid var(--mi-sep); }
-@container (min-width: 900px) { .ro__who { width: 210px; } }
-thead .ro__who { padding: 12px 14px; font-size: 12px; font-weight: 600; color: var(--mi-label2); text-transform: uppercase; letter-spacing: .05em; }
-.ro__day { padding: 12px 4px 10px; scroll-snap-align: start; text-align: center; }
-.ro__day.is-weekend, .ro__cell-td.is-weekend { background: color-mix(in srgb, var(--mi-fill4) 70%, transparent); }
-.ro__dow { display: block; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--mi-label2); }
-.ro__date { display: block; font-size: 18px; font-weight: 700; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
-thead th { border-bottom: 1px solid var(--mi-sep); }
-tbody tr + tr th, tbody tr + tr td { border-top: 1px solid var(--mi-sep); }
-
-.ro__person { display: flex; align-items: center; gap: 10px; padding: 10px 12px; min-width: 0; }
-.ro__pinfo { display: grid; gap: 5px; min-width: 0; flex: 1; }
-.ro__name { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.ro__hours { display: flex; align-items: center; gap: 6px; }
-.ro__meter { flex: 1; height: 4px; border-radius: 2px; background: var(--mi-fill3); overflow: hidden; }
-.ro__meter span { display: block; height: 100%; background: var(--mi-green); transform-origin: left; transition: transform var(--mi-dur-3) var(--mi-spring); }
+thead .ro__who { padding: 12px 14px; font-weight: 600; }
+.ro__meter span { display: block; height: 100%; background: var(--mi-green); }
 .ro__meter span.is-over { background: var(--mi-orange); }
-.ro__h { font-size: 11px; font-weight: 600; color: var(--mi-label2); font-variant-numeric: tabular-nums; }
-.ro__h.is-over { color: var(--mi-orange-t); }
-
-.ro__cell-td { padding: 6px 4px; }
 .ro__cell {
-  position: relative; display: flex; align-items: center; justify-content: center; gap: 4px; width: 100%; height: 40px; border: 0; border-radius: 10px;
-  font: inherit; font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; cursor: pointer; background: transparent; color: var(--mi-label3);
-  transition: transform var(--mi-dur-2) var(--mi-spring);
+  font: inherit; font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums;
 }
-.ro__cell:hover:not(:disabled) { background: var(--mi-fill4); }
-.ro__cell:active:not(:disabled) { transform: scale(.94); }
-.ro__cell:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 1px; }
-.ro__cell.is-E, .ro__swatch.is-E { background: var(--mi-p-tint); color: var(--mi-p-text); }
-.ro__cell.is-L, .ro__swatch.is-L { background: var(--mi-s-tint); color: var(--mi-s-text); }
-.ro__cell.is-P, .ro__swatch.is-P {
-  cursor: not-allowed; color: var(--mi-orange-t);
+.ro__swatch.is-E { background: var(--mi-p-tint); }
+.ro__swatch.is-L { background: var(--mi-s-tint); }
+.ro__swatch.is-P {
   background: repeating-linear-gradient(135deg, color-mix(in srgb, var(--mi-orange) 16%, transparent) 0 6px, transparent 6px 12px);
 }
-.ro__cell.is-turn::after { content: ""; position: absolute; top: 5px; inset-inline-end: 5px; width: 7px; height: 7px; border-radius: 50%; background: var(--mi-orange); }
-
-tfoot th, tfoot td { border-top: 1px solid var(--mi-sep); }
-tfoot tr:first-child th, tfoot tr:first-child td { border-top-width: 2px; }
-.ro__cov-label { padding: 10px 14px; font-size: 12px; font-weight: 600; color: var(--mi-label2); }
-.ro__cov-td { padding: 8px 4px; text-align: center; }
-.ro__cov { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; }
-.ro__cov.is-ok { color: var(--mi-green-t); background: color-mix(in srgb, var(--mi-green) 12%, transparent); }
+.ro__cov.is-ok { background: color-mix(in srgb, var(--mi-green) 12%, transparent); }
 .ro__cov.is-short { color: var(--mi-red-t); background: color-mix(in srgb, var(--mi-red) 12%, transparent); }
 .ro__cov.is-over { color: var(--mi-label2); background: var(--mi-fill3); }
-
-.ro__legend { display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 0; padding: 0; list-style: none; font-size: 12px; color: var(--mi-label2); }
-.ro__legend li { display: inline-flex; align-items: center; gap: 6px; }
-.ro__swatch { position: relative; width: 14px; height: 14px; border-radius: 4px; }
-.ro__swatch.is-turn { background: var(--mi-orange); width: 8px; height: 8px; border-radius: 50%; }
-.ro__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; margin: 0; }
+.ro__legend li { display: inline-flex; }
+.ro__swatch.is-turn { background: var(--mi-orange); height: 8px; }
 </style>

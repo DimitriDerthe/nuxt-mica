@@ -1,29 +1,29 @@
 <template>
-  <footer class="ft">
-    <div class="ft__in">
-      <div class="ft__brand">
+  <footer class="ft mi:max-w-300 mi:my-0 mi:mx-auto mi:pt-16 mi:px-6 mi:pb-8 mi:border-t mi:border-t-sep">
+    <div class="ft__in mi:grid mi:gap-9 mi:grid-cols-[1fr] mi:min-[720px]:grid-cols-[2fr_1fr_1fr]">
+      <div class="ft__brand mi:grid mi:gap-2.5 mi:content-start mi:max-w-[36ch]">
         <MiLogo :size="26" />
         <MiText variant="subheadline" tone="label2">{{ t('footer.tagline') }}</MiText>
         <MiText variant="footnote" tone="label3">{{ t('footer.built') }}</MiText>
       </div>
-      <nav class="ft__col" :aria-label="t('footer.product')">
-        <MiText variant="footnote" weight="semibold">{{ t('footer.product') }}</MiText>
-        <NuxtLink :to="localePath('/components')">{{ t('nav.components') }}</NuxtLink>
-        <NuxtLink :to="localePath('/') + '#theming'">{{ t('nav.theming') }}</NuxtLink>
-        <NuxtLink :to="localePath('/') + '#craft'">{{ t('nav.craft') }}</NuxtLink>
-        <a :href="config.public.showcaseUrl">{{ t('nav.showcase') }}</a>
+      <nav class="ft__col mi:grid mi:gap-2.5 mi:content-start" :aria-label="t('footer.product')">
+        <MiText class="mi:[.ft__col_a&]:[text-decoration:none] mi:[.ft__col_a&]:w-fit" variant="footnote" weight="semibold">{{ t('footer.product') }}</MiText>
+        <NuxtLink class="mi:[.ft__col_a&]:[text-decoration:none] mi:[.ft__col_a&]:w-fit" :to="localePath('/components')">{{ t('nav.components') }}</NuxtLink>
+        <NuxtLink class="mi:[.ft__col_a&]:[text-decoration:none] mi:[.ft__col_a&]:w-fit" :to="localePath('/') + '#theming'">{{ t('nav.theming') }}</NuxtLink>
+        <NuxtLink class="mi:[.ft__col_a&]:[text-decoration:none] mi:[.ft__col_a&]:w-fit" :to="localePath('/') + '#craft'">{{ t('nav.craft') }}</NuxtLink>
+        <a class="mi:[.ft__col_a&]:[text-decoration:none] mi:[.ft__col_a&]:w-fit" :href="config.public.showcaseUrl">{{ t('nav.showcase') }}</a>
       </nav>
-      <nav class="ft__col" :aria-label="t('footer.resources')">
-        <MiText variant="footnote" weight="semibold">{{ t('footer.resources') }}</MiText>
-        <NuxtLink :to="localePath('/') + '#start'">{{ t('nav.start') }}</NuxtLink>
-        <a :href="config.public.repoUrl + '/blob/main/llms.txt'">llms.txt</a>
-        <a :href="config.public.repoUrl">{{ t('nav.github') }}</a>
-        <a :href="config.public.repoUrl + '/blob/main/LICENSE'">{{ t('footer.license') }}</a>
+      <nav class="ft__col mi:grid mi:gap-2.5 mi:content-start" :aria-label="t('footer.resources')">
+        <MiText class="mi:[.ft__col_a&]:[text-decoration:none] mi:[.ft__col_a&]:w-fit" variant="footnote" weight="semibold">{{ t('footer.resources') }}</MiText>
+        <NuxtLink class="mi:[.ft__col_a&]:[text-decoration:none] mi:[.ft__col_a&]:w-fit" :to="localePath('/') + '#start'">{{ t('nav.start') }}</NuxtLink>
+        <a class="mi:[.ft__col_a&]:[text-decoration:none] mi:[.ft__col_a&]:w-fit" :href="config.public.repoUrl + '/blob/main/llms.txt'">llms.txt</a>
+        <a class="mi:[.ft__col_a&]:[text-decoration:none] mi:[.ft__col_a&]:w-fit" :href="config.public.repoUrl">{{ t('nav.github') }}</a>
+        <a class="mi:[.ft__col_a&]:[text-decoration:none] mi:[.ft__col_a&]:w-fit" :href="config.public.repoUrl + '/blob/main/LICENSE'">{{ t('footer.license') }}</a>
       </nav>
     </div>
-    <div class="ft__base">
+    <div class="ft__base mi:flex mi:flex-wrap mi:justify-between mi:gap-3 mi:mt-12 mi:pt-5 mi:border-t mi:border-t-sep">
       <MiText variant="caption" tone="label3">{{ t('footer.rights') }}</MiText>
-      <NuxtLink :to="switchLocalePath(locale === 'en' ? 'fr' : 'en')" class="ft__lang">{{ t('nav.switchTo') }}</NuxtLink>
+      <NuxtLink :to="switchLocalePath(locale === 'en' ? 'fr' : 'en')" class="ft__lang mi:text-[14px] mi:text-label2 mi:[text-decoration:none] mi:w-fit">{{ t('nav.switchTo') }}</NuxtLink>
     </div>
   </footer>
 </template>
@@ -36,12 +36,6 @@ const localePath = useLocalePath()
 </script>
 
 <style scoped>
-.ft { max-width: 1200px; margin: 0 auto; padding: 64px 24px 32px; border-top: 1px solid var(--mi-sep); }
-.ft__in { display: grid; gap: 36px; grid-template-columns: 1fr; }
-@media (min-width: 720px) { .ft__in { grid-template-columns: 2fr 1fr 1fr; } }
-.ft__brand { display: grid; gap: 10px; align-content: start; max-width: 36ch; }
-.ft__col { display: grid; gap: 10px; align-content: start; }
-.ft__col a, .ft__lang { font-size: 14px; color: var(--mi-label2); text-decoration: none; width: fit-content; }
+.ft__col a { font-size: 14px; color: var(--mi-label2); }
 .ft__col a:hover, .ft__lang:hover { color: var(--mi-label); }
-.ft__base { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--mi-sep); }
 </style>

@@ -51,58 +51,20 @@ watch(score, s => emit('score', s), { immediate: true })
 </script>
 
 <template>
-  <div class="mi-pws" :data-score="score">
-    <div class="mi-pws__bar" role="img" :aria-label="`${label}: ${text}`">
-      <span v-for="i in 4" :key="i" class="mi-pws__seg" :class="{ 'is-on': i <= score }" />
+  <div class="mi-pws mi:grid mi:content-start mi:gap-2 mi:font-mi mi:text-label mi:[--mi-pws-c:var(--mi-label3)] mi:[&[data-score='1']]:[--mi-pws-c:var(--mi-red)] mi:[&[data-score='2']]:[--mi-pws-c:var(--mi-orange)] mi:[&[data-score='3']]:[--mi-pws-c:var(--mi-yellow)] mi:[&[data-score='4']]:[--mi-pws-c:var(--mi-green)]" :data-score="score">
+    <div class="mi-pws__bar mi:grid mi:grid-cols-[repeat(4,_1fr)] mi:gap-1" role="img" :aria-label="`${label}: ${text}`">
+      <span v-for="i in 4" :key="i" class="mi-pws__seg mi:relative mi:h-1.5 mi:rounded-[99px] mi:[background:var(--mi-fill3)] mi:overflow-hidden mi:after:content-[''] mi:after:absolute mi:after:inset-0 mi:after:rounded-[inherit] mi:after:[background:var(--mi-pws-c)] mi:after:transform-[scale3d(0,_1,_1)] mi:after:origin-[left_center] mi:after:[transition:transform_var(--mi-dur-3)_var(--mi-ease)] mi:[&.is-on]:after:transform-[scale3d(1,_1,_1)]" :class="{ 'is-on': i <= score }" />
     </div>
-    <p class="mi-pws__status" role="status" aria-live="polite">
-      <span class="mi-pws__label">{{ label }}</span>
-      <strong class="mi-pws__value">{{ text }}</strong>
+    <p class="mi-pws__status mi:flex mi:justify-between mi:gap-3 mi:m-0 mi:text-[13px]" role="status" aria-live="polite">
+      <span class="mi-pws__label mi:text-label2">{{ label }}</span>
+      <strong class="mi-pws__value mi:font-semibold">{{ text }}</strong>
     </p>
-    <ul v-if="items.length" class="mi-pws__list" :aria-label="`${label} requirements`">
-      <li v-for="it in items" :key="it.key" class="mi-pws__item" :class="{ 'is-met': it.met }">
-        <span class="mi-pws__mark" aria-hidden="true"><MiIcon v-if="it.met" name="check" :size="12" :weight="2.8" /></span>
+    <ul v-if="items.length" class="mi-pws__list mi:grid mi:gap-1.5 mi:mt-0.5 mi:mx-0 mi:mb-0 mi:p-0 mi:[list-style:none] mi:text-[13px] mi:text-label2" :aria-label="`${label} requirements`">
+      <li v-for="it in items" :key="it.key" class="mi-pws__item mi:flex mi:items-center mi:gap-2 mi:[&.is-met]:text-label" :class="{ 'is-met': it.met }">
+        <span class="mi-pws__mark mi:inline-flex mi:items-center mi:justify-center mi:flex-[none] mi:w-4 mi:h-4 mi:rounded-[99px] mi:shadow-[inset_0_0_0_1.5px_var(--mi-label3)] mi:text-p-on mi:[.is-met_&]:[background:var(--mi-green)] mi:[.is-met_&]:shadow-none" aria-hidden="true"><MiIcon v-if="it.met" name="check" :size="12" :weight="2.8" /></span>
         <span>{{ it.text }}</span>
-        <span class="mi-pws__sr">{{ it.met ? '(met)' : '(not met)' }}</span>
+        <span class="mi-pws__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">{{ it.met ? '(met)' : '(not met)' }}</span>
       </li>
     </ul>
   </div>
 </template>
-
-<style scoped>
-.mi-pws { display: grid; align-content: start; gap: 8px; font-family: var(--mi-font); color: var(--mi-label); --mi-pws-c: var(--mi-label3); }
-.mi-pws[data-score='1'] { --mi-pws-c: var(--mi-red); }
-.mi-pws[data-score='2'] { --mi-pws-c: var(--mi-orange); }
-.mi-pws[data-score='3'] { --mi-pws-c: var(--mi-yellow); }
-.mi-pws[data-score='4'] { --mi-pws-c: var(--mi-green); }
-
-.mi-pws__bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
-.mi-pws__seg { position: relative; height: 6px; border-radius: 99px; background: var(--mi-fill3); overflow: hidden; }
-.mi-pws__seg::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: var(--mi-pws-c);
-  transform: scale3d(0, 1, 1);
-  transform-origin: left center;
-  transition: transform var(--mi-dur-3) var(--mi-ease);
-}
-.mi-pws__seg.is-on::after { transform: scale3d(1, 1, 1); }
-
-.mi-pws__status { display: flex; justify-content: space-between; gap: 12px; margin: 0; font-size: 13px; }
-.mi-pws__label { color: var(--mi-label2); }
-.mi-pws__value { font-weight: 600; }
-
-.mi-pws__list { display: grid; gap: 6px; margin: 2px 0 0; padding: 0; list-style: none; font-size: 13px; color: var(--mi-label2); }
-.mi-pws__item { display: flex; align-items: center; gap: 8px; }
-.mi-pws__item.is-met { color: var(--mi-label); }
-.mi-pws__mark {
-  display: inline-flex; align-items: center; justify-content: center; flex: none;
-  width: 16px; height: 16px; border-radius: 99px;
-  box-shadow: inset 0 0 0 1.5px var(--mi-label3);
-  color: var(--mi-p-on);
-}
-.is-met .mi-pws__mark { background: var(--mi-green); box-shadow: none; }
-.mi-pws__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-</style>

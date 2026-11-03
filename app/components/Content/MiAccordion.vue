@@ -63,7 +63,7 @@ function onKey(e: KeyboardEvent) {
 </script>
 
 <template>
-  <div ref="root" class="mi-acc" :class="`mi-acc--${variant}`" @keydown="onKey">
+  <div ref="root" class="mi-acc mi:font-mi" :class="`mi-acc--${variant}`" @keydown="onKey">
     <slot>
       <MiAccordionItem v-for="it in items" :key="it.value" :value="it.value" :title="it.title" :disabled="it.disabled">
         {{ it.content }}
@@ -73,6 +73,6 @@ function onKey(e: KeyboardEvent) {
 </template>
 
 <style scoped>
-.mi-acc{font-family:var(--mi-font);color:var(--mi-label);min-width:0}
+.mi-acc{color:var(--mi-label);min-width:0}
 .mi-acc--card{border-radius:14px;background:var(--mi-card);box-shadow:var(--mi-sh1);padding:0 20px}
 </style>

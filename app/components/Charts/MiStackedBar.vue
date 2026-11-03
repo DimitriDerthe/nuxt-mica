@@ -73,9 +73,9 @@ onBeforeUnmount(() => { if (raf) cancelAnimationFrame(raf) })
 </script>
 
 <template>
-  <div class="mi-sb">
+  <div class="mi-sb mi:flex-col mi:font-mi">
     <div
-      class="mi-sb-bar"
+      class="mi-sb-bar mi:flex mi:gap-0.5 mi:rounded-[6px] mi:touch-pan-y"
       :class="{ 'is-anim': animate }"
       role="img"
       tabindex="0"
@@ -89,26 +89,19 @@ onBeforeUnmount(() => { if (raf) cancelAnimationFrame(raf) })
       <span
         v-for="(s, i) in segments"
         :key="i"
-        class="mi-sb-seg"
+        class="mi-sb-seg mi:flex-[1_1_0] mi:min-w-0 mi:[transition:opacity_var(--mi-dur-1)_ease] mi:[&.is-first]:rounded-[6px_0_0_6px] mi:[&.is-last]:rounded-[0_6px_6px_0] mi:[&.is-first.is-last]:rounded-[6px] mi:[&.is-dim]:opacity-45"
         :class="{ 'is-dim': active >= 0 && active !== i, 'is-first': i === 0, 'is-last': i === segments.length - 1 }"
         :data-i="i"
         :style="{ flexGrow: Math.max(0, s.value), background: colors[i] }"
       />
     </div>
     <MiChartLegend v-if="legend" v-model:active="active" variant="list" :items="items" :columns="legendColumns" />
-    <span class="mi-sb-sr" role="status" aria-live="polite">{{ live }}</span>
+    <span class="mi-sb-sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap" role="status" aria-live="polite">{{ live }}</span>
   </div>
 </template>
 
 <style scoped>
-.mi-sb{display:flex;flex-direction:column;gap:18px;font-family:var(--mi-font);color:var(--mi-label)}
-.mi-sb-bar{display:flex;gap:2px;border-radius:6px;touch-action:pan-y}
+.mi-sb{display:flex;gap:18px;color:var(--mi-label)}
 .mi-sb-bar.is-anim{animation:mi-sb-in var(--mi-dur-4) var(--mi-ease) both}
-.mi-sb-seg{flex:1 1 0;min-width:0;transition:opacity var(--mi-dur-1) ease}
-.mi-sb-seg.is-first{border-radius:6px 0 0 6px}
-.mi-sb-seg.is-last{border-radius:0 6px 6px 0}
-.mi-sb-seg.is-first.is-last{border-radius:6px}
-.mi-sb-seg.is-dim{opacity:.45}
-.mi-sb-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 @keyframes mi-sb-in{from{clip-path:polygon(0 0,0 0,0 100%,0 100%)}to{clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}}
 </style>

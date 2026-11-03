@@ -1,51 +1,51 @@
 <template>
-  <section class="inc" aria-labelledby="inc-title">
-    <header class="inc__head">
-      <div class="inc__title">
-        <div class="inc__tags">
+  <section class="inc mi:@container mi:grid mi:content-start mi:gap-4.5 mi:font-mi mi:text-label" aria-labelledby="inc-title">
+    <header class="inc__head mi:grid mi:gap-3.5">
+      <div class="inc__title mi:grid mi:gap-1.5">
+        <div class="inc__tags mi:flex mi:flex-wrap mi:items-center mi:gap-1.5">
           <MiBadge tone="danger" variant="solid" label="SEV-2" />
           <MiBadge tone="success" label="Resolved" dot />
           <MiText as="span" variant="caption" tone="label2">INC-2291</MiText>
         </div>
         <MiText id="inc-title" variant="title3" as="h2" weight="semibold">Checkout returned 502s after api 2.14.1</MiText>
       </div>
-      <dl class="inc__stats">
-        <div><dt>Duration</dt><dd>1 h 12 min</dd></div>
-        <div><dt>To detect</dt><dd>4 min</dd></div>
-        <div><dt>To mitigate</dt><dd>53 min</dd></div>
-        <div><dt>Checkouts hit</dt><dd>8.4%</dd></div>
+      <dl class="inc__stats mi:grid mi:grid-cols-2 mi:gap-px mi:m-0 mi:rounded-lg mi:overflow-hidden mi:bg-sep mi:shadow-1 mi:@[600px]:grid-cols-4">
+        <div class="mi:[.inc__stats_&]:grid mi:[.inc__stats_&]:gap-0.5 mi:[.inc__stats_&]:py-3 mi:[.inc__stats_&]:px-3.5 mi:[.inc__stats_&]:bg-card"><dt class="mi:[.inc__stats_&]:text-[11px] mi:[.inc__stats_&]:text-label2">Duration</dt><dd class="mi:[.inc__stats_&]:m-0 mi:[.inc__stats_&]:text-[20px] mi:[.inc__stats_&]:font-650 mi:[.inc__stats_&]:tracking-[-.02em] mi:[.inc__stats_&]:tabular-nums">1 h 12 min</dd></div>
+        <div class="mi:[.inc__stats_&]:grid mi:[.inc__stats_&]:gap-0.5 mi:[.inc__stats_&]:py-3 mi:[.inc__stats_&]:px-3.5 mi:[.inc__stats_&]:bg-card"><dt class="mi:[.inc__stats_&]:text-[11px] mi:[.inc__stats_&]:text-label2">To detect</dt><dd class="mi:[.inc__stats_&]:m-0 mi:[.inc__stats_&]:text-[20px] mi:[.inc__stats_&]:font-650 mi:[.inc__stats_&]:tracking-[-.02em] mi:[.inc__stats_&]:tabular-nums">4 min</dd></div>
+        <div class="mi:[.inc__stats_&]:grid mi:[.inc__stats_&]:gap-0.5 mi:[.inc__stats_&]:py-3 mi:[.inc__stats_&]:px-3.5 mi:[.inc__stats_&]:bg-card"><dt class="mi:[.inc__stats_&]:text-[11px] mi:[.inc__stats_&]:text-label2">To mitigate</dt><dd class="mi:[.inc__stats_&]:m-0 mi:[.inc__stats_&]:text-[20px] mi:[.inc__stats_&]:font-650 mi:[.inc__stats_&]:tracking-[-.02em] mi:[.inc__stats_&]:tabular-nums">53 min</dd></div>
+        <div class="mi:[.inc__stats_&]:grid mi:[.inc__stats_&]:gap-0.5 mi:[.inc__stats_&]:py-3 mi:[.inc__stats_&]:px-3.5 mi:[.inc__stats_&]:bg-card"><dt class="mi:[.inc__stats_&]:text-[11px] mi:[.inc__stats_&]:text-label2">Checkouts hit</dt><dd class="mi:[.inc__stats_&]:m-0 mi:[.inc__stats_&]:text-[20px] mi:[.inc__stats_&]:font-650 mi:[.inc__stats_&]:tracking-[-.02em] mi:[.inc__stats_&]:tabular-nums">8.4%</dd></div>
       </dl>
     </header>
 
     <!-- Phase ribbon: segment widths are real durations, so the slow part of the response is obvious. -->
-    <div class="inc__ribbon-card">
-      <div class="inc__ribbon" role="group" aria-label="Filter the timeline by phase">
+    <div class="inc__ribbon-card mi:grid mi:gap-2 mi:p-3.5 mi:rounded-lg mi:bg-card mi:shadow-1">
+      <div class="inc__ribbon mi:flex mi:gap-[3px] mi:h-7" role="group" aria-label="Filter the timeline by phase">
         <button
-          v-for="p in phases" :key="p.id" type="button" class="inc__seg" :class="['inc__seg--' + p.id, { 'is-on': phase === p.id, 'is-dim': phase && phase !== p.id }]"
+          v-for="p in phases" :key="p.id" type="button" class="inc__seg mi:basis-0 mi:min-w-2.5 mi:p-0 mi:[border:0] mi:rounded-[6px] mi:cursor-pointer mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),_transform_var(--mi-dur-2)_var(--mi-spring)] mi:hover:transform-[scaleY(1.12)] mi:focus-visible:[outline:2px_solid_var(--mi-label)] mi:focus-visible:outline-offset-[2px]" :class="['inc__seg--' + p.id, { 'is-on': phase === p.id, 'is-dim mi:opacity-30': phase && phase !== p.id }]"
           :style="{ flexGrow: p.minutes }" :aria-pressed="phase === p.id" :aria-label="`${p.label}, ${p.minutes} minutes`"
           @click="phase = phase === p.id ? null : p.id"
         />
       </div>
-      <div class="inc__axis" aria-hidden="true"><span>14:02</span><span>15:14</span></div>
-      <ul class="inc__legend">
-        <li v-for="p in phases" :key="p.id" :class="{ 'is-dim': phase && phase !== p.id }">
-          <span class="inc__swatch" :class="'inc__seg--' + p.id" aria-hidden="true" />
-          <MiText as="span" variant="caption" weight="semibold">{{ p.label }}</MiText>
-          <MiText as="span" variant="caption" tone="label2" tabular>{{ p.minutes }} min</MiText>
+      <div class="inc__axis mi:flex mi:justify-between mi:text-[10px] mi:text-label3 mi:tabular-nums" aria-hidden="true"><span>14:02</span><span>15:14</span></div>
+      <ul class="inc__legend mi:grid mi:grid-cols-2 mi:gap-y-1.5 mi:gap-x-3 mi:m-0 mi:pt-1 mi:px-0 mi:pb-0 mi:[list-style:none] mi:@[600px]:grid-cols-[repeat(4,_max-content)] mi:@[600px]:gap-y-1.5 mi:@[600px]:gap-x-6">
+        <li class="mi:[.inc__legend_li&]:items-center mi:[.inc__legend_li&]:gap-1.5 mi:[.inc__legend_li&]:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)]" v-for="p in phases" :key="p.id" :class="{ 'is-dim mi:opacity-30': phase && phase !== p.id }">
+          <span class="inc__swatch mi:w-2.5 mi:h-2.5 mi:rounded-[3px]" :class="'inc__seg--' + p.id" aria-hidden="true" />
+          <MiText class="mi:[.inc__legend_li&]:items-center mi:[.inc__legend_li&]:gap-1.5 mi:[.inc__legend_li&]:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)]" as="span" variant="caption" weight="semibold">{{ p.label }}</MiText>
+          <MiText class="mi:[.inc__legend_li&]:items-center mi:[.inc__legend_li&]:gap-1.5 mi:[.inc__legend_li&]:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)]" as="span" variant="caption" tone="label2" tabular>{{ p.minutes }} min</MiText>
         </li>
       </ul>
     </div>
 
-    <MiTimeline :aria-label="phase ? phaseLabel + ' events' : 'Incident timeline'" class="inc__timeline">
+    <MiTimeline :aria-label="phase ? phaseLabel + ' events' : 'Incident timeline'" class="inc__timeline mi:max-w-180">
       <MiTimelineItem
         v-for="e in shown" :key="e.time + e.title" :title="e.title" :description="e.text" :time="e.time"
         :icon="e.icon" :tone="e.tone" :status="e.status ?? 'done'"
       >
-        <div v-if="e.spark" class="inc__spark">
+        <div v-if="e.spark" class="inc__spark mi:flex mi:flex-wrap mi:items-center mi:gap-y-1.5 mi:gap-x-3 mi:mt-1.5 mi:py-2 mi:px-3 mi:rounded-[10px] mi:[background:color-mix(in_srgb,_var(--mi-red)_7%,_transparent)]">
           <MiSparkline :values="errorRate" :width="220" :height="36" stroke="var(--mi-red)" color="var(--mi-red)" label="Checkout error rate, 13:50 to 14:10" />
           <MiText as="span" variant="caption" tone="label2" tabular>5xx rate peaked at 11.8%</MiText>
         </div>
-        <blockquote v-if="e.quote" class="inc__quote">
+        <blockquote v-if="e.quote" class="inc__quote mi:flex mi:[align-items:flex-start] mi:gap-2 mi:mt-1.5 mi:mx-0 mi:mb-0 mi:py-2 mi:px-3 mi:rounded-[10px] mi:text-[13px] mi:leading-[1.45] mi:text-label2 mi:bg-fill">
           <MiAvatar :name="e.quote.who" size="xs" tone="auto" decorative />
           <span><strong>{{ e.quote.who }}</strong> {{ e.quote.text }}</span>
         </blockquote>
@@ -87,35 +87,11 @@ const shown = computed(() => events.filter(e => !phase.value || e.phase === phas
 </script>
 
 <style scoped>
-.inc { container-type: inline-size; display: grid; align-content: start; gap: 18px; font-family: var(--mi-font); color: var(--mi-label); }
-.inc__head { display: grid; gap: 14px; }
-.inc__title { display: grid; gap: 6px; }
-.inc__tags { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
-.inc__stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; margin: 0; border-radius: var(--mi-radius-l); overflow: hidden; background: var(--mi-sep); box-shadow: var(--mi-sh1); }
-@container (min-width: 600px) { .inc__stats { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-.inc__stats div { display: grid; gap: 2px; padding: 12px 14px; background: var(--mi-card); }
-.inc__stats dt { font-size: 11px; color: var(--mi-label2); }
-.inc__stats dd { margin: 0; font-size: 20px; font-weight: 650; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
-
-.inc__ribbon-card { display: grid; gap: 8px; padding: 14px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.inc__ribbon { display: flex; gap: 3px; height: 28px; }
-.inc__seg { flex-basis: 0; min-width: 10px; padding: 0; border: 0; border-radius: 6px; cursor: pointer; transition: opacity var(--mi-dur-2) var(--mi-ease), transform var(--mi-dur-2) var(--mi-spring); }
-.inc__seg:hover { transform: scaleY(1.12); }
-.inc__seg:focus-visible { outline: 2px solid var(--mi-label); outline-offset: 2px; }
 .inc__seg--detect { background: var(--mi-red); }
 .inc__seg--triage { background: var(--mi-orange); }
 .inc__seg--mitigate { background: var(--mi-p); }
 .inc__seg--monitor { background: var(--mi-green); }
-.is-dim { opacity: .3; }
-.inc__axis { display: flex; justify-content: space-between; font-size: 10px; color: var(--mi-label3); font-variant-numeric: tabular-nums; }
-.inc__legend { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px 12px; margin: 0; padding: 4px 0 0; list-style: none; }
-@container (min-width: 600px) { .inc__legend { grid-template-columns: repeat(4, max-content); gap: 6px 24px; } }
-.inc__legend li { display: flex; align-items: center; gap: 6px; transition: opacity var(--mi-dur-2) var(--mi-ease); }
-.inc__swatch { width: 10px; height: 10px; border-radius: 3px; }
-
-.inc__timeline { max-width: 720px; }
-.inc__spark { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; margin-top: 6px; padding: 8px 12px; border-radius: 10px; background: color-mix(in srgb, var(--mi-red) 7%, transparent); }
+.inc__legend li { display: flex; }
 .inc__spark :deep(svg) { max-width: 100%; }
-.inc__quote { display: flex; align-items: flex-start; gap: 8px; margin: 6px 0 0; padding: 8px 12px; border-radius: 10px; font-size: 13px; line-height: 1.45; color: var(--mi-label2); background: var(--mi-fill); }
 .inc__quote strong { font-weight: 600; color: var(--mi-label); }
 </style>

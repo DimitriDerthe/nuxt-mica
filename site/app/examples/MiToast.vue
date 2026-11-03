@@ -38,20 +38,13 @@ function fire(s: (typeof samples)[number]) {
 </script>
 
 <template>
-  <div class="ex">
+  <div class="ex mi:grid mi:gap-7 mi:justify-items-center mi:w-[min(100%,_420px)]">
     <MiToast v-bind="p" />
-    <div class="fire">
-      <span class="cap">Show one for real</span>
-      <div class="btns">
+    <div class="fire mi:grid mi:gap-2.5 mi:justify-items-center">
+      <span class="cap mi:text-[13px] mi:text-label2">Show one for real</span>
+      <div class="btns mi:flex mi:flex-wrap mi:justify-center mi:gap-2">
         <MiButton v-for="s in samples" :key="s.tone" variant="gray" size="small" @click="fire(s)">{{ s.label }}</MiButton>
       </div>
     </div>
   </div>
 </template>
-
-<style scoped>
-.ex { display: grid; gap: 28px; justify-items: center; width: min(100%, 420px); }
-.fire { display: grid; gap: 10px; justify-items: center; }
-.cap { font-size: 13px; color: var(--mi-label2); }
-.btns { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
-</style>

@@ -1,111 +1,111 @@
 <template>
-  <section class="cwt" aria-labelledby="cwt-title">
-    <header class="cwt__head">
-      <div class="cwt__title">
+  <section class="cwt mi:[--cwt-t3:color-mix(in_srgb,_var(--mi-label2)_78%,_transparent)] mi:[--cwt-shade:color-mix(in_srgb,_var(--mi-label)_3.5%,_var(--mi-card))] mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="cwt-title">
+    <header class="cwt__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-y-3 mi:gap-x-6">
+      <div class="cwt__title mi:grid mi:gap-0.5 mi:min-w-0">
         <MiText id="cwt-title" variant="title3" as="h2" weight="semibold">Key accounts</MiText>
         <MiText variant="footnote" tone="label2">{{ contacts.length }} contacts across {{ accounts.length }} accounts · Q4 renewals</MiText>
       </div>
       <!-- The scale every warmth strip is read against: warm on the day of a touch, cold after six weeks. -->
-      <div class="cwt__scale" role="img" aria-label="Warmth scale: cold after 40 days without a touch, hot on the day of a touch">
+      <div class="cwt__scale mi:inline-flex mi:items-center mi:gap-2 mi:text-[11px] mi:font-medium mi:tracking-[.02em] mi:text-(--cwt-t3) mi:tabular-nums" role="img" aria-label="Warmth scale: cold after 40 days without a touch, hot on the day of a touch">
         <span>40 d</span>
-        <span class="cwt__ticks"><i v-for="n in TICKS" :key="n" class="is-on" :style="tick(n)" /></span>
+        <span class="cwt__ticks mi:inline-flex mi:items-center mi:gap-0.5"><i v-for="n in TICKS" :key="n" class="is-on mi:[.cwt__ticks_&]:w-1 mi:[.cwt__ticks_&]:h-3 mi:[.cwt__ticks_&]:rounded-[1.5px] mi:[.cwt__scale_.cwt__ticks_&]:w-[3px] mi:[.cwt__scale_.cwt__ticks_&]:h-[9px]" :style="tick(n)" /></span>
         <span>Today</span>
       </div>
     </header>
 
-    <div class="cwt__toolbar">
-      <div class="cwt__search"><MiSearch v-model="query" size="compact" placeholder="Name, title or account" aria-label="Search contacts" /></div>
-      <div class="cwt__tools">
+    <div class="cwt__toolbar mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-2.5 mi:gap-x-3">
+      <div class="cwt__search mi:flex-[1_1_220px] mi:max-w-80 mi:min-w-0"><MiSearch v-model="query" size="compact" placeholder="Name, title or account" aria-label="Search contacts" /></div>
+      <div class="cwt__tools mi:flex mi:flex-wrap mi:items-center mi:gap-2">
         <MiChip v-model="coolingOnly" selectable size="small" tone="neutral" :label="`Needs a touch · ${coolingCount}`" />
         <MiSegmented v-model="sort" label="Sort contacts" :options="sorts" />
       </div>
     </div>
 
-    <div class="cwt__scroll">
-      <table class="cwt__table">
-        <caption class="cwt__sr">Contacts grouped by account, with relationship warmth and open deal value</caption>
+    <div class="cwt__scroll mi:max-h-117.5 mi:overflow-auto mi:overscroll-contain mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:border mi:border-sep">
+      <table class="cwt__table mi:w-full mi:border-separate mi:[border-spacing:0] mi:text-[13px] mi:@[680px]:table">
+        <caption class="cwt__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">Contacts grouped by account, with relationship warmth and open deal value</caption>
         <thead>
           <tr>
-            <th scope="col" class="c-exp"><span class="cwt__sr">Details</span></th>
-            <th scope="col">Contact</th>
-            <th scope="col">Warmth</th>
-            <th scope="col">Last touch</th>
-            <th scope="col" class="is-num">Open value</th>
-            <th scope="col" class="c-own">Owner</th>
+            <th scope="col" class="c-exp mi:[.cwt__row_&]:[grid-area:exp] mi:@[680px]:[.cwt__table_thead_th&]:top-0 mi:@[680px]:[.cwt__table_thead_th&]:z-2 mi:@[680px]:[.cwt__table_thead_th&]:border-b mi:@[680px]:[.cwt__table_thead_th&]:border-b-sep mi:@[680px]:[.cwt__table_thead_th&]:tracking-[.05em] mi:@[680px]:[.cwt__table_thead_th&]:uppercase mi:@[680px]:[.cwt__table_thead_th&]:text-(--cwt-t3) mi:@[680px]:[.cwt__table_thead_th&]:text-start mi:@[680px]:[.cwt__table_thead_th&]:whitespace-nowrap mi:@[680px]:[.cwt__table_thead_&]:w-11"><span class="cwt__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">Details</span></th>
+            <th class="mi:@[680px]:[.cwt__table_thead_th&]:top-0 mi:@[680px]:[.cwt__table_thead_th&]:z-2 mi:@[680px]:[.cwt__table_thead_th&]:border-b mi:@[680px]:[.cwt__table_thead_th&]:border-b-sep mi:@[680px]:[.cwt__table_thead_th&]:tracking-[.05em] mi:@[680px]:[.cwt__table_thead_th&]:uppercase mi:@[680px]:[.cwt__table_thead_th&]:text-(--cwt-t3) mi:@[680px]:[.cwt__table_thead_th&]:text-start mi:@[680px]:[.cwt__table_thead_th&]:whitespace-nowrap" scope="col">Contact</th>
+            <th class="mi:@[680px]:[.cwt__table_thead_th&]:top-0 mi:@[680px]:[.cwt__table_thead_th&]:z-2 mi:@[680px]:[.cwt__table_thead_th&]:border-b mi:@[680px]:[.cwt__table_thead_th&]:border-b-sep mi:@[680px]:[.cwt__table_thead_th&]:tracking-[.05em] mi:@[680px]:[.cwt__table_thead_th&]:uppercase mi:@[680px]:[.cwt__table_thead_th&]:text-(--cwt-t3) mi:@[680px]:[.cwt__table_thead_th&]:text-start mi:@[680px]:[.cwt__table_thead_th&]:whitespace-nowrap" scope="col">Warmth</th>
+            <th class="mi:@[680px]:[.cwt__table_thead_th&]:top-0 mi:@[680px]:[.cwt__table_thead_th&]:z-2 mi:@[680px]:[.cwt__table_thead_th&]:border-b mi:@[680px]:[.cwt__table_thead_th&]:border-b-sep mi:@[680px]:[.cwt__table_thead_th&]:tracking-[.05em] mi:@[680px]:[.cwt__table_thead_th&]:uppercase mi:@[680px]:[.cwt__table_thead_th&]:text-(--cwt-t3) mi:@[680px]:[.cwt__table_thead_th&]:text-start mi:@[680px]:[.cwt__table_thead_th&]:whitespace-nowrap" scope="col">Last touch</th>
+            <th scope="col" class="is-num mi:[.cwt__table_&]:tabular-nums mi:@[680px]:[.cwt__table_thead_th&]:top-0 mi:@[680px]:[.cwt__table_thead_th&]:z-2 mi:@[680px]:[.cwt__table_thead_th&]:border-b mi:@[680px]:[.cwt__table_thead_th&]:border-b-sep mi:@[680px]:[.cwt__table_thead_th&]:tracking-[.05em] mi:@[680px]:[.cwt__table_thead_th&]:uppercase mi:@[680px]:[.cwt__table_thead_th&]:text-(--cwt-t3) mi:@[680px]:[.cwt__table_thead_th&]:text-start mi:@[680px]:[.cwt__table_thead_th&]:whitespace-nowrap">Open value</th>
+            <th scope="col" class="c-own mi:@[680px]:[.cwt__table_thead_th&]:top-0 mi:@[680px]:[.cwt__table_thead_th&]:z-2 mi:@[680px]:[.cwt__table_thead_th&]:border-b mi:@[680px]:[.cwt__table_thead_th&]:border-b-sep mi:@[680px]:[.cwt__table_thead_th&]:tracking-[.05em] mi:@[680px]:[.cwt__table_thead_th&]:uppercase mi:@[680px]:[.cwt__table_thead_th&]:text-(--cwt-t3) mi:@[680px]:[.cwt__table_thead_th&]:text-start mi:@[680px]:[.cwt__table_thead_th&]:whitespace-nowrap mi:@[680px]:[.cwt__row_&]:w-16">Owner</th>
           </tr>
         </thead>
 
         <tbody v-for="g in groups" :key="g.id">
           <tr class="cwt__group">
             <th scope="rowgroup" colspan="6">
-              <div class="cwt__group-in">
-                <button type="button" class="cwt__group-btn" :aria-expanded="!collapsed.includes(g.id)" @click="toggleGroup(g.id)">
-                  <MiIcon name="chevron-right" :size="14" class="cwt__chev" />
-                  <span class="cwt__mark" :data-tone="g.tone" aria-hidden="true">{{ g.mark }}</span>
-                  <span class="cwt__group-name">
+              <div class="cwt__group-in mi:flex mi:items-center mi:gap-3 mi:pt-2.5 mi:pr-3.5 mi:pb-2.5 mi:pl-1.5 mi:[background:var(--cwt-shade)] mi:border-t mi:border-t-sep mi:[tbody:first-of-type_&]:[border-top:0] mi:@[680px]:px-[8px_16px]">
+                <button type="button" class="cwt__group-btn mi:flex mi:flex-[1_1_auto] mi:items-center mi:gap-2.5 mi:min-w-0 mi:py-1 mi:px-1.5 mi:[border:0] mi:rounded-md mi:[background:none] mi:text-inherit mi:[font:inherit] mi:text-start mi:cursor-pointer mi:hover:[background:var(--mi-fill3)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" :aria-expanded="!collapsed.includes(g.id)" @click="toggleGroup(g.id)">
+                  <MiIcon name="chevron-right" :size="14" class="cwt__chev mi:text-(--cwt-t3) mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)]" />
+                  <span class="cwt__mark mi:grid mi:place-items-center mi:flex-[none] mi:w-7.5 mi:h-7.5 mi:rounded-[8px] mi:text-[11px] mi:font-bold mi:tracking-[.04em] mi:[background:var(--mi-p-tint)] mi:text-p-text" :data-tone="g.tone" aria-hidden="true">{{ g.mark }}</span>
+                  <span class="cwt__group-name mi:grid mi:min-w-0 mi:font-semibold mi:text-[14px]">
                     <span>{{ g.name }}</span>
-                    <small>{{ g.city }} · {{ g.rows.length }} {{ g.rows.length === 1 ? 'contact' : 'contacts' }}</small>
+                    <small class="mi:[.cwt__group-name_&]:text-[12px] mi:[.cwt__group-name_&]:text-label2">{{ g.city }} · {{ g.rows.length }} {{ g.rows.length === 1 ? 'contact' : 'contacts' }}</small>
                   </span>
                 </button>
                 <!-- Account heat signature: one dot per contact, so a cooling account shows before a deal slips. -->
-                <span class="cwt__sig" role="img" :aria-label="`${g.warm} of ${g.rows.length} contacts touched in the last 10 days`">
-                  <i v-for="c in g.rows" :key="c.id" :style="heat(c)" />
+                <span class="cwt__sig mi:hidden mi:gap-[3px] mi:@[680px]:inline-flex" role="img" :aria-label="`${g.warm} of ${g.rows.length} contacts touched in the last 10 days`">
+                  <i class="mi:[.cwt__sig_&]:w-2 mi:[.cwt__sig_&]:h-2 mi:[.cwt__sig_&]:rounded-[50%] mi:[.cwt__sig_&]:[background:color-mix(in_srgb,_var(--mi-orange)_var(--wp),_var(--mi-blue))] mi:[.cwt__sig_&]:opacity-[calc(.45_+_var(--w)_*_.55)]" v-for="c in g.rows" :key="c.id" :style="heat(c)" />
                 </span>
-                <span class="cwt__group-total">{{ money(g.value) }}</span>
+                <span class="cwt__group-total mi:flex-[none] mi:font-semibold mi:text-[14px] mi:tabular-nums">{{ money(g.value) }}</span>
               </div>
             </th>
           </tr>
 
           <template v-if="!collapsed.includes(g.id)">
             <template v-for="c in g.rows" :key="c.id">
-              <tr class="cwt__row" :class="{ 'is-open': opened.includes(c.id) }">
-                <td class="c-exp">
+              <tr class="cwt__row mi:[.cwt__table_&]:grid-cols-[36px_minmax(0,_1fr)_auto] mi:[.cwt__table_&]:[grid-template-areas:'exp_who_val'_'._warm_last'] mi:[.cwt__table_&]:items-center mi:[.cwt__table_&]:[transition:background-color_var(--mi-dur-1)_var(--mi-ease)]" :class="{ 'is-open': opened.includes(c.id) }">
+                <td class="c-exp mi:[.cwt__row_&]:[grid-area:exp] mi:@[680px]:[.cwt__table_thead_&]:w-11 mi:@[680px]:[.cwt__row_td&]:border-t mi:@[680px]:[.cwt__row_td&]:border-t-sep">
                   <button
-                    type="button" class="cwt__exp" :aria-expanded="opened.includes(c.id)" :aria-controls="`cwt-d-${c.id}`"
+                    type="button" class="cwt__exp mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px] mi:grid mi:place-items-center mi:w-7 mi:h-7 mi:mx-auto mi:[border:0] mi:rounded-[50%] mi:[background:none] mi:text-(--cwt-t3) mi:cursor-pointer mi:hover:[background:var(--mi-fill3)]" :aria-expanded="opened.includes(c.id)" :aria-controls="`cwt-d-${c.id}`"
                     :aria-label="`Recent interactions with ${c.name}`" @click="toggleRow(c.id)"
                   >
-                    <MiIcon name="chevron-down" :size="14" />
+                    <MiIcon class="mi:@[680px]:[.cwt__row_td&]:border-t mi:@[680px]:[.cwt__row_td&]:border-t-sep" name="chevron-down" :size="14" />
                   </button>
                 </td>
-                <td class="c-who">
-                  <span class="cwt__who">
-                    <MiAvatar :name="c.name" size="sm" tone="auto" decorative />
-                    <span class="cwt__who-text">
-                      <span class="cwt__name">{{ c.name }}</span>
-                      <span class="cwt__role">{{ c.title }}</span>
+                <td class="c-who mi:[.cwt__row_&]:[grid-area:who] mi:[.cwt__row_&]:min-w-0 mi:@[680px]:[.cwt__row_td&]:border-t mi:@[680px]:[.cwt__row_td&]:border-t-sep">
+                  <span class="cwt__who mi:flex mi:items-center mi:gap-2.5 mi:min-w-0">
+                    <MiAvatar class="mi:@[680px]:[.cwt__row_td&]:border-t mi:@[680px]:[.cwt__row_td&]:border-t-sep" :name="c.name" size="sm" tone="auto" decorative />
+                    <span class="cwt__who-text mi:grid mi:min-w-0">
+                      <span class="cwt__name mi:font-semibold mi:text-[14px] mi:whitespace-nowrap mi:overflow-hidden mi:text-ellipsis">{{ c.name }}</span>
+                      <span class="cwt__role mi:text-[12px] mi:text-label2 mi:whitespace-nowrap mi:overflow-hidden mi:text-ellipsis">{{ c.title }}</span>
                     </span>
                   </span>
                 </td>
-                <td class="c-warm">
-                  <span class="cwt__warm" :data-band="band(c)">
-                    <span class="cwt__ticks" role="meter" :aria-label="`Warmth of ${c.name}`" aria-valuemin="0" aria-valuemax="100" :aria-valuenow="Math.round(warmth(c) * 100)" :aria-valuetext="`${band(c)}, ${ago(c.days).toLowerCase()}`">
-                      <i v-for="n in TICKS" :key="n" :class="{ 'is-on': n <= lit(c) }" :style="tick(n)" />
+                <td class="c-warm mi:[.cwt__row_&]:[grid-area:warm] mi:@[680px]:[.cwt__row_td&]:border-t mi:@[680px]:[.cwt__row_td&]:border-t-sep mi:@[680px]:[.cwt__row_&]:w-42.5">
+                  <span class="cwt__warm mi:inline-flex mi:items-center mi:gap-2.5" :data-band="band(c)">
+                    <span class="cwt__ticks mi:inline-flex mi:items-center mi:gap-0.5" role="meter" :aria-label="`Warmth of ${c.name}`" aria-valuemin="0" aria-valuemax="100" :aria-valuenow="Math.round(warmth(c) * 100)" :aria-valuetext="`${band(c)}, ${ago(c.days).toLowerCase()}`">
+                      <i class="mi:[.cwt__ticks_&]:w-1 mi:[.cwt__ticks_&]:h-3 mi:[.cwt__ticks_&]:rounded-[1.5px] mi:[.cwt__scale_.cwt__ticks_&]:w-[3px] mi:[.cwt__scale_.cwt__ticks_&]:h-[9px]" v-for="n in TICKS" :key="n" :class="{ 'is-on': n <= lit(c) }" :style="tick(n)" />
                     </span>
-                    <span class="cwt__band">{{ band(c) }}</span>
+                    <span class="cwt__band mi:min-w-13 mi:text-[12px] mi:font-semibold mi:text-label2">{{ band(c) }}</span>
                   </span>
                 </td>
-                <td class="c-last">
-                  <span class="cwt__last"><MiIcon :svg="glyph[c.touches[0]!.kind]" :size="14" />{{ ago(c.days) }}</span>
+                <td class="c-last mi:[.cwt__row_&]:[grid-area:last] mi:[.cwt__row_&]:justify-self-end mi:@[680px]:[.cwt__row_td&]:border-t mi:@[680px]:[.cwt__row_td&]:border-t-sep mi:@[680px]:[.cwt__row_&]:w-35">
+                  <span class="cwt__last mi:inline-flex mi:items-center mi:gap-1.5 mi:text-label2 mi:whitespace-nowrap mi:tabular-nums"><MiIcon class="mi:@[680px]:[.cwt__row_td&]:border-t mi:@[680px]:[.cwt__row_td&]:border-t-sep" :svg="glyph[c.touches[0]!.kind]" :size="14" />{{ ago(c.days) }}</span>
                 </td>
-                <td class="c-val is-num">{{ c.value ? money(c.value) : '—' }}</td>
-                <td class="c-own"><MiAvatar :name="c.owner" size="xs" tone="neutral" /></td>
+                <td class="c-val is-num mi:[.cwt__table_&]:tabular-nums mi:[.cwt__row_&]:[grid-area:val] mi:@[680px]:[.cwt__row_td&]:border-t mi:@[680px]:[.cwt__row_td&]:border-t-sep mi:@[680px]:[.cwt__row_&]:w-30">{{ c.value ? money(c.value) : '—' }}</td>
+                <td class="c-own mi:@[680px]:[.cwt__row_td&]:border-t mi:@[680px]:[.cwt__row_td&]:border-t-sep mi:@[680px]:[.cwt__row_&]:w-16"><MiAvatar class="mi:@[680px]:[.cwt__row_td&]:border-t mi:@[680px]:[.cwt__row_td&]:border-t-sep" :name="c.owner" size="xs" tone="neutral" /></td>
               </tr>
-              <tr v-if="opened.includes(c.id)" :id="`cwt-d-${c.id}`" class="cwt__detail">
+              <tr v-if="opened.includes(c.id)" :id="`cwt-d-${c.id}`" class="cwt__detail mi:[border-top:1px_dashed_var(--mi-sep)] mi:[background:color-mix(in_srgb,_var(--mi-p-tint)_22%,_transparent)]">
                 <td colspan="6">
-                  <div class="cwt__detail-in">
-                    <MiText as="h3" variant="caption" weight="semibold" tone="label2" class="cwt__detail-h">Last 3 interactions</MiText>
-                    <ol class="cwt__touches">
-                      <li v-for="(t, i) in c.touches.slice(0, 3)" :key="i" class="cwt__touch">
-                        <span class="cwt__touch-ico" :data-kind="t.kind"><MiIcon :svg="glyph[t.kind]" :size="14" /></span>
-                        <span class="cwt__touch-text">
+                  <div class="cwt__detail-in mi:grid mi:gap-2.5 mi:pt-3 mi:pr-4 mi:pb-4 mi:pl-12 mi:@[680px]:grid-cols-[minmax(0,_1fr)_auto] mi:@[680px]:[grid-template-areas:'h_act'_'list_list'] mi:@[680px]:pt-3.5 mi:@[680px]:pr-5 mi:@[680px]:pb-4.5 mi:@[680px]:pl-16.5">
+                    <MiText as="h3" variant="caption" weight="semibold" tone="label2" class="cwt__detail-h mi:@[680px]:[grid-area:h] mi:@[680px]:self-center">Last 3 interactions</MiText>
+                    <ol class="cwt__touches mi:relative mi:grid mi:gap-3 mi:m-0 mi:p-0 mi:[list-style:none] mi:@[680px]:[grid-area:list] mi:@[680px]:grid-cols-3 mi:@[680px]:gap-4">
+                      <li v-for="(t, i) in c.touches.slice(0, 3)" :key="i" class="cwt__touch mi:grid mi:grid-cols-[28px_minmax(0,_1fr)] mi:items-start mi:gap-2.5">
+                        <span class="cwt__touch-ico mi:grid mi:place-items-center mi:w-7 mi:h-7 mi:rounded-[50%] mi:[background:var(--mi-card)] mi:text-label2 mi:shadow-[inset_0_0_0_1px_var(--mi-sep)]" :data-kind="t.kind"><MiIcon :svg="glyph[t.kind]" :size="14" /></span>
+                        <span class="cwt__touch-text mi:grid mi:gap-px mi:min-w-0">
                           <MiText variant="footnote" weight="medium">{{ t.note }}</MiText>
                           <MiText variant="caption" tone="label2" tabular>{{ t.when }} · {{ kindName[t.kind] }} · {{ t.by }}</MiText>
                         </span>
                       </li>
                     </ol>
-                    <div class="cwt__detail-act">
+                    <div class="cwt__detail-act mi:flex mi:@[680px]:[grid-area:act]">
                       <MiButton size="small" variant="tinted" @click="logTouch(c)">
-                        <template #leading><MiIcon name="plus" :size="14" /></template>
+                        <template #leading><MiIcon class="mi:[.cwt__table_tfoot_tr&]:justify-between mi:[.cwt__table_tfoot_th&]:text-label2 mi:[.cwt__table_tfoot_th&]:text-start mi:@[680px]:[.cwt__table_thead_th&]:top-0 mi:@[680px]:[.cwt__table_thead_th&]:z-2 mi:@[680px]:[.cwt__table_thead_th&]:border-b mi:@[680px]:[.cwt__table_thead_th&]:border-b-sep mi:@[680px]:[.cwt__table_thead_th&]:tracking-[.05em] mi:@[680px]:[.cwt__table_thead_th&]:uppercase mi:@[680px]:[.cwt__table_thead_th&]:text-(--cwt-t3) mi:@[680px]:[.cwt__table_thead_th&]:text-start mi:@[680px]:[.cwt__table_thead_th&]:whitespace-nowrap mi:@[680px]:[.cwt__table_tfoot_th&]:bottom-0 mi:@[680px]:[.cwt__table_tfoot_td&]:bottom-0" name="plus" :size="14" /></template>
                         Log a call
                       </MiButton>
                     </div>
@@ -117,19 +117,19 @@
         </tbody>
 
         <tbody v-if="!groups.length">
-          <tr><td colspan="6" class="cwt__none">No contact matches this search.</td></tr>
+          <tr><td colspan="6" class="cwt__none mi:block mi:py-8 mi:px-4 mi:text-center mi:text-label2">No contact matches this search.</td></tr>
         </tbody>
 
         <tfoot>
-          <tr>
-            <th scope="row" colspan="4">{{ shown.length }} contacts · {{ shown.filter(c => c.days > 10).length }} need a touch</th>
-            <td class="is-num">{{ money(shown.reduce((n, c) => n + c.value, 0)) }}</td>
-            <td class="c-own" />
+          <tr class="mi:[.cwt__table_tfoot_tr&]:justify-between">
+            <th class="mi:[.cwt__table_tfoot_th&]:text-label2 mi:[.cwt__table_tfoot_th&]:text-start mi:@[680px]:[.cwt__table_tfoot_th&]:bottom-0" scope="row" colspan="4">{{ shown.length }} contacts · {{ shown.filter(c => c.days > 10).length }} need a touch</th>
+            <td class="is-num mi:[.cwt__table_&]:tabular-nums mi:@[680px]:[.cwt__table_tfoot_td&]:bottom-0">{{ money(shown.reduce((n, c) => n + c.value, 0)) }}</td>
+            <td class="c-own mi:@[680px]:[.cwt__row_&]:w-16 mi:@[680px]:[.cwt__table_tfoot_td&]:bottom-0" />
           </tr>
         </tfoot>
       </table>
     </div>
-    <p class="cwt__sr" role="status" aria-live="polite">{{ announce }}</p>
+    <p class="cwt__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap" role="status" aria-live="polite">{{ announce }}</p>
   </section>
 </template>
 
@@ -258,142 +258,64 @@ function logTouch(c: Contact) {
 </script>
 
 <style scoped>
-.cwt { --cwt-t3: color-mix(in srgb, var(--mi-label2) 78%, transparent); --cwt-shade: color-mix(in srgb, var(--mi-label) 3.5%, var(--mi-card)); container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
-.cwt__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-
-.cwt__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 24px; }
-.cwt__title { display: grid; gap: 2px; min-width: 0; }
-/* Warmth runs from cold blue to warm orange everywhere in the block. */
-.cwt__scale { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 500; letter-spacing: .02em; color: var(--cwt-t3); font-variant-numeric: tabular-nums; }
-
-.cwt__toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 12px; }
-.cwt__search { flex: 1 1 220px; max-width: 320px; min-width: 0; }
-.cwt__tools { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
-
-/* Narrow first: each contact is a two-line card inside its account; from 680px it becomes a real table grid. */
-.cwt__scroll { max-height: 470px; overflow: auto; overscroll-behavior: contain; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); border: 1px solid var(--mi-sep); }
-.cwt__table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13px; }
 .cwt__table thead { display: none; }
 .cwt__table tbody, .cwt__table tfoot { display: block; }
 .cwt__table tr { display: block; }
-.cwt__table .is-num { font-variant-numeric: tabular-nums; text-align: end; }
+.cwt__table .is-num { text-align: end; }
 
 .cwt__group th { display: block; padding: 0; font-weight: inherit; text-align: start; }
-.cwt__group-in {
-  display: flex; align-items: center; gap: 12px; padding: 10px 14px 10px 6px;
-  background: var(--cwt-shade); border-top: 1px solid var(--mi-sep);
-}
-tbody:first-of-type .cwt__group-in { border-top: 0; }
-.cwt__group-btn {
-  display: flex; flex: 1 1 auto; align-items: center; gap: 10px; min-width: 0; padding: 4px 6px; border: 0; border-radius: var(--mi-radius-m);
-  background: none; color: inherit; font: inherit; text-align: start; cursor: pointer;
-}
-.cwt__group-btn:hover { background: var(--mi-fill3); }
-.cwt__group-btn:focus-visible, .cwt__exp:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 1px; }
-.cwt__chev { flex: none; color: var(--cwt-t3); transform: rotate(90deg); transition: transform var(--mi-dur-2) var(--mi-ease); }
+.cwt__chev { flex: none; transform: rotate(90deg); }
 .cwt__group-btn[aria-expanded="false"] .cwt__chev { transform: none; }
-.cwt__mark {
-  display: grid; place-items: center; flex: none; width: 30px; height: 30px; border-radius: 8px;
-  font-size: 11px; font-weight: 700; letter-spacing: .04em; background: var(--mi-p-tint); color: var(--mi-p-text);
-}
 .cwt__mark[data-tone="s"] { background: var(--mi-s-tint); color: var(--mi-s-text); }
 .cwt__mark[data-tone="n"] { background: var(--mi-fill2); color: var(--mi-label); }
-.cwt__group-name { display: grid; min-width: 0; font-weight: 600; font-size: 14px; }
 .cwt__group-name span, .cwt__group-name small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.cwt__group-name small { font-size: 12px; font-weight: 400; color: var(--mi-label2); }
-.cwt__sig { display: none; gap: 3px; }
-.cwt__sig i { width: 8px; height: 8px; border-radius: 50%; background: color-mix(in srgb, var(--mi-orange) var(--wp), var(--mi-blue)); opacity: calc(.45 + var(--w) * .55); }
-.cwt__group-total { flex: none; font-weight: 600; font-size: 14px; font-variant-numeric: tabular-nums; }
+.cwt__group-name small { font-weight: 400; }
 
 .cwt__table .cwt__row {
-  display: grid; grid-template-columns: 36px minmax(0, 1fr) auto; grid-template-areas: "exp who val" ". warm last";
-  align-items: center; gap: 6px 10px; padding: 10px 14px 12px 6px; border-top: 1px solid var(--mi-sep);
-  transition: background-color var(--mi-dur-1) var(--mi-ease);
+  display: grid; gap: 6px 10px; padding: 10px 14px 12px 6px; border-top: 1px solid var(--mi-sep);
 }
 .cwt__row:hover { background: color-mix(in srgb, var(--mi-fill4) 55%, transparent); }
 .cwt__row.is-open { background: color-mix(in srgb, var(--mi-p-tint) 45%, transparent); }
 .cwt__row td { display: block; padding: 0; }
-.cwt__row .c-exp { grid-area: exp; }
-.cwt__row .c-who { grid-area: who; min-width: 0; }
-.cwt__row .c-warm { grid-area: warm; }
-.cwt__row .c-last { grid-area: last; justify-self: end; }
-.cwt__row .c-val { grid-area: val; font-weight: 600; }
+.cwt__row .c-val { font-weight: 600; }
 .cwt__row .c-own { display: none; }
-
-.cwt__exp {
-  display: grid; place-items: center; width: 28px; height: 28px; margin-inline: auto; border: 0; border-radius: 50%;
-  background: none; color: var(--cwt-t3); cursor: pointer;
-}
-.cwt__exp:hover { background: var(--mi-fill3); color: var(--mi-label); }
+.cwt__exp:hover { color: var(--mi-label); }
 .cwt__exp :deep(svg) { transform: rotate(-90deg); transition: transform var(--mi-dur-2) var(--mi-ease); }
 .cwt__exp[aria-expanded="true"] { color: var(--mi-p-text); }
 .cwt__exp[aria-expanded="true"] :deep(svg) { transform: none; }
-
-.cwt__who { display: flex; align-items: center; gap: 10px; min-width: 0; }
-.cwt__who-text { display: grid; min-width: 0; }
-.cwt__name { font-weight: 600; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.cwt__role { font-size: 12px; color: var(--mi-label2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-/* Warmth ticks: lit from the cold end, each tick tinted by its own place between blue and orange. */
-.cwt__warm { display: inline-flex; align-items: center; gap: 10px; }
-.cwt__ticks { display: inline-flex; align-items: center; gap: 2px; }
-.cwt__ticks i { width: 4px; height: 12px; border-radius: 1.5px; background: var(--mi-fill3); }
+.cwt__ticks i { background: var(--mi-fill3); }
 .cwt__ticks i.is-on { background: color-mix(in srgb, var(--mi-orange) var(--t), var(--mi-blue)); }
-.cwt__scale .cwt__ticks i { width: 3px; height: 9px; }
-.cwt__band { min-width: 52px; font-size: 12px; font-weight: 600; color: var(--mi-label2); }
 .cwt__warm[data-band="Hot"] .cwt__band, .cwt__warm[data-band="Warm"] .cwt__band { color: var(--mi-orange-t); }
 .cwt__warm[data-band="Cold"] .cwt__band { color: var(--mi-blue); }
-.cwt__last { display: inline-flex; align-items: center; gap: 6px; color: var(--mi-label2); white-space: nowrap; font-variant-numeric: tabular-nums; }
 .cwt__last :deep(svg) { color: var(--cwt-t3); }
-
-.cwt__detail { border-top: 1px dashed var(--mi-sep); background: color-mix(in srgb, var(--mi-p-tint) 22%, transparent); }
 .cwt__detail td { display: block; padding: 0; }
-.cwt__detail-in { display: grid; gap: 10px; padding: 12px 16px 16px 48px; }
 .cwt__detail-h { text-transform: uppercase; letter-spacing: .06em; }
-.cwt__touches { position: relative; display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
-.cwt__touch { display: grid; grid-template-columns: 28px minmax(0, 1fr); align-items: start; gap: 10px; }
-.cwt__touch-text { display: grid; gap: 1px; min-width: 0; }
-.cwt__touch-ico { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--mi-card); color: var(--mi-label2); box-shadow: inset 0 0 0 1px var(--mi-sep); }
 .cwt__touch-ico[data-kind="meeting"] { color: var(--mi-p-text); }
 .cwt__touch-ico[data-kind="call"] { color: var(--mi-green-t); }
-.cwt__detail-act { display: flex; }
 
-.cwt__none { display: block; padding: 32px 16px; text-align: center; color: var(--mi-label2); }
-
-.cwt__table tfoot tr { display: flex; justify-content: space-between; gap: 12px; padding: 12px 14px; border-top: 1px solid var(--mi-sep); background: var(--cwt-shade); font-size: 12px; }
-.cwt__table tfoot th { font-weight: 500; color: var(--mi-label2); text-align: start; }
+.cwt__table tfoot tr { display: flex; gap: 12px; padding: 12px 14px; border-top: 1px solid var(--mi-sep); background: var(--cwt-shade); font-size: 12px; }
+.cwt__table tfoot th { font-weight: 500; }
 .cwt__table tfoot td { font-weight: 700; font-size: 13px; }
 .cwt__table tfoot .c-own { display: none; }
 
 @container (min-width: 680px) {
-  .cwt__sig { display: inline-flex; }
-  .cwt__table { display: table; }
   .cwt__table thead { display: table-header-group; }
   .cwt__table tbody { display: table-row-group; }
   .cwt__table tfoot { display: table-footer-group; }
   .cwt__table tr, .cwt__table tfoot tr { display: table-row; }
   .cwt__table th, .cwt__table td { display: table-cell; }
   .cwt__table thead th {
-    position: sticky; top: 0; z-index: 2; padding: 10px 12px; border-bottom: 1px solid var(--mi-sep);
-    background: var(--mi-card); font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--cwt-t3); text-align: start; white-space: nowrap;
+    position: sticky; padding: 10px 12px;
+    background: var(--mi-card); font-size: 11px; font-weight: 600;
   }
   .cwt__table thead th.is-num { text-align: end; }
-  .cwt__table thead .c-exp { width: 44px; }
   .cwt__group th { padding: 0; }
-  .cwt__group-in { padding-inline: 8px 16px; }
   .cwt__table .cwt__row { display: table-row; }
-  .cwt__row td { display: table-cell; padding: 10px 12px; vertical-align: middle; border-top: 1px solid var(--mi-sep); }
+  .cwt__row td { display: table-cell; padding: 10px 12px; vertical-align: middle; }
   .cwt__row .c-exp { padding-inline: 8px 0; }
-  .cwt__row .c-own { display: table-cell; width: 64px; }
-  .cwt__row .c-val { width: 120px; }
-  .cwt__row .c-last { width: 140px; }
-  .cwt__row .c-warm { width: 170px; }
+  .cwt__row .c-own { display: table-cell; }
   .cwt__detail td { display: table-cell; padding: 0; }
-  .cwt__detail-in { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "h act" "list list"; padding: 14px 20px 18px 66px; }
-  .cwt__detail-h { grid-area: h; align-self: center; }
-  .cwt__detail-act { grid-area: act; }
-  .cwt__touches { grid-area: list; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
-  .cwt__table tfoot th, .cwt__table tfoot td { position: sticky; bottom: 0; padding: 12px; border-top: 1px solid var(--mi-sep); background: var(--cwt-shade); }
+  .cwt__table tfoot th, .cwt__table tfoot td { position: sticky; padding: 12px; border-top: 1px solid var(--mi-sep); background: var(--cwt-shade); }
   .cwt__table tfoot th { padding-left: 20px; }
   .cwt__table tfoot .c-own { display: table-cell; }
 }

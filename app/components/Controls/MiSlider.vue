@@ -174,36 +174,36 @@ onBeforeUnmount(() => { if (raf) cancelAnimationFrame(raf) })
 </script>
 
 <template>
-  <div class="mi-slider" :class="[`tone-${tone}`, { 'is-dragging': dragging, 'is-disabled': disabled, 'is-range': isRange }]" :style="{ '--_lo': fLo, '--_hi': fHi }">
-    <div v-if="hasHeader" class="mi-slider__head">
+  <div class="mi-slider mi:[--_c:var(--mi-p)] mi:flex-col mi:[&.tone-secondary]:[--_c:var(--mi-s)] mi:[&.is-disabled]:pointer-events-none" :class="[`tone-${tone}`, { 'is-dragging': dragging, 'is-disabled': disabled, 'is-range': isRange }]" :style="{ '--_lo': fLo, '--_hi': fHi }">
+    <div v-if="hasHeader" class="mi-slider__head mi:flex mi:justify-between mi:gap-3 mi:text-[15px] mi:font-medium">
       <span v-if="label" :id="labelId" class="mi-slider__label">{{ label }}</span>
-      <output v-if="showVal" class="mi-slider__value">{{ display }}</output>
+      <output v-if="showVal" class="mi-slider__value mi:ml-auto mi:text-label2 mi:tabular-nums">{{ display }}</output>
     </div>
-    <div class="mi-slider__row">
-      <span v-if="$slots.start" class="mi-slider__side"><slot name="start" /></span>
+    <div class="mi-slider__row mi:flex mi:items-center mi:gap-3.5 mi:h-11 mi:text-label2">
+      <span v-if="$slots.start" class="mi-slider__side mi:inline-flex mi:items-center mi:flex-[none] mi:text-[12px] mi:font-semibold"><slot name="start" /></span>
       <div
         ref="area"
-        class="mi-slider__area"
+        class="mi-slider__area mi:relative mi:flex-1 mi:self-stretch mi:min-w-0 mi:cursor-pointer mi:touch-pan-y"
         @pointerdown="onDown"
         @pointermove.passive="onMove"
         @pointerup="onUp"
         @pointercancel="onUp"
       >
-        <div class="mi-slider__track" aria-hidden="true">
-          <span v-if="!isRange" class="mi-slider__cap" />
-          <span class="mi-slider__bar"><span class="mi-slider__fill" /></span>
+        <div class="mi-slider__track mi:absolute mi:top-5 mi:left-0 mi:right-0 mi:h-1 mi:rounded-[999px] mi:[background:var(--mi-fill)] mi:overflow-hidden" aria-hidden="true">
+          <span v-if="!isRange" class="mi-slider__cap mi:absolute mi:top-0 mi:bottom-0 mi:left-0 mi:w-3 mi:[background:var(--\_c)]" />
+          <span class="mi-slider__bar mi:absolute mi:top-0 mi:bottom-0 mi:left-3 mi:right-3"><span class="mi-slider__fill mi:absolute mi:inset-0 mi:[background:var(--\_c)] mi:origin-[left_center] mi:transform-[translateX(calc(var(--\_lo)_*_100%))_scaleX(calc(var(--\_hi)_-_var(--\_lo)))] mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:[.is-dragging_&]:[transition:none] mi:[.is-dragging_&]:will-change-transform" /></span>
         </div>
-        <div ref="rail" class="mi-slider__rail">
+        <div ref="rail" class="mi-slider__rail mi:absolute mi:top-0 mi:bottom-0 mi:left-3 mi:right-3 mi:pointer-events-none">
           <div
             v-for="(v, i) in values"
             :key="i"
-            class="mi-slider__mover"
+            class="mi-slider__mover mi:absolute mi:inset-0 mi:transform-[translateX(calc((var(--f)_-_1)_*_100%))] mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:[&.is-active]:z-2 mi:[.is-dragging_&]:[transition:none] mi:[.is-dragging_&]:will-change-transform"
             :class="{ 'is-active': activeIdx === i }"
             :style="{ '--f': i === 0 && isRange ? fLo : fHi }"
           >
             <span
               :ref="(el) => { if (el) thumbs[i] = el as HTMLElement }"
-              class="mi-slider__thumb"
+              class="mi-slider__thumb mi:absolute mi:top-2.5 mi:right-0 mi:w-6 mi:h-6 mi:rounded-[50%] mi:[background:#fff] mi:shadow-[0_.5px_4px_rgba(0,_0,_0,_.12),_0_6px_13px_rgba(0,_0,_0,_.12),_0_0_0_.5px_rgba(0,_0,_0,_.06)] mi:transform-[translateX(50%)] mi:pointer-events-auto mi:cursor-grab mi:touch-pan-y mi:[.is-dragging_&]:cursor-grabbing mi:focus-visible:[outline:3px_solid_color-mix(in_srgb,_var(--mi-p)_55%,_transparent)] mi:focus-visible:outline-offset-[2px]"
               role="slider"
               :tabindex="disabled ? -1 : 0"
               :aria-label="label ? undefined : thumbLabel(i)"
@@ -220,7 +220,7 @@ onBeforeUnmount(() => { if (raf) cancelAnimationFrame(raf) })
           </div>
         </div>
       </div>
-      <span v-if="$slots.end" class="mi-slider__side"><slot name="end" /></span>
+      <span v-if="$slots.end" class="mi-slider__side mi:inline-flex mi:items-center mi:flex-[none] mi:text-[12px] mi:font-semibold"><slot name="end" /></span>
     </div>
     <template v-if="name">
       <input v-for="(v, i) in values" :key="i" type="hidden" :name="name" :value="v">
@@ -230,83 +230,16 @@ onBeforeUnmount(() => { if (raf) cancelAnimationFrame(raf) })
 
 <style scoped>
 .mi-slider {
-  --_c: var(--mi-p);
   display: flex;
-  flex-direction: column;
   gap: 8px;
   min-width: 0;
   font-family: var(--mi-font);
   color: var(--mi-label);
 }
-.mi-slider.tone-secondary { --_c: var(--mi-s); }
-.mi-slider.is-disabled { opacity: .4; pointer-events: none; }
-
-.mi-slider__head { display: flex; justify-content: space-between; gap: 12px; font-size: 15px; font-weight: 500; }
-.mi-slider__value { margin-left: auto; color: var(--mi-label2); font-variant-numeric: tabular-nums; }
-
-.mi-slider__row { display: flex; align-items: center; gap: 14px; height: 44px; color: var(--mi-label2); }
-.mi-slider__side { display: inline-flex; align-items: center; flex: none; font-size: 12px; font-weight: 600; }
+.mi-slider.is-disabled { opacity: .4; }
 
 .mi-slider__area {
-  position: relative;
-  flex: 1;
-  align-self: stretch;
-  min-width: 0;
-  cursor: pointer;
-  touch-action: pan-y;
   user-select: none;
   -webkit-user-select: none;
 }
-
-.mi-slider__track {
-  position: absolute;
-  top: 20px;
-  left: 0;
-  right: 0;
-  height: 4px;
-  border-radius: 999px;
-  background: var(--mi-fill);
-  overflow: hidden;
-}
-.mi-slider__cap { position: absolute; top: 0; bottom: 0; left: 0; width: 12px; background: var(--_c); }
-/* The bar spans the thumb travel (12px inset each side). Fill is scaled and shifted, never resized. */
-.mi-slider__bar { position: absolute; top: 0; bottom: 0; left: 12px; right: 12px; }
-.mi-slider__fill {
-  position: absolute;
-  inset: 0;
-  background: var(--_c);
-  transform-origin: left center;
-  transform: translateX(calc(var(--_lo) * 100%)) scaleX(calc(var(--_hi) - var(--_lo)));
-  transition: transform var(--mi-dur-2) var(--mi-ease);
-}
-.is-dragging .mi-slider__fill { transition: none; will-change: transform; }
-
-.mi-slider__rail { position: absolute; top: 0; bottom: 0; left: 12px; right: 12px; pointer-events: none; }
-
-/* Each mover is as wide as the rail; the thumb sits on its right edge, so moving it left by (1 - f) * 100% puts the thumb at f. */
-.mi-slider__mover {
-  position: absolute;
-  inset: 0;
-  transform: translateX(calc((var(--f) - 1) * 100%));
-  transition: transform var(--mi-dur-2) var(--mi-ease);
-}
-.mi-slider__mover.is-active { z-index: 2; }
-.is-dragging .mi-slider__mover { transition: none; will-change: transform; }
-
-.mi-slider__thumb {
-  position: absolute;
-  top: 10px;
-  right: 0;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 .5px 4px rgba(0, 0, 0, .12), 0 6px 13px rgba(0, 0, 0, .12), 0 0 0 .5px rgba(0, 0, 0, .06);
-  transform: translateX(50%);
-  pointer-events: auto;
-  cursor: grab;
-  touch-action: pan-y;
-}
-.is-dragging .mi-slider__thumb { cursor: grabbing; }
-.mi-slider__thumb:focus-visible { outline: 3px solid color-mix(in srgb, var(--mi-p) 55%, transparent); outline-offset: 2px; }
 </style>

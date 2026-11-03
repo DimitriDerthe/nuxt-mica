@@ -26,17 +26,17 @@ function onKey(e: KeyboardEvent) { miNavRoving(e, root.value, 'button.mi-tb__tab
 
 <template>
   <nav
-    ref="root" class="mi-tb" :class="`is-${variant}`" :aria-label="ariaLabel"
+    ref="root" class="mi-tb mi:font-mi mi:grid-cols-[repeat(var(--n),minmax(0,1fr))]" :class="`is-${variant}`" :aria-label="ariaLabel"
     :style="{ '--n': items.length, '--i': index }" @keydown="onKey"
   >
-    <span v-if="variant === 'capsule'" class="mi-tb__thumb" aria-hidden="true" />
+    <span v-if="variant === 'capsule'" class="mi-tb__thumb mi:absolute mi:left-1 mi:top-1 mi:bottom-1 mi:w-[calc((100%_-_8px_-_(var(--n)_-_1)_*_4px)_/_var(--n))] mi:rounded-[999px] mi:bg-p-tint mi:transform-[translate3d(calc(var(--i)_*_(100%_+_4px)),0,0)] mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring)] mi:pointer-events-none" aria-hidden="true" />
     <button
-      v-for="(it, i) in items" :key="it.id" type="button" class="mi-tb__tab" :class="{ 'is-on': i === index }"
+      v-for="(it, i) in items" :key="it.id" type="button" class="mi-tb__tab mi:[border:0] mi:bg-transparent mi:text-label2 mi:flex mi:flex-col mi:items-center mi:justify-center mi:relative mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease)] mi:[&.is-on]:text-p-text mi:active:transform-[scale(.94)] mi:[.is-bar_&]:h-12.5 mi:[.is-bar_&]:gap-[3px] mi:[.is-bar_&]:text-[10px] mi:[.is-bar_&]:font-semibold mi:[.is-bar_&]:tracking-[.01em] mi:[.is-capsule_&]:h-11 mi:[.is-capsule_&]:rounded-[999px] mi:[.is-capsule_&]:text-[13px] mi:[.is-capsule_&]:font-semibold mi:[.is-capsule_&]:z-1 mi:focus-visible:[outline:3px_solid_color-mix(in_srgb,var(--mi-p)_55%,transparent)] mi:focus-visible:outline-offset-[-2px] mi:focus-visible:rounded-[12px] mi:[.is-capsule_&:focus-visible]:rounded-[999px]" :class="{ 'is-on': i === index }"
       :aria-current="i === index ? 'page' : undefined" @click="model = it.id"
     >
-      <span v-if="variant === 'bar' && it.icon" class="mi-tb__ic">
+      <span v-if="variant === 'bar' && it.icon" class="mi-tb__ic mi:relative mi:flex">
         <MiNavGlyph :name="it.icon" :size="24" />
-        <span v-if="it.badge !== undefined && it.badge !== ''" class="mi-tb__badge">{{ it.badge }}</span>
+        <span v-if="it.badge !== undefined && it.badge !== ''" class="mi-tb__badge mi:absolute mi:-top-1 mi:left-[calc(100%_-_8px)] mi:min-w-4 mi:h-4 mi:py-0 mi:px-1 mi:rounded-[999px] mi:bg-red mi:text-[color:#fff] mi:text-[10px] mi:font-bold mi:leading-4 mi:text-center">{{ it.badge }}</span>
       </span>
       <span class="mi-tb__label">{{ it.label }}</span>
     </button>
@@ -44,19 +44,9 @@ function onKey(e: KeyboardEvent) { miNavRoving(e, root.value, 'button.mi-tb__tab
 </template>
 
 <style scoped>
-.mi-tb{font-family:var(--mi-font);display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));background:var(--mi-mat);-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%)}
-.mi-tb__tab{border:0;background:transparent;color:var(--mi-label2);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;transition:transform var(--mi-dur-1) var(--mi-ease)}
-.mi-tb__tab.is-on{color:var(--mi-p-text)}
-.mi-tb__tab:active{transform:scale(.94)}
+.mi-tb{display:grid;background:var(--mi-mat);-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%)}
 .is-bar{padding:6px 4px calc(18px + env(safe-area-inset-bottom,0px)) ;border-top:.5px solid var(--mi-sep)}
-.is-bar .mi-tb__tab{height:50px;gap:3px;font-size:10px;font-weight:600;letter-spacing:.01em}
-.mi-tb__ic{position:relative;display:flex}
 .mi-tb__ic :deep(svg){transition:transform var(--mi-dur-3) var(--mi-spring)}
 .is-on .mi-tb__ic :deep(svg){transform:scale(1.08)}
-.mi-tb__badge{position:absolute;top:-4px;left:calc(100% - 8px);min-width:16px;height:16px;padding:0 4px;border-radius:999px;background:var(--mi-red);color:#fff;font-size:10px;font-weight:700;line-height:16px;text-align:center}
 .is-capsule{position:relative;gap:4px;padding:4px;border-radius:999px;box-shadow:var(--mi-sh2)}
-.is-capsule .mi-tb__tab{height:44px;border-radius:999px;font-size:13px;font-weight:600;z-index:1}
-.mi-tb__thumb{position:absolute;left:4px;top:4px;bottom:4px;width:calc((100% - 8px - (var(--n) - 1) * 4px) / var(--n));border-radius:999px;background:var(--mi-p-tint);transform:translate3d(calc(var(--i) * (100% + 4px)),0,0);transition:transform var(--mi-dur-3) var(--mi-spring);pointer-events:none}
-.mi-tb__tab:focus-visible{outline:3px solid color-mix(in srgb,var(--mi-p) 55%,transparent);outline-offset:-2px;border-radius:12px}
-.is-capsule .mi-tb__tab:focus-visible{border-radius:999px}
 </style>

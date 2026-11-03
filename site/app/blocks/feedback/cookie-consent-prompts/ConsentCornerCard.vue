@@ -1,18 +1,18 @@
 <template>
-  <section class="ccc" aria-labelledby="ccc-title">
-    <div class="ccc__stage">
+  <section class="ccc mi:@container mi:font-mi mi:text-label" aria-labelledby="ccc-title">
+    <div class="ccc__stage mi:relative mi:grid mi:content-end mi:justify-items-center mi:min-h-110 mi:p-4 mi:rounded-xl mi:overflow-hidden mi:isolate mi:[background:var(--mi-page)] mi:@[720px]:justify-items-start mi:@[720px]:p-6">
       <!-- Faux storefront behind the prompt, drawn with tokens and kept out of the accessibility tree. -->
-      <div class="ccc__site" aria-hidden="true">
-        <div class="ccc__nav"><i /><i /><i /><i /></div>
-        <div class="ccc__hero"><i /><i /><i /></div>
-        <div class="ccc__tiles"><i v-for="n in 4" :key="n" /></div>
+      <div class="ccc__site mi:absolute mi:inset-0 mi:-z-1 mi:grid mi:content-start mi:gap-4.5 mi:p-4.5 mi:opacity-70" aria-hidden="true">
+        <div class="ccc__nav mi:flex mi:gap-3"><i class="mi:[.ccc__site_&]:block" /><i class="mi:[.ccc__site_&]:block" /><i class="mi:[.ccc__site_&]:block" /><i class="mi:[.ccc__site_&]:block" /></div>
+        <div class="ccc__hero mi:grid mi:gap-2.5 mi:py-6.5 mi:px-4.5 mi:rounded-xl mi:[background:linear-gradient(135deg,_var(--mi-p-tint),_color-mix(in_srgb,_var(--mi-s)_12%,_transparent))]"><i class="mi:[.ccc__site_&]:block mi:[.ccc__hero_&:nth-child(3)]:rounded-[999px] mi:[.ccc__hero_&:nth-child(3)]:opacity-60" /><i class="mi:[.ccc__site_&]:block mi:[.ccc__hero_&:nth-child(3)]:rounded-[999px] mi:[.ccc__hero_&:nth-child(3)]:opacity-60" /><i class="mi:[.ccc__site_&]:block mi:[.ccc__hero_&:nth-child(3)]:rounded-[999px] mi:[.ccc__hero_&:nth-child(3)]:opacity-60" /></div>
+        <div class="ccc__tiles mi:grid mi:grid-cols-[repeat(4,_1fr)] mi:gap-2.5"><i class="mi:[.ccc__site_&]:block mi:[.ccc__tiles_&]:aspect-[3_/_4] mi:[.ccc__tiles_&]:shadow-1" v-for="n in 4" :key="n" /></div>
       </div>
 
       <Transition name="ccc-swap" mode="out-in">
-        <div v-if="!saved" key="card" class="ccc__card" role="region" aria-labelledby="ccc-title">
-          <div class="ccc__top">
-            <span class="ccc__glyph" aria-hidden="true"><i /><i /><i /></span>
-            <div class="ccc__copy">
+        <div v-if="!saved" key="card" class="ccc__card mi:grid mi:gap-3.5 mi:w-full mi:max-w-110 mi:p-4.5 mi:rounded-xl mi:[background:var(--mi-elev)] mi:shadow-3 mi:border mi:border-sep" role="region" aria-labelledby="ccc-title">
+          <div class="ccc__top mi:flex mi:gap-3.5 mi:[align-items:flex-start]">
+            <span class="ccc__glyph mi:relative mi:flex-[none] mi:w-10 mi:h-10 mi:rounded-[50%] mi:[background:var(--mi-p-tint)]" aria-hidden="true"><i class="mi:[.ccc__glyph_&]:absolute mi:[.ccc__glyph_&:nth-child(1)]:left-[11px] mi:[.ccc__glyph_&:nth-child(1)]:top-3 mi:[.ccc__glyph_&:nth-child(2)]:left-5.5 mi:[.ccc__glyph_&:nth-child(2)]:top-5 mi:[.ccc__glyph_&:nth-child(3)]:left-[13px] mi:[.ccc__glyph_&:nth-child(3)]:top-[25px]" /><i class="mi:[.ccc__glyph_&]:absolute mi:[.ccc__glyph_&:nth-child(1)]:left-[11px] mi:[.ccc__glyph_&:nth-child(1)]:top-3 mi:[.ccc__glyph_&:nth-child(2)]:left-5.5 mi:[.ccc__glyph_&:nth-child(2)]:top-5 mi:[.ccc__glyph_&:nth-child(3)]:left-[13px] mi:[.ccc__glyph_&:nth-child(3)]:top-[25px]" /><i class="mi:[.ccc__glyph_&]:absolute mi:[.ccc__glyph_&:nth-child(1)]:left-[11px] mi:[.ccc__glyph_&:nth-child(1)]:top-3 mi:[.ccc__glyph_&:nth-child(2)]:left-5.5 mi:[.ccc__glyph_&:nth-child(2)]:top-5 mi:[.ccc__glyph_&:nth-child(3)]:left-[13px] mi:[.ccc__glyph_&:nth-child(3)]:top-[25px]" /></span>
+            <div class="ccc__copy mi:grid mi:gap-1 mi:min-w-0">
               <MiText id="ccc-title" variant="headline" as="h2">Cookies, on your terms</MiText>
               <MiText variant="footnote" tone="label2">
                 Linden &amp; Oak needs a few cookies to run the shop. The rest help us improve it and are off until you say yes.
@@ -20,9 +20,9 @@
             </div>
           </div>
 
-          <div v-if="choosing" class="ccc__kinds">
-            <div v-for="k in kinds" :key="k.id" class="ccc__kind">
-              <div class="ccc__kind-text">
+          <div v-if="choosing" class="ccc__kinds mi:grid mi:rounded-lg mi:[background:var(--mi-fill4)]">
+            <div v-for="k in kinds" :key="k.id" class="ccc__kind mi:flex mi:items-center mi:justify-between mi:gap-3 mi:py-2.5 mi:px-3 mi:[.ccc__kind+&]:border-t mi:[.ccc__kind+&]:border-t-sep">
+              <div class="ccc__kind-text mi:grid mi:min-w-0">
                 <MiText :id="'ccc-k-' + k.id" variant="footnote" weight="semibold">{{ k.label }}</MiText>
                 <MiText variant="caption" tone="label2">{{ k.hint }}</MiText>
               </div>
@@ -32,23 +32,23 @@
           </div>
 
           <!-- Reject and accept carry the same weight; neither is the easy way out. -->
-          <div class="ccc__actions">
+          <div class="ccc__actions mi:grid mi:grid-cols-[1fr_1fr] mi:gap-2 mi:@[420px]:grid-cols-[1fr_1fr_auto]">
             <MiButton variant="gray" @click="decide('none')">Reject all</MiButton>
             <MiButton variant="gray" @click="decide('all')">Accept all</MiButton>
             <MiButton v-if="choosing" variant="filled" @click="decide('mine')">Save {{ onCount }} of {{ kinds.length }}</MiButton>
             <MiButton v-else variant="plain" @click="choosing = true">Choose</MiButton>
           </div>
-          <MiTextLink href="#" :chevron="false" class="ccc__policy">Read the cookie policy</MiTextLink>
+          <MiTextLink href="#" :chevron="false" class="ccc__policy mi:justify-self-start">Read the cookie policy</MiTextLink>
         </div>
 
         <!-- After a decision the prompt shrinks to a pill that reopens it. -->
-        <div v-else key="pill" class="ccc__pill">
-          <MiIcon name="check-circle-fill" :size="18" class="ccc__ok" />
+        <div v-else key="pill" class="ccc__pill mi:inline-flex mi:items-center mi:gap-2 mi:pt-1.5 mi:pr-1.5 mi:pb-1.5 mi:pl-3.5 mi:rounded-[999px] mi:[background:var(--mi-elev)] mi:shadow-2 mi:border mi:border-sep">
+          <MiIcon name="check-circle-fill" :size="18" class="ccc__ok mi:text-green" />
           <MiText variant="footnote" weight="medium">{{ summary }}</MiText>
           <MiButton variant="plain" size="small" @click="saved = false">Change</MiButton>
         </div>
       </Transition>
-      <p class="ccc__sr" role="status" aria-live="polite">{{ saved ? summary : '' }}</p>
+      <p class="ccc__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap" role="status" aria-live="polite">{{ saved ? summary : '' }}</p>
     </div>
   </section>
 </template>
@@ -78,46 +78,22 @@ function decide(mode: 'none' | 'all' | 'mine') {
 </script>
 
 <style scoped>
-.ccc { container-type: inline-size; font-family: var(--mi-font); color: var(--mi-label); }
-.ccc__stage { position: relative; display: grid; align-content: end; justify-items: center; min-height: 440px; padding: 16px; border-radius: var(--mi-radius-xl); overflow: hidden; isolation: isolate; background: var(--mi-page); }
-@container (min-width: 720px) { .ccc__stage { justify-items: start; padding: 24px; } }
-
-.ccc__site { position: absolute; inset: 0; z-index: -1; display: grid; align-content: start; gap: 18px; padding: 18px; opacity: .7; }
-.ccc__site i { display: block; border-radius: var(--mi-radius-m); background: var(--mi-fill3); }
-.ccc__nav { display: flex; gap: 12px; }
+.ccc__site i { border-radius: var(--mi-radius-m); background: var(--mi-fill3); }
 .ccc__nav i { width: 54px; height: 12px; }
 .ccc__nav i:first-child { width: 90px; background: var(--mi-label3); }
-.ccc__hero { display: grid; gap: 10px; padding: 26px 18px; border-radius: var(--mi-radius-xl); background: linear-gradient(135deg, var(--mi-p-tint), color-mix(in srgb, var(--mi-s) 12%, transparent)); }
 .ccc__hero i { width: 60%; height: 18px; }
 .ccc__hero i:nth-child(2) { width: 40%; height: 12px; }
-.ccc__hero i:nth-child(3) { width: 96px; height: 28px; border-radius: 999px; background: var(--mi-p); opacity: .6; }
-.ccc__tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-.ccc__tiles i { aspect-ratio: 3 / 4; background: var(--mi-card); box-shadow: var(--mi-sh1); }
+.ccc__hero i:nth-child(3) { width: 96px; height: 28px; background: var(--mi-p); }
+.ccc__tiles i { background: var(--mi-card); }
+.ccc__glyph i { width: 6px; height: 6px; border-radius: 50%; background: var(--mi-p); }
+.ccc__glyph i:nth-child(2) { width: 5px; height: 5px; }
+.ccc__glyph i:nth-child(3) { width: 4px; height: 4px; }
 
-.ccc__card { display: grid; gap: 14px; width: 100%; max-width: 440px; padding: 18px; border-radius: var(--mi-radius-xl); background: var(--mi-elev); box-shadow: var(--mi-sh3); border: 1px solid var(--mi-sep); }
-.ccc__top { display: flex; gap: 14px; align-items: flex-start; }
-.ccc__copy { display: grid; gap: 4px; min-width: 0; }
-/* Cookie mark: a brand disc with three crumbs. */
-.ccc__glyph { position: relative; flex: none; width: 40px; height: 40px; border-radius: 50%; background: var(--mi-p-tint); }
-.ccc__glyph i { position: absolute; width: 6px; height: 6px; border-radius: 50%; background: var(--mi-p); }
-.ccc__glyph i:nth-child(1) { left: 11px; top: 12px; }
-.ccc__glyph i:nth-child(2) { left: 22px; top: 20px; width: 5px; height: 5px; }
-.ccc__glyph i:nth-child(3) { left: 13px; top: 25px; width: 4px; height: 4px; }
-
-.ccc__kinds { display: grid; border-radius: var(--mi-radius-l); background: var(--mi-fill4); animation: ccc-open var(--mi-dur-3) var(--mi-spring) both; }
-.ccc__kind { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 12px; }
-.ccc__kind + .ccc__kind { border-top: 1px solid var(--mi-sep); }
-.ccc__kind-text { display: grid; min-width: 0; }
+.ccc__kinds { animation: ccc-open var(--mi-dur-3) var(--mi-spring) both; }
 @keyframes ccc-open { from { opacity: 0; transform: translateY(-4px); } }
-
-.ccc__actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .ccc__actions > :last-child { grid-column: 1 / -1; }
-@container (min-width: 420px) { .ccc__actions { grid-template-columns: 1fr 1fr auto; } .ccc__actions > :last-child { grid-column: auto; } }
-.ccc__policy { justify-self: start; font-size: 13px; }
-
-.ccc__pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 6px 6px 14px; border-radius: 999px; background: var(--mi-elev); box-shadow: var(--mi-sh2); border: 1px solid var(--mi-sep); }
-.ccc__ok { color: var(--mi-green); }
-.ccc__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+@container (min-width: 420px) { .ccc__actions > :last-child { grid-column: auto; } }
+.ccc__policy { font-size: 13px; }
 
 .ccc-swap-enter-active, .ccc-swap-leave-active { transition: opacity var(--mi-dur-2) var(--mi-ease), transform var(--mi-dur-3) var(--mi-spring); }
 .ccc-swap-enter-from, .ccc-swap-leave-to { opacity: 0; transform: translateY(10px) scale(.97); }

@@ -1,18 +1,18 @@
 <template>
-  <section class="det" aria-labelledby="det-title">
-    <div class="det__toolbar" role="toolbar" aria-label="Formatting">
+  <section class="det mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="det-title">
+    <div class="det__toolbar mi:flex mi:flex-wrap mi:items-center mi:gap-2 mi:p-2 mi:rounded-lg mi:bg-card mi:shadow-2" role="toolbar" aria-label="Formatting">
       <MiMenu v-model="block" variant="popup" :items="blockItems" aria-label="Paragraph style" />
-      <span class="det__sep" aria-hidden="true" />
-      <div class="det__marks">
+      <span class="det__sep mi:w-px mi:h-5 mi:bg-sep" aria-hidden="true" />
+      <div class="det__marks mi:flex mi:gap-0.5">
         <MiToggle v-for="m in marks" :key="m.key" v-model:pressed="active[m.key]" size="sm" :label="m.label">
           <span :class="'det__glyph det__glyph--' + m.key" aria-hidden="true">{{ m.glyph }}</span>
         </MiToggle>
       </div>
-      <span class="det__sep" aria-hidden="true" />
+      <span class="det__sep mi:w-px mi:h-5 mi:bg-sep" aria-hidden="true" />
       <MiToggleGroup v-model="align" :options="alignOptions" size="sm" label="Alignment">
         <template #default="{ option }"><MiIcon :name="iconFor(option.value)" :size="16" /></template>
       </MiToggleGroup>
-      <span class="det__sep" aria-hidden="true" />
+      <span class="det__sep mi:w-px mi:h-5 mi:bg-sep" aria-hidden="true" />
       <MiMenu :items="insertItems" aria-label="Insert" placement="bottom-end" @select="(i) => insert(String(i.value))">
         <template #trigger="{ props: tp }">
           <MiButton v-bind="tp" variant="tinted" size="small">
@@ -23,7 +23,7 @@
       </MiMenu>
     </div>
 
-    <article class="det__doc">
+    <article class="det__doc mi:grid mi:gap-2.5 mi:p-[clamp(18px,_5cqi,_40px)] mi:rounded-xl mi:bg-card mi:shadow-1">
       <MiText id="det-title" variant="title2" as="h2" weight="bold">Field notes: Lisbon offsite</MiText>
       <MiText variant="caption" tone="label3">Edited by Clara Mendes · 3 min ago</MiText>
 
@@ -32,11 +32,11 @@
         Day two moves to the LX Factory loft: kickoff at 9:30, roadmap review before lunch, and the customer panel with Ana from Tasca Rodrigues at 15:00.
       </component>
 
-      <p v-for="(b, i) in inserted" :key="i" class="det__inserted"><MiIcon :name="glyph[b.icon]" :size="16" />{{ b.text }}</p>
+      <p v-for="(b, i) in inserted" :key="i" class="det__inserted mi:flex mi:items-center mi:gap-2 mi:m-0 mi:py-2 mi:px-2.5 mi:rounded-md mi:bg-fill4 mi:text-[14px]"><MiIcon :name="glyph[b.icon]" :size="16" />{{ b.text }}</p>
 
       <!-- Slash command line with its menu open at the caret. -->
-      <div class="det__slash">
-        <p class="det__cmd"><span>/ch</span><i class="det__caret" aria-hidden="true" /></p>
+      <div class="det__slash mi:grid mi:justify-items-start mi:gap-1.5">
+        <p class="det__cmd mi:flex mi:items-center mi:m-0 mi:text-[16px] mi:text-label2"><span>/ch</span><i class="det__caret mi:w-0.5 mi:h-5 mi:ms-px mi:bg-p" aria-hidden="true" /></p>
         <MiContextMenu inline :items="slashItems" label="Insert block" :width="248" :highlighted="highlighted" @select="insert" />
       </div>
     </article>
@@ -111,18 +111,11 @@ function insert(id: string) {
 </script>
 
 <style scoped>
-.det { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
-
-.det__toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 8px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh2); }
-.det__marks { display: flex; gap: 2px; }
-.det__sep { width: 1px; height: 20px; background: var(--mi-sep); }
 .det__glyph { display: inline-block; min-width: 12px; font-size: 14px; text-align: center; }
 .det__glyph--bold { font-weight: 800; }
 .det__glyph--italic { font-style: italic; font-family: Georgia, serif; }
 .det__glyph--underline { text-decoration: underline; text-underline-offset: 2px; }
 .det__glyph--strike { text-decoration: line-through; }
-
-.det__doc { display: grid; gap: 10px; padding: clamp(18px, 5cqi, 40px); border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
 .det__target { margin: 8px 0 0; padding: 4px 6px; margin-inline: -6px; border-radius: 6px; background: color-mix(in srgb, var(--mi-p) 14%, transparent); box-shadow: inset 2px 0 0 var(--mi-p); font-size: 16px; line-height: 1.6; max-width: 68ch; }
 .det__target.is-title { font-size: 26px; line-height: 1.25; font-weight: 700; letter-spacing: -.02em; }
 .det__target.is-heading { font-size: 19px; line-height: 1.35; font-weight: 600; }
@@ -134,14 +127,11 @@ function insert(id: string) {
 .det__target.is-s { text-decoration: line-through; }
 .det__target.is-u.is-s { text-decoration: underline line-through; }
 
-.det__inserted { display: flex; align-items: center; gap: 8px; margin: 0; padding: 8px 10px; border-radius: var(--mi-radius-m); background: var(--mi-fill4); font-size: 14px; animation: det-in var(--mi-dur-3) var(--mi-spring); }
+.det__inserted { animation: det-in var(--mi-dur-3) var(--mi-spring); }
 .det__inserted :deep(svg) { flex: none; color: var(--mi-p-text); }
 @keyframes det-in { from { opacity: 0; transform: translateY(6px); } }
-
-.det__slash { display: grid; justify-items: start; gap: 6px; }
-.det__cmd { display: flex; align-items: center; margin: 0; font-size: 16px; color: var(--mi-label2); }
 .det__cmd span { padding: 0 2px; border-radius: 4px; background: var(--mi-fill3); }
-.det__caret { width: 2px; height: 20px; margin-inline-start: 1px; background: var(--mi-p); animation: det-blink 1.1s steps(1) infinite; }
+.det__caret { animation: det-blink 1.1s steps(1) infinite; }
 @keyframes det-blink { 50% { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .det__caret, .det__inserted { animation: none; } }
 .det__slash > :last-child { max-width: 100%; }

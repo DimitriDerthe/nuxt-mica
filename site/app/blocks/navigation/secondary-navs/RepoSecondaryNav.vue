@@ -1,13 +1,13 @@
 <template>
-  <div class="rsn">
-    <header class="rsn__head">
-      <div class="rsn__title-row">
-        <div class="rsn__title">
+  <div class="rsn mi:@container mi:grid mi:grid-rows-[auto_1fr] mi:min-h-full mi:font-mi mi:text-label mi:bg-page">
+    <header class="rsn__head mi:grid mi:gap-3 mi:pt-4 mi:px-3.5 mi:pb-3 mi:bg-card mi:shadow-[inset_0_-1px_0_var(--mi-sep)] mi:@[640px]:pt-5 mi:@[640px]:px-6 mi:@[640px]:pb-3">
+      <div class="rsn__title-row mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2.5">
+        <div class="rsn__title mi:flex mi:flex-wrap mi:items-baseline mi:gap-y-1 mi:gap-x-2 mi:min-w-0">
           <MiText as="span" variant="footnote" tone="label2">northwind-labs /</MiText>
           <MiText id="rsn-title" variant="title3" as="h2" weight="bold">ledger-api</MiText>
           <MiBadge label="Private" tone="neutral" variant="outline" />
         </div>
-        <div class="rsn__acts">
+        <div class="rsn__acts mi:flex mi:gap-1.5">
           <MiButton variant="gray" size="small" :pressed="watching" @click="watching = !watching">
             <template #leading><MiIcon name="eye" :size="14" /></template>{{ watching ? 'Watching' : 'Watch' }}
           </MiButton>
@@ -18,28 +18,28 @@
       </div>
 
       <!-- Wide: underline tabs with counts and a CI status dot. Narrow: one select with the same entries. -->
-      <nav class="rsn__tabs" aria-label="Repository">
+      <nav class="rsn__tabs mi:hidden mi:gap-0.5 mi:-mb-3 mi:overflow-x-auto mi:[scrollbar-width:none] mi:@[640px]:flex" aria-label="Repository">
         <a
-          v-for="t in tabs" :key="t.id" href="#" class="rsn__tab" :aria-current="t.id === current ? 'page' : undefined"
+          v-for="t in tabs" :key="t.id" href="#" class="rsn__tab mi:relative mi:inline-flex mi:items-center mi:gap-[7px] mi:flex-[none] mi:pt-2.5 mi:px-3 mi:pb-3.5 mi:rounded-[8px_8px_0_0] mi:text-[14px] mi:font-medium mi:text-label2 mi:[text-decoration:none] mi:whitespace-nowrap mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px] mi:after:content-[''] mi:after:absolute mi:after:top-auto mi:after:right-2 mi:after:bottom-0 mi:after:left-2 mi:after:h-0.5 mi:after:rounded-[2px] mi:after:bg-p mi:after:transform-[scaleX(0)] mi:after:[transition:transform_var(--mi-dur-3)_var(--mi-spring)] mi:[&[aria-current='page']]:font-semibold mi:[&[aria-current='page']]:after:transform-[scaleX(1)]" :aria-current="t.id === current ? 'page' : undefined"
           @click.prevent="current = t.id"
         >
           <MiIcon :name="t.icon" :size="15" />{{ t.label }}
-          <span v-if="t.count" class="rsn__count">{{ t.count }}</span>
-          <span v-if="t.status" class="rsn__status" :class="'is-' + t.status" role="img" :aria-label="statusLabel[t.status]" />
+          <span v-if="t.count" class="rsn__count mi:min-w-5 mi:py-px mi:px-[7px] mi:rounded-[999px] mi:text-[12px] mi:font-semibold mi:text-center mi:bg-fill3 mi:tabular-nums">{{ t.count }}</span>
+          <span v-if="t.status" class="rsn__status mi:w-2 mi:h-2 mi:rounded-[50%] mi:[&.is-fail]:bg-red mi:[&.is-pass]:bg-green" :class="'is-' + t.status" role="img" :aria-label="statusLabel[t.status]" />
         </a>
       </nav>
-      <div class="rsn__select">
+      <div class="rsn__select mi:grid mi:@[640px]:hidden">
         <MiNativeSelect v-model="current" :options="selectOptions" aria-label="Repository section" />
       </div>
     </header>
 
-    <main class="rsn__panel" aria-labelledby="rsn-panel">
+    <main class="rsn__panel mi:grid mi:content-start mi:gap-1 mi:w-full mi:max-w-205 mi:my-0 mi:mx-auto mi:pt-5.5 mi:px-3.5 mi:pb-8 mi:@[640px]:pt-7 mi:@[640px]:px-6 mi:@[640px]:pb-10" aria-labelledby="rsn-panel">
       <MiText id="rsn-panel" variant="headline" as="h3">{{ tab.label }}</MiText>
       <MiText variant="footnote" tone="label2">{{ tab.summary }}</MiText>
-      <ul class="rsn__rows">
-        <li v-for="r in tab.rows" :key="r.title" class="rsn__row">
-          <MiIcon :name="r.icon" :size="16" class="rsn__row-icon" :class="'is-' + r.tone" />
-          <span class="rsn__row-text">
+      <ul class="rsn__rows mi:grid mi:mt-3 mi:mx-0 mi:mb-0 mi:p-0 mi:[list-style:none] mi:rounded-lg mi:bg-card mi:shadow-1">
+        <li v-for="r in tab.rows" :key="r.title" class="rsn__row mi:flex mi:items-center mi:gap-3 mi:py-3 mi:px-3.5 mi:[.rsn__row+&]:shadow-[inset_0_1px_0_var(--mi-sep)]">
+          <MiIcon :name="r.icon" :size="16" class="rsn__row-icon mi:text-label3" :class="'is-' + r.tone" />
+          <span class="rsn__row-text mi:grid mi:flex-1 mi:min-w-0">
             <MiText as="span" variant="subheadline" weight="medium" :lines="1">{{ r.title }}</MiText>
             <MiText as="span" variant="caption" tone="label2">{{ r.meta }}</MiText>
           </span>
@@ -110,43 +110,10 @@ const stars = computed(() => (starred.value ? 129 : 128).toString())
 </script>
 
 <style scoped>
-.rsn { container-type: inline-size; display: grid; grid-template-rows: auto 1fr; min-height: 100%; font-family: var(--mi-font); color: var(--mi-label); background: var(--mi-page); }
-.rsn__head { display: grid; gap: 12px; padding: 16px 14px 12px; background: var(--mi-card); box-shadow: inset 0 -1px 0 var(--mi-sep); }
-.rsn__title-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
-.rsn__title { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; min-width: 0; }
-.rsn__acts { display: flex; gap: 6px; }
-
-.rsn__tabs { display: none; gap: 2px; margin-bottom: -12px; overflow-x: auto; scrollbar-width: none; }
-.rsn__tab {
-  position: relative; display: inline-flex; align-items: center; gap: 7px; flex: none; padding: 10px 12px 14px; border-radius: 8px 8px 0 0;
-  font-size: 14px; font-weight: 500; color: var(--mi-label2); text-decoration: none; white-space: nowrap;
-}
 .rsn__tab:hover { color: var(--mi-label); }
-.rsn__tab:focus-visible { outline: 2px solid var(--mi-p); outline-offset: -2px; }
-/* Each tab owns its underline and scales it in, so nothing is measured. */
-.rsn__tab::after { content: ""; position: absolute; inset: auto 8px 0; height: 2px; border-radius: 2px; background: var(--mi-p); transform: scaleX(0); transition: transform var(--mi-dur-3) var(--mi-spring); }
-.rsn__tab[aria-current="page"] { color: var(--mi-label); font-weight: 600; }
-.rsn__tab[aria-current="page"]::after { transform: scaleX(1); }
-.rsn__count { min-width: 20px; padding: 1px 7px; border-radius: 999px; font-size: 12px; font-weight: 600; text-align: center; background: var(--mi-fill3); font-variant-numeric: tabular-nums; }
-.rsn__status { width: 8px; height: 8px; border-radius: 50%; }
-.rsn__status.is-fail { background: var(--mi-red); }
-.rsn__status.is-pass { background: var(--mi-green); }
-.rsn__select { display: grid; }
-
-.rsn__panel { display: grid; align-content: start; gap: 4px; width: 100%; max-width: 820px; margin: 0 auto; padding: 22px 14px 32px; }
-.rsn__rows { display: grid; margin: 12px 0 0; padding: 0; list-style: none; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.rsn__row { display: flex; align-items: center; gap: 12px; padding: 12px 14px; }
-.rsn__row + .rsn__row { box-shadow: inset 0 1px 0 var(--mi-sep); }
-.rsn__row-text { display: grid; flex: 1; min-width: 0; }
-.rsn__row-icon { flex: none; color: var(--mi-label3); }
+.rsn__tab[aria-current="page"] { color: var(--mi-label); }
+.rsn__row-icon { flex: none; }
 .rsn__row-icon.is-good { color: var(--mi-green); }
 .rsn__row-icon.is-bad { color: var(--mi-red); }
 .rsn__row-icon.is-open { color: var(--mi-p); }
-
-@container (min-width: 640px) {
-  .rsn__head { padding: 20px 24px 12px; }
-  .rsn__tabs { display: flex; }
-  .rsn__select { display: none; }
-  .rsn__panel { padding: 28px 24px 40px; }
-}
 </style>

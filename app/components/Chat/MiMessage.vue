@@ -20,23 +20,19 @@ defineSlots<{
 </script>
 
 <template>
-  <div class="mi-msg" :class="`mi-msg--${align}`" role="group" :aria-label="label">
-    <div v-if="$slots.avatar" class="mi-msg__av"><slot name="avatar" /></div>
-    <div class="mi-msg__c">
-      <div v-if="$slots.header" class="mi-msg__h"><slot name="header" /></div>
+  <div class="mi-msg mi:[align-items:flex-end] mi:gap-2 mi:font-mi" :class="`mi-msg--${align}`" role="group" :aria-label="label">
+    <div v-if="$slots.avatar" class="mi-msg__av mi:flex-[none]"><slot name="avatar" /></div>
+    <div class="mi-msg__c mi:flex mi:flex-col mi:gap-0.5 mi:min-w-0 mi:max-w-full">
+      <div v-if="$slots.header" class="mi-msg__h mi:[align-self:flex-start] mi:px-1 mi:text-[12px] mi:font-semibold mi:text-label2"><slot name="header" /></div>
       <slot />
-      <div v-if="$slots.footer" class="mi-msg__f"><slot name="footer" /></div>
+      <div v-if="$slots.footer" class="mi-msg__f mi:flex mi:items-center mi:gap-1.5 mi:px-1 mi:text-[12px] mi:text-label2"><slot name="footer" /></div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.mi-msg{display:flex;align-items:flex-end;gap:8px;max-width:100%;font-family:var(--mi-font)}
+.mi-msg{display:flex;max-width:100%}
 .mi-msg--end{flex-direction:row-reverse}
-.mi-msg__av{flex:none}
-.mi-msg__c{display:flex;flex-direction:column;gap:2px;min-width:0;max-width:100%}
 .mi-msg--start .mi-msg__c{align-items:flex-start}
 .mi-msg--end .mi-msg__c{align-items:flex-end}
-.mi-msg__h{align-self:flex-start;padding-inline:4px;font-size:12px;font-weight:600;color:var(--mi-label2)}
-.mi-msg__f{display:flex;align-items:center;gap:6px;padding-inline:4px;font-size:12px;color:var(--mi-label2)}
 </style>

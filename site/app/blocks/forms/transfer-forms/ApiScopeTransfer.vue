@@ -1,6 +1,6 @@
 <template>
-  <section class="ask" aria-labelledby="ask-title">
-    <header class="ask__head">
+  <section class="ask mi:@container/ask mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="ask-title">
+    <header class="ask__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="ask-title" as="h2" variant="title3" weight="semibold">New restricted key</MiText>
         <MiText variant="footnote" tone="label2">Grant only the scopes this integration needs. You can widen them later.</MiText>
@@ -8,18 +8,18 @@
       <MiSegmented v-model="env" label="Environment" :options="envs" variant="tinted" />
     </header>
 
-    <div v-if="created" class="ask__done" role="status" aria-live="polite">
+    <div v-if="created" class="ask__done mi:grid mi:gap-4 mi:p-5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:justify-items-start" role="status" aria-live="polite">
       <MiText as="h3" variant="headline">{{ created.name }} is ready</MiText>
       <MiText variant="footnote" tone="label2">Copy the secret now: it is shown once. {{ created.count }} scopes, expires {{ created.expires }}.</MiText>
-      <div class="ask__secret">
-        <code>{{ created.secret }}</code>
-        <MiCopyButton :value="created.secret" label="Copy secret" />
+      <div class="ask__secret mi:flex mi:flex-wrap mi:items-center mi:gap-2.5 mi:w-full mi:py-2.5 mi:px-3 mi:rounded-md mi:[background:var(--mi-fill4)]">
+        <code class="mi:[.ask__secret_code&]:min-w-0 mi:[.ask__secret_code&]:wrap-anywhere">{{ created.secret }}</code>
+        <MiCopyButton class="mi:[.ask__secret_code&]:min-w-0 mi:[.ask__secret_code&]:wrap-anywhere" :value="created.secret" label="Copy secret" />
       </div>
       <MiButton variant="gray" @click="reset">Create another key</MiButton>
     </div>
 
-    <form v-else class="ask__form" novalidate @submit.prevent="submit">
-      <div class="ask__meta">
+    <form v-else class="ask__form mi:grid mi:gap-4 mi:p-5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1" novalidate @submit.prevent="submit">
+      <div class="ask__meta mi:grid mi:gap-4 mi:grid-cols-[minmax(0,_1fr)] mi:@[620px]/ask:grid-cols-[minmax(0,_1.6fr)_minmax(0,_1fr)]">
         <MiField label="Key name" required :error="err('name')" hint="Shown in logs, e.g. the service that uses it.">
           <MiInput v-model="name" placeholder="Shopify order sync" />
         </MiField>
@@ -28,30 +28,30 @@
         </MiField>
       </div>
 
-      <div class="ask__transfer">
-        <div v-for="side in sides" :key="side.id" class="ask__pane" :class="'ask__pane--' + side.id">
-          <div class="ask__pane-head">
+      <div class="ask__transfer mi:grid mi:gap-3 mi:grid-cols-[minmax(0,_1fr)] mi:@[700px]/ask:grid-cols-[minmax(0,_1fr)_auto_minmax(0,_1fr)] mi:@[700px]/ask:items-stretch">
+        <div v-for="side in sides" :key="side.id" class="ask__pane mi:grid mi:grid-rows-[auto_auto_1fr] mi:gap-2.5 mi:min-w-0 mi:p-3.5 mi:rounded-lg mi:[background:var(--mi-fill4)]" :class="'ask__pane--' + side.id">
+          <div class="ask__pane-head mi:flex mi:items-baseline mi:justify-between mi:gap-2">
             <MiText :id="'ask-' + side.id + '-t'" as="h3" variant="subheadline" weight="semibold">{{ side.title }}</MiText>
             <MiText variant="caption" tone="label2" tabular>{{ lists[side.id].length }}</MiText>
           </div>
           <MiSearch v-model="query[side.id]" size="compact" :placeholder="'Filter ' + side.title.toLowerCase()" :aria-label="'Filter ' + side.title.toLowerCase()" />
-          <div class="ask__list">
+          <div class="ask__list mi:max-h-66 mi:overflow-y-auto mi:overscroll-contain mi:-mx-1 mi:px-1">
             <MiCheckboxGroup v-if="visible(side.id).length" v-model="pick[side.id]" :label="side.title">
               <MiCheckbox v-for="s in visible(side.id)" :key="s.id" :value="s.id" class="ask__row" @dblclick="move(side.id, [s.id])">
-                <span class="ask__row-body">
-                  <span class="ask__row-top">
-                    <code class="ask__code">{{ s.id }}</code>
-                    <span class="ask__lvl" :class="'is-' + s.level">{{ s.level }}</span>
+                <span class="ask__row-body mi:grid mi:gap-0.5 mi:min-w-0">
+                  <span class="ask__row-top mi:flex mi:flex-wrap mi:items-center mi:gap-y-1.5 mi:gap-x-2">
+                    <code class="ask__code mi:font-[ui-monospace,_SFMono-Regular,_Menlo,_monospace] mi:text-[12.5px] mi:text-label">{{ s.id }}</code>
+                    <span class="ask__lvl mi:py-px mi:px-1.5 mi:rounded-[5px] mi:text-[10.5px] mi:font-bold mi:tracking-[.04em] mi:uppercase" :class="'is-' + s.level">{{ s.level }}</span>
                   </span>
-                  <span class="ask__desc">{{ s.desc }}</span>
+                  <span class="ask__desc mi:text-[12.5px] mi:leading-[1.4] mi:text-label2">{{ s.desc }}</span>
                 </span>
               </MiCheckbox>
             </MiCheckboxGroup>
-            <p v-else class="ask__empty">{{ side.id === 'granted' && !granted.length ? 'No scopes yet. Select some on the left and grant them.' : 'Nothing matches this filter.' }}</p>
+            <p v-else class="ask__empty mi:my-2 mi:mx-0.5 mi:text-[13px] mi:leading-[1.45] mi:text-label3">{{ side.id === 'granted' && !granted.length ? 'No scopes yet. Select some on the left and grant them.' : 'Nothing matches this filter.' }}</p>
           </div>
         </div>
 
-        <div class="ask__moves" role="group" aria-label="Move scopes">
+        <div class="ask__moves mi:@[700px]/ask:order-2 mi:@[700px]/ask:flex-col mi:flex mi:flex-wrap mi:gap-2" role="group" aria-label="Move scopes">
           <MiButton variant="tinted" size="small" :disabled="!pick.avail.length" @click="move('avail', pick.avail)">
             Grant<template #trailing><MiIcon name="arrow-right" :size="14" class="ask__arrow" /></template>
           </MiButton>
@@ -64,13 +64,13 @@
       <MiText v-if="err('scopes')" variant="footnote" tone="red" role="alert">{{ err('scopes') }}</MiText>
 
       <!-- Risk readout: what this key can do, in plain words. -->
-      <div class="ask__risk" :style="{ '--ask-risk': risk.color }">
-        <div class="ask__risk-top">
+      <div class="ask__risk mi:grid mi:gap-2 mi:py-3.5 mi:px-4 mi:rounded-lg" :style="{ '--ask-risk': risk.color }">
+        <div class="ask__risk-top mi:flex mi:items-baseline mi:justify-between mi:gap-2">
           <MiText as="h3" variant="subheadline" weight="semibold">Blast radius: {{ risk.label }}</MiText>
           <MiText variant="caption" tone="label2" tabular>{{ score }} / {{ maxScore }}</MiText>
         </div>
-        <div class="ask__meter" role="meter" aria-label="Key risk" :aria-valuenow="score" aria-valuemin="0" :aria-valuemax="maxScore" :aria-valuetext="risk.label">
-          <span :style="{ transform: `scaleX(${Math.max(score / maxScore, 0.02)})` }" />
+        <div class="ask__meter mi:h-1.5 mi:rounded-[3px] mi:[background:var(--mi-fill3)] mi:overflow-hidden" role="meter" aria-label="Key risk" :aria-valuenow="score" aria-valuemin="0" :aria-valuemax="maxScore" :aria-valuetext="risk.label">
+          <span class="mi:[.ask__meter_&]:block mi:[.ask__meter_&]:h-full mi:[.ask__meter_&]:origin-left mi:[.ask__meter_&]:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleX(${Math.max(score / maxScore, 0.02)})` }" />
         </div>
         <MiText variant="footnote" tone="label2">{{ sentence }}</MiText>
         <MiCheckbox
@@ -80,7 +80,7 @@
         <MiText v-if="err('ack')" variant="caption" tone="red" role="alert">{{ err('ack') }}</MiText>
       </div>
 
-      <div class="ask__actions">
+      <div class="ask__actions mi:flex mi:flex-wrap mi:[justify-content:flex-end] mi:gap-2.5">
         <MiButton variant="gray" @click="reset">Cancel</MiButton>
         <MiButton type="submit" :loading="saving">Create {{ env === 'live' ? 'live' : 'test' }} key</MiButton>
       </div>
@@ -214,45 +214,22 @@ function reset() {
 </script>
 
 <style scoped>
-.ask { container: ask / inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
-.ask__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.ask__form, .ask__done { display: grid; gap: 16px; padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.ask__meta { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); }
-@container ask (min-width: 620px) { .ask__meta { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); } }
-
-.ask__transfer { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); }
 @container ask (min-width: 700px) {
-  .ask__transfer { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: stretch; }
   .ask__pane--granted { order: 3; }
-  .ask__moves { order: 2; flex-direction: column; justify-content: center; }
+  .ask__moves { justify-content: center; }
 }
-.ask__pane { display: grid; grid-template-rows: auto auto 1fr; gap: 10px; min-width: 0; padding: 14px; border-radius: var(--mi-radius-l); background: var(--mi-fill4); }
 .ask__pane--granted { background: color-mix(in srgb, var(--mi-p) 7%, var(--mi-fill4)); }
-.ask__pane-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
-.ask__list { max-height: 264px; overflow-y: auto; overscroll-behavior: contain; margin-inline: -4px; padding-inline: 4px; }
 .ask__row { padding: 8px 6px; border-radius: 10px; }
 .ask__row + .ask__row { border-top: 1px solid var(--mi-sep); }
-.ask__row-body { display: grid; gap: 2px; min-width: 0; }
-.ask__row-top { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; }
-.ask__code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12.5px; color: var(--mi-label); }
-.ask__desc { font-size: 12.5px; line-height: 1.4; color: var(--mi-label2); }
-.ask__lvl { padding: 1px 6px; border-radius: 5px; font-size: 10.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
 .ask__lvl.is-read { color: var(--mi-green-t); background: color-mix(in srgb, var(--mi-green) 14%, transparent); }
 .ask__lvl.is-write { color: var(--mi-orange-t); background: color-mix(in srgb, var(--mi-orange) 16%, transparent); }
 .ask__lvl.is-admin { color: var(--mi-red-t); background: color-mix(in srgb, var(--mi-red) 14%, transparent); }
-.ask__empty { margin: 8px 2px; font-size: 13px; line-height: 1.45; color: var(--mi-label3); }
-.ask__moves { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.ask__moves { justify-content: center; }
 .ask__arrow { transform: rotate(90deg); }
 @container ask (min-width: 700px) { .ask__arrow { transform: none; } }
 
-.ask__risk { display: grid; gap: 8px; padding: 14px 16px; border-radius: var(--mi-radius-l); border: 1px solid var(--mi-sep); border-left: 3px solid var(--ask-risk); }
-.ask__risk-top { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
-.ask__meter { height: 6px; border-radius: 3px; background: var(--mi-fill3); overflow: hidden; }
-.ask__meter span { display: block; height: 100%; border-radius: inherit; background: var(--ask-risk); transform-origin: left; transition: transform var(--mi-dur-4) var(--mi-spring); }
+.ask__risk { border: 1px solid var(--mi-sep); border-left: 3px solid var(--ask-risk); }
+.ask__meter span { border-radius: inherit; background: var(--ask-risk); }
 .ask__ack { margin-top: 4px; }
-.ask__actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px; }
-
-.ask__done { justify-items: start; }
-.ask__secret { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; width: 100%; padding: 10px 12px; border-radius: var(--mi-radius-m); background: var(--mi-fill4); }
-.ask__secret code { flex: 1 1 200px; min-width: 0; overflow-wrap: anywhere; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; }
+.ask__secret code { flex: 1 1 200px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; }
 </style>

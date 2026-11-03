@@ -1,54 +1,54 @@
 <template>
-  <section class="smd" aria-labelledby="smd-title">
-    <div class="smd__in">
+  <section class="smd mi:@container mi:min-h-full mi:font-mi mi:text-label mi:[background:var(--mi-page)]" aria-labelledby="smd-title">
+    <div class="smd__in mi:grid mi:content-start mi:min-h-full">
       <!-- Shell: a single top bar, no sidebar. The section links scroll inside their own strip on narrow widths. -->
-      <header class="smd__bar">
-        <div class="smd__brand">
-          <span class="smd__mark" aria-hidden="true"><i /><i /><i /></span>
+      <header class="smd__bar mi:grid mi:grid-cols-[auto_minmax(0,_1fr)_auto] mi:[grid-template-areas:'brand_._tools'_'nav_nav_nav'] mi:items-center mi:gap-y-1 mi:gap-x-3 mi:pt-2.5 mi:px-4 mi:pb-0 mi:[background:var(--mi-card)] mi:border-b mi:border-b-sep mi:@[560px]:grid-cols-[auto_minmax(0,_1fr)_auto] mi:@[560px]:[grid-template-areas:'brand_nav_tools'] mi:@[560px]:py-0 mi:@[560px]:px-5">
+        <div class="smd__brand mi:[grid-area:brand] mi:flex mi:items-center mi:gap-[9px]">
+          <span class="smd__mark mi:flex mi:[align-items:flex-end] mi:gap-0.5 mi:w-6.5 mi:h-6.5 mi:py-1.5 mi:px-[5px] mi:rounded-[8px] mi:[background:var(--mi-p)]" aria-hidden="true"><i class="mi:[.smd__mark_&]:flex-1 mi:[.smd__mark_&]:rounded-[1.5px] mi:[.smd__mark_&]:[background:var(--mi-p-on)] mi:[.smd__mark_&:nth-child(1)]:h-[45%] mi:[.smd__mark_&:nth-child(1)]:opacity-60 mi:[.smd__mark_&:nth-child(2)]:h-[75%] mi:[.smd__mark_&:nth-child(2)]:opacity-80 mi:[.smd__mark_&:nth-child(3)]:h-full" /><i class="mi:[.smd__mark_&]:flex-1 mi:[.smd__mark_&]:rounded-[1.5px] mi:[.smd__mark_&]:[background:var(--mi-p-on)] mi:[.smd__mark_&:nth-child(1)]:h-[45%] mi:[.smd__mark_&:nth-child(1)]:opacity-60 mi:[.smd__mark_&:nth-child(2)]:h-[75%] mi:[.smd__mark_&:nth-child(2)]:opacity-80 mi:[.smd__mark_&:nth-child(3)]:h-full" /><i class="mi:[.smd__mark_&]:flex-1 mi:[.smd__mark_&]:rounded-[1.5px] mi:[.smd__mark_&]:[background:var(--mi-p-on)] mi:[.smd__mark_&:nth-child(1)]:h-[45%] mi:[.smd__mark_&:nth-child(1)]:opacity-60 mi:[.smd__mark_&:nth-child(2)]:h-[75%] mi:[.smd__mark_&:nth-child(2)]:opacity-80 mi:[.smd__mark_&:nth-child(3)]:h-full" /></span>
           <MiText as="span" variant="subheadline" weight="bold">Plover</MiText>
         </div>
-        <nav class="smd__nav" aria-label="Workspace">
+        <nav class="smd__nav mi:[grid-area:nav] mi:flex mi:gap-5.5 mi:overflow-x-auto mi:[scrollbar-width:none] mi:-mx-4 mi:px-4 mi:@[560px]:m-0 mi:@[560px]:pt-0 mi:@[560px]:pr-0 mi:@[560px]:pb-0 mi:@[560px]:pl-5" aria-label="Workspace">
           <a
-            v-for="l in links" :key="l" href="#" class="smd__link"
+            v-for="l in links" :key="l" href="#" class="smd__link mi:relative mi:pt-3 mi:px-0 mi:pb-[13px] mi:text-[14px] mi:font-medium mi:text-label2 mi:[text-decoration:none] mi:whitespace-nowrap mi:rounded-[4px] mi:after:content-[''] mi:after:absolute mi:after:left-0 mi:after:right-0 mi:after:-bottom-px mi:after:h-0.5 mi:after:rounded-[2px] mi:after:[background:var(--mi-p)] mi:after:transform-[scaleX(0)] mi:after:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:[&[aria-current='page']]:font-semibold mi:[&[aria-current='page']]:after:transform-[scaleX(1)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px] mi:@[560px]:pt-4.5 mi:@[560px]:px-0 mi:@[560px]:pb-[19px]"
             :aria-current="l === 'Revenue' ? 'page' : undefined" @click.prevent
           >{{ l }}</a>
         </nav>
-        <div class="smd__tools">
-          <MiIconButton label="Search" variant="plain" size="regular"><MiIcon name="search" :size="18" /></MiIconButton>
-          <MiIconButton label="Notifications" variant="plain" size="regular"><MiIcon name="bell" :size="18" /></MiIconButton>
+        <div class="smd__tools mi:[grid-area:tools] mi:flex mi:items-center mi:gap-0.5">
+          <MiIconButton label="Search" variant="plain" size="regular"><MiIcon class="mi:[.smd__table_thead_th&]:text-[11px] mi:[.smd__table_thead_th&]:font-semibold mi:[.smd__table_thead_th&]:text-label3 mi:[.smd__table_thead_th&:first-child]:text-start mi:[.smd__table_tbody_th&]:whitespace-nowrap mi:[.smd__table_tbody_th_small&]:text-label3" name="search" :size="18" /></MiIconButton>
+          <MiIconButton label="Notifications" variant="plain" size="regular"><MiIcon class="mi:[.smd__table_thead_th&]:text-[11px] mi:[.smd__table_thead_th&]:font-semibold mi:[.smd__table_thead_th&]:text-label3 mi:[.smd__table_thead_th&:first-child]:text-start mi:[.smd__table_tbody_th&]:whitespace-nowrap mi:[.smd__table_tbody_th_small&]:text-label3" name="bell" :size="18" /></MiIconButton>
           <MiAvatar name="Noor Haddad" size="sm" tone="auto" />
         </div>
       </header>
 
-      <div class="smd__page">
-        <div class="smd__head">
+      <div class="smd__page mi:grid mi:gap-4.5 mi:pt-5 mi:px-3 mi:pb-6 mi:min-w-0 mi:@[560px]:pt-6 mi:@[560px]:px-5 mi:@[560px]:pb-7 mi:@[1040px]:pt-7 mi:@[1040px]:px-8 mi:@[1040px]:pb-8 mi:@[1040px]:gap-5">
+        <div class="smd__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
           <div>
             <MiText variant="caption" tone="label2" weight="medium" class="smd__eyebrow">October 2026 · books closed Nov 1</MiText>
             <MiText id="smd-title" as="h2" variant="title2" weight="bold">Revenue</MiText>
           </div>
-          <div class="smd__head-actions">
+          <div class="smd__head-actions mi:flex mi:items-center mi:gap-2.5">
             <MiSegmented v-model="currency" label="Currency" :options="[{ value: 'usd', label: 'USD' }, { value: 'eur', label: 'EUR' }]" />
             <MiButton variant="gray" size="small">
-              <template #leading><MiIcon name="share" :size="15" /></template>
+              <template #leading><MiIcon class="mi:[.smd__table_thead_th&]:text-[11px] mi:[.smd__table_thead_th&]:font-semibold mi:[.smd__table_thead_th&]:text-label3 mi:[.smd__table_thead_th&:first-child]:text-start mi:[.smd__table_tbody_th&]:whitespace-nowrap mi:[.smd__table_tbody_th_small&]:text-label3" name="share" :size="15" /></template>
               Export
             </MiButton>
           </div>
         </div>
 
         <!-- Headline figures share one strip with hairline dividers instead of four separate cards. -->
-        <dl class="smd__facts">
-          <div v-for="f in facts" :key="f.label" class="smd__fact">
-            <dt>{{ f.label }}</dt>
-            <dd>
-              <span class="smd__fact-value">{{ f.value }}</span>
-              <span class="smd__fact-delta" :class="f.good ? 'is-good' : 'is-bad'">{{ f.delta }}</span>
+        <dl class="smd__facts mi:grid mi:grid-cols-2 mi:m-0 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:overflow-hidden mi:@[760px]:grid-cols-4">
+          <div v-for="f in facts" :key="f.label" class="smd__fact mi:grid mi:gap-1.5 mi:py-3.5 mi:px-4 mi:even:border-l mi:even:border-l-sep mi:[&:nth-child(n+3)]:border-t mi:[&:nth-child(n+3)]:border-t-sep mi:@[760px]:py-4 mi:@[760px]:px-5 mi:@[760px]:[.smd__fact+&]:border-l mi:@[760px]:[.smd__fact+&]:border-l-sep mi:@[760px]:[&:nth-child(n+3)]:[border-top:0]">
+            <dt class="mi:[.smd__fact_&]:text-[12px] mi:[.smd__fact_&]:font-medium mi:[.smd__fact_&]:text-label2">{{ f.label }}</dt>
+            <dd class="mi:[.smd__fact_&]:flex mi:[.smd__fact_&]:flex-wrap mi:[.smd__fact_&]:items-baseline mi:[.smd__fact_&]:gap-y-1 mi:[.smd__fact_&]:gap-x-2">
+              <span class="smd__fact-value mi:text-[22px] mi:font-bold mi:tracking-[-.03em] mi:tabular-nums mi:@[760px]:text-[26px]">{{ f.value }}</span>
+              <span class="smd__fact-delta mi:text-[12px] mi:font-semibold mi:tabular-nums" :class="f.good ? 'is-good' : 'is-bad'">{{ f.delta }}</span>
             </dd>
           </div>
         </dl>
 
-        <div class="smd__grid">
-          <article class="smd__card smd__flow" aria-labelledby="smd-flow">
-            <div class="smd__card-head">
+        <div class="smd__grid mi:grid mi:gap-4 mi:min-w-0 mi:@[1040px]:grid-cols-[minmax(0,_1.45fr)_minmax(0,_1fr)] mi:@[1040px]:items-stretch">
+          <article class="smd__card smd__flow mi:grid mi:content-start mi:gap-4 mi:min-w-0 mi:py-4 mi:px-3.5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:@[560px]:p-4.5 mi:@[1040px]:py-5 mi:@[1040px]:px-5.5" aria-labelledby="smd-flow">
+            <div class="smd__card-head mi:flex mi:flex-wrap mi:[align-items:flex-start] mi:justify-between mi:gap-2.5">
               <div>
                 <MiText id="smd-flow" as="h3" variant="headline" weight="semibold">MRR movement</MiText>
                 <MiText variant="caption" tone="label2">Select a step to see the accounts behind it</MiText>
@@ -56,47 +56,47 @@
               <MiText variant="caption" tone="label3" tabular>Axis starts at {{ money(DOMAIN[0]) }}</MiText>
             </div>
 
-            <div class="smd__chart">
-              <div class="smd__ticks" aria-hidden="true">
-                <span v-for="t in ticks" :key="t" :style="{ bottom: pct(t - DOMAIN[0]) }"><em>{{ money(t) }}</em></span>
+            <div class="smd__chart mi:relative mi:grid mi:grid-cols-[36px_minmax(0,_1fr)] mi:grid-rows-[220px_auto] mi:@[560px]:grid-cols-[42px_minmax(0,_1fr)]">
+              <div class="smd__ticks mi:relative mi:row-[1] mi:col-span-full mi:pointer-events-none" aria-hidden="true">
+                <span class="mi:[.smd__ticks_&]:right-0 mi:[.smd__ticks_&]:[border-top:1px_dashed_var(--mi-sep)] mi:[.smd__ticks_&:first-child]:[border-top-style:solid]" v-for="t in ticks" :key="t" :style="{ bottom: pct(t - DOMAIN[0]) }"><em class="mi:[.smd__ticks_&]:w-7.5 mi:[.smd__ticks_&]:-top-1.5 mi:[.smd__ticks_&]:not-italic mi:[.smd__ticks_&]:leading-none mi:[.smd__ticks_&]:tabular-nums mi:@[560px]:[.smd__ticks_&]:w-8.5">{{ money(t) }}</em></span>
               </div>
-              <div class="smd__cols" role="group" aria-label="MRR movement steps">
-                <div v-for="(s, i) in steps" :key="s.id" class="smd__col">
+              <div class="smd__cols mi:row-[1] mi:col-[2] mi:grid mi:grid-cols-6" role="group" aria-label="MRR movement steps">
+                <div v-for="(s, i) in steps" :key="s.id" class="smd__col mi:relative">
                   <button
-                    type="button" class="smd__bar-btn" :class="['is-' + s.kind, { 'is-on': active === s.id }]"
+                    type="button" class="smd__bar-btn mi:absolute mi:left-[20%] mi:right-[20%] mi:p-0 mi:[border:0] mi:rounded-[5px] mi:[background:transparent] mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[3px]" :class="['is-' + s.kind, { 'is-on': active === s.id }]"
                     :style="{ bottom: pct(s.low - DOMAIN[0]), height: pct(s.high - s.low) }"
                     :aria-pressed="active === s.id" :aria-label="`${s.label}: ${signed(s)}`"
                     @click="active = s.id"
                   >
-                    <span class="smd__bar-fill" :style="{ animationDelay: i * 60 + 'ms' }" />
+                    <span class="smd__bar-fill mi:block mi:w-full mi:h-full mi:rounded-[inherit] mi:origin-bottom mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)] mi:[.smd__cols:has(.is-on)_.smd__bar-btn:not(.is-on)_&]:opacity-55 mi:[.smd__bar-btn:hover_&]:opacity-100!" :style="{ animationDelay: i * 60 + 'ms' }" />
                   </button>
-                  <span class="smd__bar-val" :class="['is-' + s.kind, { 'is-on': active === s.id }]" :style="{ bottom: pct(s.high - DOMAIN[0]) }" aria-hidden="true">{{ signed(s) }}</span>
-                  <span v-if="i < steps.length - 1" class="smd__join" :style="{ bottom: pct(s.level - DOMAIN[0]) }" aria-hidden="true" />
+                  <span class="smd__bar-val mi:absolute mi:left-1/2 mi:mb-1.5 mi:text-[10.5px] mi:font-semibold mi:whitespace-nowrap mi:text-label2 mi:tabular-nums mi:transform-[translateX(-50%)] mi:pointer-events-none mi:@[560px]:text-[11px]" :class="['is-' + s.kind, { 'is-on': active === s.id }]" :style="{ bottom: pct(s.high - DOMAIN[0]) }" aria-hidden="true">{{ signed(s) }}</span>
+                  <span v-if="i < steps.length - 1" class="smd__join mi:absolute mi:left-[80%] mi:right-[-20%] mi:h-0 mi:[border-top:1px_dashed_var(--mi-label3)] mi:opacity-60" :style="{ bottom: pct(s.level - DOMAIN[0]) }" aria-hidden="true" />
                 </div>
               </div>
-              <div class="smd__labels" aria-hidden="true">
-                <span v-for="s in steps" :key="s.id" :class="{ 'is-on': active === s.id }">{{ s.short }}</span>
+              <div class="smd__labels mi:row-[2] mi:col-[2] mi:grid mi:grid-cols-6 mi:pt-2" aria-hidden="true">
+                <span class="mi:[.smd__labels_&]:font-medium mi:[.smd__labels_&]:whitespace-nowrap" v-for="s in steps" :key="s.id" :class="{ 'is-on': active === s.id }">{{ s.short }}</span>
               </div>
             </div>
 
-            <div class="smd__detail" aria-live="polite">
-              <div class="smd__detail-head">
+            <div class="smd__detail mi:grid mi:gap-2.5 mi:p-3.5 mi:rounded-lg mi:[background:var(--mi-fill4)]" aria-live="polite">
+              <div class="smd__detail-head mi:flex mi:flex-wrap mi:items-baseline mi:justify-between mi:gap-y-0.5 mi:gap-x-3">
                 <MiText as="h4" variant="subheadline" weight="semibold">{{ current.label }}</MiText>
                 <MiText variant="footnote" tone="label2" tabular>{{ current.note }}</MiText>
               </div>
-              <ul class="smd__rows">
-                <li v-for="r in current.rows" :key="r.name">
-                  <MiAvatar :name="r.name" size="xs" tone="auto" shape="square" decorative />
-                  <span class="smd__row-name">{{ r.name }}</span>
-                  <span class="smd__row-sub">{{ r.sub }}</span>
-                  <span class="smd__row-amt" :class="'is-' + current.kind">{{ r.amount }}</span>
+              <ul class="smd__rows mi:grid mi:m-0 mi:p-0 mi:[list-style:none] mi:@[560px]:grid-cols-2 mi:@[560px]:gap-x-6">
+                <li class="mi:[.smd__rows_li&]:grid-cols-[auto_minmax(0,_1fr)_auto] mi:[.smd__rows_li&]:[grid-template-areas:'av_name_amt'_'av_sub_amt'] mi:[.smd__rows_li&]:gap-x-2.5 mi:@[560px]:[.smd__rows_li&:nth-child(2)]:[border-top:0]" v-for="r in current.rows" :key="r.name">
+                  <MiAvatar class="mi:[.smd__rows_li&]:grid-cols-[auto_minmax(0,_1fr)_auto] mi:[.smd__rows_li&]:[grid-template-areas:'av_name_amt'_'av_sub_amt'] mi:[.smd__rows_li&]:gap-x-2.5 mi:@[560px]:[.smd__rows_li&:nth-child(2)]:[border-top:0]" :name="r.name" size="xs" tone="auto" shape="square" decorative />
+                  <span class="smd__row-name mi:[grid-area:name] mi:min-w-0 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:text-[13.5px] mi:font-550">{{ r.name }}</span>
+                  <span class="smd__row-sub mi:[grid-area:sub] mi:min-w-0 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:text-[12px] mi:text-label2">{{ r.sub }}</span>
+                  <span class="smd__row-amt mi:[grid-area:amt] mi:text-[13.5px] mi:font-semibold mi:tabular-nums" :class="'is-' + current.kind">{{ r.amount }}</span>
                 </li>
               </ul>
             </div>
           </article>
 
-          <article class="smd__card smd__cohort" aria-labelledby="smd-cohort">
-            <div class="smd__card-head">
+          <article class="smd__card smd__cohort mi:grid mi:content-start mi:gap-4 mi:min-w-0 mi:py-4 mi:px-3.5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:@[560px]:p-4.5 mi:@[1040px]:py-5 mi:@[1040px]:px-5.5" aria-labelledby="smd-cohort">
+            <div class="smd__card-head mi:flex mi:flex-wrap mi:[align-items:flex-start] mi:justify-between mi:gap-2.5">
               <div>
                 <MiText id="smd-cohort" as="h3" variant="headline" weight="semibold">Retention by signup cohort</MiText>
                 <MiText variant="caption" tone="label2">{{ basis === 'revenue' ? 'Net revenue kept, expansion included' : 'Share of customers still paying' }}</MiText>
@@ -104,22 +104,22 @@
               <MiSegmented v-model="basis" label="Retention basis" :options="[{ value: 'revenue', label: 'Revenue' }, { value: 'logos', label: 'Logos' }]" />
             </div>
 
-            <div class="smd__table-wrap">
-              <table class="smd__table">
-                <caption class="smd__sr">{{ basis === 'revenue' ? 'Net revenue retention' : 'Logo retention' }} by month since signup</caption>
+            <div class="smd__table-wrap mi:overflow-x-auto mi:-mx-1 mi:px-1">
+              <table class="smd__table mi:w-full mi:border-separate mi:[border-spacing:2px] mi:tabular-nums mi:@[560px]:[border-spacing:3px]">
+                <caption class="smd__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">{{ basis === 'revenue' ? 'Net revenue retention' : 'Logo retention' }} by month since signup</caption>
                 <thead>
                   <tr>
-                    <th scope="col">Cohort</th>
-                    <th v-for="m in 6" :key="m" scope="col">M{{ m - 1 }}</th>
+                    <th class="mi:[.smd__table_thead_th&]:text-[11px] mi:[.smd__table_thead_th&]:font-semibold mi:[.smd__table_thead_th&]:text-label3 mi:[.smd__table_thead_th&:first-child]:text-start" scope="col">Cohort</th>
+                    <th class="mi:[.smd__table_thead_th&]:text-[11px] mi:[.smd__table_thead_th&]:font-semibold mi:[.smd__table_thead_th&]:text-label3 mi:[.smd__table_thead_th&:first-child]:text-start" v-for="m in 6" :key="m" scope="col">M{{ m - 1 }}</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr v-for="c in cohortRows" :key="c.month">
-                    <th scope="row">
+                    <th class="mi:[.smd__table_tbody_th&]:whitespace-nowrap" scope="row">
                       <span>{{ c.month }}</span>
-                      <small>{{ c.size }}</small>
+                      <small class="mi:[.smd__table_tbody_th_small&]:text-label3">{{ c.size }}</small>
                     </th>
-                    <td v-for="(v, j) in c.cells" :key="j" :class="{ 'is-empty': v === null, 'is-up': v !== null && v > 100 }" :style="v === null ? undefined : { '--smd-shade': shade(v) }">
+                    <td class="mi:[.smd__table_&]:rounded-[6px] mi:[.smd__table_&]:font-550 mi:[.smd__table_&]:[background:color-mix(in_srgb,_var(--mi-p)_var(--smd-shade,_0%),_transparent)] mi:[.smd__table_&]:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)]" v-for="(v, j) in c.cells" :key="j" :class="{ 'is-empty': v === null, 'is-up': v !== null && v > 100 }" :style="v === null ? undefined : { '--smd-shade': shade(v) }">
                       {{ v === null ? '' : v + '%' }}
                     </td>
                   </tr>
@@ -127,11 +127,11 @@
               </table>
             </div>
 
-            <div class="smd__legend">
-              <span class="smd__ramp" aria-hidden="true" />
+            <div class="smd__legend mi:grid mi:grid-cols-[auto_auto_1fr] mi:[grid-template-areas:'lo_ramp_hi'_'ins_ins_ins'] mi:items-center mi:gap-y-2.5 mi:gap-x-2">
+              <span class="smd__ramp mi:[grid-area:ramp] mi:w-24 mi:h-1.5 mi:rounded-[3px] mi:[background:linear-gradient(90deg,_color-mix(in_srgb,_var(--mi-p)_6%,_transparent),_color-mix(in_srgb,_var(--mi-p)_58%,_transparent))]" aria-hidden="true" />
               <MiText variant="caption2" tone="label3" tabular>{{ basis === 'revenue' ? '85%' : '70%' }}</MiText>
               <MiText variant="caption2" tone="label3" tabular>{{ basis === 'revenue' ? '110%+' : '100%' }}</MiText>
-              <MiText variant="caption" tone="label2" class="smd__insight">
+              <MiText variant="caption" tone="label2" class="smd__insight mi:[grid-area:ins] mi:pt-2.5 mi:border-t mi:border-t-sep">
                 {{ basis === 'revenue'
                   ? 'Since July, cohorts pass 100% by month 3: seat add-ons outpace churn.'
                   : 'Logo churn concentrates in month 1, mostly Starter trials that never booked.' }}
@@ -258,134 +258,49 @@ function shade(v: number) {
 </script>
 
 <style scoped>
-.smd { container-type: inline-size; min-height: 100%; font-family: var(--mi-font); color: var(--mi-label); background: var(--mi-page); }
-.smd__in { display: grid; align-content: start; min-height: 100%; }
-.smd__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-
-/* Top bar */
-.smd__bar { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: "brand . tools" "nav nav nav"; align-items: center; gap: 4px 12px; padding: 10px 16px 0; background: var(--mi-card); border-bottom: 1px solid var(--mi-sep); }
-.smd__brand { grid-area: brand; display: flex; align-items: center; gap: 9px; }
-.smd__mark { display: flex; align-items: flex-end; gap: 2px; width: 26px; height: 26px; padding: 6px 5px; border-radius: 8px; background: var(--mi-p); }
-.smd__mark i { flex: 1; border-radius: 1.5px; background: var(--mi-p-on); }
-.smd__mark i:nth-child(1) { height: 45%; opacity: .6; }
-.smd__mark i:nth-child(2) { height: 75%; opacity: .8; }
-.smd__mark i:nth-child(3) { height: 100%; }
-.smd__tools { grid-area: tools; display: flex; align-items: center; gap: 2px; }
 .smd__tools > :last-child { margin-left: 8px; }
-.smd__nav { grid-area: nav; display: flex; gap: 22px; overflow-x: auto; scrollbar-width: none; margin-inline: -16px; padding-inline: 16px; }
-.smd__link { position: relative; padding: 12px 0 13px; font-size: 14px; font-weight: 500; color: var(--mi-label2); text-decoration: none; white-space: nowrap; border-radius: 4px; }
-.smd__link::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; border-radius: 2px; background: var(--mi-p); transform: scaleX(0); transition: transform var(--mi-dur-2) var(--mi-ease); }
 .smd__link:hover { color: var(--mi-label); }
-.smd__link[aria-current="page"] { color: var(--mi-label); font-weight: 600; }
-.smd__link[aria-current="page"]::after { transform: scaleX(1); }
-.smd__link:focus-visible { outline: 2px solid var(--mi-p); outline-offset: -2px; }
-
-.smd__page { display: grid; gap: 18px; padding: 20px 12px 24px; min-width: 0; }
-.smd__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
+.smd__link[aria-current="page"] { color: var(--mi-label); }
 .smd__eyebrow { margin-bottom: 2px; }
-.smd__head-actions { display: flex; align-items: center; gap: 10px; }
-
-/* Facts strip */
-.smd__facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 0; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); overflow: hidden; }
-.smd__fact { display: grid; gap: 6px; padding: 14px 16px; }
-.smd__fact:nth-child(even) { border-left: 1px solid var(--mi-sep); }
-.smd__fact:nth-child(n+3) { border-top: 1px solid var(--mi-sep); }
-.smd__fact dt { font-size: 12px; font-weight: 500; color: var(--mi-label2); }
-.smd__fact dd { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; margin: 0; }
-.smd__fact-value { font-size: 22px; font-weight: 700; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
-.smd__fact-delta { font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.smd__fact dd { margin: 0; }
 .smd__fact-delta.is-good { color: var(--mi-green-t); }
 .smd__fact-delta.is-bad { color: var(--mi-red-t); }
-
-.smd__grid { display: grid; gap: 16px; min-width: 0; }
-.smd__card { display: grid; align-content: start; gap: 16px; min-width: 0; padding: 16px 14px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.smd__card-head { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 10px; }
-
-/* Waterfall */
-.smd__chart { position: relative; display: grid; grid-template-columns: 36px minmax(0, 1fr); grid-template-rows: 220px auto; }
-.smd__ticks { position: relative; grid-row: 1; grid-column: 1 / -1; pointer-events: none; }
-.smd__ticks span { position: absolute; left: 36px; right: 0; height: 0; border-top: 1px dashed var(--mi-sep); }
-.smd__ticks span:first-child { border-top-style: solid; }
-.smd__ticks em { position: absolute; left: -36px; width: 30px; text-align: end; top: -6px; font-size: 10.5px; font-style: normal; line-height: 1; color: var(--mi-label3); font-variant-numeric: tabular-nums; }
-.smd__cols { grid-row: 1; grid-column: 2; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); }
-.smd__col { position: relative; }
-.smd__bar-btn { position: absolute; left: 20%; right: 20%; padding: 0; border: 0; border-radius: 5px; background: transparent; cursor: pointer; }
-.smd__bar-btn:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 3px; }
-.smd__bar-fill { display: block; width: 100%; height: 100%; border-radius: inherit; transform-origin: bottom; animation: smd-rise var(--mi-dur-4) var(--mi-spring) both; transition: opacity var(--mi-dur-2) var(--mi-ease); }
+.smd__ticks span { position: absolute; left: 36px; height: 0; }
+.smd__ticks em { position: absolute; left: -36px; text-align: end; font-size: 10.5px; color: var(--mi-label3); }
+.smd__bar-fill { animation: smd-rise var(--mi-dur-4) var(--mi-spring) both; }
 .smd__bar-btn.is-total .smd__bar-fill { background: linear-gradient(180deg, var(--mi-p), color-mix(in srgb, var(--mi-p) 72%, var(--mi-card))); }
 .smd__bar-btn.is-gain .smd__bar-fill { background: color-mix(in srgb, var(--mi-green) 78%, var(--mi-card)); }
 .smd__bar-btn.is-loss .smd__bar-fill { background: color-mix(in srgb, var(--mi-red) 72%, var(--mi-card)); }
-.smd__cols:has(.is-on) .smd__bar-btn:not(.is-on) .smd__bar-fill { opacity: .55; }
-.smd__bar-btn:hover .smd__bar-fill { opacity: 1 !important; }
-.smd__bar-val { position: absolute; left: 50%; margin-bottom: 6px; font-size: 10.5px; font-weight: 600; white-space: nowrap; color: var(--mi-label2); font-variant-numeric: tabular-nums; transform: translateX(-50%); pointer-events: none; }
 .smd__bar-val.is-gain { color: var(--mi-green-t); }
 .smd__bar-val.is-loss { color: var(--mi-red-t); }
-.smd__join { position: absolute; left: 80%; right: -20%; height: 0; border-top: 1px dashed var(--mi-label3); opacity: .6; }
-.smd__labels { grid-row: 2; grid-column: 2; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); padding-top: 8px; }
-.smd__labels span { font-size: 10px; font-weight: 500; text-align: center; color: var(--mi-label2); white-space: nowrap; }
+.smd__labels span { font-size: 10px; text-align: center; color: var(--mi-label2); }
 .smd__labels span.is-on { color: var(--mi-label); font-weight: 650; }
 .smd__bar-val.is-gain:not(.is-on), .smd__bar-val.is-loss:not(.is-on) { opacity: 0; }
 @keyframes smd-rise { from { transform: scaleY(0); opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .smd__bar-fill { animation: none; } }
-
-.smd__detail { display: grid; gap: 10px; padding: 14px; border-radius: var(--mi-radius-l); background: var(--mi-fill4); }
-.smd__detail-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 2px 12px; }
-.smd__rows { display: grid; margin: 0; padding: 0; list-style: none; }
-.smd__rows li { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: "av name amt" "av sub amt"; align-items: center; column-gap: 10px; padding: 8px 0; }
+.smd__rows li { display: grid; align-items: center; padding: 8px 0; }
 .smd__rows li + li { border-top: 1px solid var(--mi-sep); }
 .smd__rows li > :first-child { grid-area: av; }
-.smd__row-name { grid-area: name; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13.5px; font-weight: 550; }
-.smd__row-sub { grid-area: sub; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; color: var(--mi-label2); }
-.smd__row-amt { grid-area: amt; font-size: 13.5px; font-weight: 600; font-variant-numeric: tabular-nums; }
 .smd__row-amt.is-gain { color: var(--mi-green-t); }
 .smd__row-amt.is-loss { color: var(--mi-red-t); }
-
-/* Cohort heatmap */
-.smd__table-wrap { overflow-x: auto; margin-inline: -4px; padding-inline: 4px; }
-.smd__table { width: 100%; border-collapse: separate; border-spacing: 2px; font-variant-numeric: tabular-nums; }
-.smd__table thead th { padding: 0 0 4px; font-size: 11px; font-weight: 600; color: var(--mi-label3); text-align: center; }
-.smd__table thead th:first-child { text-align: start; }
-.smd__table tbody th { padding: 0 6px 0 0; text-align: start; white-space: nowrap; }
+.smd__table thead th { padding: 0 0 4px; text-align: center; }
+.smd__table tbody th { padding: 0 6px 0 0; text-align: start; }
 .smd__table tbody th span { display: block; font-size: 13px; font-weight: 600; }
-.smd__table tbody th small { display: block; font-size: 11px; font-weight: 400; color: var(--mi-label3); }
-.smd__table td { height: 36px; padding: 0; border-radius: 6px; font-size: 11px; font-weight: 550; text-align: center; color: var(--mi-label); background: color-mix(in srgb, var(--mi-p) var(--smd-shade, 0%), transparent); transition: opacity var(--mi-dur-2) var(--mi-ease); }
+.smd__table tbody th small { display: block; font-size: 11px; font-weight: 400; }
+.smd__table td { height: 36px; padding: 0; font-size: 11px; text-align: center; color: var(--mi-label); }
 .smd__table td.is-up { font-weight: 700; }
 .smd__table td.is-empty { background: repeating-linear-gradient(135deg, var(--mi-fill4) 0 4px, transparent 4px 8px); }
-
-.smd__legend { display: grid; grid-template-columns: auto auto 1fr; grid-template-areas: "lo ramp hi" "ins ins ins"; align-items: center; gap: 10px 8px; }
 .smd__legend > :nth-child(2) { grid-area: lo; }
-.smd__ramp { grid-area: ramp; width: 96px; height: 6px; border-radius: 3px; background: linear-gradient(90deg, color-mix(in srgb, var(--mi-p) 6%, transparent), color-mix(in srgb, var(--mi-p) 58%, transparent)); }
 .smd__legend > :nth-child(3) { grid-area: hi; }
-.smd__insight { grid-area: ins; padding-top: 10px; border-top: 1px solid var(--mi-sep); }
 
 @container (min-width: 560px) {
-  .smd__bar { grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: "brand nav tools"; padding: 0 20px; }
-  .smd__nav { margin: 0; padding: 0 0 0 20px; }
-  .smd__link { padding: 18px 0 19px; }
-  .smd__page { padding: 24px 20px 28px; }
-  .smd__rows { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; }
-  .smd__rows li:nth-child(2) { border-top: 0; }
-  .smd__card { padding: 18px; }
-  .smd__chart { grid-template-columns: 42px minmax(0, 1fr); }
   .smd__ticks span { left: 42px; }
-  .smd__ticks em { left: -42px; width: 34px; }
-  .smd__bar-val { font-size: 11px; }
+  .smd__ticks em { left: -42px; }
   .smd__bar-val.is-gain:not(.is-on), .smd__bar-val.is-loss:not(.is-on) { opacity: 1; }
   .smd__labels span { font-size: 11px; }
-  .smd__table { border-spacing: 3px; }
   .smd__table td { padding: 0 4px; font-size: 12px; height: 38px; }
 }
-@container (min-width: 760px) {
-  .smd__facts { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  .smd__fact { padding: 16px 20px; }
-  .smd__fact + .smd__fact { border-left: 1px solid var(--mi-sep); }
-  .smd__fact:nth-child(n+3) { border-top: 0; }
-  .smd__fact-value { font-size: 26px; }
-}
 @container (min-width: 1040px) {
-  .smd__page { padding: 28px 32px 32px; gap: 20px; }
-  .smd__grid { grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); align-items: stretch; }
-  .smd__card { padding: 20px 22px; }
   .smd__cohort .smd__insight { margin-top: auto; }
 }
 </style>
