@@ -76,7 +76,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, onBeforeUnmount } from 'vue'
+
+const timers = new Set<ReturnType<typeof setTimeout>>()
+function later(fn: () => void, ms: number) {
+  const t = setTimeout(() => { timers.delete(t); fn() }, ms)
+  timers.add(t)
+}
+onBeforeUnmount(() => { timers.forEach(clearTimeout); timers.clear() })
 
 const sparkMail = '<rect x="3" y="6" width="14" height="12" rx="2.5"/><path d="m4 8 6 4.5L16 8"/><path d="M20 3v4M18 5h4"/>'
 const fingerprint = '<path d="M12 11v3a8 8 0 0 1-1.2 4.2"/><path d="M8.5 13.5a3.5 3.5 0 0 1 7 0V15a12 12 0 0 1-.6 3.8"/><path d="M5.6 16A9 9 0 0 1 5 13a7 7 0 0 1 12.6-4.2"/><path d="M19 12.5V14a15 15 0 0 1-.4 3.4"/><path d="M8 4.3A9.5 9.5 0 0 1 20.5 9"/>'
@@ -89,7 +96,7 @@ const sent = ref(false)
 function sendLink() {
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mail.value)) { mailError.value = 'That email looks incomplete.'; return }
   sending.value = true
-  setTimeout(() => { sending.value = false; sent.value = true }, 700)
+  later(() => { sending.value = false; sent.value = true }, 700)
 }
 
 const pass = ref('')
@@ -104,7 +111,7 @@ const keyState = ref<'idle' | 'scanning' | 'ok'>('idle')
 const keyCopy = computed(() => ({ idle: 'Use Touch ID or your phone to confirm.', scanning: 'Waiting for your device…', ok: 'Signed in. Redirecting to your boards.' })[keyState.value])
 function usePasskey() {
   keyState.value = 'scanning'
-  setTimeout(() => { keyState.value = 'ok' }, 1400)
+  later(() => { keyState.value = 'ok' }, 1400)
 }
 </script>
 

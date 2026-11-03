@@ -1,11 +1,26 @@
 [
   {
     "file": "StepUpAuthDialog",
-    "title": { "en": "Step-up re-authentication dialog", "fr": "Dialogue de ré-authentification renforcée" },
+    "title": {
+      "en": "Step-up re-authentication dialog",
+      "fr": "Dialogue de ré-authentification renforcée"
+    },
     "summary": {
       "en": "A sensitive action asks for a fresh sign-in: password or passkey in a dialog over the API keys page, which then unlocks for ten minutes.",
       "fr": "Une action sensible demande une nouvelle connexion : mot de passe ou clé d'accès dans un dialogue au-dessus de la page des clés API, déverrouillée ensuite dix minutes."
     },
     "height": 580
+  },
+  {
+    "file": "SessionTimeoutDialog",
+    "title": {
+      "en": "Session timeout dialog",
+      "fr": "Dialogue d’expiration de session"
+    },
+    "summary": {
+      "en": "An idle-timeout warning with a countdown ring over a document with unsaved work; stay signed in, or let it expire into a sign-in form that keeps the draft.",
+      "fr": "Un avertissement d’inactivité avec anneau de compte à rebours au-dessus d’un document non enregistré ; restez connecté, ou laissez expirer vers un formulaire de connexion qui garde le brouillon."
+    },
+    "height": 560
   }
 ]

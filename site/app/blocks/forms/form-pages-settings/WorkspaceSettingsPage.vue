@@ -94,7 +94,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
+import { computed, reactive, ref, onBeforeUnmount } from 'vue'
+
+const timers = new Set<ReturnType<typeof setTimeout>>()
+function later(fn: () => void, ms: number) {
+  const t = setTimeout(() => { timers.delete(t); fn() }, ms)
+  timers.add(t)
+}
+onBeforeUnmount(() => { timers.forEach(clearTimeout); timers.clear() })
 
 type Val = string | number
 type SectionId = 'general' | 'region' | 'security'
@@ -197,12 +204,12 @@ function save() {
   if (bad) { active.value = fields[bad]!.section; return }
   if (!dirtyKeys.value.length) return
   saving.value = true
-  setTimeout(() => {
+  later(() => {
     saved.value = JSON.parse(JSON.stringify(draft)) as Settings
     saving.value = false
     submitted.value = false
     justSaved.value = true
-    setTimeout(() => { justSaved.value = false }, 2600)
+    later(() => { justSaved.value = false }, 2600)
   }, 600)
 }
 

@@ -10,5 +10,17 @@
       "fr": "Bulles vocales avec forme d’onde navigable, vitesse de lecture et transcription qui suit la lecture ; enregistrez et envoyez une note."
     },
     "height": 600
+  },
+  {
+    "file": "PushToTalkChannel",
+    "title": {
+      "en": "Push-to-talk channel",
+      "fr": "Canal talkie-walkie"
+    },
+    "summary": {
+      "en": "Walkie-talkie style voice clips with unheard dots, play-all-unheard in sequence and a hold-to-talk button that sends on release.",
+      "fr": "Clips vocaux façon talkie-walkie avec pastilles non écoutées, lecture enchaînée des nouveaux et bouton maintenir pour parler."
+    },
+    "height": 560
   }
 ]

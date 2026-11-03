@@ -123,7 +123,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, ref, watch } from 'vue'
+import { computed, reactive, ref, watch, onBeforeUnmount } from 'vue'
+
+const timers = new Set<ReturnType<typeof setTimeout>>()
+function later(fn: () => void, ms: number) {
+  const t = setTimeout(() => { timers.delete(t); fn() }, ms)
+  timers.add(t)
+}
+onBeforeUnmount(() => { timers.forEach(clearTimeout); timers.clear() })
 
 type Val = string | number
 
@@ -210,7 +217,7 @@ function submit() {
   submitted.value = true
   if (missing.value) return
   sending.value = true
-  setTimeout(() => {
+  later(() => {
     const steps = form.escalate.length
     declared.value = {
       id: `INC-${nextId++}`,

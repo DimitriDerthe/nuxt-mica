@@ -7,5 +7,14 @@
       "fr": "Les apps connectées affichent un pouls de synchronisation sur 24 h avec les échecs en rouge et un interrupteur de pause ; le catalogue se filtre par catégorie et recherche, et Connecter fait passer l'app dans la section active."
     },
     "height": 620
+  },
+  {
+    "file": "IntegrationScopeReview",
+    "title": { "en": "Integration permission review", "fr": "Revue des permissions d'intégration" },
+    "summary": {
+      "en": "Before authorizing an app: required and optional permissions marked read or write, a sync direction per object where two-way needs the matching write scope, and a meter that sums up the write access granted.",
+      "fr": "Avant d'autoriser une app : permissions obligatoires et facultatives marquées lecture ou écriture, un sens de synchronisation par objet où le bidirectionnel exige le droit d'écriture correspondant, et une jauge qui résume l'accès en écriture accordé."
+    },
+    "height": 600
   }
 ]

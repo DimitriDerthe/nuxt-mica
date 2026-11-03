@@ -73,7 +73,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
+import { computed, reactive, ref, onBeforeUnmount } from 'vue'
+
+const timers = new Set<ReturnType<typeof setTimeout>>()
+function later(fn: () => void, ms: number) {
+  const t = setTimeout(() => { timers.delete(t); fn() }, ms)
+  timers.add(t)
+}
+onBeforeUnmount(() => { timers.forEach(clearTimeout); timers.clear() })
 
 const fingerprint = '<path d="M12 11v3a8 8 0 0 1-1.2 4.2"/><path d="M8.5 13.5a3.5 3.5 0 0 1 7 0V15a12 12 0 0 1-.6 3.8"/><path d="M5.6 16A9 9 0 0 1 5 13a7 7 0 0 1 12.6-4.2"/><path d="M19 12.5V14a15 15 0 0 1-.4 3.4"/><path d="M8 4.3A9.5 9.5 0 0 1 20.5 9"/>'
 
@@ -139,11 +146,11 @@ function submit() {
   busy.value = true
   done.value = false
   // UI demo only: nothing is sent anywhere.
-  setTimeout(() => { busy.value = false; done.value = true }, 900)
+  later(() => { busy.value = false; done.value = true }, 900)
 }
 function passkey() {
   busy.value = true
-  setTimeout(() => { busy.value = false; done.value = true }, 700)
+  later(() => { busy.value = false; done.value = true }, 700)
 }
 </script>
 

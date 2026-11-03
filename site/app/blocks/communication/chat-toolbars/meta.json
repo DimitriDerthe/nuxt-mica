@@ -10,5 +10,17 @@
       "fr": "Une barre de conversation à trois modes : actions par défaut, recherche avec navigation entre résultats, et sélection multiple avec actions groupées."
     },
     "height": 520
+  },
+  {
+    "file": "MessageActionToolbar",
+    "title": {
+      "en": "Message action toolbar",
+      "fr": "Barre d’actions de message"
+    },
+    "summary": {
+      "en": "A per-message toolbar on hover or focus: quick reactions that count, reply with a quote in the composer, pin to a channel banner, copy and a more menu.",
+      "fr": "Une barre propre à chaque message au survol ou au focus : réactions rapides comptées, réponse citée dans la zone de saisie, épinglage en bannière, copie et menu d’actions."
+    },
+    "height": 520
   }
 ]

@@ -7,5 +7,14 @@
       "fr": "Un panneau latéral d'offres d'emploi aux vraies facettes : chaque nombre indique le résultat avec les autres filtres appliqués, les options vides se désactivent et les filtres actifs deviennent des puces amovibles."
     },
     "height": 620
+  },
+  {
+    "file": "FlightFilterPanel",
+    "title": { "en": "Flight search filters", "fr": "Filtres de recherche de vols" },
+    "summary": {
+      "en": "A flight filter panel with stops priced from the cheapest match, departure windows per leg, airlines with an Only shortcut and a travel time cap; the button carries the live count and lowest fare.",
+      "fr": "Un panneau de filtres de vols avec escales et prix minimum, créneaux de départ par trajet, compagnies avec raccourci « Seulement » et durée maximale ; le bouton affiche le nombre de vols et le tarif le plus bas en direct."
+    },
+    "height": 680
   }
 ]

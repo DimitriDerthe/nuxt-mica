@@ -119,7 +119,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, onBeforeUnmount } from 'vue'
+
+const timers = new Set<ReturnType<typeof setTimeout>>()
+function later(fn: () => void, ms: number) {
+  const t = setTimeout(() => { timers.delete(t); fn() }, ms)
+  timers.add(t)
+}
+onBeforeUnmount(() => { timers.forEach(clearTimeout); timers.clear() })
 
 type Method = 'passkey' | 'sso' | 'password'
 type Kind = 'new' | 'improved' | 'fixed'
@@ -186,7 +193,7 @@ function undo() {
 function finish() {
   busy.value = true
   // UI demo only: nothing is sent anywhere.
-  setTimeout(() => { busy.value = false; signedIn.value = true }, 800)
+  later(() => { busy.value = false; signedIn.value = true }, 800)
 }
 function continueAs() {
   if (current.value?.method === 'password') {

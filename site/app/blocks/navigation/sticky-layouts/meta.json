@@ -1,10 +1,26 @@
 [
   {
     "file": "StickyReleaseNotes",
-    "title": { "en": "Four-layer sticky release notes", "fr": "Notes de version collantes à quatre niveaux" },
+    "title": {
+      "en": "Four-layer sticky release notes",
+      "fr": "Notes de version collantes à quatre niveaux"
+    },
     "summary": {
       "en": "A self-scrolling changelog that stacks four sticky layers: a frosted header with a scroll-driven progress line, a version index that tracks the section in view, per-version headings and a feedback bar.",
       "fr": "Un journal des modifications qui défile dans son cadre et empile quatre couches collantes : en-tête dépoli avec ligne de progression liée au défilement, index des versions suivant la section visible, titres par version et barre d'avis."
+    },
+    "height": 640,
+    "stage": "bleed"
+  },
+  {
+    "file": "StickyPlanSummary",
+    "title": {
+      "en": "Plan configurator with sticky summary",
+      "fr": "Configurateur d’offre à récapitulatif collant"
+    },
+    "summary": {
+      "en": "A self-scrolling upgrade form with a frosted header and pinned step headings; the price summary sticks beside the form on wide screens and becomes a bottom bar on phones.",
+      "fr": "Un formulaire de mise à niveau qui défile dans son cadre avec en-tête dépoli et titres d'étape épinglés ; le récapitulatif de prix reste collé à côté sur grand écran et devient une barre basse sur mobile."
     },
     "height": 640,
     "stage": "bleed"

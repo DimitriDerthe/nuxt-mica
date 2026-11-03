@@ -1,12 +1,28 @@
 [
   {
     "file": "AnalystAgentWorkbench",
-    "title": { "en": "Analyst agent workbench", "fr": "Atelier d'agent analyste" },
+    "title": {
+      "en": "Analyst agent workbench",
+      "fr": "Atelier d'agent analyste"
+    },
     "summary": {
       "en": "An AI analysis workspace: threads, a cited answer with its reasoning trace, findings and SQL, and a composer with attachments and a live context-budget meter.",
       "fr": "Un espace d'analyse IA : fils, réponse sourcée avec sa trace de raisonnement, constats et SQL, et un compositeur avec pièces jointes et jauge de contexte en direct."
     },
     "height": 700,
+    "stage": "bleed"
+  },
+  {
+    "file": "AgentRunConsole",
+    "title": {
+      "en": "Agent run console",
+      "fr": "Console d’exécution d’agent"
+    },
+    "summary": {
+      "en": "An autonomous agent run paused before an irreversible step: its plan trace, an approval card with audience scope and the template diff, and run details; approve, decline or stop mid-send.",
+      "fr": "Une exécution d’agent autonome en pause avant une étape irréversible : sa trace de plan, une carte d’approbation avec périmètre et diff du modèle, et les détails ; approuvez, refusez ou arrêtez en plein envoi."
+    },
+    "height": 680,
     "stage": "bleed"
   }
 ]

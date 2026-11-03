@@ -7,5 +7,14 @@
       "fr": "Une barre de revue de pull request faite de groupes de boutons : pagination de fichiers accolée, bascule diff unifié ou côte à côte, choix du verdict et bouton de fusion scindé avec sa stratégie."
     },
     "height": 520
+  },
+  {
+    "file": "CalendarActionGroups",
+    "title": { "en": "Calendar header action groups", "fr": "Groupes d'actions d'en-tête de calendrier" },
+    "summary": {
+      "en": "A calendar header made of button groups: an attached previous, today and next pager, a day, week or month switch and a split create button whose event type you pick; the grid below follows every press.",
+      "fr": "Un en-tête de calendrier fait de groupes de boutons : pagination précédent, aujourd'hui, suivant accolée, bascule jour, semaine ou mois, et bouton de création scindé dont on choisit le type ; la grille suit chaque action."
+    },
+    "height": 480
   }
 ]

@@ -7,5 +7,14 @@
       "fr": "Un écran de code à usage unique par e-mail, SMS ou application, avec compteur d'essais, délai de renvoi et bascule vers les codes de secours."
     },
     "height": 520
+  },
+  {
+    "file": "PasswordResetFlow",
+    "title": { "en": "Password reset journey", "fr": "Parcours de réinitialisation du mot de passe" },
+    "summary": {
+      "en": "Request a reset link, open it from an inbox preview, then choose a new password with a strength meter, a match check and an option to sign out other devices.",
+      "fr": "Demandez un lien de réinitialisation, ouvrez-le depuis un aperçu d’e-mail, puis choisissez un nouveau mot de passe avec jauge de robustesse, vérification de concordance et déconnexion des autres appareils."
+    },
+    "height": 600
   }
 ]

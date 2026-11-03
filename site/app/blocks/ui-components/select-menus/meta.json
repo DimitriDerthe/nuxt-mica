@@ -7,5 +7,14 @@
       "fr": "Deux sélecteurs de ville avec l'heure locale, dont un affiché ouvert ; les deux journées s'alignent sur une bande à la demi-heure qui éclaire les heures communes et propose un créneau."
     },
     "height": 500
+  },
+  {
+    "file": "InviteRoleSelects",
+    "title": { "en": "Invite role selects", "fr": "Sélecteurs de rôle d'invitation" },
+    "summary": {
+      "en": "An invite list where each person gets a role select with what the role can do, while a seat meter and the monthly cost follow every change.",
+      "fr": "Une liste d'invitations où chaque personne reçoit un sélecteur de rôle décrivant ses droits, tandis qu'une jauge de sièges et le coût mensuel suivent chaque changement."
+    },
+    "height": 560
   }
 ]

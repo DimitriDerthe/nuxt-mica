@@ -7,5 +7,14 @@
       "fr": "Un résumé de notes dont les barres filtrent par étoiles, une jauge de taille entre petit et grand, des puces de thème, trois tris et des votes « utile » sur chaque avis."
     },
     "height": 640
+  },
+  {
+    "file": "AttributeScoreReviews",
+    "title": { "en": "Reviews scored by attribute", "fr": "Avis notés par critère" },
+    "summary": {
+      "en": "Software reviews split by company size: attribute bars sit against the category average, and picking an attribute ranks the reviews by it, with liked and disliked notes on each.",
+      "fr": "Des avis logiciels filtrés par taille d'entreprise : les barres par critère se comparent à la moyenne de la catégorie, et choisir un critère classe les avis selon celui-ci, avec points forts et points faibles sur chacun."
+    },
+    "height": 620
   }
 ]

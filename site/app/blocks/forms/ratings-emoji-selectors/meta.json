@@ -7,5 +7,14 @@
       "fr": "Cinq visages dessinés, de la moue au sourire, donnent la teinte de la carte et les puces de suivi, puis des notes en demi-étoiles sur trois aspects et un commentaire facultatif ; la fin remercie avec la moyenne en cours."
     },
     "height": 620
+  },
+  {
+    "file": "NpsScoreCard",
+    "title": { "en": "Net Promoter Score card", "fr": "Carte de Net Promoter Score" },
+    "summary": {
+      "en": "A 0 to 10 scale banded into detractors, passives and promoters; the chosen group tints the card and swaps the follow-up question and reason chips.",
+      "fr": "Une échelle de 0 à 10 répartie en détracteurs, passifs et promoteurs ; le groupe choisi teinte la carte et change la question de suivi et les raisons proposées."
+    },
+    "height": 520
   }
 ]

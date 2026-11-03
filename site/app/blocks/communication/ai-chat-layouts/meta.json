@@ -11,5 +11,18 @@
     },
     "height": 700,
     "stage": "bleed"
+  },
+  {
+    "file": "AiCanvasSplit",
+    "title": {
+      "en": "Chat with a document canvas",
+      "fr": "Chat avec canevas de document"
+    },
+    "summary": {
+      "en": "Writing workspace: requests in the chat edit a draft beside it, the changed paragraph is marked, versions can be undone, and phones switch between the two panes.",
+      "fr": "Espace de rédaction : les demandes dans le chat modifient le brouillon à côté, le paragraphe changé est signalé, les versions s’annulent et les téléphones basculent entre les deux volets."
+    },
+    "height": 680,
+    "stage": "bleed"
   }
 ]

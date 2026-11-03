@@ -7,5 +7,14 @@
       "fr": "Badges opérationnel, dégradé, panne, maintenance et déploiement sur un tableau d'état, chaque ligne avec un ruban de disponibilité sur 30 jours et une note d'incident dépliable."
     },
     "height": 560
+  },
+  {
+    "file": "OrderStatusQueue",
+    "title": { "en": "Order status queue", "fr": "File de statuts de commande" },
+    "summary": {
+      "en": "A shop order queue with seven fulfilment badges and count badges on each filter, where advancing an order swaps its badge and updates every count.",
+      "fr": "Une file de commandes avec sept badges de traitement et des compteurs sur chaque filtre, où faire avancer une commande change son badge et met à jour tous les compteurs."
+    },
+    "height": 560
   }
 ]

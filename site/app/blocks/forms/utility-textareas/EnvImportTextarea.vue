@@ -57,7 +57,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, onBeforeUnmount } from 'vue'
+
+const timers = new Set<ReturnType<typeof setTimeout>>()
+function later(fn: () => void, ms: number) {
+  const t = setTimeout(() => { timers.delete(t); fn() }, ms)
+  timers.add(t)
+}
+onBeforeUnmount(() => { timers.forEach(clearTimeout); timers.clear() })
 
 interface Row { line: number, key: string, value: string, level: 'ok' | 'warn' | 'err', note?: string, secret: boolean, overwrite: boolean }
 
@@ -115,7 +122,7 @@ function submit() {
   submitted.value = true
   if (!rows.value.length || problems.value) return
   busy.value = true
-  setTimeout(() => {
+  later(() => {
     imported.value = valid.value.length
     busy.value = false
     submitted.value = false

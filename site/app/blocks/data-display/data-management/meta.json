@@ -7,5 +7,14 @@
       "fr": "Les tables de l'entrepôt avec leur fraîcheur rapportée au SLA, et un panneau de détail listant les colonnes avec leur part de valeurs nulles et des interrupteurs de masquage des données personnelles, ou une vue de lignage des sources jusqu'aux tableaux de bord."
     },
     "height": 600
+  },
+  {
+    "file": "ImportColumnMapper",
+    "title": { "en": "CSV import column mapper", "fr": "Correspondance de colonnes d'import CSV" },
+    "summary": {
+      "en": "Each CSV column with sample values is mapped to a field; rows that would fail to parse and fields mapped twice are flagged, and a summary counts ready rows and gates the import on required fields.",
+      "fr": "Chaque colonne du CSV, avec des exemples de valeurs, est associée à un champ ; les lignes illisibles et les champs associés deux fois sont signalés, et un résumé compte les lignes prêtes et bloque l'import tant que les champs obligatoires manquent."
+    },
+    "height": 560
   }
 ]

@@ -7,5 +7,14 @@
       "fr": "Un long rapport d'incident dans son propre panneau défilant : le sommaire suit la section visible avec un repère glissant, devient une bande de puces en étroit, et un filet piloté par le défilement montre la progression."
     },
     "height": 560
+  },
+  {
+    "file": "MenuCategoryScrollNav",
+    "title": { "en": "Menu with sticky category chips", "fr": "Carte à puces de catégories collantes" },
+    "summary": {
+      "en": "A café ordering menu in its own scroll pane: a sticky chip bar follows the category in view and keeps its chip centred, a tap scrolls to that section, and add buttons fill the basket.",
+      "fr": "Une carte de café à commander dans son propre panneau défilant : une barre de puces collante suit la catégorie visible et garde sa puce centrée, un appui fait défiler jusqu'à la section, et les boutons d'ajout remplissent le panier."
+    },
+    "height": 560
   }
 ]

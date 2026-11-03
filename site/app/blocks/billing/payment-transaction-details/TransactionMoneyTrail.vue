@@ -59,7 +59,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, onBeforeUnmount } from 'vue'
+
+const timers = new Set<ReturnType<typeof setTimeout>>()
+function later(fn: () => void, ms: number) {
+  const t = setTimeout(() => { timers.delete(t); fn() }, ms)
+  timers.add(t)
+}
+onBeforeUnmount(() => { timers.forEach(clearTimeout); timers.clear() })
 
 const gross = 1248
 const cardFee = Math.round((gross * 0.015 + 0.25) * 100) / 100
@@ -107,7 +114,7 @@ function refund() {
   if (!Number.isFinite(v) || v <= 0) { error.value = 'Enter an amount above €0.'; return }
   if (v > refundable.value) { error.value = `You can refund up to ${eur(refundable.value)}.`; return }
   busy.value = true
-  setTimeout(() => {
+  later(() => {
     busy.value = false
     refunded.value = Math.round((refunded.value + v) * 100) / 100
     refunds.value.push({ amount: v, reason: reasons.find(r => r.value === reason.value)?.label ?? '' })

@@ -11,5 +11,18 @@
     },
     "height": 620,
     "stage": "bleed"
+  },
+  {
+    "file": "TicketHistorySidebar",
+    "title": {
+      "en": "Support panel with conversation history",
+      "fr": "Panneau de support avec historique"
+    },
+    "summary": {
+      "en": "Docked support panel listing open and resolved conversations; resolved ones ask for a star rating and a reply reopens them.",
+      "fr": "Panneau de support ancré listant les conversations ouvertes et résolues ; les résolues demandent une note et une réponse les rouvre."
+    },
+    "height": 620,
+    "stage": "bleed"
   }
 ]

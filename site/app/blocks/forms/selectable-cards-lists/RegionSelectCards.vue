@@ -71,7 +71,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, ref, watch, onBeforeUnmount } from 'vue'
+
+const timers = new Set<ReturnType<typeof setTimeout>>()
+function later(fn: () => void, ms: number) {
+  const t = setTimeout(() => { timers.delete(t); fn() }, ms)
+  timers.add(t)
+}
+onBeforeUnmount(() => { timers.forEach(clearTimeout); timers.clear() })
 
 type Val = string | number
 interface Region { id: string, city: string, cc: string, area: 'eu' | 'am' | 'as', ms: number, co2: number, price: number }
@@ -142,7 +149,7 @@ function submit() {
   submitted.value = true
   if (Object.keys(errors.value).length) return
   busy.value = true
-  setTimeout(() => {
+  later(() => {
     const p = regions.find(r => r.id === primary.value)!
     created.value = `Primary in ${p.city} (${p.id}), ${backups.value.length} backup ${backups.value.length === 1 ? 'replica' : 'replicas'}. Ready in about 4 minutes.`
     busy.value = false

@@ -75,7 +75,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, onBeforeUnmount } from 'vue'
+
+const timers = new Set<ReturnType<typeof setTimeout>>()
+function later(fn: () => void, ms: number) {
+  const t = setTimeout(() => { timers.delete(t); fn() }, ms)
+  timers.add(t)
+}
+onBeforeUnmount(() => { timers.forEach(clearTimeout); timers.clear() })
 
 interface Doc { name: string, size: number, type: string, tokens: number, uploading?: boolean }
 interface Step { id?: string, title: string, description?: string, status?: 'done' | 'running' | 'error' | 'pending', duration?: number, detail?: string }
@@ -136,7 +143,7 @@ function attach() {
   if (!next) return
   const file = { ...next, uploading: true }
   pending.value.push(file)
-  setTimeout(() => { const f = pending.value.find(p => p.name === file.name); if (f) f.uploading = false }, 900)
+  later(() => { const f = pending.value.find(p => p.name === file.name); if (f) f.uploading = false }, 900)
 }
 function send() {
   const text = draft.value.trim()
@@ -147,7 +154,7 @@ function send() {
   const id = 'm' + seq++
   messages.value.push({ id, role: 'assistant', text: '', files: [], findings: [], trace: [{ title: 'Planning the query', status: 'running' }] })
   thinking.value = true
-  setTimeout(() => {
+  later(() => {
     const m = messages.value.find(x => x.id === id)
     if (m) {
       m.trace = [{ title: 'Planned the query', duration: 600 }, { title: 'Grouped failures by issuer and hour', description: 'SQL', duration: 1400 }]

@@ -86,7 +86,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
+import { computed, reactive, ref, onBeforeUnmount } from 'vue'
+
+const timers = new Set<ReturnType<typeof setTimeout>>()
+function later(fn: () => void, ms: number) {
+  const t = setTimeout(() => { timers.delete(t); fn() }, ms)
+  timers.add(t)
+}
+onBeforeUnmount(() => { timers.forEach(clearTimeout); timers.clear() })
 
 type Val = string | number
 
@@ -173,7 +180,7 @@ function review() {
 }
 function commit() {
   saving.value = true
-  setTimeout(() => {
+  later(() => {
     const n = diff.value.length
     undoTo.value = mode.value === 'edit' ? copy(record.value) : null
     flash.value = mode.value === 'create'

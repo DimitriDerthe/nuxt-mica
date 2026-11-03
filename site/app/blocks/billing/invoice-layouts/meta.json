@@ -7,5 +7,14 @@
       "fr": "Une facture façon papier : émetteur et client, lignes, totaux recalculés avec escompte, tampon payé et talon de paiement perforé avec code-barres."
     },
     "height": 700
+  },
+  {
+    "file": "UsageInvoiceBreakdown",
+    "title": { "en": "Usage invoice by service or project", "fr": "Facture à l’usage par service ou projet" },
+    "summary": {
+      "en": "A metered cloud invoice whose lines regroup by service or by project, with a stacked spend bar, expandable line tables, committed-use credit and the amount due.",
+      "fr": "Une facture cloud à l’usage dont les lignes se regroupent par service ou par projet, avec barre de dépenses empilée, tableaux dépliables, crédit d’engagement et montant dû."
+    },
+    "height": 640
   }
 ]

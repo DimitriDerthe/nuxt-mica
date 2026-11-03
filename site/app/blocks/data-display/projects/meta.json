@@ -7,5 +7,14 @@
       "fr": "Cartes de projets client où un repère sur chaque barre indique où le travail devrait en être aujourd'hui, pour lire d'un coup d'œil l'avance ou le retard ; filtre par rythme et tri par échéance ou retard."
     },
     "height": 560
+  },
+  {
+    "file": "ProjectStagePipeline",
+    "title": { "en": "Project stage pipeline", "fr": "Pipeline des projets par étape" },
+    "summary": {
+      "en": "Studio projects under a stage rail where each step shows its project count and booked budget and filters the list; every row tracks budget burn in amber then red, and moves on to the next stage.",
+      "fr": "Les projets d'un studio sous un rail d'étapes où chacune affiche son nombre de projets et le budget engagé et filtre la liste ; chaque ligne suit la consommation du budget en orange puis en rouge et passe à l'étape suivante."
+    },
+    "height": 580
   }
 ]

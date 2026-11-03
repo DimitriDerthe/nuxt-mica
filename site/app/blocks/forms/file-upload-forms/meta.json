@@ -7,5 +7,14 @@
       "fr": "Une zone de dépôt avec progression simulée par fichier alimente une liste de documents requis, appariés d'après le nom des fichiers ; l'attestation d'assurance demande sa date d'expiration et un anneau compte ce qui manque."
     },
     "height": 560
+  },
+  {
+    "file": "FileTransferSend",
+    "title": { "en": "Large file transfer", "fr": "Transfert de fichiers volumineux" },
+    "summary": {
+      "en": "Collect files against a 2 GB budget meter, then email them or get a link, pick an expiry and a download alert; sending ends on a copyable link.",
+      "fr": "Rassemblez des fichiers face à une jauge de 2 Go, puis envoyez-les par e-mail ou obtenez un lien, choisissez une expiration et une alerte de téléchargement ; l'envoi se termine sur un lien à copier."
+    },
+    "height": 560
   }
 ]

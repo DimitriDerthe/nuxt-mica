@@ -7,5 +7,14 @@
       "fr": "Un import en cours raconté par chaque indicateur : étapes, anneau global, barres par entité, barre segmentée des résultats, jauge de quota d'API et réindexation indéterminée, avec pause et reprise."
     },
     "height": 520
+  },
+  {
+    "file": "SetupChecklistProgress",
+    "title": { "en": "Setup checklist progress", "fr": "Progression de la checklist de configuration" },
+    "summary": {
+      "en": "A workspace setup checklist where every ticked task fills a count ring and per-track bars weighted by minutes, with the time left updating live.",
+      "fr": "Une checklist de configuration où chaque tâche cochée remplit un anneau de décompte et des barres par parcours pondérées en minutes, avec le temps restant mis à jour en direct."
+    },
+    "height": 540
   }
 ]

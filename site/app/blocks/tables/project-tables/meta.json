@@ -7,5 +7,14 @@
       "fr": "Un tableau de projets triable dont la colonne planning est un Gantt : les lignes de mois et d'aujourd'hui traversent chaque ligne, les barres sont coupées à la plage choisie (trimestre ou six semaines), et la consommation du budget accompagne chaque projet."
     },
     "height": 560
+  },
+  {
+    "file": "SprintCapacityTable",
+    "title": { "en": "Sprint table with capacity", "fr": "Tableau de sprint avec capacité" },
+    "summary": {
+      "en": "Sprint tasks in collapsible status groups under a capacity strip per teammate; changing a task owner moves its points between the bars and flags anyone over capacity.",
+      "fr": "Les tâches du sprint en groupes de statut repliables sous une bande de capacité par coéquipier ; changer le responsable d'une tâche déplace ses points entre les barres et signale tout dépassement."
+    },
+    "height": 600
   }
 ]

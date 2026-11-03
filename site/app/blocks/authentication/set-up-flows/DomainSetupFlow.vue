@@ -102,7 +102,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
+import { computed, reactive, ref, onBeforeUnmount } from 'vue'
+
+const timers = new Set<ReturnType<typeof setTimeout>>()
+function later(fn: () => void, ms: number) {
+  const t = setTimeout(() => { timers.delete(t); fn() }, ms)
+  timers.add(t)
+}
+onBeforeUnmount(() => { timers.forEach(clearTimeout); timers.clear() })
 
 const steps = [
   { label: 'Workspace', description: 'Name and address' },
@@ -163,11 +170,11 @@ function jump(i: number) { if (i <= reached.value && !launched.value) step.value
 function checkDns() {
   if (!validate(1)) return
   dnsState.value = 'checking'
-  setTimeout(() => { dnsState.value = 'ok' }, 1100)
+  later(() => { dnsState.value = 'ok' }, 1100)
 }
 function launch() {
   launching.value = true
-  setTimeout(() => { launching.value = false; launched.value = true }, 900)
+  later(() => { launching.value = false; launched.value = true }, 900)
 }
 function restart() { launched.value = false; step.value = 0; reached.value = 0; dnsState.value = 'idle' }
 </script>

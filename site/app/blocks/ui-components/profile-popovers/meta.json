@@ -7,5 +7,14 @@
       "fr": "Les mentions d'un fil ouvrent un aperçu de profil, tandis que la carte complète reste ouverte : statut, heure locale sur une piste de journée avec conseil de contact, statistiques et bouton suivre."
     },
     "height": 460
+  },
+  {
+    "file": "ProjectMemberPopover",
+    "title": { "en": "Project member popover", "fr": "Popover de membre de projet" },
+    "summary": {
+      "en": "A project avatar row whose profile popover stays open and slides its arrow to the picked member: status, task stats, sprint capacity, project access select and removal.",
+      "fr": "Une rangée d'avatars de projet dont le popover de profil reste ouvert et glisse sa flèche vers le membre choisi : statut, tâches, capacité du sprint, accès au projet et retrait."
+    },
+    "height": 560
   }
 ]

@@ -7,5 +7,14 @@
       "fr": "Envoyez une couverture puis placez son point focal sur l'image : les recadrages en-tête, carte et badge suivent en direct, avec un texte alternatif validé avant l'enregistrement."
     },
     "height": 560
+  },
+  {
+    "file": "ListingPhotoChecklist",
+    "title": { "en": "Listing photo shot list", "fr": "Liste de photos d'annonce" },
+    "summary": {
+      "en": "A shot list of required and optional rooms, each a slot with its framing tip, upload, type and size checks, and a cover pick; saving unlocks once every required shot is in.",
+      "fr": "Une liste de prises de vue, pièces obligatoires et facultatives, chacune avec son conseil de cadrage, son envoi, ses contrôles de type et de poids et le choix de la couverture ; l'enregistrement se débloque quand toutes les prises obligatoires sont là."
+    },
+    "height": 640
   }
 ]

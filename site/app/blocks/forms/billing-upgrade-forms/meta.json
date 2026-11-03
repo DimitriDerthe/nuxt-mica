@@ -7,5 +7,14 @@
       "fr": "Choisissez l'offre, la périodicité et le nombre de sièges pendant que le récapitulatif calcule le prorata : une barre montre la part inutilisée du cycle convertie en crédit, et le bouton affiche le montant exact dû aujourd'hui."
     },
     "height": 520
+  },
+  {
+    "file": "CreditTopUpForm",
+    "title": { "en": "Usage credit top-up", "fr": "Recharge de crédits d'usage" },
+    "summary": {
+      "en": "Top up prepaid API credits with presets or a slider: a runway bar shows how many days of usage the balance covers before and after, bonus tiers kick in, and auto-recharge sets a threshold.",
+      "fr": "Rechargez des crédits d'API prépayés par montants rapides ou curseur : une barre d'autonomie montre combien de jours d'usage le solde couvre avant et après, les paliers de bonus s'appliquent et la recharge automatique fixe un seuil."
+    },
+    "height": 640
   }
 ]

@@ -7,5 +7,14 @@
       "fr": "Puces sélectionnables, supprimables et suggérées, plus un champ d'étiquettes, qui composent une audience relue en une phrase claire avec une estimation en direct."
     },
     "height": 520
+  },
+  {
+    "file": "JobFilterChips",
+    "title": { "en": "Job filter chips", "fr": "Puces de filtre d'offres" },
+    "summary": {
+      "en": "Selectable chip groups filter a job board, each chip showing how many roles it would leave, with removable active-filter chips and a clear-all.",
+      "fr": "Des groupes de puces sélectionnables filtrent des offres d'emploi, chaque puce indiquant combien de postes elle laisserait, avec des puces de filtres actifs supprimables et un bouton tout effacer."
+    },
+    "height": 520
   }
 ]

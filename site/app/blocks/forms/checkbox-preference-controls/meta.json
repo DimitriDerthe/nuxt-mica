@@ -7,5 +7,14 @@
       "fr": "Événements par canal dans une matrice de cases avec en-têtes à état mixte, une ligne sécurité verrouillée et des préréglages qui ne s'allument que s'ils correspondent ; une estimation en direct montre le volume hebdomadaire par canal."
     },
     "height": 560
+  },
+  {
+    "file": "RolePermissionTree",
+    "title": { "en": "Role permission tree", "fr": "Arbre des permissions d'un rôle" },
+    "summary": {
+      "en": "A checkable permission tree with mixed parent states and presets that light up only while they match; a side summary counts rights per area and flags the sensitive ones.",
+      "fr": "Un arbre de permissions à cocher avec parents à état mixte et des préréglages qui ne s'allument que s'ils correspondent ; un résumé latéral compte les droits par domaine et signale les plus sensibles."
+    },
+    "height": 560
   }
 ]

@@ -10,5 +10,17 @@
       "fr": "Long fil d’e-mails avec points clés épinglés ; les réponses intermédiaires se replient en pile, chaque message se déplie, les réponses s’ajoutent."
     },
     "height": 640
+  },
+  {
+    "file": "ParticipantFilterThread",
+    "title": {
+      "en": "Thread filtered by participant",
+      "fr": "Fil filtré par participant"
+    },
+    "summary": {
+      "en": "Group email thread with participant chips and a mentions-me switch; messages collapse to one-line previews and expand on demand.",
+      "fr": "Fil d’e-mails de groupe avec puces de participants et filtre des mentions ; les messages se replient en aperçu d’une ligne et se déplient à la demande."
+    },
+    "height": 620
   }
 ]

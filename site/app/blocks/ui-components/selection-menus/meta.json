@@ -7,5 +7,14 @@
       "fr": "Un panneau d'affichage ouvert avec regroupement, densité et colonnes à cocher, doublé d'un vrai menu à cases ; le tableau des renouvellements se met à jour à chaque choix."
     },
     "height": 500
+  },
+  {
+    "file": "BulkFileActionsMenu",
+    "title": { "en": "Bulk file actions menu", "fr": "Menu d'actions groupées sur fichiers" },
+    "summary": {
+      "en": "A contracts folder with checkbox selection and a select-all mixed state, beside an open selection menu that stars, archives, copies or deletes every checked file.",
+      "fr": "Un dossier de contrats avec sélection par cases et état mixte « tout sélectionner », à côté d'un menu de sélection ouvert qui met en favori, archive, copie ou supprime chaque fichier coché."
+    },
+    "height": 500
   }
 ]

@@ -122,7 +122,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, onBeforeUnmount } from 'vue'
+
+const timers = new Set<ReturnType<typeof setTimeout>>()
+function later(fn: () => void, ms: number) {
+  const t = setTimeout(() => { timers.delete(t); fn() }, ms)
+  timers.add(t)
+}
+onBeforeUnmount(() => { timers.forEach(clearTimeout); timers.clear() })
 
 interface Task { id: string, title: string, short: string, sub: string, mins: number, done: boolean, doneNote: string }
 
@@ -185,7 +192,7 @@ function complete(id: string) {
   t.doneNote = id === 'invite'
     ? `${invites.value.length} ${invites.value.length === 1 ? 'invite' : 'invites'} sent`
     : id === 'repo' ? String(repo.value) : `${appearance.value === 'system' ? 'System' : appearance.value === 'dark' ? 'Dark' : 'Light'}, ${accents.find(a => a.value === accent.value)?.name ?? 'Brand'}`
-  setTimeout(() => {
+  later(() => {
     t.done = true
     finishing.value = null
     const following = openTasks.value[0]
@@ -195,7 +202,7 @@ function complete(id: string) {
 function connectRepo() {
   connecting.value = true
   // UI demo only: nothing is sent anywhere.
-  setTimeout(() => { connecting.value = false; complete('repo') }, 800)
+  later(() => { connecting.value = false; complete('repo') }, 800)
 }
 </script>
 

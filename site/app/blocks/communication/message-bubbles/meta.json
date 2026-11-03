@@ -10,5 +10,17 @@
       "fr": "Bulles groupées avec réactions, accusés de lecture et séparateur non lus ; les réponses citées ramènent au message d’origine."
     },
     "height": 560
+  },
+  {
+    "file": "DeliveryStateBubbles",
+    "title": {
+      "en": "Bubbles with delivery states",
+      "fr": "Bulles avec états d’envoi"
+    },
+    "summary": {
+      "en": "Sending, sent, delivered and read receipts, a failed message to retry, an offline switch, and edit or unsend on your last message.",
+      "fr": "Accusés envoi, distribué et lu, message en échec à renvoyer, mode hors ligne, et modification ou retrait de votre dernier message."
+    },
+    "height": 560
   }
 ]

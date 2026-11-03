@@ -8,5 +8,15 @@
     },
     "height": 620,
     "stage": "bleed"
+  },
+  {
+    "file": "ChannelSidebar",
+    "title": { "en": "Team chat channel sidebar", "fr": "Barre latérale de canaux de discussion" },
+    "summary": {
+      "en": "A clinic chat sidebar with starred, channel and direct message sections, mention counts, presence dots and muted channels; an unread-only switch, mark all read and folding sections all work.",
+      "fr": "Une barre latérale de messagerie de clinique avec sections favoris, canaux et messages directs, compteurs de mentions, points de présence et canaux en sourdine ; filtre non lus, tout marquer comme lu et sections repliables fonctionnent."
+    },
+    "height": 620,
+    "stage": "bleed"
   }
 ]

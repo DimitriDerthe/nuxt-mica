@@ -1,11 +1,26 @@
 [
   {
     "file": "ShiftRosterPlanner",
-    "title": { "en": "Shift roster with coverage", "fr": "Planning d'équipe avec couverture" },
+    "title": {
+      "en": "Shift roster with coverage",
+      "fr": "Planning d'équipe avec couverture"
+    },
     "summary": {
       "en": "Paint early and late shifts onto a weekly roster while coverage rows count the gaps, hours meters flag overtime and short rest is marked; one click fills the gaps, then publish.",
       "fr": "Peignez les services du matin et du soir sur le planning pendant que les lignes de couverture comptent les manques, que les jauges signalent les heures sup et le repos trop court ; un clic comble les trous, puis publiez."
     },
     "height": 560
+  },
+  {
+    "file": "OnCallRotation",
+    "title": {
+      "en": "On-call rotation with overrides",
+      "fr": "Rotation d’astreinte avec remplacements"
+    },
+    "summary": {
+      "en": "A weekly primary and secondary rotation where any slot can be handed to a teammate as an override, with quarter load bars that keep swaps fair.",
+      "fr": "Une rotation hebdomadaire principale et secondaire où chaque créneau peut être confié à un collègue en remplacement, avec des jauges de charge trimestrielle pour des échanges équitables."
+    },
+    "height": 520
   }
 ]

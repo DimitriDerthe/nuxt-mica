@@ -7,5 +7,14 @@
       "fr": "Un écran de réussite apaisé : une coche qui éclate une fois, un reçu qui sort d'une fente au bord déchiré, un suivi de livraison et deux interrupteurs de suivi."
     },
     "height": 600
+  },
+  {
+    "file": "WorkspaceReadyHandoff",
+    "title": { "en": "Workspace ready handoff", "fr": "Espace de travail prêt" },
+    "summary": {
+      "en": "A setup success screen: four tiles settle into place, a checklist of what was created ticks in, an invite form turns the moment into team growth and three next steps follow.",
+      "fr": "Un écran de réussite de configuration : quatre tuiles se mettent en place, la liste de ce qui a été créé se coche, un formulaire d'invitation fait venir l'équipe et trois prochaines étapes suivent."
+    },
+    "height": 600
   }
 ]
