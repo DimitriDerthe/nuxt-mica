@@ -79,7 +79,7 @@ A Nuxt 4 layer shipping 134 SSR-safe UI components, 177 `<Mi…>` tags counting 
 ```ts
 export default defineNuxtConfig({
   // pin a release tag for reproducible builds
-  extends: ['github:DimitriDerthe/nuxt-mica#v0.6.0'],
+  extends: ['github:DimitriDerthe/nuxt-mica#v0.7.0'],
   // or follow main: 'github:DimitriDerthe/nuxt-mica'
   // or a local path: '../nuxt-mica'
 })
