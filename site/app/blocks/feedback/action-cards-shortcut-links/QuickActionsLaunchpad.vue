@@ -103,7 +103,7 @@ function onKey(e: KeyboardEvent) {
 </script>
 
 <style scoped>
-.qal { container-type: inline-size; display: grid; gap: 18px; font-family: var(--mi-font); color: var(--mi-label); }
+.qal { container-type: inline-size; display: grid; align-content: start; gap: 18px; font-family: var(--mi-font); color: var(--mi-label); }
 .qal__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 8px 16px; }
 .qal__live { margin: 0; min-height: 1.4em; font-size: 13px; font-weight: 500; color: var(--mi-p-text); }
 

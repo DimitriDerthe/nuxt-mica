@@ -117,7 +117,7 @@ const feed = [
 </script>
 
 <style scoped>
-.nm { container-type: inline-size; position: relative; display: grid; min-height: 100%; font-family: var(--mi-font); color: var(--mi-label); }
+.nm { container-type: inline-size; position: relative; display: grid; align-content: start; min-height: 100%; font-family: var(--mi-font); color: var(--mi-label); }
 .nm__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
 .nm__page { display: grid; align-content: start; gap: 12px; padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }

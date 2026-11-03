@@ -104,7 +104,7 @@ const signedPct = (p: number) => (p > 0 ? '+' : p < 0 ? '−' : '') + Math.abs(p
 </script>
 
 <style scoped>
-.bv { container-type: inline-size; display: grid; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
+.bv { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
 .bv__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .bv__controls { display: flex; flex-wrap: wrap; gap: 8px; }
 .bv__body { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); }

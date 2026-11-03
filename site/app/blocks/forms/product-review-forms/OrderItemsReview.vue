@@ -79,7 +79,7 @@ function toggle(it: Item, tag: string) {
 </script>
 
 <style scoped>
-.oir { container: oir / inline-size; display: grid; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
+.oir { container: oir / inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
 .oir__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 
 .oir__list { margin: 0; padding: 0; list-style: none; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }

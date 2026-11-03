@@ -150,7 +150,7 @@ function clear() {
 </script>
 
 <style scoped>
-.rfl { container-type: inline-size; display: grid; gap: 20px; font-family: var(--mi-font); color: var(--mi-label); }
+.rfl { container-type: inline-size; display: grid; align-content: start; gap: 20px; font-family: var(--mi-font); color: var(--mi-label); }
 .rfl__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .rfl__layout { display: grid; gap: 24px; }
 @container (min-width: 820px) { .rfl__layout { grid-template-columns: 290px minmax(0, 1fr); gap: 32px; align-items: start; } }

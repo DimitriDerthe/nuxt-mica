@@ -88,7 +88,7 @@ const tiles = computed(() => shapes.map((s) => {
 </script>
 
 <style scoped>
-.ssm { container-type: inline-size; display: grid; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
+.ssm { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
 .ssm__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 24px; }
 .ssm__head > div:first-child { flex: 1 1 280px; min-width: 0; }
 .ssm__scrub { flex: 1 1 220px; max-width: 320px; }

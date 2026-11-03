@@ -152,7 +152,7 @@ function submit() {
 </script>
 
 <style scoped>
-.vdu { container: vdu / inline-size; display: grid; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
+.vdu { container: vdu / inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
 .vdu__head { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
 .vdu__ring { font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; }
 .vdu__card { padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }

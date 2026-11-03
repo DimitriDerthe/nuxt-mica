@@ -117,7 +117,7 @@ function create(kind: string | number | undefined) {
 </script>
 
 <style scoped>
-.cag { container-type: inline-size; display: grid; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
+.cag { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
 .cag__bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
 .cag__nav, .cag__tools { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; }
 

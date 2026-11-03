@@ -85,7 +85,7 @@ function onKey(e: KeyboardEvent) {
 </script>
 
 <style scoped>
-.mt { container-type: inline-size; display: grid; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
+.mt { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
 .mt__head { display: grid; gap: 2px; }
 
 .mt__tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }

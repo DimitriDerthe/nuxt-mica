@@ -113,7 +113,7 @@ onBeforeUnmount(() => io?.disconnect())
 </script>
 
 <style scoped>
-.mcs { container-type: inline-size; display: grid; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
+.mcs { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
 .mcs__head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
 
 .mcs__pane { position: relative; height: 440px; overflow-y: auto; overscroll-behavior: contain; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1), inset 0 0 0 1px var(--mi-sep); }

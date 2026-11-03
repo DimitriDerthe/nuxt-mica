@@ -101,7 +101,7 @@ const money = (n: number) => '$' + (n / 1000).toFixed(n % 1000 ? 1 : 0) + 'k'
 </script>
 
 <style scoped>
-.dfm { container-type: inline-size; display: grid; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
+.dfm { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
 .dfm__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .dfm__bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 

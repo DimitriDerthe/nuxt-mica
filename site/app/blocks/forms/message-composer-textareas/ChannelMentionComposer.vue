@@ -135,7 +135,7 @@ function schedule(item: Slot) {
 </script>
 
 <style scoped>
-.cmc { container: cmc / inline-size; display: grid; gap: 12px; padding: 18px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); font-family: var(--mi-font); color: var(--mi-label); }
+.cmc { container: cmc / inline-size; display: grid; align-content: start; gap: 12px; padding: 18px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); font-family: var(--mi-font); color: var(--mi-label); }
 .cmc__head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 12px; padding-bottom: 12px; border-bottom: 1px solid var(--mi-sep); }
 
 .cmc__feed { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; }

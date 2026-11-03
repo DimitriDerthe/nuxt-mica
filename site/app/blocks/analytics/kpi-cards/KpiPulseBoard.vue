@@ -86,7 +86,7 @@ const data = computed(() => periods[(range.value ?? 'month') as keyof typeof per
 </script>
 
 <style scoped>
-.kpi { container-type: inline-size; display: grid; gap: 18px; font-family: var(--mi-font); color: var(--mi-label); }
+.kpi { container-type: inline-size; display: grid; align-content: start; gap: 18px; font-family: var(--mi-font); color: var(--mi-label); }
 .kpi__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .kpi__grid { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); }
 @container (min-width: 560px) { .kpi__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .kpi__hero { grid-column: span 2; } }

@@ -95,7 +95,7 @@ const tokens = computed(() => Math.ceil(filled.value.length / 4))
 </script>
 
 <style scoped>
-.ptt { container: ptt / inline-size; display: grid; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
+.ptt { container: ptt / inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
 .ptt__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 
 .ptt__body { display: grid; gap: 14px; }

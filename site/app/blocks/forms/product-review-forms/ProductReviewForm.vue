@@ -123,7 +123,7 @@ function post() {
 </script>
 
 <style scoped>
-.prf { container-type: inline-size; display: grid; gap: 18px; padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); font-family: var(--mi-font); color: var(--mi-label); }
+.prf { container-type: inline-size; display: grid; align-content: start; gap: 18px; padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); font-family: var(--mi-font); color: var(--mi-label); }
 .prf__product { display: flex; align-items: center; gap: 14px; }
 .prf__thumb { position: relative; flex: none; width: 64px; height: 64px; border-radius: var(--mi-radius-m); overflow: hidden; background: linear-gradient(160deg, var(--mi-fill4), var(--mi-fill2)); }
 .prf__thumb i { position: absolute; display: block; }

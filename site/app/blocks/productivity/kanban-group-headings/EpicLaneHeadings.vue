@@ -121,7 +121,7 @@ function addTask(id: string) {
 </script>
 
 <style scoped>
-.elh { container-type: inline-size; display: grid; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
+.elh { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
 .elh__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .elh__lanes { display: grid; gap: 10px; }
 .elh__lane { border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: inset 3px 0 0 var(--c), var(--mi-sh1); overflow: hidden; }

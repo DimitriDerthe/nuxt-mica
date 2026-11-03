@@ -214,7 +214,7 @@ function reset() {
 </script>
 
 <style scoped>
-.ask { container: ask / inline-size; display: grid; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
+.ask { container: ask / inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
 .ask__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .ask__form, .ask__done { display: grid; gap: 16px; padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
 .ask__meta { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); }

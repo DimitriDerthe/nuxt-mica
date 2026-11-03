@@ -127,7 +127,7 @@ const mb = (n: number) => (n >= 1000 ? (n / 1000).toFixed(2) + ' GB' : n.toFixed
 </script>
 
 <style scoped>
-.mlt { container-type: inline-size; display: grid; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
+.mlt { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
 .mlt__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .mlt__search { width: 100%; }
 @container (min-width: 560px) { .mlt__search { width: 240px; } }

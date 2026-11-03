@@ -132,7 +132,7 @@ function submit() {
 </script>
 
 <style scoped>
-.env { container: env / inline-size; display: grid; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
+.env { container: env / inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
 .env__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 10px; }
 .env__grid { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); align-items: start; padding: 18px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
 @container env (min-width: 820px) { .env__grid { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 22px; } }

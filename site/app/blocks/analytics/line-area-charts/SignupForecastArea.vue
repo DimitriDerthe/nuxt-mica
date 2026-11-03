@@ -130,7 +130,7 @@ const beats = computed(() => cells.value.filter(c => c.beat).length)
 </script>
 
 <style scoped>
-.sf { container-type: inline-size; display: grid; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
+.sf { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
 .sf__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .sf__grid { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); }
 @container (min-width: 860px) { .sf__grid { grid-template-columns: minmax(0, 1fr) 290px; } }

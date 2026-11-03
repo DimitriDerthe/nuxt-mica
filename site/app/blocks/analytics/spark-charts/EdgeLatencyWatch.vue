@@ -133,7 +133,7 @@ const degradedCount = computed(() => regions.value.filter(r => r.degraded).lengt
 </script>
 
 <style scoped>
-.el { container-type: inline-size; display: grid; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
+.el { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
 .el__head, .el__tools { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .el__tools { align-items: center; }
 .el__switch { display: inline-flex; align-items: center; gap: 8px; }

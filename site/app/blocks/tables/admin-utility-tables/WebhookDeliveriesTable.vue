@@ -117,7 +117,7 @@ onBeforeUnmount(() => clearTimeout(timer))
 </script>
 
 <style scoped>
-.wdt { container-type: inline-size; display: grid; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
+.wdt { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
 .wdt__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .wdt__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .wdt__head code { font-family: ui-monospace, monospace; font-size: 12px; overflow-wrap: anywhere; }

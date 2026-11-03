@@ -108,7 +108,7 @@ function restore(id: string) {
 </script>
 
 <style scoped>
-.ftb { container-type: inline-size; display: grid; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
+.ftb { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
 .ftb__head { display: grid; gap: 2px; }
 .ftb__layout { display: grid; gap: 12px; }
 .ftb__tree, .ftb__pane { border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); min-width: 0; }

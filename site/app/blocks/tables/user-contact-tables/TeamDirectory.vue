@@ -247,7 +247,7 @@ function jump(l: string) {
 </script>
 
 <style scoped>
-.tdir { --tdir-t3: color-mix(in srgb, var(--mi-label2) 78%, transparent); container-type: inline-size; display: grid; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
+.tdir { --tdir-t3: color-mix(in srgb, var(--mi-label2) 78%, transparent); container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
 .tdir__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .tdir__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 20px; }
 .tdir__title { display: grid; gap: 2px; min-width: 0; }

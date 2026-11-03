@@ -135,7 +135,7 @@ function restore() {
 </script>
 
 <style scoped>
-.iad { container-type: inline-size; display: grid; gap: 18px; font-family: var(--mi-font); color: var(--mi-label); }
+.iad { container-type: inline-size; display: grid; align-content: start; gap: 18px; font-family: var(--mi-font); color: var(--mi-label); }
 .iad__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .iad__grid { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); align-items: start; }
 @container (min-width: 760px) { .iad__grid { grid-template-columns: minmax(0, 1.5fr) minmax(260px, 1fr); } }

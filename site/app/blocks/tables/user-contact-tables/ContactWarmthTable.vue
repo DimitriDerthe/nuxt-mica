@@ -258,7 +258,7 @@ function logTouch(c: Contact) {
 </script>
 
 <style scoped>
-.cwt { --cwt-t3: color-mix(in srgb, var(--mi-label2) 78%, transparent); --cwt-shade: color-mix(in srgb, var(--mi-label) 3.5%, var(--mi-card)); container-type: inline-size; display: grid; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
+.cwt { --cwt-t3: color-mix(in srgb, var(--mi-label2) 78%, transparent); --cwt-shade: color-mix(in srgb, var(--mi-label) 3.5%, var(--mi-card)); container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
 .cwt__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
 .cwt__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 24px; }

@@ -108,7 +108,7 @@ function capture() {
 </script>
 
 <style scoped>
-.sum { container-type: inline-size; display: grid; gap: 18px; font-family: var(--mi-font); color: var(--mi-label); }
+.sum { container-type: inline-size; display: grid; align-content: start; gap: 18px; font-family: var(--mi-font); color: var(--mi-label); }
 .sum__head { display: grid; gap: 2px; }
 .sum__rack { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
 .sum__slice { display: grid; align-content: start; gap: 10px; padding: 14px; border-radius: var(--mi-radius-l); background: var(--mi-side, var(--mi-card)); box-shadow: var(--mi-sh1), inset 0 0 0 1px var(--mi-sep); }

@@ -105,7 +105,7 @@ const subjectError = computed(() => errors.value.find(l => l.subject)?.text)
 </script>
 
 <style scoped>
-.cme { container: cme / inline-size; display: grid; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
+.cme { container: cme / inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
 .cme__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 
 .cme__body { display: grid; gap: 14px; }

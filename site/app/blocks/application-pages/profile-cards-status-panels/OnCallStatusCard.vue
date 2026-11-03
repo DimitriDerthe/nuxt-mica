@@ -96,7 +96,7 @@ const pageNote = computed(() => {
 </script>
 
 <style scoped>
-.oc { container-type: inline-size; display: grid; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
+.oc { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
 .oc__grid { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); }
 @container (min-width: 760px) { .oc__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
 

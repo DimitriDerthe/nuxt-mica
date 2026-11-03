@@ -91,7 +91,7 @@ function toggle(a: Addon, on: boolean) {
 </script>
 
 <style scoped>
-.acc { container: acc / inline-size; display: grid; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
+.acc { container: acc / inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
 .acc__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 
 .acc__body { display: grid; gap: 14px; }

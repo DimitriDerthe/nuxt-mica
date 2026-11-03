@@ -78,7 +78,7 @@ function apply(split: Record<ChannelId, number>) { for (const c of channels) c.s
 </script>
 
 <style scoped>
-.bss { container: bss / inline-size; display: grid; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
+.bss { container: bss / inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
 .bss__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .bss__presets { display: flex; flex-wrap: wrap; gap: 6px; }
 

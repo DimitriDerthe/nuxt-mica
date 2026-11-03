@@ -99,7 +99,7 @@ function restart() { password.value = ''; confirm.value = ''; stage.value = 'req
 </script>
 
 <style scoped>
-.prf { container-type: inline-size; display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center; font-family: var(--mi-font); color: var(--mi-label); }
+.prf { container-type: inline-size; display: grid; align-content: start; grid-template-columns: minmax(0, 1fr); justify-items: center; font-family: var(--mi-font); color: var(--mi-label); }
 .prf__card {
   display: grid; justify-items: center; gap: 18px; width: 100%; max-width: 440px; padding: 28px 18px 22px; box-sizing: border-box;
   border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh2);

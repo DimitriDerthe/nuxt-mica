@@ -97,7 +97,7 @@ const current = computed(() => presence[(status.value ?? 'online') as Presence])
 </script>
 
 <style scoped>
-.asm { container-type: inline-size; display: grid; gap: 12px; font-family: var(--mi-font); color: var(--mi-label); }
+.asm { container-type: inline-size; display: grid; align-content: start; gap: 12px; font-family: var(--mi-font); color: var(--mi-label); }
 .asm__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
 /* Faux backdrop so the open menu reads as floating over an app. */

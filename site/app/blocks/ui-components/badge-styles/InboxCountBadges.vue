@@ -106,7 +106,7 @@ function readAll() {
 </script>
 
 <style scoped>
-.icb { container-type: inline-size; display: grid; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
+.icb { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
 .icb__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .icb__head-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 

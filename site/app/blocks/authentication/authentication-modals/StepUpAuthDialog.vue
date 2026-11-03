@@ -91,7 +91,7 @@ function reset() { elevated.value = false; password.value = ''; error.value = ''
 </script>
 
 <style scoped>
-.sua { container-type: inline-size; position: relative; display: grid; min-height: 100%; font-family: var(--mi-font); color: var(--mi-label); }
+.sua { container-type: inline-size; position: relative; display: grid; align-content: start; min-height: 100%; font-family: var(--mi-font); color: var(--mi-label); }
 .sua__page { display: grid; align-content: start; gap: 14px; padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
 .sua__page-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
 .sua__keys { display: grid; margin: 0; padding: 0; list-style: none; }

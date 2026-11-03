@@ -137,7 +137,7 @@ const pct = (n: number) => Math.round((n / total.value) * 100) + '%'
 </script>
 
 <style scoped>
-.cs { container-type: inline-size; display: grid; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
+.cs { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
 .cs__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .cs__grid { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); }
 @container (min-width: 820px) { .cs__grid { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); } }

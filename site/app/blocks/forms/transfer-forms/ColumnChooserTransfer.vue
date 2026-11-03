@@ -103,7 +103,7 @@ function hide(id: string) { visible.value = visible.value.filter(v => v !== id) 
 </script>
 
 <style scoped>
-.cct { container: cct / inline-size; display: grid; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
+.cct { container: cct / inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
 .cct__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 
 .cct__panes { display: grid; gap: 12px; }

@@ -102,7 +102,7 @@ function rejectText(list: Rejection[]) {
 </script>
 
 <style scoped>
-.lpc { container: lpc / inline-size; display: grid; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
+.lpc { container: lpc / inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
 .lpc__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .lpc__meter { height: 6px; border-radius: 3px; background: var(--mi-fill3); overflow: hidden; }
 .lpc__meter span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--mi-p), var(--mi-s)); transform-origin: left; transition: transform var(--mi-dur-4) var(--mi-spring); }

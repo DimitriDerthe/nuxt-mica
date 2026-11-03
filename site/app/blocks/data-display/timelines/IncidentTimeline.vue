@@ -87,7 +87,7 @@ const shown = computed(() => events.filter(e => !phase.value || e.phase === phas
 </script>
 
 <style scoped>
-.inc { container-type: inline-size; display: grid; gap: 18px; font-family: var(--mi-font); color: var(--mi-label); }
+.inc { container-type: inline-size; display: grid; align-content: start; gap: 18px; font-family: var(--mi-font); color: var(--mi-label); }
 .inc__head { display: grid; gap: 14px; }
 .inc__title { display: grid; gap: 6px; }
 .inc__tags { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }

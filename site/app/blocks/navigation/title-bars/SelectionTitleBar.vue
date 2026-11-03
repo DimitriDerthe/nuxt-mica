@@ -124,7 +124,7 @@ function exportPdf() {
 </script>
 
 <style scoped>
-.stb { container-type: inline-size; display: grid; gap: 12px; font-family: var(--mi-font); color: var(--mi-label); }
+.stb { container-type: inline-size; display: grid; align-content: start; gap: 12px; font-family: var(--mi-font); color: var(--mi-label); }
 
 .stb__bars { display: grid; }
 .stb__bar { grid-area: 1 / 1; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; transition: opacity var(--mi-dur-2) var(--mi-ease), transform var(--mi-dur-3) var(--mi-ease), visibility 0s; }

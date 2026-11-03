@@ -126,7 +126,7 @@ function clearSwap() {
 </script>
 
 <style scoped>
-.ocr { container-type: inline-size; display: grid; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
+.ocr { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
 .ocr__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .ocr__layout { display: grid; gap: 16px; }
 

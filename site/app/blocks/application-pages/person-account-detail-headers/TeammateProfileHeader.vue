@@ -126,7 +126,7 @@ const timeOff = [
 </script>
 
 <style scoped>
-.tph { container-type: inline-size; display: grid; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
+.tph { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
 .tph__card { display: grid; gap: 16px; padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); overflow: hidden; isolation: isolate; position: relative; }
 /* Soft brand wash behind the identity row: a static gradient. */
 .tph__card::before { content: ""; position: absolute; inset: 0 0 auto; height: 120px; z-index: -1; background: linear-gradient(120deg, var(--mi-p-tint), color-mix(in srgb, var(--mi-s) 14%, transparent) 70%, transparent); }

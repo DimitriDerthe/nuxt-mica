@@ -126,7 +126,7 @@ function save() {
 </script>
 
 <style scoped>
-.mrt { container-type: inline-size; display: grid; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
+.mrt { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
 .mrt__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .mrt__summary { display: grid; justify-items: end; }
 .mrt__blend { font-size: 26px; font-weight: 700; letter-spacing: -.03em; font-variant-numeric: tabular-nums; color: var(--mi-green-t); }

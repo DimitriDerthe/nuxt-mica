@@ -124,7 +124,7 @@ const legal = ['Terms', 'Privacy', 'Cookies', 'Security']
 </script>
 
 <style scoped>
-.ssf { container-type: inline-size; display: grid; gap: 28px; padding: 24px 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); font-family: var(--mi-font); color: var(--mi-label); }
+.ssf { container-type: inline-size; display: grid; align-content: start; gap: 28px; padding: 24px 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); font-family: var(--mi-font); color: var(--mi-label); }
 .ssf__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 a { color: inherit; text-decoration: none; }
 a:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; border-radius: 4px; }

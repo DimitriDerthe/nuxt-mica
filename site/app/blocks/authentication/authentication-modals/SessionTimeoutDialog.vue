@@ -107,7 +107,7 @@ const pageBadge = computed(() => ({
 </script>
 
 <style scoped>
-.sto { container-type: inline-size; position: relative; display: grid; min-height: 100%; font-family: var(--mi-font); color: var(--mi-label); }
+.sto { container-type: inline-size; position: relative; display: grid; align-content: start; min-height: 100%; font-family: var(--mi-font); color: var(--mi-label); }
 .sto__sr { position: absolute; width: 1px; height: 1px; margin: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
 .sto__page { display: grid; align-content: start; gap: 16px; padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }

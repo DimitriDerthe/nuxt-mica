@@ -90,7 +90,7 @@ function toggle(id: string) { open.value = open.value === id ? null : id }
 </script>
 
 <style scoped>
-.pf { container-type: inline-size; display: grid; font-family: var(--mi-font); color: var(--mi-label); border-radius: var(--mi-radius-xl); overflow: hidden; background: var(--mi-page); box-shadow: 0 0 0 1px var(--mi-sep); }
+.pf { container-type: inline-size; display: grid; align-content: start; font-family: var(--mi-font); color: var(--mi-label); border-radius: var(--mi-radius-xl); overflow: hidden; background: var(--mi-page); box-shadow: 0 0 0 1px var(--mi-sep); }
 .pf__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .pf__page { display: grid; grid-template-columns: 2fr 1fr; gap: 12px; padding: 18px; }
 .pf__page span { height: 64px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); }

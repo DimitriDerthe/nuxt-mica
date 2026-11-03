@@ -94,7 +94,7 @@ const moveText = (m: number) => (m === 0 ? 'no change' : `${m > 0 ? 'up' : 'down
 </script>
 
 <style scoped>
-.fr { container-type: inline-size; display: grid; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
+.fr { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
 .fr__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 
 .fr__card { display: grid; gap: 6px; min-width: 0; padding: 16px 18px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }

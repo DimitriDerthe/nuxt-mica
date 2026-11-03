@@ -101,7 +101,7 @@ function reset() { price.value = [40, 260]; sizes.value = []; color.value = null
 </script>
 
 <style scoped>
-.cfm { container-type: inline-size; display: grid; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
+.cfm { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
 .cfm__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 
 .cfm__body { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); align-items: start; }

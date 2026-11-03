@@ -167,7 +167,7 @@ function reset() {
 </script>
 
 <style scoped>
-.srw { container-type: inline-size; display: grid; gap: 20px; font-family: var(--mi-font); color: var(--mi-label); }
+.srw { container-type: inline-size; display: grid; align-content: start; gap: 20px; font-family: var(--mi-font); color: var(--mi-label); }
 .srw__head { display: grid; gap: 14px; }
 .srw__title { display: grid; gap: 2px; }
 @container (min-width: 760px) { .srw__head { grid-template-columns: 1fr minmax(0, 420px); align-items: end; } }

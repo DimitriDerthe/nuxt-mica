@@ -102,7 +102,7 @@ const money = (k: number) => (k >= 1000 ? `$${(k / 1000).toFixed(2)}M` : `$${Mat
 </script>
 
 <style scoped>
-.mm { container-type: inline-size; display: grid; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
+.mm { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
 .mm__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .mm__grid { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); }
 @container (min-width: 800px) { .mm__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); } }

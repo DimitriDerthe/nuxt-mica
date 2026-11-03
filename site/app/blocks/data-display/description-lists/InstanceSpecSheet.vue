@@ -93,7 +93,7 @@ const toYaml = () => ['name: api-prod-3', ...GROUPS.flatMap(g => [`${g.id}:`, ..
 </script>
 
 <style scoped>
-.iss { container-type: inline-size; display: grid; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
+.iss { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
 .iss__head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
 .iss__id { display: flex; align-items: center; gap: 12px; min-width: 0; }
 .iss__glyph { display: grid; place-items: center; flex: none; width: 40px; height: 40px; border-radius: var(--mi-radius-m); background: var(--mi-p-tint); color: var(--mi-p-text); }

@@ -116,7 +116,7 @@ const sentence = computed(() => {
 </script>
 
 <style scoped>
-.iqb { container-type: inline-size; display: grid; gap: 12px; font-family: var(--mi-font); color: var(--mi-label); }
+.iqb { container-type: inline-size; display: grid; align-content: start; gap: 12px; font-family: var(--mi-font); color: var(--mi-label); }
 .iqb__head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
 .iqb__bar { display: grid; gap: 10px; padding: 10px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); }
 @container (min-width: 720px) { .iqb__bar { grid-template-columns: 240px minmax(0, 1fr); align-items: center; } }

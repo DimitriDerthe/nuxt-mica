@@ -112,7 +112,7 @@ const selectedLabel = computed(() => {
 </script>
 
 <style scoped>
-.mac { container-type: inline-size; display: grid; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
+.mac { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
 .mac__head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
 .mac__nav { display: flex; align-items: center; gap: 10px; }
 .mac__nav h2 { min-width: 9.5em; margin: 0; text-align: center; }

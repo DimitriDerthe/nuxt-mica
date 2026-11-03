@@ -85,7 +85,7 @@ const events = computed(() => parcel.value.scans
 </script>
 
 <style scoped>
-.shp { container-type: inline-size; display: grid; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
+.shp { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
 .shp__head, .shp__log-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .shp__card, .shp__log { display: grid; gap: 22px; padding: 20px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); }
 .shp__log { gap: 14px; }

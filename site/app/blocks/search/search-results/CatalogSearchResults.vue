@@ -112,7 +112,7 @@ function clearAll() {
 </script>
 
 <style scoped>
-.csr { container-type: inline-size; display: grid; gap: 18px; font-family: var(--mi-font); color: var(--mi-label); }
+.csr { container-type: inline-size; display: grid; align-content: start; gap: 18px; font-family: var(--mi-font); color: var(--mi-label); }
 .csr__head { display: grid; gap: 8px; }
 .csr__fix a { color: var(--mi-p-text); }
 .csr__layout { display: grid; gap: 20px; }

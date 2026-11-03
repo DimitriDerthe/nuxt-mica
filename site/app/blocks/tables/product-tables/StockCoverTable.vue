@@ -144,7 +144,7 @@ const setListed = (id: string, on: boolean) => {
 </script>
 
 <style scoped>
-.stk { container-type: inline-size; display: grid; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
+.stk { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
 .stk__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .stk__search { flex: 0 1 260px; min-width: 0; }
 .stk__toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; }

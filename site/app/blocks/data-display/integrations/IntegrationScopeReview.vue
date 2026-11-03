@@ -103,7 +103,7 @@ function reset() {
 </script>
 
 <style scoped>
-.isr { container-type: inline-size; display: grid; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
+.isr { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
 .isr__head { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
 .isr__pair { display: flex; align-items: center; gap: 6px; }
 .isr__app { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; font-size: 18px; font-weight: 700; }

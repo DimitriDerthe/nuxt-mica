@@ -67,6 +67,18 @@ describe('application UI blocks', () => {
     expect(bad).toEqual([])
   })
 
+  it('keeps padded root grids from stretching their rows', () => {
+    // The preview frame (and many app layouts) give a block more height than it needs: a root grid
+    // without align-content spreads that space between its rows, opening gaps when content shrinks.
+    const bad = all.filter(b => b.meta.stage !== 'bleed').flatMap((b) => {
+      const src = read(b)
+      const root = src.match(/<template>\s*(?:<!--[\s\S]*?-->\s*)*<[a-zA-Z-]+[^>]*?\sclass="([\w-]+)/)?.[1]
+      const rule = style(src).match(new RegExp(`(^|\\n)\\.${root}\\s*\\{([^}]*)\\}`))?.[2] ?? ''
+      return /display:\s*grid/.test(rule) && !/align-content|place-content|grid-template(-rows)?:/.test(rule) ? [`${b.family}/${b.category.id}/${b.meta.file}`] : []
+    })
+    expect(bad).toEqual([])
+  })
+
   it('animates only compositor-friendly properties', () => {
     const layout = /\b(width|height|top|left|right|bottom|margin[\w-]*|padding[\w-]*|box-shadow|border[\w-]*)\b/
     const bad = all.flatMap(b => (style(read(b)).match(/transition(-property)?:[^;}]+/g) ?? [])

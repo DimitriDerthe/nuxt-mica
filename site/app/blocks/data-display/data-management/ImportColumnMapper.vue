@@ -85,7 +85,7 @@ const done = computed(() => REQUIRED.every(f => mapped.value.has(f)) && dupes.va
 </script>
 
 <style scoped>
-.icm { container-type: inline-size; display: grid; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
+.icm { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
 .icm__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .icm__layout { display: grid; gap: 14px; }
 .icm__cols { display: grid; margin: 0; padding: 0; list-style: none; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); overflow: hidden; }

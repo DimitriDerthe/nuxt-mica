@@ -211,7 +211,7 @@ function onKey(e: KeyboardEvent) {
 </script>
 
 <style scoped>
-.apal { --apal-t3: color-mix(in srgb, var(--mi-label2) 78%, transparent); container-type: inline-size; display: grid; font-family: var(--mi-font); color: var(--mi-label); }
+.apal { --apal-t3: color-mix(in srgb, var(--mi-label2) 78%, transparent); container-type: inline-size; display: grid; align-content: start; font-family: var(--mi-font); color: var(--mi-label); }
 .apal__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
 .apal__stage { position: relative; display: grid; place-items: start center; min-height: 540px; padding: 32px 12px 24px; border-radius: var(--mi-radius-xl); overflow: hidden; isolation: isolate; background: var(--mi-page); }

@@ -156,7 +156,7 @@ function passkey() {
 
 <style scoped>
 .sic { container-type: inline-size; display: grid; min-height: 100%; font-family: var(--mi-font); color: var(--mi-label); background: var(--mi-page); }
-.sic__in { display: grid; }
+.sic__in { display: grid; grid-template-rows: auto 1fr; }
 .sic__form-side { display: grid; grid-template-rows: auto 1fr auto; gap: 28px; padding: 24px 20px; order: 2; }
 .sic__brand { display: flex; align-items: center; gap: 10px; }
 .sic__mark { width: 22px; height: 22px; border-radius: 7px; background: conic-gradient(from 210deg, var(--mi-p), var(--mi-s), var(--mi-p)); box-shadow: inset 0 0 0 5px color-mix(in srgb, var(--mi-page) 70%, transparent); }
@@ -185,7 +185,7 @@ function passkey() {
 .sic__quote { display: none; }
 
 @container (min-width: 760px) {
-  .sic__in { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); }
+  .sic__in { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); grid-template-rows: none; }
   .sic__form-side { order: 1; padding: 32px 44px; }
   .sic__art { order: 2; min-height: 0; margin: 12px; border-radius: 22px; box-shadow: inset 0 0 0 1px var(--mi-sep); }
   .sic__quote {

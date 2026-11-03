@@ -201,7 +201,7 @@ function undo() {
 </script>
 
 <style scoped>
-.mre { container: mre / inline-size; display: grid; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
+.mre { container: mre / inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
 .mre__head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; }
 .mre__who { display: flex; align-items: center; gap: 14px; min-width: 0; flex: 1 1 260px; }
 .mre__who > div { min-width: 0; }

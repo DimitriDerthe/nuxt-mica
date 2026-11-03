@@ -126,7 +126,7 @@ function reset() {
 </script>
 
 <style scoped>
-.grs { container-type: inline-size; display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center; font-family: var(--mi-font); color: var(--mi-label); }
+.grs { container-type: inline-size; display: grid; align-content: start; grid-template-columns: minmax(0, 1fr); justify-items: center; font-family: var(--mi-font); color: var(--mi-label); }
 .grs__card {
   display: grid; gap: 20px; width: 100%; max-width: 560px; padding: 22px 18px; box-sizing: border-box;
   border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh2);

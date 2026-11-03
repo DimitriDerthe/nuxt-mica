@@ -145,7 +145,7 @@ function pin (code: string) { pinned.value = pinned.value === code ? '' : code }
 </script>
 
 <style scoped>
-.tm { container-type: inline-size; display: grid; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
+.tm { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
 .tm__head, .tm__map-top { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .tm__map-top { align-items: center; }
 .tm__grid { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); }

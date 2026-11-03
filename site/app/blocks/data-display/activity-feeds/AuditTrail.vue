@@ -77,7 +77,7 @@ const sensitive = computed(() => shown.value.filter(e => e.risk === 'high').leng
 </script>
 
 <style scoped>
-.aud { container-type: inline-size; display: grid; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
+.aud { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
 .aud__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .aud__filters { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .aud__list { display: grid; margin: 0; padding: 0; list-style: none; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); overflow: hidden; }

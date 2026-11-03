@@ -124,7 +124,7 @@ function refund() {
 </script>
 
 <style scoped>
-.tmt { container-type: inline-size; display: grid; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
+.tmt { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
 .tmt__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 14px; padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
 .tmt__amount-block { display: grid; gap: 4px; }
 .tmt__status-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }

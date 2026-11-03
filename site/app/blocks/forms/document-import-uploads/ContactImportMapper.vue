@@ -236,7 +236,7 @@ function restart() {
 </script>
 
 <style scoped>
-.cim { container-type: inline-size; display: grid; gap: 18px; padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); font-family: var(--mi-font); color: var(--mi-label); }
+.cim { container-type: inline-size; display: grid; align-content: start; gap: 18px; padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); font-family: var(--mi-font); color: var(--mi-label); }
 .cim__head { display: grid; gap: 14px; }
 @container (min-width: 720px) { .cim__head { grid-template-columns: auto minmax(280px, 420px); justify-content: space-between; align-items: center; } }
 .cim__panel { display: grid; gap: 14px; min-width: 0; }

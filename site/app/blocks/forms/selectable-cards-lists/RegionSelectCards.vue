@@ -159,7 +159,7 @@ function submit() {
 </script>
 
 <style scoped>
-.rsc { container: rsc / inline-size; display: grid; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
+.rsc { container: rsc / inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
 .rsc__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .rsc__eu { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--mi-label2); cursor: pointer; }
 .rsc__form { display: grid; gap: 18px; padding: 18px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }

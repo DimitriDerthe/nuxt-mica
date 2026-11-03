@@ -127,7 +127,7 @@ function onQuick(item: { value?: string | number }) {
 </script>
 
 <style scoped>
-.tvo { container-type: inline-size; display: grid; gap: 18px; font-family: var(--mi-font); color: var(--mi-label); }
+.tvo { container-type: inline-size; display: grid; align-content: start; gap: 18px; font-family: var(--mi-font); color: var(--mi-label); }
 .tvo__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .tvo__body { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); align-items: start; }
 @container (min-width: 820px) { .tvo__body { grid-template-columns: 296px minmax(0, 1fr); } }

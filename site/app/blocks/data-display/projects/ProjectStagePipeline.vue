@@ -82,7 +82,7 @@ const shown = computed(() => (stage.value ? projects.value.filter(p => STAGES[p.
 </script>
 
 <style scoped>
-.psp { container-type: inline-size; display: grid; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
+.psp { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
 .psp__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .psp__rail { display: grid; grid-template-columns: repeat(auto-fit, minmax(96px, 1fr)); gap: 6px; margin: 0; padding: 0; list-style: none; }
 .psp__stage { display: grid; gap: 4px; width: 100%; padding: 10px 12px; border: 0; border-radius: var(--mi-radius-m); background: var(--mi-card); box-shadow: var(--mi-sh1); color: inherit; font: inherit; text-align: start; cursor: pointer; }
