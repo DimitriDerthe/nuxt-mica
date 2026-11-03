@@ -452,16 +452,31 @@ needs.set('duration', [TR])
 F('ease', (v) => { const x = EASES[v] ?? arbitrary(v)?.value; return x ? [['--mia-ease', x], ['transition-timing-function', x]] : null })
 needs.set('ease', [TE])
 F('delay', (v) => { const x = NUM.test(v) ? v + 'ms' : arbitrary(v)?.value; return x ? [['transition-delay', x]] : null })
+// Motion vocabulary: one `@keyframes` per shape, tuned per element with `--mi-<name>-*` variables
+// (`mi:[--mi-in-y:8px] mi:animate-in`). `in`/`out` leave the element's own state implicit, so they compose
+// with its `mi:translate-*`/`mi:scale-*`/`mi:opacity-*`. Transform order: rotate, translate, scale.
+const MOVE = (n: string) => `rotate(var(--mi-${n}-r,0deg)) translate(var(--mi-${n}-x,0),var(--mi-${n}-y,0)) scale(var(--mi-${n}-sx,var(--mi-${n}-s,1)),var(--mi-${n}-sy,var(--mi-${n}-s,1)))`
 const KEYFRAMES: Record<string, [string, string]> = {
-  spin: ['spin 1s linear infinite', '@keyframes spin{to{transform:rotate(360deg)}}'],
-  pulse: ['pulse 2s cubic-bezier(.4,0,.6,1) infinite', '@keyframes pulse{50%{opacity:.5}}']
+  spin: ['mi-spin 1s linear infinite', '@keyframes mi-spin{to{transform:rotate(360deg)}}'],
+  pulse: ['mi-pulse 2s cubic-bezier(.4,0,.6,1) infinite', '@keyframes mi-pulse{50%{opacity:var(--mi-pulse,.5)}}'],
+  in: ['mi-in var(--mi-dur-2) var(--mi-ease) both', `@keyframes mi-in{from{opacity:var(--mi-in-o,0);transform:${MOVE('in')}}}`],
+  out: ['mi-out var(--mi-dur-2) var(--mi-ease) both', `@keyframes mi-out{to{opacity:var(--mi-out-o,0);transform:${MOVE('out')}}}`],
+  grow: ['mi-grow var(--mi-dur-3) var(--mi-ease) both', '@keyframes mi-grow{from{transform:scale(var(--mi-grow-x,0),var(--mi-grow-y,1))}to{transform:scale(var(--mi-grow-x-to,1),var(--mi-grow-y-to,1))}}'],
+  shake: ['mi-shake var(--mi-dur-3) var(--mi-ease)', '@keyframes mi-shake{20%,60%{transform:translateX(calc(var(--mi-shake,6px) * -1))}40%,80%{transform:translateX(var(--mi-shake,6px))}}'],
+  blink: ['mi-blink 1s var(--mi-ease-in-out) infinite', '@keyframes mi-blink{50%{opacity:var(--mi-blink,0)}}'],
+  float: ['mi-float 2s var(--mi-ease-in-out) infinite', '@keyframes mi-float{50%{transform:translate(var(--mi-float-x,0),var(--mi-float,-8px))}}'],
+  beat: ['mi-beat 1s var(--mi-ease-in-out) infinite', '@keyframes mi-beat{50%{opacity:var(--mi-beat-o,1);transform:scale(var(--mi-beat,1.06))}}']
 }
+/** The vocabulary entry a value names: `in`, or the first word of `[in_.3s_ease_both]`. */
+const keyframesOf = (v: string): [string, string] | undefined => KEYFRAMES[v] ?? KEYFRAMES[arbitrary(v)?.value.split(/\s/)[0] ?? '']
 F('animate', (v) => {
   if (v === 'none') return [['animation', 'none']]
   const k = KEYFRAMES[v]
   if (k) return [['animation', k[0]]]
   const a = arbitrary(v)
-  return a ? [['animation', a.value]] : null
+  if (!a) return null
+  const [name, ...rest] = a.value.split(/\s/)
+  return [['animation', KEYFRAMES[name!] ? ['mi-' + name, ...rest].join(' ') : a.value]]
 })
 
 // Interactivity, SVG, misc
@@ -667,7 +682,7 @@ export function utility(u: string): { decls: Decl[], extras: string[] } | null {
     if (!fn) continue
     const decls = fn(i < base.length ? base.slice(i + 1) : '', mod, neg)
     if (decls) {
-      const keyframes = root === 'animate' ? KEYFRAMES[base.slice(i + 1)]?.[1] : undefined
+      const keyframes = root === 'animate' ? keyframesOf(base.slice(i + 1))?.[1] : undefined
       return { decls, extras: [...(needs.get(root) ?? []), ...(keyframes ? [keyframes] : [])] }
     }
   }
