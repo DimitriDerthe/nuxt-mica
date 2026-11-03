@@ -9,7 +9,7 @@ Mica is a native Nuxt layer. There is no npm package to publish or install: Nuxt
 ```ts
 export default defineNuxtConfig({
   // pin a release tag for reproducible builds
-  extends: ['github:DimitriDerthe/nuxt-mica#v0.5.0'],
+  extends: ['github:DimitriDerthe/nuxt-mica#v0.6.0'],
   // or follow main: 'github:DimitriDerthe/nuxt-mica'
   // or a local path: '../nuxt-mica'
 })
