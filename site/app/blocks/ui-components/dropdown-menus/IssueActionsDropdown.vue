@@ -1,6 +1,6 @@
 <template>
-  <section class="iad" aria-labelledby="iad-title">
-    <header class="iad__head">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-4.5 mi:font-mi mi:text-label" aria-labelledby="iad-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="iad-title" variant="title3" as="h2" weight="semibold">Row actions</MiText>
         <MiText variant="footnote" tone="label2">Platform squad · Cycle 31 · {{ issues.length }} open issues</MiText>
@@ -8,18 +8,18 @@
       <MiMenu v-model="sort" variant="popup" :items="sortItems" aria-label="Sort issues" placement="bottom-end" />
     </header>
 
-    <div class="iad__grid">
+    <div class="mi:grid mi:gap-4 mi:grid-cols-[minmax(0,_1fr)] mi:items-start mi:@[760px]:grid-cols-[minmax(0,_1.5fr)_minmax(260px,_1fr)]">
       <!-- Live list: every row owns a real pulldown whose entries follow the row's state. -->
-      <ul class="iad__list" aria-label="Issues">
-        <li v-for="issue in sorted" :key="issue.id" class="iad__row" :class="{ 'is-done': issue.done }">
-          <span class="iad__prio" :data-level="issue.priority" :aria-label="'Priority ' + issue.priority" role="img">
-            <i /><i /><i />
+      <ul class="mi:[list-style:none] mi:m-0 mi:p-1.5 mi:grid mi:gap-0.5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1" aria-label="Issues">
+        <li v-for="issue in sorted" :key="issue.id" :data-done="issue.done || undefined" class="mi:group/row mi:grid mi:grid-cols-[auto_minmax(0,_1fr)_auto_auto] mi:items-center mi:gap-3 mi:pt-2.5 mi:pr-2 mi:pb-2.5 mi:pl-3 mi:rounded-md mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)] mi:hover:[background:var(--mi-fill4)] mi:@[520px]:grid-cols-[auto_minmax(0,_1fr)_auto_auto_auto]" :class="issue.done ? 'mi:opacity-62' : ''">
+          <span class="mi:group mi:inline-flex mi:[align-items:flex-end] mi:gap-0.5 mi:h-3.5 mi:text-label2 mi:data-[level=urgent]:text-red mi:data-[level=high]:text-orange" :data-level="issue.priority" :aria-label="'Priority ' + issue.priority" role="img">
+            <i class="mi:w-[3px] mi:rounded-[1px] mi:[background:currentColor] mi:opacity-25 mi:h-1.5 mi:group-data-[level=low]:opacity-100 mi:group-data-[level=high]:opacity-100 mi:group-data-[level=urgent]:opacity-100" /><i class="mi:w-[3px] mi:rounded-[1px] mi:[background:currentColor] mi:opacity-25 mi:h-2.5 mi:group-data-[level=high]:opacity-100 mi:group-data-[level=urgent]:opacity-100" /><i class="mi:w-[3px] mi:rounded-[1px] mi:[background:currentColor] mi:opacity-25 mi:h-3.5 mi:group-data-[level=urgent]:opacity-100" />
           </span>
-          <div class="iad__main">
-            <MiText variant="caption" tone="label3" weight="medium" class="iad__key">{{ issue.id }}</MiText>
-            <MiText variant="subheadline" weight="medium" :lines="1" class="iad__name">{{ issue.title }}</MiText>
+          <div class="mi:grid mi:min-w-0">
+            <MiText variant="caption" tone="label3" weight="medium" class="mi:tabular-nums! mi:tracking-[.02em]!">{{ issue.id }}</MiText>
+            <MiText variant="subheadline" weight="medium" :lines="1" class="mi:group-data-[done]/row:line-through! mi:group-data-[done]/row:decoration-label3!">{{ issue.title }}</MiText>
           </div>
-          <MiBadge :tone="issue.done ? 'success' : 'neutral'" :label="issue.done ? 'Done' : 'In progress'" dot class="iad__status" />
+          <MiBadge :tone="issue.done ? 'success' : 'neutral'" :label="issue.done ? 'Done' : 'In progress'" dot class="mi:hidden! mi:@[520px]:inline-flex!" />
           <MiAvatar :name="issue.assignee" size="xs" tone="auto" />
           <MiMenu :items="menuFor(issue)" :aria-label="'Actions for ' + issue.id" placement="bottom-end" @select="(item) => act(issue.id, item.value)">
             <template #trigger="{ props: tp }">
@@ -32,17 +32,17 @@
       </ul>
 
       <!-- The same menu, pinned open next to its trigger so the anatomy is visible at a glance. -->
-      <aside class="iad__shown" aria-label="Menu preview">
-        <div class="iad__anchor">
+      <aside class="mi:*:max-w-full mi:relative mi:grid mi:justify-items-end mi:gap-2 mi:p-4.5 mi:rounded-xl mi:[background:radial-gradient(120%_90%_at_100%_0%,_var(--mi-p-tint),_transparent_60%),_var(--mi-fill4)] mi:overflow-hidden" aria-label="Menu preview">
+        <div class="mi:flex mi:items-center mi:gap-2.5">
           <MiText variant="caption" tone="label2" weight="medium">{{ first.id }} · menu open</MiText>
-          <span class="iad__fake-trigger" aria-hidden="true"><MiIcon name="more" :size="18" /></span>
+          <span class="mi:grid mi:place-items-center mi:w-7.5 mi:h-7.5 mi:rounded-[50%] mi:[background:var(--mi-fill2)] mi:text-label mi:shadow-[0_0_0_3px_var(--mi-p-tint)]" aria-hidden="true"><MiIcon name="more" :size="18" /></span>
         </div>
         <MiContextMenu inline :items="pinnedItems" label="Issue actions" :width="248" highlighted="priority" @select="(id) => act(first.id, id)" />
       </aside>
     </div>
 
-    <p class="iad__log" aria-live="polite">
-      <MiIcon name="check-circle" :size="16" class="iad__log-icon" />
+    <p class="mi:flex mi:flex-wrap mi:items-center mi:gap-2 mi:m-0 mi:text-[13px] mi:text-label2" aria-live="polite">
+      <MiIcon name="check-circle" :size="16" class="mi:text-green" />
       <span>{{ log }}</span>
       <MiButton v-if="undo" variant="plain" size="mini" @click="restore">Undo</MiButton>
     </p>
@@ -133,38 +133,3 @@ function restore() {
   undo.value = null
 }
 </script>
-
-<style scoped>
-.iad { container-type: inline-size; display: grid; align-content: start; gap: 18px; font-family: var(--mi-font); color: var(--mi-label); }
-.iad__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.iad__grid { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); align-items: start; }
-@container (min-width: 760px) { .iad__grid { grid-template-columns: minmax(0, 1.5fr) minmax(260px, 1fr); } }
-
-.iad__list { list-style: none; margin: 0; padding: 6px; display: grid; gap: 2px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.iad__row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; align-items: center; gap: 12px; padding: 10px 8px 10px 12px; border-radius: var(--mi-radius-m); transition: opacity var(--mi-dur-2) var(--mi-ease); }
-.iad__row:hover { background: var(--mi-fill4); }
-.iad__row.is-done { opacity: .62; }
-.iad__row.is-done .iad__name { text-decoration: line-through; text-decoration-color: var(--mi-label3); }
-.iad__status { display: none; }
-@container (min-width: 520px) { .iad__row { grid-template-columns: auto minmax(0, 1fr) auto auto auto; } .iad__status { display: inline-flex; } }
-.iad__main { display: grid; min-width: 0; }
-.iad__key { font-variant-numeric: tabular-nums; letter-spacing: .02em; }
-
-/* Three-bar priority glyph: lit bars carry the level, the colour carries the urgency. */
-.iad__prio { display: inline-flex; align-items: flex-end; gap: 2px; height: 14px; color: var(--mi-label2); }
-.iad__prio i { width: 3px; border-radius: 1px; background: currentColor; opacity: .25; }
-.iad__prio i:nth-child(1) { height: 6px; } .iad__prio i:nth-child(2) { height: 10px; } .iad__prio i:nth-child(3) { height: 14px; }
-.iad__prio[data-level="low"] i:nth-child(1),
-.iad__prio[data-level="high"] i:nth-child(-n+2),
-.iad__prio[data-level="urgent"] i { opacity: 1; }
-.iad__prio[data-level="urgent"] { color: var(--mi-red); }
-.iad__prio[data-level="high"] { color: var(--mi-orange); }
-
-.iad__shown { position: relative; display: grid; justify-items: end; gap: 8px; padding: 18px; border-radius: var(--mi-radius-xl); background: radial-gradient(120% 90% at 100% 0%, var(--mi-p-tint), transparent 60%), var(--mi-fill4); overflow: hidden; }
-.iad__anchor { display: flex; align-items: center; gap: 10px; }
-.iad__fake-trigger { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--mi-fill2); color: var(--mi-label); box-shadow: 0 0 0 3px var(--mi-p-tint); }
-.iad__shown > * { max-width: 100%; }
-
-.iad__log { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0; font-size: 13px; color: var(--mi-label2); }
-.iad__log-icon { color: var(--mi-green); }
-</style>

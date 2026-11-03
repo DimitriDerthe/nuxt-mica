@@ -29,7 +29,7 @@ withDefaults(defineProps<{
 </script>
 
 <template>
-  <ol class="mi-tl" :class="align === 'alternate' ? 'is-alternate' : 'is-start'" :aria-label="ariaLabel">
+  <ol class="mi-tl mi:@container/mi-tl mi:[list-style:none] mi:flex-col" :class="align === 'alternate' ? 'is-alternate' : 'is-start'" :aria-label="ariaLabel">
     <slot>
       <MiTimelineItem v-for="(it, i) in items" :key="i" v-bind="it" />
     </slot>
@@ -37,5 +37,5 @@ withDefaults(defineProps<{
 </template>
 
 <style scoped>
-.mi-tl{container:mi-tl / inline-size;list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.mi-tl{margin:0;padding:0;display:flex}
 </style>

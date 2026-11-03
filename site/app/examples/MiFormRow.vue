@@ -26,7 +26,7 @@ const zones = [
 
 <template>
   <!-- MiFormRow lays its label and control out on MiForm's two-column grid. -->
-  <MiForm title="Profile" class="profile">
+  <MiForm title="Profile" class="profile mi:self-center">
     <MiFormRow v-bind="p">
       <MiInput v-model="name" autocomplete="name" />
     </MiFormRow>
@@ -38,7 +38,3 @@ const zones = [
     </MiFormRow>
   </MiForm>
 </template>
-
-<style scoped>
-.profile { align-self: center; }
-</style>

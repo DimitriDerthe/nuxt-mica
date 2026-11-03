@@ -1,7 +1,7 @@
 <template>
-  <div class="sc">
-    <header class="sc__head">
-      <div class="sc__title">
+  <div class="mi:@container mi:grid mi:content-start mi:gap-0 mi:overflow-hidden mi:rounded-xl mi:font-mi mi:text-label mi:[background:var(--mi-card)] mi:shadow-1 mi:[timeline-scope:--sc-read]">
+    <header class="mi:relative mi:flex mi:items-center mi:justify-between mi:gap-3 mi:pt-4 mi:px-4 mi:pb-3.5 mi:border-b mi:border-b-sep mi:@[720px]:pt-4.5 mi:@[720px]:px-6 mi:@[720px]:pb-4">
+      <div class="mi:grid mi:gap-0.5 mi:min-w-0">
         <MiText variant="caption" tone="label2" weight="medium">Postmortem · Sev 2 · resolved</MiText>
         <MiText id="sc-title" variant="title3" as="h2" weight="semibold">Delayed SEPA payouts on October 14</MiText>
       </div>
@@ -10,34 +10,34 @@
         Top
       </MiButton>
       <!-- Reading progress: a CSS scroll-driven animation on transform, no scroll listener. -->
-      <div class="sc__progress" aria-hidden="true"><span /></div>
+      <div class="mi:supports-[not_(animation-timeline:scroll())]:hidden mi:absolute mi:left-0 mi:right-0 mi:-bottom-px mi:h-0.5" aria-hidden="true"><span class="mi:animate-[grow_linear_both] mi:[animation-timeline:--sc-read] mi:block mi:h-full mi:[background:var(--mi-p)] mi:transform-[scaleX(0)] mi:origin-left" /></div>
     </header>
 
-    <div class="sc__layout">
-      <nav ref="navEl" class="sc__nav" aria-label="Sections of this postmortem" :style="{ '--i': activeIndex }">
-        <span class="sc__marker" aria-hidden="true" />
+    <div class="mi:grid mi:min-w-0 mi:@[720px]:grid-cols-[220px_minmax(0,_1fr)]">
+      <nav ref="navEl" class="mi:relative mi:flex mi:gap-1.5 mi:py-2.5 mi:px-4 mi:overflow-x-auto mi:[scrollbar-width:none] mi:border-b mi:border-b-sep mi:[background:var(--mi-fill4)] mi:@[720px]:grid mi:@[720px]:content-start mi:@[720px]:gap-0 mi:@[720px]:pt-4 mi:@[720px]:pr-3 mi:@[720px]:pb-4 mi:@[720px]:pl-4 mi:@[720px]:overflow-visible mi:@[720px]:[border-bottom:0] mi:@[720px]:border-r mi:@[720px]:border-r-sep mi:@[720px]:[background:none]" aria-label="Sections of this postmortem" :style="{ '--i': activeIndex }">
+        <span class="mi:hidden mi:@[720px]:absolute mi:@[720px]:top-4 mi:@[720px]:left-4 mi:@[720px]:block mi:@[720px]:w-0.5 mi:@[720px]:h-9 mi:@[720px]:rounded-[1px] mi:@[720px]:[background:var(--mi-p)] mi:@[720px]:transform-[translateY(calc(var(--i)_*_36px))] mi:@[720px]:[transition:transform_var(--mi-dur-3)_var(--mi-spring)]" aria-hidden="true" />
         <a
-          v-for="s in sections" :key="s.id" :href="'#' + s.id" class="sc__link" :aria-current="active === s.id ? 'location' : undefined"
+          v-for="s in sections" :key="s.id" :href="'#' + s.id" class="mi:inline-flex mi:flex-[none] mi:items-center mi:gap-2 mi:h-8 mi:py-0 mi:px-3 mi:rounded-[999px] mi:text-[13px] mi:font-medium mi:text-label2 mi:[text-decoration:none] mi:whitespace-nowrap mi:[&[aria-current='location']]:text-p-on mi:[&[aria-current='location']]:[background:var(--mi-p)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:@[720px]:h-9 mi:@[720px]:pt-0 mi:@[720px]:pr-3 mi:@[720px]:pb-0 mi:@[720px]:pl-4 mi:@[720px]:rounded-[0_8px_8px_0] mi:@[720px]:shadow-[inset_2px_0_0_var(--mi-sep)] mi:@[720px]:[&[aria-current='location']]:text-label mi:@[720px]:[&[aria-current='location']]:[background:var(--mi-fill4)]" :aria-current="active === s.id ? 'location' : undefined"
           :data-id="s.id" @click.prevent="go(s.id)"
         >
-          <span class="sc__num">{{ String(sections.indexOf(s) + 1).padStart(2, '0') }}</span>{{ s.label }}
+          <span class="mi:[font:600_11px_ui-monospace,_'SF_Mono',_Menlo,_monospace] mi:opacity-60">{{ String(sections.indexOf(s) + 1).padStart(2, '0') }}</span>{{ s.label }}
         </a>
       </nav>
 
-      <div ref="pane" class="sc__pane" tabindex="0" aria-labelledby="sc-title">
-        <section v-for="s in sections" :id="s.id" :key="s.id" class="sc__section">
-          <h3 class="sc__h">{{ s.label }}</h3>
-          <p v-for="(p, i) in s.body" :key="i">{{ p }}</p>
-          <ol v-if="s.timeline" class="sc__timeline">
-            <li v-for="t in s.timeline" :key="t.at"><time>{{ t.at }}</time>{{ t.what }}</li>
+      <div ref="pane" class="mi:[scroll-timeline-name:--sc-read] mi:[scroll-timeline-axis:block] mi:relative mi:h-105 mi:overflow-y-auto mi:pt-1 mi:px-4.5 mi:pb-6 mi:overscroll-contain mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px] mi:@[720px]:h-115 mi:@[720px]:pt-1 mi:@[720px]:px-8 mi:@[720px]:pb-7" tabindex="0" aria-labelledby="sc-title">
+        <section v-for="s in sections" :id="s.id" :key="s.id" data-section class="mi:pt-4 mi:px-0 mi:pb-2 mi:max-w-[64ch] mi:text-[15px] mi:leading-[1.65] mi:text-label2 mi:not-first:border-t mi:not-first:border-t-sep">
+          <h3 class="mi:mt-0 mi:mx-0 mi:mb-2 mi:text-[17px] mi:font-650 mi:tracking-[-.01em] mi:text-label">{{ s.label }}</h3>
+          <p v-for="(p, i) in s.body" :key="i" class="mi:mt-0 mi:mx-0 mi:mb-2.5">{{ p }}</p>
+          <ol v-if="s.timeline" class="mi:grid mi:gap-2 mi:mt-1 mi:mx-0 mi:mb-3 mi:p-0 mi:[list-style:none]">
+            <li class="mi:grid mi:grid-cols-[52px_minmax(0,_1fr)] mi:gap-2" v-for="t in s.timeline" :key="t.at"><time class="mi:[font:600_13px/1.65_ui-monospace,_'SF_Mono',_Menlo,_monospace] mi:text-label">{{ t.at }}</time>{{ t.what }}</li>
           </ol>
-          <ul v-if="s.actions" class="sc__actions">
+          <ul v-if="s.actions" class="mi:grid mi:gap-2.5 mi:mt-1 mi:mx-0 mi:mb-3 mi:p-0 mi:[list-style:none]">
             <li v-for="a in s.actions" :key="a.what">
               <MiCheckbox v-model="a.done" :label="a.what" :description="a.owner + ' · due ' + a.due" />
             </li>
           </ul>
         </section>
-        <div ref="end" class="sc__end" aria-hidden="true" />
+        <div ref="end" class="mi:h-px" aria-hidden="true" />
       </div>
     </div>
   </div>
@@ -113,68 +113,8 @@ onMounted(() => {
     if (atEnd) active.value = sections.at(-1)!.id
     else if (first) active.value = first.id
   }, { root: pane.value, rootMargin: '0px 0px -66% 0px' })
-  pane.value.querySelectorAll('.sc__section').forEach(el => io!.observe(el))
+  pane.value.querySelectorAll('[data-section]').forEach(el => io!.observe(el))
   if (end.value) io.observe(end.value)
 })
 onBeforeUnmount(() => io?.disconnect())
 </script>
-
-<style scoped>
-.sc {
-  container-type: inline-size; display: grid; align-content: start; gap: 0; overflow: hidden; border-radius: var(--mi-radius-xl);
-  font-family: var(--mi-font); color: var(--mi-label); background: var(--mi-card); box-shadow: var(--mi-sh1);
-  timeline-scope: --sc-read;
-}
-.sc__head { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 16px 14px; border-bottom: 1px solid var(--mi-sep); }
-.sc__title { display: grid; gap: 2px; min-width: 0; }
-.sc__progress { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; }
-.sc__progress span {
-  display: block; height: 100%; background: var(--mi-p); transform: scaleX(0); transform-origin: left;
-  animation: sc-read linear both; animation-timeline: --sc-read;
-}
-@keyframes sc-read { from { transform: scaleX(0); } to { transform: scaleX(1); } }
-@supports not (animation-timeline: scroll()) { .sc__progress { display: none; } }
-
-.sc__layout { display: grid; min-width: 0; }
-.sc__nav {
-  position: relative; display: flex; gap: 6px; padding: 10px 16px; overflow-x: auto; scrollbar-width: none;
-  border-bottom: 1px solid var(--mi-sep); background: var(--mi-fill4);
-}
-.sc__marker { display: none; }
-.sc__link {
-  display: inline-flex; flex: none; align-items: center; gap: 8px; height: 32px; padding: 0 12px; border-radius: 999px;
-  font-size: 13px; font-weight: 500; color: var(--mi-label2); text-decoration: none; white-space: nowrap;
-}
-.sc__link[aria-current="location"] { color: var(--mi-p-on); background: var(--mi-p); }
-.sc__link:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-.sc__num { font: 600 11px ui-monospace, "SF Mono", Menlo, monospace; opacity: .6; }
-
-.sc__pane { position: relative; height: 420px; overflow-y: auto; padding: 4px 18px 24px; overscroll-behavior: contain; scroll-timeline: --sc-read block; }
-.sc__pane:focus-visible { outline: 2px solid var(--mi-p); outline-offset: -2px; }
-.sc__section { padding: 16px 0 8px; max-width: 64ch; font-size: 15px; line-height: 1.65; color: var(--mi-label2); }
-.sc__section + .sc__section { border-top: 1px solid var(--mi-sep); }
-.sc__section p { margin: 0 0 10px; }
-.sc__h { margin: 0 0 8px; font-size: 17px; font-weight: 650; letter-spacing: -.01em; color: var(--mi-label); }
-.sc__timeline { display: grid; gap: 8px; margin: 4px 0 12px; padding: 0; list-style: none; }
-.sc__timeline li { display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 8px; }
-.sc__timeline time { font: 600 13px/1.65 ui-monospace, "SF Mono", Menlo, monospace; color: var(--mi-label); }
-.sc__actions { display: grid; gap: 10px; margin: 4px 0 12px; padding: 0; list-style: none; }
-.sc__end { height: 1px; }
-
-@container (min-width: 720px) {
-  .sc__head { padding: 18px 24px 16px; }
-  .sc__layout { grid-template-columns: 220px minmax(0, 1fr); }
-  .sc__nav {
-    display: grid; align-content: start; gap: 0; padding: 16px 12px 16px 16px; overflow: visible;
-    border-bottom: 0; border-right: 1px solid var(--mi-sep); background: none;
-  }
-  /* Sliding marker: one bar that moves between fixed-height rows with a transform. */
-  .sc__marker {
-    position: absolute; top: 16px; left: 16px; display: block; width: 2px; height: 36px; border-radius: 1px; background: var(--mi-p);
-    transform: translateY(calc(var(--i) * 36px)); transition: transform var(--mi-dur-3) var(--mi-spring);
-  }
-  .sc__link { height: 36px; padding: 0 12px 0 16px; border-radius: 0 8px 8px 0; box-shadow: inset 2px 0 0 var(--mi-sep); }
-  .sc__link[aria-current="location"] { color: var(--mi-label); background: var(--mi-fill4); }
-  .sc__pane { height: 460px; padding: 4px 32px 28px; }
-}
-</style>

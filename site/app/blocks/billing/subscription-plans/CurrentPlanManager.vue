@@ -1,32 +1,32 @@
 <template>
-  <section class="cpm" aria-labelledby="cpm-title">
-    <header class="cpm__head">
-      <div class="cpm__intro">
+  <section class="mi:@container/cpm mi:grid mi:content-start mi:gap-5 mi:font-mi mi:text-label" aria-labelledby="cpm-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-y-3 mi:gap-x-5">
+      <div class="mi:grid mi:gap-1">
         <MiText id="cpm-title" as="h2" variant="title2" weight="bold">Plan and usage</MiText>
         <MiText variant="footnote" tone="label2">Kestrel Architects · billing period {{ day(periodStart) }} to {{ day(periodEnd) }}</MiText>
       </div>
-      <div class="cpm__now">
-        <span class="cpm__now-name">{{ plan.name }}</span>
-        <span class="cpm__now-price">{{ eur(plan.price) }}<small>/ month</small></span>
+      <div class="mi:flex mi:items-baseline mi:gap-2.5 mi:py-2 mi:px-3.5 mi:rounded-[999px] mi:[background:var(--mi-fill4)]">
+        <span class="mi:text-[13px] mi:font-bold mi:text-p-text">{{ plan.name }}</span>
+        <span class="mi:text-[15px] mi:font-650 mi:tabular-nums">{{ eur(plan.price) }}<small class="mi:ml-[3px] mi:text-[12px] mi:font-medium mi:text-label2">/ month</small></span>
       </div>
     </header>
 
-    <div class="cpm__layout">
-      <div class="cpm__usage">
-        <section class="cpm__card" aria-labelledby="cpm-quota-title">
-          <div class="cpm__card-head">
+    <div class="mi:grid mi:gap-4 mi:grid-cols-[minmax(0,_1fr)] mi:items-start mi:@[760px]/cpm:grid-cols-[minmax(0,_1.1fr)_minmax(0,_1fr)] mi:@[760px]/cpm:gap-5">
+      <div class="mi:grid mi:gap-4 mi:min-w-0">
+        <section class="mi:bg-card mi:grid mi:gap-3.5 mi:p-5 mi:rounded-xl mi:shadow-1 mi:min-w-0" aria-labelledby="cpm-quota-title">
+          <div class="mi:flex mi:items-baseline mi:justify-between mi:gap-2.5">
             <MiText id="cpm-quota-title" as="h3" variant="headline">This period</MiText>
             <MiText variant="caption" tone="label2" tabular>{{ daysLeft }} days left</MiText>
           </div>
-          <div class="cpm__meters">
-            <div v-for="q in quotas" :key="q.id" class="cpm__quota" :class="`is-${q.state}`">
+          <div class="mi:grid mi:gap-4.5">
+            <div v-for="q in quotas" :key="q.id">
               <MiMeter
                 :value="q.unlimited ? 0 : q.used" :max="q.unlimited ? 1 : q.limit" :label="q.label" size="sm" :color="q.color"
                 :value-text="q.unlimited ? `${q.used} ${q.unit}, unlimited` : `${q.used} of ${q.limit} ${q.unit}`"
               >
-                <span class="cpm__quota-foot">
-                  <span class="cpm__quota-num">{{ q.used }}<span> / {{ q.unlimited ? '∞' : q.limitText }}</span></span>
-                  <span class="cpm__quota-state">
+                <span class="mi:flex mi:flex-wrap mi:items-baseline mi:justify-between mi:gap-y-1 mi:gap-x-3 mi:w-full">
+                  <span class="mi:text-[15px] mi:font-650 mi:tabular-nums">{{ q.used }}<span class="mi:text-[12px] mi:font-medium mi:text-label2"> / {{ q.unlimited ? '∞' : q.limitText }}</span></span>
+                  <span class="mi:inline-flex mi:items-center mi:gap-1 mi:text-[12px] mi:font-semibold mi:tabular-nums" :class="q.state === 'warn' ? 'mi:text-orange-t' : q.state === 'full' ? 'mi:text-red-t' : 'mi:text-label2'">
                     <MiIcon v-if="q.state !== 'ok'" :name="q.state === 'full' ? 'exclamation-circle' : 'warning'" :size="13" />
                     {{ q.note }}
                   </span>
@@ -37,34 +37,34 @@
         </section>
 
         <!-- Why upgrade: the limit hits, placed on the billing period. -->
-        <section v-if="planId === 'team'" class="cpm__card cpm__why" aria-labelledby="cpm-why-title">
+        <section v-if="planId === 'team'" class="mi:[background:linear-gradient(165deg,_var(--mi-p-tint),_transparent_60%),_var(--mi-card)] mi:grid mi:gap-3.5 mi:p-5 mi:rounded-xl mi:shadow-1 mi:min-w-0 mi:shadow-[var(--mi-sh1),_inset_0_0_0_1px_color-mix(in_srgb,_var(--mi-p)_22%,_transparent)]" aria-labelledby="cpm-why-title">
           <MiText id="cpm-why-title" as="h3" variant="headline">You hit the project limit 3 times this period</MiText>
           <MiText variant="footnote" tone="label2">Each time, someone archived a project to start a new one. Business removes the cap.</MiText>
-          <div class="cpm__period" role="img" :aria-label="`Limit reached on ${hits.map(h => day(h)).join(', ')}`">
-            <span class="cpm__period-line" />
-            <span class="cpm__period-done" :style="{ transform: `scaleX(${elapsed})` }" />
-            <span v-for="h in hits" :key="h.toISOString()" class="cpm__hit" :style="{ left: `${at(h) * 100}%` }" />
-            <span class="cpm__today" :style="{ left: `${elapsed * 100}%` }"><span>Today</span></span>
+          <div class="mi:relative mi:h-10 mi:mt-1 mi:mx-2 mi:mb-0" role="img" :aria-label="`Limit reached on ${hits.map(h => day(h)).join(', ')}`">
+            <span class="mi:absolute mi:left-0 mi:right-0 mi:top-3.5 mi:h-1 mi:rounded-[2px] mi:[background:var(--mi-fill3)]" />
+            <span class="mi:[background:color-mix(in_srgb,_var(--mi-p)_45%,_transparent)] mi:absolute mi:left-0 mi:right-0 mi:top-3.5 mi:h-1 mi:rounded-[2px] mi:origin-left" :style="{ transform: `scaleX(${elapsed})` }" />
+            <span v-for="h in hits" :key="h.toISOString()" class="mi:absolute mi:top-0 mi:bottom-0 mi:w-0 mi:after:content-[''] mi:after:absolute mi:after:top-2.5 mi:after:-left-1.5 mi:after:w-3 mi:after:h-3 mi:after:box-border mi:after:rounded-[50%] mi:after:[background:var(--mi-red)] mi:after:shadow-[0_0_0_3px_var(--mi-card)]" :style="{ left: `${at(h) * 100}%` }" />
+            <span class="mi:absolute mi:top-0 mi:bottom-0 mi:w-0 mi:after:content-[''] mi:after:absolute mi:after:top-1.5 mi:after:-left-px mi:after:w-0.5 mi:after:h-5 mi:after:rounded-[1px] mi:after:[background:var(--mi-label)]" :style="{ left: `${elapsed * 100}%` }"><span class="mi:whitespace-nowrap mi:text-[11px] mi:font-650 mi:text-label mi:absolute mi:top-6.5 mi:left-0 mi:transform-[translateX(-50%)]">Today</span></span>
           </div>
-          <div class="cpm__period-ends" aria-hidden="true">
+          <div class="mi:flex mi:flex-wrap mi:justify-between mi:gap-y-1 mi:gap-x-3 mi:text-[11px] mi:text-label3 mi:tabular-nums" aria-hidden="true">
             <span>{{ day(periodStart) }}</span>
-            <span class="cpm__hits">Limit reached {{ hits.map(h => day(h)).join(', ') }}</span>
+            <span class="mi:inline-flex mi:items-center mi:gap-1.5 mi:order-3 mi:basis-full mi:text-[12px] mi:font-semibold mi:text-red-t mi:before:content-[''] mi:before:w-2 mi:before:h-2 mi:before:rounded-[50%] mi:before:[background:var(--mi-red)]">Limit reached {{ hits.map(h => day(h)).join(', ') }}</span>
             <span>{{ day(periodEnd) }}</span>
           </div>
         </section>
       </div>
 
-      <section class="cpm__card cpm__change" aria-labelledby="cpm-change-title">
+      <section class="mi:bg-card mi:grid mi:gap-3.5 mi:p-5 mi:rounded-xl mi:shadow-1 mi:min-w-0 mi:gap-4" aria-labelledby="cpm-change-title">
         <MiText id="cpm-change-title" as="h3" variant="headline">Change plan</MiText>
         <MiSegmented v-model="target" label="New plan" :options="plans.map(p => ({ value: p.id, label: p.id === planId ? `${p.name} (current)` : p.name }))" />
 
         <template v-if="next.id !== planId">
           <MiRadioGroup v-model="timing" label="When the change applies" :options="timingOptions" orientation="horizontal" />
 
-          <div class="cpm__diff">
-            <div v-for="d in diffs" :key="d.label" class="cpm__diff-row" :class="{ 'is-block': d.blocked, 'is-up': d.up }">
-              <span class="cpm__diff-label">{{ d.label }}</span>
-              <span class="cpm__diff-vals"><span class="cpm__from">{{ d.from }}</span><MiIcon name="arrow-right" :size="13" /><strong>{{ d.to }}</strong></span>
+          <div class="mi:grid mi:rounded-md mi:[background:var(--mi-fill4)] mi:py-1 mi:px-3.5">
+            <div v-for="d in diffs" :key="d.label" class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-1 mi:gap-x-3 mi:py-[9px] mi:px-0 mi:text-[13px] mi:not-first:border-t mi:not-first:border-t-sep">
+              <span class="mi:text-label2">{{ d.label }}</span>
+              <span class="mi:[&_svg]:text-label3 mi:inline-flex mi:items-center mi:gap-1.5 mi:tabular-nums"><span class="mi:text-label2">{{ d.from }}</span><MiIcon name="arrow-right" :size="13" /><strong :class="d.blocked ? 'mi:text-red-t' : d.up ? 'mi:text-green-t' : ''">{{ d.to }}</strong></span>
             </div>
           </div>
 
@@ -72,17 +72,17 @@
             {{ blockers.join(' ') }}
           </MiAlert>
 
-          <dl v-else class="cpm__bill" aria-live="polite">
+          <dl v-else class="mi:grid mi:gap-0 mi:m-0" aria-live="polite">
             <template v-if="timing === 'now'">
-              <div><dt>Unused {{ plan.name }}, {{ daysLeft }} of {{ periodDays }} days</dt><dd>−{{ eur(credit, 2) }}</dd></div>
-              <div><dt>{{ next.name }} for the same {{ daysLeft }} days</dt><dd>{{ eur(charge, 2) }}</dd></div>
-              <div class="cpm__due"><dt>{{ due >= 0 ? 'Due today' : 'Credit to your balance' }}</dt><dd>{{ eur(Math.abs(due), 2) }}</dd></div>
-              <p class="cpm__eff">Effective today, {{ day(today) }}. From {{ day(periodEnd) }} you pay {{ eur(next.price) }} a month.</p>
+              <div class="mi:text-[13px] mi:flex mi:items-baseline mi:justify-between mi:gap-3 mi:py-[7px] mi:px-0"><dt class="mi:text-label2">Unused {{ plan.name }}, {{ daysLeft }} of {{ periodDays }} days</dt><dd class="mi:m-0 mi:font-semibold mi:whitespace-nowrap mi:tabular-nums">−{{ eur(credit, 2) }}</dd></div>
+              <div class="mi:text-[13px] mi:flex mi:items-baseline mi:justify-between mi:gap-3 mi:py-[7px] mi:px-0"><dt class="mi:text-label2">{{ next.name }} for the same {{ daysLeft }} days</dt><dd class="mi:m-0 mi:font-semibold mi:whitespace-nowrap mi:tabular-nums">{{ eur(charge, 2) }}</dd></div>
+              <div class="mi:text-[13px] mi:flex mi:items-baseline mi:justify-between mi:gap-3 mi:py-[7px] mi:px-0 mi:mt-1 mi:pt-3 mi:border-t mi:border-t-sep"><dt class="mi:text-[15px] mi:font-650 mi:text-label">{{ due >= 0 ? 'Due today' : 'Credit to your balance' }}</dt><dd class="mi:m-0 mi:font-750 mi:text-[22px] mi:whitespace-nowrap mi:tabular-nums mi:tracking-[-.03em]">{{ eur(Math.abs(due), 2) }}</dd></div>
+              <p class="mi:mt-1.5 mi:mx-0 mi:mb-0 mi:text-[12px] mi:leading-[1.45] mi:text-label2">Effective today, {{ day(today) }}. From {{ day(periodEnd) }} you pay {{ eur(next.price) }} a month.</p>
             </template>
             <template v-else>
-              <div><dt>Due today</dt><dd>{{ eur(0, 2) }}</dd></div>
-              <div class="cpm__due"><dt>First {{ next.name }} invoice, {{ day(periodEnd) }}</dt><dd>{{ eur(next.price, 2) }}</dd></div>
-              <p class="cpm__eff">You keep {{ plan.name }} until {{ day(periodEnd) }}, then switch automatically.</p>
+              <div class="mi:text-[13px] mi:flex mi:items-baseline mi:justify-between mi:gap-3 mi:py-[7px] mi:px-0"><dt class="mi:text-label2">Due today</dt><dd class="mi:m-0 mi:font-semibold mi:whitespace-nowrap mi:tabular-nums">{{ eur(0, 2) }}</dd></div>
+              <div class="mi:text-[13px] mi:flex mi:items-baseline mi:justify-between mi:gap-3 mi:py-[7px] mi:px-0 mi:mt-1 mi:pt-3 mi:border-t mi:border-t-sep"><dt class="mi:text-[15px] mi:font-650 mi:text-label">First {{ next.name }} invoice, {{ day(periodEnd) }}</dt><dd class="mi:m-0 mi:font-750 mi:text-[22px] mi:whitespace-nowrap mi:tabular-nums mi:tracking-[-.03em]">{{ eur(next.price, 2) }}</dd></div>
+              <p class="mi:mt-1.5 mi:mx-0 mi:mb-0 mi:text-[12px] mi:leading-[1.45] mi:text-label2">You keep {{ plan.name }} until {{ day(periodEnd) }}, then switch automatically.</p>
             </template>
           </dl>
 
@@ -90,7 +90,7 @@
             {{ cta }}
           </MiButton>
         </template>
-        <p v-else class="cpm__idle" :class="{ 'is-done': doneNote }" aria-live="polite">
+        <p v-else class="mi:[&_svg]:flex-none mi:[&_svg]:text-green mi:flex mi:[align-items:flex-start] mi:gap-2.5 mi:m-0 mi:text-[13px] mi:leading-[1.45]" :class="doneNote ? 'mi:text-label mi:py-3 mi:px-3.5 mi:rounded-md mi:[background:color-mix(in_srgb,_var(--mi-green)_12%,_transparent)]' : 'mi:text-label2 mi:py-1 mi:px-0'" aria-live="polite">
           <MiIcon v-if="doneNote" name="check-circle-fill" :size="18" />
           <span>{{ doneNote || 'Pick another plan to preview the price difference and new limits.' }}</span>
         </p>
@@ -196,66 +196,3 @@ function confirm() {
 const eur = (v: number, digits = 0) => new Intl.NumberFormat('en-IE', { style: 'currency', currency: 'EUR', minimumFractionDigits: digits, maximumFractionDigits: digits }).format(v)
 </script>
 
-<style scoped>
-.cpm { container: cpm / inline-size; display: grid; align-content: start; gap: 20px; font-family: var(--mi-font); color: var(--mi-label); }
-.cpm__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 20px; }
-.cpm__intro { display: grid; gap: 4px; }
-.cpm__now { display: flex; align-items: baseline; gap: 10px; padding: 8px 14px; border-radius: 999px; background: var(--mi-fill4); }
-.cpm__now-name { font-size: 13px; font-weight: 700; color: var(--mi-p-text); }
-.cpm__now-price { font-size: 15px; font-weight: 650; font-variant-numeric: tabular-nums; }
-.cpm__now-price small { margin-left: 3px; font-size: 12px; font-weight: 500; color: var(--mi-label2); }
-
-.cpm__layout { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); align-items: start; }
-@container cpm (min-width: 760px) { .cpm__layout { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 20px; } }
-.cpm__usage { display: grid; gap: 16px; min-width: 0; }
-.cpm__card { display: grid; gap: 14px; padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); min-width: 0; }
-.cpm__card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
-
-.cpm__meters { display: grid; gap: 18px; }
-.cpm__quota-foot { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 12px; width: 100%; }
-.cpm__quota-num { font-size: 15px; font-weight: 650; font-variant-numeric: tabular-nums; }
-.cpm__quota-num span { font-size: 12px; font-weight: 500; color: var(--mi-label2); }
-.cpm__quota-state { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; color: var(--mi-label2); font-variant-numeric: tabular-nums; }
-.cpm__quota.is-warn .cpm__quota-state { color: var(--mi-orange-t); }
-.cpm__quota.is-full .cpm__quota-state { color: var(--mi-red-t); }
-
-.cpm__why { background: linear-gradient(165deg, var(--mi-p-tint), transparent 60%), var(--mi-card); box-shadow: var(--mi-sh1), inset 0 0 0 1px color-mix(in srgb, var(--mi-p) 22%, transparent); }
-.cpm__period { position: relative; height: 40px; margin: 4px 8px 0; }
-.cpm__period-line, .cpm__period-done { position: absolute; left: 0; right: 0; top: 14px; height: 4px; border-radius: 2px; background: var(--mi-fill3); }
-.cpm__period-done { background: color-mix(in srgb, var(--mi-p) 45%, transparent); transform-origin: left; }
-.cpm__hit, .cpm__today { position: absolute; top: 0; bottom: 0; width: 0; }
-.cpm__hit::after {
-  content: ""; position: absolute; top: 10px; left: -6px; width: 12px; height: 12px; box-sizing: border-box; border-radius: 50%;
-  background: var(--mi-red); box-shadow: 0 0 0 3px var(--mi-card);
-}
-.cpm__today::after { content: ""; position: absolute; top: 6px; left: -1px; width: 2px; height: 20px; border-radius: 1px; background: var(--mi-label); }
-.cpm__today span {
-  position: absolute; top: 26px; left: 0; transform: translateX(-50%); white-space: nowrap; font-size: 11px; font-weight: 650; color: var(--mi-label);
-}
-.cpm__period-ends { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; font-size: 11px; color: var(--mi-label3); font-variant-numeric: tabular-nums; }
-.cpm__hits { display: inline-flex; align-items: center; gap: 6px; order: 3; flex-basis: 100%; font-size: 12px; font-weight: 600; color: var(--mi-red-t); }
-.cpm__hits::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--mi-red); }
-
-.cpm__change { gap: 16px; }
-.cpm__diff { display: grid; border-radius: var(--mi-radius-m); background: var(--mi-fill4); padding: 4px 14px; }
-.cpm__diff-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 12px; padding: 9px 0; font-size: 13px; }
-.cpm__diff-row + .cpm__diff-row { border-top: 1px solid var(--mi-sep); }
-.cpm__diff-label { color: var(--mi-label2); }
-.cpm__diff-vals { display: inline-flex; align-items: center; gap: 6px; font-variant-numeric: tabular-nums; }
-.cpm__diff-vals :deep(svg) { color: var(--mi-label3); }
-.cpm__from { color: var(--mi-label2); }
-.cpm__diff-row.is-up strong { color: var(--mi-green-t); }
-.cpm__diff-row.is-block strong { color: var(--mi-red-t); }
-
-.cpm__bill { display: grid; gap: 0; margin: 0; }
-.cpm__bill > div { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 7px 0; font-size: 13px; }
-.cpm__bill dt { color: var(--mi-label2); }
-.cpm__bill dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
-.cpm__bill > .cpm__due { margin-top: 4px; padding-top: 12px; border-top: 1px solid var(--mi-sep); }
-.cpm__due dt { font-size: 15px; font-weight: 650; color: var(--mi-label); }
-.cpm__due dd { font-size: 22px; font-weight: 750; letter-spacing: -.03em; }
-.cpm__eff { margin: 6px 0 0; font-size: 12px; line-height: 1.45; color: var(--mi-label2); }
-.cpm__idle { display: flex; align-items: flex-start; gap: 10px; margin: 0; padding: 4px 0; font-size: 13px; line-height: 1.45; color: var(--mi-label2); }
-.cpm__idle.is-done { padding: 12px 14px; border-radius: var(--mi-radius-m); color: var(--mi-label); background: color-mix(in srgb, var(--mi-green) 12%, transparent); }
-.cpm__idle :deep(svg) { flex: none; color: var(--mi-green); }
-</style>

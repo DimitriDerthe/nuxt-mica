@@ -1,67 +1,67 @@
 <template>
-  <section class="spot" aria-labelledby="spot-title">
-    <h2 id="spot-title" class="spot__sr">Quick search with instant answers</h2>
+  <section class="mi:@container mi:grid mi:content-start mi:font-mi mi:text-label" aria-labelledby="spot-title">
+    <h2 id="spot-title" class="mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">Quick search with instant answers</h2>
 
-    <div class="spot__stage">
+    <div class="mi:relative mi:grid mi:[place-items:start_center] mi:min-h-130 mi:pt-10 mi:px-3 mi:pb-24 mi:rounded-xl mi:overflow-hidden mi:isolate mi:[background:var(--mi-page)] mi:@[560px]:pt-18 mi:@[560px]:px-8 mi:@[560px]:pb-27.5">
       <!-- Wallpaper: two brand glows and a faint dock, drawn from tokens. -->
-      <div class="spot__wall" aria-hidden="true"><i /><i /><div class="spot__dock"><b v-for="n in 6" :key="n" /></div></div>
+      <div class="mi:absolute mi:inset-0 mi:-z-1" aria-hidden="true"><i class="mi:absolute mi:aspect-[1] mi:[filter:blur(60px)] mi:opacity-50 mi:w-[70%] mi:rounded-[50%] mi:left-[-18%] mi:top-[-30%] mi:[background:radial-gradient(closest-side,_color-mix(in_srgb,_var(--mi-p)_60%,_transparent),_transparent)]" /><i class="mi:absolute mi:aspect-[1] mi:[filter:blur(60px)] mi:opacity-50 mi:w-[70%] mi:rounded-[50%] mi:right-[-20%] mi:bottom-[-40%] mi:[background:radial-gradient(closest-side,_color-mix(in_srgb,_var(--mi-s)_55%,_transparent),_transparent)]" /><div class="mi:absolute mi:left-1/2 mi:bottom-4 mi:flex mi:gap-2.5 mi:py-2 mi:px-2.5 mi:rounded-[20px] mi:transform-[translateX(-50%)] mi:[background:var(--mi-mat)] mi:border mi:border-mat-b"><b class="mi:h-8.5 mi:w-8.5 mi:rounded-[9px] mi:bg-fill2 mi:[&:nth-child(2)]:bg-p/55 mi:[&:nth-child(5)]:bg-orange/55" v-for="n in 6" :key="n" /></div></div>
 
-      <div class="spot__palette" role="dialog" aria-modal="false" aria-labelledby="spot-title">
-        <div class="spot__search">
-          <MiIcon name="search" :size="22" :weight="2.2" class="spot__glass" />
+      <div class="mi:[-webkit-backdrop-filter:blur(28px)_saturate(1.6)] mi:[backdrop-filter:blur(28px)_saturate(1.6)] mi:grid mi:w-full mi:max-w-150 mi:rounded-[22px] mi:overflow-hidden mi:[background:var(--mi-mat)] mi:border mi:border-mat-b mi:shadow-3" role="dialog" aria-modal="false" aria-labelledby="spot-title">
+        <div class="mi:flex mi:items-center mi:gap-3 mi:py-4 mi:px-5 mi:@[560px]:py-4.5 mi:@[560px]:px-5.5">
+          <MiIcon name="search" :size="22" :weight="2.2" class="mi:text-label2" />
           <input
-            v-model="query" class="spot__input" type="text" role="combobox" aria-expanded="true" aria-autocomplete="list" aria-controls="spot-list"
+            v-model="query" class="mi:[font:inherit] mi:text-[22px] mi:font-normal mi:flex-1 mi:min-w-0 mi:h-9 mi:p-0 mi:[border:0] mi:[outline:none] mi:[background:none] mi:tracking-[-.01em] mi:text-label mi:placeholder:text-label2 mi:placeholder:opacity-70" type="text" role="combobox" aria-expanded="true" aria-autocomplete="list" aria-controls="spot-list"
             :aria-activedescendant="activeId" aria-label="Search, calculate or convert" placeholder="Search, calculate, convert…" autocomplete="off" spellcheck="false"
             @keydown="onKey"
           >
         </div>
 
-        <div v-if="query.trim()" id="spot-list" class="spot__list" role="listbox" aria-label="Results">
+        <div v-if="query.trim()" id="spot-list" class="mi:max-h-82.5 mi:overflow-y-auto mi:overscroll-contain mi:pt-0 mi:px-2 mi:pb-2 mi:border-t mi:border-t-mat-b" role="listbox" aria-label="Results">
           <!-- Instant answer: the result set large, with the working shown underneath like a receipt. -->
           <div
-            v-if="answer" id="spot-opt-answer" role="option" class="spot__answer" :class="{ 'is-active': activeId === 'spot-opt-answer' }"
+            v-if="answer" id="spot-opt-answer" role="option" class="mi:group mi:grid mi:gap-1.5 mi:mt-2 mi:pt-3.5 mi:px-4 mi:pb-4 mi:rounded-[14px] mi:cursor-pointer mi:aria-selected:[background:color-mix(in_srgb,_var(--mi-p)_10%,_transparent)]"
             :aria-selected="activeId === 'spot-opt-answer'" :aria-label="`${answer.kind}: ${answer.value}. ${answer.working}`" @mousemove="active = 0" @click="copy"
           >
-            <span class="spot__kind"><MiIcon :svg="kindIcon[answer.kind]" :size="13" />{{ answer.kind }}</span>
-            <div class="spot__result">
-              <span class="spot__value">{{ answer.value }}<small v-if="answer.unit">{{ answer.unit }}</small></span>
-              <span class="spot__copy">{{ copied ? 'Copied' : '↵ Copy' }}</span>
+            <span class="mi:inline-flex mi:items-center mi:gap-1.5 mi:text-[11px] mi:font-semibold mi:tracking-[.05em] mi:uppercase mi:text-label2"><MiIcon :svg="kindIcon[answer.kind]" :size="13" />{{ answer.kind }}</span>
+            <div class="mi:flex mi:items-baseline mi:justify-between mi:gap-3 mi:min-w-0">
+              <span class="mi:min-w-0 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:text-[40px] mi:font-semibold mi:leading-[1.1] mi:tracking-[-.025em] mi:tabular-nums mi:@[560px]:text-[48px]">{{ answer.value }}<small class="mi:text-[22px] mi:font-medium mi:text-label2 mi:tracking-[0]" v-if="answer.unit">{{ answer.unit }}</small></span>
+              <span class="mi:flex-[none] mi:text-[12px] mi:font-medium mi:text-label2 mi:opacity-0 mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)] mi:group-aria-selected:opacity-100 mi:group-aria-selected:text-p-text">{{ copied ? 'Copied' : '↵ Copy' }}</span>
             </div>
-            <div class="spot__working">
-              <span>{{ answer.working }}</span>
-              <span v-if="answer.note" class="spot__note">{{ answer.note }}</span>
+            <div class="mi:flex mi:flex-wrap mi:items-baseline mi:gap-y-1 mi:gap-x-3 mi:pt-2 mi:[border-top:1px_dashed_var(--mi-sep)] mi:text-[13px] mi:text-label2 mi:tabular-nums">
+              <span class="mi:font-[ui-monospace,SFMono-Regular,Menlo,monospace] mi:text-[12.5px]">{{ answer.working }}</span>
+              <span v-if="answer.note" class="mi:text-label mi:font-medium">{{ answer.note }}</span>
             </div>
-            <div v-if="answer.clocks" class="spot__clocks" aria-hidden="true">
-              <span v-for="(c, i) in answer.clocks" :key="i" class="spot__clock"><b>{{ c.time }}</b>{{ c.zone }}</span>
+            <div v-if="answer.clocks" class="mi:flex mi:flex-wrap mi:items-center mi:gap-2 mi:pt-1" aria-hidden="true">
+              <span v-for="(c, i) in answer.clocks" :key="i" class="mi:inline-flex mi:items-baseline mi:gap-1.5 mi:py-1 mi:px-2.5 mi:rounded-[8px] mi:text-[12px] mi:text-label2 mi:[background:var(--mi-fill4)] mi:[span+&]:before:content-['→'] mi:[span+&]:before:mx-[-4px_6px] mi:[span+&]:before:text-label2"><b class="mi:text-[13px] mi:font-semibold mi:text-label mi:tabular-nums">{{ c.time }}</b>{{ c.zone }}</span>
             </div>
           </div>
 
           <div v-if="results.length" role="group" aria-labelledby="spot-g-top">
-            <div id="spot-g-top" class="spot__group">{{ answer ? 'Related' : 'Top hits' }}</div>
+            <div id="spot-g-top" class="mi:pt-3 mi:px-3 mi:pb-1.5 mi:text-[11px] mi:font-semibold mi:tracking-[.05em] mi:uppercase mi:text-label2">{{ answer ? 'Related' : 'Top hits' }}</div>
             <div
-              v-for="r in results" :id="`spot-opt-${r.id}`" :key="r.id" role="option" class="spot__opt"
-              :class="{ 'is-active': activeId === `spot-opt-${r.id}` }" :aria-selected="activeId === `spot-opt-${r.id}`"
+              v-for="r in results" :id="`spot-opt-${r.id}`" :key="r.id" role="option" class="mi:group mi:flex mi:items-center mi:gap-3 mi:min-h-10 mi:py-1.5 mi:px-3 mi:rounded-[10px] mi:cursor-pointer mi:aria-selected:[background:var(--mi-p)] mi:aria-selected:text-p-on"
+              :aria-selected="activeId === `spot-opt-${r.id}`"
               @mousemove="active = options.indexOf(`spot-opt-${r.id}`)" @click="openItem(r)"
             >
-              <span class="spot__app" :data-tint="r.tint"><MiIcon :name="r.icon" :size="16" /></span>
-              <span class="spot__opt-title">{{ r.title }}</span>
-              <span class="spot__opt-sub">{{ r.sub }}</span>
+              <span class="mi:grid mi:place-items-center mi:flex-[none] mi:w-6.5 mi:h-6.5 mi:rounded-[7px] mi:text-p-on mi:[background:var(--mi-p)] mi:group-aria-selected:shadow-[0_0_0_1.5px_color-mix(in_srgb,_var(--mi-p-on)_70%,_transparent)] mi:data-[tint=s]:bg-s mi:data-[tint=s]:text-s-on mi:data-[tint=orange]:bg-orange mi:data-[tint=orange]:text-p-on mi:data-[tint=green]:bg-green mi:data-[tint=green]:text-p-on mi:data-[tint=n]:bg-ctl mi:data-[tint=n]:text-p-on" :data-tint="r.tint"><MiIcon :name="r.icon" :size="16" /></span>
+              <span class="mi:min-w-0 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:text-[14px] mi:font-medium">{{ r.title }}</span>
+              <span class="mi:hidden mi:ml-auto mi:flex-[none] mi:text-[12px] mi:text-label2 mi:group-aria-selected:text-p-on/80 mi:@[560px]:inline">{{ r.sub }}</span>
             </div>
           </div>
 
-          <p v-if="!answer && !results.length" class="spot__none">No answer for “{{ query.trim() }}”. Try a sum, a percentage, a unit or a time zone.</p>
+          <p v-if="!answer && !results.length" class="mi:m-0 mi:pt-5.5 mi:px-3 mi:pb-3 mi:text-[13px] mi:text-label2">No answer for “{{ query.trim() }}”. Try a sum, a percentage, a unit or a time zone.</p>
         </div>
 
-        <div class="spot__try" :class="{ 'is-empty': !query.trim() }">
-          <span class="spot__try-label">Try</span>
-          <button v-for="ex in examples" :key="ex" type="button" class="spot__ex" :aria-pressed="query === ex" @click="query = ex">{{ ex }}</button>
+        <div class="mi:flex mi:flex-wrap mi:items-center mi:gap-1 mi:py-2.5 mi:px-3.5 mi:border-t mi:border-t-mat-b">
+          <span class="mi:me-1 mi:text-[12px] mi:font-semibold mi:text-label2">Try</span>
+          <button v-for="ex in examples" :key="ex" type="button" class="mi:[font:inherit] mi:text-[12.5px] mi:tabular-nums mi:hover:[background:var(--mi-fill3)] mi:hover:text-label mi:aria-pressed:text-p-text! mi:aria-pressed:[background:var(--mi-p-tint)]! mi:h-6.5 mi:py-0 mi:px-[9px] mi:[border:0] mi:rounded-[7px] mi:[background:none] mi:cursor-pointer mi:text-label2 mi:whitespace-nowrap mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease)] mi:active:transform-[scale(.96)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" :aria-pressed="query === ex" @click="query = ex">{{ ex }}</button>
         </div>
 
-        <footer class="spot__foot">
-          <span class="spot__key"><MiKbdGroup><MiKbd>↑</MiKbd><MiKbd>↓</MiKbd></MiKbdGroup> select</span>
-          <span class="spot__key"><MiKbd>↵</MiKbd> {{ activeId === 'spot-opt-answer' ? 'copy answer' : 'open' }}</span>
-          <span class="spot__key"><MiKbd>esc</MiKbd> {{ query ? 'clear' : 'close' }}</span>
-          <span class="spot__status" role="status" aria-live="polite">{{ status }}</span>
+        <footer class="mi:flex mi:flex-wrap mi:items-center mi:gap-y-2 mi:gap-x-3.5 mi:py-[9px] mi:px-4 mi:border-t mi:border-t-mat-b mi:text-[12px] mi:text-label2">
+          <span class="mi:inline-flex mi:items-center mi:gap-1.5"><MiKbdGroup><MiKbd>↑</MiKbd><MiKbd>↓</MiKbd></MiKbdGroup> select</span>
+          <span class="mi:inline-flex mi:items-center mi:gap-1.5"><MiKbd>↵</MiKbd> {{ activeId === 'spot-opt-answer' ? 'copy answer' : 'open' }}</span>
+          <span class="mi:inline-flex mi:items-center mi:gap-1.5"><MiKbd>esc</MiKbd> {{ query ? 'clear' : 'close' }}</span>
+          <span class="mi:ml-auto mi:font-medium mi:text-p-text" role="status" aria-live="polite">{{ status }}</span>
         </footer>
       </div>
     </div>
@@ -239,84 +239,3 @@ function onKey(e: KeyboardEvent) {
   else if (e.key === 'Escape' && query.value) { e.preventDefault(); query.value = '' }
 }
 </script>
-
-<style scoped>
-.spot { container-type: inline-size; display: grid; align-content: start; font-family: var(--mi-font); color: var(--mi-label); }
-.spot__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-
-.spot__stage { position: relative; display: grid; place-items: start center; min-height: 520px; padding: 40px 12px 96px; border-radius: var(--mi-radius-xl); overflow: hidden; isolation: isolate; background: var(--mi-page); }
-.spot__wall { position: absolute; inset: 0; z-index: -1; }
-.spot__wall > i { position: absolute; width: 70%; aspect-ratio: 1; border-radius: 50%; filter: blur(60px); opacity: .5; }
-.spot__wall > i:first-child { left: -18%; top: -30%; background: radial-gradient(closest-side, color-mix(in srgb, var(--mi-p) 60%, transparent), transparent); }
-.spot__wall > i:nth-child(2) { right: -20%; bottom: -40%; background: radial-gradient(closest-side, color-mix(in srgb, var(--mi-s) 55%, transparent), transparent); }
-.spot__dock { position: absolute; left: 50%; bottom: 16px; display: flex; gap: 10px; padding: 8px 10px; border-radius: 20px; transform: translateX(-50%); background: var(--mi-mat); border: 1px solid var(--mi-mat-b); }
-.spot__dock b { width: 34px; height: 34px; border-radius: 9px; background: var(--mi-fill2); }
-.spot__dock b:nth-child(2) { background: color-mix(in srgb, var(--mi-p) 55%, transparent); }
-.spot__dock b:nth-child(5) { background: color-mix(in srgb, var(--mi-orange) 55%, transparent); }
-
-.spot__palette {
-  display: grid; width: 100%; max-width: 600px; border-radius: 22px; overflow: hidden;
-  background: var(--mi-mat); border: 1px solid var(--mi-mat-b); box-shadow: var(--mi-sh3);
-  -webkit-backdrop-filter: blur(28px) saturate(1.6); backdrop-filter: blur(28px) saturate(1.6);
-}
-
-.spot__search { display: flex; align-items: center; gap: 12px; padding: 16px 20px; }
-.spot__glass { flex: none; color: var(--mi-label2); }
-.spot__input { flex: 1; min-width: 0; height: 36px; padding: 0; border: 0; outline: none; background: none; font: inherit; font-size: 22px; font-weight: 400; letter-spacing: -.01em; color: var(--mi-label); }
-.spot__input::placeholder { color: var(--mi-label2); opacity: .7; }
-
-.spot__list { max-height: 330px; overflow-y: auto; overscroll-behavior: contain; padding: 0 8px 8px; border-top: 1px solid var(--mi-mat-b); }
-
-.spot__answer { display: grid; gap: 6px; margin-top: 8px; padding: 14px 16px 16px; border-radius: 14px; cursor: pointer; }
-.spot__answer.is-active { background: color-mix(in srgb, var(--mi-p) 10%, transparent); }
-.spot__kind { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--mi-label2); }
-.spot__result { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; min-width: 0; }
-.spot__value { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 40px; font-weight: 600; line-height: 1.1; letter-spacing: -.025em; font-variant-numeric: tabular-nums; }
-.spot__value small { font-size: 22px; font-weight: 500; color: var(--mi-label2); letter-spacing: 0; }
-.spot__copy { flex: none; font-size: 12px; font-weight: 500; color: var(--mi-label2); opacity: 0; transition: opacity var(--mi-dur-2) var(--mi-ease); }
-.spot__answer.is-active .spot__copy { opacity: 1; color: var(--mi-p-text); }
-.spot__working { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; padding-top: 8px; border-top: 1px dashed var(--mi-sep); font-size: 13px; color: var(--mi-label2); font-variant-numeric: tabular-nums; }
-.spot__working > :first-child { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12.5px; }
-.spot__note { color: var(--mi-label); font-weight: 500; }
-.spot__clocks { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding-top: 4px; }
-.spot__clock { display: inline-flex; align-items: baseline; gap: 6px; padding: 4px 10px; border-radius: 8px; font-size: 12px; color: var(--mi-label2); background: var(--mi-fill4); }
-.spot__clock b { font-size: 13px; font-weight: 600; color: var(--mi-label); font-variant-numeric: tabular-nums; }
-.spot__clock + .spot__clock::before { content: "→"; margin-inline: -4px 6px; color: var(--mi-label2); }
-
-.spot__group { padding: 12px 12px 6px; font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--mi-label2); }
-.spot__opt { display: flex; align-items: center; gap: 12px; min-height: 40px; padding: 6px 12px; border-radius: 10px; cursor: pointer; }
-.spot__opt.is-active { background: var(--mi-p); color: var(--mi-p-on); }
-.spot__app { display: grid; place-items: center; flex: none; width: 26px; height: 26px; border-radius: 7px; color: var(--mi-p-on); background: var(--mi-p); }
-.spot__app[data-tint="s"] { background: var(--mi-s); color: var(--mi-s-on); }
-.spot__app[data-tint="orange"] { background: var(--mi-orange); color: var(--mi-p-on); }
-.spot__app[data-tint="green"] { background: var(--mi-green); color: var(--mi-p-on); }
-.spot__app[data-tint="n"] { background: var(--mi-ctl); color: var(--mi-p-on); }
-.spot__opt.is-active .spot__app { box-shadow: 0 0 0 1.5px color-mix(in srgb, var(--mi-p-on) 70%, transparent); }
-.spot__opt-title { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; font-weight: 500; }
-.spot__opt-sub { display: none; margin-left: auto; flex: none; font-size: 12px; color: var(--mi-label2); }
-.spot__opt.is-active .spot__opt-sub { color: color-mix(in srgb, var(--mi-p-on) 80%, transparent); }
-.spot__none { margin: 0; padding: 22px 12px 12px; font-size: 13px; color: var(--mi-label2); }
-
-.spot__try { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; padding: 10px 14px; border-top: 1px solid var(--mi-mat-b); }
-.spot__try-label { margin-inline-end: 4px; font-size: 12px; font-weight: 600; color: var(--mi-label2); }
-.spot__ex {
-  height: 26px; padding: 0 9px; border: 0; border-radius: 7px; background: none; cursor: pointer;
-  font: inherit; font-size: 12.5px; color: var(--mi-label2); font-variant-numeric: tabular-nums; white-space: nowrap;
-  transition: transform var(--mi-dur-1) var(--mi-ease);
-}
-.spot__ex:hover { background: var(--mi-fill3); color: var(--mi-label); }
-.spot__ex:active { transform: scale(.96); }
-.spot__ex[aria-pressed="true"] { color: var(--mi-p-text); background: var(--mi-p-tint); }
-.spot__ex:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 1px; }
-
-.spot__foot { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; padding: 9px 16px; border-top: 1px solid var(--mi-mat-b); font-size: 12px; color: var(--mi-label2); }
-.spot__key { display: inline-flex; align-items: center; gap: 6px; }
-.spot__status { margin-left: auto; font-weight: 500; color: var(--mi-p-text); }
-
-@container (min-width: 560px) {
-  .spot__stage { padding: 72px 32px 110px; }
-  .spot__search { padding: 18px 22px; }
-  .spot__value { font-size: 48px; }
-  .spot__opt-sub { display: inline; }
-}
-</style>

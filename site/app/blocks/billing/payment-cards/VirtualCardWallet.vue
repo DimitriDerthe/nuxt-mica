@@ -1,6 +1,6 @@
 <template>
-  <section class="vcw" aria-labelledby="vcw-title">
-    <header class="vcw__head">
+  <section class="mi:@container mi:flex mi:flex-col mi:gap-4.5 mi:font-mi mi:text-label" aria-labelledby="vcw-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="vcw-title" as="h2" variant="title3" weight="bold">Virtual cards</MiText>
         <MiText variant="footnote" tone="label2">One card per vendor, each with its own monthly limit. {{ money(totalSpent) }} spent of {{ money(totalLimit) }}.</MiText>
@@ -8,17 +8,17 @@
       <MiSegmented v-model="filter" label="Show cards" :options="filters" />
     </header>
 
-    <ul class="vcw__grid" aria-live="polite">
-      <li v-for="c in shown" :key="c.id" class="vcw__item">
+    <ul class="mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:gap-3 mi:m-0 mi:p-0 mi:[list-style:none] mi:@[560px]:grid-cols-2 mi:@[960px]:grid-cols-4" aria-live="polite">
+      <li v-for="c in shown" :key="c.id" class="mi:grid mi:gap-3 mi:p-3 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1">
         <!-- The card face: a token gradient that greys out when frozen. -->
-        <div class="vcw__card" :class="{ 'is-frozen': c.frozen, 'is-alt': c.alt }" aria-hidden="true">
-          <span class="vcw__chip" />
-          <span class="vcw__vendor">{{ c.name }}</span>
-          <span class="vcw__pan">•••• {{ c.last4 }}</span>
-          <span v-if="c.singleUse" class="vcw__tag">Single use</span>
+        <div class="mi:relative mi:grid mi:grid-rows-[auto_1fr_auto] mi:aspect-[1.586] mi:p-3.5 mi:rounded-[12px] mi:overflow-hidden mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease),_transform_var(--mi-dur-3)_var(--mi-ease)] mi:after:content-[''] mi:after:absolute mi:after:inset-0 mi:after:[background:repeating-linear-gradient(-45deg,_color-mix(in_srgb,_var(--mi-card)_55%,_transparent)_0_6px,_color-mix(in_srgb,_var(--mi-card)_35%,_transparent)_6px_12px)] mi:after:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)]" :class="[c.alt ? 'mi:text-s-on mi:[background:radial-gradient(120%_90%_at_0%_100%,_color-mix(in_srgb,_var(--mi-p)_50%,_transparent),_transparent_60%),_linear-gradient(135deg,_var(--mi-s),_color-mix(in_srgb,_var(--mi-s)_55%,_var(--mi-label)))]' : 'mi:text-p-on mi:[background:radial-gradient(120%_90%_at_100%_0%,_color-mix(in_srgb,_var(--mi-s)_55%,_transparent),_transparent_60%),_linear-gradient(135deg,_var(--mi-p),_color-mix(in_srgb,_var(--mi-p)_55%,_var(--mi-label)))]', c.frozen ? 'mi:transform-[scale(.97)] mi:after:opacity-100' : 'mi:after:opacity-0']" aria-hidden="true">
+          <span class="mi:w-7.5 mi:h-5.5 mi:rounded-[5px] mi:[background:linear-gradient(135deg,_color-mix(in_srgb,_var(--mi-yellow)_80%,_var(--mi-card)),_color-mix(in_srgb,_var(--mi-orange)_60%,_var(--mi-card)))]" />
+          <span class="mi:self-center mi:text-[15px] mi:font-bold mi:tracking-[-.01em]">{{ c.name }}</span>
+          <span class="mi:text-[13px] mi:tracking-[.14em] mi:tabular-nums mi:opacity-90">•••• {{ c.last4 }}</span>
+          <span v-if="c.singleUse" class="mi:absolute mi:top-3 mi:right-3 mi:py-0.5 mi:px-2 mi:rounded-[999px] mi:text-[10px] mi:font-bold mi:[background:color-mix(in_srgb,_var(--mi-card)_30%,_transparent)]">Single use</span>
         </div>
-        <div class="vcw__info">
-          <div class="vcw__row">
+        <div class="mi:grid mi:gap-2.5 mi:min-w-0">
+          <div class="mi:flex mi:items-center mi:gap-2 mi:min-w-0">
             <MiAvatar :name="c.owner" size="xs" tone="auto" decorative />
             <MiText variant="footnote" weight="medium" :lines="1">{{ c.name }} · {{ c.owner }}</MiText>
           </div>
@@ -26,20 +26,20 @@
             :value="c.spent" :max="c.limit" size="sm" :aria-label="c.name + ' spend'" :caption="money(c.spent) + ' spent'" :hint="'of ' + money(c.limit)"
             :color="c.spent / c.limit > 0.85 ? 'var(--mi-orange)' : undefined" :value-text="money(c.spent) + ' of ' + money(c.limit)"
           />
-          <div class="vcw__row vcw__row--end">
+          <div class="mi:flex mi:items-center mi:gap-2 mi:min-w-0 mi:justify-between">
             <MiText variant="caption" tone="label2">{{ c.frozen ? 'Frozen, charges declined' : 'Active' }}</MiText>
             <MiSwitch v-model="c.frozen" size="compact" :label="'Freeze ' + c.name" />
           </div>
         </div>
       </li>
-      <li v-if="!shown.length" class="vcw__empty">
+      <li v-if="!shown.length" class="mi:p-7 mi:text-center mi:rounded-lg mi:shadow-[inset_0_0_0_1px_var(--mi-sep)]">
         <MiText variant="footnote" tone="label2">No {{ filter }} cards.</MiText>
       </li>
     </ul>
 
     <!-- Issue a card in one line: vendor, limit, single use. -->
-    <form class="vcw__issue" aria-labelledby="vcw-issue" novalidate @submit.prevent="issue">
-      <MiText id="vcw-issue" as="h3" variant="subheadline" weight="semibold" class="vcw__issue-title">Issue a card</MiText>
+    <form class="mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:gap-2.5 mi:py-3.5 mi:px-4 mi:rounded-lg mi:[background:var(--mi-fill4)] mi:@[760px]:grid-cols-[auto_minmax(0,_1fr)_190px_auto_auto] mi:@[760px]:items-center" aria-labelledby="vcw-issue" novalidate @submit.prevent="issue">
+      <MiText id="vcw-issue" as="h3" variant="subheadline" weight="semibold" class="mi:whitespace-nowrap">Issue a card</MiText>
       <MiInput v-model="draftName" size="sm" aria-label="Vendor or purpose" placeholder="Vendor, e.g. Event tickets" :invalid="tried && !draftName.trim()" />
       <MiNativeSelect v-model="draftLimit" size="sm" :options="limitOptions" aria-label="Monthly limit" />
       <MiCheckbox v-model="draftSingle" label="Single use" />
@@ -85,37 +85,3 @@ function issue() {
   draftName.value = ''; draftSingle.value = false; tried.value = false; filter.value = 'active'
 }
 </script>
-
-<style scoped>
-.vcw { container-type: inline-size; display: flex; flex-direction: column; gap: 18px; font-family: var(--mi-font); color: var(--mi-label); }
-.vcw__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-
-.vcw__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; margin: 0; padding: 0; list-style: none; }
-@container (min-width: 560px) { .vcw__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@container (min-width: 960px) { .vcw__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-.vcw__item { display: grid; gap: 12px; padding: 12px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.vcw__empty { padding: 28px; text-align: center; border-radius: var(--mi-radius-l); box-shadow: inset 0 0 0 1px var(--mi-sep); }
-
-.vcw__card {
-  position: relative; display: grid; grid-template-rows: auto 1fr auto; aspect-ratio: 1.586; padding: 14px; border-radius: 12px; overflow: hidden; color: var(--mi-p-on);
-  background: radial-gradient(120% 90% at 100% 0%, color-mix(in srgb, var(--mi-s) 55%, transparent), transparent 60%), linear-gradient(135deg, var(--mi-p), color-mix(in srgb, var(--mi-p) 55%, var(--mi-label)));
-  transition: opacity var(--mi-dur-3) var(--mi-ease), transform var(--mi-dur-3) var(--mi-ease);
-}
-.vcw__card.is-alt { color: var(--mi-s-on); background: radial-gradient(120% 90% at 0% 100%, color-mix(in srgb, var(--mi-p) 50%, transparent), transparent 60%), linear-gradient(135deg, var(--mi-s), color-mix(in srgb, var(--mi-s) 55%, var(--mi-label))); }
-/* Frost: a striped veil on top, plus a slight shrink. Opacity and transform only. */
-.vcw__card::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(-45deg, color-mix(in srgb, var(--mi-card) 55%, transparent) 0 6px, color-mix(in srgb, var(--mi-card) 35%, transparent) 6px 12px); opacity: 0; transition: opacity var(--mi-dur-3) var(--mi-ease); }
-.vcw__card.is-frozen { transform: scale(.97); }
-.vcw__card.is-frozen::after { opacity: 1; }
-.vcw__chip { width: 30px; height: 22px; border-radius: 5px; background: linear-gradient(135deg, color-mix(in srgb, var(--mi-yellow) 80%, var(--mi-card)), color-mix(in srgb, var(--mi-orange) 60%, var(--mi-card))); }
-.vcw__vendor { align-self: center; font-size: 15px; font-weight: 700; letter-spacing: -.01em; }
-.vcw__pan { font-size: 13px; letter-spacing: .14em; font-variant-numeric: tabular-nums; opacity: .9; }
-.vcw__tag { position: absolute; top: 12px; right: 12px; padding: 2px 8px; border-radius: 999px; font-size: 10px; font-weight: 700; background: color-mix(in srgb, var(--mi-card) 30%, transparent); }
-
-.vcw__info { display: grid; gap: 10px; min-width: 0; }
-.vcw__row { display: flex; align-items: center; gap: 8px; min-width: 0; }
-.vcw__row--end { justify-content: space-between; }
-
-.vcw__issue { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; padding: 14px 16px; border-radius: var(--mi-radius-l); background: var(--mi-fill4); }
-@container (min-width: 760px) { .vcw__issue { grid-template-columns: auto minmax(0, 1fr) 190px auto auto; align-items: center; } }
-.vcw__issue-title { white-space: nowrap; }
-</style>

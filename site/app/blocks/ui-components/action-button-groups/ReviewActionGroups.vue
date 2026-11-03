@@ -1,20 +1,20 @@
 <template>
-  <div class="rv-cq">
-    <section class="rv" aria-labelledby="rv-title">
-      <header class="rv__head">
-        <div class="rv__title">
+  <div class="mi:@container">
+    <section class="mi:grid mi:gap-4 mi:p-5 mi:rounded-xl mi:font-mi mi:text-label mi:bg-card mi:shadow-1 mi:@[620px]:p-6" aria-labelledby="rv-title">
+      <header class="mi:grid mi:gap-2.5 mi:@[620px]:grid-cols-[minmax(0,_1fr)_auto] mi:@[620px]:items-end">
+        <div class="mi:grid mi:gap-0.5">
           <MiText variant="caption" tone="label2" weight="medium">Pull request #1482 · relay-service</MiText>
           <MiText id="rv-title" variant="title3" as="h2" weight="semibold" balance>Retry inbound webhooks with jittered backoff</MiText>
         </div>
-        <div class="rv__who">
+        <div class="mi:flex mi:items-center mi:gap-2">
           <MiAvatar name="Amara Okafor" size="xs" tone="auto" decorative />
-          <MiText variant="footnote" tone="label2"><strong>Amara Okafor</strong> wants to merge 3 commits into <code>main</code></MiText>
+          <MiText variant="footnote" tone="label2"><strong>Amara Okafor</strong> wants to merge 3 commits into <code class="mi:rounded-[5px] mi:[font:500_12px_ui-monospace,'SF_Mono',Menlo,monospace] mi:bg-fill3 mi:py-px mi:px-[5px]">main</code></MiText>
         </div>
       </header>
 
       <!-- Toolbar of three groups: a pager, a view switch and per-file actions. -->
-      <div class="rv__bar">
-        <div class="rv__pager">
+      <div class="mi:grid mi:gap-2.5 mi:p-2.5 mi:rounded-lg mi:bg-fill4 mi:@[620px]:grid-cols-[minmax(0,_1fr)_auto] mi:@[620px]:items-center">
+        <div class="mi:flex mi:items-center mi:gap-2.5 mi:min-w-0">
           <MiButtonGroup label="Changed files">
             <MiIconButton size="toolbar" variant="gray" label="Previous file" :disabled="index === 0" @click="index--">
               <MiIcon name="chevron-left" />
@@ -23,13 +23,13 @@
               <MiIcon name="chevron-right" />
             </MiIconButton>
           </MiButtonGroup>
-          <div class="rv__file">
+          <div class="mi:grid mi:min-w-0">
             <MiText variant="caption2" tone="label3" weight="semibold" tabular>FILE {{ index + 1 }} OF {{ files.length }}</MiText>
-            <span class="rv__path">{{ file.path }}</span>
+            <span class="mi:overflow-hidden mi:[font:500_13px/1.3_ui-monospace,_'SF_Mono',_Menlo,_monospace] mi:whitespace-nowrap mi:text-ellipsis">{{ file.path }}</span>
           </div>
         </div>
 
-        <div class="rv__tools">
+        <div class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2">
           <MiButtonGroup v-model="layout" variant="segmented" label="Diff layout" :options="layouts" />
           <MiButtonGroup label="File actions">
             <MiIconButton size="toolbar" variant="gray" :label="viewed.has(file.path) ? 'Mark as not viewed' : 'Mark as viewed'" :pressed="viewed.has(file.path)" @click="toggleViewed">
@@ -45,19 +45,19 @@
         </div>
       </div>
 
-      <div class="rv__diff" :class="'rv__diff--' + layout" role="group" :aria-label="'Diff of ' + file.path">
-        <div v-for="side in sides" :key="side.key" class="rv__col">
+      <div class="mi:grid mi:overflow-hidden mi:rounded-md mi:shadow-[0_0_0_1px_var(--mi-sep)] mi:[font:12.5px/1.65_ui-monospace,_'SF_Mono',_Menlo,_monospace]" :class="layout === 'split' ? 'mi:@[620px]:grid-cols-[1fr_1fr]' : ''" role="group" :aria-label="'Diff of ' + file.path">
+        <div v-for="side in sides" :key="side.key" class="mi:min-w-0 mi:overflow-x-auto mi:py-1.5 mi:px-0 mi:not-first:border-t mi:not-first:border-t-sep mi:@[620px]:not-first:[border-top:0] mi:@[620px]:not-first:border-l mi:@[620px]:not-first:border-l-sep">
           <div
-            v-for="(l, i) in side.lines" :key="side.key + i" class="rv__line"
-            :class="{ 'is-add': l.t === '+', 'is-del': l.t === '-' }"
+            v-for="(l, i) in side.lines" :key="side.key + i" class="mi:grid mi:grid-cols-[40px_16px_max-content] mi:pr-3"
+            :class="l.t === '+' ? 'mi:[background:color-mix(in_srgb,_var(--mi-green)_12%,_transparent)]' : l.t === '-' ? 'mi:[background:color-mix(in_srgb,_var(--mi-red)_11%,_transparent)]' : ''"
           >
-            <span class="rv__ln">{{ l.n }}</span><span class="rv__sign">{{ l.t === ' ' ? '' : l.t }}</span><span class="rv__code">{{ l.text }}</span>
+            <span class="mi:pr-2 mi:text-right mi:text-label3 mi:select-none">{{ l.n }}</span><span class="mi:text-center" :class="l.t === '+' ? 'mi:text-green-t' : l.t === '-' ? 'mi:text-red-t' : 'mi:text-label3'">{{ l.t === ' ' ? '' : l.t }}</span><span class="mi:whitespace-pre">{{ l.text }}</span>
           </div>
         </div>
       </div>
 
-      <footer class="rv__foot">
-        <div class="rv__verdict">
+      <footer class="mi:grid mi:gap-3.5 mi:pt-3.5 mi:border-t mi:border-t-sep mi:@[620px]:grid-cols-[auto_auto] mi:@[620px]:justify-between mi:@[620px]:items-end">
+        <div class="mi:grid mi:gap-1.5 mi:justify-items-start">
           <MiText variant="footnote" tone="label2" weight="medium" id="rv-verdict">Your review</MiText>
           <MiButtonGroup label="Review verdict" aria-describedby="rv-verdict">
             <MiButton
@@ -69,7 +69,7 @@
           </MiButtonGroup>
         </div>
 
-        <div class="rv__merge">
+        <div class="mi:grid mi:gap-1.5 mi:justify-items-start mi:@[620px]:justify-items-end">
           <MiText variant="caption" :tone="verdict === 'approve' ? 'green' : 'label3'" weight="medium">
             {{ merged ? 'Merged into main' : verdict === 'approve' ? '2 of 2 approvals · checks passing' : 'Needs your approval' }}
           </MiText>
@@ -166,49 +166,3 @@ function toggleViewed() {
   else viewed.add(p)
 }
 </script>
-
-<style scoped>
-.rv-cq { container-type: inline-size; }
-.rv {
-  display: grid; gap: 16px; padding: 20px; border-radius: var(--mi-radius-xl);
-  font-family: var(--mi-font); color: var(--mi-label); background: var(--mi-card); box-shadow: var(--mi-sh1);
-}
-.rv__head { display: grid; gap: 10px; }
-.rv__title { display: grid; gap: 2px; }
-.rv__who { display: flex; align-items: center; gap: 8px; }
-.rv__who code { padding: 1px 5px; border-radius: 5px; font: 500 12px ui-monospace, "SF Mono", Menlo, monospace; background: var(--mi-fill3); }
-
-.rv__bar { display: grid; gap: 10px; padding: 10px; border-radius: var(--mi-radius-l); background: var(--mi-fill4); }
-.rv__pager { display: flex; align-items: center; gap: 10px; min-width: 0; }
-.rv__file { display: grid; min-width: 0; }
-.rv__path { overflow: hidden; font: 500 13px/1.3 ui-monospace, "SF Mono", Menlo, monospace; white-space: nowrap; text-overflow: ellipsis; }
-.rv__tools { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
-
-.rv__diff {
-  display: grid; overflow: hidden; border-radius: var(--mi-radius-m); box-shadow: 0 0 0 1px var(--mi-sep);
-  font: 12.5px/1.65 ui-monospace, "SF Mono", Menlo, monospace;
-}
-.rv__col { min-width: 0; overflow-x: auto; padding: 6px 0; }
-.rv__diff--split .rv__col + .rv__col { border-top: 1px solid var(--mi-sep); }
-.rv__line { display: grid; grid-template-columns: 40px 16px max-content; padding-right: 12px; }
-.rv__ln { padding-right: 8px; text-align: right; color: var(--mi-label3); user-select: none; }
-.rv__sign { text-align: center; color: var(--mi-label3); }
-.rv__code { white-space: pre; }
-.rv__line.is-add { background: color-mix(in srgb, var(--mi-green) 12%, transparent); }
-.rv__line.is-add .rv__sign { color: var(--mi-green-t); }
-.rv__line.is-del { background: color-mix(in srgb, var(--mi-red) 11%, transparent); }
-.rv__line.is-del .rv__sign { color: var(--mi-red-t); }
-
-.rv__foot { display: grid; gap: 14px; padding-top: 14px; border-top: 1px solid var(--mi-sep); }
-.rv__verdict, .rv__merge { display: grid; gap: 6px; justify-items: start; }
-
-@container (min-width: 620px) {
-  .rv { padding: 24px; }
-  .rv__head { grid-template-columns: minmax(0, 1fr) auto; align-items: end; }
-  .rv__bar { grid-template-columns: minmax(0, 1fr) auto; align-items: center; }
-  .rv__diff--split { grid-template-columns: 1fr 1fr; }
-  .rv__diff--split .rv__col + .rv__col { border-top: 0; border-left: 1px solid var(--mi-sep); }
-  .rv__foot { grid-template-columns: auto auto; justify-content: space-between; align-items: end; }
-  .rv__merge { justify-items: end; }
-}
-</style>

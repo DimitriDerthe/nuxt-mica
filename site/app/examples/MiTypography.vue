@@ -12,14 +12,10 @@ defineProps<{ p: Record<string, unknown> }>()
 </script>
 
 <template>
-  <div class="ex">
+  <div class="ex mi:w-[min(100%,_460px)]">
     <MiTypography v-bind="p">Designing calm interfaces</MiTypography>
     <MiTypography variant="lead">Good defaults let the content lead.</MiTypography>
     <MiTypography variant="p">Every screen should answer one question. Use <MiTypography variant="code" as="code">MiTypography</MiTypography> so headings, paragraphs and quotes share one rhythm.</MiTypography>
     <MiTypography variant="muted">Last edited 2 days ago</MiTypography>
   </div>
 </template>
-
-<style scoped>
-.ex { width: min(100%, 460px); }
-</style>

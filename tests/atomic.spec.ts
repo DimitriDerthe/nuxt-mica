@@ -84,7 +84,15 @@ describe('mi-atomic utilities', () => {
   it('emits helper at-rules only when a class needs them', () => {
     expect(css('mi:flex')).not.toContain('@property')
     expect(css('mi:translate-y-2')).toContain('@property --mia-ty')
-    expect(css('mi:animate-spin')).toContain('@keyframes spin')
+    expect(css('mi:animate-spin')).toContain('@keyframes mi-spin')
+  })
+
+  it('names motion keyframes inside an arbitrary animation and emits them once', () => {
+    const out = css('mi:animate-in', 'mi:animate-[in_.3s_ease-out_both]', 'mi:animate-[in_1s]')
+    expect(out).toContain('animation:mi-in .3s ease-out both')
+    expect(out).toContain('animation:mi-in var(--mi-dur-2) var(--mi-ease) both')
+    expect(out.split('@keyframes mi-in').length).toBe(2)
+    expect(css('mi:animate-[wobble_1s]')).toBe('.mi\\:animate-\\[wobble_1s\\]{animation:wobble 1s}')
   })
 
   it('supports the important modifier and merges identical rules', () => {

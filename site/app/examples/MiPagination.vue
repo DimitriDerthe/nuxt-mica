@@ -24,27 +24,21 @@ const rows = computed(() => Array.from({ length: 4 }, (_, i) => {
 </script>
 
 <template>
-  <div class="card">
-    <ul class="rows">
-      <li v-for="r in rows" :key="r.id">
-        <span class="id">{{ r.id }}</span>
-        <span class="who">{{ r.customer }}</span>
-        <span class="amt">{{ r.amount }}</span>
+  <div class="card mi:w-[min(100%,_480px)] mi:rounded-[20px] mi:bg-card mi:shadow-1 mi:justify-items-center mi:box-border">
+    <ul class="rows mi:[list-style:none] mi:m-0 mi:p-0 mi:w-full">
+      <li class="mi:[.rows_&]:grid mi:[.rows_&]:grid-cols-[auto_minmax(0,_1fr)_auto] mi:[.rows_&]:gap-3 mi:[.rows_&]:py-2.5 mi:[.rows_&]:px-0.5 mi:[.rows_&]:border-b mi:[.rows_&]:border-b-sep mi:[.rows_&]:text-[14px]" v-for="r in rows" :key="r.id">
+        <span class="id mi:font-[ui-monospace,_'SF_Mono',_Menlo,_monospace] mi:text-[12px] mi:text-label3 mi:self-center">{{ r.id }}</span>
+        <span class="who mi:text-label mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ r.customer }}</span>
+        <span class="amt mi:text-label mi:tabular-nums">{{ r.amount }}</span>
       </li>
     </ul>
-    <div class="pager">
+    <div class="pager mi:w-full mi:flex mi:justify-center">
       <MiPagination v-model="page" v-bind="p" aria-label="Invoices" />
     </div>
   </div>
 </template>
 
 <style scoped>
-.card { width: min(100%, 480px); padding: 14px 16px; border-radius: 20px; background: var(--mi-card); box-shadow: var(--mi-sh1); display: grid; gap: 14px; justify-items: center; box-sizing: border-box; }
-.pager { width: 100%; display: flex; justify-content: center; }
+.card { padding: 14px 16px; display: grid; gap: 14px; }
 @media (max-width: 480px) { .card { padding: 12px 10px; } }
-.rows { list-style: none; margin: 0; padding: 0; width: 100%; }
-.rows li { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 12px; padding: 10px 2px; border-bottom: 1px solid var(--mi-sep); font-size: 14px; }
-.id { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12px; color: var(--mi-label3); align-self: center; }
-.who { color: var(--mi-label); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.amt { color: var(--mi-label); font-variant-numeric: tabular-nums; }
 </style>

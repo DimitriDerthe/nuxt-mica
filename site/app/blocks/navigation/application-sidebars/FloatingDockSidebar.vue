@@ -1,61 +1,61 @@
 <template>
-  <div ref="rootEl" class="fds">
-    <div class="fds__shell" :class="{ 'is-rail': collapsed }" @keydown="onKey">
+  <div ref="rootEl" class="mi:@container mi:font-mi mi:text-label">
+    <div class="mi:group/rail mi:relative mi:grid mi:grid-cols-[76px_minmax(0,_1fr)] mi:grid-rows-[minmax(0,_1fr)] mi:h-160 mi:overflow-hidden mi:[background:radial-gradient(120%_80%_at_0%_0%,_color-mix(in_srgb,_var(--mi-p)_7%,_transparent),_transparent_60%),_var(--mi-page)]" :class="collapsed ? 'mi:@[720px]:grid-cols-[76px_minmax(0,_1fr)]' : 'mi:@[720px]:grid-cols-[280px_minmax(0,_1fr)]'" :data-rail="collapsed || undefined" @keydown="onKey">
       <!-- The dock floats off the edges; collapsed it becomes an icon rail with tooltips. -->
-      <aside id="fds-dock" class="fds__dock" aria-label="Tidewater navigation">
-        <div class="fds__head">
+      <aside id="fds-dock" class="mi:absolute mi:z-3 mi:top-3 mi:right-auto mi:bottom-3 mi:left-3 mi:w-64 mi:box-border mi:flex mi:flex-col mi:gap-1.5 mi:min-h-0 mi:p-2.5 mi:rounded-[20px] mi:[background:var(--mi-card)] mi:shadow-3 mi:group-data-[rail]/rail:relative mi:group-data-[rail]/rail:inset-auto mi:group-data-[rail]/rail:w-auto mi:group-data-[rail]/rail:mt-3 mi:group-data-[rail]/rail:mr-0 mi:group-data-[rail]/rail:mb-3 mi:group-data-[rail]/rail:ml-3 mi:group-data-[rail]/rail:py-2.5 mi:group-data-[rail]/rail:px-2 mi:group-data-[rail]/rail:items-center mi:group-data-[rail]/rail:shadow-2 mi:@[720px]:relative mi:@[720px]:inset-auto mi:@[720px]:w-auto mi:@[720px]:mt-3 mi:@[720px]:mr-0 mi:@[720px]:mb-3 mi:@[720px]:ml-3 mi:@[720px]:shadow-2" aria-label="Tidewater navigation">
+        <div class="mi:flex mi:items-center mi:gap-1 mi:w-full mi:group-data-[rail]/rail:flex-col mi:group-data-[rail]/rail:gap-1.5">
           <MiMenu v-model="workspace" variant="popup" :items="workspaces" aria-label="Switch workspace">
             <template #trigger="{ props }">
-              <button v-bind="props" type="button" class="fds__ws" :aria-label="'Workspace: ' + currentWs.label + '. Switch workspace'">
-                <span class="fds__ws-tile" aria-hidden="true">{{ currentWs.initials }}</span>
-                <span class="fds__ws-text fds__label">
-                  <span class="fds__ws-name">{{ currentWs.label }}</span>
-                  <span class="fds__ws-plan">{{ currentWs.plan }}</span>
+              <button v-bind="props" type="button" class="mi:flex mi:items-center mi:gap-2.5 mi:flex-1 mi:min-w-0 mi:p-1.5 mi:[border:0] mi:rounded-[12px] mi:[background:none] mi:text-inherit mi:[font:inherit] mi:text-left mi:cursor-pointer mi:hover:[background:var(--mi-fill4)] mi:group-data-[rail]/rail:p-0.5 mi:group-data-[rail]/rail:flex-[none] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px]" :aria-label="'Workspace: ' + currentWs.label + '. Switch workspace'">
+                <span class="mi:grid mi:place-items-center mi:flex-[none] mi:w-8 mi:h-8 mi:rounded-[10px] mi:text-[12px] mi:font-extrabold mi:tracking-[.02em] mi:text-p-on mi:[background:linear-gradient(145deg,_var(--mi-p),_color-mix(in_srgb,_var(--mi-p)_55%,_var(--mi-s)))] mi:shadow-[inset_0_0_0_1px_color-mix(in_srgb,_var(--mi-card)_18%,_transparent)]" aria-hidden="true">{{ currentWs.initials }}</span>
+                <span class="mi:group-data-[rail]/rail:hidden mi:[--mi-in-x:-4px] mi:animate-[in_var(--mi-dur-3)_var(--mi-ease)_both] mi:motion-reduce:animate-none mi:grid mi:min-w-0 mi:flex-1">
+                  <span class="mi:text-[14px] mi:font-650 mi:tracking-[-.01em] mi:overflow-hidden mi:whitespace-nowrap mi:text-ellipsis">{{ currentWs.label }}</span>
+                  <span class="mi:text-[11.5px] mi:text-label2 mi:overflow-hidden mi:whitespace-nowrap mi:text-ellipsis">{{ currentWs.plan }}</span>
                 </span>
-                <MiIcon name="chevron-up-down" :size="14" class="fds__label fds__ws-chev" />
+                <MiIcon name="chevron-up-down" :size="14" class="mi:flex-[none] mi:group-data-[rail]/rail:hidden! mi:[--mi-in-x:-4px] mi:animate-[in_var(--mi-dur-3)_var(--mi-ease)_both] mi:motion-reduce:animate-none mi:text-label3" />
               </button>
             </template>
           </MiMenu>
           <MiTooltip :content="collapsed ? 'Expand sidebar' : 'Collapse sidebar'" shortcut="[" placement="right">
-            <MiIconButton class="fds__toggle" size="small" variant="plain" :label="collapsed ? 'Expand sidebar' : 'Collapse sidebar'" aria-controls="fds-dock" :aria-expanded="!collapsed" @click="collapsed = !collapsed">
+            <MiIconButton size="small" variant="plain" :label="collapsed ? 'Expand sidebar' : 'Collapse sidebar'" aria-controls="fds-dock" :aria-expanded="!collapsed" @click="collapsed = !collapsed">
               <MiIcon name="sidebar" :size="17" />
             </MiIconButton>
           </MiTooltip>
         </div>
 
-        <MiTooltip class="fds__tip" content="Search" shortcut="⌘K" placement="right" :disabled="!collapsed">
-          <button type="button" class="fds__search" aria-label="Search Tidewater">
+        <MiTooltip class="mi:flex! mi:justify-center mi:w-full" content="Search" shortcut="⌘K" placement="right" :disabled="!collapsed">
+          <button type="button" class="mi:[font:inherit] mi:text-[13px] mi:group-data-[rail]/rail:w-10 mi:group-data-[rail]/rail:justify-center mi:flex mi:items-center mi:gap-2 mi:w-full mi:h-8.5 mi:pt-0 mi:pr-2 mi:pb-0 mi:pl-2.5 mi:box-border mi:[border:0] mi:rounded-[10px] mi:[background:var(--mi-fill4)] mi:text-label2 mi:cursor-pointer mi:hover:text-label mi:group-data-[rail]/rail:h-9.5 mi:group-data-[rail]/rail:p-0 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px]" aria-label="Search Tidewater">
             <MiIcon name="search" :size="16" />
-            <span class="fds__label fds__search-text">Search</span>
-            <MiKbdGroup class="fds__label fds__keys"><MiKbd>⌘</MiKbd><MiKbd>K</MiKbd></MiKbdGroup>
+            <span class="mi:group-data-[rail]/rail:hidden mi:[--mi-in-x:-4px] mi:animate-[in_var(--mi-dur-3)_var(--mi-ease)_both] mi:motion-reduce:animate-none mi:flex-1 mi:text-left">Search</span>
+            <MiKbdGroup class="mi:group-data-[rail]/rail:hidden! mi:[--mi-in-x:-4px] mi:animate-[in_var(--mi-dur-3)_var(--mi-ease)_both] mi:motion-reduce:animate-none mi:flex-[none]"><MiKbd>⌘</MiKbd><MiKbd>K</MiKbd></MiKbdGroup>
           </button>
         </MiTooltip>
 
-        <nav class="fds__scroll" aria-label="Main">
-          <ul class="fds__list">
+        <nav class="mi:flex-1 mi:min-h-0 mi:w-full mi:overflow-y-auto mi:[scrollbar-width:none] mi:mt-1" aria-label="Main">
+          <ul class="mi:grid mi:gap-px mi:m-0 mi:p-0 mi:[list-style:none] mi:group-data-[rail]/rail:justify-items-center mi:group-data-[rail]/rail:gap-0.5">
             <li v-for="n in nav" :key="n.id">
-              <MiTooltip class="fds__tip" :content="n.label + (n.count ? ' · ' + n.count + ' new' : '')" :shortcut="n.key ? 'G ' + n.key : undefined" placement="right" :disabled="!collapsed">
-                <button type="button" class="fds__item" :class="{ 'is-active': n.id === view }" :aria-current="n.id === view ? 'page' : undefined" :aria-label="collapsed ? n.label : undefined" @click="go(n.id)">
-                  <span class="fds__glyph"><MiIcon :name="n.icon" :size="18" /></span>
-                  <span class="fds__label fds__item-label">{{ n.label }}</span>
-                  <span v-if="n.count" class="fds__count" :aria-label="n.count + ' new'">{{ n.count }}</span>
-                  <MiKbdGroup v-else-if="n.key" class="fds__label fds__keys fds__hint" aria-hidden="true"><MiKbd>G</MiKbd><MiKbd>{{ n.key }}</MiKbd></MiKbdGroup>
+              <MiTooltip class="mi:flex! mi:justify-center mi:w-full" :content="n.label + (n.count ? ' · ' + n.count + ' new' : '')" :shortcut="n.key ? 'G ' + n.key : undefined" placement="right" :disabled="!collapsed">
+                <button type="button" class="mi:group/item mi:[font:inherit] mi:text-[13.5px] mi:font-medium mi:group-data-[rail]/rail:w-10 mi:group-data-[rail]/rail:justify-center mi:relative mi:flex mi:items-center mi:gap-2.5 mi:w-full mi:h-9 mi:pt-0 mi:pr-2 mi:pb-0 mi:pl-1 mi:box-border mi:[border:0] mi:rounded-[10px] mi:[background:none] mi:text-left mi:cursor-pointer mi:group-data-[rail]/rail:h-9.5 mi:group-data-[rail]/rail:p-0 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px]" :class="n.id === view ? 'mi:text-label mi:bg-p-tint' : 'mi:text-label2 mi:hover:text-label mi:hover:bg-fill4'" :aria-current="n.id === view ? 'page' : undefined" :aria-label="collapsed ? n.label : undefined" @click="go(n.id)">
+                  <span class="mi:grid mi:place-items-center mi:flex-[none] mi:w-7 mi:h-7" :class="n.id === view ? 'mi:text-p-text' : ''"><MiIcon :name="n.icon" :size="18" /></span>
+                  <span class="mi:group-data-[rail]/rail:hidden mi:[--mi-in-x:-4px] mi:animate-[in_var(--mi-dur-3)_var(--mi-ease)_both] mi:motion-reduce:animate-none mi:flex-1 mi:min-w-0 mi:overflow-hidden mi:whitespace-nowrap mi:text-ellipsis">{{ n.label }}</span>
+                  <span v-if="n.count" class="mi:flex-[none] mi:min-w-5 mi:h-5 mi:py-0 mi:px-1.5 mi:box-border mi:rounded-[10px] mi:text-[11.5px] mi:font-650 mi:leading-5 mi:text-center mi:tabular-nums mi:text-p-on mi:[background:var(--mi-p)] mi:group-data-[rail]/rail:absolute mi:group-data-[rail]/rail:top-[3px] mi:group-data-[rail]/rail:right-0.5 mi:group-data-[rail]/rail:min-w-4 mi:group-data-[rail]/rail:h-4 mi:group-data-[rail]/rail:py-0 mi:group-data-[rail]/rail:px-1 mi:group-data-[rail]/rail:text-[10px] mi:group-data-[rail]/rail:leading-4 mi:group-data-[rail]/rail:shadow-[0_0_0_2px_var(--mi-card)]" :aria-label="n.count + ' new'">{{ n.count }}</span>
+                  <MiKbdGroup v-else-if="n.key" class="mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)]! mi:group-data-[rail]/rail:hidden! mi:[--mi-in-x:-4px] mi:animate-[in_var(--mi-dur-3)_var(--mi-ease)_both] mi:motion-reduce:animate-none mi:flex-[none] mi:group-hover/item:opacity-100 mi:group-focus-visible/item:opacity-100" :class="n.id === view ? 'mi:opacity-100' : 'mi:opacity-0'" aria-hidden="true"><MiKbd>G</MiKbd><MiKbd>{{ n.key }}</MiKbd></MiKbdGroup>
                 </button>
               </MiTooltip>
             </li>
           </ul>
 
-          <div class="fds__section">
-            <MiText as="h2" variant="caption2" weight="semibold" tone="label2" class="fds__label fds__eyebrow">Pinned</MiText>
-            <span class="fds__rule" aria-hidden="true" />
+          <div class="mi:group-data-[rail]/rail:pt-2 mi:group-data-[rail]/rail:px-0 mi:group-data-[rail]/rail:pb-1.5 mi:group-data-[rail]/rail:justify-center mi:flex mi:items-center mi:gap-2 mi:pt-4.5 mi:px-2 mi:pb-1.5">
+            <MiText as="h2" variant="caption2" weight="semibold" tone="label2" class="mi:uppercase! mi:tracking-[.08em]! mi:group-data-[rail]/rail:hidden! mi:[--mi-in-x:-4px] mi:animate-[in_var(--mi-dur-3)_var(--mi-ease)_both] mi:motion-reduce:animate-none">Pinned</MiText>
+            <span class="mi:group-data-[rail]/rail:flex-[none] mi:group-data-[rail]/rail:w-5 mi:flex-1 mi:h-px mi:[background:var(--mi-sep)]" aria-hidden="true" />
           </div>
-          <ul class="fds__list">
+          <ul class="mi:grid mi:gap-px mi:m-0 mi:p-0 mi:[list-style:none] mi:group-data-[rail]/rail:justify-items-center mi:group-data-[rail]/rail:gap-0.5">
             <li v-for="p in pinned" :key="p.id">
-              <MiTooltip class="fds__tip" :content="p.label" :shortcut="'G ' + p.key" placement="right" :disabled="!collapsed">
-                <button type="button" class="fds__item fds__pin" :class="{ 'is-active': p.id === view }" :style="{ '--c': `var(--mi-${p.color})` }" :aria-current="p.id === view ? 'page' : undefined" :aria-label="collapsed ? p.label : undefined" @click="go(p.id)">
-                  <span class="fds__glyph"><span class="fds__pin-tile" aria-hidden="true">{{ p.label.charAt(0) }}</span></span>
-                  <span class="fds__label fds__item-label">{{ p.label }}</span>
-                  <MiKbdGroup class="fds__label fds__keys fds__hint" aria-hidden="true"><MiKbd>G</MiKbd><MiKbd>{{ p.key }}</MiKbd></MiKbdGroup>
+              <MiTooltip class="mi:flex! mi:justify-center mi:w-full" :content="p.label" :shortcut="'G ' + p.key" placement="right" :disabled="!collapsed">
+                <button type="button" class="mi:group/item mi:[font:inherit] mi:text-[13.5px] mi:font-medium mi:group-data-[rail]/rail:w-10 mi:group-data-[rail]/rail:justify-center mi:relative mi:flex mi:items-center mi:gap-2.5 mi:w-full mi:h-9 mi:pt-0 mi:pr-2 mi:pb-0 mi:pl-1 mi:box-border mi:[border:0] mi:rounded-[10px] mi:[background:none] mi:text-left mi:cursor-pointer mi:group-data-[rail]/rail:h-9.5 mi:group-data-[rail]/rail:p-0 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px]" :class="p.id === view ? 'mi:text-label mi:bg-p-tint' : 'mi:text-label2 mi:hover:text-label mi:hover:bg-fill4'" :style="{ '--c': `var(--mi-${p.color})` }" :aria-current="p.id === view ? 'page' : undefined" :aria-label="collapsed ? p.label : undefined" @click="go(p.id)">
+                  <span class="mi:grid mi:place-items-center mi:flex-[none] mi:w-7 mi:h-7" :class="p.id === view ? 'mi:text-p-text' : ''"><span class="mi:group-data-[rail]/rail:w-6.5 mi:grid mi:place-items-center mi:w-5.5 mi:h-5.5 mi:rounded-[7px] mi:text-[11px] mi:font-750 mi:text-(--c) mi:[background:color-mix(in_srgb,_var(--c)_16%,_transparent)] mi:shadow-[inset_0_0_0_1px_color-mix(in_srgb,_var(--c)_26%,_transparent)] mi:group-data-[rail]/rail:h-6.5 mi:group-data-[rail]/rail:text-[12px]" aria-hidden="true">{{ p.label.charAt(0) }}</span></span>
+                  <span class="mi:group-data-[rail]/rail:hidden mi:[--mi-in-x:-4px] mi:animate-[in_var(--mi-dur-3)_var(--mi-ease)_both] mi:motion-reduce:animate-none mi:flex-1 mi:min-w-0 mi:overflow-hidden mi:whitespace-nowrap mi:text-ellipsis">{{ p.label }}</span>
+                  <MiKbdGroup class="mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)]! mi:group-data-[rail]/rail:hidden! mi:[--mi-in-x:-4px] mi:animate-[in_var(--mi-dur-3)_var(--mi-ease)_both] mi:motion-reduce:animate-none mi:flex-[none] mi:group-hover/item:opacity-100 mi:group-focus-visible/item:opacity-100" :class="p.id === view ? 'mi:opacity-100' : 'mi:opacity-0'" aria-hidden="true"><MiKbd>G</MiKbd><MiKbd>{{ p.key }}</MiKbd></MiKbdGroup>
                 </button>
               </MiTooltip>
             </li>
@@ -63,43 +63,43 @@
         </nav>
 
         <!-- Usage: a segmented meter, folded into a ring when the dock is a rail. -->
-        <MiTooltip class="fds__tip" :content="`Storage ${usedPct}% used · ${used.toFixed(1)} of ${quota} GB`" placement="right" :disabled="!collapsed">
-          <div class="fds__usage" role="meter" aria-label="Storage used" :aria-valuenow="usedPct" aria-valuemin="0" aria-valuemax="100" :aria-valuetext="`${used.toFixed(1)} of ${quota} GB used`" tabindex="0">
-            <svg class="fds__ring" viewBox="0 0 36 36" aria-hidden="true">
-              <circle cx="18" cy="18" r="14" pathLength="100" class="fds__ring-track" />
-              <circle cx="18" cy="18" r="14" pathLength="100" class="fds__ring-fill" :stroke-dasharray="`${usedPct} 100`" />
+        <MiTooltip class="mi:flex! mi:justify-center mi:w-full" :content="`Storage ${usedPct}% used · ${used.toFixed(1)} of ${quota} GB`" placement="right" :disabled="!collapsed">
+          <div class="mi:group-data-[rail]/rail:w-10 mi:group-data-[rail]/rail:p-0 mi:group-data-[rail]/rail:justify-center mi:flex mi:items-center mi:gap-2.5 mi:w-full mi:box-border mi:p-3 mi:rounded-[14px] mi:[background:var(--mi-fill4)] mi:[outline:none] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px] mi:group-data-[rail]/rail:h-10 mi:group-data-[rail]/rail:rounded-[12px]" role="meter" aria-label="Storage used" :aria-valuenow="usedPct" aria-valuemin="0" aria-valuemax="100" :aria-valuetext="`${used.toFixed(1)} of ${quota} GB used`" tabindex="0">
+            <svg class="mi:group-data-[rail]/rail:block mi:hidden mi:w-7.5 mi:h-7.5 mi:transform-[rotate(-90deg)]" viewBox="0 0 36 36" aria-hidden="true">
+              <circle cx="18" cy="18" r="14" pathLength="100" class="mi:fill-[color:none] mi:[stroke-width:4] mi:stroke-fill2" />
+              <circle cx="18" cy="18" r="14" pathLength="100" class="mi:fill-[color:none] mi:[stroke-width:4] mi:stroke-p mi:[stroke-linecap:round]" :stroke-dasharray="`${usedPct} 100`" />
             </svg>
-            <div class="fds__label fds__usage-body">
-              <div class="fds__usage-top">
+            <div class="mi:group-data-[rail]/rail:hidden mi:[--mi-in-x:-4px] mi:animate-[in_var(--mi-dur-3)_var(--mi-ease)_both] mi:motion-reduce:animate-none mi:grid mi:gap-2 mi:flex-1 mi:min-w-0">
+              <div class="mi:flex mi:items-baseline mi:justify-between mi:gap-2">
                 <MiText as="span" variant="footnote" weight="semibold">Storage</MiText>
                 <MiText as="span" variant="caption" tone="label2" tabular>{{ used.toFixed(1) }} / {{ quota }} GB</MiText>
               </div>
-              <div class="fds__bar" aria-hidden="true">
-                <span v-for="s in storage" :key="s.label" :style="{ flexGrow: s.gb, background: `var(--mi-${s.color})` }" />
-                <span class="fds__bar-free" :style="{ flexGrow: quota - used }" />
+              <div class="mi:flex mi:gap-0.5 mi:h-1.5" aria-hidden="true">
+                <span class="mi:basis-0 mi:rounded-[3px]" v-for="s in storage" :key="s.label" :style="{ flexGrow: s.gb, background: `var(--mi-${s.color})` }" />
+                <span class="mi:basis-0 mi:rounded-[3px] mi:[background:var(--mi-fill2)]" :style="{ flexGrow: quota - used }" />
               </div>
-              <ul class="fds__legend">
-                <li v-for="s in storage" :key="s.label"><i :style="{ background: `var(--mi-${s.color})` }" />{{ s.label }}</li>
+              <ul class="mi:flex mi:flex-wrap mi:gap-y-1 mi:gap-x-2.5 mi:m-0 mi:p-0 mi:[list-style:none] mi:text-[11px] mi:text-label2">
+                <li class="mi:inline-flex mi:items-center mi:gap-[5px]" v-for="s in storage" :key="s.label"><i class="mi:w-1.5 mi:h-1.5 mi:rounded-[2px]" :style="{ background: `var(--mi-${s.color})` }" />{{ s.label }}</li>
               </ul>
             </div>
           </div>
         </MiTooltip>
 
-        <div class="fds__me">
+        <div class="mi:group-data-[rail]/rail:justify-center mi:group-data-[rail]/rail:pt-1.5 mi:group-data-[rail]/rail:pr-0 mi:group-data-[rail]/rail:pb-0 mi:group-data-[rail]/rail:pl-0 mi:flex mi:items-center mi:gap-2.5 mi:w-full mi:pt-1.5 mi:pr-0.5 mi:pb-0 mi:pl-1 mi:box-border">
           <MiAvatar name="Maren Ruiz" size="sm" tone="auto" decorative />
-          <span class="fds__label fds__me-text">
-            <span class="fds__me-name">Maren Ruiz</span>
-            <span class="fds__me-mail">Product lead</span>
+          <span class="mi:group-data-[rail]/rail:hidden mi:[--mi-in-x:-4px] mi:animate-[in_var(--mi-dur-3)_var(--mi-ease)_both] mi:motion-reduce:animate-none mi:grid mi:flex-1 mi:min-w-0 mi:leading-tight">
+            <span class="mi:text-[13px] mi:font-semibold">Maren Ruiz</span>
+            <span class="mi:text-[11.5px] mi:text-label2">Product lead</span>
           </span>
-          <MiIconButton class="fds__label" size="small" variant="plain" label="Settings"><MiIcon name="settings" :size="17" /></MiIconButton>
+          <MiIconButton class="mi:group-data-[rail]/rail:hidden! mi:[--mi-in-x:-4px] mi:animate-[in_var(--mi-dur-3)_var(--mi-ease)_both] mi:motion-reduce:animate-none" size="small" variant="plain" label="Settings"><MiIcon name="settings" :size="17" /></MiIconButton>
         </div>
       </aside>
-      <div class="fds__scrim" aria-hidden="true" @click="collapsed = true" />
+      <div class="mi:absolute mi:inset-0 mi:z-2 mi:[background:var(--mi-scrim)] mi:opacity-100 mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)] mi:group-data-[rail]/rail:opacity-0 mi:group-data-[rail]/rail:pointer-events-none mi:@[720px]:hidden" aria-hidden="true" @click="collapsed = true" />
 
-      <main class="fds__main" aria-labelledby="fds-title">
-        <header class="fds__bar-top">
-          <div class="fds__title">
-            <MiText as="span" variant="caption" tone="label2" weight="medium"><span class="fds__ws-crumb">{{ currentWs.label }} · </span>{{ page.kind }}</MiText>
+      <main class="mi:relative mi:min-w-0 mi:flex mi:flex-col mi:gap-4.5 mi:pt-6 mi:pr-4 mi:pb-5 mi:pl-4 mi:overflow-hidden mi:@[720px]:pt-8 mi:@[720px]:pr-8 mi:@[720px]:pb-6 mi:@[720px]:pl-7" aria-labelledby="fds-title">
+        <header class="mi:flex mi:[align-items:flex-end] mi:justify-between mi:gap-3">
+          <div class="mi:grid mi:gap-0.5 mi:min-w-0">
+            <MiText as="span" variant="caption" tone="label2" weight="medium"><span class="mi:hidden mi:@[720px]:inline">{{ currentWs.label }} · </span>{{ page.kind }}</MiText>
             <MiText id="fds-title" as="h3" variant="title2" weight="bold">{{ page.label }}</MiText>
           </div>
           <MiButton size="small" variant="tinted">
@@ -108,26 +108,26 @@
           </MiButton>
         </header>
 
-        <dl class="fds__stats">
-          <div v-for="st in stats" :key="st.k"><dt>{{ st.k }}</dt><dd>{{ st.v }}</dd></div>
+        <dl class="mi:grid mi:grid-cols-3 mi:gap-2 mi:m-0">
+          <div class="mi:py-2.5 mi:px-[11px] mi:@[720px]:py-3 mi:@[720px]:px-3.5 mi:grid mi:gap-0.5 mi:min-w-0 mi:rounded-[14px] mi:[background:color-mix(in_srgb,_var(--mi-card)_60%,_transparent)] mi:shadow-[inset_0_0_0_1px_var(--mi-sep)]" v-for="st in stats" :key="st.k"><dt class="mi:text-[11.5px] mi:text-label2 mi:whitespace-nowrap mi:overflow-hidden mi:text-ellipsis">{{ st.k }}</dt><dd class="mi:tracking-[-.02em] mi:m-0 mi:text-[22px] mi:font-bold mi:tabular-nums">{{ st.v }}</dd></div>
         </dl>
 
-        <ul class="fds__rows" :aria-label="page.label">
-          <li v-for="r in rows" :key="r.id" class="fds__row">
-            <span class="fds__state" :style="{ '--c': `var(--mi-${r.color})` }" :aria-label="r.state" role="img" />
-            <span class="fds__row-id">{{ r.id }}</span>
-            <span class="fds__row-title">{{ r.title }}</span>
-            <span class="fds__row-due">{{ r.due }}</span>
-            <MiAvatar :name="r.owner" size="xs" tone="auto" />
+        <ul class="mi:grid mi:m-0 mi:py-1 mi:px-0 mi:[list-style:none] mi:rounded-[16px] mi:[background:var(--mi-card)] mi:shadow-1" :aria-label="page.label">
+          <li v-for="r in rows" :key="r.id" class="mi:grid mi:grid-cols-[10px_minmax(0,_1fr)_auto] mi:[grid-template-areas:'dot_title_who'_'._id_due'] mi:items-center mi:gap-y-0.5 mi:gap-x-3 mi:py-3 mi:px-3.5 mi:not-first:border-t mi:not-first:border-t-sep mi:@[720px]:grid-cols-[10px_64px_minmax(0,_1fr)_56px_24px] mi:@[720px]:[grid-template-areas:'dot_id_title_due_who'] mi:@[720px]:py-3 mi:@[720px]:px-4.5">
+            <span class="mi:[grid-area:dot] mi:w-2.5 mi:h-2.5 mi:rounded-[50%] mi:box-border mi:[border:2px_solid_var(--c)] mi:[background:color-mix(in_srgb,_var(--c)_30%,_transparent)]" :style="{ '--c': `var(--mi-${r.color})` }" :aria-label="r.state" role="img" />
+            <span class="mi:[grid-area:id] mi:text-[11.5px] mi:text-label3 mi:tabular-nums mi:tracking-[.02em]">{{ r.id }}</span>
+            <span class="mi:[grid-area:title] mi:text-[14px] mi:font-medium mi:overflow-hidden mi:whitespace-nowrap mi:text-ellipsis">{{ r.title }}</span>
+            <span class="mi:[grid-area:due] mi:text-[12px] mi:text-label2 mi:tabular-nums mi:text-right">{{ r.due }}</span>
+            <MiAvatar :name="r.owner" size="xs" tone="auto" class="mi:[grid-area:who] mi:justify-self-end" />
           </li>
         </ul>
 
         <!-- Leader-key hint: press G, then a letter. -->
-        <div class="fds__leader" :class="{ 'is-on': leader }" role="status" aria-live="polite">
+        <div class="mi:absolute mi:left-4 mi:right-4 mi:bottom-4.5 mi:flex mi:flex-wrap mi:items-center mi:gap-y-1.5 mi:gap-x-2.5 mi:py-2.5 mi:px-3 mi:rounded-[14px] mi:text-[12px] mi:text-label2 mi:[background:var(--mi-mat)] mi:[backdrop-filter:blur(16px)] mi:shadow-2 mi:pointer-events-none mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),_transform_var(--mi-dur-2)_var(--mi-ease)] mi:@[720px]:left-7 mi:@[720px]:right-auto mi:@[720px]:max-w-[calc(100%_-_60px)]" :class="leader ? 'mi:opacity-100 mi:transform-none' : 'mi:opacity-0 mi:transform-[translateY(8px)]'" role="status" aria-live="polite">
           <template v-if="leader">
             <MiKbd>G</MiKbd>
             <span>then</span>
-            <span v-for="k in allKeys" :key="k.key" class="fds__leader-key"><MiKbd>{{ k.key }}</MiKbd>{{ k.label }}</span>
+            <span v-for="k in allKeys" :key="k.key" class="mi:inline-flex mi:items-center mi:gap-[5px] mi:text-label"><MiKbd>{{ k.key }}</MiKbd>{{ k.label }}</span>
           </template>
         </div>
       </main>
@@ -243,153 +243,3 @@ onMounted(() => {
 })
 onBeforeUnmount(() => { ro?.disconnect(); clearTimeout(leaderTimer) })
 </script>
-
-<style scoped>
-.fds { container-type: inline-size; font-family: var(--mi-font); color: var(--mi-label); }
-.fds__shell {
-  position: relative; display: grid; grid-template-columns: 76px minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); height: 640px; overflow: hidden;
-  background: radial-gradient(120% 80% at 0% 0%, color-mix(in srgb, var(--mi-p) 7%, transparent), transparent 60%), var(--mi-page);
-}
-
-/* Dock */
-.fds__dock {
-  position: absolute; z-index: 3; inset: 12px auto 12px 12px; width: 256px; box-sizing: border-box;
-  display: flex; flex-direction: column; gap: 6px; min-height: 0; padding: 10px;
-  border-radius: 20px; background: var(--mi-card); box-shadow: var(--mi-sh3);
-}
-.is-rail .fds__dock { position: relative; inset: auto; width: auto; margin: 12px 0 12px 12px; padding: 10px 8px; align-items: center; box-shadow: var(--mi-sh2); }
-.is-rail .fds__label { display: none; }
-.fds__dock .fds__label { animation: fds-fade var(--mi-dur-3) var(--mi-ease) both; }
-@keyframes fds-fade { from { opacity: 0; transform: translateX(-4px); } }
-
-.fds__dock :deep(.fds__tip) { display: flex; justify-content: center; width: 100%; }
-.fds__head { display: flex; align-items: center; gap: 4px; width: 100%; }
-.is-rail .fds__head { flex-direction: column; gap: 6px; }
-.fds__ws {
-  display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; padding: 6px; border: 0; border-radius: 12px;
-  background: none; color: inherit; font: inherit; text-align: left; cursor: pointer;
-}
-.fds__ws:hover { background: var(--mi-fill4); }
-.fds__ws-tile {
-  display: grid; place-items: center; flex: none; width: 32px; height: 32px; border-radius: 10px;
-  font-size: 12px; font-weight: 800; letter-spacing: .02em; color: var(--mi-p-on);
-  background: linear-gradient(145deg, var(--mi-p), color-mix(in srgb, var(--mi-p) 55%, var(--mi-s)));
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--mi-card) 18%, transparent);
-}
-.fds__ws-text { display: grid; min-width: 0; flex: 1; }
-.fds__ws-name { font-size: 14px; font-weight: 650; letter-spacing: -.01em; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-.fds__ws-plan { font-size: 11.5px; color: var(--mi-label2); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-.fds__ws-chev { color: var(--mi-label3); flex: none; }
-
-.fds__search {
-  display: flex; align-items: center; gap: 8px; width: 100%; height: 34px; padding: 0 8px 0 10px; box-sizing: border-box;
-  border: 0; border-radius: 10px; background: var(--mi-fill4); color: var(--mi-label2); font: inherit; font-size: 13px; cursor: pointer;
-}
-.fds__search:hover { color: var(--mi-label); }
-.is-rail .fds__search { width: 40px; height: 38px; padding: 0; justify-content: center; }
-.fds__search-text { flex: 1; text-align: left; }
-.fds__keys { flex: none; }
-
-.fds__scroll { flex: 1; min-height: 0; width: 100%; overflow-y: auto; scrollbar-width: none; margin-top: 4px; }
-.fds__list { display: grid; gap: 1px; margin: 0; padding: 0; list-style: none; }
-.is-rail .fds__list { justify-items: center; gap: 2px; }
-.fds__item {
-  position: relative; display: flex; align-items: center; gap: 10px; width: 100%; height: 36px; padding: 0 8px 0 4px; box-sizing: border-box;
-  border: 0; border-radius: 10px; background: none; color: var(--mi-label2); font: inherit; font-size: 13.5px; font-weight: 500; text-align: left; cursor: pointer;
-}
-.fds__item:hover { color: var(--mi-label); background: var(--mi-fill4); }
-.fds__item.is-active { color: var(--mi-label); background: var(--mi-p-tint); }
-.fds__item.is-active .fds__glyph { color: var(--mi-p-text); }
-.is-rail .fds__item { width: 40px; height: 38px; padding: 0; justify-content: center; }
-.is-rail .fds__ws { padding: 2px; flex: none; }
-.fds__glyph { display: grid; place-items: center; flex: none; width: 28px; height: 28px; }
-.fds__item-label { flex: 1; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-.fds__count {
-  flex: none; min-width: 20px; height: 20px; padding: 0 6px; box-sizing: border-box; border-radius: 10px;
-  font-size: 11.5px; font-weight: 650; line-height: 20px; text-align: center; font-variant-numeric: tabular-nums;
-  color: var(--mi-p-on); background: var(--mi-p);
-}
-.is-rail .fds__count { position: absolute; top: 3px; right: 2px; min-width: 16px; height: 16px; padding: 0 4px; font-size: 10px; line-height: 16px; box-shadow: 0 0 0 2px var(--mi-card); }
-.fds__hint { opacity: 0; transition: opacity var(--mi-dur-2) var(--mi-ease); }
-.fds__item:hover .fds__hint, .fds__item:focus-visible .fds__hint, .fds__item.is-active .fds__hint { opacity: 1; }
-
-.fds__section { display: flex; align-items: center; gap: 8px; padding: 18px 8px 6px; }
-.is-rail .fds__section { padding: 8px 0 6px; justify-content: center; }
-.fds__eyebrow { text-transform: uppercase; letter-spacing: .08em; }
-.fds__rule { flex: 1; height: 1px; background: var(--mi-sep); }
-.is-rail .fds__rule { flex: none; width: 20px; }
-.fds__pin-tile {
-  display: grid; place-items: center; width: 22px; height: 22px; border-radius: 7px;
-  font-size: 11px; font-weight: 750; color: var(--c); background: color-mix(in srgb, var(--c) 16%, transparent);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c) 26%, transparent);
-}
-.is-rail .fds__pin-tile { width: 26px; height: 26px; font-size: 12px; }
-
-.fds__usage { display: flex; align-items: center; gap: 10px; width: 100%; box-sizing: border-box; padding: 12px; border-radius: 14px; background: var(--mi-fill4); outline: none; }
-.fds__usage:focus-visible, .fds__item:focus-visible, .fds__search:focus-visible, .fds__ws:focus-visible { outline: 2px solid var(--mi-p); outline-offset: -2px; }
-.fds__ring { display: none; width: 30px; height: 30px; transform: rotate(-90deg); }
-.fds__ring circle { fill: none; stroke-width: 4; }
-.fds__ring-track { stroke: var(--mi-fill2); }
-.fds__ring-fill { stroke: var(--mi-p); stroke-linecap: round; }
-.is-rail .fds__usage { width: 40px; height: 40px; padding: 0; justify-content: center; border-radius: 12px; }
-.is-rail .fds__ring { display: block; }
-.fds__usage-body { display: grid; gap: 8px; flex: 1; min-width: 0; }
-.fds__usage-top { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
-.fds__bar { display: flex; gap: 2px; height: 6px; }
-.fds__bar span { flex-basis: 0; border-radius: 3px; }
-.fds__bar .fds__bar-free { background: var(--mi-fill2); }
-.fds__legend { display: flex; flex-wrap: wrap; gap: 4px 10px; margin: 0; padding: 0; list-style: none; font-size: 11px; color: var(--mi-label2); }
-.fds__legend li { display: inline-flex; align-items: center; gap: 5px; }
-.fds__legend i { width: 6px; height: 6px; border-radius: 2px; }
-
-.fds__me { display: flex; align-items: center; gap: 10px; width: 100%; padding: 6px 2px 0 4px; box-sizing: border-box; }
-.is-rail .fds__me { justify-content: center; padding: 6px 0 0; }
-.fds__me-text { display: grid; flex: 1; min-width: 0; line-height: 1.25; }
-.fds__me-name { font-size: 13px; font-weight: 600; }
-.fds__me-mail { font-size: 11.5px; color: var(--mi-label2); }
-
-.fds__scrim { position: absolute; inset: 0; z-index: 2; background: var(--mi-scrim); opacity: 1; transition: opacity var(--mi-dur-3) var(--mi-ease); }
-.is-rail .fds__scrim { opacity: 0; pointer-events: none; }
-
-/* Page */
-.fds__main { position: relative; min-width: 0; display: flex; flex-direction: column; gap: 18px; padding: 24px 16px 20px 16px; overflow: hidden; }
-.fds__bar-top { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.fds__title { display: grid; gap: 2px; min-width: 0; }
-.fds__ws-crumb { display: none; }
-.fds__stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 0; }
-.fds__stats div { display: grid; gap: 2px; min-width: 0; padding: 10px 11px; border-radius: 14px; background: color-mix(in srgb, var(--mi-card) 60%, transparent); box-shadow: inset 0 0 0 1px var(--mi-sep); }
-.fds__stats dt { font-size: 11.5px; color: var(--mi-label2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.fds__stats dd { margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
-.fds__rows { display: grid; margin: 0; padding: 4px 0; list-style: none; border-radius: 16px; background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.fds__row { display: grid; grid-template-columns: 10px minmax(0, 1fr) auto; grid-template-areas: "dot title who" ". id due"; align-items: center; gap: 2px 12px; padding: 12px 14px; }
-.fds__row + .fds__row { border-top: 1px solid var(--mi-sep); }
-.fds__state { grid-area: dot; width: 10px; height: 10px; border-radius: 50%; box-sizing: border-box; border: 2px solid var(--c); background: color-mix(in srgb, var(--c) 30%, transparent); }
-.fds__row-id { grid-area: id; font-size: 11.5px; color: var(--mi-label3); font-variant-numeric: tabular-nums; letter-spacing: .02em; }
-.fds__row-title { grid-area: title; font-size: 14px; font-weight: 500; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-.fds__row-due { grid-area: due; font-size: 12px; color: var(--mi-label2); font-variant-numeric: tabular-nums; text-align: right; }
-.fds__row > :last-child { grid-area: who; justify-self: end; }
-
-.fds__leader {
-  position: absolute; left: 16px; right: 16px; bottom: 18px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px;
-  padding: 10px 12px; border-radius: 14px; font-size: 12px; color: var(--mi-label2);
-  background: var(--mi-mat); backdrop-filter: blur(16px); box-shadow: var(--mi-sh2);
-  opacity: 0; transform: translateY(8px); pointer-events: none; transition: opacity var(--mi-dur-2) var(--mi-ease), transform var(--mi-dur-2) var(--mi-ease);
-}
-.fds__leader.is-on { opacity: 1; transform: none; }
-.fds__leader-key { display: inline-flex; align-items: center; gap: 5px; color: var(--mi-label); }
-
-@container (min-width: 720px) {
-  .fds__shell { grid-template-columns: 280px minmax(0, 1fr); }
-  .fds__shell.is-rail { grid-template-columns: 76px minmax(0, 1fr); }
-  .fds__dock { position: relative; inset: auto; width: auto; margin: 12px 0 12px 12px; box-shadow: var(--mi-sh2); }
-  .fds__scrim { display: none; }
-  .fds__ws-crumb { display: inline; }
-  .fds__stats div { padding: 12px 14px; }
-  .fds__main { padding: 32px 32px 24px 28px; }
-  .fds__row { grid-template-columns: 10px 64px minmax(0, 1fr) 56px 24px; grid-template-areas: "dot id title due who"; padding: 12px 18px; }
-  .fds__leader { left: 28px; right: auto; max-width: calc(100% - 60px); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .fds__dock .fds__label { animation: none; }
-}
-</style>

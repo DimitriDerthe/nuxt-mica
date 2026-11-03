@@ -13,11 +13,7 @@ const file = ref<File | File[] | null>(null)
 </script>
 
 <template>
-  <div class="wrap">
+  <div class="wrap mi:w-[min(100%,_380px)]">
     <MiFileInput v-model="file" v-bind="p" />
   </div>
 </template>
-
-<style scoped>
-.wrap { width: min(100%, 380px); }
-</style>

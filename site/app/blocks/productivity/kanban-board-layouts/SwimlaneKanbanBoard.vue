@@ -1,45 +1,45 @@
 <template>
-  <section class="skb" aria-labelledby="skb-title">
-    <header class="skb__head">
+  <section class="mi:@container mi:grid mi:grid-rows-[auto_minmax(0,_1fr)] mi:gap-3.5 mi:h-160 mi:p-4.5 mi:box-border mi:bg-page mi:font-mi mi:text-label" aria-labelledby="skb-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3 mi:@[900px]:px-1">
       <div>
         <MiText id="skb-title" variant="title3" as="h2" weight="semibold">Checkout revamp · Sprint 14</MiText>
         <MiText variant="footnote" tone="label2" aria-live="polite">{{ doneCount }} of {{ tasks.length }} done · {{ blockedCount }} blocked</MiText>
       </div>
-      <div class="skb__tools">
+      <div class="mi:flex mi:flex-wrap mi:items-center mi:gap-2">
         <MiSegmented v-model="groupBy" label="Group lanes by" :options="groupOptions" />
         <MiButton size="small" variant="gray" @click="toggleAll">{{ collapsed.size ? 'Expand all' : 'Collapse all' }}</MiButton>
       </div>
     </header>
 
     <!-- Lanes are rows, stages are columns; the board scrolls inside this frame on small screens. -->
-    <div class="skb__frame" tabindex="0" aria-label="Board">
-      <div class="skb__board">
-        <div class="skb__stages" aria-hidden="true">
-          <span v-for="s in stages" :key="s.id">{{ s.label }} <b>{{ countIn(s.id) }}</b></span>
+    <div class="mi:overflow-auto mi:rounded-xl mi:bg-card mi:shadow-1 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" tabindex="0" aria-label="Board">
+      <div class="mi:min-w-205 mi:@[900px]:min-w-0">
+        <div class="mi:grid mi:grid-cols-4 mi:sticky mi:top-0 mi:z-2 mi:bg-card mi:border-b mi:border-b-sep" aria-hidden="true">
+          <span class="mi:py-3 mi:px-3.5 mi:text-[12px] mi:font-semibold mi:uppercase mi:tracking-[.05em] mi:text-label2" v-for="s in stages" :key="s.id">{{ s.label }} <b class="mi:ml-1 mi:font-semibold mi:text-label3 mi:tabular-nums">{{ countIn(s.id) }}</b></span>
         </div>
 
-        <section v-for="lane in lanes" :key="lane.id" class="skb__lane" :aria-labelledby="'skb-lane-' + lane.id">
-          <h3 class="skb__lane-head">
+        <section v-for="lane in lanes" :key="lane.id" class="mi:[section+&]:border-t mi:[section+&]:border-t-sep" :aria-labelledby="'skb-lane-' + lane.id">
+          <h3 class="mi:sticky mi:left-0 mi:m-0 mi:w-max mi:max-w-[100cqi]">
             <button
-              :id="'skb-lane-' + lane.id" type="button" class="skb__lane-btn"
+              :id="'skb-lane-' + lane.id" type="button" class="mi:flex mi:items-center mi:gap-2 mi:py-3 mi:px-3.5 mi:[border:0] mi:bg-transparent mi:[font:inherit] mi:text-inherit mi:cursor-pointer mi:text-start mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px] mi:focus-visible:rounded-md"
               :aria-expanded="!collapsed.has(lane.id)" @click="toggle(lane.id)"
             >
-              <MiIcon name="chevron-right" :size="14" class="skb__chev" :class="{ 'is-open': !collapsed.has(lane.id) }" />
+              <MiIcon name="chevron-right" :size="14" class="mi:text-label3 mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)]" :class="collapsed.has(lane.id) ? '' : 'mi:transform-[rotate(90deg)]'" />
               <MiAvatar v-if="groupBy === 'owner'" :name="lane.label" tone="auto" size="xs" decorative />
-              <span v-else class="skb__prio" :class="'is-' + lane.id" aria-hidden="true" />
-              <span class="skb__lane-name">{{ lane.label }}</span>
-              <span class="skb__lane-count">{{ lane.tasks.length }} tasks · {{ lane.points }} pt</span>
+              <span v-else class="mi:w-2.5 mi:h-2.5 mi:rounded-[3px]" :class="PRIO[lane.id]" aria-hidden="true" />
+              <span class="mi:text-[14px] mi:font-semibold">{{ lane.label }}</span>
+              <span class="mi:text-[12px] mi:font-normal mi:text-label2">{{ lane.tasks.length }} tasks · {{ lane.points }} pt</span>
             </button>
           </h3>
 
-          <div v-if="!collapsed.has(lane.id)" class="skb__cells">
-            <ul v-for="s in stages" :key="s.id" class="skb__cell" :aria-label="lane.label + ', ' + s.label">
-              <li v-for="t in lane.cells[s.id]" :key="t.id" class="skb__card" :class="{ 'is-blocked': t.blocked, 'is-done': t.stage === 'done' }">
-                <span class="skb__key">{{ t.key }}</span>
-                <span class="skb__title">{{ t.title }}</span>
-                <span class="skb__foot">
+          <div v-if="!collapsed.has(lane.id)" class="mi:grid mi:grid-cols-4 mi:pt-0 mi:px-1.5 mi:pb-3">
+            <ul v-for="s in stages" :key="s.id" class="mi:grid mi:content-start mi:gap-2 mi:min-h-16 mi:m-0 mi:p-1.5 mi:[list-style:none] mi:rounded-lg mi:odd:bg-fill4" :aria-label="lane.label + ', ' + s.label">
+              <li v-for="t in lane.cells[s.id]" :key="t.id" class="mi:grid mi:gap-1 mi:py-2.5 mi:px-3 mi:rounded-md mi:bg-card" :class="t.blocked ? 'mi:shadow-[inset_3px_0_0_var(--mi-red),_var(--mi-sh1)]' : 'mi:shadow-1'">
+                <span class="mi:text-[11px] mi:font-semibold mi:text-label3 mi:tabular-nums">{{ t.key }}</span>
+                <span class="mi:text-[13px] mi:font-medium mi:leading-[1.35]" :class="t.stage === 'done' ? 'mi:text-label2' : ''">{{ t.title }}</span>
+                <span class="mi:flex mi:items-center mi:justify-between mi:gap-1.5 mi:min-h-7">
                   <MiBadge v-if="t.blocked" tone="danger" label="Blocked" />
-                  <span v-else class="skb__pts">{{ t.points }} pt</span>
+                  <span v-else class="mi:text-[12px] mi:text-label2 mi:tabular-nums">{{ t.points }} pt</span>
                   <MiIconButton
                     v-if="t.stage !== 'done'" size="small" variant="plain" :label="'Move ' + t.key + ' to ' + nextLabel(t.stage)"
                     :disabled="t.blocked" @click="advance(t)"
@@ -61,6 +61,7 @@ import { computed, ref } from 'vue'
 
 type StageId = 'todo' | 'doing' | 'review' | 'done'
 type Priority = 'urgent' | 'high' | 'normal'
+const PRIO: Record<string, string> = { urgent: 'mi:bg-red', high: 'mi:bg-orange', normal: 'mi:bg-label3' }
 interface Task { id: number, key: string, title: string, owner: string, priority: Priority, stage: StageId, points: number, blocked?: boolean }
 interface Lane { id: string, label: string, tasks: Task[], cells: Record<StageId, Task[]>, points: number }
 
@@ -117,45 +118,3 @@ function toggleAll() {
   collapsed.value = collapsed.value.size ? new Set() : new Set(lanes.value.map(l => l.id))
 }
 </script>
-
-<style scoped>
-.skb { container-type: inline-size; display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 14px; height: 640px; padding: 18px; box-sizing: border-box; background: var(--mi-page); font-family: var(--mi-font); color: var(--mi-label); }
-.skb__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.skb__tools { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
-
-.skb__frame { overflow: auto; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.skb__frame:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-.skb__board { min-width: 820px; }
-.skb__stages, .skb__cells { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
-
-/* Stage names stay visible while lanes scroll under them. */
-.skb__stages { position: sticky; top: 0; z-index: 2; background: var(--mi-card); border-bottom: 1px solid var(--mi-sep); }
-.skb__stages span { padding: 12px 14px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--mi-label2); }
-.skb__stages b { margin-left: 4px; font-weight: 600; color: var(--mi-label3); font-variant-numeric: tabular-nums; }
-
-.skb__lane + .skb__lane { border-top: 1px solid var(--mi-sep); }
-.skb__lane-head { position: sticky; left: 0; margin: 0; width: max-content; max-width: 100cqi; }
-.skb__lane-btn { display: flex; align-items: center; gap: 8px; padding: 12px 14px; border: 0; background: transparent; font: inherit; color: inherit; cursor: pointer; text-align: start; }
-.skb__lane-btn:focus-visible { outline: 2px solid var(--mi-p); outline-offset: -2px; border-radius: var(--mi-radius-m); }
-.skb__chev { color: var(--mi-label3); transition: transform var(--mi-dur-2) var(--mi-ease); }
-.skb__chev.is-open { transform: rotate(90deg); }
-.skb__lane-name { font-size: 14px; font-weight: 600; }
-.skb__lane-count { font-size: 12px; font-weight: 400; color: var(--mi-label2); }
-.skb__prio { width: 10px; height: 10px; border-radius: 3px; }
-.skb__prio.is-urgent { background: var(--mi-red); }
-.skb__prio.is-high { background: var(--mi-orange); }
-.skb__prio.is-normal { background: var(--mi-label3); }
-
-.skb__cells { padding: 0 6px 12px; }
-.skb__cell { display: grid; align-content: start; gap: 8px; min-height: 64px; margin: 0; padding: 6px; list-style: none; border-radius: var(--mi-radius-l); }
-.skb__cell:nth-child(odd) { background: var(--mi-fill4); }
-.skb__card { display: grid; gap: 4px; padding: 10px 12px; border-radius: var(--mi-radius-m); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.skb__card.is-blocked { box-shadow: inset 3px 0 0 var(--mi-red), var(--mi-sh1); }
-.skb__card.is-done .skb__title { color: var(--mi-label2); }
-.skb__key { font-size: 11px; font-weight: 600; color: var(--mi-label3); font-variant-numeric: tabular-nums; }
-.skb__title { font-size: 13px; font-weight: 500; line-height: 1.35; }
-.skb__foot { display: flex; align-items: center; justify-content: space-between; gap: 6px; min-height: 28px; }
-.skb__pts { font-size: 12px; color: var(--mi-label2); font-variant-numeric: tabular-nums; }
-
-@container (min-width: 900px) { .skb__board { min-width: 0; } .skb__head { padding-inline: 4px; } }
-</style>

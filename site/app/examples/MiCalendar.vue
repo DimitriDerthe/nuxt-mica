@@ -27,23 +27,22 @@ const label = computed(() => date.value
 </script>
 
 <template>
-  <div class="card">
+  <div class="card mi:p-4 mi:shadow-1 mi:grid mi:gap-3">
     <header class="head">
-      <h3>Delivery date</h3>
-      <p>Weekdays only, up to two months ahead.</p>
+      <h3 class="mi:[.head_&]:m-0">Delivery date</h3>
+      <p class="mi:[.head_&]:mt-0.5 mi:[.head_&]:mx-0 mi:[.head_&]:mb-0">Weekdays only, up to two months ahead.</p>
     </header>
     <MiCalendar v-model="date" v-bind="p" :min="min" :max="max" :is-disabled="isDisabled" />
-    <footer class="foot">
+    <footer class="foot mi:flex mi:justify-between mi:items-baseline mi:gap-3 mi:pt-3 mi:border-t mi:border-t-sep mi:text-[14px] mi:text-label2">
       <span>Arrives</span>
-      <strong>{{ label }}</strong>
+      <strong class="mi:[.foot_&]:text-right">{{ label }}</strong>
     </footer>
   </div>
 </template>
 
 <style scoped>
-.card { width: min(100%, 320px); padding: 16px; border-radius: 20px; background: var(--mi-card); box-shadow: var(--mi-sh1); display: grid; gap: 12px; }
-.head h3 { margin: 0; font-size: 17px; font-weight: 600; color: var(--mi-label); }
-.head p { margin: 2px 0 0; font-size: 13px; color: var(--mi-label2); }
-.foot { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding-top: 12px; border-top: 1px solid var(--mi-sep); font-size: 14px; color: var(--mi-label2); }
-.foot strong { color: var(--mi-label); font-weight: 600; text-align: right; }
+.card { width: min(100%, 320px); border-radius: 20px; background: var(--mi-card); }
+.head h3 { font-size: 17px; font-weight: 600; color: var(--mi-label); }
+.head p { font-size: 13px; color: var(--mi-label2); }
+.foot strong { color: var(--mi-label); font-weight: 600; }
 </style>

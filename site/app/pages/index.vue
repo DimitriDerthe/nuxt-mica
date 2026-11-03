@@ -1,24 +1,24 @@
 <template>
   <main class="lp">
     <!-- Hero -->
-    <section class="hero" aria-labelledby="hero-title">
-      <div class="hero__aura" aria-hidden="true" />
-      <div class="hero__grid wrap">
-        <div class="hero__copy">
-          <a href="#start" class="pill rise" style="--d: 0ms">
-            <span class="pill__tag">{{ t('hero.badge') }}</span>
+    <section class="hero mi:relative mi:isolate mi:pt-[clamp(48px,_9vw,_120px)] mi:px-0 mi:pb-0" aria-labelledby="hero-title">
+      <div class="hero__aura mi:absolute mi:-top-30 mi:right-0 mi:bottom-auto mi:left-0 mi:h-225 mi:-z-1 mi:pointer-events-none mi:[background:radial-gradient(38%_42%_at_22%_30%,_color-mix(in_oklab,_var(--mi-p)_20%,_transparent),_transparent_70%),_radial-gradient(30%_36%_at_78%_26%,_color-mix(in_oklab,_var(--mi-s)_16%,_transparent),_transparent_70%),_radial-gradient(40%_30%_at_60%_70%,_color-mix(in_oklab,_var(--mi-p)_10%,_transparent),_transparent_70%)]" aria-hidden="true" />
+      <div class="hero__grid wrap mi:max-w-300 mi:my-0 mi:mx-auto mi:pl-6 mi:pr-6 mi:box-border mi:max-[480px]:pl-4 mi:max-[480px]:pr-4 mi:grid mi:gap-[clamp(40px,_6vw,_64px)] mi:items-center mi:min-[1040px]:grid-cols-[minmax(0,_1.05fr)_minmax(0,_1fr)]">
+        <div class="hero__copy mi:grid mi:justify-items-start mi:gap-5.5">
+          <a href="#start" class="pill rise mi:inline-flex mi:items-center mi:gap-2 mi:pt-1 mi:pr-2.5 mi:pb-1 mi:pl-1 mi:rounded-[999px] mi:[background:var(--mi-card)] mi:shadow-[0_0_0_1px_var(--mi-sep)] mi:text-[13px] mi:text-label2 mi:[text-decoration:none] mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:hover:transform-[translate3d(0,_-1px,_0)] mi:motion-reduce:hover:transform-none" style="--d: 0ms">
+            <span class="pill__tag mi:py-[3px] mi:px-[9px] mi:rounded-[999px] mi:[background:var(--mi-p-tint)] mi:text-p-text mi:font-semibold">{{ t('hero.badge') }}</span>
             <span class="pill__note">{{ t('hero.badgeNote', { v: config.public.version }) }}</span>
             <MiIcon name="chevron-right" :size="14" />
           </a>
-          <h1 id="hero-title" class="hero__title rise" style="--d: 60ms">
-            {{ t('hero.title') }} <span class="hero__accent">{{ t('hero.titleAccent') }}</span>
+          <h1 id="hero-title" class="hero__title rise mi:m-0 mi:text-[clamp(44px,_7.2vw,_92px)] mi:leading-[.98] mi:tracking-[-.05em] mi:font-bold mi:text-balance" style="--d: 60ms">
+            {{ t('hero.title') }} <span class="hero__accent mi:block mi:text-transparent mi:pb-[.06em]">{{ t('hero.titleAccent') }}</span>
           </h1>
-          <p class="hero__lead rise" style="--d: 120ms">{{ t('hero.lead', { n: total, tag: '<MiButton>' }) }}</p>
-          <div class="hero__ctas rise" style="--d: 180ms">
+          <p class="hero__lead rise mi:m-0 mi:max-w-[52ch] mi:text-[clamp(17px,_1.7vw,_20px)] mi:leading-normal mi:text-label2 mi:text-pretty" style="--d: 120ms">{{ t('hero.lead', { n: total, tag: '<MiButton>' }) }}</p>
+          <div class="hero__ctas rise mi:flex mi:flex-wrap mi:gap-2.5 mi:[.cta_&]:justify-center" style="--d: 180ms">
             <MiButton size="large" href="#start">{{ t('hero.primary') }}</MiButton>
             <MiButton size="large" variant="gray" :href="siteHref('/components')">{{ t('hero.secondary') }}</MiButton>
           </div>
-          <div class="install rise" style="--d: 240ms">
+          <div class="install rise mi:inline-flex mi:items-center mi:gap-2.5 mi:pt-1 mi:pr-1 mi:pb-1 mi:pl-3.5 mi:rounded-[12px] mi:[background:var(--mi-fill4)]" style="--d: 240ms">
             <code>{{ extendsLine }}</code>
             <MiIconButton size="small" variant="plain" :label="t('hero.copy')" @click="copy(extendsLine)">
               <MiIcon :name="copied ? 'check' : 'copy'" :size="15" />
@@ -27,12 +27,12 @@
         </div>
 
         <div
-          ref="stage" class="stage rise" style="--d: 200ms" role="img" :aria-label="t('hero.stageLabel')"
+          ref="stage" class="stage rise mi:[perspective:1600px] mi:[--rx:0deg] mi:[--ry:0deg]" style="--d: 200ms" role="img" :aria-label="t('hero.stageLabel')"
           @pointermove="onMove" @pointerleave="onLeave"
         >
-          <div class="rig">
-            <div class="sheet sheet--chart" style="--z: 0px">
-              <div class="sheet__head">
+          <div class="rig mi:grid mi:gap-3.5 mi:grid-cols-[minmax(0,_1fr)_minmax(0,_1fr)] mi:[grid-template-areas:'chart_chart'_'stat_settings'_'notif_settings'] mi:[transform-style:preserve-3d] mi:transform-[rotateX(calc(4deg_+_var(--rx)))_rotateY(calc(-7deg_+_var(--ry)))] mi:[transition:transform_700ms_var(--mi-ease)] mi:max-[1039px]:transform-none mi:max-[560px]:grid-cols-[minmax(0,_1fr)] mi:max-[560px]:[grid-template-areas:'chart'_'stat'_'notif'_'settings'] mi:motion-reduce:[transition:none]">
+            <div class="sheet sheet--chart mi:transform-[translateZ(var(--z))] mi:rounded-[20px] mi:shadow-[0_0_0_1px_var(--mi-sep),_var(--mi-sh2)] mi:box-border mi:min-w-0 mi:[grid-area:chart] mi:max-[1039px]:transform-none" style="--z: 0px">
+              <div class="sheet__head mi:flex mi:items-center mi:justify-between mi:gap-2 mi:mb-1">
                 <MiText variant="footnote" weight="semibold">{{ t('sample.chart') }}</MiText>
                 <MiBadge tone="success" variant="tint" dot label="+18.4%" />
               </div>
@@ -41,25 +41,25 @@
                 :end-labels="false" :height="150" :ticks="3" unit="k" aria-label="Weekly active users"
               />
             </div>
-            <div class="sheet sheet--stat" style="--z: 50px">
+            <div class="sheet sheet--stat mi:transform-[translateZ(var(--z))] mi:rounded-[20px] mi:shadow-[0_0_0_1px_var(--mi-sep),_var(--mi-sh2)] mi:box-border mi:min-w-0 mi:[grid-area:stat] mi:overflow-hidden mi:max-[1039px]:transform-none" style="--z: 50px">
               <MiStatTile :label="t('sample.revenue')" value="$48.2k" delta="12.6%" :comparison="t('sample.vsLast')" :spark="[18, 22, 21, 27, 26, 31, 35, 34, 41, 48]" />
             </div>
-            <div class="sheet sheet--settings" style="--z: 80px">
+            <div class="sheet sheet--settings mi:transform-[translateZ(var(--z))] mi:rounded-[20px] mi:shadow-[0_0_0_1px_var(--mi-sep),_var(--mi-sh2)] mi:box-border mi:min-w-0 mi:[grid-area:settings] mi:grid mi:gap-3 mi:content-start mi:max-[1039px]:transform-none" style="--z: 80px">
               <MiText variant="headline" as="p">{{ t('sample.settings') }}</MiText>
-              <div class="row"><span id="s-sync">{{ t('sample.sync') }}</span><MiSwitch v-model="sync" size="compact" aria-labelledby="s-sync" /></div>
-              <div class="row"><span id="s-alerts">{{ t('sample.alerts') }}</span><MiSwitch v-model="alerts" size="compact" tone="secondary" aria-labelledby="s-alerts" /></div>
+              <div class="row mi:flex mi:items-center mi:justify-between mi:gap-3 mi:text-[15px]"><span id="s-sync">{{ t('sample.sync') }}</span><MiSwitch v-model="sync" size="compact" aria-labelledby="s-sync" /></div>
+              <div class="row mi:flex mi:items-center mi:justify-between mi:gap-3 mi:text-[15px]"><span id="s-alerts">{{ t('sample.alerts') }}</span><MiSwitch v-model="alerts" size="compact" tone="secondary" aria-labelledby="s-alerts" /></div>
               <MiSlider v-model="radius" :min="0" :max="24" :label="t('sample.radius')" unit=" px" />
-              <div class="radius-demo" :style="{ borderRadius: radius + 'px' }" aria-hidden="true" />
+              <div class="radius-demo mi:h-11 mi:[background:linear-gradient(135deg,_var(--mi-p-tint),_var(--mi-s-tint))] mi:shadow-[inset_0_0_0_1px_var(--mi-sep)]" :style="{ borderRadius: radius + 'px' }" aria-hidden="true" />
             </div>
-            <div class="sheet sheet--notif" style="--z: 110px">
+            <div class="sheet sheet--notif mi:transform-[translateZ(var(--z))] mi:rounded-[20px] mi:shadow-[0_0_0_1px_var(--mi-sep),_var(--mi-sh2)] mi:box-border mi:min-w-0 mi:[grid-area:notif] mi:shadow-none mi:max-[1039px]:transform-none" style="--z: 110px">
               <MiNotification :title="t('sample.notifTitle')" :message="t('sample.notifBody')" :time="t('sample.now')" icon="success" tone="success" live="off" />
             </div>
           </div>
         </div>
       </div>
 
-      <dl class="stats wrap">
-        <div v-for="s in stats" :key="s.key" class="stats__item">
+      <dl class="stats wrap mi:max-w-300 mi:my-0 mi:mx-auto mi:pl-6 mi:pr-6 mi:box-border mi:max-[480px]:pl-4 mi:max-[480px]:pr-4 mi:grid mi:grid-cols-2 mi:gap-y-6 mi:gap-x-4 mi:mt-[clamp(56px,_8vw,_96px)] mi:pt-7 mi:pb-2 mi:min-[820px]:grid-cols-4">
+        <div v-for="s in stats" :key="s.key" class="stats__item mi:grid mi:[grid-template-areas:'v'_'l'] mi:content-start mi:gap-1.5 mi:pt-4 mi:border-t mi:border-t-sep">
           <dt>{{ t('stats.' + s.key) }}</dt>
           <dd>{{ s.value }}</dd>
         </div>
@@ -67,37 +67,37 @@
     </section>
 
     <!-- Get started -->
-    <section id="start" class="sec wrap" aria-labelledby="start-title">
-      <header class="sec__head">
-        <p class="eyebrow">{{ t('start.eyebrow') }}</p>
-        <h2 id="start-title" class="sec__title">{{ t('start.title') }}</h2>
-        <p class="sec__lead">{{ t('start.lead') }}</p>
+    <section id="start" class="sec wrap mi:max-w-300 mi:my-0 mi:mx-auto mi:pl-6 mi:pr-6 mi:box-border mi:max-[480px]:pl-4 mi:max-[480px]:pr-4 mi:pt-[clamp(88px,_12vw,_160px)] mi:[&:not(#start)]:[content-visibility:auto] mi:[&:not(#start)]:[contain-intrinsic-size:auto_900px]" aria-labelledby="start-title">
+      <header class="sec__head mi:grid mi:gap-3.5 mi:max-w-190 mi:mb-[clamp(36px,_5vw,_56px)]">
+        <p class="eyebrow mi:m-0 mi:text-[14px] mi:font-semibold mi:text-p-text">{{ t('start.eyebrow') }}</p>
+        <h2 id="start-title" class="sec__title mi:m-0 mi:text-[clamp(32px,_4.6vw,_56px)] mi:leading-[1.04] mi:tracking-[-.04em] mi:font-bold mi:text-balance">{{ t('start.title') }}</h2>
+        <p class="sec__lead mi:m-0 mi:max-w-[60ch] mi:text-[clamp(16px,_1.5vw,_19px)] mi:leading-[1.55] mi:text-label2 mi:text-pretty">{{ t('start.lead') }}</p>
       </header>
-      <ol class="steps">
-        <li class="step">
-          <span class="step__n">1</span>
+      <ol class="steps mi:grid mi:gap-4 mi:[list-style:none] mi:m-0 mi:p-0 mi:min-[900px]:grid-cols-2">
+        <li class="step mi:relative mi:flex mi:flex-col mi:gap-3.5 mi:p-5.5 mi:rounded-[22px] mi:[background:var(--mi-card)] mi:shadow-[0_0_0_1px_var(--mi-sep)] mi:min-w-0">
+          <span class="step__n mi:grid mi:place-items-center mi:w-7 mi:h-7 mi:rounded-[50%] mi:[background:var(--mi-p)] mi:text-p-on mi:text-[14px] mi:font-bold">1</span>
           <MiText variant="headline" as="h3">{{ t('start.s1') }}</MiText>
           <SiteCode file="nuxt.config.ts" :text="configCode" :copy-label="t('start.copy')" :copied-label="t('start.copied')" />
         </li>
-        <li class="step">
-          <span class="step__n">2</span>
+        <li class="step mi:relative mi:flex mi:flex-col mi:gap-3.5 mi:p-5.5 mi:rounded-[22px] mi:[background:var(--mi-card)] mi:shadow-[0_0_0_1px_var(--mi-sep)] mi:min-w-0">
+          <span class="step__n mi:grid mi:place-items-center mi:w-7 mi:h-7 mi:rounded-[50%] mi:[background:var(--mi-p)] mi:text-p-on mi:text-[14px] mi:font-bold">2</span>
           <MiText variant="headline" as="h3">{{ t('start.s2') }}</MiText>
           <SiteCode file="app.vue" :text="usageCode" :copy-label="t('start.copy')" :copied-label="t('start.copied')" />
-          <div class="step__live"><MiButton size="large" @click="copy(extendsLine)">Ship it</MiButton></div>
+          <div class="step__live mi:flex mi:justify-center mi:p-4.5 mi:rounded-[14px] mi:[border:1px_dashed_var(--mi-sep)]"><MiButton size="large" @click="copy(extendsLine)">Ship it</MiButton></div>
         </li>
       </ol>
     </section>
 
     <!-- Components -->
-    <section id="components" class="sec wrap" aria-labelledby="comp-title">
-      <header class="sec__head">
-        <p class="eyebrow">{{ t('components.eyebrow') }}</p>
-        <h2 id="comp-title" class="sec__title">{{ t('components.title', { n: total }) }}</h2>
-        <p class="sec__lead">{{ t('components.lead') }}</p>
+    <section id="components" class="sec wrap mi:max-w-300 mi:my-0 mi:mx-auto mi:pl-6 mi:pr-6 mi:box-border mi:max-[480px]:pl-4 mi:max-[480px]:pr-4 mi:pt-[clamp(88px,_12vw,_160px)] mi:[&:not(#start)]:[content-visibility:auto] mi:[&:not(#start)]:[contain-intrinsic-size:auto_900px]" aria-labelledby="comp-title">
+      <header class="sec__head mi:grid mi:gap-3.5 mi:max-w-190 mi:mb-[clamp(36px,_5vw,_56px)]">
+        <p class="eyebrow mi:m-0 mi:text-[14px] mi:font-semibold mi:text-p-text">{{ t('components.eyebrow') }}</p>
+        <h2 id="comp-title" class="sec__title mi:m-0 mi:text-[clamp(32px,_4.6vw,_56px)] mi:leading-[1.04] mi:tracking-[-.04em] mi:font-bold mi:text-balance">{{ t('components.title', { n: total }) }}</h2>
+        <p class="sec__lead mi:m-0 mi:max-w-[60ch] mi:text-[clamp(16px,_1.5vw,_19px)] mi:leading-[1.55] mi:text-label2 mi:text-pretty">{{ t('components.lead') }}</p>
       </header>
-      <ul class="groups">
-        <li v-for="g in groups" :key="g.name" class="group">
-          <div class="group__specimen">
+      <ul class="groups mi:grid mi:gap-3.5 mi:grid-cols-[repeat(auto-fill,_minmax(min(100%,_260px),_1fr))] mi:[list-style:none] mi:m-0 mi:p-0">
+        <li v-for="g in groups" :key="g.name" class="group mi:relative mi:cursor-pointer mi:flex mi:flex-col mi:rounded-[22px] mi:[background:var(--mi-card)] mi:shadow-[0_0_0_1px_var(--mi-sep)] mi:overflow-hidden mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring)] mi:hover:transform-[translate3d(0,_-3px,_0)] mi:[&:has(.group__link:focus-visible)]:[outline:2px_solid_var(--mi-p)] mi:[&:has(.group__link:focus-visible)]:outline-offset-[2px] mi:motion-reduce:hover:transform-none">
+          <div class="group__specimen mi:flex mi:items-center mi:justify-center mi:flex-wrap mi:gap-3 mi:min-h-30 mi:p-5 mi:box-border mi:[background:radial-gradient(120%_120%_at_0%_0%,_var(--mi-p-tint2),_transparent_60%),_var(--mi-fill4)] mi:border-b mi:border-b-sep">
             <template v-if="g.name === 'Base'">
               <MiLogo :size="30" /><MiLogo variant="short" :size="30" dot="secondary" />
             </template>
@@ -130,54 +130,54 @@
               <MiSparkline :values="[4, 7, 6, 9, 8, 12, 11, 15]" :width="120" :height="34" />
             </template>
           </div>
-          <div class="group__body">
-            <div class="group__title">
-              <MiText variant="headline" as="h3"><NuxtLink :to="localePath('/components') + '?group=' + g.name" class="group__link">{{ t('explorer.groups.' + g.name) }}</NuxtLink></MiText>
-              <span class="group__count">{{ t('components.count', { n: g.components.length }) }}</span>
+          <div class="group__body mi:grid mi:gap-1.5 mi:pt-4.5 mi:px-5 mi:pb-5">
+            <div class="group__title mi:flex mi:items-baseline mi:justify-between mi:gap-2">
+              <MiText variant="headline" as="h3"><NuxtLink :to="localePath('/components') + '?group=' + g.name" class="group__link mi:text-inherit mi:[text-decoration:none] mi:after:content-[''] mi:after:absolute mi:after:inset-0 mi:after:rounded-[inherit] mi:focus-visible:[outline:none]">{{ t('explorer.groups.' + g.name) }}</NuxtLink></MiText>
+              <span class="group__count mi:text-[12px] mi:font-semibold mi:text-label3 mi:tabular-nums mi:whitespace-nowrap">{{ t('components.count', { n: g.components.length }) }}</span>
             </div>
             <MiText variant="footnote" tone="label2">{{ t('components.groups.' + g.name) }}</MiText>
-            <p class="group__names">
-              <template v-for="(n, j) in g.components" :key="n"><NuxtLink :to="localePath('/components/' + toSlug(n))">{{ n.replace(/^Mi/, '') }}</NuxtLink><span v-if="j < g.components.length - 1" aria-hidden="true"> · </span></template>
+            <p class="group__names mi:mt-1.5 mi:mx-0 mi:mb-0 mi:text-[12px] mi:leading-[1.6] mi:text-label3 mi:relative mi:z-1">
+              <template v-for="(n, j) in g.components" :key="n"><NuxtLink class="mi:[.group__names_a&]:[text-decoration:none] mi:[.group__names_a&:hover]:text-p-text" :to="localePath('/components/' + toSlug(n))">{{ n.replace(/^Mi/, '') }}</NuxtLink><span v-if="j < g.components.length - 1" aria-hidden="true"> · </span></template>
             </p>
           </div>
         </li>
       </ul>
-      <div class="groups__more">
+      <div class="groups__more mi:flex mi:justify-center mi:mt-7">
         <MiButton variant="tinted" size="large" :href="siteHref('/components')">{{ t('components.explore') }}</MiButton>
       </div>
     </section>
 
     <!-- Theming -->
-    <section id="theming" class="sec wrap" aria-labelledby="theme-title">
-      <div class="theming">
-        <div class="theming__copy">
-          <p class="eyebrow">{{ t('theming.eyebrow') }}</p>
-          <h2 id="theme-title" class="sec__title">{{ t('theming.title') }}</h2>
-          <p class="sec__lead">{{ t('theming.lead') }}</p>
-          <div class="theming__ctl">
+    <section id="theming" class="sec wrap mi:max-w-300 mi:my-0 mi:mx-auto mi:pl-6 mi:pr-6 mi:box-border mi:max-[480px]:pl-4 mi:max-[480px]:pr-4 mi:pt-[clamp(88px,_12vw,_160px)] mi:[&:not(#start)]:[content-visibility:auto] mi:[&:not(#start)]:[contain-intrinsic-size:auto_900px]" aria-labelledby="theme-title">
+      <div class="theming mi:grid mi:gap-10 mi:items-center mi:min-[1000px]:grid-cols-[minmax(0,_1fr)_minmax(0,_1fr)] mi:min-[1000px]:gap-16">
+        <div class="theming__copy mi:grid mi:gap-3.5">
+          <p class="eyebrow mi:m-0 mi:text-[14px] mi:font-semibold mi:text-p-text">{{ t('theming.eyebrow') }}</p>
+          <h2 id="theme-title" class="sec__title mi:m-0 mi:text-[clamp(32px,_4.6vw,_56px)] mi:leading-[1.04] mi:tracking-[-.04em] mi:font-bold mi:text-balance">{{ t('theming.title') }}</h2>
+          <p class="sec__lead mi:m-0 mi:max-w-[60ch] mi:text-[clamp(16px,_1.5vw,_19px)] mi:leading-[1.55] mi:text-label2 mi:text-pretty">{{ t('theming.lead') }}</p>
+          <div class="theming__ctl mi:grid mi:gap-4.5 mi:mt-3 mi:p-5 mi:rounded-[22px] mi:[background:var(--mi-card)] mi:shadow-[0_0_0_1px_var(--mi-sep)]">
             <MiColorPicker target="primary" :label="t('theming.primary')" />
             <MiColorPicker target="secondary" :label="t('theming.secondary')" />
-            <div class="theming__mode">
+            <div class="theming__mode mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-3">
               <MiText variant="subheadline" weight="semibold" as="span">{{ t('theming.appearance') }}</MiText>
               <MiThemeSwitcher :label="t('theme.label')" :labels="{ light: t('theme.light'), dark: t('theme.dark'), system: t('theme.system') }" />
             </div>
           </div>
         </div>
-        <div class="preview">
-          <div class="preview__card">
-            <div class="preview__head">
-              <span class="preview__mark" aria-hidden="true"><MiLogo variant="short" :size="18" tone="on-primary" dot="inherit" decorative /></span>
+        <div class="preview mi:relative mi:grid mi:gap-3.5 mi:p-[clamp(16px,_3vw,_28px)] mi:rounded-[28px] mi:[background:radial-gradient(80%_80%_at_100%_0%,_var(--mi-s-tint2),_transparent_60%),_radial-gradient(80%_80%_at_0%_100%,_var(--mi-p-tint2),_transparent_60%),_var(--mi-fill4)]">
+          <div class="preview__card mi:grid mi:gap-4.5 mi:p-5.5 mi:rounded-[20px] mi:[background:var(--mi-card)] mi:shadow-2">
+            <div class="preview__head mi:flex mi:items-center mi:gap-3.5">
+              <span class="preview__mark mi:grid mi:place-items-center mi:flex-[none] mi:w-11 mi:h-11 mi:rounded-[12px] mi:[background:var(--mi-p)]" aria-hidden="true"><MiLogo variant="short" :size="18" tone="on-primary" dot="inherit" decorative /></span>
               <div>
                 <MiText variant="headline" as="p">{{ t('theming.previewTitle') }} <MiBadge :label="t('theming.new')" tone="secondary" class="preview__badge" /></MiText>
                 <MiText variant="footnote" tone="label2">{{ t('theming.previewSub') }}</MiText>
               </div>
             </div>
             <MiProgress :value="72" :label="t('theming.seats')" value-text="18 / 25" />
-            <div class="row"><span id="p-auto">{{ t('theming.autopay') }}</span><MiSwitch v-model="autopay" aria-labelledby="p-auto" /></div>
-            <div class="preview__chips">
+            <div class="row mi:flex mi:items-center mi:justify-between mi:gap-3 mi:text-[15px]"><span id="p-auto">{{ t('theming.autopay') }}</span><MiSwitch v-model="autopay" aria-labelledby="p-auto" /></div>
+            <div class="preview__chips mi:flex mi:flex-wrap mi:gap-2">
               <MiChip v-for="(c, i) in chips" :key="c" v-model="chipOn[i]" selectable :tone="i === 1 ? 'secondary' : 'primary'" :label="c" />
             </div>
-            <div class="preview__actions">
+            <div class="preview__actions mi:flex mi:flex-wrap mi:gap-2.5">
               <MiButton>{{ t('theming.upgrade') }}</MiButton>
               <MiButton variant="tinted" brand="secondary">{{ t('theming.manage') }}</MiButton>
             </div>
@@ -189,50 +189,50 @@
     </section>
 
     <!-- Craft -->
-    <section id="craft" class="sec wrap" aria-labelledby="craft-title">
-      <header class="sec__head">
-        <p class="eyebrow">{{ t('craft.eyebrow') }}</p>
-        <h2 id="craft-title" class="sec__title">{{ t('craft.title') }}</h2>
+    <section id="craft" class="sec wrap mi:max-w-300 mi:my-0 mi:mx-auto mi:pl-6 mi:pr-6 mi:box-border mi:max-[480px]:pl-4 mi:max-[480px]:pr-4 mi:pt-[clamp(88px,_12vw,_160px)] mi:[&:not(#start)]:[content-visibility:auto] mi:[&:not(#start)]:[contain-intrinsic-size:auto_900px]" aria-labelledby="craft-title">
+      <header class="sec__head mi:grid mi:gap-3.5 mi:max-w-190 mi:mb-[clamp(36px,_5vw,_56px)]">
+        <p class="eyebrow mi:m-0 mi:text-[14px] mi:font-semibold mi:text-p-text">{{ t('craft.eyebrow') }}</p>
+        <h2 id="craft-title" class="sec__title mi:m-0 mi:text-[clamp(32px,_4.6vw,_56px)] mi:leading-[1.04] mi:tracking-[-.04em] mi:font-bold mi:text-balance">{{ t('craft.title') }}</h2>
       </header>
-      <div class="bento">
-        <article class="tile tile--motion">
-          <div class="tile__text">
+      <div class="bento mi:grid mi:gap-3.5 mi:grid-cols-[minmax(0,_1fr)] mi:min-[720px]:grid-cols-2 mi:min-[1040px]:grid-cols-4">
+        <article class="tile tile--motion mi:min-[720px]:col-span-full mi:min-[1040px]:col-[span_2] mi:min-[1040px]:row-[span_2] mi:flex-col mi:p-6 mi:rounded-[22px] mi:shadow-[0_0_0_1px_var(--mi-sep)] mi:min-w-0 mi:justify-between">
+          <div class="tile__text mi:grid mi:gap-2.5 mi:max-w-[46ch]">
             <MiText variant="title3" as="h3">{{ t('craft.motionTitle') }}</MiText>
             <MiText variant="subheadline" tone="label2">{{ t('craft.motionBody') }}</MiText>
           </div>
-          <div class="spring">
-            <div class="spring__track"><span class="spring__knob" :class="{ on: springOn }" /></div>
-            <div class="spring__meta">
+          <div class="spring mi:grid mi:gap-4">
+            <div class="spring__track mi:relative mi:h-18 mi:rounded-[22px] mi:[background:var(--mi-fill4)] mi:shadow-[inset_0_0_0_1px_var(--mi-sep)] mi:overflow-hidden mi:@container"><span class="spring__knob mi:absolute mi:left-2 mi:top-2 mi:w-14 mi:h-14 mi:rounded-[16px] mi:[background:var(--mi-p)] mi:shadow-2 mi:[transition:transform_900ms_var(--mi-spring)] mi:[&.on]:transform-[translate3d(calc(100cqw_-_72px),_0,_0)_rotate(90deg)] mi:motion-reduce:[transition-duration:1ms]" :class="{ on: springOn }" /></div>
+            <div class="spring__meta mi:flex mi:items-center mi:justify-between mi:gap-3">
               <MiButton variant="tinted" size="small" @click="springOn = !springOn">{{ t('craft.motionTry') }}</MiButton>
-              <span class="spring__fig"><b>16.7</b> ms</span>
+              <span class="spring__fig mi:text-[13px] mi:text-label2 mi:tabular-nums"><b>16.7</b> ms</span>
             </div>
           </div>
         </article>
-        <article class="tile tile--a11y">
-          <div class="keys" aria-hidden="true"><kbd>Tab</kbd><kbd>←</kbd><kbd>→</kbd><kbd>Esc</kbd></div>
+        <article class="tile tile--a11y mi:flex-col mi:p-6 mi:rounded-[22px] mi:shadow-[0_0_0_1px_var(--mi-sep)] mi:min-w-0">
+          <div class="keys mi:flex mi:flex-wrap mi:gap-1.5 mi:mb-2.5" aria-hidden="true"><kbd class="mi:[.keys_&]:min-w-5.5 mi:[.keys_&]:py-[5px] mi:[.keys_&]:px-2 mi:[.keys_&]:text-center">Tab</kbd><kbd class="mi:[.keys_&]:min-w-5.5 mi:[.keys_&]:py-[5px] mi:[.keys_&]:px-2 mi:[.keys_&]:text-center">←</kbd><kbd class="mi:[.keys_&]:min-w-5.5 mi:[.keys_&]:py-[5px] mi:[.keys_&]:px-2 mi:[.keys_&]:text-center">→</kbd><kbd class="mi:[.keys_&]:min-w-5.5 mi:[.keys_&]:py-[5px] mi:[.keys_&]:px-2 mi:[.keys_&]:text-center">Esc</kbd></div>
           <MiText variant="headline" as="h3">{{ t('craft.a11yTitle') }}</MiText>
           <MiText variant="footnote" tone="label2">{{ t('craft.a11yBody') }}</MiText>
         </article>
-        <article class="tile tile--dark">
-          <div class="duo" aria-hidden="true">
-            <div class="duo__half mi-light"><span /><i /></div>
-            <div class="duo__half mi-dark"><span /><i /></div>
+        <article class="tile tile--dark mi:flex-col mi:p-6 mi:rounded-[22px] mi:shadow-[0_0_0_1px_var(--mi-sep)] mi:min-w-0">
+          <div class="duo mi:grid mi:grid-cols-[1fr_1fr] mi:h-16 mi:mb-2.5 mi:rounded-[14px] mi:overflow-hidden mi:shadow-[0_0_0_1px_var(--mi-sep)]" aria-hidden="true">
+            <div class="duo__half mi-light mi:relative mi:[background:var(--mi-page)]"><span class="mi:[.duo__half_&]:right-2.5 mi:[.duo__half_&]:top-2.5" /><i class="mi:[.duo__half_&]:bottom-2.5" /></div>
+            <div class="duo__half mi-dark mi:relative mi:[background:var(--mi-page)]"><span class="mi:[.duo__half_&]:right-2.5 mi:[.duo__half_&]:top-2.5" /><i class="mi:[.duo__half_&]:bottom-2.5" /></div>
           </div>
           <MiText variant="headline" as="h3">{{ t('craft.darkTitle') }}</MiText>
           <MiText variant="footnote" tone="label2">{{ t('craft.darkBody') }}</MiText>
         </article>
-        <article class="tile">
-          <div class="tile__glyph" aria-hidden="true"><MiIcon name="eye" :size="20" /></div>
+        <article class="tile mi:flex-col mi:p-6 mi:rounded-[22px] mi:shadow-[0_0_0_1px_var(--mi-sep)] mi:min-w-0">
+          <div class="tile__glyph mi:grid mi:place-items-center mi:w-10 mi:h-10 mi:mb-2.5 mi:rounded-[12px] mi:[background:var(--mi-p-tint)] mi:text-p-text" aria-hidden="true"><MiIcon name="eye" :size="20" /></div>
           <MiText variant="headline" as="h3">{{ t('craft.ssrTitle') }}</MiText>
           <MiText variant="footnote" tone="label2">{{ t('craft.ssrBody') }}</MiText>
         </article>
-        <article class="tile">
-          <div class="tile__glyph" aria-hidden="true"><MiIcon name="document" :size="20" /></div>
+        <article class="tile mi:flex-col mi:p-6 mi:rounded-[22px] mi:shadow-[0_0_0_1px_var(--mi-sep)] mi:min-w-0">
+          <div class="tile__glyph mi:grid mi:place-items-center mi:w-10 mi:h-10 mi:mb-2.5 mi:rounded-[12px] mi:[background:var(--mi-p-tint)] mi:text-p-text" aria-hidden="true"><MiIcon name="document" :size="20" /></div>
           <MiText variant="headline" as="h3">{{ t('craft.typedTitle') }}</MiText>
           <MiText variant="footnote" tone="label2">{{ t('craft.typedBody') }}</MiText>
         </article>
-        <article class="tile tile--zero">
-          <span class="zero" aria-hidden="true">0</span>
+        <article class="tile tile--zero mi:min-[720px]:col-span-full mi:min-[1040px]:col-span-full mi:min-[1040px]:grid-cols-[auto_1fr] mi:min-[1040px]:grid-rows-[auto_auto] mi:min-[1040px]:items-center mi:flex-col mi:p-6 mi:rounded-[22px] mi:shadow-[0_0_0_1px_var(--mi-sep)] mi:min-w-0">
+          <span class="zero mi:min-[1040px]:[.tile--zero_&]:row-[span_2] mi:min-[1040px]:[.tile--zero_&]:m-0 mi:min-[1040px]:[.tile--zero_&]:text-[96px] mi:text-[64px] mi:leading-[.9] mi:font-bold mi:tracking-[-.05em] mi:mb-1.5 mi:text-transparent mi:w-fit" aria-hidden="true">0</span>
           <MiText variant="headline" as="h3">{{ t('craft.zeroTitle') }}</MiText>
           <MiText variant="footnote" tone="label2">{{ t('craft.zeroBody') }}</MiText>
         </article>
@@ -240,17 +240,17 @@
     </section>
 
     <!-- AI -->
-    <section id="ai" class="sec wrap" aria-labelledby="ai-title">
-      <div class="ai">
-        <div class="ai__copy">
-          <p class="eyebrow">{{ t('ai.eyebrow') }}</p>
-          <h2 id="ai-title" class="sec__title">{{ t('ai.title') }}</h2>
-          <p class="sec__lead">{{ t('ai.lead', { n: catalog?.all ?? 0 }) }}</p>
-          <ul class="ai__points">
-            <li v-for="n in 3" :key="n">
-              <a v-if="aiLinks[n]" :href="aiLinks[n]" class="ai__link"><code>{{ t('ai.p' + n + 't') }}</code></a>
+    <section id="ai" class="sec wrap mi:max-w-300 mi:my-0 mi:mx-auto mi:pl-6 mi:pr-6 mi:box-border mi:max-[480px]:pl-4 mi:max-[480px]:pr-4 mi:pt-[clamp(88px,_12vw,_160px)] mi:[&:not(#start)]:[content-visibility:auto] mi:[&:not(#start)]:[contain-intrinsic-size:auto_900px]" aria-labelledby="ai-title">
+      <div class="ai mi:grid mi:gap-10 mi:items-center mi:min-[1000px]:grid-cols-[minmax(0,_.9fr)_minmax(0,_1.1fr)] mi:min-[1000px]:gap-16">
+        <div class="ai__copy mi:grid mi:gap-3.5">
+          <p class="eyebrow mi:m-0 mi:text-[14px] mi:font-semibold mi:text-p-text">{{ t('ai.eyebrow') }}</p>
+          <h2 id="ai-title" class="sec__title mi:m-0 mi:text-[clamp(32px,_4.6vw,_56px)] mi:leading-[1.04] mi:tracking-[-.04em] mi:font-bold mi:text-balance">{{ t('ai.title') }}</h2>
+          <p class="sec__lead mi:m-0 mi:max-w-[60ch] mi:text-[clamp(16px,_1.5vw,_19px)] mi:leading-[1.55] mi:text-label2 mi:text-pretty">{{ t('ai.lead', { n: catalog?.all ?? 0 }) }}</p>
+          <ul class="ai__points mi:grid mi:gap-3.5 mi:[list-style:none] mi:mt-3 mi:mx-0 mi:mb-0 mi:p-0">
+            <li class="mi:[.ai__points_li&]:grid-cols-[96px_1fr] mi:[.ai__points_li&]:gap-3.5 mi:[.ai__points_li&]:items-baseline mi:[.ai__points_li&]:pt-3.5 mi:[.ai__points_li&]:border-t mi:[.ai__points_li&]:border-t-sep mi:max-[480px]:[.ai__points_li&]:grid-cols-[1fr] mi:max-[480px]:[.ai__points_li&]:gap-1" v-for="n in 3" :key="n">
+              <a v-if="aiLinks[n]" :href="aiLinks[n]" class="ai__link mi:[text-decoration:none] mi:rounded-[4px] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]"><code class="mi:[.ai__link:hover_&]:underline-offset-[3px]">{{ t('ai.p' + n + 't') }}</code></a>
               <code v-else>{{ t('ai.p' + n + 't') }}</code>
-              <MiText variant="subheadline" tone="label2" as="span">{{ t('ai.p' + n) }}</MiText>
+              <MiText class="mi:[.ai__points_li&]:grid-cols-[96px_1fr] mi:[.ai__points_li&]:gap-3.5 mi:[.ai__points_li&]:items-baseline mi:[.ai__points_li&]:pt-3.5 mi:[.ai__points_li&]:border-t mi:[.ai__points_li&]:border-t-sep mi:max-[480px]:[.ai__points_li&]:grid-cols-[1fr] mi:max-[480px]:[.ai__points_li&]:gap-1" variant="subheadline" tone="label2" as="span">{{ t('ai.p' + n) }}</MiText>
             </li>
           </ul>
         </div>
@@ -259,34 +259,34 @@
     </section>
 
     <!-- Showcase -->
-    <section id="showcase" class="sec wrap" aria-labelledby="show-title">
-      <header class="sec__head">
-        <p class="eyebrow">{{ t('showcase.eyebrow') }}</p>
-        <h2 id="show-title" class="sec__title">{{ t('showcase.title') }}</h2>
-        <p class="sec__lead">{{ t('showcase.lead') }}</p>
+    <section id="showcase" class="sec wrap mi:max-w-300 mi:my-0 mi:mx-auto mi:pl-6 mi:pr-6 mi:box-border mi:max-[480px]:pl-4 mi:max-[480px]:pr-4 mi:pt-[clamp(88px,_12vw,_160px)] mi:[&:not(#start)]:[content-visibility:auto] mi:[&:not(#start)]:[contain-intrinsic-size:auto_900px]" aria-labelledby="show-title">
+      <header class="sec__head mi:grid mi:gap-3.5 mi:max-w-190 mi:mb-[clamp(36px,_5vw,_56px)]">
+        <p class="eyebrow mi:m-0 mi:text-[14px] mi:font-semibold mi:text-p-text">{{ t('showcase.eyebrow') }}</p>
+        <h2 id="show-title" class="sec__title mi:m-0 mi:text-[clamp(32px,_4.6vw,_56px)] mi:leading-[1.04] mi:tracking-[-.04em] mi:font-bold mi:text-balance">{{ t('showcase.title') }}</h2>
+        <p class="sec__lead mi:m-0 mi:max-w-[60ch] mi:text-[clamp(16px,_1.5vw,_19px)] mi:leading-[1.55] mi:text-label2 mi:text-pretty">{{ t('showcase.lead') }}</p>
       </header>
-      <ul class="demos">
+      <ul class="demos mi:grid mi:gap-3.5 mi:grid-cols-[repeat(auto-fill,_minmax(min(100%,_250px),_1fr))] mi:[list-style:none] mi:m-0 mi:p-0">
         <li v-for="(d, i) in demos" :key="d">
-          <a :href="config.public.showcaseUrl + '/' + d" class="demo" :class="'demo--' + d">
-            <span class="demo__art" aria-hidden="true"><i /><i /><i /></span>
-            <span class="demo__n">0{{ i + 1 }}</span>
+          <a :href="config.public.showcaseUrl + '/' + d" class="demo mi:relative mi:flex mi:flex-col mi:gap-2 mi:h-full mi:box-border mi:p-5.5 mi:rounded-[22px] mi:[background:var(--mi-card)] mi:shadow-[0_0_0_1px_var(--mi-sep)] mi:text-inherit mi:[text-decoration:none] mi:overflow-hidden mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring)] mi:hover:transform-[translate3d(0,_-4px,_0)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[3px] mi:motion-reduce:hover:transform-none" :class="'demo--' + d">
+            <span class="demo__art mi:relative mi:h-30 mi:-mt-5.5 mi:-mx-5.5 mi:mb-3 mi:[background:var(--mi-fill4)] mi:overflow-hidden" aria-hidden="true"><i class="mi:[.demo__art_&]:[transition:transform_var(--mi-dur-3)_var(--mi-spring)] mi:[.demo:hover_.demo__art_&:nth-child(2)]:transform-[translate3d(0,_-6px,_0)] mi:[.demo--landing_.demo__art_&:nth-child(1)]:opacity-80 mi:motion-reduce:[.demo:hover_.demo__art_&]:transform-none" /><i class="mi:[.demo__art_&]:[transition:transform_var(--mi-dur-3)_var(--mi-spring)] mi:[.demo:hover_.demo__art_&:nth-child(2)]:transform-[translate3d(0,_-6px,_0)] mi:[.demo--landing_.demo__art_&:nth-child(1)]:opacity-80 mi:motion-reduce:[.demo:hover_.demo__art_&]:transform-none" /><i class="mi:[.demo__art_&]:[transition:transform_var(--mi-dur-3)_var(--mi-spring)] mi:[.demo:hover_.demo__art_&:nth-child(2)]:transform-[translate3d(0,_-6px,_0)] mi:[.demo--landing_.demo__art_&:nth-child(1)]:opacity-80 mi:motion-reduce:[.demo:hover_.demo__art_&]:transform-none" /></span>
+            <span class="demo__n mi:text-[12px] mi:font-semibold mi:text-p-text mi:tabular-nums">0{{ i + 1 }}</span>
             <MiText variant="title3" as="h3">{{ t('showcase.demos.' + d + '.title') }}</MiText>
             <MiText variant="footnote" tone="label2">{{ t('showcase.demos.' + d + '.body') }}</MiText>
-            <span class="demo__open">{{ t('showcase.open') }} <MiIcon name="arrow-right" :size="15" /></span>
+            <span class="demo__open mi:inline-flex mi:items-center mi:gap-1.5 mi:mt-auto mi:pt-2.5 mi:text-[14px] mi:font-semibold mi:text-p-text">{{ t('showcase.open') }} <MiIcon name="arrow-right" :size="15" /></span>
           </a>
         </li>
       </ul>
     </section>
 
     <!-- Closing CTA -->
-    <section class="cta mi-dark" aria-labelledby="cta-title">
-      <div class="cta__glow" aria-hidden="true" />
-      <div class="cta__in wrap">
+    <section class="cta mi-dark mi:relative mi:isolate mi:overflow-hidden mi:mt-[clamp(96px,_12vw,_160px)] mi:py-[clamp(72px,_10vw,_128px)] mi:px-0 mi:[background:var(--mi-page)] mi:text-label mi:text-center" aria-labelledby="cta-title">
+      <div class="cta__glow mi:absolute mi:inset-0 mi:-z-1 mi:[background:radial-gradient(40%_60%_at_50%_0%,_color-mix(in_oklab,_var(--mi-p)_34%,_transparent),_transparent_70%),_radial-gradient(30%_40%_at_85%_100%,_color-mix(in_oklab,_var(--mi-s)_22%,_transparent),_transparent_70%)]" aria-hidden="true" />
+      <div class="cta__in wrap mi:max-w-300 mi:my-0 mi:mx-auto mi:pl-6 mi:pr-6 mi:box-border mi:max-[480px]:pl-4 mi:max-[480px]:pr-4 mi:grid mi:justify-items-center mi:gap-5">
         <MiLogo variant="dot" :size="44" decorative />
-        <h2 id="cta-title" class="cta__title">{{ t('cta.title') }}</h2>
-        <code class="cta__code">{{ extendsLine }}</code>
-        <p class="cta__lead">{{ t('cta.lead') }}</p>
-        <div class="hero__ctas">
+        <h2 id="cta-title" class="cta__title mi:m-0 mi:text-[clamp(40px,_6vw,_76px)] mi:leading-none mi:tracking-[-.05em] mi:font-bold">{{ t('cta.title') }}</h2>
+        <code class="cta__code mi:py-2.5 mi:px-4 mi:rounded-[12px] mi:[background:var(--mi-fill4)] mi:shadow-[0_0_0_1px_var(--mi-sep)] mi:[font:15px/1_ui-monospace,_'SF_Mono',_Menlo,_monospace] mi:text-label">{{ extendsLine }}</code>
+        <p class="cta__lead mi:m-0 mi:text-label2 mi:text-[17px]">{{ t('cta.lead') }}</p>
+        <div class="hero__ctas mi:flex mi:flex-wrap mi:gap-2.5 mi:[.cta_&]:justify-center">
           <MiButton size="large" href="#start">{{ t('cta.primary') }}</MiButton>
           <MiButton size="large" variant="gray" :href="config.public.repoUrl">{{ t('cta.secondary') }}</MiButton>
         </div>
@@ -381,168 +381,44 @@ onBeforeUnmount(() => cancelAnimationFrame(raf))
 </script>
 
 <style scoped>
-.wrap { max-width: 1200px; margin: 0 auto; padding-left: 24px; padding-right: 24px; box-sizing: border-box; }
-@media (max-width: 480px) { .wrap { padding-left: 16px; padding-right: 16px; } }
-
 /* Entrance: transform + opacity only, staggered with --d. */
 .rise { animation: lp-rise var(--mi-dur-4) var(--mi-ease) var(--d, 0ms) backwards; }
 @keyframes lp-rise { from { opacity: 0; transform: translate3d(0, 18px, 0); } }
-
-/* Hero */
-.hero { position: relative; isolation: isolate; padding: clamp(48px, 9vw, 120px) 0 0; }
-.hero__aura {
-  position: absolute; inset: -120px 0 auto; height: 900px; z-index: -1; pointer-events: none;
-  background:
-    radial-gradient(38% 42% at 22% 30%, color-mix(in oklab, var(--mi-p) 20%, transparent), transparent 70%),
-    radial-gradient(30% 36% at 78% 26%, color-mix(in oklab, var(--mi-s) 16%, transparent), transparent 70%),
-    radial-gradient(40% 30% at 60% 70%, color-mix(in oklab, var(--mi-p) 10%, transparent), transparent 70%);
-}
-.hero__grid { display: grid; gap: clamp(40px, 6vw, 64px); align-items: center; }
-@media (min-width: 1040px) { .hero__grid { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); } }
-.hero__copy { display: grid; justify-items: start; gap: 22px; }
-.pill { display: inline-flex; align-items: center; gap: 8px; padding: 4px 10px 4px 4px; border-radius: 999px; background: var(--mi-card); box-shadow: 0 0 0 1px var(--mi-sep); font-size: 13px; color: var(--mi-label2); text-decoration: none; transition: transform var(--mi-dur-2) var(--mi-ease); }
-.pill:hover { transform: translate3d(0, -1px, 0); }
-.pill__tag { padding: 3px 9px; border-radius: 999px; background: var(--mi-p-tint); color: var(--mi-p-text); font-weight: 600; }
-.hero__title { margin: 0; font-size: clamp(44px, 7.2vw, 92px); line-height: .98; letter-spacing: -.05em; font-weight: 700; text-wrap: balance; }
-.hero__accent { display: block; background: linear-gradient(100deg, var(--mi-p-text) 10%, var(--mi-s-text) 90%); -webkit-background-clip: text; background-clip: text; color: transparent; padding-bottom: .06em; }
-.hero__lead { margin: 0; max-width: 52ch; font-size: clamp(17px, 1.7vw, 20px); line-height: 1.5; color: var(--mi-label2); text-wrap: pretty; }
-.hero__ctas { display: flex; flex-wrap: wrap; gap: 10px; }
-.install { display: inline-flex; align-items: center; gap: 10px; padding: 4px 4px 4px 14px; border-radius: 12px; background: var(--mi-fill4); }
+.hero__accent { background: linear-gradient(100deg, var(--mi-p-text) 10%, var(--mi-s-text) 90%); -webkit-background-clip: text; background-clip: text; }
 .install code { font: 13px/1 ui-monospace, "SF Mono", Menlo, monospace; color: var(--mi-label); }
-
-/* Hero stage: sheets of real components on a tilting rig (no overlap; depth via translateZ). */
-.stage { perspective: 1600px; --rx: 0deg; --ry: 0deg; }
-.rig {
-  display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  grid-template-areas: "chart chart" "stat settings" "notif settings";
-  transform-style: preserve-3d; transform: rotateX(calc(4deg + var(--rx))) rotateY(calc(-7deg + var(--ry)));
-  transition: transform 700ms var(--mi-ease);
-}
-.sheet { transform: translateZ(var(--z)); border-radius: 20px; background: var(--mi-card); box-shadow: 0 0 0 1px var(--mi-sep), var(--mi-sh2); padding: 16px; box-sizing: border-box; min-width: 0; }
-.sheet--chart { grid-area: chart; padding-bottom: 6px; }
-.sheet--stat { grid-area: stat; padding: 0; overflow: hidden; }
+.sheet { background: var(--mi-card); padding: 16px; }
+.sheet--chart { padding-bottom: 6px; }
+.sheet--stat { padding: 0; }
 .sheet--stat > :deep(*) { height: 100%; box-shadow: none; }
-.sheet--settings { grid-area: settings; display: grid; gap: 12px; align-content: start; }
-.sheet--notif { grid-area: notif; padding: 0; background: none; box-shadow: none; }
+.sheet--notif { padding: 0; background: none; }
 .sheet--notif > :deep(*) { height: 100%; box-sizing: border-box; box-shadow: 0 0 0 1px var(--mi-sep), var(--mi-sh2); }
-.sheet__head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 4px; }
-.row { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 15px; }
-.radius-demo { height: 44px; background: linear-gradient(135deg, var(--mi-p-tint), var(--mi-s-tint)); box-shadow: inset 0 0 0 1px var(--mi-sep); }
-@media (max-width: 1039px) { .rig { transform: none; } .sheet { transform: none; } }
-@media (max-width: 560px) {
-  .rig { grid-template-columns: minmax(0, 1fr); grid-template-areas: "chart" "stat" "notif" "settings"; }
-}
-
-.stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 16px; margin-top: clamp(56px, 8vw, 96px); padding-top: 28px; padding-bottom: 8px; }
-@media (min-width: 820px) { .stats { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-.stats__item { display: grid; grid-template-areas: "v" "l"; align-content: start; gap: 6px; padding-top: 16px; border-top: 1px solid var(--mi-sep); }
 .stats__item dd { grid-area: v; }
 .stats__item dt { grid-area: l; }
 .stats dd { margin: 0; font-size: clamp(34px, 4vw, 48px); font-weight: 700; letter-spacing: -.04em; line-height: 1; font-variant-numeric: tabular-nums; }
 .stats dt { font-size: 14px; color: var(--mi-label2); max-width: 22ch; }
-
-/* Sections */
-.sec { padding-top: clamp(88px, 12vw, 160px); }
-/* Skip style/layout/paint of off-screen sections; the browser remembers each real height after first render. */
-.sec:not(#start) { content-visibility: auto; contain-intrinsic-size: auto 900px; }
-.sec__head { display: grid; gap: 14px; max-width: 760px; margin-bottom: clamp(36px, 5vw, 56px); }
-.eyebrow { margin: 0; font-size: 14px; font-weight: 600; color: var(--mi-p-text); }
-.sec__title { margin: 0; font-size: clamp(32px, 4.6vw, 56px); line-height: 1.04; letter-spacing: -.04em; font-weight: 700; text-wrap: balance; }
-.sec__lead { margin: 0; max-width: 60ch; font-size: clamp(16px, 1.5vw, 19px); line-height: 1.55; color: var(--mi-label2); text-wrap: pretty; }
-
-/* Steps */
-.steps { display: grid; gap: 16px; list-style: none; margin: 0; padding: 0; }
-@media (min-width: 900px) { .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-.step { position: relative; display: flex; flex-direction: column; gap: 14px; padding: 22px; border-radius: 22px; background: var(--mi-card); box-shadow: 0 0 0 1px var(--mi-sep); min-width: 0; }
-.step__n { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--mi-p); color: var(--mi-p-on); font-size: 14px; font-weight: 700; }
 .step :deep(.code) { background: var(--mi-page); }
-.step__live { display: flex; justify-content: center; padding: 18px; border-radius: 14px; border: 1px dashed var(--mi-sep); }
-
-/* Component groups */
-.groups { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); list-style: none; margin: 0; padding: 0; }
-.group { position: relative; cursor: pointer; display: flex; flex-direction: column; border-radius: 22px; background: var(--mi-card); box-shadow: 0 0 0 1px var(--mi-sep); overflow: hidden; transition: transform var(--mi-dur-3) var(--mi-spring); }
-.group:hover { transform: translate3d(0, -3px, 0); }
-.group__specimen { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 12px; min-height: 120px; padding: 20px; box-sizing: border-box; background: radial-gradient(120% 120% at 0% 0%, var(--mi-p-tint2), transparent 60%), var(--mi-fill4); border-bottom: 1px solid var(--mi-sep); }
 .spec-search { width: 100%; max-width: 220px; }
 .spec-progress { width: 140px; }
-.group__body { display: grid; gap: 6px; padding: 18px 20px 20px; }
-.group__title { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
-.group__link { color: inherit; text-decoration: none; }
-.group__link::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
-.group__link:focus-visible { outline: none; }
-.group:has(.group__link:focus-visible) { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-.group__count { font-size: 12px; font-weight: 600; color: var(--mi-label3); font-variant-numeric: tabular-nums; white-space: nowrap; }
-.group__names { margin: 6px 0 0; font-size: 12px; line-height: 1.6; color: var(--mi-label3); }
-.group__names { position: relative; z-index: 1; }
-.group__names a { color: var(--mi-label2); text-decoration: none; }
-.group__names a:hover { color: var(--mi-p-text); text-decoration: underline; }
-.groups__more { display: flex; justify-content: center; margin-top: 28px; }
-
-/* Theming */
-.theming { display: grid; gap: 40px; align-items: center; }
-@media (min-width: 1000px) { .theming { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 64px; } }
-.theming__copy { display: grid; gap: 14px; }
-.theming__ctl { display: grid; gap: 18px; margin-top: 12px; padding: 20px; border-radius: 22px; background: var(--mi-card); box-shadow: 0 0 0 1px var(--mi-sep); }
-.theming__mode { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
-.preview { position: relative; display: grid; gap: 14px; padding: clamp(16px, 3vw, 28px); border-radius: 28px; background: radial-gradient(80% 80% at 100% 0%, var(--mi-s-tint2), transparent 60%), radial-gradient(80% 80% at 0% 100%, var(--mi-p-tint2), transparent 60%), var(--mi-fill4); }
-.preview__card { display: grid; gap: 18px; padding: 22px; border-radius: 20px; background: var(--mi-card); box-shadow: var(--mi-sh2); }
-.preview__head { display: flex; align-items: center; gap: 14px; }
-.preview__mark { display: grid; place-items: center; flex: none; width: 44px; height: 44px; border-radius: 12px; background: var(--mi-p); }
+.group__names a { color: var(--mi-label2); }
+.group__names a:hover { text-decoration: underline; }
 .preview__badge { vertical-align: 2px; margin-left: 6px; }
-.preview__chips { display: flex; flex-wrap: wrap; gap: 8px; }
-.preview__actions { display: flex; flex-wrap: wrap; gap: 10px; }
-
-/* Craft bento */
-.bento { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); }
-@media (min-width: 720px) { .bento { grid-template-columns: repeat(2, minmax(0, 1fr)); } .tile--motion, .tile--zero { grid-column: 1 / -1; } }
 @media (min-width: 1040px) {
-  .bento { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  .tile--motion { grid-column: span 2; grid-row: span 2; }
-  .tile--zero { grid-column: 1 / -1; display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto auto; column-gap: 28px; align-items: center; }
-  .tile--zero .zero { grid-row: span 2; margin: 0; font-size: 96px; }
+  .tile--zero { display: grid; column-gap: 28px; }
 }
-.tile { display: flex; flex-direction: column; gap: 8px; padding: 24px; border-radius: 22px; background: var(--mi-card); box-shadow: 0 0 0 1px var(--mi-sep); min-width: 0; }
-.tile__glyph { display: grid; place-items: center; width: 40px; height: 40px; margin-bottom: 10px; border-radius: 12px; background: var(--mi-p-tint); color: var(--mi-p-text); }
-.tile--motion { justify-content: space-between; gap: 28px; background: radial-gradient(90% 90% at 100% 100%, var(--mi-p-tint2), transparent 60%), var(--mi-card); }
-.tile__text { display: grid; gap: 10px; max-width: 46ch; }
-.spring { display: grid; gap: 16px; }
-.spring__track { position: relative; height: 72px; border-radius: 22px; background: var(--mi-fill4); box-shadow: inset 0 0 0 1px var(--mi-sep); overflow: hidden; container-type: inline-size; }
-.spring__knob { position: absolute; left: 8px; top: 8px; width: 56px; height: 56px; border-radius: 16px; background: var(--mi-p); box-shadow: var(--mi-sh2); transition: transform 900ms var(--mi-spring); }
-.spring__knob.on { transform: translate3d(calc(100cqw - 72px), 0, 0) rotate(90deg); }
-.spring__meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.spring__fig { font-size: 13px; color: var(--mi-label2); font-variant-numeric: tabular-nums; }
+.tile { display: flex; gap: 8px; background: var(--mi-card); }
+.tile--motion { gap: 28px; background: radial-gradient(90% 90% at 100% 100%, var(--mi-p-tint2), transparent 60%), var(--mi-card); }
 .spring__fig b { font-size: 22px; letter-spacing: -.02em; color: var(--mi-label); }
-.keys { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
-.keys kbd { min-width: 22px; padding: 5px 8px; border-radius: 8px; background: var(--mi-fill4); box-shadow: inset 0 -1px 0 var(--mi-sep), 0 0 0 1px var(--mi-sep); font: 600 12px/1 var(--mi-font); color: var(--mi-label); text-align: center; }
-.duo { display: grid; grid-template-columns: 1fr 1fr; height: 64px; margin-bottom: 10px; border-radius: 14px; overflow: hidden; box-shadow: 0 0 0 1px var(--mi-sep); }
-.duo__half { position: relative; background: var(--mi-page); }
-.duo__half span { position: absolute; left: 10px; right: 10px; top: 10px; height: 26px; border-radius: 8px; background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.duo__half i { position: absolute; left: 10px; bottom: 10px; width: 40%; height: 6px; border-radius: 3px; background: var(--mi-label2); }
-.zero { font-size: 64px; line-height: .9; font-weight: 700; letter-spacing: -.05em; margin-bottom: 6px; background: linear-gradient(160deg, var(--mi-p-text), var(--mi-s-text)); -webkit-background-clip: text; background-clip: text; color: transparent; width: fit-content; }
-
-/* AI */
-.ai { display: grid; gap: 40px; align-items: center; }
-@media (min-width: 1000px) { .ai { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 64px; } }
-.ai__copy { display: grid; gap: 14px; }
-.ai__points { display: grid; gap: 14px; list-style: none; margin: 12px 0 0; padding: 0; }
-.ai__points li { display: grid; grid-template-columns: 96px 1fr; gap: 14px; align-items: baseline; padding-top: 14px; border-top: 1px solid var(--mi-sep); }
-.ai__link { text-decoration: none; border-radius: 4px; }
-.ai__link:hover code { text-decoration: underline; text-underline-offset: 3px; }
-.ai__link:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
+.keys kbd { border-radius: 8px; background: var(--mi-fill4); box-shadow: inset 0 -1px 0 var(--mi-sep), 0 0 0 1px var(--mi-sep); font: 600 12px/1 var(--mi-font); color: var(--mi-label); }
+.duo__half span { position: absolute; left: 10px; height: 26px; border-radius: 8px; background: var(--mi-card); box-shadow: var(--mi-sh1); }
+.duo__half i { position: absolute; left: 10px; width: 40%; height: 6px; border-radius: 3px; background: var(--mi-label2); }
+.zero { background: linear-gradient(160deg, var(--mi-p-text), var(--mi-s-text)); -webkit-background-clip: text; background-clip: text; }
+.ai__points li { display: grid; }
+.ai__link:hover code { text-decoration: underline; }
 .ai__points code { font: 600 13px/1.4 ui-monospace, "SF Mono", Menlo, monospace; color: var(--mi-p-text); }
 .ai__file :deep(.code__pre) { max-height: 420px; font-size: 12px; white-space: pre-wrap; overflow-wrap: anywhere; }
-@media (max-width: 480px) { .ai__points li { grid-template-columns: 1fr; gap: 4px; } }
-
-/* Showcase */
-.demos { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); list-style: none; margin: 0; padding: 0; }
-.demo { position: relative; display: flex; flex-direction: column; gap: 8px; height: 100%; box-sizing: border-box; padding: 22px; border-radius: 22px; background: var(--mi-card); box-shadow: 0 0 0 1px var(--mi-sep); color: inherit; text-decoration: none; overflow: hidden; transition: transform var(--mi-dur-3) var(--mi-spring); }
-.demo:hover { transform: translate3d(0, -4px, 0); }
-.demo:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 3px; }
-.demo__art { position: relative; height: 120px; margin: -22px -22px 12px; background: var(--mi-fill4); overflow: hidden; }
-.demo__art i { position: absolute; border-radius: 10px; background: var(--mi-card); box-shadow: var(--mi-sh1); transition: transform var(--mi-dur-3) var(--mi-spring); }
-.demo:hover .demo__art i:nth-child(2) { transform: translate3d(0, -6px, 0); }
+.demo__art i { position: absolute; border-radius: 10px; background: var(--mi-card); box-shadow: var(--mi-sh1); }
 .demo--landing .demo__art { background: radial-gradient(90% 120% at 0% 0%, var(--mi-p-tint), transparent 70%), var(--mi-fill4); }
-.demo--landing .demo__art i:nth-child(1) { left: 22px; top: 26px; width: 55%; height: 14px; background: var(--mi-label); opacity: .8; border-radius: 7px; }
+.demo--landing .demo__art i:nth-child(1) { left: 22px; top: 26px; width: 55%; height: 14px; background: var(--mi-label); border-radius: 7px; }
 .demo--landing .demo__art i:nth-child(2) { left: 22px; top: 52px; width: 70px; height: 24px; background: var(--mi-p); border-radius: 12px; }
 .demo--landing .demo__art i:nth-child(3) { right: -20px; bottom: -30px; width: 110px; height: 110px; border-radius: 50%; background: linear-gradient(135deg, var(--mi-p), var(--mi-s)); }
 .demo--dashboard .demo__art { background: radial-gradient(90% 120% at 100% 0%, var(--mi-s-tint), transparent 70%), var(--mi-fill4); }
@@ -557,22 +433,8 @@ onBeforeUnmount(() => cancelAnimationFrame(raf))
 .demo--blog .demo__art i:nth-child(1) { left: 22px; top: 22px; width: 84px; height: 76px; background: linear-gradient(160deg, var(--mi-s-tint), var(--mi-p-tint)); }
 .demo--blog .demo__art i:nth-child(2) { left: 120px; top: 28px; right: 22px; height: 16px; border-radius: 4px; }
 .demo--blog .demo__art i:nth-child(3) { left: 120px; top: 54px; width: 30%; height: 8px; border-radius: 4px; background: var(--mi-label3); box-shadow: none; }
-.demo__n { font-size: 12px; font-weight: 600; color: var(--mi-p-text); font-variant-numeric: tabular-nums; }
-.demo__open { display: inline-flex; align-items: center; gap: 6px; margin-top: auto; padding-top: 10px; font-size: 14px; font-weight: 600; color: var(--mi-p-text); }
-
-/* Closing CTA: dark surface in both appearances, through the layer's .mi-dark token class. */
-.cta { position: relative; isolation: isolate; overflow: hidden; margin-top: clamp(96px, 12vw, 160px); padding: clamp(72px, 10vw, 128px) 0; background: var(--mi-page); color: var(--mi-label); text-align: center; }
-.cta__glow { position: absolute; inset: 0; z-index: -1; background: radial-gradient(40% 60% at 50% 0%, color-mix(in oklab, var(--mi-p) 34%, transparent), transparent 70%), radial-gradient(30% 40% at 85% 100%, color-mix(in oklab, var(--mi-s) 22%, transparent), transparent 70%); }
-.cta__in { display: grid; justify-items: center; gap: 20px; }
-.cta__title { margin: 0; font-size: clamp(40px, 6vw, 76px); line-height: 1; letter-spacing: -.05em; font-weight: 700; }
-.cta__code { padding: 10px 16px; border-radius: 12px; background: var(--mi-fill4); box-shadow: 0 0 0 1px var(--mi-sep); font: 15px/1 ui-monospace, "SF Mono", Menlo, monospace; color: var(--mi-label); }
-.cta__lead { margin: 0; color: var(--mi-label2); font-size: 17px; }
-.cta .hero__ctas { justify-content: center; }
 
 @media (prefers-reduced-motion: reduce) {
   .rise { animation: none; }
-  .rig { transition: none; }
-  .pill:hover, .group:hover, .demo:hover, .demo:hover .demo__art i { transform: none; }
-  .spring__knob { transition-duration: 1ms; }
 }
 </style>

@@ -29,22 +29,20 @@ function toggle() {
   <button
     type="button"
     role="switch"
-    class="mi-switch"
+    class="mi-switch mi:[--_c:var(--mi-p)] mi:[--_x:20px] mi:[-webkit-tap-highlight-color:transparent] mi:[&.is-compact]:[--_x:16px] mi:[&.tone-secondary]:[--_c:var(--mi-s)] mi:[&.tone-success]:[--_c:var(--mi-green)]"
     :class="[`is-${size}`, `tone-${tone}`, { 'is-on': model }]"
     :aria-checked="model"
     :aria-label="label"
     :disabled="disabled"
     @click="toggle"
   >
-    <span class="mi-switch__on" aria-hidden="true" />
-    <span class="mi-switch__knob" aria-hidden="true" />
+    <span class="mi-switch__on mi:absolute mi:inset-0 mi:rounded-[inherit] mi:[background:var(--\_c)] mi:opacity-0 mi:[transition:opacity_var(--mi-dur-2)_ease] mi:[.is-on_&]:opacity-100" aria-hidden="true" />
+    <span class="mi-switch__knob mi:absolute mi:top-0.5 mi:left-0.5 mi:w-[27px] mi:h-[27px] mi:rounded-[50%] mi:[background:#fff] mi:shadow-[0_3px_8px_rgba(0,_0,_0,_.15),_0_3px_1px_rgba(0,_0,_0,_.06)] mi:transform-[translateX(0)] mi:[transition:transform_var(--mi-dur-2)_cubic-bezier(.3,_.7,_.4,_1)] mi:[.is-compact_&]:w-4.5 mi:[.is-compact_&]:h-4.5 mi:[.is-compact_&]:shadow-[0_2px_4px_rgba(0,_0,_0,_.18)] mi:[.is-on_&]:transform-[translateX(var(--\_x))]" aria-hidden="true" />
   </button>
 </template>
 
 <style scoped>
 .mi-switch {
-  --_c: var(--mi-p);
-  --_x: 20px;
   position: relative;
   display: inline-block;
   flex: none;
@@ -54,35 +52,7 @@ function toggle() {
   border: 0;
   border-radius: 999px;
   background: var(--mi-off);
-  -webkit-tap-highlight-color: transparent;
 }
-.mi-switch.is-compact { --_x: 16px; width: 38px; height: 22px; }
-.mi-switch.tone-secondary { --_c: var(--mi-s); }
-.mi-switch.tone-success { --_c: var(--mi-green); }
+.mi-switch.is-compact { width: 38px; height: 22px; }
 .mi-switch:disabled { opacity: .4; cursor: default; }
-
-.mi-switch__on {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: var(--_c);
-  opacity: 0;
-  transition: opacity var(--mi-dur-2) ease;
-}
-.is-on .mi-switch__on { opacity: 1; }
-
-.mi-switch__knob {
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 27px;
-  height: 27px;
-  border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, .15), 0 3px 1px rgba(0, 0, 0, .06);
-  transform: translateX(0);
-  transition: transform var(--mi-dur-2) cubic-bezier(.3, .7, .4, 1);
-}
-.is-compact .mi-switch__knob { width: 18px; height: 18px; box-shadow: 0 2px 4px rgba(0, 0, 0, .18); }
-.is-on .mi-switch__knob { transform: translateX(var(--_x)); }
 </style>

@@ -157,7 +157,7 @@ defineSlots<{
   <span
     v-if="$slots.trigger"
     ref="anchor"
-    class="mi-hc-anchor"
+    class="mi-hc-anchor mi:inline-flex"
     @pointerenter="show"
     @pointerleave="hide"
     @focusin="show"
@@ -168,7 +168,7 @@ defineSlots<{
   <Teleport to="body" :disabled="inline">
     <div
       v-if="inline || rendered"
-      class="mi mi-hc-pos"
+      class="mi mi-hc-pos mi:fixed mi:left-0 mi:top-0 mi:font-mi mi:[&.is-inline]:static mi:[&.is-inline]:block"
       :class="{ 'is-inline': inline }"
       :style="inline ? undefined : { transform: `translate3d(${geo.x}px,${geo.y}px,0)`, zIndex: MI_OVERLAY_Z.popover }"
     >
@@ -177,7 +177,7 @@ defineSlots<{
         :id="cardId"
         ref="card"
         v-bind="$attrs"
-        class="mi-hc"
+        class="mi-hc mi:relative mi:box-border mi:max-w-[calc(100vw_-_16px)] mi:p-4 mi:rounded-[14px] mi:bg-elev mi:shadow-[var(--mi-sh3),0_0_0_.5px_var(--mi-mat-b)] mi:text-label mi:tracking-[-.01em] mi:text-[14px] mi:leading-5 mi:opacity-0 mi:transform-[scale(.96)] mi:pointer-events-none mi:[&.is-in]:opacity-100 mi:[&.is-in]:transform-none mi:[&.is-in]:pointer-events-auto mi:[&.is-in]:[transition:transform_var(--mi-dur-3)_var(--mi-spring),opacity_var(--mi-dur-2)_var(--mi-ease)] mi:[&:not(.is-in)]:[transition:transform_var(--mi-dur-2)_var(--mi-ease),opacity_var(--mi-dur-1)_var(--mi-ease)] mi:[&[data-side=bottom]]:origin-[50%_0] mi:[&[data-side=top]]:origin-[50%_100%] mi:[.mi-hc-pos.is-inline_&]:mt-1.5"
         :class="{ 'is-in': inline || (open && ready) }"
         :data-side="inline ? 'bottom' : geo.side"
         role="tooltip"
@@ -193,15 +193,3 @@ defineSlots<{
     </div>
   </Teleport>
 </template>
-
-<style scoped>
-.mi-hc-anchor{display:inline-flex}
-.mi-hc-pos{position:fixed;left:0;top:0;font-family:var(--mi-font)}
-.mi-hc-pos.is-inline{position:static;display:block}
-.mi-hc{position:relative;box-sizing:border-box;max-width:calc(100vw - 16px);padding:16px;border-radius:14px;background:var(--mi-elev);box-shadow:var(--mi-sh3),0 0 0 .5px var(--mi-mat-b);color:var(--mi-label);letter-spacing:-.01em;font-size:14px;line-height:20px;opacity:0;transform:scale(.96);pointer-events:none}
-.mi-hc.is-in{opacity:1;transform:none;pointer-events:auto;transition:transform var(--mi-dur-3) var(--mi-spring),opacity var(--mi-dur-2) var(--mi-ease)}
-.mi-hc:not(.is-in){transition:transform var(--mi-dur-2) var(--mi-ease),opacity var(--mi-dur-1) var(--mi-ease)}
-.mi-hc[data-side=bottom]{transform-origin:50% 0}
-.mi-hc[data-side=top]{transform-origin:50% 100%}
-.mi-hc-pos.is-inline .mi-hc{margin-top:6px}
-</style>

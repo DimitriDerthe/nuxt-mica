@@ -1,31 +1,31 @@
 <template>
-  <section class="scl" aria-labelledby="scl-title">
-    <div v-if="paused" class="scl__paused">
-      <div class="scl__paused-card">
-        <MiProgressRing :value="pct" :size="52" :stroke="5" label="Setup progress"><span class="scl__mini-count">{{ doneCount }}/{{ tasks.length }}</span></MiProgressRing>
-        <div class="scl__paused-copy">
+  <section class="mi:@container mi:font-mi mi:text-label" aria-labelledby="scl-title">
+    <div v-if="paused" class="mi:grid mi:place-items-center mi:min-h-full mi:py-6 mi:px-0">
+      <div class="mi:grid mi:grid-cols-[auto_minmax(0,_1fr)] mi:items-center mi:gap-y-3.5 mi:gap-x-4 mi:w-full mi:max-w-130 mi:py-4.5 mi:px-5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-[0_0_0_1px_var(--mi-sep),_var(--mi-sh2)] mi:@[560px]:grid-cols-[auto_minmax(0,_1fr)_auto]">
+        <MiProgressRing :value="pct" :size="52" :stroke="5" label="Setup progress"><span class="mi:text-[12px] mi:font-bold mi:tabular-nums">{{ doneCount }}/{{ tasks.length }}</span></MiProgressRing>
+        <div class="mi:grid mi:gap-0.5">
           <MiText id="scl-title" as="h2" variant="headline" weight="semibold">Setup paused</MiText>
           <MiText variant="footnote" tone="label2">
-            <span class="scl__num">{{ doneCount }} of {{ tasks.length }}</span> done. Pick it up any time from the Help menu.
+            <span class="mi:tabular-nums">{{ doneCount }} of {{ tasks.length }}</span> done. Pick it up any time from the Help menu.
           </MiText>
         </div>
-        <MiButton variant="tinted" @click="paused = false">Resume setup</MiButton>
+        <MiButton variant="tinted" class="mi:col-span-full mi:justify-self-start mi:@[560px]:[grid-column:auto]" @click="paused = false">Resume setup</MiButton>
       </div>
     </div>
 
-    <div v-else class="scl__in">
+    <div v-else class="mi:grid mi:gap-6 mi:@[900px]:grid-cols-[300px_minmax(0,_1fr)] mi:@[900px]:gap-8 mi:@[900px]:items-start mi:@[1100px]:grid-cols-[340px_minmax(0,_1fr)] mi:@[1100px]:gap-12">
       <!-- Summary: time left, not a percentage, is what people decide on. -->
-      <div class="scl__summary">
-        <div class="scl__ring">
+      <div class="mi:relative mi:grid mi:gap-4.5 mi:content-start mi:p-5.5 mi:overflow-hidden mi:isolate mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-[0_0_0_1px_var(--mi-sep),_var(--mi-sh1)] mi:before:content-[''] mi:before:absolute mi:before:top-[-30%] mi:before:right-[-20%] mi:before:bottom-auto mi:before:left-auto mi:before:w-[80%] mi:before:aspect-[1] mi:before:-z-1 mi:before:rounded-[50%] mi:before:[background:radial-gradient(closest-side,_var(--mi-p-tint),_transparent)] mi:@[560px]:grid-cols-[auto_minmax(0,_1fr)] mi:@[560px]:items-center mi:@[560px]:gap-x-6 mi:@[560px]:py-6 mi:@[560px]:px-7 mi:@[900px]:grid-cols-[minmax(0,_1fr)] mi:@[900px]:p-7 mi:@[900px]:gap-5.5">
+        <div class="mi:flex">
           <MiProgressRing :value="pct" :size="128" :stroke="9" label="Setup progress">
-            <span class="scl__ring-copy">
-              <span class="scl__ring-big">{{ allDone ? 'Done' : minutesLeft + ' min' }}</span>
-              <span class="scl__ring-sub">{{ allDone ? 'all set' : 'left' }}</span>
+            <span class="mi:grid mi:justify-items-center mi:leading-none">
+              <span class="mi:text-[22px] mi:font-bold mi:tracking-[-.03em] mi:tabular-nums">{{ allDone ? 'Done' : minutesLeft + ' min' }}</span>
+              <span class="mi:mt-1 mi:text-[11px] mi:font-medium mi:text-label2">{{ allDone ? 'all set' : 'left' }}</span>
             </span>
           </MiProgressRing>
         </div>
-        <div class="scl__intro">
-          <MiText variant="caption" weight="semibold" tone="primary" class="scl__kicker">Oakridge Labs · first run</MiText>
+        <div class="mi:grid mi:gap-1.5">
+          <MiText variant="caption" weight="semibold" tone="primary" class="mi:tracking-[.02em]!">Oakridge Labs · first run</MiText>
           <MiText id="scl-title" as="h2" variant="title2" weight="bold" balance>
             {{ allDone ? 'Kiln is ready for your team' : 'Get Kiln ready for your team' }}
           </MiText>
@@ -33,7 +33,7 @@
             {{ allDone ? 'Your first preview deploy will start on the next push to main.' : 'A few short tasks. Each one runs right here, and all of it can change later in Settings.' }}
           </MiText>
         </div>
-        <div class="scl__cta">
+        <div class="mi:flex mi:flex-wrap mi:gap-2 mi:@[560px]:col-span-full mi:@[900px]:grid mi:@[900px]:justify-items-start">
           <MiButton v-if="next" @click="toggle(next.id, true)">
             {{ next.id === openId ? 'Finish' : 'Next' }}: {{ next.short }}
             <template #trailing><MiIcon name="arrow-right" :size="15" /></template>
@@ -43,61 +43,61 @@
         </div>
       </div>
 
-      <div class="scl__list">
-        <div class="scl__list-head">
+      <div class="mi:grid mi:content-start mi:gap-3">
+        <div class="mi:flex mi:items-baseline mi:justify-between mi:gap-3 mi:py-0 mi:px-1">
           <MiText as="h3" variant="headline" weight="semibold">Setup checklist</MiText>
-          <MiText as="span" variant="footnote" tone="label2" class="scl__num" aria-live="polite">{{ doneCount }} of {{ tasks.length }} done</MiText>
+          <MiText as="span" variant="footnote" tone="label2" class="mi:tabular-nums" aria-live="polite">{{ doneCount }} of {{ tasks.length }} done</MiText>
         </div>
 
-        <TransitionGroup name="scl-row" tag="ol" class="scl__tasks">
-          <li v-for="t in openTasks" :key="t.id" class="scl__task" :class="{ 'is-open': openId === t.id, 'is-finishing': finishing === t.id }">
+        <TransitionGroup tag="ol" enter-active-class="mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease),_transform_var(--mi-dur-3)_var(--mi-spring)]" enter-from-class="mi:opacity-0 mi:transform-[translateY(-6px)]" leave-active-class="mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease),_transform_var(--mi-dur-3)_var(--mi-spring)] mi:absolute mi:left-0 mi:right-0" leave-to-class="mi:opacity-0 mi:transform-[translateY(10px)_scale(.98)]" move-class="mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring)]" class="mi:relative mi:grid mi:gap-2 mi:m-0 mi:p-0 mi:[list-style:none]">
+          <li v-for="t in openTasks" :key="t.id" class="mi:rounded-lg mi:[background:var(--mi-card)] " :class="openId === t.id ? 'mi:shadow-[0_0_0_1px_var(--mi-sep),_var(--mi-sh2)]' : 'mi:shadow-[0_0_0_1px_var(--mi-sep)]'">
             <button
-              :id="'scl-h-' + t.id" type="button" class="scl__task-head" :aria-expanded="openId === t.id" :aria-controls="'scl-p-' + t.id"
+              :id="'scl-h-' + t.id" type="button" class="mi:grid mi:grid-cols-[auto_minmax(0,_1fr)_auto_auto] mi:items-center mi:gap-3 mi:w-full mi:py-3.5 mi:px-4 mi:[border:0] mi:rounded-[inherit] mi:text-start mi:cursor-pointer mi:[font:inherit] mi:text-inherit mi:[background:none] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px]" :aria-expanded="openId === t.id" :aria-controls="'scl-p-' + t.id"
               @click="toggle(t.id)"
             >
-              <span class="scl__state" aria-hidden="true"><MiIcon name="check" :size="13" :weight="3" /></span>
-              <span class="scl__task-copy">
-                <span class="scl__task-title">{{ t.title }}</span>
-                <span class="scl__task-sub">{{ t.sub }}</span>
+              <span class="mi:relative mi:grid mi:place-items-center mi:w-5.5 mi:h-5.5 mi:flex-[none] mi:rounded-[50%] mi:text-[color:var(--mi-p-on,_var(--mi-card))] mi:shadow-[inset_0_0_0_1.5px_var(--mi-fill)] mi:before:content-[''] mi:before:absolute mi:before:inset-0 mi:before:rounded-[50%] mi:before:[background:var(--mi-p)] mi:before:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),_transform_420ms_var(--mi-spring)]" :class="finishing === t.id ? 'mi:before:opacity-100 mi:before:transform-[scale(1)]' : 'mi:before:opacity-0 mi:before:transform-[scale(.3)]'" aria-hidden="true"><MiIcon name="check" :size="13" :weight="3" class="mi:relative mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)_80ms,_transform_460ms_var(--mi-spring)_80ms]" :class="finishing === t.id ? 'mi:opacity-100 mi:[transform:none]' : 'mi:opacity-0 mi:transform-[scale(.4)_rotate(-20deg)]'" /></span>
+              <span class="mi:grid mi:gap-0.5 mi:min-w-0">
+                <span class="mi:text-[15px] mi:font-semibold mi:tracking-[-.01em]" :class="finishing === t.id ? 'mi:text-label2' : ''">{{ t.title }}</span>
+                <span class="mi:text-[13px] mi:leading-[1.35] mi:text-label2">{{ t.sub }}</span>
               </span>
-              <span class="scl__mins">{{ t.mins }} min</span>
-              <MiIcon name="chevron-down" :size="16" class="scl__chev" />
+              <span class="mi:py-[3px] mi:px-2 mi:rounded-[999px] mi:text-[12px] mi:font-medium mi:text-label2 mi:[background:var(--mi-fill4)] mi:tabular-nums mi:whitespace-nowrap mi:@max-[459px]:hidden">{{ t.mins }} min</span>
+              <MiIcon name="chevron-down" :size="16" class="mi:text-label3 mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring)]" :class="openId === t.id ? 'mi:transform-[rotate(180deg)]' : ''" />
             </button>
 
-            <Transition name="scl-panel">
-              <div v-if="openId === t.id" :id="'scl-p-' + t.id" class="scl__panel" role="region" :aria-labelledby="'scl-h-' + t.id">
+            <Transition enter-active-class="mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease),_transform_var(--mi-dur-3)_var(--mi-ease)]" enter-from-class="mi:opacity-0 mi:transform-[translateY(-6px)]" leave-active-class="mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease),_transform_var(--mi-dur-3)_var(--mi-ease)]" leave-to-class="mi:opacity-0 mi:transform-[translateY(-6px)]">
+              <div v-if="openId === t.id" :id="'scl-p-' + t.id" class="mi:pt-0.5 mi:pr-4 mi:pb-4.5 mi:pl-12.5 mi:@max-[459px]:pl-4" role="region" :aria-labelledby="'scl-h-' + t.id">
                 <!-- Invite -->
-                <form v-if="t.id === 'invite'" class="scl__action" novalidate @submit.prevent="complete('invite')">
+                <form v-if="t.id === 'invite'" class="mi:grid mi:gap-3.5" novalidate @submit.prevent="complete('invite')">
                   <MiField label="Teammates' emails" hint="Press Return or comma after each address." :error="inviteError">
                     <template #default="{ id, describedBy }">
                       <MiTagInput :id="id" v-model="invites" :aria-describedby="describedBy" placeholder="name@oakridge.dev" :validate="isEmail" @reject="inviteError = 'That does not look like an email address.'" @add="inviteError = ''" />
                     </template>
                   </MiField>
-                  <div class="scl__row">
+                  <div class="mi:justify-between mi:flex mi:flex-wrap mi:items-center mi:gap-2.5">
                     <MiSegmented v-model="inviteRole" label="Role for invitees" :options="roles" />
                     <MiButton type="submit" :disabled="!invites.length">Send {{ invites.length || '' }} {{ invites.length === 1 ? 'invite' : 'invites' }}</MiButton>
                   </div>
                 </form>
 
                 <!-- Repository -->
-                <div v-else-if="t.id === 'repo'" class="scl__action">
+                <div v-else-if="t.id === 'repo'" class="mi:grid mi:gap-3.5">
                   <MiRadioGroup v-model="repo" label="Repository to connect" :options="repos" />
-                  <div class="scl__row scl__row--end">
+                  <div class="mi:[justify-content:flex-end] mi:flex mi:flex-wrap mi:items-center mi:gap-2.5">
                     <MiButton :loading="connecting" @click="connectRepo">Connect {{ repo }}</MiButton>
                   </div>
                 </div>
 
                 <!-- Theme -->
-                <div v-else-if="t.id === 'theme'" class="scl__action scl__theme">
-                  <div class="scl__theme-controls">
+                <div v-else-if="t.id === 'theme'" class="mi:grid mi:gap-3.5 mi:@[560px]:grid-cols-[minmax(0,_1fr)_200px] mi:@[560px]:items-start">
+                  <div class="mi:grid mi:gap-3.5">
                     <MiSegmented v-model="appearance" label="Appearance" :options="appearances" />
                     <MiSwatch v-model="accent" label="Accent" :options="accents" />
                   </div>
-                  <div class="scl__mini" :class="{ 'is-inverse': inversePreview }" :style="{ '--scl-accent': accent ?? 'var(--mi-p)' }" aria-hidden="true">
-                    <span class="scl__mini-side"><i /><i /><i /></span>
-                    <span class="scl__mini-main"><b /><i /><i /><em /></span>
+                  <div class="mi:grid mi:grid-cols-[44px_minmax(0,_1fr)] mi:gap-2 mi:h-21 mi:p-2 mi:rounded-[12px] mi:[background:var(--bg)] mi:shadow-[inset_0_0_0_1px_var(--mi-sep)] " :class="inversePreview ? 'mi:[--bg:var(--mi-label)] mi:[--fg:color-mix(in_srgb,_var(--mi-label)_86%,_var(--mi-page))] mi:[--ln:color-mix(in_srgb,_var(--mi-page)_22%,_transparent)]' : 'mi:[--bg:var(--mi-page)] mi:[--fg:var(--mi-card)] mi:[--ln:var(--mi-fill3)]'" :style="{ '--scl-accent': accent ?? 'var(--mi-p)' }" aria-hidden="true">
+                    <span class="mi:grid mi:content-start mi:gap-1.5 mi:p-2 mi:rounded-[7px] mi:[background:var(--fg)]"><i class="mi:block mi:h-[5px] mi:rounded-[3px] mi:[background:var(--ln)] mi:[&:first-child]:[background:var(--scl-accent)]" /><i class="mi:block mi:h-[5px] mi:rounded-[3px] mi:[background:var(--ln)] mi:[&:first-child]:[background:var(--scl-accent)]" /><i class="mi:block mi:h-[5px] mi:rounded-[3px] mi:[background:var(--ln)] mi:[&:first-child]:[background:var(--scl-accent)]" /></span>
+                    <span class="mi:grid mi:content-start mi:gap-1.5 mi:p-2 mi:rounded-[7px] mi:[background:var(--fg)]"><b class="mi:block mi:w-[46%] mi:h-[7px] mi:rounded-[3px] mi:[background:var(--ln)]" /><i class="mi:block mi:h-[5px] mi:rounded-[3px] mi:[background:var(--ln)] mi:[&:nth-of-type(2)]:w-[70%]" /><i class="mi:block mi:h-[5px] mi:rounded-[3px] mi:[background:var(--ln)] mi:[&:nth-of-type(2)]:w-[70%]" /><em class="mi:justify-self-start mi:w-13 mi:h-3.5 mi:mt-0.5 mi:rounded-[5px] mi:[background:var(--scl-accent)]" /></span>
                   </div>
-                  <div class="scl__row scl__row--end">
+                  <div class="mi:[justify-content:flex-end] mi:@[560px]:col-span-full mi:flex mi:flex-wrap mi:items-center mi:gap-2.5">
                     <MiButton @click="complete('theme')">Save theme</MiButton>
                   </div>
                 </div>
@@ -106,13 +106,13 @@
           </li>
         </TransitionGroup>
 
-        <div v-if="doneTasks.length" class="scl__done">
-          <MiText as="h4" variant="caption" weight="semibold" tone="label2" class="scl__done-title">Completed</MiText>
-          <TransitionGroup name="scl-row" tag="ul" class="scl__done-list">
-            <li v-for="t in doneTasks" :key="t.id" class="scl__done-row">
-              <span class="scl__state is-done" aria-hidden="true"><MiIcon name="check" :size="11" :weight="3" /></span>
-              <span class="scl__done-name">{{ t.title }}</span>
-              <span class="scl__done-note">{{ t.doneNote }}</span>
+        <div v-if="doneTasks.length" class="mi:grid mi:gap-1.5 mi:mt-1.5 mi:py-3 mi:px-4 mi:rounded-lg mi:[background:var(--mi-fill4)]">
+          <MiText as="h4" variant="caption" weight="semibold" tone="label2" class="mi:m-0 mi:uppercase mi:tracking-[.06em]! mi:text-[11px]!">Completed</MiText>
+          <TransitionGroup tag="ul" enter-active-class="mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease),_transform_var(--mi-dur-3)_var(--mi-spring)]" enter-from-class="mi:opacity-0 mi:transform-[translateY(-6px)]" leave-active-class="mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease),_transform_var(--mi-dur-3)_var(--mi-spring)] mi:absolute mi:left-0 mi:right-0" leave-to-class="mi:opacity-0 mi:transform-[translateY(10px)_scale(.98)]" move-class="mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring)]" class="mi:relative mi:grid mi:gap-0.5 mi:m-0 mi:p-0 mi:[list-style:none]">
+            <li v-for="t in doneTasks" :key="t.id" class="mi:grid mi:grid-cols-[auto_minmax(0,_1fr)_auto] mi:items-center mi:gap-2.5 mi:py-[5px] mi:px-0 mi:text-[14px]">
+              <span class="mi:relative mi:grid mi:place-items-center mi:w-4.5 mi:h-4.5 mi:flex-[none] mi:rounded-[50%] mi:text-[color:var(--mi-p-on,_var(--mi-card))] mi:shadow-[inset_0_0_0_1.5px_var(--mi-fill)] mi:before:content-[''] mi:before:absolute mi:before:inset-0 mi:before:rounded-[50%] mi:before:[background:var(--mi-p)] mi:before:opacity-100 mi:before:transform-[scale(1)] mi:before:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),_transform_420ms_var(--mi-spring)]" aria-hidden="true"><MiIcon name="check" :size="11" :weight="3" class="mi:relative mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)_80ms,_transform_460ms_var(--mi-spring)_80ms] mi:opacity-100 mi:[transform:none]" /></span>
+              <span class="mi:text-label2">{{ t.title }}</span>
+              <span class="mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:text-[12px] mi:text-label3 mi:max-w-40">{{ t.doneNote }}</span>
             </li>
           </TransitionGroup>
         </div>
@@ -205,123 +205,3 @@ function connectRepo() {
   later(() => { connecting.value = false; complete('repo') }, 800)
 }
 </script>
-
-<style scoped>
-.scl { container-type: inline-size; font-family: var(--mi-font); color: var(--mi-label); }
-.scl__in { display: grid; gap: 24px; }
-.scl__num { font-variant-numeric: tabular-nums; }
-
-/* Summary */
-.scl__summary {
-  position: relative; display: grid; gap: 18px; align-content: start; padding: 22px; overflow: hidden; isolation: isolate;
-  border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: 0 0 0 1px var(--mi-sep), var(--mi-sh1);
-}
-.scl__summary::before {
-  content: ""; position: absolute; inset: -30% -20% auto auto; width: 80%; aspect-ratio: 1; z-index: -1; border-radius: 50%;
-  background: radial-gradient(closest-side, var(--mi-p-tint), transparent);
-}
-.scl__ring { display: flex; }
-.scl__ring-copy { display: grid; justify-items: center; line-height: 1; }
-.scl__ring-big { font-size: 22px; font-weight: 700; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
-.scl__ring-sub { margin-top: 4px; font-size: 11px; font-weight: 500; color: var(--mi-label2); }
-.scl__intro { display: grid; gap: 6px; }
-.scl__kicker { letter-spacing: .02em; }
-.scl__cta { display: flex; flex-wrap: wrap; gap: 8px; }
-
-/* Task list */
-.scl__list { display: grid; align-content: start; gap: 12px; }
-.scl__list-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 0 4px; }
-.scl__tasks { position: relative; display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
-.scl__task { border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: 0 0 0 1px var(--mi-sep); }
-.scl__task.is-open { box-shadow: 0 0 0 1px var(--mi-sep), var(--mi-sh2); }
-.scl__task-head {
-  display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; align-items: center; gap: 12px; width: 100%; padding: 14px 16px;
-  border: 0; border-radius: inherit; text-align: start; cursor: pointer; font: inherit; color: inherit; background: none;
-}
-.scl__task-head:focus-visible { outline: 2px solid var(--mi-p); outline-offset: -2px; }
-.scl__task-copy { display: grid; gap: 2px; min-width: 0; }
-.scl__task-title { font-size: 15px; font-weight: 600; letter-spacing: -.01em; }
-.scl__task-sub { font-size: 13px; line-height: 1.35; color: var(--mi-label2); }
-.scl__mins { padding: 3px 8px; border-radius: 999px; font-size: 12px; font-weight: 500; color: var(--mi-label2); background: var(--mi-fill4); font-variant-numeric: tabular-nums; white-space: nowrap; }
-.scl__chev { color: var(--mi-label3); transition: transform var(--mi-dur-3) var(--mi-spring); }
-.scl__task.is-open .scl__chev { transform: rotate(180deg); }
-
-/* Status circle: an empty dashed ring that fills and draws its check when finished. */
-.scl__state {
-  position: relative; display: grid; place-items: center; width: 22px; height: 22px; flex: none; border-radius: 50%;
-  color: var(--mi-p-on, var(--mi-card)); box-shadow: inset 0 0 0 1.5px var(--mi-fill);
-}
-.scl__state::before { content: ""; position: absolute; inset: 0; border-radius: 50%; background: var(--mi-p); opacity: 0; transform: scale(.3); transition: opacity var(--mi-dur-2) var(--mi-ease), transform 420ms var(--mi-spring); }
-.scl__state :deep(svg) { position: relative; opacity: 0; transform: scale(.4) rotate(-20deg); transition: opacity var(--mi-dur-2) var(--mi-ease) 80ms, transform 460ms var(--mi-spring) 80ms; }
-.scl__task.is-finishing .scl__state::before, .scl__state.is-done::before { opacity: 1; transform: scale(1); }
-.scl__task.is-finishing .scl__state :deep(svg), .scl__state.is-done :deep(svg) { opacity: 1; transform: none; }
-.scl__task.is-finishing .scl__task-title { color: var(--mi-label2); }
-
-.scl__panel { padding: 2px 16px 18px 50px; }
-.scl__action { display: grid; gap: 14px; }
-.scl__row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
-.scl__row--end { justify-content: flex-end; }
-.scl__theme-controls { display: grid; gap: 14px; }
-
-/* Theme preview tile */
-.scl__mini {
-  --bg: var(--mi-page); --fg: var(--mi-card); --ln: var(--mi-fill3);
-  display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 8px; height: 84px; padding: 8px; border-radius: 12px;
-  background: var(--bg); box-shadow: inset 0 0 0 1px var(--mi-sep);
-}
-/* The opposite appearance is built from the current one: label becomes the surface. */
-.scl__mini.is-inverse { --bg: var(--mi-label); --fg: color-mix(in srgb, var(--mi-label) 86%, var(--mi-page)); --ln: color-mix(in srgb, var(--mi-page) 22%, transparent); }
-.scl__mini-side, .scl__mini-main { display: grid; align-content: start; gap: 6px; padding: 8px; border-radius: 7px; background: var(--fg); }
-.scl__mini i { display: block; height: 5px; border-radius: 3px; background: var(--ln); }
-.scl__mini-side i:first-child { background: var(--scl-accent); }
-.scl__mini b { display: block; width: 46%; height: 7px; border-radius: 3px; background: var(--ln); }
-.scl__mini-main i:nth-of-type(2) { width: 70%; }
-.scl__mini em { justify-self: start; width: 52px; height: 14px; margin-top: 2px; border-radius: 5px; background: var(--scl-accent); }
-
-/* Completed group */
-.scl__done { display: grid; gap: 6px; margin-top: 6px; padding: 12px 16px; border-radius: var(--mi-radius-l); background: var(--mi-fill4); }
-.scl__done-title { margin: 0; text-transform: uppercase; letter-spacing: .06em; font-size: 11px; }
-.scl__done-list { position: relative; display: grid; gap: 2px; margin: 0; padding: 0; list-style: none; }
-.scl__done-row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 10px; padding: 5px 0; font-size: 14px; }
-.scl__done-row .scl__state { width: 18px; height: 18px; }
-.scl__done-name { color: var(--mi-label2); }
-.scl__done-note { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; color: var(--mi-label3); max-width: 160px; }
-
-/* Paused */
-.scl__paused { display: grid; place-items: center; min-height: 100%; padding: 24px 0; }
-.scl__paused-card {
-  display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 14px 16px; width: 100%; max-width: 520px; padding: 18px 20px;
-  border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: 0 0 0 1px var(--mi-sep), var(--mi-sh2);
-}
-.scl__paused-card > :last-child { grid-column: 1 / -1; justify-self: start; }
-.scl__paused-copy { display: grid; gap: 2px; }
-.scl__mini-count { font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; }
-
-/* Motion */
-.scl-panel-enter-active, .scl-panel-leave-active { transition: opacity var(--mi-dur-3) var(--mi-ease), transform var(--mi-dur-3) var(--mi-ease); }
-.scl-panel-enter-from, .scl-panel-leave-to { opacity: 0; transform: translateY(-6px); }
-.scl-row-enter-active, .scl-row-leave-active { transition: opacity var(--mi-dur-3) var(--mi-ease), transform var(--mi-dur-3) var(--mi-spring); }
-.scl-row-enter-from { opacity: 0; transform: translateY(-6px); }
-.scl-row-leave-to { opacity: 0; transform: translateY(10px) scale(.98); }
-.scl-row-leave-active { position: absolute; left: 0; right: 0; }
-.scl-row-move { transition: transform var(--mi-dur-3) var(--mi-spring); }
-
-@container (max-width: 459px) {
-  .scl__mins { display: none; }
-  .scl__panel { padding-left: 16px; }
-}
-@container (min-width: 560px) {
-  .scl__summary { grid-template-columns: auto minmax(0, 1fr); align-items: center; column-gap: 24px; padding: 24px 28px; }
-  .scl__cta { grid-column: 1 / -1; }
-  .scl__theme { grid-template-columns: minmax(0, 1fr) 200px; align-items: start; }
-  .scl__theme .scl__row--end { grid-column: 1 / -1; }
-  .scl__paused-card { grid-template-columns: auto minmax(0, 1fr) auto; }
-  .scl__paused-card > :last-child { grid-column: auto; }
-}
-@container (min-width: 900px) {
-  .scl__in { grid-template-columns: 300px minmax(0, 1fr); gap: 32px; align-items: start; }
-  .scl__summary { grid-template-columns: minmax(0, 1fr); padding: 28px; gap: 22px; }
-  .scl__cta { display: grid; justify-items: start; }
-}
-@container (min-width: 1100px) { .scl__in { grid-template-columns: 340px minmax(0, 1fr); gap: 48px; } }
-</style>

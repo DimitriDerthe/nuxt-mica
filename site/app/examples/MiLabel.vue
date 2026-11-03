@@ -11,12 +11,8 @@ defineProps<{ p: Record<string, unknown> }>()
 </script>
 
 <template>
-  <div class="ex">
+  <div class="ex mi:grid mi:gap-2 mi:w-[min(100%,_300px)]">
     <MiLabel v-bind="p">Email address</MiLabel>
     <MiInput id="ex-email" type="email" placeholder="you@company.com" :disabled="Boolean(p.disabled)" />
   </div>
 </template>
-
-<style scoped>
-.ex { display: grid; gap: 8px; width: min(100%, 300px); }
-</style>

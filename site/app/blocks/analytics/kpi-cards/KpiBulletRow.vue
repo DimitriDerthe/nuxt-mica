@@ -1,56 +1,56 @@
 <template>
-  <section class="kbr" aria-labelledby="kbr-title">
-    <div class="kbr__card">
-      <header class="kbr__head">
-        <div class="kbr__intro">
+  <section class="mi:@container mi:font-mi mi:text-label" aria-labelledby="kbr-title">
+    <div class="mi:grid mi:rounded-xl mi:bg-card mi:shadow-1 mi:overflow-hidden">
+      <header class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-3 mi:gap-x-5 mi:pt-4 mi:px-4.5 mi:pb-3.5">
+        <div class="mi:grid mi:gap-1">
           <MiText id="kbr-title" variant="headline" as="h2" weight="semibold">Operating metrics</MiText>
-          <p class="kbr__score" aria-live="polite">
-            <span class="kbr__pips" aria-hidden="true">
-              <i v-for="c in cells" :key="c.id" :class="c.hit ? 'is-hit' : 'is-miss'" />
+          <p class="mi:flex mi:items-center mi:gap-2 mi:m-0 mi:text-[12px] mi:text-label2 mi:tabular-nums" aria-live="polite">
+            <span class="mi:inline-flex mi:gap-[3px]" aria-hidden="true">
+              <i class="mi:w-1.5 mi:h-1.5 mi:rounded-[50%] mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)] mi:motion-reduce:[transition:none]" v-for="c in cells" :key="c.id" :class="c.hit ? 'mi:bg-p' : 'mi:bg-fill'" />
             </span>
-            <span><b>{{ hits }} of {{ cells.length }}</b> on target · {{ d.label }}</span>
+            <span><b class="mi:font-650 mi:text-label">{{ hits }} of {{ cells.length }}</b> on target · {{ d.label }}</span>
           </p>
         </div>
         <MiSegmented v-model="period" label="Period" :options="periods" />
       </header>
 
-      <ul class="kbr__row">
-        <li v-for="c in cells" :key="c.id" class="kbr__cell">
-          <div class="kbr__line1">
+      <ul class="mi:grid mi:gap-px mi:m-0 mi:p-0 mi:[list-style:none] mi:grid-cols-2 mi:bg-sep mi:border-t mi:border-t-sep mi:border-b mi:border-b-sep mi:@[620px]:grid-cols-3 mi:@[1040px]:grid-cols-6">
+        <li v-for="c in cells" :key="c.id" class="mi:grid mi:gap-2 mi:content-start mi:min-w-0 mi:pt-3.5 mi:px-4 mi:pb-3 mi:bg-card">
+          <div class="mi:flex mi:items-center mi:justify-between mi:gap-1.5 mi:min-w-0">
             <MiText variant="caption" weight="medium" tone="label2" as="h3" :lines="1">{{ c.label }}</MiText>
-            <span v-if="c.better === 'down'" class="kbr__dir" title="Lower is better">↓ better</span>
+            <span v-if="c.better === 'down'" class="mi:flex-[none] mi:text-[10px] mi:font-semibold mi:tracking-[.02em] mi:text-label3" title="Lower is better">↓ better</span>
           </div>
-          <div class="kbr__line2">
-            <span class="kbr__value">{{ c.value }}</span>
-            <span class="kbr__chip" :class="`is-${c.tone}`" :aria-label="`${c.deltaText} versus previous ${d.unit}`">
+          <div class="mi:flex mi:flex-wrap mi:items-baseline mi:justify-between mi:gap-y-1 mi:gap-x-2">
+            <span class="mi:text-[22px] mi:leading-[1.05] mi:font-bold mi:tracking-[-.03em] mi:tabular-nums mi:whitespace-nowrap">{{ c.value }}</span>
+            <span class="mi:inline-flex mi:items-center mi:gap-0.5 mi:py-0.5 mi:px-1.5 mi:rounded-[6px] mi:text-[11px] mi:font-650 mi:leading-[15px] mi:tabular-nums mi:whitespace-nowrap" :class="c.tone === 'good' ? 'mi:text-green-t mi:bg-green/14' : c.tone === 'bad' ? 'mi:text-red-t mi:bg-red/13' : 'mi:text-label2 mi:bg-fill3'" :aria-label="`${c.deltaText} versus previous ${d.unit}`">
               <MiIcon v-if="c.tone !== 'flat'" :name="c.up ? 'arrow-up' : 'arrow-down'" :size="10" :weight="2.6" />{{ c.deltaText }}
             </span>
           </div>
 
           <!-- Bullet: qualitative ranges, actual bar, target tick, last-period ring. -->
           <div
-            class="kbr__bullet" role="meter" :aria-label="c.label" :aria-valuenow="c.actual" :aria-valuemin="0" :aria-valuemax="c.max"
+            class="mi:relative mi:h-4.5 mi:mt-1 mi:overflow-x-clip" role="meter" :aria-label="c.label" :aria-valuenow="c.actual" :aria-valuemin="0" :aria-valuemax="c.max"
             :aria-valuetext="`${c.value}, target ${c.targetText}, ${c.hit ? 'on target' : 'below target'}`"
           >
-            <span class="kbr__zones" aria-hidden="true">
-              <i v-for="(z, zi) in c.zones" :key="zi" :class="`is-${z.shade}`" :style="{ flexGrow: z.size }" />
+            <span class="mi:absolute mi:inset-y-0.5 mi:inset-x-0 mi:flex mi:rounded-[3px] mi:overflow-hidden" aria-hidden="true">
+              <i class="mi:basis-0" v-for="(z, zi) in c.zones" :key="zi" :class="z.shade === 'poor' ? 'mi:bg-fill' : z.shade === 'fair' ? 'mi:bg-fill3' : 'mi:bg-fill4'" :style="{ flexGrow: z.size }" />
             </span>
-            <span class="kbr__bar" :class="{ 'is-miss': !c.hit }" :style="{ transform: `scaleX(${c.actual / c.max})` }" />
-            <span class="kbr__mover" :style="{ transform: `translateX(${(c.previous / c.max) * 100}%)` }"><i class="kbr__prev" /></span>
-            <span class="kbr__mover" :style="{ transform: `translateX(${(c.target / c.max) * 100}%)` }"><i class="kbr__tick" /></span>
+            <span class="mi:absolute mi:left-0 mi:right-0 mi:top-1.5 mi:h-1.5 mi:rounded-[0_2px_2px_0] mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)] mi:motion-reduce:[transition:none]" :class="c.hit ? 'mi:bg-p' : 'mi:[background:color-mix(in_srgb,_var(--mi-p)_55%,_var(--mi-label2))]'" :style="{ transform: `scaleX(${c.actual / c.max})` }" />
+            <span class="mi:absolute mi:inset-0 mi:pointer-events-none mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)] mi:motion-reduce:[transition:none]" :style="{ transform: `translateX(${(c.previous / c.max) * 100}%)` }"><i class="mi:absolute mi:-left-1 mi:top-[5px] mi:w-2 mi:h-2 mi:rounded-[50%] mi:border-[1.5px] mi:border-label2 mi:bg-card mi:box-border" /></span>
+            <span class="mi:absolute mi:inset-0 mi:pointer-events-none mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)] mi:motion-reduce:[transition:none]" :style="{ transform: `translateX(${(c.target / c.max) * 100}%)` }"><i class="mi:absolute mi:-left-px mi:top-0 mi:w-0.5 mi:h-4.5 mi:rounded-[1px] mi:bg-label" /></span>
           </div>
-          <div class="kbr__foot">
-            <span>Target {{ c.targetText }}</span>
+          <div class="mi:flex mi:justify-between mi:gap-2 mi:text-[11px] mi:text-label3 mi:tabular-nums mi:whitespace-nowrap">
+            <span class="mi:text-label2">Target {{ c.targetText }}</span>
             <span>was {{ c.prevText }}</span>
           </div>
         </li>
       </ul>
 
-      <footer class="kbr__key" aria-hidden="true">
-        <span><i class="kbr__k-bar" />Actual</span>
-        <span><i class="kbr__k-tick" />Target</span>
-        <span><i class="kbr__k-prev" />Previous {{ d.unit }}</span>
-        <span><i class="kbr__k-zones"><b /><b /><b /></i>Poor · fair · good</span>
+      <footer class="mi:flex mi:flex-wrap mi:gap-y-1.5 mi:gap-x-4.5 mi:pt-2.5 mi:px-4.5 mi:pb-3 mi:text-[11px] mi:text-label2" aria-hidden="true">
+        <span class="mi:inline-flex mi:items-center mi:gap-1.5"><i class="mi:w-3.5 mi:h-[5px] mi:rounded-[1px] mi:bg-p" />Actual</span>
+        <span class="mi:inline-flex mi:items-center mi:gap-1.5"><i class="mi:w-0.5 mi:h-3 mi:rounded-[1px] mi:bg-label" />Target</span>
+        <span class="mi:inline-flex mi:items-center mi:gap-1.5"><i class="mi:w-2 mi:h-2 mi:rounded-[50%] mi:border-[1.5px] mi:border-label2 mi:box-border" />Previous {{ d.unit }}</span>
+        <span class="mi:inline-flex mi:items-center mi:gap-1.5"><i class="mi:inline-flex mi:h-2 mi:rounded-[2px] mi:overflow-hidden"><b class="mi:w-[7px] mi:[&:nth-child(1)]:bg-fill mi:[&:nth-child(2)]:bg-fill3 mi:[&:nth-child(3)]:bg-fill4" /><b class="mi:w-[7px] mi:[&:nth-child(1)]:bg-fill mi:[&:nth-child(2)]:bg-fill3 mi:[&:nth-child(3)]:bg-fill4" /><b class="mi:w-[7px] mi:[&:nth-child(1)]:bg-fill mi:[&:nth-child(2)]:bg-fill3 mi:[&:nth-child(3)]:bg-fill4" /></i>Poor · fair · good</span>
       </footer>
     </div>
   </section>
@@ -128,63 +128,3 @@ const cells = computed(() => defs.map((def, i) => {
 }))
 const hits = computed(() => cells.value.filter(c => c.hit).length)
 </script>
-
-<style scoped>
-.kbr { container-type: inline-size; font-family: var(--mi-font); color: var(--mi-label); }
-.kbr__card { display: grid; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); overflow: hidden; }
-.kbr__head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; padding: 16px 18px 14px; }
-.kbr__intro { display: grid; gap: 4px; }
-.kbr__score { display: flex; align-items: center; gap: 8px; margin: 0; font-size: 12px; color: var(--mi-label2); font-variant-numeric: tabular-nums; }
-.kbr__score b { font-weight: 650; color: var(--mi-label); }
-.kbr__pips { display: inline-flex; gap: 3px; }
-.kbr__pips i { width: 6px; height: 6px; border-radius: 50%; transition: opacity var(--mi-dur-2) var(--mi-ease); }
-.kbr__pips .is-hit { background: var(--mi-p); }
-.kbr__pips .is-miss { background: var(--mi-fill); }
-
-.kbr__row {
-  display: grid; gap: 1px; margin: 0; padding: 0; list-style: none; grid-template-columns: repeat(2, minmax(0, 1fr));
-  background: var(--mi-sep); border-top: 1px solid var(--mi-sep); border-bottom: 1px solid var(--mi-sep);
-}
-@container (min-width: 620px) { .kbr__row { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-@container (min-width: 1040px) { .kbr__row { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
-
-.kbr__cell { display: grid; gap: 8px; align-content: start; min-width: 0; padding: 14px 16px 12px; background: var(--mi-card); }
-.kbr__line1 { display: flex; align-items: center; justify-content: space-between; gap: 6px; min-width: 0; }
-.kbr__dir { flex: none; font-size: 10px; font-weight: 600; letter-spacing: .02em; color: var(--mi-label3); }
-.kbr__line2 { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 8px; }
-.kbr__value { font-size: 22px; line-height: 1.05; font-weight: 700; letter-spacing: -.03em; font-variant-numeric: tabular-nums; white-space: nowrap; }
-.kbr__chip {
-  display: inline-flex; align-items: center; gap: 2px; padding: 2px 6px; border-radius: 6px; font-size: 11px; font-weight: 650;
-  line-height: 15px; font-variant-numeric: tabular-nums; white-space: nowrap;
-}
-.kbr__chip.is-good { color: var(--mi-green-t); background: color-mix(in srgb, var(--mi-green) 14%, transparent); }
-.kbr__chip.is-bad { color: var(--mi-red-t); background: color-mix(in srgb, var(--mi-red) 13%, transparent); }
-.kbr__chip.is-flat { color: var(--mi-label2); background: var(--mi-fill3); }
-
-.kbr__bullet { position: relative; height: 18px; margin-top: 4px; overflow-x: clip; }
-.kbr__zones { position: absolute; inset: 2px 0; display: flex; border-radius: 3px; overflow: hidden; }
-.kbr__zones i { flex-basis: 0; }
-.kbr__zones .is-poor, .kbr__k-zones b:nth-child(1) { background: var(--mi-fill); }
-.kbr__zones .is-fair, .kbr__k-zones b:nth-child(2) { background: var(--mi-fill3); }
-.kbr__zones .is-good, .kbr__k-zones b:nth-child(3) { background: var(--mi-fill4); }
-.kbr__bar {
-  position: absolute; left: 0; right: 0; top: 6px; height: 6px; border-radius: 0 2px 2px 0; background: var(--mi-p);
-  transform-origin: left; transition: transform var(--mi-dur-4) var(--mi-spring);
-}
-.kbr__bar.is-miss { background: color-mix(in srgb, var(--mi-p) 55%, var(--mi-label2)); }
-.kbr__mover { position: absolute; inset: 0; pointer-events: none; transition: transform var(--mi-dur-4) var(--mi-spring); }
-.kbr__tick { position: absolute; left: -1px; top: 0; width: 2px; height: 18px; border-radius: 1px; background: var(--mi-label); }
-.kbr__prev { position: absolute; left: -4px; top: 5px; width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid var(--mi-label2); background: var(--mi-card); box-sizing: border-box; }
-.kbr__foot { display: flex; justify-content: space-between; gap: 8px; font-size: 11px; color: var(--mi-label3); font-variant-numeric: tabular-nums; white-space: nowrap; }
-.kbr__foot span:first-child { color: var(--mi-label2); }
-
-.kbr__key { display: flex; flex-wrap: wrap; gap: 6px 18px; padding: 10px 18px 12px; font-size: 11px; color: var(--mi-label2); }
-.kbr__key > span { display: inline-flex; align-items: center; gap: 6px; }
-.kbr__k-bar { width: 14px; height: 5px; border-radius: 1px; background: var(--mi-p); }
-.kbr__k-tick { width: 2px; height: 12px; border-radius: 1px; background: var(--mi-label); }
-.kbr__k-prev { width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid var(--mi-label2); box-sizing: border-box; }
-.kbr__k-zones { display: inline-flex; height: 8px; border-radius: 2px; overflow: hidden; }
-.kbr__k-zones b { width: 7px; }
-
-@media (prefers-reduced-motion: reduce) { .kbr__bar, .kbr__mover, .kbr__pips i { transition: none; } }
-</style>

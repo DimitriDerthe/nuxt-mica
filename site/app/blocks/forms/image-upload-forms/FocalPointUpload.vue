@@ -1,6 +1,6 @@
 <template>
-  <section class="fp" aria-labelledby="fp-title">
-    <header class="fp__head">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-4.5 mi:font-mi mi:text-label" aria-labelledby="fp-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-start] mi:justify-between mi:gap-3">
       <div>
         <MiText id="fp-title" variant="title3" as="h2" weight="semibold">Event cover</MiText>
         <MiText variant="footnote" tone="label2">Lisbon Product Summit · shown on the ticket page, feed and invites</MiText>
@@ -8,28 +8,28 @@
       <MiBadge :tone="saved ? 'success' : 'neutral'" :label="saved ? 'Saved' : 'Draft'" dot />
     </header>
 
-    <div class="fp__grid">
+    <div class="mi:grid mi:gap-4.5 mi:grid-cols-[minmax(0,_1fr)] mi:@[780px]:grid-cols-[minmax(0,_1.45fr)_minmax(0,_1fr)] mi:@[780px]:items-start">
       <!-- Stage: the full image with the focal point and the outline of the selected crop. -->
-      <div class="fp__main">
+      <div class="mi:grid mi:gap-3 mi:min-w-0">
         <div
-          class="fp__stage" :style="{ aspectRatio: String(ratio) }" tabindex="0" role="group"
+          class="mi:relative mi:w-full mi:max-h-130 mi:rounded-xl mi:overflow-hidden mi:isolate mi:[background:var(--mi-fill3)] mi:shadow-1 mi:cursor-crosshair mi:touch-none mi:select-none mi:focus-visible:[outline:3px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[3px]" :style="{ aspectRatio: String(ratio) }" tabindex="0" role="group"
           aria-label="Focal point. Click the image or use the arrow keys to move it." aria-describedby="fp-pos"
           @keydown="nudge"
         >
-          <img v-if="url" :src="url" alt="" class="fp__img" @load="measure">
-          <div v-else class="fp__img fp__art" />
+          <img v-if="url" :src="url" alt="" class="mi:block mi:w-full mi:h-full mi:object-fill mi:pointer-events-none mi:[-webkit-user-drag:none] mi:absolute mi:inset-0" @load="measure">
+          <div v-else class="mi:block mi:w-full mi:h-full mi:object-fill mi:pointer-events-none mi:[-webkit-user-drag:none] mi:absolute mi:inset-0 mi:[background:radial-gradient(circle_at_63%_42%,_var(--mi-yellow)_0_5.5%,_transparent_6%),_radial-gradient(circle_at_63%_42%,_color-mix(in_srgb,_var(--mi-yellow)_35%,_transparent)_0_11%,_transparent_18%),_radial-gradient(110%_55%_at_18%_104%,_var(--mi-p)_0_52%,_transparent_52.5%),_radial-gradient(120%_60%_at_92%_112%,_var(--mi-s)_0_52%,_transparent_52.5%),_linear-gradient(180deg,_color-mix(in_srgb,_var(--mi-indigo)_45%,_var(--mi-card))_0%,_color-mix(in_srgb,_var(--mi-orange)_55%,_var(--mi-card))_78%)]" />
           <span
-            class="fp__crop" aria-hidden="true"
+            class="mi:absolute mi:top-0 mi:left-0 mi:z-1 mi:pointer-events-none mi:rounded-[6px] mi:shadow-[inset_0_0_0_2px_var(--mi-p-on),_0_0_0_999px_color-mix(in_srgb,_var(--mi-page)_46%,_transparent)] mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring)]" aria-hidden="true"
             :style="{ width: frame(active).w * 100 + '%', height: frame(active).h * 100 + '%', transform: frame(active).t }"
           />
-          <div class="fp__hits" aria-hidden="true">
+          <div class="mi:absolute mi:inset-0 mi:z-2 mi:grid mi:grid-cols-[repeat(10,_1fr)] mi:grid-rows-[repeat(6,_1fr)]" aria-hidden="true">
             <span v-for="n in COLS * ROWS" :key="n" @pointerdown="pick(n - 1)" @pointerenter="drag && pick(n - 1)" />
           </div>
-          <span class="fp__focus-layer" aria-hidden="true" :style="{ transform: `translate(${focus.x}%, ${focus.y}%)` }">
-            <span class="fp__dot" />
+          <span class="mi:absolute mi:inset-0 mi:z-3 mi:pointer-events-none mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring)]" aria-hidden="true" :style="{ transform: `translate(${focus.x}%, ${focus.y}%)` }">
+            <span class="mi:absolute mi:-top-3.5 mi:-left-3.5 mi:w-7 mi:h-7 mi:rounded-[50%] mi:border-2 mi:border-p-on mi:[background:color-mix(in_srgb,_var(--mi-p)_55%,_transparent)] mi:shadow-2 mi:after:content-[''] mi:after:absolute mi:after:inset-[9px] mi:after:rounded-[50%] mi:after:[background:var(--mi-p-on)]" />
           </span>
         </div>
-        <p id="fp-pos" class="fp__sr" aria-live="polite">Focal point at {{ Math.round(focus.x) }}% across, {{ Math.round(focus.y) }}% down</p>
+        <p id="fp-pos" class="mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap" aria-live="polite">Focal point at {{ Math.round(focus.x) }}% across, {{ Math.round(focus.y) }}% down</p>
 
         <MiFileUpload
           v-model="files" accept="image/png,image/jpeg,image/webp" :max-size="8 * 1024 * 1024"
@@ -39,18 +39,18 @@
         <MiText v-if="rejectMsg" variant="footnote" tone="red" role="alert">{{ rejectMsg }}</MiText>
       </div>
 
-      <aside class="fp__side" aria-label="Crop previews and details">
-        <div class="fp__side-head">
+      <aside class="mi:@container mi:grid mi:gap-4 mi:p-4.5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:min-w-0" aria-label="Crop previews and details">
+        <div class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2.5">
           <MiText variant="subheadline" weight="semibold" as="h3">Where it appears</MiText>
           <MiSegmented v-model="activeKey" label="Outline crop" :options="crops.map(c => ({ value: c.id, label: c.short }))" />
         </div>
 
-        <ul class="fp__previews">
-          <li v-for="c in crops" :key="c.id" :class="{ 'is-active': c.id === active.id }">
-            <button type="button" class="fp__thumb" :style="{ aspectRatio: String(c.ar) }" :aria-label="'Show the ' + c.label + ' crop'" @click="activeKey = c.id">
-              <span class="fp__inner" :style="{ width: 100 / frame(c).w + '%', height: 100 / frame(c).h + '%', transform: frame(c).shift }">
-                <img v-if="url" :src="url" alt="" class="fp__img">
-                <span v-else class="fp__img fp__art" />
+        <ul class="mi:flex mi:[align-items:flex-end] mi:gap-3.5 mi:m-0 mi:p-0 mi:[list-style:none]">
+          <li v-for="c in crops" :key="c.id" class="mi:grid mi:gap-0.5 mi:min-w-0">
+            <button type="button" class="mi:h-[clamp(56px,_18cqi,_96px)] mi:p-0 mi:[border:0] mi:rounded-[10px] mi:overflow-hidden mi:cursor-pointer mi:[background:var(--mi-fill3)] mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:hover:transform-[translateY(-2px)] mi:focus-visible:[outline:3px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" :class="c.id === active.id ? 'mi:shadow-[0_0_0_2px_var(--mi-p)]' : 'mi:shadow-[0_0_0_1px_var(--mi-sep)]'" :style="{ aspectRatio: String(c.ar) }" :aria-label="'Show the ' + c.label + ' crop'" @click="activeKey = c.id">
+              <span class="mi:block mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring)]" :style="{ width: 100 / frame(c).w + '%', height: 100 / frame(c).h + '%', transform: frame(c).shift }">
+                <img v-if="url" :src="url" alt="" class="mi:block mi:w-full mi:h-full mi:object-fill mi:pointer-events-none mi:[-webkit-user-drag:none]">
+                <span v-else class="mi:block mi:w-full mi:h-full mi:object-fill mi:pointer-events-none mi:[-webkit-user-drag:none] mi:[background:radial-gradient(circle_at_63%_42%,_var(--mi-yellow)_0_5.5%,_transparent_6%),_radial-gradient(circle_at_63%_42%,_color-mix(in_srgb,_var(--mi-yellow)_35%,_transparent)_0_11%,_transparent_18%),_radial-gradient(110%_55%_at_18%_104%,_var(--mi-p)_0_52%,_transparent_52.5%),_radial-gradient(120%_60%_at_92%_112%,_var(--mi-s)_0_52%,_transparent_52.5%),_linear-gradient(180deg,_color-mix(in_srgb,_var(--mi-indigo)_45%,_var(--mi-card))_0%,_color-mix(in_srgb,_var(--mi-orange)_55%,_var(--mi-card))_78%)]" />
               </span>
             </button>
             <MiText variant="caption" weight="medium">{{ c.label }}</MiText>
@@ -58,23 +58,23 @@
           </li>
         </ul>
 
-        <dl class="fp__facts">
-          <div><dt>File</dt><dd>{{ file ? file.name : 'summit-dusk-default.svg' }}</dd></div>
-          <div><dt>Size</dt><dd>{{ file ? fmtSize(file.size) : 'Vector' }}</dd></div>
-          <div>
-            <dt>Pixels</dt>
-            <dd>
+        <dl class="mi:grid mi:gap-2 mi:m-0 mi:py-3 mi:px-0 mi:[border-block:1px_solid_var(--mi-sep)] mi:text-[13px]">
+          <div class="mi:flex mi:justify-between mi:gap-3"><dt class="mi:text-label2">File</dt><dd class="mi:flex mi:items-center mi:gap-1.5 mi:m-0 mi:min-w-0 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:tabular-nums">{{ file ? file.name : 'summit-dusk-default.svg' }}</dd></div>
+          <div class="mi:flex mi:justify-between mi:gap-3"><dt class="mi:text-label2">Size</dt><dd class="mi:flex mi:items-center mi:gap-1.5 mi:m-0 mi:min-w-0 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:tabular-nums">{{ file ? fmtSize(file.size) : 'Vector' }}</dd></div>
+          <div class="mi:flex mi:justify-between mi:gap-3">
+            <dt class="mi:text-label2">Pixels</dt>
+            <dd class="mi:flex mi:items-center mi:gap-1.5 mi:m-0 mi:min-w-0 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:tabular-nums">
               {{ dims ? dims.w + ' × ' + dims.h : '2400 × 1600' }}
               <MiBadge v-if="dims && dims.w < 1600" tone="warning" label="Low for header" />
             </dd>
           </div>
         </dl>
 
-        <form class="fp__form" novalidate @submit.prevent="save">
+        <form class="mi:grid mi:gap-3" novalidate @submit.prevent="save">
           <MiField label="Alt text" required :error="altError" :hint="alt.length + ' / 125 · describe the scene, not the file'">
             <MiInput v-model="alt" maxlength="125" placeholder="Sunset over the Tagus with the bridge in silhouette" />
           </MiField>
-          <div class="fp__actions">
+          <div class="mi:flex mi:[justify-content:flex-end] mi:gap-2 mi:flex-wrap">
             <MiButton variant="plain" @click="reset">Reset focus</MiButton>
             <MiButton type="submit">Save cover</MiButton>
           </div>
@@ -182,61 +182,3 @@ function fmtSize(b: number) {
 }
 </script>
 
-<style scoped>
-.fp { container-type: inline-size; display: grid; align-content: start; gap: 18px; font-family: var(--mi-font); color: var(--mi-label); }
-.fp__head { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 12px; }
-.fp__grid { display: grid; gap: 18px; grid-template-columns: minmax(0, 1fr); }
-@container (min-width: 780px) { .fp__grid { grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); align-items: start; } }
-
-.fp__main { display: grid; gap: 12px; min-width: 0; }
-.fp__stage {
-  position: relative; width: 100%; max-height: 520px; border-radius: var(--mi-radius-xl); overflow: hidden; isolation: isolate;
-  background: var(--mi-fill3); box-shadow: var(--mi-sh1); cursor: crosshair; touch-action: none; user-select: none;
-}
-.fp__stage:focus-visible { outline: 3px solid var(--mi-p); outline-offset: 3px; }
-.fp__img { display: block; width: 100%; height: 100%; object-fit: fill; pointer-events: none; -webkit-user-drag: none; }
-.fp__stage > .fp__img { position: absolute; inset: 0; }
-/* Default artwork: dusk over two hills, built from brand and system tokens. */
-.fp__art {
-  background:
-    radial-gradient(circle at 63% 42%, var(--mi-yellow) 0 5.5%, transparent 6%),
-    radial-gradient(circle at 63% 42%, color-mix(in srgb, var(--mi-yellow) 35%, transparent) 0 11%, transparent 18%),
-    radial-gradient(110% 55% at 18% 104%, var(--mi-p) 0 52%, transparent 52.5%),
-    radial-gradient(120% 60% at 92% 112%, var(--mi-s) 0 52%, transparent 52.5%),
-    linear-gradient(180deg, color-mix(in srgb, var(--mi-indigo) 45%, var(--mi-card)) 0%, color-mix(in srgb, var(--mi-orange) 55%, var(--mi-card)) 78%);
-}
-.fp__crop {
-  position: absolute; top: 0; left: 0; z-index: 1; pointer-events: none; border-radius: 6px;
-  /* Inset outline: the crop often spans the whole stage width, where an outer ring would be clipped. */
-  box-shadow: inset 0 0 0 2px var(--mi-p-on), 0 0 0 999px color-mix(in srgb, var(--mi-page) 46%, transparent);
-  transition: transform var(--mi-dur-3) var(--mi-spring);
-}
-.fp__hits { position: absolute; inset: 0; z-index: 2; display: grid; grid-template-columns: repeat(10, 1fr); grid-template-rows: repeat(6, 1fr); }
-.fp__focus-layer { position: absolute; inset: 0; z-index: 3; pointer-events: none; transition: transform var(--mi-dur-3) var(--mi-spring); }
-.fp__dot {
-  position: absolute; top: -14px; left: -14px; width: 28px; height: 28px; border-radius: 50%;
-  border: 2px solid var(--mi-p-on); background: color-mix(in srgb, var(--mi-p) 55%, transparent); box-shadow: var(--mi-sh2);
-}
-.fp__dot::after { content: ""; position: absolute; inset: 9px; border-radius: 50%; background: var(--mi-p-on); }
-.fp__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-
-.fp__side { container-type: inline-size; display: grid; gap: 16px; padding: 18px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); min-width: 0; }
-.fp__side-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
-.fp__previews { display: flex; align-items: flex-end; gap: 14px; margin: 0; padding: 0; list-style: none; }
-.fp__previews li { display: grid; gap: 2px; min-width: 0; }
-.fp__thumb {
-  height: clamp(56px, 18cqi, 96px); padding: 0; border: 0; border-radius: 10px; overflow: hidden; cursor: pointer; background: var(--mi-fill3);
-  box-shadow: 0 0 0 1px var(--mi-sep); transition: transform var(--mi-dur-2) var(--mi-ease);
-}
-.fp__thumb:hover { transform: translateY(-2px); }
-.fp__thumb:focus-visible { outline: 3px solid var(--mi-p); outline-offset: 2px; }
-.is-active .fp__thumb { box-shadow: 0 0 0 2px var(--mi-p); }
-.fp__inner { display: block; transition: transform var(--mi-dur-3) var(--mi-spring); }
-
-.fp__facts { display: grid; gap: 8px; margin: 0; padding: 12px 0; border-block: 1px solid var(--mi-sep); font-size: 13px; }
-.fp__facts div { display: flex; justify-content: space-between; gap: 12px; }
-.fp__facts dt { color: var(--mi-label2); }
-.fp__facts dd { display: flex; align-items: center; gap: 6px; margin: 0; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-variant-numeric: tabular-nums; }
-.fp__form { display: grid; gap: 12px; }
-.fp__actions { display: flex; justify-content: flex-end; gap: 8px; flex-wrap: wrap; }
-</style>

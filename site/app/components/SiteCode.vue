@@ -1,13 +1,13 @@
 <template>
   <div class="code">
-    <div class="code__bar">
-      <span class="code__file">{{ file }}</span>
+    <div class="code__bar mi:flex mi:items-center mi:justify-between mi:h-9 mi:pt-0 mi:pr-1 mi:pb-0 mi:pl-3.5 mi:border-b mi:border-b-sep">
+      <span class="code__file mi:[font:500_12px/1_ui-monospace,_'SF_Mono',_Menlo,_monospace] mi:text-label3">{{ file }}</span>
       <MiIconButton size="small" variant="plain" :label="copyLabel" class="code__copy" @click="copy">
         <MiIcon :name="done ? 'check' : 'copy'" :size="15" />
       </MiIconButton>
     </div>
     <!-- eslint-disable-next-line vue/no-v-html -- static, escaped snippets authored in this site -->
-    <pre class="code__pre"><code v-html="html" /></pre>
+    <pre class="code__pre mi:m-0 mi:pt-3.5 mi:px-4 mi:pb-4 mi:overflow-x-auto mi:[font:13px/1.65_ui-monospace,_'SF_Mono',_Menlo,_monospace] mi:text-label"><code v-html="html" /></pre>
   </div>
 </template>
 
@@ -43,9 +43,6 @@ onBeforeUnmount(() => clearTimeout(timer))
 
 <style scoped>
 .code { border-radius: 14px; background: var(--mi-card); box-shadow: 0 0 0 1px var(--mi-sep); overflow: hidden; min-width: 0; }
-.code__bar { display: flex; align-items: center; justify-content: space-between; height: 36px; padding: 0 4px 0 14px; border-bottom: 1px solid var(--mi-sep); }
-.code__file { font: 500 12px/1 ui-monospace, "SF Mono", Menlo, monospace; color: var(--mi-label3); }
-.code__pre { margin: 0; padding: 14px 16px 16px; overflow-x: auto; font: 13px/1.65 ui-monospace, "SF Mono", Menlo, monospace; color: var(--mi-label); }
 .code__pre :deep(.k) { color: var(--mi-p-text); }
 .code__pre :deep(.s) { color: var(--mi-s-text); }
 .code__pre :deep(.c) { color: var(--mi-label3); }

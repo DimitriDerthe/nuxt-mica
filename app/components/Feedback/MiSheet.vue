@@ -193,19 +193,19 @@ defineSlots<{
   <Teleport to="body" :disabled="inline">
     <div
       v-if="inline || rendered"
-      class="mi mi-sh-root"
+      class="mi mi-sh-root mi:fixed mi:inset-0 mi:font-mi mi:[&.is-modeless]:pointer-events-none mi:[&.is-inline]:static mi:[&.is-inline]:inset-auto"
       :class="{ 'is-inline': inline, 'is-modeless': !modal }"
       :style="inline ? undefined : { zIndex: MI_OVERLAY_Z.dialog, '--mi-sh-max': maxD, '--mi-sh-y': yPct(index) }"
     >
       <Transition v-if="!inline && modal" name="mi-sh-fade" appear>
-        <div v-if="open" class="mi-sh-scrim" aria-hidden="true" @pointerdown="onScrimDown" @click="onScrimClick" />
+        <div v-if="open" class="mi-sh-scrim mi:absolute mi:inset-0 mi:bg-scrim" aria-hidden="true" @pointerdown="onScrimDown" @click="onScrimClick" />
       </Transition>
       <Transition name="mi-sh-slide" :appear="!inline" @after-leave="afterLeave">
-        <div v-if="inline || open" class="mi-sh-wrap">
+        <div v-if="inline || open" class="mi-sh-wrap mi:absolute mi:left-0 mi:right-0 mi:bottom-0 mi:h-[calc(var(--mi-sh-max,1)_*_100dvh)] mi:flex mi:justify-center mi:pointer-events-none mi:[.is-inline_&]:static mi:[.is-inline_&]:h-auto mi:[.is-inline_&]:block">
           <div
             ref="panel"
             v-bind="$attrs"
-            class="mi-sh"
+            class="mi-sh mi:relative mi:h-full mi:pointer-events-auto mi:[outline:none] mi:tracking-[-.01em] mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)] mi:[.is-inline_&]:h-auto mi:[&.is-dragging]:will-change-transform"
             :class="{ 'is-dragging': dragging }"
             role="dialog"
             :aria-modal="!inline && modal ? 'true' : undefined"
@@ -213,28 +213,28 @@ defineSlots<{
             :aria-label="title ? undefined : (label ?? 'Sheet')"
             tabindex="-1"
           >
-            <div ref="sheetEl" class="mi-sh-card">
-              <div class="mi-sh-head" :class="{ 'is-draggable': !inline && dismissible }" @pointerdown="onDragStart" @pointermove="onDragMove" @pointerup="onDragEnd" @pointercancel="onDragEnd">
-                <button v-if="cycles && grabber" type="button" class="mi-sh-grab" data-grab aria-label="Change sheet size" @click="onGrabClick" @keydown="onGrabKey">
-                  <span class="mi-sh-bar" />
+            <div ref="sheetEl" class="mi-sh-card mi:h-full mi:flex mi:flex-col mi:bg-elev mi:rounded-[22px_22px_0_0] mi:shadow-3 mi:overflow-hidden mi:transform-[translate3d(0,var(--mi-sh-drag,0px),0)] mi:[.is-inline_&]:h-auto mi:[.is-inline_&]:rounded-[22px] mi:[.is-inline_&]:transform-none">
+              <div class="mi-sh-head mi:flex-[none] mi:touch-none mi:[&.is-draggable]:cursor-grab mi:[&.is-draggable:active]:cursor-grabbing" :class="{ 'is-draggable': !inline && dismissible }" @pointerdown="onDragStart" @pointermove="onDragMove" @pointerup="onDragEnd" @pointercancel="onDragEnd">
+                <button v-if="cycles && grabber" type="button" class="mi-sh-grab mi:appearance-none mi:flex mi:justify-center mi:w-full mi:h-[17px] mi:m-0 mi:pt-1.5 mi:px-0 mi:pb-0 mi:[border:0] mi:bg-transparent mi:cursor-[inherit] mi:[&.is-static]:pointer-events-none mi:focus-visible:outline-offset-[-3px]" data-grab aria-label="Change sheet size" @click="onGrabClick" @keydown="onGrabKey">
+                  <span class="mi-sh-bar mi:block mi:w-9 mi:h-[5px] mi:rounded-[999px] mi:bg-fill" />
                 </button>
-                <span v-else-if="grabber" class="mi-sh-grab is-static" aria-hidden="true"><span class="mi-sh-bar" /></span>
-                <div v-if="hasNav || title || $slots.title || $slots.leading || $slots.trailing" class="mi-sh-nav">
-                  <span class="mi-sh-lead">
+                <span v-else-if="grabber" class="mi-sh-grab is-static mi:appearance-none mi:flex mi:justify-center mi:w-full mi:h-[17px] mi:m-0 mi:pt-1.5 mi:px-0 mi:pb-0 mi:[border:0] mi:bg-transparent mi:cursor-[inherit] mi:[&.is-static]:pointer-events-none mi:focus-visible:outline-offset-[-3px]" aria-hidden="true"><span class="mi-sh-bar mi:block mi:w-9 mi:h-[5px] mi:rounded-[999px] mi:bg-fill" /></span>
+                <div v-if="hasNav || title || $slots.title || $slots.leading || $slots.trailing" class="mi-sh-nav mi:grid mi:grid-cols-[1fr_auto_1fr] mi:items-center mi:pt-1.5 mi:px-4 mi:pb-2.5">
+                  <span class="mi-sh-lead mi:justify-self-start mi:flex">
                     <slot name="leading" :cancel="onCancel">
-                      <button v-if="cancelLabel" type="button" class="mi-sh-act" @click="onCancel">{{ cancelLabel }}</button>
+                      <button v-if="cancelLabel" type="button" class="mi-sh-act mi:appearance-none mi:h-11 mi:p-0 mi:m-0 mi:[border:0] mi:bg-transparent mi:text-p-text mi:font-[inherit] mi:text-[17px] mi:font-normal mi:[&.is-strong]:font-semibold mi:active:opacity-55" @click="onCancel">{{ cancelLabel }}</button>
                     </slot>
                   </span>
-                  <h3 :id="titleId" class="mi-sh-title"><slot name="title">{{ title }}</slot></h3>
-                  <span class="mi-sh-trail">
+                  <h3 :id="titleId" class="mi-sh-title mi:m-0 mi:text-[17px] mi:leading-[22px] mi:font-semibold mi:text-center"><slot name="title">{{ title }}</slot></h3>
+                  <span class="mi-sh-trail mi:justify-self-end mi:flex">
                     <slot name="trailing" :confirm="onConfirm">
-                      <button v-if="confirmLabel" type="button" class="mi-sh-act is-strong" @click="onConfirm">{{ confirmLabel }}</button>
+                      <button v-if="confirmLabel" type="button" class="mi-sh-act is-strong mi:appearance-none mi:h-11 mi:p-0 mi:m-0 mi:[border:0] mi:bg-transparent mi:text-p-text mi:font-[inherit] mi:text-[17px] mi:font-normal mi:[&.is-strong]:font-semibold mi:active:opacity-55" @click="onConfirm">{{ confirmLabel }}</button>
                     </slot>
                   </span>
                 </div>
               </div>
-              <div class="mi-sh-content"><slot /></div>
-              <div v-if="$slots.footer" class="mi-sh-foot"><slot name="footer" /></div>
+              <div class="mi-sh-content mi:flex-1 mi:min-h-0 mi:overflow-y-auto mi:overscroll-contain mi:pt-0 mi:px-4 mi:pb-5"><slot /></div>
+              <div v-if="$slots.footer" class="mi-sh-foot mi:flex-[none] mi:pt-3 mi:px-4 mi:pb-[max(16px,env(safe-area-inset-bottom))] mi:[border-top:.5px_solid_var(--mi-sep)]"><slot name="footer" /></div>
             </div>
           </div>
         </div>
@@ -244,33 +244,10 @@ defineSlots<{
 </template>
 
 <style scoped>
-.mi-sh-root{position:fixed;inset:0;font-family:var(--mi-font)}
-.mi-sh-root.is-modeless{pointer-events:none}
-.mi-sh-root.is-inline{position:static;inset:auto}
-.mi-sh-scrim{position:absolute;inset:0;background:var(--mi-scrim)}
-.mi-sh-wrap{position:absolute;left:0;right:0;bottom:0;height:calc(var(--mi-sh-max,1) * 100dvh);display:flex;justify-content:center;pointer-events:none}
-.is-inline .mi-sh-wrap{position:static;height:auto;display:block}
-.mi-sh{position:relative;width:100%;max-width:640px;height:100%;pointer-events:auto;outline:none;color:var(--mi-label);letter-spacing:-.01em;transform:translate3d(0,calc(var(--mi-sh-y,0) * 1%),0);transition:transform var(--mi-dur-4) var(--mi-spring)}
-.is-inline .mi-sh{height:auto;max-width:none;transform:none;transition:none}
-.mi-sh.is-dragging{transition:none;will-change:transform}
-.mi-sh-card{height:100%;display:flex;flex-direction:column;background:var(--mi-elev);border-radius:22px 22px 0 0;box-shadow:var(--mi-sh3);overflow:hidden;transform:translate3d(0,var(--mi-sh-drag,0px),0)}
-.is-inline .mi-sh-card{height:auto;border-radius:22px;transform:none}
-.mi-sh-head{flex:none;touch-action:none;user-select:none;-webkit-user-select:none}
-.mi-sh-head.is-draggable{cursor:grab}
-.mi-sh-head.is-draggable:active{cursor:grabbing}
-.mi-sh-grab{appearance:none;display:flex;justify-content:center;width:100%;height:17px;margin:0;padding:6px 0 0;border:0;background:transparent;cursor:inherit}
-.mi-sh-grab.is-static{pointer-events:none}
-.mi-sh-bar{display:block;width:36px;height:5px;border-radius:999px;background:var(--mi-fill)}
-.mi-sh-grab:focus-visible{outline-offset:-3px}
-.mi-sh-nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:6px 16px 10px}
-.mi-sh-lead{justify-self:start;display:flex}
-.mi-sh-trail{justify-self:end;display:flex}
-.mi-sh-title{margin:0;font-size:17px;line-height:22px;font-weight:600;text-align:center}
-.mi-sh-act{appearance:none;height:44px;padding:0;margin:0;border:0;background:transparent;color:var(--mi-p-text);font-family:inherit;font-size:17px;font-weight:400}
-.mi-sh-act.is-strong{font-weight:600}
-.mi-sh-act:active{opacity:.55}
-.mi-sh-content{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:0 16px 20px}
-.mi-sh-foot{flex:none;padding:12px 16px max(16px,env(safe-area-inset-bottom));border-top:.5px solid var(--mi-sep)}
+.mi-sh{width:100%;max-width:640px;color:var(--mi-label);transform:translate3d(0,calc(var(--mi-sh-y,0) * 1%),0)}
+.is-inline .mi-sh{max-width:none;transform:none;transition:none}
+.mi-sh.is-dragging{transition:none}
+.mi-sh-head{user-select:none;-webkit-user-select:none}
 
 .mi-sh-fade-enter-active,.mi-sh-fade-leave-active{transition:opacity var(--mi-dur-3) var(--mi-ease);will-change:opacity}
 .mi-sh-fade-enter-from,.mi-sh-fade-leave-to{opacity:0}

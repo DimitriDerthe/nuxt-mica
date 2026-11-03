@@ -1,6 +1,6 @@
 <template>
-  <section class="oir" aria-labelledby="oir-title">
-    <header class="oir__head">
+  <section class="mi:@container/oir mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="oir-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="oir-title" as="h2" variant="title3" weight="semibold">How was your order?</MiText>
         <MiText variant="footnote" tone="label2">Order #HB-58214 · delivered Thursday, Oct 30 · 20 points per review</MiText>
@@ -8,15 +8,15 @@
       <MiBadge :tone="rated.length ? 'primary' : 'neutral'" :label="`${rated.length} of ${items.length} rated`" />
     </header>
 
-    <ul class="oir__list">
-      <li v-for="it in items" :key="it.sku" class="oir__item" :class="{ 'is-skipped': it.skipped }">
-        <div class="oir__row">
-          <span class="oir__thumb" :style="{ '--oir-tint': it.tint }" aria-hidden="true" />
-          <div class="oir__info">
+    <ul class="mi:m-0 mi:p-0 mi:[list-style:none] mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1">
+      <li v-for="it in items" :key="it.sku" class="mi:grid mi:gap-3 mi:py-4 mi:px-4.5 mi:not-first:border-t mi:not-first:border-t-sep">
+        <div class="mi:grid mi:grid-cols-[52px_minmax(0,_1fr)] mi:gap-y-2.5 mi:gap-x-3.5 mi:items-center mi:@[560px]/oir:grid-cols-[52px_minmax(0,_1fr)_auto]">
+          <span :class="it.skipped ? 'mi:opacity-45' : ''" class="mi:w-13 mi:aspect-[1] mi:rounded-md mi:[background:radial-gradient(circle_at_35%_30%,_color-mix(in_srgb,_var(--oir-tint)_35%,_var(--mi-card)),_color-mix(in_srgb,_var(--oir-tint)_75%,_var(--mi-label)))]" :style="{ '--oir-tint': it.tint }" aria-hidden="true" />
+          <div class="mi:grid mi:gap-0.5 mi:min-w-0" :class="it.skipped ? 'mi:opacity-45' : ''">
             <MiText as="h3" variant="subheadline" weight="semibold">{{ it.name }}</MiText>
             <MiText variant="caption" tone="label2">{{ it.variant }}</MiText>
           </div>
-          <div class="oir__rate">
+          <div class="mi:col-span-full mi:flex mi:flex-wrap mi:items-center mi:gap-2.5 mi:@[560px]/oir:col-[auto] mi:@[560px]/oir:[justify-content:flex-end]">
             <MiRating v-model="it.stars" :label="`Rate ${it.name}`" :disabled="it.skipped || sent" />
             <MiButton v-if="!it.stars && !sent" variant="plain" size="mini" @click="it.skipped = !it.skipped">
               {{ it.skipped ? 'Undo skip' : 'Skip' }}
@@ -25,8 +25,8 @@
         </div>
 
         <!-- Rating an item opens prompts tuned to the score; the text stays optional. -->
-        <div v-if="it.stars && !sent" class="oir__more">
-          <div class="oir__chips" role="group" :aria-label="`What stood out about ${it.name}`">
+        <div v-if="it.stars && !sent" class="mi:[--mi-in-y:-4px] mi:animate-[in_var(--mi-dur-3)_var(--mi-ease)] mi:motion-reduce:animate-none mi:@[560px]/oir:ps-16.5 mi:grid mi:gap-2.5">
+          <div class="mi:flex mi:flex-wrap mi:gap-1.5" role="group" :aria-label="`What stood out about ${it.name}`">
             <MiChip
               v-for="c in promptsFor(it.stars)" :key="c" :label="c" size="small" selectable
               :model-value="it.tags.includes(c)" @update:model-value="toggle(it, c)"
@@ -37,8 +37,8 @@
       </li>
     </ul>
 
-    <footer class="oir__foot">
-      <p class="oir__status" role="status" aria-live="polite">{{ status }}</p>
+    <footer class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-3">
+      <p class="mi:flex-[1_1_220px] mi:m-0 mi:text-[13px] mi:text-label2" role="status" aria-live="polite">{{ status }}</p>
       <MiButton :disabled="!rated.length || sent" @click="sent = true">
         {{ sent ? 'Reviews posted' : rated.length > 1 ? `Post ${rated.length} reviews` : 'Post review' }}
       </MiButton>
@@ -77,31 +77,3 @@ function toggle(it: Item, tag: string) {
   it.tags = it.tags.includes(tag) ? it.tags.filter(t => t !== tag) : [...it.tags, tag]
 }
 </script>
-
-<style scoped>
-.oir { container: oir / inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
-.oir__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-
-.oir__list { margin: 0; padding: 0; list-style: none; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.oir__item { display: grid; gap: 12px; padding: 16px 18px; }
-.oir__item + .oir__item { border-top: 1px solid var(--mi-sep); }
-.oir__item.is-skipped .oir__row > :not(.oir__rate) { opacity: .45; }
-
-.oir__row { display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 10px 14px; align-items: center; }
-.oir__thumb { width: 52px; aspect-ratio: 1; border-radius: var(--mi-radius-m); background: radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--oir-tint) 35%, var(--mi-card)), color-mix(in srgb, var(--oir-tint) 75%, var(--mi-label))); }
-.oir__info { display: grid; gap: 2px; min-width: 0; }
-.oir__rate { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
-@container oir (min-width: 560px) {
-  .oir__row { grid-template-columns: 52px minmax(0, 1fr) auto; }
-  .oir__rate { grid-column: auto; justify-content: flex-end; }
-  .oir__more { padding-inline-start: 66px; }
-}
-
-.oir__more { display: grid; gap: 10px; animation: oir-in var(--mi-dur-3) var(--mi-ease); }
-.oir__chips { display: flex; flex-wrap: wrap; gap: 6px; }
-
-.oir__foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
-.oir__status { flex: 1 1 220px; margin: 0; font-size: 13px; color: var(--mi-label2); }
-@keyframes oir-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) { .oir__more { animation: none; } }
-</style>

@@ -116,10 +116,10 @@ defineExpose({ focus: () => focusCell(firstEmpty.value), clear: () => { model.va
 </script>
 
 <template>
-  <span :id="`mi-code-${auto}`" class="mi-code" role="group" :aria-label="label" :aria-describedby="describedBy" v-bind="rootAttrs">
-    <span v-for="(c, i) in chars" :key="i" class="mi-code__slot" :class="{ 'is-focus': focused === i, 'is-invalid': isInvalid }">
+  <span :id="`mi-code-${auto}`" class="mi-code mi:max-w-full" role="group" :aria-label="label" :aria-describedby="describedBy" v-bind="rootAttrs">
+    <span v-for="(c, i) in chars" :key="i" class="mi-code__slot mi:relative mi:flex-[0_1_52px] mi:w-13 mi:min-w-0 mi:aspect-[52_/_60] mi:@container mi:rounded-[12px] mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring)] mi:after:content-[''] mi:after:absolute mi:after:inset-0 mi:after:rounded-[inherit] mi:after:pointer-events-none mi:after:opacity-0 mi:after:shadow-[inset_0_0_0_1.5px_var(--mi-p),_0_0_0_4px_var(--mi-p-tint2)] mi:after:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)] mi:[&.is-invalid]:after:shadow-[inset_0_0_0_1.5px_var(--mi-red-t),_0_0_0_4px_color-mix(in_srgb,_var(--mi-red)_24%,_transparent)] mi:[&.is-focus]:transform-[scale(1.04)] mi:[&.is-focus]:after:opacity-100" :class="{ 'is-focus': focused === i, 'is-invalid': isInvalid }">
     <input
-      :ref="el => setCell(el, i)" class="mi-code__cell"
+      :ref="el => setCell(el, i)" class="mi-code__cell mi:block mi:w-full mi:h-full mi:min-w-0 mi:m-0 mi:p-0 mi:[border:0] mi:rounded-[12px] mi:bg-field mi:shadow-[inset_0_0_0_1px_var(--mi-field-b)] mi:text-label mi:text-center mi:tracking-[0] mi:[outline:none] mi:caret-p mi:[&.is-invalid]:shadow-[inset_0_0_0_1.5px_var(--mi-red-t)] mi:disabled:bg-fill4 mi:disabled:shadow-none mi:disabled:text-label3 mi:disabled:cursor-not-allowed"
       :class="{ 'is-filled': c, 'is-invalid': isInvalid }"
       :type="mask ? 'password' : 'text'" :inputmode="mode === 'numeric' ? 'numeric' : 'text'" :pattern="mode === 'numeric' ? '[0-9]*' : undefined"
       :autocomplete="i === 0 ? 'one-time-code' : 'off'" :autofocus="autofocus && i === 0" :maxlength="i === 0 ? undefined : 2"
@@ -133,20 +133,8 @@ defineExpose({ focus: () => focusCell(firstEmpty.value), clear: () => { model.va
 
 <style scoped>
 /* min-width: 0 lets the row shrink inside grid and flex parents; cells then keep their 52:60 shape and scale their digit. */
-.mi-code { display: inline-flex; align-items: flex-start; gap: 10px; min-width: 0; max-width: 100%; font-family: var(--mi-font); }
-.mi-code__slot { position: relative; flex: 0 1 52px; width: 52px; min-width: 0; aspect-ratio: 52 / 60; container-type: inline-size; border-radius: 12px; transition: transform var(--mi-dur-2) var(--mi-spring); }
-.mi-code__slot::after {
-  content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0;
-  box-shadow: inset 0 0 0 1.5px var(--mi-p), 0 0 0 4px var(--mi-p-tint2); transition: opacity var(--mi-dur-2) var(--mi-ease);
+.mi-code { display: inline-flex; align-items: flex-start; gap: 10px; min-width: 0; font-family: var(--mi-font); }
+.mi-code__cell { font: inherit;
+  font-size: clamp(18px, 54cqi, 28px); font-weight: 600; font-variant-numeric: tabular-nums;
 }
-.mi-code__slot.is-invalid::after { box-shadow: inset 0 0 0 1.5px var(--mi-red-t), 0 0 0 4px color-mix(in srgb, var(--mi-red) 24%, transparent); }
-.mi-code__slot.is-focus { transform: scale(1.04); }
-.mi-code__slot.is-focus::after { opacity: 1; }
-.mi-code__cell {
-  display: block; width: 100%; height: 100%; min-width: 0; margin: 0; padding: 0; border: 0; border-radius: 12px;
-  background: var(--mi-field); box-shadow: inset 0 0 0 1px var(--mi-field-b); color: var(--mi-label); text-align: center; font: inherit;
-  font-size: clamp(18px, 54cqi, 28px); font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: 0; outline: none; caret-color: var(--mi-p);
-}
-.mi-code__cell.is-invalid { box-shadow: inset 0 0 0 1.5px var(--mi-red-t); }
-.mi-code__cell:disabled { background: var(--mi-fill4); box-shadow: none; color: var(--mi-label3); cursor: not-allowed; }
 </style>

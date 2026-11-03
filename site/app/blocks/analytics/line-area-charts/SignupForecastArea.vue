@@ -1,6 +1,6 @@
 <template>
-  <section class="sf" aria-labelledby="sf-title">
-    <header class="sf__head">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="sf-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="sf-title" variant="title3" as="h2" weight="semibold">Trial sign-ups</MiText>
         <MiText variant="footnote" tone="label2">Fieldnote · self-serve funnel, all regions</MiText>
@@ -8,14 +8,14 @@
       <MiSegmented v-model="range" label="Range" :options="ranges" />
     </header>
 
-    <div class="sf__grid">
-      <article class="sf__plot">
-        <div class="sf__plot-top">
-          <div class="sf__now">
-            <p class="sf__big">{{ fmt(last(data.actual)) }}</p>
+    <div class="mi:grid mi:gap-3 mi:grid-cols-[minmax(0,_1fr)] mi:@[860px]:grid-cols-[minmax(0,_1fr)_290px]">
+      <article class="mi:min-w-0 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:grid mi:gap-3 mi:p-4.5">
+        <div class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
+          <div class="mi:grid mi:gap-0.5">
+            <p class="mi:m-0 mi:text-[clamp(32px,_7cqi,_44px)] mi:leading-none mi:font-bold mi:tracking-[-.04em] mi:tabular-nums">{{ fmt(last(data.actual)) }}</p>
             <MiText variant="footnote" tone="label2">sign-ups in {{ data.lastLabel }}</MiText>
           </div>
-          <div class="sf__toggles" role="group" aria-label="Compare with">
+          <div class="mi:flex mi:flex-wrap mi:gap-1.5" role="group" aria-label="Compare with">
             <MiChip v-model="showForecast" selectable size="small" tone="secondary" label="Forecast" />
             <MiChip v-model="showLastYear" selectable size="small" tone="neutral" label="Last year" />
           </div>
@@ -27,29 +27,29 @@
         />
       </article>
 
-      <aside class="sf__side">
-        <article class="sf__card">
+      <aside class="mi:grid mi:gap-3 mi:content-start mi:grid-cols-[minmax(0,_1fr)] mi:[@container_(min-width:_560px)_and_(max-width:_859px)]:grid-cols-2">
+        <article class="mi:min-w-0 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:grid mi:gap-1.5 mi:content-start mi:py-4 mi:px-4.5">
           <MiText variant="subheadline" weight="medium" tone="label2" as="h3">Versus forecast</MiText>
-          <p class="sf__mid" :class="variance >= 0 ? 'is-up' : 'is-down'">{{ variance >= 0 ? '+' : '' }}{{ variance.toFixed(1) }}%</p>
+          <p class="mi:mt-0.5 mi:mx-0 mi:mb-0 mi:text-[30px] mi:leading-[1.1] mi:font-bold mi:tracking-[-.035em] mi:tabular-nums" :class="variance >= 0 ? 'mi:text-green-t' : 'mi:text-red-t'">{{ variance >= 0 ? '+' : '' }}{{ variance.toFixed(1) }}%</p>
           <MiText variant="footnote" tone="label2">{{ fmt(sum(data.actual)) }} actual against {{ fmt(sum(data.forecast)) }} planned</MiText>
 
           <!-- Beat-or-miss strip: one cell per period, read left to right like the chart. -->
-          <ol class="sf__strip" :aria-label="`${beats} of ${data.actual.length} periods above forecast`">
-            <li v-for="c in cells" :key="c.label" :class="c.beat ? 'is-beat' : 'is-miss'" :title="c.title">
-              <span class="sf__sr">{{ c.label }} {{ c.beat ? 'above' : 'below' }} forecast</span>
+          <ol class="mi:grid mi:grid-flow-col mi:auto-cols-[minmax(0,_1fr)] mi:gap-[3px] mi:mt-2.5 mi:mx-0 mi:mb-0 mi:p-0 mi:[list-style:none]" :aria-label="`${beats} of ${data.actual.length} periods above forecast`">
+            <li v-for="c in cells" :key="c.label" class="mi:h-[22px] mi:rounded-[4px]" :class="c.beat ? 'mi:[background:color-mix(in_srgb,_var(--mi-p)_78%,_var(--mi-card))]' : 'mi:[background:repeating-linear-gradient(135deg,_var(--mi-fill3)_0_3px,_var(--mi-fill)_3px_6px)]'" :title="c.title">
+              <span class="mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">{{ c.label }} {{ c.beat ? 'above' : 'below' }} forecast</span>
             </li>
           </ol>
-          <div class="sf__strip-key">
-            <span><i class="is-beat" />Above plan · {{ beats }}</span>
-            <span><i class="is-miss" />Below · {{ data.actual.length - beats }}</span>
+          <div class="mi:flex mi:flex-wrap mi:gap-y-1 mi:gap-x-3.5 mi:text-[12px] mi:text-label2">
+            <span class="mi:inline-flex mi:items-center mi:gap-1.5"><i class="mi:h-2.5 mi:rounded-[3px] mi:[background:color-mix(in_srgb,_var(--mi-p)_78%,_var(--mi-card))] mi:w-2.5" />Above plan · {{ beats }}</span>
+            <span class="mi:inline-flex mi:items-center mi:gap-1.5"><i class="mi:h-2.5 mi:rounded-[3px] mi:[background:repeating-linear-gradient(135deg,_var(--mi-fill3)_0_3px,_var(--mi-fill)_3px_6px)] mi:w-2.5" />Below · {{ data.actual.length - beats }}</span>
           </div>
         </article>
 
-        <article class="sf__card">
+        <article class="mi:min-w-0 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:grid mi:gap-1.5 mi:content-start mi:py-4 mi:px-4.5">
           <MiText variant="subheadline" weight="medium" tone="label2" as="h3">What moved the line</MiText>
-          <ul class="sf__moments">
-            <li v-for="m in data.moments" :key="m.when">
-              <span class="sf__when">{{ m.when }}</span>
+          <ul class="mi:grid mi:gap-2.5 mi:mt-1.5 mi:mx-0 mi:mb-0 mi:p-0 mi:[list-style:none]">
+            <li class="mi:grid mi:grid-cols-[52px_minmax(0,_1fr)] mi:gap-2.5 mi:items-baseline" v-for="m in data.moments" :key="m.when">
+              <span class="mi:text-[12px] mi:font-semibold mi:text-p-text mi:tabular-nums">{{ m.when }}</span>
               <MiText variant="footnote">{{ m.text }}</MiText>
             </li>
           </ul>
@@ -129,36 +129,3 @@ const cells = computed(() => data.value.categories.map((label, i) => {
 const beats = computed(() => cells.value.filter(c => c.beat).length)
 </script>
 
-<style scoped>
-.sf { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
-.sf__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.sf__grid { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); }
-@container (min-width: 860px) { .sf__grid { grid-template-columns: minmax(0, 1fr) 290px; } }
-
-.sf__plot, .sf__card { min-width: 0; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.sf__plot { display: grid; gap: 12px; padding: 18px; }
-.sf__plot-top { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.sf__now { display: grid; gap: 2px; }
-.sf__big { margin: 0; font-size: clamp(32px, 7cqi, 44px); line-height: 1; font-weight: 700; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
-.sf__toggles { display: flex; flex-wrap: wrap; gap: 6px; }
-
-.sf__side { display: grid; gap: 12px; align-content: start; grid-template-columns: minmax(0, 1fr); }
-@container (min-width: 560px) and (max-width: 859px) { .sf__side { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-.sf__card { display: grid; gap: 6px; align-content: start; padding: 16px 18px; }
-.sf__mid { margin: 2px 0 0; font-size: 30px; line-height: 1.1; font-weight: 700; letter-spacing: -.035em; font-variant-numeric: tabular-nums; }
-.sf__mid.is-up { color: var(--mi-green-t); }
-.sf__mid.is-down { color: var(--mi-red-t); }
-
-.sf__strip { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 3px; margin: 10px 0 0; padding: 0; list-style: none; }
-.sf__strip li { height: 22px; border-radius: 4px; }
-.sf__strip .is-beat, .sf__strip-key .is-beat { background: color-mix(in srgb, var(--mi-p) 78%, var(--mi-card)); }
-.sf__strip .is-miss, .sf__strip-key .is-miss { background: repeating-linear-gradient(135deg, var(--mi-fill3) 0 3px, var(--mi-fill) 3px 6px); }
-.sf__strip-key { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12px; color: var(--mi-label2); }
-.sf__strip-key span { display: inline-flex; align-items: center; gap: 6px; }
-.sf__strip-key i { width: 10px; height: 10px; border-radius: 3px; }
-.sf__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-
-.sf__moments { display: grid; gap: 10px; margin: 6px 0 0; padding: 0; list-style: none; }
-.sf__moments li { display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 10px; align-items: baseline; }
-.sf__when { font-size: 12px; font-weight: 600; color: var(--mi-p-text); font-variant-numeric: tabular-nums; }
-</style>

@@ -22,8 +22,8 @@ const tools = [
 </script>
 
 <template>
-  <div class="ex">
-    <div class="bar" role="toolbar" aria-label="Slide actions">
+  <div class="ex mi:justify-items-center">
+    <div class="bar mi:flex mi:gap-1 mi:p-1.5 mi:rounded-[14px] mi:bg-card mi:shadow-1" role="toolbar" aria-label="Slide actions">
       <MiTooltip
         v-for="t in tools" :key="t.icon"
         v-bind="'main' in t ? p : { ...p, content: t.label, shortcut: t.shortcut }"
@@ -36,6 +36,5 @@ const tools = [
 </template>
 
 <style scoped>
-.ex { display: grid; gap: 10px; justify-items: center; }
-.bar { display: flex; gap: 4px; padding: 6px; border-radius: 14px; background: var(--mi-card); box-shadow: var(--mi-sh1); }
+.ex { display: grid; gap: 10px; }
 </style>

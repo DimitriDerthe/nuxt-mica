@@ -29,7 +29,7 @@ const createItems = [
 </script>
 
 <template>
-  <div class="bar">
+  <div class="bar mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-3 mi:gap-x-5 mi:shadow-1 mi:box-border">
     <MiText variant="headline" as="h3">October 2026</MiText>
     <MiButtonGroup v-if="p.variant === 'attached'" v-bind="p" label="Navigate weeks">
       <MiIconButton label="Previous week" size="toolbar"><MiIcon name="chevron-left" :size="18" /></MiIconButton>
@@ -49,5 +49,5 @@ const createItems = [
 </template>
 
 <style scoped>
-.bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; width: min(100%, 480px); padding: 12px 14px 12px 18px; border-radius: 16px; background: var(--mi-card); box-shadow: var(--mi-sh1); box-sizing: border-box; }
+.bar { width: min(100%, 480px); padding: 12px 14px 12px 18px; border-radius: 16px; background: var(--mi-card); }
 </style>

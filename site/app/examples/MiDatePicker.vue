@@ -21,7 +21,7 @@ const when = ref<Date | null>(start)
 </script>
 
 <template>
-  <div class="card">
+  <div class="card mi:mx-auto mi:shadow-1">
     <MiField label="Kickoff meeting" hint="Invitees get a calendar invite in their time zone.">
       <MiDatePicker v-model="when" v-bind="p" :min="min" />
     </MiField>
@@ -29,5 +29,5 @@ const when = ref<Date | null>(start)
 </template>
 
 <style scoped>
-.card { width: min(100%, 360px); margin-inline: auto; padding: 18px; border-radius: 20px; background: var(--mi-card); box-shadow: var(--mi-sh1); }
+.card { width: min(100%, 360px); padding: 18px; border-radius: 20px; background: var(--mi-card); }
 </style>

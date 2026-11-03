@@ -24,30 +24,22 @@ const data = [
 </script>
 
 <template>
-  <div class="phone">
-    <div class="screen">
+  <div class="phone mi:w-[min(100%,_320px)] mi:h-135 mi:p-2 mi:rounded-[44px] mi:bg-fill mi:shadow-[var(--mi-sh2,_var(--mi-sh1))] mi:box-border">
+    <div class="screen mi:h-full mi:overflow-y-auto mi:rounded-[36px] mi:bg-page mi:overscroll-contain">
       <MiNavBar v-bind="p" />
-      <div class="content">
+      <div class="content mi:grid mi:gap-5 mi:pt-2 mi:px-3.5 mi:pb-8">
         <MiList header="General">
           <MiListItem v-for="r in general" :key="r.title" :title="r.title" :value="r.value" :tile="r.tile" chevron button>
-            <template #leading><span class="glyph" aria-hidden="true">{{ r.title[0] }}</span></template>
+            <template #leading><span class="glyph mi:text-[13px] mi:font-bold" aria-hidden="true">{{ r.title[0] }}</span></template>
           </MiListItem>
         </MiList>
         <MiList header="Data">
           <MiListItem v-for="r in data" :key="r.title" :title="r.title" :value="r.value" :tile="r.tile" chevron button>
-            <template #leading><span class="glyph" aria-hidden="true">{{ r.title[0] }}</span></template>
+            <template #leading><span class="glyph mi:text-[13px] mi:font-bold" aria-hidden="true">{{ r.title[0] }}</span></template>
           </MiListItem>
         </MiList>
-        <p class="hint">Scroll to collapse the large title into the bar.</p>
+        <p class="hint mi:m-0 mi:text-center mi:text-[12px] mi:text-label3">Scroll to collapse the large title into the bar.</p>
       </div>
     </div>
   </div>
 </template>
-
-<style scoped>
-.phone { width: min(100%, 320px); height: 540px; padding: 8px; border-radius: 44px; background: var(--mi-fill); box-shadow: var(--mi-sh2, var(--mi-sh1)); box-sizing: border-box; }
-.screen { height: 100%; overflow-y: auto; border-radius: 36px; background: var(--mi-page); overscroll-behavior: contain; }
-.content { display: grid; gap: 20px; padding: 8px 14px 32px; }
-.glyph { font-size: 13px; font-weight: 700; }
-.hint { margin: 0; text-align: center; font-size: 12px; color: var(--mi-label3); }
-</style>

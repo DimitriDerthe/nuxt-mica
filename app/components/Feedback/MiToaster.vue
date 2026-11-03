@@ -50,7 +50,7 @@ function act(id: string, onClick?: () => void) {
 <template>
   <Teleport v-if="mounted" to="body">
     <section
-      class="mi mi-toaster"
+      class="mi mi-toaster mi:fixed mi:left-0 mi:right-0 mi:py-0 mi:px-4 mi:pointer-events-none mi:font-mi mi:[outline:none]"
       :class="{ 'is-top': isTop }"
       :style="hostStyle"
       role="region"
@@ -62,9 +62,9 @@ function act(id: string, onClick?: () => void) {
       @focusin="pause"
       @focusout="resume"
     >
-      <TransitionGroup name="mi-toaster" tag="ul" class="mi-toaster-list">
-        <li v-for="t in list" :key="t.id" class="mi-toaster-item">
-          <MiToast
+      <TransitionGroup name="mi-toaster" tag="ul" class="mi-toaster-list mi:[list-style:none] mi:m-0 mi:p-0 mi:flex mi:flex-col mi:gap-2.5 mi:relative">
+        <li v-for="t in list" :key="t.id" class="mi-toaster-item mi:flex mi:[justify-content:var(--mi-ta)] mi:pointer-events-none">
+          <MiToast class="mi:[.mi-toaster-item>&]:pointer-events-auto"
             :message="t.message"
             :description="t.description"
             :tone="t.tone"
@@ -81,10 +81,6 @@ function act(id: string, onClick?: () => void) {
 </template>
 
 <style scoped>
-.mi-toaster{position:fixed;left:0;right:0;padding:0 16px;pointer-events:none;font-family:var(--mi-font);outline:none}
-.mi-toaster-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;position:relative}
-.mi-toaster-item{display:flex;justify-content:var(--mi-ta);pointer-events:none}
-.mi-toaster-item>*{pointer-events:auto}
 .mi-toaster-move{transition:transform var(--mi-dur-3) var(--mi-spring)}
 .mi-toaster-enter-active{transition:transform var(--mi-dur-4) var(--mi-spring),opacity var(--mi-dur-2) var(--mi-ease);will-change:transform,opacity}
 .mi-toaster-leave-active{transition:transform var(--mi-dur-2) var(--mi-ease),opacity var(--mi-dur-2) var(--mi-ease);position:absolute;left:0;right:0;will-change:transform,opacity}

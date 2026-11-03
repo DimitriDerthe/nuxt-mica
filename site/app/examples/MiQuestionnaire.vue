@@ -16,7 +16,7 @@ const done = ref(false)
 </script>
 
 <template>
-  <div class="ex">
+  <div class="ex mi:w-[min(100%,_420px)] mi:grid mi:gap-3">
     <MiQuestionnaire v-model="answers" v-bind="p" @submit="done = true">
       <MiQuestionnaireProgress />
       <MiQuestionnaireItem name="goal" required>
@@ -53,11 +53,6 @@ const done = ref(false)
         <MiQuestionnaireSubmit>Finish</MiQuestionnaireSubmit>
       </MiQuestionnaireActions>
     </MiQuestionnaire>
-    <p v-if="done" class="ok">Thanks, answers sent: {{ Object.keys(answers).join(', ') }}</p>
+    <p v-if="done" class="ok mi:m-0 mi:text-[14px] mi:text-label2">Thanks, answers sent: {{ Object.keys(answers).join(', ') }}</p>
   </div>
 </template>
-
-<style scoped>
-.ex { width: min(100%, 420px); display: grid; gap: 12px; }
-.ok { margin: 0; font-size: 14px; color: var(--mi-label2); }
-</style>

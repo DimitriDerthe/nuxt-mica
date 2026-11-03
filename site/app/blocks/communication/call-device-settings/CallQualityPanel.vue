@@ -1,6 +1,6 @@
 <template>
-  <section class="cqp" aria-labelledby="cqp-title">
-    <header class="cqp__head">
+  <section class="mi:@container mi:flex mi:flex-col mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="cqp-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-2.5">
       <div>
         <MiText id="cqp-title" as="h2" variant="title3" weight="bold">Call quality</MiText>
         <MiText variant="footnote" tone="label2">Weekly design review · 7 people · 32 min in</MiText>
@@ -8,43 +8,43 @@
       <MiBadge :tone="health.tone" :label="health.label" dot />
     </header>
 
-    <div class="cqp__grid">
+    <div class="mi:grid mi:gap-3 mi:@[760px]:grid-cols-[minmax(0,_1fr)_minmax(0,_1.2fr)]">
       <!-- Connection: three readings, each against the level where calls start to suffer. -->
-      <div class="cqp__card">
+      <div class="mi:grid mi:content-start mi:gap-4 mi:min-w-0 mi:p-4.5 mi:rounded-xl mi:bg-card mi:shadow-1">
         <MiText as="h3" variant="headline">Your connection</MiText>
-        <ul class="cqp__stats">
-          <li v-for="s in stats" :key="s.label" class="cqp__stat">
-            <div class="cqp__stat-top">
+        <ul class="mi:grid mi:gap-3.5 mi:m-0 mi:p-0 mi:[list-style:none]">
+          <li v-for="s in stats" :key="s.label" class="mi:grid mi:gap-1.5">
+            <div class="mi:flex mi:justify-between mi:gap-2">
               <MiText variant="footnote" weight="medium">{{ s.label }}</MiText>
               <MiText variant="footnote" :tone="s.value > s.warn ? 'orange' : 'label2'" tabular>{{ s.value }} {{ s.unit }}</MiText>
             </div>
-            <div class="cqp__bar" role="meter" :aria-label="s.label" :aria-valuenow="s.value" aria-valuemin="0" :aria-valuemax="s.max" :aria-valuetext="s.value + ' ' + s.unit">
-              <span :class="{ 'is-warn': s.value > s.warn }" :style="{ transform: `scaleX(${Math.min(1, s.value / s.max)})` }" />
-              <i :style="{ left: (s.warn / s.max * 100) + '%' }" aria-hidden="true" />
+            <div class="mi:relative mi:h-1.5 mi:rounded-[3px] mi:bg-fill3" role="meter" :aria-label="s.label" :aria-valuenow="s.value" aria-valuemin="0" :aria-valuemax="s.max" :aria-valuetext="s.value + ' ' + s.unit">
+              <span class="mi:absolute mi:rounded-[inherit] mi:inset-0 mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :class="s.value > s.warn ? 'mi:bg-orange' : 'mi:bg-green'" :style="{ transform: `scaleX(${Math.min(1, s.value / s.max)})` }" />
+              <i class="mi:absolute mi:rounded-[1px] mi:top-[-3px] mi:w-0.5 mi:h-3 mi:-ml-px mi:bg-label3" :style="{ left: (s.warn / s.max * 100) + '%' }" aria-hidden="true" />
             </div>
           </li>
         </ul>
         <MiSlider v-model="upload" :min="0.3" :max="4" :step="0.1" label="Upload bandwidth (measured)" :format="v => v.toFixed(1) + ' Mbps'" />
       </div>
 
-      <div class="cqp__card">
+      <div class="mi:grid mi:content-start mi:gap-4 mi:min-w-0 mi:p-4.5 mi:rounded-xl mi:bg-card mi:shadow-1">
         <MiText as="h3" variant="headline">What you send and receive</MiText>
-        <div class="cqp__field">
+        <div class="mi:grid mi:justify-items-start mi:gap-2">
           <MiText variant="footnote" weight="medium">Your video</MiText>
           <MiSegmented v-model="sendQuality" label="Your video quality" :options="sendOptions" />
         </div>
-        <div class="cqp__field">
+        <div class="mi:grid mi:justify-items-start mi:gap-2">
           <MiText variant="footnote" weight="medium">Incoming video</MiText>
           <MiRadioGroup v-model="incoming" label="Incoming video" :options="incomingOptions" :disabled="lowBandwidth" />
         </div>
-        <div class="cqp__switch">
+        <div class="mi:flex mi:items-center mi:justify-between mi:gap-3.5 mi:pt-3.5 mi:border-t mi:border-t-sep">
           <div>
             <MiText id="cqp-low" variant="subheadline" weight="medium">Low-bandwidth mode</MiText>
             <MiText variant="caption" tone="label2">Sends 360p and shows only the active speaker.</MiText>
           </div>
           <MiSwitch v-model="lowBandwidth" aria-labelledby="cqp-low" />
         </div>
-        <footer class="cqp__usage" aria-live="polite">
+        <footer class="mi:[&_strong]:text-label mi:flex mi:items-center mi:gap-2.5 mi:py-3 mi:px-3.5 mi:rounded-lg mi:bg-p-tint mi:text-p-text" aria-live="polite">
           <MiIcon name="wifi" :size="18" />
           <MiText variant="footnote">About <strong>{{ usage }} GB per hour</strong> at {{ effective.send }} sending, {{ incomingPhrase[effective.inc] }}.</MiText>
         </footer>
@@ -99,25 +99,3 @@ const health = computed<{ tone: 'success' | 'warning', label: string }>(() => {
   return issues > 1 ? { tone: 'warning', label: 'Unstable connection' } : { tone: 'success', label: 'Good connection' }
 })
 </script>
-
-<style scoped>
-.cqp { container-type: inline-size; display: flex; flex-direction: column; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
-.cqp__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 10px; }
-.cqp__grid { display: grid; gap: 12px; }
-@container (min-width: 760px) { .cqp__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); } }
-.cqp__card { display: grid; align-content: start; gap: 16px; min-width: 0; padding: 18px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-
-.cqp__stats { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; }
-.cqp__stat { display: grid; gap: 6px; }
-.cqp__stat-top { display: flex; justify-content: space-between; gap: 8px; }
-.cqp__bar { position: relative; height: 6px; border-radius: 3px; background: var(--mi-fill3); }
-.cqp__bar span { position: absolute; inset: 0; border-radius: inherit; background: var(--mi-green); transform-origin: left; transition: transform var(--mi-dur-4) var(--mi-spring); }
-.cqp__bar span.is-warn { background: var(--mi-orange); }
-/* Tick marking the threshold where quality starts to drop. */
-.cqp__bar i { position: absolute; top: -3px; width: 2px; height: 12px; margin-left: -1px; border-radius: 1px; background: var(--mi-label3); }
-
-.cqp__field { display: grid; justify-items: start; gap: 8px; }
-.cqp__switch { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding-top: 14px; border-top: 1px solid var(--mi-sep); }
-.cqp__usage { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: var(--mi-radius-l); background: var(--mi-p-tint); color: var(--mi-p-text); }
-.cqp__usage :deep(strong) { color: var(--mi-label); }
-</style>

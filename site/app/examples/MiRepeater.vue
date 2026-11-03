@@ -14,7 +14,7 @@ const blank = () => ({ name: '', email: '' })
 </script>
 
 <template>
-  <div class="wrap">
+  <div class="wrap mi:w-[min(100%,_440px)]">
     <MiRepeater v-model="guests" v-bind="p" :template="blank">
       <template #default="{ row, update }">
         <MiInput :model-value="String(row.name)" placeholder="Name" aria-label="Name" @update:model-value="update({ name: $event })" />
@@ -23,7 +23,3 @@ const blank = () => ({ name: '', email: '' })
     </MiRepeater>
   </div>
 </template>
-
-<style scoped>
-.wrap { width: min(100%, 440px); }
-</style>

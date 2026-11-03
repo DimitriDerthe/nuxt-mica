@@ -62,13 +62,13 @@ const _slots = defineSlots<{
 
 <template>
   <MiChartCard :title="title" :subtitle="subtitle" :surface="card">
-    <div class="mi-rg">
-      <div class="mi-rg-fig" :style="{ width: `${size}px`, height: `${size}px` }">
-        <svg class="mi-rg-svg" :width="size" :height="size" :viewBox="`0 0 ${size} ${size}`" role="img" :aria-label="label">
-          <g v-for="(r, i) in rings" :key="i" class="mi-rg-ring" :class="{ 'is-dim': active >= 0 && active !== i }">
+    <div class="mi-rg mi:flex mi:items-center mi:gap-7 mi:flex-wrap mi:font-mi">
+      <div class="mi-rg-fig mi:relative mi:flex-[none]" :style="{ width: `${size}px`, height: `${size}px` }">
+        <svg class="mi-rg-svg mi:block mi:transform-[rotate(-90deg)]" :width="size" :height="size" :viewBox="`0 0 ${size} ${size}`" role="img" :aria-label="label">
+          <g v-for="(r, i) in rings" :key="i" class="mi-rg-ring mi:[transition:opacity_var(--mi-dur-2)_ease] mi:[&.is-dim]:opacity-40" :class="{ 'is-dim': active >= 0 && active !== i }">
             <circle :cx="size / 2" :cy="size / 2" :r="geo[i]!.r" fill="none" :stroke-width="strokeWidth" :style="{ stroke: colors[i] }" stroke-opacity=".2" />
             <circle
-              class="mi-rg-arc"
+              class="mi-rg-arc mi:[transition:stroke-dashoffset_var(--mi-dur-4)_var(--mi-ease)]"
               :class="{ 'is-anim': animate }"
               :cx="size / 2"
               :cy="size / 2"
@@ -81,7 +81,7 @@ const _slots = defineSlots<{
             />
           </g>
         </svg>
-        <div v-if="$slots.default" class="mi-rg-center"><slot /></div>
+        <div v-if="$slots.default" class="mi-rg-center mi:absolute mi:inset-0 mi:flex mi:flex-col mi:items-center mi:justify-center mi:text-center mi:pointer-events-none"><slot /></div>
       </div>
       <MiChartLegend v-if="legend" v-model:active="active" variant="stat" :items="items" />
     </div>
@@ -89,13 +89,6 @@ const _slots = defineSlots<{
 </template>
 
 <style scoped>
-.mi-rg{display:flex;align-items:center;gap:28px;flex-wrap:wrap;font-family:var(--mi-font)}
-.mi-rg-fig{position:relative;flex:none}
-.mi-rg-svg{display:block;transform:rotate(-90deg)}
-.mi-rg-ring{transition:opacity var(--mi-dur-2) ease}
-.mi-rg-ring.is-dim{opacity:.4}
-.mi-rg-arc{transition:stroke-dashoffset var(--mi-dur-4) var(--mi-ease)}
 .mi-rg-arc.is-anim{animation:mi-rg-in 900ms var(--mi-ease) calc(var(--mi-rg-i) * 90ms) both}
-.mi-rg-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;pointer-events:none}
 @keyframes mi-rg-in{from{stroke-dashoffset:var(--mi-rg-c)}}
 </style>

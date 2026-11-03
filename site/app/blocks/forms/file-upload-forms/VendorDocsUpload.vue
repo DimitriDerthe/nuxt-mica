@@ -1,18 +1,18 @@
 <template>
-  <section class="vdu" aria-labelledby="vdu-title">
-    <header class="vdu__head">
+  <section class="mi:@container/vdu mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="vdu-title">
+    <header class="mi:flex mi:items-center mi:justify-between mi:gap-3.5">
       <div>
         <MiText variant="caption" tone="label2" weight="medium">Supplier onboarding · step 3 of 4</MiText>
         <MiText id="vdu-title" as="h2" variant="title3" weight="semibold">Compliance documents</MiText>
         <MiText variant="footnote" tone="label2">Brightloom Textiles for Halden Retail procurement</MiText>
       </div>
       <MiProgressRing :value="doneCount" :max="required.length" :size="48" label="Required documents provided">
-        <span class="vdu__ring">{{ doneCount }}/{{ required.length }}</span>
+        <span class="mi:text-[12px] mi:font-bold mi:tabular-nums">{{ doneCount }}/{{ required.length }}</span>
       </MiProgressRing>
     </header>
 
-    <div v-if="sentRef" class="vdu__card vdu__sent" role="status" aria-live="polite">
-      <span class="vdu__sent-mark"><MiIcon name="check" :size="24" :weight="2.4" /></span>
+    <div v-if="sentRef" class="mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:grid mi:justify-items-center mi:gap-2.5 mi:py-10 mi:px-6 mi:text-center" role="status" aria-live="polite">
+      <span class="mi:grid mi:place-items-center mi:w-13 mi:h-13 mi:rounded-[50%] mi:text-card mi:bg-green"><MiIcon name="check" :size="24" :weight="2.4" /></span>
       <MiText as="h3" variant="title3" weight="semibold">Sent for review</MiText>
       <MiText variant="subheadline" tone="label2" align="center">
         {{ files.length }} files are with Halden procurement under reference {{ sentRef }}. Reviews usually take two business days.
@@ -20,8 +20,8 @@
       <MiButton variant="gray" @click="sentRef = ''">Back to documents</MiButton>
     </div>
 
-    <form v-else class="vdu__card vdu__grid" novalidate @submit.prevent="submit">
-      <div class="vdu__drop">
+    <form v-else class="mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:grid mi:gap-5.5 mi:grid-cols-[minmax(0,_1fr)] mi:items-start mi:@[820px]/vdu:grid-cols-[minmax(0,_1fr)_minmax(0,_1fr)] mi:@[820px]/vdu:gap-7" novalidate @submit.prevent="submit">
+      <div class="mi:grid mi:gap-3 mi:min-w-0">
         <MiFileUpload
           v-model="files" multiple accept=".pdf,image/png,image/jpeg" :max-size="maxSize" :max-files="6" :progress="progress"
           label="Drop PDFs or scans here, or browse" hint="PDF, PNG or JPG · up to 10 MB each · 6 files max" @reject="onReject"
@@ -30,14 +30,14 @@
       </div>
 
       <!-- Checklist: every required document is matched to an uploaded file (auto-guessed from its name). -->
-      <div class="vdu__list">
+      <div class="mi:grid mi:gap-3.5 mi:min-w-0">
         <MiText as="h3" variant="subheadline" weight="semibold">Required by Halden</MiText>
-        <ul class="vdu__docs">
-          <li v-for="d in docs" :key="d.id" class="vdu__doc" :class="{ 'is-ok': d.ok, 'is-err': err(d.id) }">
-            <span class="vdu__tick" aria-hidden="true"><MiIcon v-if="d.ok" name="check" :size="12" :weight="3" /></span>
-            <div class="vdu__doc-body">
-              <div class="vdu__doc-top">
-                <span class="vdu__doc-name">{{ d.label }}<span v-if="d.optional" class="vdu__opt"> · optional</span></span>
+        <ul class="mi:grid mi:m-0 mi:p-0 mi:[list-style:none]">
+          <li v-for="d in docs" :key="d.id" class="mi:grid mi:grid-cols-[22px_minmax(0,_1fr)] mi:gap-3 mi:py-3 mi:px-0 mi:not-first:border-t mi:not-first:border-t-sep">
+            <span class="mi:grid mi:place-items-center mi:w-5 mi:h-5 mi:mt-px mi:rounded-[50%] " :class="d.ok ? 'mi:[border:0] mi:bg-green mi:text-card' : err(d.id) ? 'mi:text-p-on mi:[border:1.5px_dashed_var(--mi-label3)] mi:border-red' : 'mi:text-p-on mi:[border:1.5px_dashed_var(--mi-label3)]'" aria-hidden="true"><MiIcon v-if="d.ok" name="check" :size="12" :weight="3" /></span>
+            <div class="mi:grid mi:gap-2 mi:min-w-0">
+              <div class="mi:flex mi:flex-wrap mi:items-baseline mi:justify-between mi:gap-y-1 mi:gap-x-2.5">
+                <span class="mi:text-[14px] mi:font-semibold">{{ d.label }}<span v-if="d.optional" class="mi:font-normal mi:text-label3"> · optional</span></span>
                 <MiText variant="caption2" tone="label3">{{ d.uploading ? 'Uploading…' : d.ok ? 'Matched' : 'Missing' }}</MiText>
               </div>
               <MiSelect
@@ -45,17 +45,17 @@
                 :disabled="!files.length" :aria-label="d.label + ' file'" :invalid="!!err(d.id)"
               />
               <MiText v-if="err(d.id)" variant="caption" tone="red">{{ err(d.id) }}</MiText>
-              <MiField v-if="d.id === 'coi' && assign.coi" label="Policy expires" required :error="err('expiry')" class="vdu__expiry">
+              <MiField v-if="d.id === 'coi' && assign.coi" label="Policy expires" required :error="err('expiry')" class="mi:max-w-70">
                 <MiDatePicker v-model="expiry" :min="today" date-style="medium" />
               </MiField>
             </div>
           </li>
         </ul>
 
-        <MiCheckbox v-model="attest" class="vdu__attest" label="I confirm these documents are current and belong to Brightloom Textiles Ltd." />
+        <MiCheckbox v-model="attest" class="mi:py-3! mi:px-3.5! mi:rounded-md! mi:bg-fill4!" label="I confirm these documents are current and belong to Brightloom Textiles Ltd." />
         <MiText v-if="err('attest')" variant="caption" tone="red" role="alert">{{ err('attest') }}</MiText>
 
-        <div class="vdu__actions">
+        <div class="mi:flex mi:flex-wrap mi:[justify-content:flex-end] mi:gap-2">
           <MiButton variant="gray">Save for later</MiButton>
           <MiButton type="submit" :disabled="uploading" :loading="sending">Submit for review</MiButton>
         </div>
@@ -150,31 +150,3 @@ function submit() {
   setTimeout(() => { sentRef.value = 'HR-VND-20931'; sending.value = false; submitted.value = false }, 700)
 }
 </script>
-
-<style scoped>
-.vdu { container: vdu / inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
-.vdu__head { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
-.vdu__ring { font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; }
-.vdu__card { padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.vdu__grid { display: grid; gap: 22px; grid-template-columns: minmax(0, 1fr); align-items: start; }
-@container vdu (min-width: 820px) { .vdu__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px; } }
-.vdu__drop { display: grid; gap: 12px; min-width: 0; }
-
-.vdu__list { display: grid; gap: 14px; min-width: 0; }
-.vdu__docs { display: grid; margin: 0; padding: 0; list-style: none; }
-.vdu__doc { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 12px; padding: 12px 0; }
-.vdu__doc + .vdu__doc { border-top: 1px solid var(--mi-sep); }
-.vdu__tick { display: grid; place-items: center; width: 20px; height: 20px; margin-top: 1px; border-radius: 50%; border: 1.5px dashed var(--mi-label3); color: var(--mi-p-on); }
-.vdu__doc.is-ok .vdu__tick { border: 0; background: var(--mi-green); color: var(--mi-card); }
-.vdu__doc.is-err .vdu__tick { border-color: var(--mi-red); }
-.vdu__doc-body { display: grid; gap: 8px; min-width: 0; }
-.vdu__doc-top { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 10px; }
-.vdu__doc-name { font-size: 14px; font-weight: 600; }
-.vdu__opt { font-weight: 400; color: var(--mi-label3); }
-.vdu__expiry { max-width: 280px; }
-.vdu__attest { padding: 12px 14px; border-radius: var(--mi-radius-m); background: var(--mi-fill4); }
-.vdu__actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
-
-.vdu__sent { display: grid; justify-items: center; gap: 10px; padding: 40px 24px; text-align: center; }
-.vdu__sent-mark { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; color: var(--mi-card); background: var(--mi-green); }
-</style>

@@ -1,57 +1,57 @@
 <template>
-  <div class="chs">
-    <div class="chs__shell">
-      <aside class="chs__side" aria-label="Riverbend Clinic chat">
-        <div class="chs__ws">
-          <span class="chs__ws-mark" aria-hidden="true">R</span>
-          <div class="chs__ws-text">
+  <div class="mi:@container mi:min-h-full mi:font-mi mi:text-label mi:[background:var(--mi-page)]">
+    <div class="mi:grid mi:min-h-full mi:@[640px]:grid-cols-[280px_minmax(0,_1fr)]">
+      <aside class="mi:flex mi:flex-col mi:gap-2.5 mi:py-3 mi:px-2.5 mi:[background:var(--mi-side,_var(--mi-card))] mi:@[640px]:shadow-[inset_-1px_0_0_var(--mi-sep)]" aria-label="Riverbend Clinic chat">
+        <div class="mi:flex mi:items-center mi:gap-2.5 mi:py-1 mi:px-1.5">
+          <span class="mi:grid mi:place-items-center mi:w-8.5 mi:h-8.5 mi:flex-[none] mi:rounded-[10px] mi:font-extrabold mi:text-p-on mi:[background:linear-gradient(135deg,_var(--mi-p),_var(--mi-s))]" aria-hidden="true">R</span>
+          <div class="mi:flex-1 mi:min-w-0">
             <MiText variant="subheadline" weight="bold" :lines="1">Riverbend Clinic</MiText>
             <MiText variant="caption2" tone="label2">Day shift · 42 online</MiText>
           </div>
           <MiIconButton label="New message" variant="gray" size="small"><MiIcon name="pencil" :size="14" /></MiIconButton>
         </div>
 
-        <div class="chs__tools">
+        <div class="mi:flex mi:items-center mi:gap-2 mi:py-2 mi:px-2 mi:rounded-[10px] mi:[background:var(--mi-fill4)]">
           <MiSwitch v-model="unreadOnly" size="compact" label="Show unread only" />
           <MiText as="span" variant="caption" tone="label2" aria-hidden="true">Unread only</MiText>
-          <MiButton variant="plain" size="mini" class="chs__readall" :disabled="!totalUnread" @click="markAll">Mark all read</MiButton>
+          <MiButton variant="plain" size="mini" class="mi:ms-auto" :disabled="!totalUnread" @click="markAll">Mark all read</MiButton>
         </div>
 
-        <nav class="chs__nav" aria-label="Conversations">
-          <section v-for="s in shown" :key="s.id" class="chs__sec">
-            <h2 class="chs__sec-head">
-              <button type="button" :aria-expanded="!folded[s.id]" :aria-controls="'chs-' + s.id" @click="folded[s.id] = !folded[s.id]">
-                <MiIcon name="chevron-down" :size="11" class="chs__chev" :class="{ 'is-folded': folded[s.id] }" />{{ s.label }}
+        <nav class="mi:grid mi:content-start mi:gap-2" aria-label="Conversations">
+          <section v-for="s in shown" :key="s.id">
+            <h2 class="mi:flex mi:items-center mi:justify-between mi:gap-2 mi:m-0 mi:py-0 mi:px-1.5">
+              <button type="button" class="mi:inline-flex mi:items-center mi:gap-1.5 mi:py-1.5 mi:px-1 mi:[border:0] mi:rounded-[6px] mi:[font:inherit] mi:text-[12px] mi:font-semibold mi:text-label2 mi:[background:none] mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" :aria-expanded="!folded[s.id]" :aria-controls="'chs-' + s.id" @click="folded[s.id] = !folded[s.id]">
+                <MiIcon name="chevron-down" :size="11" class="mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] " :class="folded[s.id] ? 'mi:transform-[rotate(-90deg)]' : ''" />{{ s.label }}
               </button>
               <MiBadge v-if="folded[s.id] && s.unread" :count="s.unread" tone="neutral" :count-noun="`unread in ${s.label}`" />
             </h2>
-            <ul v-show="!folded[s.id]" :id="'chs-' + s.id" class="chs__list">
+            <ul v-show="!folded[s.id]" :id="'chs-' + s.id" class="mi:grid mi:gap-px mi:m-0 mi:p-0 mi:[list-style:none]">
               <li v-for="c in s.rows" :key="c.id">
                 <button
-                  type="button" class="chs__row" :class="{ 'is-unread': c.unread, 'is-muted': c.muted }"
+                  type="button" class="mi:[font:inherit] mi:text-[14px] mi:flex mi:items-center mi:gap-[9px] mi:w-full mi:min-h-8.5 mi:py-1.5 mi:px-2.5 mi:[border:0] mi:rounded-[8px] mi:text-start mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" :class="[c.muted ? 'mi:opacity-55' : '', c.unread ? 'mi:font-semibold' : '', c.id === current ? 'mi:text-p-on mi:[background:var(--mi-p)]' : c.unread ? 'mi:text-label mi:[background:transparent] mi:hover:[background:var(--mi-fill4)]' : 'mi:text-label2 mi:[background:transparent] mi:hover:[background:var(--mi-fill4)]']"
                   :aria-current="c.id === current ? 'page' : undefined" @click="open(c)"
                 >
-                  <span v-if="c.kind === 'dm'" class="chs__dm">
+                  <span v-if="c.kind === 'dm'" class="mi:relative mi:grid mi:flex-[none]">
                     <MiAvatar :name="c.label" size="xs" tone="auto" decorative />
-                    <i class="chs__presence" :class="'is-' + c.presence" />
+                    <i class="mi:absolute mi:-right-0.5 mi:-bottom-0.5 mi:w-[9px] mi:h-[9px] mi:rounded-[50%] mi:shadow-[0_0_0_2px_var(--mi-side,_var(--mi-card))]" :class="[c.presence === 'on' ? 'mi:[background:var(--mi-green)]' : c.presence === 'away' ? 'mi:[background:var(--mi-orange)]' : c.presence === 'off' ? 'mi:[background:var(--mi-fill2)]' : '']" />
                   </span>
-                  <MiIcon v-else-if="c.kind === 'private'" name="lock" :size="13" class="chs__hash" />
-                  <span v-else class="chs__hash" aria-hidden="true">#</span>
-                  <span class="chs__label">{{ c.label }}</span>
-                  <span v-if="c.mentions" class="chs__mention" :aria-label="`${c.mentions} mentions`">@{{ c.mentions }}</span>
-                  <span v-else-if="c.unread && !c.muted" class="chs__dot" aria-label="Unread" role="img" />
+                  <MiIcon v-else-if="c.kind === 'private'" name="lock" :size="13" class="mi:flex-[none] mi:w-5 mi:text-center mi:text-[13px] mi:opacity-70" />
+                  <span v-else class="mi:flex-[none] mi:w-5 mi:text-center mi:text-[13px] mi:opacity-70" aria-hidden="true">#</span>
+                  <span class="mi:flex-1 mi:min-w-0 mi:overflow-hidden mi:whitespace-nowrap mi:text-ellipsis">{{ c.label }}</span>
+                  <span v-if="c.mentions" class="mi:py-px mi:px-[7px] mi:rounded-[999px] mi:text-[11px] mi:font-bold mi:text-card mi:[background:var(--mi-red)]" :aria-label="`${c.mentions} mentions`">@{{ c.mentions }}</span>
+                  <span v-else-if="c.unread && !c.muted" class="mi:w-[7px] mi:h-[7px] mi:rounded-[50%] mi:[background:currentColor]" aria-label="Unread" role="img" />
                 </button>
               </li>
             </ul>
           </section>
-          <MiText v-if="!shown.length" variant="footnote" tone="label2" class="chs__empty">You are all caught up.</MiText>
+          <MiText v-if="!shown.length" variant="footnote" tone="label2" class="mi:py-2 mi:px-2.5">You are all caught up.</MiText>
         </nav>
       </aside>
 
-      <main class="chs__main" aria-labelledby="chs-title">
+      <main class="mi:hidden mi:content-start mi:gap-1 mi:py-5 mi:px-6 mi:@[640px]:grid" aria-labelledby="chs-title">
         <MiText id="chs-title" variant="headline" as="h2">{{ active.kind === 'dm' ? active.label : '# ' + active.label }}</MiText>
         <MiText variant="footnote" tone="label2">{{ active.topic }}</MiText>
-        <div class="chs__ghosts" aria-hidden="true"><span v-for="n in 4" :key="n" /></div>
+        <div class="mi:grid mi:gap-3 mi:mt-4" aria-hidden="true"><span class="mi:rounded-lg mi:[background:var(--mi-card)] mi:h-14 mi:shadow-1 mi:[&:nth-child(even)]:w-[70%] mi:[&:nth-child(even)]:justify-self-end mi:[&:nth-child(even)]:[background:var(--mi-p-tint)] mi:[&:nth-child(even)]:shadow-none" v-for="n in 4" :key="n" /></div>
       </main>
     </div>
   </div>
@@ -101,50 +101,3 @@ function open(c: Convo) {
 }
 function markAll() { for (const c of all.value) { c.unread = false; c.mentions = 0 } }
 </script>
-
-<style scoped>
-.chs { container-type: inline-size; min-height: 100%; font-family: var(--mi-font); color: var(--mi-label); background: var(--mi-page); }
-.chs__shell { display: grid; min-height: 100%; }
-
-.chs__side { display: flex; flex-direction: column; gap: 10px; padding: 12px 10px; background: var(--mi-side, var(--mi-card)); }
-.chs__ws { display: flex; align-items: center; gap: 10px; padding: 4px 6px; }
-.chs__ws-mark { display: grid; place-items: center; width: 34px; height: 34px; flex: none; border-radius: 10px; font-weight: 800; color: var(--mi-p-on); background: linear-gradient(135deg, var(--mi-p), var(--mi-s)); }
-.chs__ws-text { flex: 1; min-width: 0; }
-.chs__tools { display: flex; align-items: center; gap: 8px; padding: 8px 8px; border-radius: 10px; background: var(--mi-fill4); }
-.chs__readall { margin-inline-start: auto; }
-
-.chs__nav { display: grid; align-content: start; gap: 8px; }
-.chs__sec-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 0; padding: 0 6px; }
-.chs__sec-head button { display: inline-flex; align-items: center; gap: 6px; padding: 6px 4px; border: 0; border-radius: 6px; font: inherit; font-size: 12px; font-weight: 600; color: var(--mi-label2); background: none; cursor: pointer; }
-.chs__chev { transition: transform var(--mi-dur-2) var(--mi-ease); }
-.chs__chev.is-folded { transform: rotate(-90deg); }
-.chs__list { display: grid; gap: 1px; margin: 0; padding: 0; list-style: none; }
-
-.chs__row { display: flex; align-items: center; gap: 9px; width: 100%; min-height: 34px; padding: 6px 10px; border: 0; border-radius: 8px; font: inherit; font-size: 14px; text-align: start; color: var(--mi-label2); background: transparent; cursor: pointer; }
-.chs__row:hover { background: var(--mi-fill4); }
-.chs__row.is-unread { color: var(--mi-label); font-weight: 600; }
-.chs__row.is-muted { opacity: .55; }
-.chs__row[aria-current="page"] { color: var(--mi-p-on); background: var(--mi-p); }
-.chs__row:focus-visible, .chs__sec-head button:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-.chs__hash { width: 20px; flex: none; text-align: center; font-size: 13px; opacity: .7; }
-.chs__dm { position: relative; display: grid; flex: none; }
-.chs__presence { position: absolute; right: -2px; bottom: -2px; width: 9px; height: 9px; border-radius: 50%; box-shadow: 0 0 0 2px var(--mi-side, var(--mi-card)); }
-.chs__presence.is-on { background: var(--mi-green); }
-.chs__presence.is-away { background: var(--mi-orange); }
-.chs__presence.is-off { background: var(--mi-fill2); }
-.chs__label { flex: 1; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-.chs__mention { padding: 1px 7px; border-radius: 999px; font-size: 11px; font-weight: 700; color: var(--mi-card); background: var(--mi-red); }
-.chs__dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
-.chs__empty { padding: 8px 10px; }
-
-.chs__main { display: none; align-content: start; gap: 4px; padding: 20px 24px; }
-.chs__ghosts { display: grid; gap: 12px; margin-top: 16px; }
-.chs__ghosts span { height: 56px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.chs__ghosts span:nth-child(even) { width: 70%; justify-self: end; background: var(--mi-p-tint); box-shadow: none; }
-
-@container (min-width: 640px) {
-  .chs__shell { grid-template-columns: 280px minmax(0, 1fr); }
-  .chs__side { box-shadow: inset -1px 0 0 var(--mi-sep); }
-  .chs__main { display: grid; }
-}
-</style>

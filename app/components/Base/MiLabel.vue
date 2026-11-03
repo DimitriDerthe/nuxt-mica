@@ -16,13 +16,7 @@ defineSlots<{
 </script>
 
 <template>
-  <label class="mi-label" :class="{ 'mi-label--disabled': disabled }" :for="$props.for">
-    <slot /><span v-if="required" class="mi-label__req" aria-hidden="true">*</span>
+  <label class="mi-label mi:inline-flex mi:items-center mi:gap-1 mi:font-mi mi:text-[14px] mi:leading-none mi:font-medium mi:text-label" :class="{ 'mi-label--disabled mi:opacity-50 mi:cursor-not-allowed': disabled }" :for="$props.for">
+    <slot /><span v-if="required" class="mi-label__req mi:text-red-t" aria-hidden="true">*</span>
   </label>
 </template>
-
-<style scoped>
-.mi-label{display:inline-flex;align-items:center;gap:4px;font-family:var(--mi-font);font-size:14px;line-height:1;font-weight:500;color:var(--mi-label)}
-.mi-label--disabled{opacity:.5;cursor:not-allowed}
-.mi-label__req{color:var(--mi-red-t)}
-</style>

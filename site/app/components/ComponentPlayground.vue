@@ -1,20 +1,20 @@
 <template>
-  <section class="pg" :aria-label="t('explorer.preview')">
-    <div class="pg__stage" :class="['pg__stage--' + (meta.layout ?? 'center'), { 'pg__stage--empty': !example }]" :style="{ minHeight: (meta.height ?? 260) + 'px' }">
+  <section class="pg mi:grid-cols-[minmax(0,_1fr)] mi:min-[1100px]:grid-cols-[minmax(0,_1fr)_300px]" :aria-label="t('explorer.preview')">
+    <div class="pg__stage mi:relative mi:flex mi:items-center mi:justify-center mi:p-[clamp(20px,_4vw,_40px)] mi:box-border mi:rounded-[22px] mi:shadow-[0_0_0_1px_var(--mi-sep)] mi:overflow-auto mi:min-w-0 mi:[background:radial-gradient(circle_at_1px_1px,_var(--mi-fill3)_1px,_transparent_0)_0_0_/_18px_18px,_var(--mi-page)]" :class="['pg__stage--' + (meta.layout ?? 'center'), { 'pg__stage--empty': !example }]" :style="{ minHeight: (meta.height ?? 260) + 'px' }">
       <component :is="example" v-if="example" :p="values" />
       <MiEmptyState v-else-if="loaded" icon="document" :title="t('explorer.noExample')" :description="t('explorer.noExampleBody')" />
       <MiSpinner v-else />
     </div>
 
-    <p v-if="parent" class="pg__part">{{ t('explorer.partOf', { name: parent }) }}</p>
-    <div v-if="controls.length" class="pg__ctl">
-      <div class="pg__ctl-head">
+    <p v-if="parent" class="pg__part mi:m-0 mi:text-[13px] mi:text-label2">{{ t('explorer.partOf', { name: parent }) }}</p>
+    <div v-if="controls.length" class="pg__ctl mi:grid mi:gap-0.5 mi:content-start mi:py-3.5 mi:px-4 mi:rounded-[22px] mi:[background:var(--mi-card)] mi:shadow-[0_0_0_1px_var(--mi-sep)] mi:min-w-0">
+      <div class="pg__ctl-head mi:flex mi:items-center mi:justify-between mi:mb-1.5">
         <MiText variant="footnote" weight="semibold" as="h3">{{ t('explorer.props') }}</MiText>
         <MiButton size="mini" variant="plain" @click="reset">{{ t('explorer.reset') }}</MiButton>
       </div>
-      <div v-for="c in controls" :key="c.name" class="pg__row">
-        <label :for="uid + c.name" class="pg__label"><code>{{ c.name }}</code></label>
-        <div class="pg__input">
+      <div v-for="c in controls" :key="c.name" class="pg__row mi:grid mi:grid-cols-[minmax(0,_104px)_minmax(0,_1fr)] mi:items-center mi:gap-2.5 mi:min-h-10 mi:border-t mi:border-t-sep">
+        <label :for="uid + c.name" class="pg__label"><code class="mi:[.pg__label_&]:[font:12px/1.3_ui-monospace,_'SF_Mono',_Menlo,_monospace] mi:[.pg__label_&]:text-label2 mi:[.pg__label_&]:wrap-anywhere">{{ c.name }}</code></label>
+        <div class="pg__input mi:flex mi:[justify-content:flex-end] mi:min-w-0">
           <MiSwitch v-if="c.kind === 'boolean'" :id="uid + c.name" v-model="values[c.name] as boolean" size="compact" :label="c.name" />
           <MiSegmented
             v-else-if="c.kind === 'enum' && c.options.length <= 3 && c.options.join('').length <= 22"
@@ -38,7 +38,7 @@
       </div>
     </div>
 
-    <SiteCode class="pg__code" file="usage.vue" :text="snippet" :copy-label="t('start.copy')" :copied-label="t('start.copied')" />
+    <SiteCode class="pg__code mi:min-[1100px]:col-span-full" file="usage.vue" :text="snippet" :copy-label="t('start.copy')" :copied-label="t('start.copied')" />
   </section>
 </template>
 
@@ -125,21 +125,9 @@ const snippet = computed(() => {
 </script>
 
 <style scoped>
-.pg { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); }
-@media (min-width: 1100px) { .pg { grid-template-columns: minmax(0, 1fr) 300px; } .pg__code { grid-column: 1 / -1; } }
-.pg__stage {
-  position: relative; display: flex; align-items: center; justify-content: center; padding: clamp(20px, 4vw, 40px); box-sizing: border-box;
-  border-radius: 22px; box-shadow: 0 0 0 1px var(--mi-sep); overflow: auto; min-width: 0;
-  background: radial-gradient(circle at 1px 1px, var(--mi-fill3) 1px, transparent 0) 0 0 / 18px 18px, var(--mi-page);
-}
+.pg { display: grid; gap: 14px; }
 .pg__stage--fill { align-items: stretch; }
 .pg__stage--fill > :deep(*) { flex: 1; min-width: 0; }
 .pg__stage--start { align-items: flex-start; justify-content: flex-start; }
-.pg__ctl { display: grid; gap: 2px; align-content: start; padding: 14px 16px; border-radius: 22px; background: var(--mi-card); box-shadow: 0 0 0 1px var(--mi-sep); min-width: 0; }
-.pg__part { margin: 0; font-size: 13px; color: var(--mi-label2); }
-.pg__ctl-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
-.pg__row { display: grid; grid-template-columns: minmax(0, 104px) minmax(0, 1fr); align-items: center; gap: 10px; min-height: 40px; border-top: 1px solid var(--mi-sep); }
-.pg__label code { font: 12px/1.3 ui-monospace, "SF Mono", Menlo, monospace; color: var(--mi-label2); overflow-wrap: anywhere; }
-.pg__input { display: flex; justify-content: flex-end; min-width: 0; }
 .pg__input > :deep(*) { max-width: 100%; }
 </style>

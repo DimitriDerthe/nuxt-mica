@@ -88,43 +88,29 @@ defineExpose({ prev, next, goTo })
 </script>
 
 <template>
-  <section class="mi-car" :class="[`mi-car--${orientation}`, `mi-car--${align}`]" :style="{ '--mi-car-basis': basis }" role="region" aria-roledescription="carousel" :aria-label="label" tabindex="0" @keydown="onKey">
-    <div ref="track" class="mi-car__track" aria-live="polite" @scroll.passive="onScroll">
+  <section class="mi-car mi:relative mi:font-mi mi:rounded-[14px]" :class="[`mi-car--${orientation}`, `mi-car--${align}`]" :style="{ '--mi-car-basis': basis }" role="region" aria-roledescription="carousel" :aria-label="label" tabindex="0" @keydown="onKey">
+    <div ref="track" class="mi-car__track mi:flex mi:overflow-auto mi:[scroll-snap-type:x_mandatory] mi:[scrollbar-width:none] mi:overscroll-contain mi:rounded-[inherit] mi:[&::-webkit-scrollbar]:hidden mi:[.mi-car--vertical_&]:flex-col mi:[.mi-car--vertical_&]:[scroll-snap-type:y_mandatory] mi:[.mi-car--vertical_&]:h-full" aria-live="polite" @scroll.passive="onScroll">
       <slot />
     </div>
     <template v-if="arrows">
-      <button type="button" class="mi-car__btn mi-car__btn--prev" aria-label="Previous slide" :disabled="!canPrev()" @click="prev">
+      <button type="button" class="mi-car__btn mi-car__btn--prev mi:absolute mi:top-1/2 mi:grid mi:place-items-center mi:w-9 mi:h-9 mi:-mt-4.5 mi:p-0 mi:[border:0] mi:rounded-[50%] mi:bg-card mi:text-label mi:shadow-2 mi:cursor-pointer mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease),opacity_var(--mi-dur-2)_linear] mi:left-2.5 mi:[.mi-car--vertical_&]:left-1/2 mi:[.mi-car--vertical_&]:mt-0 mi:[.mi-car--vertical_&]:mr-0 mi:[.mi-car--vertical_&]:mb-0 mi:[.mi-car--vertical_&]:-ml-4.5 mi:[.mi-car--vertical_&]:top-2.5 mi:[.mi-car--vertical_&]:transform-[rotate(90deg)] mi:disabled:opacity-35 mi:disabled:cursor-default mi:[&:not(:disabled):active]:transform-[scale(.92)] mi:[.mi-car--vertical_&:not(:disabled):active]:transform-[rotate(90deg)_scale(.92)]" aria-label="Previous slide" :disabled="!canPrev()" @click="prev">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6" /></svg>
       </button>
-      <button type="button" class="mi-car__btn mi-car__btn--next" aria-label="Next slide" :disabled="!canNext()" @click="next">
+      <button type="button" class="mi-car__btn mi-car__btn--next mi:absolute mi:top-1/2 mi:grid mi:place-items-center mi:w-9 mi:h-9 mi:-mt-4.5 mi:p-0 mi:[border:0] mi:rounded-[50%] mi:bg-card mi:text-label mi:shadow-2 mi:cursor-pointer mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease),opacity_var(--mi-dur-2)_linear] mi:right-2.5 mi:[.mi-car--vertical_&]:left-1/2 mi:[.mi-car--vertical_&]:mt-0 mi:[.mi-car--vertical_&]:mr-0 mi:[.mi-car--vertical_&]:mb-0 mi:[.mi-car--vertical_&]:-ml-4.5 mi:[.mi-car--vertical_&]:top-auto mi:[.mi-car--vertical_&]:bottom-2.5 mi:[.mi-car--vertical_&]:transform-[rotate(90deg)] mi:disabled:opacity-35 mi:disabled:cursor-default mi:[&:not(:disabled):active]:transform-[scale(.92)] mi:[.mi-car--vertical_&:not(:disabled):active]:transform-[rotate(90deg)_scale(.92)]" aria-label="Next slide" :disabled="!canNext()" @click="next">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
       </button>
     </template>
-    <div v-if="dots && count > 1" class="mi-car__dots">
-      <button v-for="i in count" :key="i" type="button" class="mi-car__dot" :class="{ 'mi-car__dot--on': index === i - 1 }" :aria-label="`Go to slide ${i}`" :aria-current="index === i - 1 ? 'true' : undefined" @click="goTo(i - 1)" />
+    <div v-if="dots && count > 1" class="mi-car__dots mi:absolute mi:left-0 mi:right-0 mi:bottom-2.5 mi:flex mi:justify-center mi:gap-1.5 mi:pointer-events-none mi:[.mi-car--vertical_&]:left-auto mi:[.mi-car--vertical_&]:right-2.5 mi:[.mi-car--vertical_&]:top-0 mi:[.mi-car--vertical_&]:bottom-0 mi:[.mi-car--vertical_&]:flex-col mi:[.mi-car--vertical_&]:items-center">
+      <button v-for="i in count" :key="i" type="button" class="mi-car__dot mi:w-2 mi:h-2 mi:p-0 mi:[border:0] mi:rounded-[50%] mi:bg-label3 mi:cursor-pointer mi:pointer-events-auto mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring),opacity_var(--mi-dur-2)_linear]" :class="{ 'mi-car__dot--on mi:bg-p mi:transform-[scale(1.35)]': index === i - 1 }" :aria-label="`Go to slide ${i}`" :aria-current="index === i - 1 ? 'true' : undefined" @click="goTo(i - 1)" />
     </div>
   </section>
 </template>
 
 <style scoped>
-.mi-car{position:relative;font-family:var(--mi-font);color:var(--mi-label);border-radius:14px}
-.mi-car__track{display:flex;overflow:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior:contain;border-radius:inherit}
-.mi-car__track::-webkit-scrollbar{display:none}
-.mi-car--vertical .mi-car__track{flex-direction:column;scroll-snap-type:y mandatory;height:100%}
+.mi-car{color:var(--mi-label)}
 .mi-car__track :deep(> *){flex:0 0 var(--mi-car-basis,100%);min-width:0;scroll-snap-align:start;scroll-snap-stop:always}
 .mi-car--vertical .mi-car__track :deep(> *){min-height:100%}
 .mi-car--center .mi-car__track :deep(> *){scroll-snap-align:center}
-.mi-car__btn{position:absolute;top:50%;display:grid;place-items:center;width:36px;height:36px;margin-top:-18px;padding:0;border:0;border-radius:50%;background:var(--mi-card);color:var(--mi-label);box-shadow:var(--mi-sh2);cursor:pointer;transition:transform var(--mi-dur-2) var(--mi-ease),opacity var(--mi-dur-2) linear}
-.mi-car__btn--prev{left:10px}
-.mi-car__btn--next{right:10px}
-.mi-car--vertical .mi-car__btn{left:50%;margin:0 0 0 -18px}
-.mi-car--vertical .mi-car__btn--prev{top:10px;transform:rotate(90deg)}
-.mi-car--vertical .mi-car__btn--next{top:auto;bottom:10px;transform:rotate(90deg)}
-.mi-car__btn:disabled{opacity:.35;cursor:default}
-.mi-car__btn:not(:disabled):active{transform:scale(.92)}
-.mi-car--vertical .mi-car__btn:not(:disabled):active{transform:rotate(90deg) scale(.92)}
-.mi-car__dots{position:absolute;left:0;right:0;bottom:10px;display:flex;justify-content:center;gap:6px;pointer-events:none}
-.mi-car--vertical .mi-car__dots{left:auto;right:10px;top:0;bottom:0;flex-direction:column;align-items:center}
-.mi-car__dot{width:8px;height:8px;padding:0;border:0;border-radius:50%;background:var(--mi-label3);opacity:.5;cursor:pointer;pointer-events:auto;transition:transform var(--mi-dur-2) var(--mi-spring),opacity var(--mi-dur-2) linear}
-.mi-car__dot--on{background:var(--mi-p);opacity:1;transform:scale(1.35)}
+.mi-car__dot{opacity:.5}
+.mi-car__dot--on{opacity:1}
 </style>

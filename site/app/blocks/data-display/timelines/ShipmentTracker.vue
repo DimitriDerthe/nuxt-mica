@@ -1,6 +1,6 @@
 <template>
-  <section class="shp" aria-labelledby="shp-title">
-    <header class="shp__head">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="shp-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="shp-title" variant="title3" as="h2" weight="semibold">Order #40318</MiText>
         <MiText variant="footnote" tone="label2">Placed 2 Jun · shipped in {{ PARCELS.length }} parcels to Glasgow G12</MiText>
@@ -8,30 +8,30 @@
       <MiSegmented v-model="parcelId" label="Parcel" :options="parcelOptions" />
     </header>
 
-    <article class="shp__card">
-      <div class="shp__eta">
+    <article class="mi:grid mi:gap-5.5 mi:p-5 mi:rounded-lg mi:bg-card mi:shadow-1">
+      <div class="mi:flex mi:flex-wrap mi:[align-items:flex-start] mi:justify-between mi:gap-3">
         <div>
           <MiText variant="caption" tone="label2" weight="medium">{{ parcel.delivered ? 'Delivered' : 'Estimated delivery' }}</MiText>
-          <p class="shp__day">{{ parcel.eta }}</p>
+          <p class="mi:mt-0.5 mi:mx-0 mi:mb-1 mi:text-[clamp(20px,_5cqi,_28px)] mi:font-bold mi:tracking-[-.025em]">{{ parcel.eta }}</p>
           <MiText variant="footnote" tone="label2">{{ parcel.items }} · {{ parcel.carrier }}</MiText>
         </div>
         <MiCopyButton :value="parcel.tracking" :label="parcel.tracking" copied-label="Tracking number copied" variant="outline" />
       </div>
 
       <!-- Milestone track: the fill is one scaleX, stops are evenly spaced. -->
-      <div class="shp__track">
-        <span class="shp__line" aria-hidden="true"><i :style="{ transform: `scaleX(${parcel.stage / (MILESTONES.length - 1)})` }" /></span>
-        <ol class="shp__stops" aria-label="Delivery progress">
-          <li v-for="(m, i) in MILESTONES" :key="m" class="shp__stop" :class="{ 'is-done': i <= parcel.stage, 'is-now': i === parcel.stage }" :aria-current="i === parcel.stage ? 'step' : undefined">
-            <span class="shp__dot" aria-hidden="true"><MiIcon v-if="i < parcel.stage || parcel.delivered" name="check" :size="10" /></span>
-            <span class="shp__label">{{ m }}</span>
+      <div class="mi:relative">
+        <span class="mi:absolute mi:top-[9px] mi:right-[10%] mi:bottom-auto mi:left-[10%] mi:h-[3px] mi:rounded-[2px] mi:bg-fill3 mi:overflow-hidden" aria-hidden="true"><i class="mi:block mi:h-full mi:bg-p mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleX(${parcel.stage / (MILESTONES.length - 1)})` }" /></span>
+        <ol class="mi:relative mi:grid mi:grid-cols-5 mi:m-0 mi:p-0 mi:[list-style:none]" aria-label="Delivery progress">
+          <li v-for="(m, i) in MILESTONES" :key="m" class="mi:relative mi:grid mi:justify-items-center mi:gap-2 mi:text-center" :aria-current="i === parcel.stage ? 'step' : undefined">
+            <span class="mi:grid mi:place-items-center mi:w-5 mi:h-5 mi:rounded-[50%] mi:text-p-on" :class="i === parcel.stage && i < MILESTONES.length - 1 ? 'mi:bg-card mi:shadow-[inset_0_0_0_6px_var(--mi-p)]' : i <= parcel.stage ? 'mi:bg-p mi:shadow-none' : 'mi:bg-card mi:shadow-[inset_0_0_0_2px_var(--mi-fill2)]'" aria-hidden="true"><MiIcon v-if="i < parcel.stage || parcel.delivered" name="check" :size="10" /></span>
+            <span class="mi:text-[11px] mi:leading-tight mi:@[560px]:text-[13px]" :class="i === parcel.stage ? 'mi:text-label mi:font-semibold' : i <= parcel.stage ? 'mi:text-label2' : 'mi:text-label3'">{{ m }}</span>
           </li>
         </ol>
       </div>
     </article>
 
-    <div class="shp__log">
-      <div class="shp__log-head">
+    <div class="mi:grid mi:gap-3.5 mi:p-5 mi:rounded-lg mi:bg-card mi:shadow-1">
+      <div class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
         <MiText variant="headline" as="h3">Tracking history</MiText>
         <MiSegmented v-model="detail" label="History detail" :options="[{ value: 'key', label: 'Milestones' }, { value: 'all', label: 'All scans' }]" />
       </div>
@@ -83,28 +83,3 @@ const events = computed(() => parcel.value.scans
   .filter(s => detail.value === 'all' || s.key)
   .map((s, i) => ({ title: s.title, description: s.description, time: s.time, status: i === 0 && !parcel.value.delivered ? 'current' as const : 'done' as const, tone: i === 0 ? 'primary' as const : 'neutral' as const })))
 </script>
-
-<style scoped>
-.shp { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
-.shp__head, .shp__log-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.shp__card, .shp__log { display: grid; gap: 22px; padding: 20px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.shp__log { gap: 14px; }
-.shp__eta { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 12px; }
-.shp__day { margin: 2px 0 4px; font-size: clamp(20px, 5cqi, 28px); font-weight: 700; letter-spacing: -.025em; }
-
-.shp__track { position: relative; }
-.shp__stops { position: relative; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); margin: 0; padding: 0; list-style: none; }
-.shp__line { position: absolute; inset: 9px 10% auto; height: 3px; border-radius: 2px; background: var(--mi-fill3); overflow: hidden; }
-.shp__line i { display: block; height: 100%; background: var(--mi-p); transform-origin: left; transition: transform var(--mi-dur-4) var(--mi-spring); }
-.shp__stop { position: relative; display: grid; justify-items: center; gap: 8px; text-align: center; }
-.shp__dot { display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--mi-card); box-shadow: inset 0 0 0 2px var(--mi-fill2); color: var(--mi-p-on); }
-.shp__stop.is-done .shp__dot { background: var(--mi-p); box-shadow: none; }
-.shp__stop.is-now:not(:last-child) .shp__dot { background: var(--mi-card); box-shadow: inset 0 0 0 6px var(--mi-p); }
-.shp__label { font-size: 11px; line-height: 1.25; color: var(--mi-label3); }
-.shp__stop.is-done .shp__label { color: var(--mi-label2); }
-.shp__stop.is-now .shp__label { color: var(--mi-label); font-weight: 600; }
-
-@container (min-width: 560px) {
-  .shp__label { font-size: 13px; }
-}
-</style>

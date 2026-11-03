@@ -1,49 +1,49 @@
 <template>
-  <section class="pf" aria-labelledby="pf-title">
-    <div class="pf__card">
-      <header class="pf__head">
+  <section class="mi:@container mi:font-mi mi:text-label" aria-labelledby="pf-title">
+    <div class="mi:grid mi:gap-3.5 mi:max-w-190 mi:mx-auto mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-2">
+      <header class="mi:grid mi:gap-0.5">
         <MiText id="pf-title" as="h2" variant="title3" weight="semibold">Venue shortlist for the June offsite</MiText>
         <MiText variant="footnote" tone="label2">{{ messages.length }} messages · {{ people.length }} people · started May 2</MiText>
       </header>
 
-      <div class="pf__filters">
-        <div class="pf__people" role="group" aria-label="Show messages from">
+      <div class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-2.5 mi:gap-x-4">
+        <div class="mi:flex mi:flex-wrap mi:gap-1.5" role="group" aria-label="Show messages from">
           <MiChip
             v-for="p in people" :key="p.name" v-model="p.on" selectable size="small" tone="neutral"
           >
-            <span class="pf__chip"><MiAvatar :name="p.name" size="xs" tone="auto" decorative />{{ first(p.name) }} · {{ countBy(p.name) }}</span>
+            <span class="mi:inline-flex mi:items-center mi:gap-1.5"><MiAvatar :name="p.name" size="xs" tone="auto" decorative />{{ first(p.name) }} · {{ countBy(p.name) }}</span>
           </MiChip>
         </div>
-        <div class="pf__mention">
+        <div class="mi:inline-flex mi:items-center mi:gap-2 mi:text-[13.5px] mi:text-label2">
           <MiSwitch v-model="mentionsOnly" size="compact" aria-labelledby="pf-mention-label" />
           <span id="pf-mention-label">Mentions me</span>
         </div>
       </div>
 
-      <div class="pf__bar">
+      <div class="mi:flex mi:items-center mi:justify-between mi:gap-2 mi:pb-1 mi:border-b mi:border-b-sep">
         <MiText variant="caption" tone="label2">Showing {{ shown.length }} of {{ messages.length }}</MiText>
         <MiButton variant="plain" size="small" @click="toggleAll">{{ allOpen ? 'Collapse all' : 'Expand all' }}</MiButton>
       </div>
 
-      <ol class="pf__list">
-        <li v-for="m in shown" :key="m.id" class="pf__msg" :class="{ 'is-open': open.has(m.id) }">
-          <button type="button" class="pf__row" :aria-expanded="open.has(m.id)" :aria-controls="'pf-body-' + m.id" @click="toggle(m.id)">
+      <ol class="mi:[list-style:none] mi:m-0 mi:p-0 mi:grid">
+        <li v-for="m in shown" :key="m.id" class="mi:not-first:border-t mi:not-first:border-t-sep">
+          <button type="button" class="mi:flex mi:items-center mi:gap-3 mi:w-full mi:py-3 mi:px-1 mi:[border:0] mi:bg-transparent mi:text-inherit mi:[font:inherit] mi:text-start mi:cursor-pointer mi:hover:bg-fill4 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px] mi:focus-visible:rounded-md" :aria-expanded="open.has(m.id)" :aria-controls="'pf-body-' + m.id" @click="toggle(m.id)">
             <MiAvatar :name="m.from" size="sm" :tone="m.from === me ? 'primary' : 'auto'" decorative />
-            <span class="pf__row-text">
-              <span class="pf__from">{{ m.from === me ? 'You' : m.from }}<MiBadge v-if="m.mentionsMe" tone="primary" label="Mentions you" /></span>
-              <span v-if="!open.has(m.id)" class="pf__preview">{{ m.body[0] }}</span>
-              <span v-else class="pf__to">to {{ m.to }}</span>
+            <span class="mi:grid mi:flex-1 mi:min-w-0 mi:gap-0.5">
+              <span class="mi:flex mi:flex-wrap mi:items-center mi:gap-2 mi:text-[14.5px] mi:font-semibold">{{ m.from === me ? 'You' : m.from }}<MiBadge v-if="m.mentionsMe" tone="primary" label="Mentions you" /></span>
+              <span v-if="!open.has(m.id)" class="mi:text-[13px] mi:text-label2 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ m.body[0] }}</span>
+              <span v-else class="mi:text-[13px] mi:text-label2 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">to {{ m.to }}</span>
             </span>
-            <time class="pf__time">{{ m.time }}</time>
+            <time class="mi:flex-[none] mi:text-[12.5px] mi:text-label3">{{ m.time }}</time>
           </button>
-          <div v-if="open.has(m.id)" :id="'pf-body-' + m.id" class="pf__body">
-            <p v-for="(line, i) in m.body" :key="i">{{ line }}</p>
+          <div v-if="open.has(m.id)" :id="'pf-body-' + m.id" class="mi:[--mi-in-y:-4px] mi:animate-[in_var(--mi-dur-3)_var(--mi-ease)] mi:motion-reduce:animate-none mi:grid mi:gap-2 mi:pt-0 mi:px-1 mi:pb-4 mi:@[480px]:pl-14">
+            <p class="mi:m-0 mi:text-[14.5px] mi:leading-[1.6]" v-for="(line, i) in m.body" :key="i">{{ line }}</p>
           </div>
         </li>
       </ol>
-      <p v-if="!shown.length" class="pf__empty">No messages match these filters.</p>
+      <p v-if="!shown.length" class="mi:m-0 mi:py-3 mi:px-1 mi:text-[13px] mi:text-label2">No messages match these filters.</p>
 
-      <form class="pf__reply" @submit.prevent="send">
+      <form class="mi:pt-1" @submit.prevent="send">
         <MiInputGroup v-model="draft" aria-label="Reply all" placeholder="Reply all">
           <template #trailing>
             <MiIconButton type="submit" label="Send reply" size="small" :disabled="!draft.trim()"><MiIcon name="arrow-up" :size="16" /></MiIconButton>
@@ -105,30 +105,3 @@ function send() {
 }
 </script>
 
-<style scoped>
-.pf { container-type: inline-size; font-family: var(--mi-font); color: var(--mi-label); }
-.pf__card { display: grid; gap: 14px; max-width: 760px; margin-inline: auto; padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh2); }
-.pf__head { display: grid; gap: 2px; }
-.pf__filters { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; }
-.pf__people { display: flex; flex-wrap: wrap; gap: 6px; }
-.pf__chip { display: inline-flex; align-items: center; gap: 6px; }
-.pf__mention { display: inline-flex; align-items: center; gap: 8px; font-size: 13.5px; color: var(--mi-label2); }
-.pf__bar { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-bottom: 4px; border-bottom: 1px solid var(--mi-sep); }
-
-.pf__list { list-style: none; margin: 0; padding: 0; display: grid; }
-.pf__msg + .pf__msg { border-top: 1px solid var(--mi-sep); }
-.pf__row { display: flex; align-items: center; gap: 12px; width: 100%; padding: 12px 4px; border: 0; background: transparent; color: inherit; font: inherit; text-align: start; cursor: pointer; }
-.pf__row:hover { background: var(--mi-fill4); }
-.pf__row:focus-visible { outline: 2px solid var(--mi-p); outline-offset: -2px; border-radius: var(--mi-radius-m); }
-.pf__row-text { display: grid; flex: 1; min-width: 0; gap: 2px; }
-.pf__from { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 14.5px; font-weight: 600; }
-.pf__preview, .pf__to { font-size: 13px; color: var(--mi-label2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.pf__time { flex: none; font-size: 12.5px; color: var(--mi-label3); }
-.pf__body { display: grid; gap: 8px; padding: 0 4px 16px; animation: pf-in var(--mi-dur-3) var(--mi-ease); }
-.pf__body p { margin: 0; font-size: 14.5px; line-height: 1.6; }
-@keyframes pf-in { from { opacity: 0; transform: translateY(-4px); } }
-.pf__empty { margin: 0; padding: 12px 4px; font-size: 13px; color: var(--mi-label2); }
-.pf__reply { padding-top: 4px; }
-@container (min-width: 480px) { .pf__body { padding-left: 56px; } }
-@media (prefers-reduced-motion: reduce) { .pf__body { animation: none; } }
-</style>

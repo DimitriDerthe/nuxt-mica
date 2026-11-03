@@ -271,38 +271,38 @@ const _slots = defineSlots<{
       <button
         v-bind="triggerProps"
         type="button"
-        class="mi-menu__trigger"
+        class="mi-menu__trigger mi:[-webkit-tap-highlight-color:transparent] mi:isolate mi:after:content-[''] mi:after:pointer-events-none"
         :class="[`mi-menu__trigger--${variant}`, { 'is-open': open }]"
         :disabled="disabled ? true : undefined"
       >
         <span class="mi-menu__trigger-label">{{ triggerText }}</span>
-        <span v-if="variant === 'popup'" class="mi-menu__badge" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M7 9l5-5 5 5M7 15l5 5 5-5" /></svg>
+        <span v-if="variant === 'popup'" class="mi-menu__badge mi:inline-flex mi:items-center mi:justify-center mi:w-4.5 mi:h-4.5 mi:rounded-[5px] mi:bg-p mi:text-p-on" aria-hidden="true">
+          <svg class="mi:[.mi-menu__badge_&]:w-3 mi:[.mi-menu__badge_&]:h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M7 9l5-5 5 5M7 15l5 5 5-5" /></svg>
         </span>
-        <svg v-else class="mi-menu__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
+        <svg v-else class="mi-menu__chev mi:w-3.5 mi:h-3.5 mi:flex-[none] mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring)] mi:[.is-open_&]:transform-[rotate(180deg)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
       </button>
     </slot>
 
     <Teleport to="body">
       <Transition name="mi-menu" :duration="{ enter: 320, leave: 120 }">
-        <div v-if="open" ref="pos" class="mi mi-menu__pos" :style="{ '--mi-menu-origin': origin }">
+        <div v-if="open" ref="pos" class="mi mi-menu__pos mi:fixed mi:top-0 mi:left-0 mi:z-1000 mi:min-w-45 mi:max-w-[calc(100vw_-_16px)] mi:[contain:layout]" :style="{ '--mi-menu-origin': origin }">
           <div
             :id="menuId"
             ref="panel"
-            class="mi-menu__panel"
+            class="mi-menu__panel mi:box-border mi:overflow-y-auto mi:overscroll-contain mi:p-1.5 mi:rounded-[14px] mi:bg-mat mi:shadow-[var(--mi-sh3),_inset_0_0_0_0.5px_var(--mi-mat-b)] mi:font-mi mi:text-label mi:[outline:none] mi:origin-[var(--mi-menu-origin,_50%_0)] mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),_transform_var(--mi-dur-3)_var(--mi-spring)] mi:[.mi-menu-leave-active_&]:[transition-duration:var(--mi-dur-1)] mi:[.mi-menu-leave-active_&]:[transition-timing-function:var(--mi-ease)]"
             :role="isListbox ? 'listbox' : 'menu'"
             :aria-label="ariaLabel || label || undefined"
             tabindex="-1"
             @keydown="onPanelKeydown"
           >
             <template v-for="row in rows" :key="row.key">
-              <div v-if="row.kind === 'sep'" class="mi-menu__sep" role="separator" />
-              <div v-else-if="row.kind === 'heading'" class="mi-menu__heading" role="presentation">{{ row.item.heading }}</div>
+              <div v-if="row.kind === 'sep'" class="mi-menu__sep mi:h-px mi:my-[5px] mi:mx-2 mi:bg-sep" role="separator" />
+              <div v-else-if="row.kind === 'heading'" class="mi-menu__heading mi:pt-2 mi:px-2.5 mi:pb-1 mi:text-label2 mi:text-[12px] mi:font-semibold mi:tracking-[0.01em]" role="presentation">{{ row.item.heading }}</div>
               <button
                 v-else
                 :ref="(el) => { itemEls[row.idx] = el as HTMLElement | null }"
                 type="button"
-                class="mi-menu__item"
+                class="mi-menu__item mi:flex mi:items-center mi:gap-2.5 mi:w-full mi:min-h-8 mi:py-0 mi:px-2.5 mi:[border:0] mi:rounded-[8px] mi:bg-transparent mi:text-label mi:tracking-[-0.01em] mi:text-left mi:cursor-pointer mi:[outline:none] mi:[-webkit-tap-highlight-color:transparent] mi:focus:bg-fill3 mi:active:bg-fill2 mi:aria-disabled:cursor-default mi:[&[aria-disabled='true']:focus]:bg-transparent"
                 :class="{ 'is-destructive': row.item.destructive, 'is-selected': isSelected(row.item) }"
                 :role="roleOf(row.item)"
                 tabindex="-1"
@@ -312,10 +312,10 @@ const _slots = defineSlots<{
                 @pointerenter="!row.item.disabled && focusItem(row.idx)"
                 @click="choose(row.item)"
               >
-                <span v-if="$slots.icon" class="mi-menu__icon"><slot name="icon" :item="row.item" /></span>
-                <span class="mi-menu__text"><slot name="item" :item="row.item">{{ row.item.label }}</slot></span>
-                <span v-if="row.item.shortcut" class="mi-menu__shortcut">{{ row.item.shortcut }}</span>
-                <svg v-if="hasSelectable" class="mi-menu__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
+                <span v-if="$slots.icon" class="mi-menu__icon mi:inline-flex mi:w-4.5 mi:h-4.5 mi:text-label2"><slot name="icon" :item="row.item" /></span>
+                <span class="mi-menu__text mi:flex-1 mi:min-w-0 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap"><slot name="item" :item="row.item">{{ row.item.label }}</slot></span>
+                <span v-if="row.item.shortcut" class="mi-menu__shortcut mi:text-label2 mi:text-[13px]">{{ row.item.shortcut }}</span>
+                <svg v-if="hasSelectable" class="mi-menu__check mi:w-3.5 mi:h-3.5 mi:flex-[none] mi:text-p-text mi:opacity-0 mi:[.is-selected_&]:opacity-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
               </button>
             </template>
           </div>
@@ -343,8 +343,6 @@ const _slots = defineSlots<{
   letter-spacing: -0.01em;
   white-space: nowrap;
   cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  isolation: isolate;
   transition: transform var(--mi-dur-1) var(--mi-ease);
 }
 .mi-menu__trigger--popup {
@@ -361,13 +359,11 @@ const _slots = defineSlots<{
   font-weight: 500;
 }
 .mi-menu__trigger::after {
-  content: '';
   position: absolute;
   inset: 0;
   border-radius: inherit;
   background: var(--mi-label);
   opacity: 0;
-  pointer-events: none;
   transition: opacity var(--mi-dur-2) var(--mi-ease);
 }
 @media (hover: hover) {
@@ -376,84 +372,22 @@ const _slots = defineSlots<{
 .mi-menu__trigger:active:not(:disabled) { transform: scale(0.97); }
 .mi-menu__trigger:focus-visible { outline: 3px solid color-mix(in srgb, var(--mi-p) 55%, transparent); outline-offset: 2px; }
 .mi-menu__trigger:disabled { cursor: default; color: var(--mi-label3); background: var(--mi-fill4); box-shadow: none; }
-.mi-menu__badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 18px;
-  height: 18px;
-  border-radius: 5px;
-  background: var(--mi-p);
-  color: var(--mi-p-on);
-}
-.mi-menu__badge svg { width: 12px; height: 12px; }
-.mi-menu__chev { width: 14px; height: 14px; flex: none; transition: transform var(--mi-dur-3) var(--mi-spring); }
-.is-open .mi-menu__chev { transform: rotate(180deg); }
-
-/* panel */
-.mi-menu__pos {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1000;
-  min-width: 180px;
-  max-width: calc(100vw - 16px);
-  contain: layout;
-}
 .mi-menu__panel {
-  box-sizing: border-box;
   max-height: calc(100vh - 16px);
   max-height: calc(100dvh - 16px);
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  padding: 6px;
-  border-radius: 14px;
-  background: var(--mi-mat);
   -webkit-backdrop-filter: saturate(180%) blur(24px);
   backdrop-filter: saturate(180%) blur(24px);
-  box-shadow: var(--mi-sh3), inset 0 0 0 0.5px var(--mi-mat-b);
-  font-family: var(--mi-font);
-  color: var(--mi-label);
-  outline: none;
-  transform-origin: var(--mi-menu-origin, 50% 0);
-  transition: opacity var(--mi-dur-2) var(--mi-ease), transform var(--mi-dur-3) var(--mi-spring);
 }
 .mi-menu-enter-from .mi-menu__panel,
 .mi-menu-leave-to .mi-menu__panel { opacity: 0; transform: scale(0.94); }
 .mi-menu-enter-active .mi-menu__panel,
 .mi-menu-leave-active .mi-menu__panel { will-change: transform, opacity; }
-.mi-menu-leave-active .mi-menu__panel { transition-duration: var(--mi-dur-1); transition-timing-function: var(--mi-ease); }
 
 .mi-menu__item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
-  min-height: 32px;
-  padding: 0 10px;
-  border: 0;
-  border-radius: 8px;
-  background: transparent;
-  color: var(--mi-label);
   font: inherit;
   font-size: 14px;
-  letter-spacing: -0.01em;
-  text-align: left;
-  cursor: pointer;
-  outline: none;
-  -webkit-tap-highlight-color: transparent;
 }
-.mi-menu__item:focus { background: var(--mi-fill3); }
-.mi-menu__item:active { background: var(--mi-fill2); }
 .mi-menu__item.is-destructive { color: var(--mi-red-t); }
-.mi-menu__item[aria-disabled='true'] { color: var(--mi-label3); cursor: default; }
-.mi-menu__item[aria-disabled='true']:focus { background: transparent; }
-.mi-menu__text { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.mi-menu__shortcut { color: var(--mi-label2); font-size: 13px; }
-.mi-menu__icon { display: inline-flex; width: 18px; height: 18px; color: var(--mi-label2); }
+.mi-menu__item[aria-disabled='true'] { color: var(--mi-label3); }
 .mi-menu__icon :deep(svg) { width: 18px; height: 18px; }
-.mi-menu__check { width: 14px; height: 14px; flex: none; color: var(--mi-p-text); opacity: 0; }
-.is-selected .mi-menu__check { opacity: 1; }
-.mi-menu__sep { height: 1px; margin: 5px 8px; background: var(--mi-sep); }
-.mi-menu__heading { padding: 8px 10px 4px; color: var(--mi-label2); font-size: 12px; font-weight: 600; letter-spacing: 0.01em; }
 </style>

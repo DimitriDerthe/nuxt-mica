@@ -33,7 +33,7 @@ function toggle() {
 <template>
   <button
     type="button"
-    class="mi-toggle"
+    class="mi-toggle mi:inline-flex mi:items-center mi:justify-center mi:gap-1.5 mi:min-w-(--_h) mi:h-(--_h) mi:whitespace-nowrap mi:cursor-pointer mi:[-webkit-tap-highlight-color:transparent] mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring),_opacity_var(--mi-dur-1)_ease] mi:active:transform-[scale(.96)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:disabled:opacity-40 mi:disabled:cursor-default mi:disabled:pointer-events-none"
     :class="[`is-${variant}`, `is-${size}`, { 'is-on': model }]"
     :aria-pressed="model"
     :aria-label="label"
@@ -47,12 +47,6 @@ function toggle() {
 
 <style scoped>
 .mi-toggle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  min-width: var(--_h);
-  height: var(--_h);
   padding: 0 10px;
   border: .5px solid transparent;
   border-radius: 9px;
@@ -62,10 +56,6 @@ function toggle() {
   font-family: var(--mi-font);
   font-size: 14px;
   font-weight: 500;
-  white-space: nowrap;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  transition: transform var(--mi-dur-2) var(--mi-spring), opacity var(--mi-dur-1) ease;
 }
 .mi-toggle.is-sm { --_h: 32px; font-size: 13px; padding: 0 8px; }
 .mi-toggle.is-default { --_h: 36px; }
@@ -73,7 +63,4 @@ function toggle() {
 .mi-toggle.is-outline { border-color: var(--mi-sep); }
 .mi-toggle:hover { background: var(--mi-fill3); }
 .mi-toggle.is-on { background: var(--mi-p-tint); color: var(--mi-p-text); }
-.mi-toggle:active { transform: scale(.96); }
-.mi-toggle:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-.mi-toggle:disabled { opacity: .4; cursor: default; pointer-events: none; }
 </style>

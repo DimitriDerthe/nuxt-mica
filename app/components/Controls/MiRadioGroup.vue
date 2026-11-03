@@ -48,7 +48,7 @@ function onKeydown(e: KeyboardEvent) {
 </script>
 
 <template>
-  <div ref="root" class="mi-radio-group" :class="`is-${orientation}`" role="radiogroup" :aria-label="label" :aria-orientation="orientation" @keydown="onKeydown">
+  <div ref="root" class="mi-radio-group mi:flex-col mi:[&.is-horizontal]:flex-row" :class="`is-${orientation}`" role="radiogroup" :aria-label="label" :aria-orientation="orientation" @keydown="onKeydown">
     <slot>
       <MiRadio v-for="o in options" :key="String(o.value)" :value="o.value" :label="o.label" :description="o.description" :disabled="o.disabled" />
     </slot>
@@ -56,7 +56,7 @@ function onKeydown(e: KeyboardEvent) {
 </template>
 
 <style scoped>
-.mi-radio-group { display: flex; flex-direction: column; gap: 4px; font-family: var(--mi-font); }
-.mi-radio-group.is-horizontal { flex-direction: row; flex-wrap: wrap; gap: 4px 24px; }
+.mi-radio-group { display: flex; gap: 4px; font-family: var(--mi-font); }
+.mi-radio-group.is-horizontal { flex-wrap: wrap; gap: 4px 24px; }
 .is-horizontal :deep(.mi-radio) { width: auto; }
 </style>

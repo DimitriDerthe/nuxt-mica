@@ -130,20 +130,20 @@ function onDate(v: Date | null) {
 </script>
 
 <template>
-  <div class="mi-dp" v-bind="rootAttrs">
+  <div class="mi-dp mi:flex-wrap mi:font-mi" v-bind="rootAttrs">
     <button
-      :id="dateId" ref="dateBtn" type="button" class="mi-dp__btn" :class="{ 'is-placeholder': !model, 'is-invalid': isInvalid }"
+      :id="dateId" ref="dateBtn" type="button" class="mi-dp__btn mi:relative mi:inline-flex mi:items-center mi:gap-2 mi:h-8.5 mi:m-0 mi:py-0 mi:px-3 mi:[border:0] mi:rounded-[8px] mi:bg-fill3 mi:text-label mi:tracking-[-.01em] mi:whitespace-nowrap mi:cursor-pointer mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease)] mi:active:transform-[scale(.97)] mi:[&.is-placeholder]:text-label2 mi:[&.is-invalid]:shadow-[inset_0_0_0_1.5px_var(--mi-red-t)] mi:disabled:opacity-50 mi:disabled:cursor-not-allowed mi:focus-visible:[outline:3px_solid_color-mix(in_srgb,_var(--mi-p)_55%,_transparent)] mi:focus-visible:outline-offset-[2px]" :class="{ 'is-placeholder': !model, 'is-invalid': isInvalid }"
       :disabled="off" aria-haspopup="dialog" :aria-expanded="datePopup.open.value" :aria-invalid="isInvalid || undefined"
       :aria-describedby="describedBy" @click="timePopup.hide(false); datePopup.toggle()"
     >
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="3" /><path d="M3.5 10h17M8 3v4M16 3v4" /></svg>
+      <svg class="mi:[.mi-dp__btn_&]:text-p-text" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="3" /><path d="M3.5 10h17M8 3v4M16 3v4" /></svg>
       {{ dateText }}
     </button>
     <button
-      v-if="time" ref="timeBtn" type="button" class="mi-dp__btn" :class="{ 'is-placeholder': !model }" :disabled="off"
+      v-if="time" ref="timeBtn" type="button" class="mi-dp__btn mi:relative mi:inline-flex mi:items-center mi:gap-2 mi:h-8.5 mi:m-0 mi:py-0 mi:px-3 mi:[border:0] mi:rounded-[8px] mi:bg-fill3 mi:text-label mi:tracking-[-.01em] mi:whitespace-nowrap mi:cursor-pointer mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease)] mi:active:transform-[scale(.97)] mi:[&.is-placeholder]:text-label2 mi:[&.is-invalid]:shadow-[inset_0_0_0_1.5px_var(--mi-red-t)] mi:disabled:opacity-50 mi:disabled:cursor-not-allowed mi:focus-visible:[outline:3px_solid_color-mix(in_srgb,_var(--mi-p)_55%,_transparent)] mi:focus-visible:outline-offset-[2px]" :class="{ 'is-placeholder': !model }" :disabled="off"
       aria-haspopup="dialog" :aria-expanded="timePopup.open.value" :aria-label="`Time, ${timeText}`" @click="datePopup.hide(false); timePopup.toggle()"
     >
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5" /><path d="M12 7.5V12l3 2" /></svg>
+      <svg class="mi:[.mi-dp__btn_&]:text-p-text" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5" /><path d="M12 7.5V12l3 2" /></svg>
       {{ timeText }}
     </button>
 
@@ -176,18 +176,9 @@ function onDate(v: Date | null) {
 </template>
 
 <style scoped>
-.mi-dp { display: inline-flex; flex-wrap: wrap; gap: 8px; font-family: var(--mi-font); }
-.mi-dp__btn {
-  position: relative; display: inline-flex; align-items: center; gap: 8px; height: 34px; margin: 0; padding: 0 12px; border: 0; border-radius: 8px;
-  background: var(--mi-fill3); color: var(--mi-label); font: inherit; font-size: 15px; font-weight: 500; letter-spacing: -.01em; white-space: nowrap; cursor: pointer;
-  transition: transform var(--mi-dur-1) var(--mi-ease);
+.mi-dp { display: inline-flex; gap: 8px; }
+.mi-dp__btn { font: inherit; font-size: 15px; font-weight: 500;
 }
-.mi-dp__btn svg { color: var(--mi-p-text); }
-.mi-dp__btn:active { transform: scale(.97); }
-.mi-dp__btn.is-placeholder { color: var(--mi-label2); }
-.mi-dp__btn.is-invalid { box-shadow: inset 0 0 0 1.5px var(--mi-red-t); }
-.mi-dp__btn:disabled { opacity: .5; cursor: not-allowed; }
-.mi-dp__btn:focus-visible { outline: 3px solid color-mix(in srgb, var(--mi-p) 55%, transparent); outline-offset: 2px; }
 </style>
 
 <style>

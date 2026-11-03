@@ -318,10 +318,10 @@ const titleOf = (b: Btn) => (b.shortcut ? `${b.label} (${isMac.value ? '⌘' : '
 </script>
 
 <template>
-  <div class="mi-ed" :class="{ 'is-disabled': disabled, 'is-readonly': readonly, 'is-invalid': invalid }">
-    <div v-if="toolbar" ref="toolbarEl" class="mi-ed__tb" role="toolbar" :aria-label="`${label} formatting`" aria-orientation="horizontal" @mousedown.prevent @keydown="onToolbarKey">
+  <div class="mi-ed mi:flex-col mi:min-w-0 mi:rounded-[14px] mi:shadow-[inset_0_0_0_1px_var(--mi-field-b)] mi:font-mi mi:[&.is-disabled]:opacity-45" :class="{ 'is-disabled': disabled, 'is-readonly': readonly, 'is-invalid': invalid }">
+    <div v-if="toolbar" ref="toolbarEl" class="mi-ed__tb mi:flex mi:flex-wrap mi:items-center mi:gap-0.5 mi:p-1.5 mi:[border-bottom:.5px_solid_var(--mi-sep)]" role="toolbar" :aria-label="`${label} formatting`" aria-orientation="horizontal" @mousedown.prevent @keydown="onToolbarKey">
       <template v-for="(b, i) in buttons" :key="b.id">
-        <span v-if="i > 0 && buttons[i - 1]!.group !== b.group" class="mi-ed__sep" role="separator" aria-orientation="vertical" />
+        <span v-if="i > 0 && buttons[i - 1]!.group !== b.group" class="mi-ed__sep mi:w-px mi:h-4.5 mi:my-0 mi:mx-1 mi:[background:var(--mi-sep2)]" role="separator" aria-orientation="vertical" />
         <MiIconButton
           data-tb
           :label="b.label"
@@ -335,17 +335,17 @@ const titleOf = (b: Btn) => (b.shortcut ? `${b.label} (${isMac.value ? '⌘' : '
           @click="press(b)"
           @focus="tbIndex = i"
         >
-          <span v-if="b.text" class="mi-ed__glyph" :style="b.style" aria-hidden="true">{{ b.text }}</span>
+          <span v-if="b.text" class="mi-ed__glyph mi:text-[14px] mi:leading-none" :style="b.style" aria-hidden="true">{{ b.text }}</span>
           <MiIcon v-else :svg="b.svg" :size="16" />
         </MiIconButton>
       </template>
     </div>
-    <form v-if="linkOpen" class="mi-ed__link" @submit.prevent="applyLink" @keydown.esc.stop.prevent="closeLink()">
+    <form v-if="linkOpen" class="mi-ed__link mi:flex mi:flex-wrap mi:gap-1.5 mi:py-2 mi:px-2.5 mi:[border-bottom:.5px_solid_var(--mi-sep)]" @submit.prevent="applyLink" @keydown.esc.stop.prevent="closeLink()">
       <input
         :id="`${uid}-link`"
         ref="linkInput"
         v-model="linkUrl"
-        class="mi-ed__input"
+        class="mi-ed__input mi:flex-[1_1_200px] mi:min-w-0 mi:h-8 mi:py-0 mi:px-2.5 mi:[border:0] mi:rounded-[8px] mi:[background:var(--mi-fill3)] mi:text-label mi:[font:14px_var(--mi-font)] mi:focus-visible:outline-offset-[0]"
         type="text"
         inputmode="url"
         autocomplete="off"
@@ -354,13 +354,13 @@ const titleOf = (b: Btn) => (b.shortcut ? `${b.label} (${isMac.value ? '⌘' : '
         :aria-invalid="linkError || undefined"
         @input="linkError = false"
       >
-      <button type="submit" class="mi-ed__ok">Apply</button>
-      <button type="button" class="mi-ed__cancel" @click="closeLink()">Cancel</button>
+      <button type="submit" class="mi-ed__ok mi:h-8 mi:py-0 mi:px-3 mi:[border:0] mi:rounded-[8px] mi:[font:600_13px_var(--mi-font)] mi:cursor-pointer mi:[background:var(--mi-p)] mi:text-p-on mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]">Apply</button>
+      <button type="button" class="mi-ed__cancel mi:h-8 mi:py-0 mi:px-3 mi:[border:0] mi:rounded-[8px] mi:[font:600_13px_var(--mi-font)] mi:cursor-pointer mi:[background:transparent] mi:text-label2 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" @click="closeLink()">Cancel</button>
     </form>
-    <div class="mi-ed__wrap">
+    <div class="mi-ed__wrap mi:relative mi:flex mi:flex-col mi:min-h-0">
       <div
         ref="surface"
-        class="mi-ed__surface"
+        class="mi-ed__surface mi:flex-1 mi:box-border mi:py-3.5 mi:px-4 mi:overflow-y-auto mi:[outline:none] mi:text-[15px] mi:leading-[1.55] mi:wrap-anywhere mi:caret-p mi:[&[data-empty='true']]:before:content-[attr(data-placeholder)] mi:[&[data-empty='true']]:before:absolute mi:[&[data-empty='true']]:before:pointer-events-none mi:[&[data-empty='true']]:before:text-label3 mi:[.mi-ed.is-disabled_&]:cursor-not-allowed"
         role="textbox"
         aria-multiline="true"
         :aria-label="label"
@@ -387,27 +387,13 @@ const titleOf = (b: Btn) => (b.shortcut ? `${b.label} (${isMac.value ? '⌘' : '
 </template>
 
 <style scoped>
-.mi-ed { display: flex; flex-direction: column; min-width: 0; border-radius: 14px; background: var(--mi-field); box-shadow: inset 0 0 0 1px var(--mi-field-b); font-family: var(--mi-font); color: var(--mi-label); transition: opacity var(--mi-dur-2) var(--mi-ease); }
+.mi-ed { display: flex; background: var(--mi-field); color: var(--mi-label); transition: opacity var(--mi-dur-2) var(--mi-ease); }
 .mi-ed:focus-within { box-shadow: inset 0 0 0 2px var(--mi-p); }
 .mi-ed.is-invalid { box-shadow: inset 0 0 0 1.5px var(--mi-red); }
-.mi-ed.is-disabled { opacity: .45; }
-.mi-ed__tb { display: flex; flex-wrap: wrap; align-items: center; gap: 2px; padding: 6px; border-bottom: .5px solid var(--mi-sep); }
-.mi-ed__sep { width: 1px; height: 18px; margin: 0 4px; background: var(--mi-sep2); }
-.mi-ed__glyph { font-size: 14px; line-height: 1; }
 .mi-ed__tb :deep(.mi-icon-btn) { --_tint: transparent; color: var(--mi-label2); }
 .mi-ed__tb :deep(.mi-icon-btn.is-on) { --_tint: var(--mi-p-tint); color: var(--mi-p-text); }
-.mi-ed__link { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 10px; border-bottom: .5px solid var(--mi-sep); }
-.mi-ed__input { flex: 1 1 200px; min-width: 0; height: 32px; padding: 0 10px; border: 0; border-radius: 8px; background: var(--mi-fill3); color: var(--mi-label); font: 14px var(--mi-font); }
-.mi-ed__input:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 0; }
+.mi-ed__input:focus-visible { outline: 2px solid var(--mi-p); }
 .mi-ed__input[aria-invalid="true"] { outline: 2px solid var(--mi-red); }
-.mi-ed__ok, .mi-ed__cancel { height: 32px; padding: 0 12px; border: 0; border-radius: 8px; font: 600 13px var(--mi-font); cursor: pointer; }
-.mi-ed__ok { background: var(--mi-p); color: var(--mi-p-on); }
-.mi-ed__cancel { background: transparent; color: var(--mi-label2); }
-.mi-ed__ok:focus-visible, .mi-ed__cancel:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-.mi-ed__wrap { position: relative; display: flex; flex-direction: column; min-height: 0; }
-.mi-ed__surface { flex: 1; box-sizing: border-box; padding: 14px 16px; overflow-y: auto; outline: none; font-size: 15px; line-height: 1.55; overflow-wrap: anywhere; caret-color: var(--mi-p); }
-.mi-ed__surface[data-empty="true"]::before { content: attr(data-placeholder); position: absolute; pointer-events: none; color: var(--mi-label3); }
-.mi-ed.is-disabled .mi-ed__surface { cursor: not-allowed; }
 .mi-ed__surface :deep(p) { margin: 0 0 .7em; }
 .mi-ed__surface :deep(p:last-child) { margin-bottom: 0; }
 .mi-ed__surface :deep(h2) { margin: .9em 0 .4em; font-size: 1.35em; line-height: 1.25; letter-spacing: -.02em; }

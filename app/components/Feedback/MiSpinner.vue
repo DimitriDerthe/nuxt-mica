@@ -28,12 +28,12 @@ const TICKS = [
 
 <template>
   <span class="mi-spin" :role="label ? 'status' : undefined" :aria-label="label || undefined" :aria-hidden="label ? undefined : 'true'" :style="{ color }">
-    <svg v-if="variant === 'ticks'" class="mi-spin-svg is-ticks" :width="px" :height="px" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+    <svg v-if="variant === 'ticks'" class="mi-spin-svg is-ticks mi:block mi:will-change-transform" :width="px" :height="px" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
       <g stroke="currentColor" :stroke-width="px >= 28 ? 2 : 2.4" stroke-linecap="round">
         <path v-for="t in TICKS" :key="t[0]" :d="t[0]" :opacity="t[1]" />
       </g>
     </svg>
-    <svg v-else class="mi-spin-svg is-arc" :width="px" :height="px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true" focusable="false">
+    <svg v-else class="mi-spin-svg is-arc mi:block mi:will-change-transform" :width="px" :height="px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true" focusable="false">
       <path d="M12 3a9 9 0 019 9" />
     </svg>
   </span>
@@ -41,7 +41,6 @@ const TICKS = [
 
 <style scoped>
 .mi-spin{display:inline-flex;flex:none;line-height:0}
-.mi-spin-svg{display:block;will-change:transform}
 .mi-spin-svg.is-ticks{animation:mi-spin-rot .8s steps(8) infinite}
 .mi-spin-svg.is-arc{animation:mi-spin-rot .9s linear infinite}
 @keyframes mi-spin-rot{to{transform:rotate(360deg)}}

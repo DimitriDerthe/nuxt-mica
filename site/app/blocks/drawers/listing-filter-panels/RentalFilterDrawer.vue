@@ -1,8 +1,8 @@
 <template>
-  <section class="rfd" aria-labelledby="rfd-title">
+  <section class="mi:@container mi:relative mi:grid mi:min-h-180 mi:rounded-xl mi:overflow-hidden mi:[background:var(--mi-page)] mi:shadow-[0_0_0_1px_var(--mi-sep)] mi:font-mi mi:text-label" aria-labelledby="rfd-title">
     <!-- Listing page: cards that stop matching fade back live while the drawer is open. -->
-    <div class="rfd__page" :inert="open || undefined">
-      <div class="rfd__page-head">
+    <div class="mi:[grid-area:1_/_1] mi:grid mi:content-start mi:gap-3.5 mi:p-5" :inert="open || undefined">
+      <div class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-3">
         <div>
           <MiText id="rfd-title" variant="title3" as="h2" weight="semibold">Rentals in Berlin</MiText>
           <MiText variant="footnote" tone="label2">{{ matches.length }} of {{ HOMES.length }} homes · long-term, unfurnished first</MiText>
@@ -12,43 +12,43 @@
           Filters{{ activeCount ? ' · ' + activeCount : '' }}
         </MiButton>
       </div>
-      <ul class="rfd__grid">
-        <li v-for="h in shown" :key="h.id" class="rfd__home" :class="{ 'is-out': !ok(h) }">
-          <span class="rfd__photo" :style="{ '--h1': h.c1, '--h2': h.c2 }" aria-hidden="true"><i /></span>
-          <div class="rfd__home-text">
-            <b>€{{ h.rent.toLocaleString('en-US') }} <small>/ month</small></b>
-            <span>{{ h.rooms }} rooms · {{ h.size }} m² · {{ h.area }}</span>
-            <span class="rfd__tags">{{ h.tags.slice(0, 3).join(' · ') }}</span>
+      <ul class="mi:grid mi:gap-3 mi:grid-cols-[repeat(auto-fill,_minmax(170px,_1fr))] mi:m-0 mi:p-0 mi:[list-style:none]">
+        <li v-for="h in shown" :key="h.id" class="mi:grid mi:rounded-lg mi:overflow-hidden mi:[background:var(--mi-card)] mi:shadow-1 mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease),_transform_var(--mi-dur-3)_var(--mi-spring)]" :class="ok(h) ? '' : 'mi:opacity-22 mi:transform-[scale(.96)]'">
+          <span class="mi:relative mi:aspect-[4_/_3] mi:[background:linear-gradient(160deg,_color-mix(in_srgb,_var(--h1)_55%,_var(--mi-card)),_color-mix(in_srgb,_var(--h2)_70%,_var(--mi-card)))]" :style="{ '--h1': h.c1, '--h2': h.c2 }" aria-hidden="true"><i class="mi:absolute mi:left-[22%] mi:right-[22%] mi:bottom-0 mi:h-[64%] mi:rounded-[4px_4px_0_0] mi:bg-[color:color-mix(in_srgb,_var(--mi-card)_82%,_var(--h2))] mi:bg-[radial-gradient(circle,_color-mix(in_srgb,_var(--h2)_60%,_var(--mi-card))_0_30%,_transparent_32%)] mi:[background-size:25%_22%]" /></span>
+          <div class="mi:grid mi:gap-0.5 mi:pt-2.5 mi:px-3 mi:pb-3 mi:text-[13px] mi:min-w-0">
+            <b class="mi:text-[16px] mi:tabular-nums">€{{ h.rent.toLocaleString('en-US') }} <small class="mi:text-[12px] mi:text-label2 mi:font-normal">/ month</small></b>
+            <span class="mi:text-label2 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ h.rooms }} rooms · {{ h.size }} m² · {{ h.area }}</span>
+            <span class="mi:text-label3 mi:text-[12px] mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ h.tags.slice(0, 3).join(' · ') }}</span>
           </div>
         </li>
       </ul>
     </div>
 
-    <div class="rfd__scrim" :class="{ 'is-on': open }" aria-hidden="true" @click="open = false" />
+    <div class="mi:[grid-area:1_/_1] mi:[background:color-mix(in_srgb,_var(--mi-page)_30%,_transparent)] mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)]" :class="open ? 'mi:opacity-100 mi:pointer-events-auto' : 'mi:opacity-0 mi:pointer-events-none'" aria-hidden="true" @click="open = false" />
 
-    <div class="rfd__drawer" :class="{ 'is-closed': !open }" :inert="!open || undefined">
+    <div class="mi:[grid-area:1_/_1] mi:justify-self-start mi:w-[min(380px,_calc(100%_-_24px))] mi:p-2.5 mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :class="open ? '' : 'mi:transform-[translateX(-105%)]'" :inert="!open || undefined">
       <MiDrawer :model-value="true" inline swipe-direction="left" title="Filters" :description="matches.length + ' homes match'">
-        <div class="rfd__body">
+        <div class="mi:grid mi:gap-5">
           <MiSlider v-model="rent" label="Monthly rent" :min="600" :max="3000" :step="50" :format="v => (v >= 3000 ? '€3,000+' : '€' + v.toLocaleString('en-US'))" />
 
-          <div class="rfd__group">
+          <div class="mi:grid mi:gap-2">
             <MiText variant="footnote" weight="semibold" aria-hidden="true">Rooms</MiText>
             <MiToggleGroup v-model="rooms" variant="outline" label="Rooms" :spacing="0" :options="[1, 2, 3, 4].map(n => ({ value: n, label: n + '+' }))" />
           </div>
 
           <MiSlider v-model="size" label="Minimum size" :min="20" :max="140" :step="5" unit=" m²" />
 
-          <fieldset class="rfd__areas">
-            <legend>Neighbourhood</legend>
-            <div v-for="a in AREAS" :key="a" class="rfd__area">
+          <fieldset class="mi:grid mi:gap-1.5 mi:m-0 mi:p-0 mi:[border:0] mi:min-w-0">
+            <legend class="mi:p-0 mi:mb-2 mi:text-[13px] mi:font-semibold">Neighbourhood</legend>
+            <div v-for="a in AREAS" :key="a" class="mi:flex mi:items-center mi:justify-between mi:gap-2">
               <MiCheckbox :model-value="areas.includes(a)" :label="a" @update:model-value="on => (areas = on ? [...areas, a] : areas.filter(x => x !== a))" />
-              <span>{{ areaCount(a) }}</span>
+              <span class="mi:min-w-6 mi:py-px mi:px-[7px] mi:rounded-[999px] mi:bg-fill4 mi:text-label2 mi:text-[12px] mi:text-center mi:tabular-nums">{{ areaCount(a) }}</span>
             </div>
           </fieldset>
 
-          <div class="rfd__group">
+          <div class="mi:grid mi:gap-2">
             <MiText variant="footnote" weight="semibold" aria-hidden="true">Must have</MiText>
-            <div class="rfd__chips" role="group" aria-label="Must have">
+            <div class="mi:flex mi:flex-wrap mi:gap-1.5" role="group" aria-label="Must have">
               <MiChip
                 v-for="t in TAGS" :key="t" selectable size="small" :label="t" :model-value="tags.includes(t)"
                 @update:model-value="on => (tags = on ? [...tags, t] : tags.filter(x => x !== t))"
@@ -56,14 +56,14 @@
             </div>
           </div>
 
-          <div class="rfd__group">
+          <div class="mi:grid mi:gap-2">
             <MiText variant="footnote" weight="semibold" aria-hidden="true">Move in</MiText>
             <MiSegmented v-model="moveIn" label="Move in" :options="[{ value: 0, label: 'Any' }, { value: 1, label: 'By Dec' }, { value: 2, label: 'By Jan' }]" />
           </div>
         </div>
 
         <template #footer>
-          <div class="rfd__foot">
+          <div class="mi:flex mi:justify-between mi:gap-2">
             <MiButton variant="plain" :disabled="!activeCount" @click="clear">Clear all</MiButton>
             <MiButton :disabled="!matches.length" @click="open = false">{{ matches.length ? `Show ${matches.length} homes` : 'No homes match' }}</MiButton>
           </div>
@@ -130,42 +130,3 @@ function clear() {
   moveIn.value = 0
 }
 </script>
-
-<style scoped>
-.rfd { container-type: inline-size; position: relative; display: grid; min-height: 720px; border-radius: var(--mi-radius-xl); overflow: hidden; background: var(--mi-page); box-shadow: 0 0 0 1px var(--mi-sep); font-family: var(--mi-font); color: var(--mi-label); }
-.rfd__page, .rfd__scrim, .rfd__drawer { grid-area: 1 / 1; }
-.rfd__page { display: grid; align-content: start; gap: 14px; padding: 20px; }
-.rfd__page-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
-.rfd__grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); margin: 0; padding: 0; list-style: none; }
-.rfd__home {
-  display: grid; border-radius: var(--mi-radius-l); overflow: hidden; background: var(--mi-card); box-shadow: var(--mi-sh1);
-  transition: opacity var(--mi-dur-3) var(--mi-ease), transform var(--mi-dur-3) var(--mi-spring);
-}
-.rfd__home.is-out { opacity: .22; transform: scale(.96); }
-/* Photo placeholder: sky, a facade and a window grid, tinted per listing. */
-.rfd__photo { position: relative; aspect-ratio: 4 / 3; background: linear-gradient(160deg, color-mix(in srgb, var(--h1) 55%, var(--mi-card)), color-mix(in srgb, var(--h2) 70%, var(--mi-card))); }
-.rfd__photo i {
-  position: absolute; left: 22%; right: 22%; bottom: 0; height: 64%; border-radius: 4px 4px 0 0; background-color: color-mix(in srgb, var(--mi-card) 82%, var(--h2));
-  background-image: radial-gradient(circle, color-mix(in srgb, var(--h2) 60%, var(--mi-card)) 0 30%, transparent 32%); background-size: 25% 22%;
-}
-.rfd__home-text { display: grid; gap: 2px; padding: 10px 12px 12px; font-size: 13px; min-width: 0; }
-.rfd__home-text b { font-size: 16px; font-variant-numeric: tabular-nums; }
-.rfd__home-text small { font-size: 12px; font-weight: 400; color: var(--mi-label2); }
-.rfd__home-text span { color: var(--mi-label2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.rfd__home-text .rfd__tags { color: var(--mi-label3); font-size: 12px; }
-
-/* A light scrim so the listing stays readable behind the drawer. */
-.rfd__scrim { background: color-mix(in srgb, var(--mi-page) 30%, transparent); opacity: 0; pointer-events: none; transition: opacity var(--mi-dur-3) var(--mi-ease); }
-.rfd__scrim.is-on { opacity: 1; pointer-events: auto; }
-.rfd__drawer { justify-self: start; width: min(380px, calc(100% - 24px)); padding: 10px; transition: transform var(--mi-dur-4) var(--mi-spring); }
-.rfd__drawer.is-closed { transform: translateX(-105%); }
-
-.rfd__body { display: grid; gap: 20px; }
-.rfd__group { display: grid; gap: 8px; }
-.rfd__areas { display: grid; gap: 6px; margin: 0; padding: 0; border: 0; min-width: 0; }
-.rfd__areas legend { padding: 0; margin-bottom: 8px; font-size: 13px; font-weight: 600; }
-.rfd__area { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.rfd__area span { min-width: 24px; padding: 1px 7px; border-radius: 999px; background: var(--mi-fill4); color: var(--mi-label2); font-size: 12px; text-align: center; font-variant-numeric: tabular-nums; }
-.rfd__chips { display: flex; flex-wrap: wrap; gap: 6px; }
-.rfd__foot { display: flex; justify-content: space-between; gap: 8px; }
-</style>

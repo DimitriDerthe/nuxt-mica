@@ -1,6 +1,6 @@
 <template>
-  <section class="icm" aria-labelledby="icm-title">
-    <header class="icm__head">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="icm-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="icm-title" variant="title3" as="h2" weight="semibold">Map columns</MiText>
         <MiText variant="footnote" tone="label2">customers_q3.csv · {{ TOTAL.toLocaleString('en-US') }} rows · {{ columns.length }} columns</MiText>
@@ -8,15 +8,15 @@
       <MiBadge :tone="done ? 'success' : 'warning'" :label="done ? 'Ready to import' : 'Needs attention'" dot />
     </header>
 
-    <div class="icm__layout">
-      <ul class="icm__cols">
-        <li v-for="c in columns" :key="c.id" class="icm__col" :class="{ 'is-skip': c.target === 'skip', 'is-dupe': dupes.has(c.target) }">
-          <div class="icm__src">
-            <code>{{ c.header }}</code>
+    <div class="mi:grid mi:gap-3.5 mi:@[900px]:grid-cols-[minmax(0,_1fr)_300px] mi:@[900px]:items-start">
+      <ul class="mi:grid mi:m-0 mi:p-0 mi:[list-style:none] mi:rounded-lg mi:bg-card mi:shadow-1 mi:overflow-hidden">
+        <li v-for="c in columns" :key="c.id" class="mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:gap-2 mi:py-3.5 mi:px-4 mi:not-first:border-t mi:not-first:border-t-sep mi:@[560px]:grid-cols-[minmax(0,_1fr)_auto_minmax(0,_200px)] mi:@[560px]:items-center mi:@[560px]:gap-3.5" :class="dupes.has(c.target) ? 'mi:[background:color-mix(in_srgb,_var(--mi-red)_6%,_transparent)]' : ''">
+          <div class="mi:grid mi:gap-0.5 mi:min-w-0 mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)]" :class="c.target === 'skip' ? 'mi:opacity-55' : ''">
+            <code class="mi:font-[ui-monospace,SFMono-Regular,Menlo,monospace] mi:text-[13px] mi:font-semibold">{{ c.header }}</code>
             <MiText variant="caption" tone="label2" :lines="1">{{ c.samples.join(' · ') }}</MiText>
           </div>
-          <MiIcon name="arrow-right" :size="14" class="icm__arrow" />
-          <div class="icm__dst">
+          <MiIcon name="arrow-right" :size="14" class="mi:hidden! mi:@[560px]:block! mi:text-label3" />
+          <div class="mi:grid mi:gap-1">
             <MiNativeSelect v-model="c.target" size="sm" :aria-label="'Field for ' + c.header" :options="FIELD_OPTIONS" />
             <MiText v-if="dupes.has(c.target)" variant="caption" tone="red" weight="medium">Mapped twice</MiText>
             <MiText v-else-if="failing(c)" variant="caption" tone="orange" weight="medium">{{ failing(c) }} rows won't parse</MiText>
@@ -27,17 +27,17 @@
       </ul>
 
       <!-- Summary: what the import will do, recomputed from the mapping. -->
-      <aside class="icm__sum" aria-labelledby="icm-sum-title">
+      <aside class="mi:grid mi:content-start mi:gap-3 mi:p-4.5 mi:rounded-lg mi:bg-card mi:shadow-1" aria-labelledby="icm-sum-title">
         <MiText id="icm-sum-title" variant="headline" as="h3">Import summary</MiText>
-        <div class="icm__ready">
-          <span class="icm__big">{{ ready.toLocaleString('en-US') }}</span>
+        <div class="mi:flex mi:items-baseline mi:gap-2">
+          <span class="mi:text-[34px] mi:font-bold mi:tracking-[-.035em] mi:tabular-nums">{{ ready.toLocaleString('en-US') }}</span>
           <MiText variant="footnote" tone="label2">rows ready of {{ TOTAL.toLocaleString('en-US') }}</MiText>
         </div>
-        <div class="icm__bar" role="meter" aria-label="Rows ready" :aria-valuenow="ready" aria-valuemin="0" :aria-valuemax="TOTAL">
-          <span :style="{ transform: `scaleX(${ready / TOTAL})` }" />
+        <div class="mi:h-1.5 mi:rounded-[3px] mi:bg-fill3 mi:overflow-hidden" role="meter" aria-label="Rows ready" :aria-valuenow="ready" aria-valuemin="0" :aria-valuemax="TOTAL">
+          <span class="mi:block mi:h-full mi:bg-p mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleX(${ready / TOTAL})` }" />
         </div>
-        <ul class="icm__req" aria-label="Required fields">
-          <li v-for="f in REQUIRED" :key="f" :class="{ 'is-ok': mapped.has(f) }">
+        <ul class="mi:grid mi:gap-1.5 mi:m-0 mi:p-0 mi:[list-style:none] mi:text-[13px]" aria-label="Required fields">
+          <li class="mi:flex mi:items-center mi:gap-2" v-for="f in REQUIRED" :key="f" :class="mapped.has(f) ? 'mi:text-green-t' : 'mi:text-orange-t'">
             <MiIcon :name="mapped.has(f) ? 'check-circle-fill' : 'exclamation-circle'" :size="16" />
             {{ FIELDS[f] }} {{ mapped.has(f) ? 'mapped' : 'required' }}
           </li>
@@ -83,35 +83,3 @@ const dupes = computed(() => {
 const ready = computed(() => Math.max(0, TOTAL - columns.value.reduce((n, c) => n + failing(c), 0)))
 const done = computed(() => REQUIRED.every(f => mapped.value.has(f)) && dupes.value.size === 0)
 </script>
-
-<style scoped>
-.icm { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
-.icm__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.icm__layout { display: grid; gap: 14px; }
-.icm__cols { display: grid; margin: 0; padding: 0; list-style: none; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); overflow: hidden; }
-.icm__col { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; padding: 14px 16px; }
-.icm__col + .icm__col { border-top: 1px solid var(--mi-sep); }
-.icm__col.is-skip .icm__src { opacity: .55; }
-.icm__col.is-dupe { background: color-mix(in srgb, var(--mi-red) 6%, transparent); }
-.icm__src { display: grid; gap: 2px; min-width: 0; transition: opacity var(--mi-dur-2) var(--mi-ease); }
-.icm__src code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; font-weight: 600; }
-.icm__arrow { display: none; color: var(--mi-label3); }
-.icm__dst { display: grid; gap: 4px; }
-
-.icm__sum { display: grid; align-content: start; gap: 12px; padding: 18px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.icm__ready { display: flex; align-items: baseline; gap: 8px; }
-.icm__big { font-size: 34px; font-weight: 700; letter-spacing: -.035em; font-variant-numeric: tabular-nums; }
-.icm__bar { height: 6px; border-radius: 3px; background: var(--mi-fill3); overflow: hidden; }
-.icm__bar span { display: block; height: 100%; background: var(--mi-p); transform-origin: left; transition: transform var(--mi-dur-4) var(--mi-spring); }
-.icm__req { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; font-size: 13px; }
-.icm__req li { display: flex; align-items: center; gap: 8px; color: var(--mi-orange-t); }
-.icm__req li.is-ok { color: var(--mi-green-t); }
-
-@container (min-width: 560px) {
-  .icm__col { grid-template-columns: minmax(0, 1fr) auto minmax(0, 200px); align-items: center; gap: 14px; }
-  .icm__arrow { display: block; }
-}
-@container (min-width: 900px) {
-  .icm__layout { grid-template-columns: minmax(0, 1fr) 300px; align-items: start; }
-}
-</style>

@@ -45,7 +45,25 @@ Backgrounds and borders: `bg-<color>`, `bg-[url()|gradient]`, `bg-none`, `bg-cov
 
 Effects: `shadow-*`, `opacity-*`, `mix-blend-*`, `blur-*`, `brightness-*`, `contrast-*`, `grayscale`, `hue-rotate-*`, `invert`, `saturate-*`, `sepia`, `drop-shadow-[…]` and the same with `backdrop-` (they compose), `filter-[…]`, `filter-none`.
 
-Transforms and motion: `translate[-x|-y]-*`, `scale[-x|-y]-*`, `rotate-*` (individual CSS properties, they compose), `transform-[…]`, `origin-*`, `backface-*`, `perspective-*`, `transition[-colors|-opacity|-shadow|-transform|-none|-[…]]` (Mica easing and `--mi-dur-2` by default), `duration-*`, `ease-*`, `delay-*`, `animate-spin|pulse|none|[…]`. Animate only `transform` and `opacity`.
+Transforms and motion: `translate[-x|-y]-*`, `scale[-x|-y]-*`, `rotate-*` (individual CSS properties, they compose), `transform-[…]`, `origin-*`, `backface-*`, `perspective-*`, `transition[-colors|-opacity|-shadow|-transform|-none|-[…]]` (Mica easing and `--mi-dur-2` by default), `duration-*`, `ease-*`, `delay-*`, `animate-<motion>|none|[…]`. Animate only `transform` and `opacity`.
+
+### Motion
+
+No component or block writes `@keyframes`: `animate-<name>` plays one of the shared shapes below, tuned per element with CSS variables (`mi:[--mi-in-y:8px] mi:animate-in`). `animate-[<name>_.3s_ease-out_both]` keeps the shape and sets the rest of the shorthand. `in`, `out` and `grow` leave the other end of the animation implicit, so they start from or end at the element's own `translate-*`, `scale-*` and `opacity-*`.
+
+| Shape | Default shorthand | Keyframes and variables |
+| --- | --- | --- |
+| `in` | `var(--mi-dur-2) var(--mi-ease) both` | from `opacity: --mi-in-o (0)`, `rotate(--mi-in-r) translate(--mi-in-x, --mi-in-y) scale(--mi-in-sx, --mi-in-sy)` (`--mi-in-s` sets both axes) |
+| `out` | `var(--mi-dur-2) var(--mi-ease) both` | to the same, with `--mi-out-*` |
+| `grow` | `var(--mi-dur-3) var(--mi-ease) both` | from `scale(--mi-grow-x (0), --mi-grow-y (1))` to `scale(--mi-grow-x-to (1), --mi-grow-y-to (1))` |
+| `shake` | `var(--mi-dur-3) var(--mi-ease)` | ±`--mi-shake` (6px) on the x axis |
+| `blink` | `1s var(--mi-ease-in-out) infinite` | 50% `opacity: --mi-blink (0)` |
+| `pulse` | `2s cubic-bezier(.4,0,.6,1) infinite` | 50% `opacity: --mi-pulse (.5)` |
+| `beat` | `1s var(--mi-ease-in-out) infinite` | 50% `scale(--mi-beat (1.06))`, `opacity: --mi-beat-o (1)` |
+| `float` | `2s var(--mi-ease-in-out) infinite` | 50% `translate(--mi-float-x (0), --mi-float (-8px))` |
+| `spin` | `1s linear infinite` | to `rotate(360deg)` |
+
+Honor `motion-reduce:animate-none`. Vue transitions take utilities too: `<Transition enter-active-class="mi:transition-[opacity,transform]" enter-from-class="mi:opacity-0 mi:translate-y-2">`.
 
 Interactivity and misc: `cursor-*`, `pointer-events-*`, `select-*`, `resize[-x|-y|-none]`, `touch-*`, `scroll-smooth|auto`, `snap-*`, `appearance-*`, `will-change-*`, `table-auto|fixed`, `sr-only`, `not-sr-only`, `@container` (inline-size), `@container/<name>`, `@container-size`, `@container-normal`.
 
@@ -85,3 +103,7 @@ export default defineNuxtConfig({
 - Only the classes present in the sources are generated: the sheet is tree-shaken by construction. No runtime code.
 - Values are literals where possible (`18px`, not `calc(var(--spacing) * 4.5)`); helper `@property` and `@keyframes` blocks are emitted only when a class needs them.
 - Every rule is one class selector, rules with the same declarations are merged, and each at-rule block is opened once.
+
+## Migrating scoped CSS
+
+`node scripts/atomic-convert.mjs <file|dir>` moves `<style scoped>` declarations to `mi:` classes without changing what any element computes: it models every cascade a declaration takes part in (specificity, source order, the fixed order of the utility sheet, classes passed to and by components) and leaves in the scoped block whatever could change outcome, plus keyframes, `v-bind()` and `:deep()`. `node scripts/iso-check.mjs` checks the result on a static build: computed style and box of every element, at several widths, in both themes.

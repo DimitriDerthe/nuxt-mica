@@ -184,11 +184,11 @@ function onFocusIn(e: FocusEvent) {
 </script>
 
 <template>
-  <ul ref="root" class="mi-tree" role="tree" :aria-label="ariaLabel" :aria-multiselectable="multi || undefined" @keydown="onKey" @focusin="onFocusIn">
+  <ul ref="root" class="mi-tree mi:[list-style:none] mi:m-0 mi:p-1.5 mi:flex-col mi:gap-px mi:font-mi mi:box-border" role="tree" :aria-label="ariaLabel" :aria-multiselectable="multi || undefined" @keydown="onKey" @focusin="onFocusIn">
     <MiTreeNode v-for="(it, i) in items" :key="it.id" :item="it" :level="1" :ctx="ctx" :set-size="items.length" :pos-in-set="i + 1" />
   </ul>
 </template>
 
 <style scoped>
-.mi-tree{list-style:none;margin:0;padding:6px;display:flex;flex-direction:column;gap:1px;font-family:var(--mi-font);box-sizing:border-box}
+.mi-tree{display:flex}
 </style>

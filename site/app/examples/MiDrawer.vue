@@ -19,7 +19,7 @@ const statuses = [{ value: 'paid', label: 'Paid' }, { value: 'due', label: 'Due'
   <div>
     <MiButton @click="open = true">Open filters</MiButton>
     <MiDrawer v-model="open" v-bind="p">
-      <div class="body">
+      <div class="body mi:pt-1 mi:px-0 mi:pb-3">
         <MiNativeSelect v-model="status" :options="statuses" aria-label="Status" />
       </div>
       <template #footer="{ close }">
@@ -28,7 +28,3 @@ const statuses = [{ value: 'paid', label: 'Paid' }, { value: 'due', label: 'Due'
     </MiDrawer>
   </div>
 </template>
-
-<style scoped>
-.body { padding: 4px 0 12px; }
-</style>

@@ -35,7 +35,7 @@ onBeforeUnmount(() => clearInterval(timer))
 <template>
   <div class="ex">
     <MiProgress v-bind="p" :value="value" />
-    <div class="foot">
+    <div class="foot mi:flex mi:items-center mi:justify-between mi:gap-3 mi:text-[12px] mi:text-label2">
       <span>{{ value === null ? 'Preparing…' : done + ' MB of ' + total + ' MB' }}</span>
       <MiButton variant="plain" size="mini" @click="restart">Restart upload</MiButton>
     </div>
@@ -44,5 +44,4 @@ onBeforeUnmount(() => clearInterval(timer))
 
 <style scoped>
 .ex { display: grid; gap: 10px; width: min(100%, 360px); padding: 18px; border-radius: 18px; background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 12px; color: var(--mi-label2); }
 </style>

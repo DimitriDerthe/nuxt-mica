@@ -1,8 +1,8 @@
 <template>
-  <section class="sfd" aria-labelledby="sfd-title">
+  <section class="mi:@container mi:relative mi:grid mi:min-h-175 mi:rounded-xl mi:overflow-hidden mi:[background:var(--mi-page)] mi:shadow-[0_0_0_1px_var(--mi-sep)] mi:font-mi mi:text-label" aria-labelledby="sfd-title">
     <!-- Product listing: applied facets show as removable chips above the grid. -->
-    <div class="sfd__page" :inert="open || undefined">
-      <div class="sfd__page-head">
+    <div class="mi:[grid-area:1_/_1] mi:grid mi:content-start mi:gap-3.5 mi:p-5" :inert="open || undefined">
+      <div class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
         <div>
           <MiText id="sfd-title" variant="title3" as="h2" weight="semibold">Running shoes</MiText>
           <MiText variant="footnote" tone="label2" aria-live="polite">{{ results.length }} of {{ SHOES.length }} styles</MiText>
@@ -12,37 +12,37 @@
           Filter{{ chips.length ? ' · ' + chips.length : '' }}
         </MiButton>
       </div>
-      <div v-if="chips.length" class="sfd__chips" role="group" aria-label="Applied filters">
+      <div v-if="chips.length" class="mi:flex mi:flex-wrap mi:gap-1.5" role="group" aria-label="Applied filters">
         <MiChip v-for="c in chips" :key="c.id" :label="c.label" size="small" removable :remove-label="'Remove ' + c.label" @remove="c.remove()" />
       </div>
-      <ul class="sfd__grid">
-        <li v-for="s in results" :key="s.id" class="sfd__item">
-          <span class="sfd__art" :style="{ '--tone': COLORS[s.color] }" aria-hidden="true"><i /></span>
-          <b>{{ s.name }}</b>
-          <span>{{ s.brand }} · ${{ s.price }}</span>
+      <ul class="mi:grid mi:grid-cols-2 mi:gap-3 mi:m-0 mi:p-0 mi:[list-style:none] mi:@[620px]:grid-cols-3 mi:@[960px]:grid-cols-4">
+        <li v-for="s in results" :key="s.id" class="mi:grid mi:gap-0.5 mi:p-2.5 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1 mi:text-[13px]">
+          <span class="mi:[&:last-child]:text-label2 mi:grid mi:place-items-center mi:aspect-[4_/_3] mi:mb-2 mi:rounded-md mi:[background:radial-gradient(80%_60%_at_50%_80%,_color-mix(in_srgb,_var(--tone)_18%,_transparent),_var(--mi-fill4))]" :style="{ '--tone': COLORS[s.color] }" aria-hidden="true"><i class="mi:w-[62%] mi:h-[26%] mi:rounded-[60%_40%_30%_30%_/_70%_60%_30%_30%] mi:[background:linear-gradient(170deg,_color-mix(in_srgb,_var(--tone)_85%,_var(--mi-card)),_var(--tone))] mi:shadow-[0_6px_0_-2px_var(--mi-card),_0_8px_0_-2px_var(--mi-sep)] mi:transform-[rotate(-6deg)]" /></span>
+          <b class="mi:font-semibold">{{ s.name }}</b>
+          <span class="mi:[&:last-child]:text-label2">{{ s.brand }} · ${{ s.price }}</span>
         </li>
       </ul>
     </div>
 
-    <div class="sfd__scrim" :class="{ 'is-on': open }" aria-hidden="true" @click="open = false" />
+    <div class="mi:[grid-area:1_/_1] mi:[background:var(--mi-scrim)] mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)]" :class="open ? 'mi:opacity-100 mi:pointer-events-auto' : 'mi:opacity-0 mi:pointer-events-none'" aria-hidden="true" @click="open = false" />
 
-    <div class="sfd__drawer" :class="{ 'is-closed': !open }" :inert="!open || undefined">
+    <div class="mi:[grid-area:1_/_1] mi:justify-self-end mi:self-stretch mi:w-[min(380px,_calc(100%_-_24px))] mi:p-2.5 mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :class="open ? '' : 'mi:transform-[translateX(105%)]'" :inert="!open || undefined">
       <MiDrawer :model-value="true" inline swipe-direction="right" title="Filter" :description="results.length + ' styles match'">
         <MiAccordion v-model="openFacets" type="multiple" variant="plain">
           <MiAccordionItem value="size">
             <template #title>Size (EU){{ sizes.length ? ' · ' + sizes.length : '' }}</template>
-            <div class="sfd__sizes" role="group" aria-label="Sizes">
+            <div class="mi:grid mi:grid-cols-[repeat(auto-fill,_minmax(52px,_1fr))] mi:gap-1.5" role="group" aria-label="Sizes">
               <button
-                v-for="n in SIZES" :key="n" type="button" class="sfd__size" :aria-pressed="sizes.includes(n)"
+                v-for="n in SIZES" :key="n" type="button" class="mi:[font:inherit] mi:text-[13px] mi:font-semibold mi:tabular-nums mi:py-2 mi:px-0 mi:[border:0] mi:rounded-sm mi:[background:var(--mi-fill4)] mi:shadow-[inset_0_0_0_1px_var(--mi-sep)] mi:text-inherit mi:cursor-pointer mi:aria-pressed:[background:var(--mi-p)] mi:aria-pressed:shadow-none mi:aria-pressed:text-p-on mi:disabled:opacity-40 mi:disabled:[text-decoration:line-through] mi:disabled:cursor-default mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[3px]" :aria-pressed="sizes.includes(n)"
                 :disabled="!stock.has(n)" @click="toggle(sizes, n)"
               >{{ n }}</button>
             </div>
           </MiAccordionItem>
           <MiAccordionItem value="color">
             <template #title>Colour{{ colors.length ? ' · ' + colors.length : '' }}</template>
-            <div class="sfd__colors" role="group" aria-label="Colours">
+            <div class="mi:flex mi:flex-wrap mi:gap-2.5" role="group" aria-label="Colours">
               <button
-                v-for="(token, name) in COLORS" :key="name" type="button" class="sfd__color" :aria-pressed="colors.includes(name)"
+                v-for="(token, name) in COLORS" :key="name" type="button" class="mi:w-8 mi:h-8 mi:[border:0] mi:rounded-[50%] mi:[background:var(--tone)] mi:shadow-[inset_0_0_0_1px_var(--mi-sep2),_0_0_0_2px_var(--mi-card)] mi:cursor-pointer mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring)] mi:aria-pressed:shadow-[inset_0_0_0_1px_var(--mi-sep2),_0_0_0_2px_var(--mi-card),_0_0_0_4px_var(--mi-p)] mi:aria-pressed:transform-[scale(1.06)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[3px]" :aria-pressed="colors.includes(name)"
                 :aria-label="name" :title="name" :style="{ '--tone': token }" @click="toggle(colors, name)"
               />
             </div>
@@ -53,7 +53,7 @@
           </MiAccordionItem>
           <MiAccordionItem value="brand">
             <template #title>Brand{{ brands.length ? ' · ' + brands.length : '' }}</template>
-            <div class="sfd__brands">
+            <div class="mi:grid mi:gap-2.5">
               <MiCheckbox
                 v-for="b in BRANDS" :key="b" :label="b" :description="brandCount(b) + ' styles'"
                 :model-value="brands.includes(b)" @update:model-value="toggle(brands, b)"
@@ -63,7 +63,7 @@
         </MiAccordion>
 
         <template #footer>
-          <div class="sfd__foot">
+          <div class="mi:flex mi:[justify-content:flex-end] mi:gap-2">
             <MiButton variant="gray" :disabled="!chips.length" @click="clearAll">Clear all</MiButton>
             <MiButton :disabled="!results.length" @click="open = false">Show {{ results.length }} styles</MiButton>
           </div>
@@ -133,41 +133,3 @@ function clearAll() {
   brands.value = []
 }
 </script>
-
-<style scoped>
-.sfd { container-type: inline-size; position: relative; display: grid; min-height: 700px; border-radius: var(--mi-radius-xl); overflow: hidden; background: var(--mi-page); box-shadow: 0 0 0 1px var(--mi-sep); font-family: var(--mi-font); color: var(--mi-label); }
-.sfd__page, .sfd__scrim, .sfd__drawer { grid-area: 1 / 1; }
-.sfd__page { display: grid; align-content: start; gap: 14px; padding: 20px; }
-.sfd__page-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.sfd__chips { display: flex; flex-wrap: wrap; gap: 6px; }
-.sfd__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 0; padding: 0; list-style: none; }
-.sfd__item { display: grid; gap: 2px; padding: 10px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); font-size: 13px; }
-.sfd__item b { font-weight: 600; }
-.sfd__item span:last-child { color: var(--mi-label2); }
-/* Product art: a tinted plinth and a soft shoe-like lozenge in the style colour. */
-.sfd__art { display: grid; place-items: center; aspect-ratio: 4 / 3; margin-bottom: 8px; border-radius: var(--mi-radius-m); background: radial-gradient(80% 60% at 50% 80%, color-mix(in srgb, var(--tone) 18%, transparent), var(--mi-fill4)); }
-.sfd__art i { width: 62%; height: 26%; border-radius: 60% 40% 30% 30% / 70% 60% 30% 30%; background: linear-gradient(170deg, color-mix(in srgb, var(--tone) 85%, var(--mi-card)), var(--tone)); box-shadow: 0 6px 0 -2px var(--mi-card), 0 8px 0 -2px var(--mi-sep); transform: rotate(-6deg); }
-
-.sfd__scrim { background: var(--mi-scrim); opacity: 0; pointer-events: none; transition: opacity var(--mi-dur-3) var(--mi-ease); }
-.sfd__scrim.is-on { opacity: 1; pointer-events: auto; }
-.sfd__drawer { justify-self: end; align-self: stretch; width: min(380px, calc(100% - 24px)); padding: 10px; transition: transform var(--mi-dur-4) var(--mi-spring); }
-.sfd__drawer.is-closed { transform: translateX(105%); }
-
-.sfd__sizes { display: grid; grid-template-columns: repeat(auto-fill, minmax(52px, 1fr)); gap: 6px; }
-.sfd__size { padding: 8px 0; border: 0; border-radius: var(--mi-radius-s); background: var(--mi-fill4); box-shadow: inset 0 0 0 1px var(--mi-sep); color: inherit; font: inherit; font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; cursor: pointer; }
-.sfd__size[aria-pressed="true"] { background: var(--mi-p); box-shadow: none; color: var(--mi-p-on); }
-.sfd__size:disabled { opacity: .4; text-decoration: line-through; cursor: default; }
-.sfd__colors { display: flex; flex-wrap: wrap; gap: 10px; }
-.sfd__color { width: 32px; height: 32px; border: 0; border-radius: 50%; background: var(--tone); box-shadow: inset 0 0 0 1px var(--mi-sep2), 0 0 0 2px var(--mi-card); cursor: pointer; transition: transform var(--mi-dur-2) var(--mi-spring); }
-.sfd__color[aria-pressed="true"] { box-shadow: inset 0 0 0 1px var(--mi-sep2), 0 0 0 2px var(--mi-card), 0 0 0 4px var(--mi-p); transform: scale(1.06); }
-.sfd__size:focus-visible, .sfd__color:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 3px; }
-.sfd__brands { display: grid; gap: 10px; }
-.sfd__foot { display: flex; justify-content: flex-end; gap: 8px; }
-
-@container (min-width: 620px) {
-  .sfd__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-}
-@container (min-width: 960px) {
-  .sfd__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-}
-</style>

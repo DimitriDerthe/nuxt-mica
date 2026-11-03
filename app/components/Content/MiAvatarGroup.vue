@@ -42,11 +42,11 @@ const summary = computed(() => {
 </script>
 
 <template>
-  <span class="mi-avg" role="img" :aria-label="summary" :style="{ '--mi-avg-o': Math.round(px * 0.2) + 'px' }">
+  <span class="mi-avg mi:align-middle" role="img" :aria-label="summary" :style="{ '--mi-avg-o': Math.round(px * 0.2) + 'px' }">
     <MiAvatar
       v-for="(it, i) in visible"
       :key="it.name + i"
-      class="mi-avg__i"
+      class="mi-avg__i mi:ml-[calc(var(--mi-avg-o)_*_-1)] mi:shadow-[0_0_0_2.5px_var(--mi-card)]"
       :name="it.name"
       :initials="it.initials"
       :src="it.src"
@@ -55,13 +55,12 @@ const summary = computed(() => {
       :shape="shape"
       decorative
     />
-    <MiAvatar v-if="extra" class="mi-avg__i mi-avg__more" :initials="`+${extra}`" tone="neutral" :size="size" :shape="shape" decorative />
+    <MiAvatar v-if="extra" class="mi-avg__i mi-avg__more mi:ml-[calc(var(--mi-avg-o)_*_-1)] mi:shadow-[0_0_0_2.5px_var(--mi-card)]" :initials="`+${extra}`" tone="neutral" :size="size" :shape="shape" decorative />
   </span>
 </template>
 
 <style scoped>
 /* Overlap is 20% of the avatar size: enough to read as a stack, small enough to keep two-letter initials whole. */
-.mi-avg{display:inline-flex;padding-left:var(--mi-avg-o);font-family:var(--mi-font);vertical-align:middle}
-.mi-avg__i{margin-left:calc(var(--mi-avg-o) * -1);box-shadow:0 0 0 2.5px var(--mi-card)}
+.mi-avg{display:inline-flex;padding-left:var(--mi-avg-o);font-family:var(--mi-font)}
 .mi-avg__i.mi-avg__more{--_fg:var(--mi-label)}
 </style>

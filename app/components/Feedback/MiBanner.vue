@@ -53,37 +53,22 @@ defineSlots<{
 </script>
 
 <template>
-  <div class="mi-bnr" :class="[`is-${variant}`, { 'is-sticky': sticky }]" :role="role" :style="vars">
-    <span v-if="glyph || $slots.icon" class="mi-bnr-icon"><slot name="icon"><MiFbIcon v-if="glyph" :name="glyph" :size="18" :stroke="2" /></slot></span>
-    <p class="mi-bnr-text">
-      <strong v-if="title" class="mi-bnr-title">{{ title }}</strong>
-      <span class="mi-bnr-msg"><slot>{{ message }}</slot></span>
+  <div class="mi-bnr mi:flex mi:items-center mi:gap-2.5 mi:w-full mi:min-h-11 mi:pt-2 mi:pr-3 mi:pb-2 mi:pl-4 mi:font-mi mi:text-[14px] mi:leading-5 mi:tracking-[-.01em] mi:[border-bottom:.5px_solid_var(--mi-sep)] mi:[&.is-solid]:border-b-transparent mi:[&.is-sticky]:sticky mi:[&.is-sticky]:top-0 mi:[&.is-sticky]:z-5" :class="[`is-${variant}`, { 'is-sticky': sticky }]" :role="role" :style="vars">
+    <span v-if="glyph || $slots.icon" class="mi-bnr-icon mi:[.mi-bnr.is-tint_&]:text-(--t-text) mi:flex-[none] mi:flex"><slot name="icon"><MiFbIcon v-if="glyph" :name="glyph" :size="18" :stroke="2" /></slot></span>
+    <p class="mi-bnr-text mi:flex-1 mi:min-w-0 mi:m-0">
+      <strong v-if="title" class="mi-bnr-title mi:font-semibold mi:mr-1.5">{{ title }}</strong>
+      <span class="mi-bnr-msg mi:text-inherit mi:[.is-tint_&]:text-label2"><slot>{{ message }}</slot></span>
     </p>
-    <span v-if="actionLabel || $slots.action" class="mi-bnr-action">
-      <slot name="action"><button type="button" class="mi-bnr-btn" @click="emit('action')">{{ actionLabel }}</button></slot>
+    <span v-if="actionLabel || $slots.action" class="mi-bnr-action mi:flex-[none] mi:flex">
+      <slot name="action"><button type="button" class="mi-bnr-btn mi:appearance-none mi:h-7 mi:py-0 mi:px-3 mi:m-0 mi:[border:0] mi:rounded-[999px] mi:[background:var(--mi-fill3)] mi:text-label mi:font-[inherit] mi:text-[13px] mi:font-semibold mi:cursor-pointer mi:[.is-solid_&]:[background:rgba(255,255,255,.22)] mi:[.is-solid_&]:text-inherit mi:active:opacity-60" @click="emit('action')">{{ actionLabel }}</button></slot>
     </span>
-    <button v-if="dismissible" type="button" class="mi-bnr-x" :aria-label="dismissLabel" @click="emit('dismiss')">
+    <button v-if="dismissible" type="button" class="mi-bnr-x mi:appearance-none mi:flex-[none] mi:w-7 mi:h-7 mi:m-0 mi:p-0 mi:[border:0] mi:rounded-[50%] mi:[background:transparent] mi:text-inherit mi:opacity-65 mi:flex mi:items-center mi:justify-center mi:cursor-pointer mi:hover:opacity-100 mi:active:opacity-50" :aria-label="dismissLabel" @click="emit('dismiss')">
       <MiFbIcon name="close" :size="14" :stroke="2.6" />
     </button>
   </div>
 </template>
 
 <style scoped>
-.mi-bnr{display:flex;align-items:center;gap:10px;width:100%;min-height:44px;padding:8px 12px 8px 16px;font-family:var(--mi-font);font-size:14px;line-height:20px;letter-spacing:-.01em;border-bottom:.5px solid var(--mi-sep)}
 .mi-bnr.is-tint{background:var(--t-bg);color:var(--mi-label)}
-.mi-bnr.is-tint .mi-bnr-icon{color:var(--t-text)}
-.mi-bnr.is-solid{background:var(--t-solid);color:var(--t-on);border-bottom-color:transparent}
-.mi-bnr.is-sticky{position:sticky;top:0;z-index:5}
-.mi-bnr-icon{flex:none;display:flex}
-.mi-bnr-text{flex:1;min-width:0;margin:0}
-.mi-bnr-title{font-weight:600;margin-right:6px}
-.mi-bnr-msg{color:inherit}
-.is-tint .mi-bnr-msg{color:var(--mi-label2)}
-.mi-bnr-action{flex:none;display:flex}
-.mi-bnr-btn{appearance:none;height:28px;padding:0 12px;margin:0;border:0;border-radius:999px;background:var(--mi-fill3);color:var(--mi-label);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer}
-.is-solid .mi-bnr-btn{background:rgba(255,255,255,.22);color:inherit}
-.mi-bnr-btn:active{opacity:.6}
-.mi-bnr-x{appearance:none;flex:none;width:28px;height:28px;margin:0;padding:0;border:0;border-radius:50%;background:transparent;color:inherit;opacity:.65;display:flex;align-items:center;justify-content:center;cursor:pointer}
-.mi-bnr-x:hover{opacity:1}
-.mi-bnr-x:active{opacity:.5}
+.mi-bnr.is-solid{background:var(--t-solid);color:var(--t-on)}
 </style>

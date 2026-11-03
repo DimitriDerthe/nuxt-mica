@@ -130,45 +130,45 @@ defineExpose({ focusDate: () => focusCell() })
 </script>
 
 <template>
-  <div ref="root" class="mi-cal">
-    <div class="mi-cal__head">
+  <div ref="root" class="mi-cal mi:flex mi:flex-col mi:gap-3.5 mi:min-w-0 mi:font-mi mi:tracking-[-.01em] mi:select-none">
+    <div class="mi-cal__head mi:flex mi:items-center mi:justify-between">
       <button
-        type="button" class="mi-cal__title" :aria-expanded="view === 'months'" :aria-controls="`mi-cal-body-${uid}`"
+        type="button" class="mi-cal__title mi:inline-flex mi:items-center mi:gap-1 mi:py-1 mi:px-1.5 mi:[border:0] mi:rounded-[8px] mi:bg-transparent mi:text-label mi:cursor-pointer mi:focus-visible:[outline:3px_solid_color-mix(in_srgb,_var(--mi-p)_55%,_transparent)] mi:focus-visible:outline-offset-[1px]" :aria-expanded="view === 'months'" :aria-controls="`mi-cal-body-${uid}`"
         :aria-label="view === 'months' ? `${year}, choose a month` : `${title}, choose a month`" @click="view = view === 'days' ? 'months' : 'days'"
       >
         <span :id="`mi-cal-title-${uid}`" aria-live="polite">{{ view === 'days' ? title : year }}</span>
-        <svg class="mi-cal__chev" :class="{ 'is-open': view === 'months' }" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg>
+        <svg class="mi-cal__chev mi:text-p-text mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring)] mi:[&.is-open]:transform-[rotate(90deg)]" :class="{ 'is-open': view === 'months' }" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg>
       </button>
-      <span class="mi-cal__nav">
-        <button type="button" class="mi-cal__arrow" :disabled="!canPrev" :aria-label="view === 'days' ? 'Previous month' : 'Previous year'" @click="go(-1)">
+      <span class="mi-cal__nav mi:inline-flex mi:gap-1">
+        <button type="button" class="mi-cal__arrow mi:flex mi:items-center mi:justify-center mi:w-9 mi:h-9 mi:m-0 mi:p-0 mi:[border:0] mi:rounded-[50%] mi:bg-transparent mi:text-p-text mi:cursor-pointer mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease),_opacity_var(--mi-dur-1)] mi:active:transform-[scale(.86)] mi:disabled:opacity-30 mi:disabled:cursor-default mi:focus-visible:[outline:3px_solid_color-mix(in_srgb,_var(--mi-p)_55%,_transparent)] mi:focus-visible:outline-offset-[1px]" :disabled="!canPrev" :aria-label="view === 'days' ? 'Previous month' : 'Previous year'" @click="go(-1)">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7" /></svg>
         </button>
-        <button type="button" class="mi-cal__arrow" :disabled="!canNext" :aria-label="view === 'days' ? 'Next month' : 'Next year'" @click="go(1)">
+        <button type="button" class="mi-cal__arrow mi:flex mi:items-center mi:justify-center mi:w-9 mi:h-9 mi:m-0 mi:p-0 mi:[border:0] mi:rounded-[50%] mi:bg-transparent mi:text-p-text mi:cursor-pointer mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease),_opacity_var(--mi-dur-1)] mi:active:transform-[scale(.86)] mi:disabled:opacity-30 mi:disabled:cursor-default mi:focus-visible:[outline:3px_solid_color-mix(in_srgb,_var(--mi-p)_55%,_transparent)] mi:focus-visible:outline-offset-[1px]" :disabled="!canNext" :aria-label="view === 'days' ? 'Next month' : 'Next year'" @click="go(1)">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg>
         </button>
       </span>
     </div>
 
-    <div :id="`mi-cal-body-${uid}`" class="mi-cal__body">
+    <div :id="`mi-cal-body-${uid}`" class="mi-cal__body mi:relative">
       <Transition :name="`mi-cal-${dir}`" mode="out-in">
-        <div v-if="view === 'days'" :key="`d-${year}-${month}`" class="mi-cal__grid" role="grid" :aria-labelledby="`mi-cal-title-${uid}`" @keydown="onGridKey">
-          <div class="mi-cal__row mi-cal__row--head" role="row">
-            <span v-for="w in weekdays" :key="w.long" class="mi-cal__dow" role="columnheader" :aria-label="w.long">{{ w.short }}</span>
+        <div v-if="view === 'days'" :key="`d-${year}-${month}`" class="mi-cal__grid mi:flex mi:flex-col mi:gap-1" role="grid" :aria-labelledby="`mi-cal-title-${uid}`" @keydown="onGridKey">
+          <div class="mi-cal__row mi-cal__row--head mi:grid mi:grid-cols-7 mi:text-center" role="row">
+            <span v-for="w in weekdays" :key="w.long" class="mi-cal__dow mi:pb-1 mi:text-[12px] mi:font-semibold mi:text-label2 mi:uppercase" role="columnheader" :aria-label="w.long">{{ w.short }}</span>
           </div>
-          <div v-for="(wk, wi) in weeks" :key="wi" class="mi-cal__row" role="row">
-            <span v-for="(d, di) in wk" :key="di" class="mi-cal__cell" role="gridcell" :aria-selected="d ? miSameDay(d, model) : undefined">
+          <div v-for="(wk, wi) in weeks" :key="wi" class="mi-cal__row mi:grid mi:grid-cols-7 mi:text-center" role="row">
+            <span v-for="(d, di) in wk" :key="di" class="mi-cal__cell mi:flex mi:justify-center mi:min-h-11" role="gridcell" :aria-selected="d ? miSameDay(d, model) : undefined">
               <button
-                v-if="d" type="button" class="mi-cal__day" :data-key="miDateKey(d)" :tabindex="tabbable(d) ? 0 : -1"
+                v-if="d" type="button" class="mi-cal__day mi:focus-visible:[outline:3px_solid_color-mix(in_srgb,_var(--mi-p)_55%,_transparent)] mi:focus-visible:outline-offset-[1px] mi:relative mi:w-11 mi:h-11 mi:m-0 mi:p-0 mi:[border:0] mi:rounded-[50%] mi:bg-transparent mi:text-label mi:cursor-pointer mi:[-webkit-tap-highlight-color:transparent] mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease)] mi:active:transform-[scale(.92)] mi:[&.is-blocked]:cursor-not-allowed mi:[&.is-blocked:active]:transform-none" :data-key="miDateKey(d)" :tabindex="tabbable(d) ? 0 : -1"
                 :class="{ 'is-selected': miSameDay(d, model), 'is-today': miSameDay(d, nowRef), 'is-blocked': blocked(d) }"
                 :aria-label="label(d)" :aria-current="miSameDay(d, nowRef) ? 'date' : undefined" :aria-disabled="blocked(d) || undefined"
                 @click="pick(d)" @focus="focus = miDay(d)"
-              ><span class="mi-cal__dot" /><span class="mi-cal__num">{{ d.getDate() }}</span></button>
+              ><span class="mi-cal__dot mi:absolute mi:inset-0 mi:rounded-[50%] mi:bg-p mi:opacity-0 mi:transform-[scale(.55)] mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring),_opacity_var(--mi-dur-1)_var(--mi-ease)] mi:[.mi-cal__day:hover:not(.is-selected):not(.is-blocked)_&]:bg-fill3 mi:[.mi-cal__day:hover:not(.is-selected):not(.is-blocked)_&]:opacity-100 mi:[.mi-cal__day:hover:not(.is-selected):not(.is-blocked)_&]:transform-none mi:[.mi-cal__day.is-selected_&]:bg-p mi:[.mi-cal__day.is-selected_&]:opacity-100 mi:[.mi-cal__day.is-selected_&]:transform-none" /><span class="mi-cal__num mi:relative">{{ d.getDate() }}</span></button>
             </span>
           </div>
         </div>
-        <div v-else key="months" class="mi-cal__months" role="group" aria-label="Months">
+        <div v-else key="months" class="mi-cal__months mi:grid mi:grid-cols-3 mi:gap-1.5 mi:min-h-68 mi:content-start" role="group" aria-label="Months">
           <button
-            v-for="n in monthNames" :key="n.m" type="button" class="mi-cal__month" :class="{ 'is-selected': n.m === month }"
+            v-for="n in monthNames" :key="n.m" type="button" class="mi-cal__month mi:focus-visible:[outline:3px_solid_color-mix(in_srgb,_var(--mi-p)_55%,_transparent)] mi:focus-visible:outline-offset-[1px] mi:h-14 mi:m-0 mi:p-0 mi:[border:0] mi:rounded-[12px] mi:bg-fill4 mi:text-label mi:cursor-pointer mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease)] mi:active:transform-[scale(.95)] mi:[&.is-selected]:bg-p mi:[&.is-selected]:text-p-on mi:disabled:text-label3 mi:disabled:cursor-not-allowed" :class="{ 'is-selected': n.m === month }"
             :aria-pressed="n.m === month" :aria-label="`${n.long} ${year}`" :disabled="monthBlocked(n.m)" @click="pickMonth(n.m)"
           >{{ n.short }}</button>
         </div>
@@ -178,36 +178,14 @@ defineExpose({ focusDate: () => focusCell() })
 </template>
 
 <style scoped>
-.mi-cal { display: flex; flex-direction: column; gap: 14px; width: 100%; min-width: 0; font-family: var(--mi-font); color: var(--mi-label); letter-spacing: -.01em; user-select: none; }
-.mi-cal__head { display: flex; align-items: center; justify-content: space-between; }
-.mi-cal__title { display: inline-flex; align-items: center; gap: 4px; margin: 0; padding: 4px 6px; margin-left: -6px; border: 0; border-radius: 8px; background: transparent; color: var(--mi-label); font: inherit; font-size: 17px; font-weight: 600; cursor: pointer; }
-.mi-cal__chev { color: var(--mi-p-text); transition: transform var(--mi-dur-3) var(--mi-spring); }
-.mi-cal__chev.is-open { transform: rotate(90deg); }
-.mi-cal__nav { display: inline-flex; gap: 4px; }
-.mi-cal__arrow { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; margin: 0; padding: 0; border: 0; border-radius: 50%; background: transparent; color: var(--mi-p-text); cursor: pointer; transition: transform var(--mi-dur-1) var(--mi-ease), opacity var(--mi-dur-1); }
-.mi-cal__arrow:active { transform: scale(.86); }
-.mi-cal__arrow:disabled { opacity: .3; cursor: default; }
-.mi-cal__title:focus-visible, .mi-cal__arrow:focus-visible, .mi-cal__day:focus-visible, .mi-cal__month:focus-visible { outline: 3px solid color-mix(in srgb, var(--mi-p) 55%, transparent); outline-offset: 1px; }
-.mi-cal__body { position: relative; }
-.mi-cal__grid { display: flex; flex-direction: column; gap: 4px; }
-.mi-cal__row { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); text-align: center; }
-.mi-cal__dow { padding-bottom: 4px; font-size: 12px; font-weight: 600; color: var(--mi-label2); text-transform: uppercase; }
-.mi-cal__cell { display: flex; justify-content: center; min-height: 44px; }
-.mi-cal__day { position: relative; width: 44px; height: 44px; margin: 0; padding: 0; border: 0; border-radius: 50%; background: transparent; color: var(--mi-label); font: inherit; font-size: 19px; font-variant-numeric: tabular-nums; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: transform var(--mi-dur-1) var(--mi-ease); }
-.mi-cal__day:active { transform: scale(.92); }
-.mi-cal__num { position: relative; }
-.mi-cal__dot { position: absolute; inset: 0; border-radius: 50%; background: var(--mi-p); opacity: 0; transform: scale(.55); transition: transform var(--mi-dur-3) var(--mi-spring), opacity var(--mi-dur-1) var(--mi-ease); }
-.mi-cal__day:hover:not(.is-selected):not(.is-blocked) .mi-cal__dot { background: var(--mi-fill3); opacity: 1; transform: none; }
+.mi-cal { width: 100%; color: var(--mi-label); }
+.mi-cal__title { margin: 0; margin-left: -6px; font: inherit; font-size: 17px; font-weight: 600; }
+.mi-cal__day { font: inherit; font-size: 19px; font-variant-numeric: tabular-nums; }
 .mi-cal__day.is-selected { color: var(--mi-p-on); font-weight: 600; }
-.mi-cal__day.is-selected .mi-cal__dot { background: var(--mi-p); opacity: 1; transform: none; }
 .mi-cal__day.is-today:not(.is-selected) { color: var(--mi-p-text); font-weight: 600; }
-.mi-cal__day.is-blocked { color: var(--mi-label3); cursor: not-allowed; }
-.mi-cal__day.is-blocked:active { transform: none; }
-.mi-cal__months { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; min-height: 272px; align-content: start; }
-.mi-cal__month { height: 56px; margin: 0; padding: 0; border: 0; border-radius: 12px; background: var(--mi-fill4); color: var(--mi-label); font: inherit; font-size: 17px; font-weight: 500; cursor: pointer; transition: transform var(--mi-dur-1) var(--mi-ease); }
-.mi-cal__month:active { transform: scale(.95); }
-.mi-cal__month.is-selected { background: var(--mi-p); color: var(--mi-p-on); font-weight: 600; }
-.mi-cal__month:disabled { color: var(--mi-label3); cursor: not-allowed; }
+.mi-cal__day.is-blocked { color: var(--mi-label3); }
+.mi-cal__month { font: inherit; font-size: 17px; font-weight: 500; }
+.mi-cal__month.is-selected { font-weight: 600; }
 .mi-cal-next-enter-active, .mi-cal-prev-enter-active, .mi-cal-next-leave-active, .mi-cal-prev-leave-active { transition: transform var(--mi-dur-1) var(--mi-ease), opacity var(--mi-dur-1) var(--mi-ease); }
 .mi-cal-next-enter-from, .mi-cal-prev-leave-to { opacity: 0; transform: translateX(14px); }
 .mi-cal-next-leave-to, .mi-cal-prev-enter-from { opacity: 0; transform: translateX(-14px); }

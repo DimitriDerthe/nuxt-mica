@@ -181,10 +181,10 @@ defineSlots<{
     <slot :id="id" :open="open" />
   </span>
   <Teleport v-if="mounted" to="body">
-    <div class="mi mi-tip-pos" :style="{ transform: `translate3d(${geo.x}px,${geo.y}px,0)`, zIndex: MI_OVERLAY_Z.tooltip }">
-      <div :id="id" ref="bubble" role="tooltip" class="mi-tip" :class="{ 'is-in': open && !clipped }" :data-side="geo.side">
+    <div class="mi mi-tip-pos mi:fixed mi:left-0 mi:top-0 mi:pointer-events-none mi:font-mi" :style="{ transform: `translate3d(${geo.x}px,${geo.y}px,0)`, zIndex: MI_OVERLAY_Z.tooltip }">
+      <div :id="id" ref="bubble" role="tooltip" class="mi-tip mi:box-border mi:min-h-6.5 mi:py-1 mi:px-[9px] mi:rounded-[6px] mi:bg-elev mi:shadow-2 mi:text-label mi:text-[12px] mi:leading-[18px] mi:whitespace-nowrap mi:inline-flex mi:items-center mi:gap-2 mi:tracking-[-.005em] mi:opacity-0 mi:invisible mi:transform-[translate3d(0,3px,0)_scale(.96)] mi:[transition:opacity_var(--mi-dur-1)_var(--mi-ease),transform_var(--mi-dur-1)_var(--mi-ease),visibility_0s_linear_var(--mi-dur-1)] mi:[&.is-in]:opacity-100 mi:[&.is-in]:visible mi:[&.is-in]:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),transform_var(--mi-dur-2)_var(--mi-ease),visibility_0s]" :class="{ 'is-in': open && !clipped }" :data-side="geo.side">
         <slot name="content"><span>{{ content }}</span></slot>
-        <span v-if="shortcut" class="mi-tip-short">{{ shortcut }}</span>
+        <span v-if="shortcut" class="mi-tip-short mi:text-label2">{{ shortcut }}</span>
       </div>
     </div>
   </Teleport>
@@ -192,11 +192,8 @@ defineSlots<{
 
 <style scoped>
 .mi-tip-anchor{display:inline-flex}
-.mi-tip-pos{position:fixed;left:0;top:0;pointer-events:none;font-family:var(--mi-font)}
-.mi-tip{box-sizing:border-box;min-height:26px;padding:4px 9px;border-radius:6px;background:var(--mi-elev);box-shadow:var(--mi-sh2);color:var(--mi-label);font-size:12px;line-height:18px;white-space:nowrap;display:inline-flex;align-items:center;gap:8px;letter-spacing:-.005em;opacity:0;visibility:hidden;transform:translate3d(0,3px,0) scale(.96);transition:opacity var(--mi-dur-1) var(--mi-ease),transform var(--mi-dur-1) var(--mi-ease),visibility 0s linear var(--mi-dur-1)}
 .mi-tip[data-side=bottom]{transform:translate3d(0,-3px,0) scale(.96)}
 .mi-tip[data-side=left]{transform:translate3d(3px,0,0) scale(.96)}
 .mi-tip[data-side=right]{transform:translate3d(-3px,0,0) scale(.96)}
-.mi-tip.is-in{opacity:1;visibility:visible;transform:none;transition:opacity var(--mi-dur-2) var(--mi-ease),transform var(--mi-dur-2) var(--mi-ease),visibility 0s}
-.mi-tip-short{color:var(--mi-label2)}
+.mi-tip.is-in{transform:none}
 </style>

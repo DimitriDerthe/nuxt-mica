@@ -198,12 +198,12 @@ const valueText = (seg: MiTimeSegment) => (shown(seg) === null ? 'Empty' : text(
 </script>
 
 <template>
-  <div class="mi-tp" :class="{ 'is-disabled': disabled, 'is-invalid': invalid }" role="group" :aria-label="label" :aria-disabled="disabled || undefined">
+  <div class="mi-tp mi:inline-flex mi:items-center mi:gap-0.5 mi:min-h-11 mi:py-1 mi:px-2 mi:rounded-[10px] mi:bg-field mi:shadow-[inset_0_0_0_1px_var(--mi-field-b)] mi:font-mi mi:tabular-nums mi:[&.is-disabled]:opacity-45 mi:[&.is-invalid]:shadow-[inset_0_0_0_1.5px_var(--mi-red)] mi:focus-within:shadow-[inset_0_0_0_1.5px_var(--mi-p),_0_0_0_3px_color-mix(in_srgb,_var(--mi-p)_28%,_transparent)]" :class="{ 'is-disabled': disabled, 'is-invalid': invalid }" role="group" :aria-label="label" :aria-disabled="disabled || undefined">
     <template v-for="(seg, i) in order" :key="seg">
-      <span v-if="i" class="mi-tp__sep" aria-hidden="true">:</span>
+      <span v-if="i" class="mi-tp__sep mi:text-label2 mi:font-semibold" aria-hidden="true">:</span>
       <span
         :ref="(el) => (refs[seg] = el as HTMLElement | null)"
-        class="mi-tp__seg"
+        class="mi-tp__seg mi:min-w-8.5 mi:py-1.5 mi:px-1 mi:rounded-[7px] mi:text-center mi:font-semibold mi:[outline:none] mi:caret-transparent mi:select-none mi:touch-manipulation mi:[&.is-empty]:text-label2 mi:focus:bg-p mi:focus:text-p-on"
         :class="{ 'is-empty': shown(seg) === null }"
         role="spinbutton"
         :tabindex="disabled ? -1 : 0"
@@ -221,46 +221,23 @@ const valueText = (seg: MiTimeSegment) => (shown(seg) === null ? 'Empty' : text(
       v-if="hour12"
       :ref="(el) => (refs.period = el as HTMLElement | null)"
       type="button"
-      class="mi-tp__period"
+      class="mi-tp__period mi:relative mi:isolate mi:inline-grid mi:grid-cols-[1fr_1fr] mi:ml-2 mi:p-0.5 mi:[border:0] mi:rounded-[9px] mi:bg-fill3 mi:text-label mi:cursor-pointer mi:focus-visible:[outline:3px_solid_color-mix(in_srgb,_var(--mi-p)_55%,_transparent)] mi:focus-visible:outline-offset-[2px]"
       :aria-label="`AM or PM, ${pm ? 'PM' : 'AM'}`"
       :disabled="disabled"
       @click="togglePeriod()"
       @keydown="onPeriodKey"
     >
-      <span class="mi-tp__thumb" :class="{ 'is-pm': pm }" aria-hidden="true" />
-      <span class="mi-tp__opt" :class="{ 'is-on': !pm }">AM</span>
-      <span class="mi-tp__opt" :class="{ 'is-on': pm }">PM</span>
+      <span class="mi-tp__thumb mi:absolute mi:-z-1 mi:top-0.5 mi:bottom-0.5 mi:left-0.5 mi:w-[calc(50%_-_2px)] mi:rounded-[7px] mi:bg-seg mi:shadow-1 mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring)] mi:[&.is-pm]:transform-[translate3d(100%,_0,_0)]" :class="{ 'is-pm': pm }" aria-hidden="true" />
+      <span class="mi-tp__opt mi:py-1.5 mi:px-[9px] mi:text-center mi:text-label2 mi:[&.is-on]:text-label" :class="{ 'is-on': !pm }">AM</span>
+      <span class="mi-tp__opt mi:py-1.5 mi:px-[9px] mi:text-center mi:text-label2 mi:[&.is-on]:text-label" :class="{ 'is-on': pm }">PM</span>
     </button>
     <input v-if="name" type="hidden" :name="name" :value="model ?? ''">
   </div>
 </template>
 
 <style scoped>
-.mi-tp {
-  display: inline-flex; align-items: center; gap: 2px; min-height: 44px; padding: 4px 8px;
-  border-radius: 10px; background: var(--mi-field); box-shadow: inset 0 0 0 1px var(--mi-field-b);
-  font-family: var(--mi-font); font-size: 17px; font-variant-numeric: tabular-nums; color: var(--mi-label);
+.mi-tp { font-size: 17px; color: var(--mi-label);
 }
-.mi-tp.is-disabled { opacity: .45; }
-.mi-tp.is-invalid { box-shadow: inset 0 0 0 1.5px var(--mi-red); }
-.mi-tp:focus-within { box-shadow: inset 0 0 0 1.5px var(--mi-p), 0 0 0 3px color-mix(in srgb, var(--mi-p) 28%, transparent); }
-.mi-tp__sep { color: var(--mi-label2); font-weight: 600; }
-.mi-tp__seg {
-  min-width: 34px; padding: 6px 4px; border-radius: 7px; text-align: center; font-weight: 600; outline: none;
-  caret-color: transparent; user-select: none; touch-action: manipulation;
+.mi-tp__period { font: inherit; font-size: 13px; font-weight: 600;
 }
-.mi-tp__seg.is-empty { color: var(--mi-label2); }
-.mi-tp__seg:focus { background: var(--mi-p); color: var(--mi-p-on); }
-.mi-tp__period {
-  position: relative; isolation: isolate; display: inline-grid; grid-template-columns: 1fr 1fr; margin-left: 8px; padding: 2px;
-  border: 0; border-radius: 9px; background: var(--mi-fill3); font: inherit; font-size: 13px; font-weight: 600; color: var(--mi-label); cursor: pointer;
-}
-.mi-tp__period:focus-visible { outline: 3px solid color-mix(in srgb, var(--mi-p) 55%, transparent); outline-offset: 2px; }
-.mi-tp__opt { padding: 6px 9px; text-align: center; color: var(--mi-label2); }
-.mi-tp__opt.is-on { color: var(--mi-label); }
-.mi-tp__thumb {
-  position: absolute; z-index: -1; top: 2px; bottom: 2px; left: 2px; width: calc(50% - 2px); border-radius: 7px;
-  background: var(--mi-seg); box-shadow: var(--mi-sh1); transition: transform var(--mi-dur-3) var(--mi-spring);
-}
-.mi-tp__thumb.is-pm { transform: translate3d(100%, 0, 0); }
 </style>

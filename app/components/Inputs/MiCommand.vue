@@ -107,24 +107,24 @@ defineSlots<{
       </div>
     </Transition>
   </Teleport>
-  <div v-else class="mi-cmd">
+  <div v-else class="mi-cmd mi:flex-col mi:font-mi mi:overflow-hidden">
     <input
-      v-model="query" class="mi-cmd__input" type="text" role="combobox" aria-expanded="true" :aria-controls="listId" :aria-label="placeholder"
+      v-model="query" class="mi-cmd__input mi:box-border mi:w-full mi:h-12 mi:py-0 mi:px-4 mi:bg-transparent mi:text-inherit mi:[outline:none] mi:focus-visible:shadow-[inset_0_-2px_0_var(--mi-p)]" type="text" role="combobox" aria-expanded="true" :aria-controls="listId" :aria-label="placeholder"
       :aria-activedescendant="flat.length ? optId(active) : undefined" autocomplete="off" :placeholder="placeholder" :autofocus="autofocus"
       @input="active = 0" @keydown="onKeydown"
     >
-    <div :id="listId" class="mi-cmd__list" role="listbox">
-      <div v-if="!flat.length" class="mi-cmd__empty" role="status"><slot name="empty">{{ emptyText }}</slot></div>
+    <div :id="listId" class="mi-cmd__list mi:max-h-80 mi:overflow-y-auto mi:p-1.5 mi:overscroll-contain" role="listbox">
+      <div v-if="!flat.length" class="mi-cmd__empty mi:py-6 mi:px-2.5 mi:text-center mi:text-[14px] mi:text-label2" role="status"><slot name="empty">{{ emptyText }}</slot></div>
       <div v-for="(g, gi) in groups" :key="g.name" class="mi-cmd__group" role="group" :aria-label="g.name || undefined">
-        <div v-if="gi > 0" class="mi-cmd__sep" role="separator" />
-        <div v-if="g.name" class="mi-cmd__heading" aria-hidden="true">{{ g.name }}</div>
+        <div v-if="gi > 0" class="mi-cmd__sep mi:h-px mi:my-1 mi:-mx-1.5 mi:bg-field-b" role="separator" />
+        <div v-if="g.name" class="mi-cmd__heading mi:pt-2 mi:px-2.5 mi:pb-1 mi:text-[12px] mi:font-semibold mi:text-label2" aria-hidden="true">{{ g.name }}</div>
         <div
-          v-for="e in g.entries" :id="optId(e.index)" :key="e.item.value" class="mi-cmd__item" role="option"
+          v-for="e in g.entries" :id="optId(e.index)" :key="e.item.value" class="mi-cmd__item mi:flex mi:items-center mi:justify-between mi:gap-2 mi:min-h-9.5 mi:py-1.5 mi:px-2.5 mi:rounded-[8px] mi:text-[15px] mi:cursor-pointer mi:select-none mi:[&.is-active]:bg-p mi:[&.is-active]:text-p-on mi:[&.is-disabled]:text-label3 mi:[&.is-disabled]:cursor-not-allowed mi:[&.is-disabled.is-active]:bg-transparent" role="option"
           :class="{ 'is-active': e.index === active, 'is-disabled': e.item.disabled }" :aria-selected="e.index === active" :aria-disabled="e.item.disabled || undefined"
           @mousemove="active = e.index" @click="run(e.index)"
         >
           <slot name="item" :item="e.item"><span class="mi-cmd__label">{{ e.item.label }}</span></slot>
-          <kbd v-if="e.item.shortcut" class="mi-cmd__kbd">{{ e.item.shortcut }}</kbd>
+          <kbd v-if="e.item.shortcut" class="mi-cmd__kbd mi:opacity-70">{{ e.item.shortcut }}</kbd>
         </div>
       </div>
     </div>
@@ -139,16 +139,7 @@ defineSlots<{
 </style>
 
 <style scoped>
-.mi-cmd { display: flex; flex-direction: column; min-width: 0; border-radius: 12px; background: var(--mi-elev); color: var(--mi-label); font-family: var(--mi-font); overflow: hidden; }
-.mi-cmd__input { box-sizing: border-box; width: 100%; height: 48px; padding: 0 16px; border: 0; border-bottom: 1px solid var(--mi-field-b); background: transparent; color: inherit; font: inherit; font-size: 16px; outline: none; }
-.mi-cmd__input:focus-visible { box-shadow: inset 0 -2px 0 var(--mi-p); }
-.mi-cmd__list { max-height: 320px; overflow-y: auto; padding: 6px; overscroll-behavior: contain; }
-.mi-cmd__heading { padding: 8px 10px 4px; font-size: 12px; font-weight: 600; color: var(--mi-label2); }
-.mi-cmd__item { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 38px; padding: 6px 10px; border-radius: 8px; font-size: 15px; cursor: pointer; user-select: none; }
-.mi-cmd__item.is-active { background: var(--mi-p); color: var(--mi-p-on); }
-.mi-cmd__item.is-disabled { color: var(--mi-label3); cursor: not-allowed; }
-.mi-cmd__item.is-disabled.is-active { background: transparent; }
-.mi-cmd__sep { height: 1px; margin: 4px -6px; background: var(--mi-field-b); }
-.mi-cmd__kbd { font: inherit; font-size: 12px; opacity: .7; }
-.mi-cmd__empty { padding: 24px 10px; text-align: center; font-size: 14px; color: var(--mi-label2); }
+.mi-cmd { display: flex; min-width: 0; border-radius: 12px; background: var(--mi-elev); color: var(--mi-label); }
+.mi-cmd__input { border: 0; border-bottom: 1px solid var(--mi-field-b); font: inherit; font-size: 16px; }
+.mi-cmd__kbd { font: inherit; font-size: 12px; }
 </style>

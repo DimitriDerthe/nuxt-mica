@@ -1,6 +1,6 @@
 <template>
-  <section class="fr" aria-labelledby="fr-title">
-    <header class="fr__head">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="fr-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="fr-title" variant="title3" as="h2" weight="semibold">Feature adoption ranks</MiText>
         <MiText variant="footnote" tone="label2">Ledgerly · ranked by weekly active teams</MiText>
@@ -9,34 +9,34 @@
     </header>
 
     <!-- Slope chart: where each feature ranked before (left) and where it ranks now (right). -->
-    <div class="fr__card">
-      <div class="fr__cols" aria-hidden="true">
-        <span>{{ period === 'quarter' ? 'Last quarter' : 'Last month' }}</span>
-        <span />
-        <span>This month</span>
+    <div class="mi:grid mi:gap-1.5 mi:min-w-0 mi:py-4 mi:px-4.5 mi:rounded-xl mi:bg-card mi:shadow-1">
+      <div class="mi:grid mi:grid-cols-[28px_minmax(40px,_1fr)_minmax(0,_2.4fr)] mi:gap-x-2.5 mi:@[560px]:grid-cols-[minmax(0,_1.2fr)_minmax(60px,_1fr)_minmax(0,_1.6fr)] mi:text-[11px] mi:font-semibold mi:tracking-[.04em] mi:uppercase mi:text-label3" aria-hidden="true">
+        <span class="mi:[&:last-child]:pl-2">{{ period === 'quarter' ? 'Last quarter' : 'Last month' }}</span>
+        <span class="mi:[&:last-child]:pl-2" />
+        <span class="mi:[&:last-child]:pl-2">This month</span>
       </div>
-      <div class="fr__chart">
-        <ol class="fr__before" aria-hidden="true">
-          <li v-for="f in before" :key="f.name" :class="{ 'is-on': f.name === focus }">
-            <span class="fr__rank">{{ f.prev }}</span><span class="fr__before-name">{{ f.name }}</span>
+      <div class="mi:grid mi:grid-cols-[28px_minmax(40px,_1fr)_minmax(0,_2.4fr)] mi:gap-x-2.5 mi:@[560px]:grid-cols-[minmax(0,_1.2fr)_minmax(60px,_1fr)_minmax(0,_1.6fr)]">
+        <ol class="mi:grid mi:auto-rows-[44px] mi:m-0 mi:p-0 mi:[list-style:none] mi:min-w-0" aria-hidden="true">
+          <li class="mi:flex mi:items-center mi:gap-2 mi:min-w-0 mi:text-[13px]" v-for="f in before" :key="f.name" :class="f.name === focus ? 'mi:text-label mi:font-semibold' : 'mi:text-label2'">
+            <span class="mi:flex-[none] mi:w-5.5 mi:text-[12px] mi:font-bold mi:text-label3 mi:tabular-nums">{{ f.prev }}</span><span class="mi:hidden mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:@[560px]:inline">{{ f.name }}</span>
           </li>
         </ol>
-        <svg class="fr__svg" :viewBox="`0 0 100 ${ranked.length * ROW}`" :height="ranked.length * ROW" preserveAspectRatio="none" aria-hidden="true">
+        <svg class="mi:block mi:w-full" :viewBox="`0 0 100 ${ranked.length * ROW}`" :height="ranked.length * ROW" preserveAspectRatio="none" aria-hidden="true">
           <line
             v-for="f in ranked" :key="f.name" x1="0" :y1="(f.prev - 1) * ROW + ROW / 2" x2="100" :y2="(f.rank - 1) * ROW + ROW / 2"
-            class="fr__line" :class="[f.move > 0 ? 'is-up' : f.move < 0 ? 'is-down' : '', { 'is-on': f.name === focus }]"
+            class="mi:[stroke-linecap:round] mi:[vector-effect:non-scaling-stroke] mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)]" :class="[f.name === focus ? 'mi:[stroke-width:3.5]' : 'mi:[stroke-width:2]', f.name === focus ? 'mi:stroke-p' : f.move > 0 ? 'mi:stroke-green/55' : f.move < 0 ? 'mi:stroke-orange/55' : 'mi:stroke-fill']"
           />
         </svg>
-        <ol class="fr__now" aria-label="Current ranking">
+        <ol class="mi:grid mi:auto-rows-[44px] mi:m-0 mi:p-0 mi:[list-style:none] mi:min-w-0" aria-label="Current ranking">
           <li v-for="f in ranked" :key="f.name">
             <button
-              type="button" class="fr__row" :class="{ 'is-on': f.name === focus }" :aria-pressed="f.name === picked"
+              type="button" class="mi:[font:inherit] mi:text-[14px] mi:grid mi:grid-cols-[22px_minmax(0,_1fr)_auto] mi:items-center mi:gap-2 mi:w-full mi:h-full mi:py-0 mi:px-2 mi:[border:0] mi:rounded-md mi:text-inherit mi:text-start mi:cursor-pointer mi:[transition:background-color_var(--mi-dur-2)_var(--mi-ease)] mi:aria-pressed:shadow-[inset_0_0_0_1px_var(--mi-sep)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px]" :class="f.name === focus ? 'mi:bg-fill4' : 'mi:bg-transparent mi:hover:bg-fill4'" :aria-pressed="f.name === picked"
               :aria-label="`${f.rank}. ${f.name}, ${moveText(f.move)}`"
               @click="picked = f.name" @mouseenter="hovered = f.name" @mouseleave="hovered = ''" @focus="hovered = f.name" @blur="hovered = ''"
             >
-              <span class="fr__rank">{{ f.rank }}</span>
-              <span class="fr__name">{{ f.name }}</span>
-              <span class="fr__move" :class="f.move > 0 ? 'is-up' : f.move < 0 ? 'is-down' : ''">
+              <span class="mi:flex-[none] mi:w-5.5 mi:text-[12px] mi:font-bold mi:text-label3 mi:tabular-nums">{{ f.rank }}</span>
+              <span class="mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:font-medium">{{ f.name }}</span>
+              <span class="mi:text-[12px] mi:font-semibold mi:tabular-nums" :class="f.move > 0 ? 'mi:text-green-t' : f.move < 0 ? 'mi:text-orange-t' : 'mi:text-label3'">
                 {{ f.move > 0 ? '▲' + f.move : f.move < 0 ? '▼' + -f.move : '–' }}
               </span>
             </button>
@@ -45,8 +45,8 @@
       </div>
     </div>
 
-    <article class="fr__detail" aria-live="polite" aria-labelledby="fr-detail-title">
-      <div class="fr__detail-text">
+    <article class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-3 mi:py-4 mi:px-4.5 mi:rounded-lg mi:bg-card mi:shadow-1" aria-live="polite" aria-labelledby="fr-detail-title">
+      <div class="mi:grid mi:gap-0.5 mi:min-w-0">
         <MiText id="fr-detail-title" variant="headline" as="h3">{{ current.name }}</MiText>
         <MiText variant="footnote" tone="label2">
           Rank {{ current.rank }}, {{ moveText(current.move) }} · {{ current.teams.toLocaleString('en-US') }} weekly active teams
@@ -93,42 +93,3 @@ const current = computed(() => ranked.value.find(f => f.name === focus.value) ??
 const moveText = (m: number) => (m === 0 ? 'no change' : `${m > 0 ? 'up' : 'down'} ${Math.abs(m)} ${Math.abs(m) === 1 ? 'place' : 'places'}`)
 </script>
 
-<style scoped>
-.fr { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
-.fr__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-
-.fr__card { display: grid; gap: 6px; min-width: 0; padding: 16px 18px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.fr__cols, .fr__chart { display: grid; grid-template-columns: 28px minmax(40px, 1fr) minmax(0, 2.4fr); column-gap: 10px; }
-@container (min-width: 560px) { .fr__cols, .fr__chart { grid-template-columns: minmax(0, 1.2fr) minmax(60px, 1fr) minmax(0, 1.6fr); } }
-.fr__cols { font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--mi-label3); }
-.fr__cols span:last-child { padding-left: 8px; }
-
-.fr__before, .fr__now { display: grid; grid-auto-rows: 44px; margin: 0; padding: 0; list-style: none; min-width: 0; }
-.fr__before li { display: flex; align-items: center; gap: 8px; min-width: 0; color: var(--mi-label2); font-size: 13px; }
-.fr__before li.is-on { color: var(--mi-label); font-weight: 600; }
-.fr__before-name { display: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-@container (min-width: 560px) { .fr__before-name { display: inline; } }
-.fr__rank { flex: none; width: 22px; font-size: 12px; font-weight: 700; color: var(--mi-label3); font-variant-numeric: tabular-nums; }
-
-.fr__svg { display: block; width: 100%; }
-.fr__line { stroke: var(--mi-fill); stroke-width: 2; stroke-linecap: round; vector-effect: non-scaling-stroke; transition: opacity var(--mi-dur-2) var(--mi-ease); }
-.fr__line.is-up { stroke: color-mix(in srgb, var(--mi-green) 55%, transparent); }
-.fr__line.is-down { stroke: color-mix(in srgb, var(--mi-orange) 55%, transparent); }
-.fr__line.is-on { stroke: var(--mi-p); stroke-width: 3.5; }
-
-.fr__row {
-  display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; align-items: center; gap: 8px; width: 100%; height: 100%; padding: 0 8px;
-  border: 0; border-radius: var(--mi-radius-m); background: transparent; color: inherit; font: inherit; font-size: 14px; text-align: start; cursor: pointer;
-  transition: background-color var(--mi-dur-2) var(--mi-ease);
-}
-.fr__row:hover, .fr__row.is-on { background: var(--mi-fill4); }
-.fr__row[aria-pressed="true"] { box-shadow: inset 0 0 0 1px var(--mi-sep); }
-.fr__row:focus-visible { outline: 2px solid var(--mi-p); outline-offset: -2px; }
-.fr__name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; }
-.fr__move { font-size: 12px; font-weight: 600; color: var(--mi-label3); font-variant-numeric: tabular-nums; }
-.fr__move.is-up { color: var(--mi-green-t); }
-.fr__move.is-down { color: var(--mi-orange-t); }
-
-.fr__detail { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 18px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.fr__detail-text { display: grid; gap: 2px; min-width: 0; }
-</style>

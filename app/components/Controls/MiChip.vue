@@ -49,25 +49,23 @@ function onKeydown(e: KeyboardEvent) {
 
 <template>
   <span
-    class="mi-chip"
+    class="mi-chip mi:[--_tint:var(--mi-p-tint)] mi:[--_fg:var(--mi-p-text)] mi:before:pointer-events-none mi:after:pointer-events-none"
     :class="[`tone-${tone}`, `is-${size}`, { 'is-on': selectable && model, 'is-static': !selectable, 'is-removable': removable, 'is-disabled': disabled }]"
     @keydown="onKeydown"
   >
-    <button v-if="selectable" type="button" class="mi-chip__main" :aria-pressed="model" :disabled="disabled" @click="toggle">
-      <svg v-if="model" class="mi-chip__check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7" /></svg>
+    <button v-if="selectable" type="button" class="mi-chip__main mi:relative mi:z-1 mi:inline-flex mi:items-center mi:self-stretch mi:gap-1.5 mi:py-0 mi:px-3.5 mi:[border:0] mi:rounded-[999px] mi:[background:transparent] mi:text-inherit mi:[font:inherit] mi:whitespace-nowrap mi:[-webkit-tap-highlight-color:transparent] mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring)] mi:[.is-small_&]:py-0 mi:[.is-small_&]:px-2.5 mi:[.is-removable_&]:pr-1.5" :aria-pressed="model" :disabled="disabled" @click="toggle">
+      <svg v-if="model" class="mi-chip__check mi:flex-[none]" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7" /></svg>
       <slot>{{ label }}</slot>
     </button>
-    <span v-else class="mi-chip__main" :tabindex="removable && !disabled ? 0 : undefined"><slot>{{ label }}</slot></span>
-    <button v-if="removable" type="button" class="mi-chip__x" :aria-label="removeLabel ?? (label ? `Remove ${label}` : 'Remove')" :disabled="disabled" tabindex="-1" @click="remove">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
+    <span v-else class="mi-chip__main mi:relative mi:z-1 mi:inline-flex mi:items-center mi:self-stretch mi:gap-1.5 mi:py-0 mi:px-3.5 mi:[border:0] mi:rounded-[999px] mi:[background:transparent] mi:text-inherit mi:[font:inherit] mi:whitespace-nowrap mi:[-webkit-tap-highlight-color:transparent] mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring)] mi:[.is-small_&]:py-0 mi:[.is-small_&]:px-2.5 mi:[.is-removable_&]:pr-1.5" :tabindex="removable && !disabled ? 0 : undefined"><slot>{{ label }}</slot></span>
+    <button v-if="removable" type="button" class="mi-chip__x mi:relative mi:z-1 mi:inline-flex mi:items-center mi:justify-center mi:w-5 mi:h-5 mi:mr-2 mi:p-0 mi:[border:0] mi:rounded-[50%] mi:[background:transparent] mi:text-label2 mi:[-webkit-tap-highlight-color:transparent] mi:[.is-small_&]:mr-[5px] mi:before:content-[''] mi:before:absolute mi:before:inset-0 mi:before:rounded-[inherit] mi:before:[background:var(--mi-fill)] mi:before:opacity-0 mi:before:[transition:opacity_var(--mi-dur-1)_ease] mi:[&:hover:not(:disabled)]:before:opacity-100 mi:disabled:cursor-default" :aria-label="removeLabel ?? (label ? `Remove ${label}` : 'Remove')" :disabled="disabled" tabindex="-1" @click="remove">
+      <svg class="mi:[.mi-chip__x_&]:relative" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
     </button>
   </span>
 </template>
 
 <style scoped>
 .mi-chip {
-  --_tint: var(--mi-p-tint);
-  --_fg: var(--mi-p-text);
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -85,13 +83,11 @@ function onKeydown(e: KeyboardEvent) {
 .mi-chip.is-disabled { opacity: .4; }
 
 /* Outline and tint are stacked layers cross-faded with opacity. */
-.mi-chip::before,
-.mi-chip::after {
+.mi-chip::before, .mi-chip::after {
   content: '';
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  pointer-events: none;
   transition: opacity var(--mi-dur-2) ease;
 }
 .mi-chip::before { box-shadow: inset 0 0 0 1px var(--mi-sep2); }
@@ -100,62 +96,12 @@ function onKeydown(e: KeyboardEvent) {
 .mi-chip.is-on::after { opacity: 1; }
 .mi-chip.is-static::before { background: var(--mi-fill3); box-shadow: none; }
 .mi-chip.is-on { color: var(--_fg); }
-
-.mi-chip__main {
-  position: relative;
-  z-index: 1;
-  display: inline-flex;
-  align-items: center;
-  align-self: stretch;
-  gap: 6px;
-  padding: 0 14px;
-  border: 0;
-  border-radius: 999px;
-  background: transparent;
-  color: inherit;
-  font: inherit;
-  white-space: nowrap;
-  -webkit-tap-highlight-color: transparent;
-  transition: transform var(--mi-dur-2) var(--mi-spring);
-}
-.is-small .mi-chip__main { padding: 0 10px; }
-.is-removable .mi-chip__main { padding-right: 6px; }
 button.mi-chip__main:active:not(:disabled) { transform: scale(.96); }
 button.mi-chip__main:disabled { cursor: default; }
 
-.mi-chip__check { flex: none; animation: mi-chip-pop var(--mi-dur-3) var(--mi-spring) both; }
+.mi-chip__check { animation: mi-chip-pop var(--mi-dur-3) var(--mi-spring) both; }
 @keyframes mi-chip-pop {
   from { transform: scale(.3); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
-
-.mi-chip__x {
-  position: relative;
-  z-index: 1;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 20px;
-  height: 20px;
-  margin-right: 8px;
-  padding: 0;
-  border: 0;
-  border-radius: 50%;
-  background: transparent;
-  color: var(--mi-label2);
-  -webkit-tap-highlight-color: transparent;
-}
-.is-small .mi-chip__x { margin-right: 5px; }
-.mi-chip__x::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: var(--mi-fill);
-  opacity: 0;
-  transition: opacity var(--mi-dur-1) ease;
-}
-.mi-chip__x:hover:not(:disabled)::before { opacity: 1; }
-.mi-chip__x svg { position: relative; }
-.mi-chip__x:disabled { cursor: default; }
 </style>

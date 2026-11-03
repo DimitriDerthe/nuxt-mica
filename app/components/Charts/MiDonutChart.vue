@@ -207,17 +207,17 @@ const slotActive = computed(() => (sel.value ? { index: sel.value.i, label: sel.
 <template>
   <MiChartCard :title="title" :subtitle="subtitle" :surface="card">
     <template v-if="toggle" #actions>
-      <span class="mi-dc-seg" role="radiogroup" aria-label="Display" @keydown="onToggleKey">
-        <span class="mi-dc-thumb" :class="{ 'is-table': view === 'table' }" aria-hidden="true" />
-        <button :id="`${uid}-chart`" type="button" role="radio" :aria-checked="view === 'chart'" :tabindex="view === 'chart' ? 0 : -1" @click="view = 'chart'">{{ chartLabel }}</button>
-        <button :id="`${uid}-table`" type="button" role="radio" :aria-checked="view === 'table'" :tabindex="view === 'table' ? 0 : -1" @click="view = 'table'">{{ tableLabel }}</button>
+      <span class="mi-dc-seg mi:relative mi:inline-grid mi:grid-cols-2 mi:gap-0.5 mi:p-0.5 mi:rounded-[8px] mi:bg-fill3" role="radiogroup" aria-label="Display" @keydown="onToggleKey">
+        <span class="mi-dc-thumb mi:absolute mi:top-0.5 mi:bottom-0.5 mi:left-0.5 mi:w-[calc((100%_-_6px)_/_2)] mi:rounded-[6px] mi:bg-seg mi:shadow-[0_1px_3px_rgba(0,0,0,.14)] mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring)] mi:[&.is-table]:transform-[translate3d(calc(100%_+_2px),0,0)]" :class="{ 'is-table': view === 'table' }" aria-hidden="true" />
+        <button class="mi:[.mi-dc-seg_&]:relative mi:[.mi-dc-seg_&]:z-1 mi:[.mi-dc-seg_&]:h-6.5 mi:[.mi-dc-seg_&]:py-0 mi:[.mi-dc-seg_&]:px-3 mi:[.mi-dc-seg_&]:[border:0] mi:[.mi-dc-seg_&]:rounded-[6px] mi:[.mi-dc-seg_&]:bg-transparent mi:[.mi-dc-seg_&]:text-label mi:[.mi-dc-seg_&]:font-mi mi:[.mi-dc-seg_&]:text-[12px] mi:[.mi-dc-seg_&]:font-semibold" :id="`${uid}-chart`" type="button" role="radio" :aria-checked="view === 'chart'" :tabindex="view === 'chart' ? 0 : -1" @click="view = 'chart'">{{ chartLabel }}</button>
+        <button class="mi:[.mi-dc-seg_&]:relative mi:[.mi-dc-seg_&]:z-1 mi:[.mi-dc-seg_&]:h-6.5 mi:[.mi-dc-seg_&]:py-0 mi:[.mi-dc-seg_&]:px-3 mi:[.mi-dc-seg_&]:[border:0] mi:[.mi-dc-seg_&]:rounded-[6px] mi:[.mi-dc-seg_&]:bg-transparent mi:[.mi-dc-seg_&]:text-label mi:[.mi-dc-seg_&]:font-mi mi:[.mi-dc-seg_&]:text-[12px] mi:[.mi-dc-seg_&]:font-semibold" :id="`${uid}-table`" type="button" role="radio" :aria-checked="view === 'table'" :tabindex="view === 'table' ? 0 : -1" @click="view = 'table'">{{ tableLabel }}</button>
       </span>
     </template>
 
-    <div v-if="view === 'chart'" class="mi-dc-host">
-    <div class="mi-dc-body" :class="{ 'has-legend': legend }">
+    <div v-if="view === 'chart'" class="mi-dc-host mi:@container mi:min-w-0">
+    <div class="mi-dc-body mi:flex mi:flex-col mi:gap-5 mi:items-center mi:min-w-0 mi:font-mi mi:text-label mi:@[560px]:[&.has-legend]:flex-row mi:@[560px]:[&.has-legend]:justify-center mi:@[560px]:[&.has-legend]:gap-8" :class="{ 'has-legend': legend }">
       <div
-        class="mi-dc-plot"
+        class="mi-dc-plot mi:relative mi:@container mi:w-[min(100%,var(--mi-dc-size))] mi:flex-[none] mi:rounded-[50%] mi:touch-pan-y mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[4px] mi:@[560px]:[.mi-dc-body.has-legend_&]:flex-[0_1_var(--mi-dc-size)]"
         :style="{ '--mi-dc-size': `${size}px` }"
         tabindex="0"
         role="group"
@@ -228,15 +228,15 @@ const slotActive = computed(() => (sel.value ? { index: sel.value.i, label: sel.
         @keydown="onKey"
         @blur="commit(-1, false)"
       >
-        <svg class="mi-dc-svg" :viewBox="`0 0 ${S} ${S}`" role="img" :aria-label="description">
-          <circle v-if="!isPie" :cx="C" :cy="C" :r="radius" fill="none" :stroke-width="stroke" class="mi-dc-track" />
-          <circle v-else-if="!total" :cx="C" :cy="C" :r="C - 2" class="mi-dc-track-fill" />
+        <svg class="mi-dc-svg mi:block mi:w-full mi:h-auto mi:overflow-visible" :viewBox="`0 0 ${S} ${S}`" role="img" :aria-label="description">
+          <circle v-if="!isPie" :cx="C" :cy="C" :r="radius" fill="none" :stroke-width="stroke" class="mi-dc-track mi:stroke-fill3" />
+          <circle v-else-if="!total" :cx="C" :cy="C" :r="C - 2" class="mi-dc-track-fill mi:fill-fill3" />
           <g class="mi-dc-ring" :class="{ 'has-active': active >= 0 }" :transform="`rotate(-90 ${C} ${C})`">
             <circle
               v-for="s in segs"
               :key="s.i"
               :data-i="s.i"
-              class="mi-dc-seg-c"
+              class="mi-dc-seg-c mi:cursor-default mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring),opacity_var(--mi-dur-2)_var(--mi-ease)] mi:[&.is-on]:transform-[scale(1.045)] mi:[.mi-dc-ring.has-active_&:not(.is-on)]:opacity-40"
               :class="{ 'is-on': active === s.i, 'is-anim': animate }"
               :cx="C"
               :cy="C"
@@ -251,31 +251,31 @@ const slotActive = computed(() => (sel.value ? { index: sel.value.i, label: sel.
           </g>
           <g v-if="valueLabels !== 'none'" class="mi-dc-labels" aria-hidden="true">
             <template v-for="s in segs" :key="`l${s.i}`">
-              <text v-if="s.share >= 7" :x="s.lx" :y="s.ly" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="600" class="mi-dc-lbl">{{ s.text }}</text>
+              <text v-if="s.share >= 7" :x="s.lx" :y="s.ly" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="600" class="mi-dc-lbl mi:fill-[color:#fff] mi:pointer-events-none mi:tabular-nums">{{ s.text }}</text>
             </template>
           </g>
         </svg>
 
-        <div v-if="!isPie" class="mi-dc-center" :style="{ '--mi-dc-hole': hole }">
+        <div v-if="!isPie" class="mi-dc-center mi:absolute mi:inset-0 mi:grid mi:place-content-center mi:justify-items-center mi:gap-0.5 mi:text-center mi:pointer-events-none" :style="{ '--mi-dc-hole': hole }">
           <slot name="center" :active="slotActive" :total="total" :total-text="totalText">
             <template v-if="total">
-              <span class="mi-dc-big">{{ sel ? sel.text : totalText }}</span>
-              <span class="mi-dc-cap">{{ sel ? sel.d.label : totalLabel }}</span>
+              <span class="mi-dc-big mi:text-[clamp(18px,10cqw,30px)] mi:font-bold mi:tracking-[-.02em] mi:tabular-nums mi:leading-[1.1]">{{ sel ? sel.text : totalText }}</span>
+              <span class="mi-dc-cap mi:text-[12px] mi:text-label2 mi:leading-[1.2] mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ sel ? sel.d.label : totalLabel }}</span>
             </template>
-            <span v-else class="mi-dc-cap">No data</span>
+            <span v-else class="mi-dc-cap mi:text-[12px] mi:text-label2 mi:leading-[1.2] mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">No data</span>
           </slot>
         </div>
 
-        <div v-if="isPie && !total" class="mi-dc-center"><span class="mi-dc-cap">No data</span></div>
+        <div v-if="isPie && !total" class="mi-dc-center mi:absolute mi:inset-0 mi:grid mi:place-content-center mi:justify-items-center mi:gap-0.5 mi:text-center mi:pointer-events-none"><span class="mi-dc-cap mi:text-[12px] mi:text-label2 mi:leading-[1.2] mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">No data</span></div>
 
-        <div v-if="tipSeg && sel && isPie" class="mi-dc-tip is-on" aria-hidden="true" :style="{ '--mi-dc-x': tipSeg.tx, '--mi-dc-y': tipSeg.ty }">
-          <div class="mi-dc-tip-in">
-            <span class="mi-dc-tip-sw" :style="{ background: tipSeg.color }" />
-            <span class="mi-dc-tip-name">{{ sel.d.label }}</span>
-            <span class="mi-dc-tip-val">{{ sel.text }} · {{ sel.share }}%</span>
+        <div v-if="tipSeg && sel && isPie" class="mi-dc-tip is-on mi:absolute mi:top-0 mi:left-0 mi:pointer-events-none mi:transform-[translate3d(calc(var(--mi-dc-x)_*_100cqw),calc(var(--mi-dc-y)_*_100cqw),0)] mi:z-2" aria-hidden="true" :style="{ '--mi-dc-x': tipSeg.tx, '--mi-dc-y': tipSeg.ty }">
+          <div class="mi-dc-tip-in mi:flex mi:items-center mi:gap-2 mi:whitespace-nowrap mi:py-2 mi:px-3 mi:rounded-[10px] mi:bg-elev mi:shadow-2 mi:text-[13px] mi:transform-[translate3d(-50%,calc(-100%_-_8px),0)]">
+            <span class="mi-dc-tip-sw mi:w-2.5 mi:h-2.5 mi:rounded-[3px] mi:flex-[none]" :style="{ background: tipSeg.color }" />
+            <span class="mi-dc-tip-name mi:text-label2">{{ sel.d.label }}</span>
+            <span class="mi-dc-tip-val mi:font-semibold mi:tabular-nums">{{ sel.text }} · {{ sel.share }}%</span>
           </div>
         </div>
-        <span class="mi-dc-sr" role="status" aria-live="polite">{{ live }}</span>
+        <span class="mi-dc-sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap" role="status" aria-live="polite">{{ live }}</span>
       </div>
 
       <MiChartLegend v-if="legend" v-model:active="active" class="mi-dc-legend" variant="list" :columns="1" :items="legendItems" aria-label="Segments" />
@@ -286,38 +286,12 @@ const slotActive = computed(() => (sel.value ? { index: sel.value.i, label: sel.
 </template>
 
 <style scoped>
-.mi-dc-seg{position:relative;display:inline-grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px;padding:2px;border-radius:8px;background:var(--mi-fill3)}
-.mi-dc-seg button{position:relative;z-index:1;height:26px;padding:0 12px;border:0;border-radius:6px;background:transparent;color:var(--mi-label);font-family:var(--mi-font);font-size:12px;font-weight:600}
-.mi-dc-thumb{position:absolute;top:2px;bottom:2px;left:2px;width:calc((100% - 6px) / 2);border-radius:6px;background:var(--mi-seg);box-shadow:0 1px 3px rgba(0,0,0,.14);transition:transform var(--mi-dur-3) var(--mi-spring)}
-.mi-dc-thumb.is-table{transform:translate3d(calc(100% + 2px),0,0)}
-.mi-dc-body{display:flex;flex-direction:column;gap:20px;align-items:center;min-width:0;font-family:var(--mi-font);color:var(--mi-label)}
-.mi-dc-plot{position:relative;container-type:inline-size;width:min(100%,var(--mi-dc-size));flex:none;border-radius:50%;touch-action:pan-y}
-.mi-dc-plot:focus-visible{outline:2px solid var(--mi-p);outline-offset:4px}
 .mi-dc-legend{width:100%;min-width:0}
-.mi-dc-host{container-type:inline-size;min-width:0}
 @container (min-width:560px){
-  .mi-dc-body.has-legend{flex-direction:row;justify-content:center;gap:32px}
-  .mi-dc-body.has-legend .mi-dc-plot{flex:0 1 var(--mi-dc-size)}
   .mi-dc-legend{flex:1 1 220px;max-width:340px}
 }
-.mi-dc-svg{display:block;width:100%;height:auto;overflow:visible}
-.mi-dc-track{stroke:var(--mi-fill3)}
-.mi-dc-track-fill{fill:var(--mi-fill3)}
-.mi-dc-seg-c{cursor:default;transition:transform var(--mi-dur-2) var(--mi-spring),opacity var(--mi-dur-2) var(--mi-ease)}
-.mi-dc-seg-c.is-on{transform:scale(1.045)}
-.mi-dc-ring.has-active .mi-dc-seg-c:not(.is-on){opacity:.4}
 .mi-dc-seg-c.is-anim{animation:mi-dc-draw 700ms var(--mi-ease) var(--mi-dc-delay) both}
-.mi-dc-lbl{fill:#fff;pointer-events:none;font-variant-numeric:tabular-nums}
-.mi-dc-center{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;gap:2px;text-align:center;pointer-events:none}
 .mi-dc-center > *{max-width:calc(var(--mi-dc-hole,.6) * 90cqw)}
-.mi-dc-big{font-size:clamp(18px,10cqw,30px);font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.1}
-.mi-dc-cap{font-size:12px;color:var(--mi-label2);line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.mi-dc-tip{position:absolute;top:0;left:0;pointer-events:none;transform:translate3d(calc(var(--mi-dc-x) * 100cqw),calc(var(--mi-dc-y) * 100cqw),0);z-index:2}
-.mi-dc-tip-in{display:flex;align-items:center;gap:8px;white-space:nowrap;padding:8px 12px;border-radius:10px;background:var(--mi-elev);box-shadow:var(--mi-sh2);font-size:13px;transform:translate3d(-50%,calc(-100% - 8px),0)}
-.mi-dc-tip-sw{width:10px;height:10px;border-radius:3px;flex:none}
-.mi-dc-tip-name{color:var(--mi-label2)}
-.mi-dc-tip-val{font-weight:600;font-variant-numeric:tabular-nums}
-.mi-dc-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 @keyframes mi-dc-draw{from{stroke-dasharray:0 100}to{stroke-dasharray:var(--mi-dc-len) calc(100 - var(--mi-dc-len))}}
 @media (prefers-reduced-motion:reduce){.mi-dc-seg-c.is-anim{animation:none}}
 </style>

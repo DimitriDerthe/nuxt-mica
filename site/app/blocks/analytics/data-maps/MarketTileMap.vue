@@ -1,6 +1,6 @@
 <template>
-  <section class="tm" aria-labelledby="tm-title">
-    <header class="tm__head">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="tm-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="tm-title" variant="title3" as="h2" weight="semibold">Where customers are</MiText>
         <MiText variant="footnote" tone="label2">Paying workspaces by market · October</MiText>
@@ -8,61 +8,61 @@
       <MiSegmented v-model="metricId" label="Metric" :options="metrics" />
     </header>
 
-    <div class="tm__grid">
-      <article class="tm__map">
-        <div class="tm__map-top">
+    <div class="mi:grid mi:gap-3 mi:grid-cols-[minmax(0,_1fr)] mi:@[900px]:grid-cols-[minmax(0,_1fr)_300px]">
+      <article class="mi:grid mi:gap-3.5 mi:min-w-0 mi:p-4.5 mi:rounded-xl mi:bg-card mi:shadow-1">
+        <div class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3 mi:items-center">
           <MiSegmented v-model="region" label="Region" :options="regions" />
           <MiChartLegend variant="ramp" :items="ramp" less-label="Fewer" more-label="More" :aria-label="`${metric.label} scale, in fifths`" />
         </div>
 
         <!-- Tile map: one tile per market, odd rows nudged half a tile for a hex rhythm. No geodata needed. -->
-        <div class="tm__tiles" role="group" :aria-label="`${metric.label} by market`">
+        <div class="mi:[--tm-gap:3px] mi:grid mi:grid-cols-15 mi:auto-rows-[auto] mi:gap-(--tm-gap) mi:py-1.5 mi:px-0 mi:@[520px]:[--tm-gap:5px]" role="group" :aria-label="`${metric.label} by market`">
           <button
-            v-for="t in tiles" :key="t.code" type="button" class="tm__tile"
-            :class="{ 'is-odd': t.row % 2 === 1, 'is-dim': !t.inRegion, 'is-active': active === t.code, 'is-dark': t.bin >= 3 }"
+            v-for="t in tiles" :key="t.code" type="button" class="mi:grid mi:place-items-center mi:aspect-[1] mi:min-w-0 mi:p-0 mi:[border:0] mi:rounded-[22%] mi:cursor-pointer mi:[font:600_9px/1_var(--mi-font)] mi:tracking-[.02em] mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease),_opacity_var(--mi-dur-2)_var(--mi-ease)] mi:@[520px]:text-[10px] mi:@[760px]:text-[11px] mi:hover:shadow-[0_0_0_2px_var(--mi-card),_0_0_0_4px_var(--mi-label)] mi:hover:relative mi:hover:z-1 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:motion-reduce:[transition:none]"
+            :class="[t.bin >= 3 ? 'mi:text-p-on' : 'mi:text-label', t.inRegion ? '' : 'mi:opacity-22', active === t.code ? 'mi:shadow-[0_0_0_2px_var(--mi-card),_0_0_0_4px_var(--mi-label)] mi:relative mi:z-1' : '', active === t.code ? (t.row % 2 === 1 ? 'mi:transform-[translateX(calc(50%_+_var(--tm-gap)_/_2))_scale(1.18)]' : 'mi:transform-[scale(1.18)]') : (t.row % 2 === 1 ? 'mi:transform-[translateX(calc(50%_+_var(--tm-gap)_/_2))] mi:hover:transform-[translateX(calc(50%_+_var(--tm-gap)_/_2))_scale(1.18)]' : 'mi:hover:transform-[scale(1.18)]')]"
             :style="{ gridColumn: t.col + 1, gridRow: t.row + 1, background: binColors[t.bin] }"
             :aria-label="`${t.name}, ${metric.format(t.value)}, rank ${t.rank} of ${tiles.length}`" :aria-pressed="pinned === t.code"
             @mouseenter="hover = t.code" @mouseleave="hover = ''" @focus="hover = t.code" @blur="hover = ''" @click="pin(t.code)"
           >
-            <span aria-hidden="true">{{ t.code }}</span>
+            <span class="mi:hidden mi:@[520px]:block" aria-hidden="true">{{ t.code }}</span>
           </button>
         </div>
         <MiText variant="caption" tone="label3">One tile per market, placed by rough geography. Tile size says nothing about country size.</MiText>
       </article>
 
-      <aside class="tm__side">
-        <article class="tm__readout" aria-live="polite">
+      <aside class="mi:grid mi:gap-3 mi:content-start mi:grid-cols-[minmax(0,_1fr)] mi:[@container_(min-width:_600px)_and_(max-width:_899px)]:grid-cols-2">
+        <article class="mi:min-w-0 mi:py-4 mi:px-4.5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:grid mi:gap-3 mi:content-start mi:min-h-33" aria-live="polite">
           <template v-if="focus">
-            <div class="tm__readout-top">
-              <span class="tm__code">{{ focus.code }}</span>
-              <MiText variant="headline" as="h3">{{ focus.name }}</MiText>
-              <MiText variant="caption" tone="label2" as="span" class="tm__rank">#{{ focus.rank }}</MiText>
+            <div class="mi:flex mi:items-center mi:gap-2.5 mi:min-w-0">
+              <span class="mi:grid mi:place-items-center mi:flex-[none] mi:w-8.5 mi:h-8.5 mi:rounded-[9px] mi:bg-p mi:text-p-on mi:text-[12px] mi:font-bold">{{ focus.code }}</span>
+              <MiText class="mi:overflow-hidden mi:whitespace-nowrap mi:flex-1 mi:min-w-0 mi:text-ellipsis" variant="headline" as="h3">{{ focus.name }}</MiText>
+              <MiText variant="caption" tone="label2" as="span" class="mi:tabular-nums mi:flex-[none]">#{{ focus.rank }}</MiText>
             </div>
-            <dl class="tm__facts">
-              <div v-for="f in focusFacts" :key="f.id" :class="{ 'is-on': f.id === metricId }">
-                <dt>{{ f.label }}</dt>
-                <dd>{{ f.text }}</dd>
+            <dl class="mi:grid mi:gap-0.5 mi:m-0">
+              <div class="mi:flex mi:items-baseline mi:justify-between mi:gap-3 mi:py-[7px] mi:px-2.5 mi:rounded-md" v-for="f in focusFacts" :key="f.id" :class="f.id === metricId ? 'mi:bg-p-tint' : ''">
+                <dt class="mi:text-[13px]" :class="f.id === metricId ? 'mi:text-p-text mi:font-semibold' : 'mi:text-label2'">{{ f.label }}</dt>
+                <dd class="mi:tabular-nums mi:m-0 mi:text-[15px] mi:font-bold">{{ f.text }}</dd>
               </div>
             </dl>
           </template>
           <MiText v-else variant="footnote" tone="label2">Hover, focus or tap a tile to compare a market on every metric.</MiText>
         </article>
 
-        <article class="tm__rank-card">
-          <div class="tm__rank-head">
+        <article class="mi:min-w-0 mi:py-4 mi:px-4.5 mi:rounded-xl mi:bg-card mi:shadow-1">
+          <div class="mi:flex mi:flex-wrap mi:items-baseline mi:justify-between mi:gap-y-1 mi:gap-x-2.5 mi:mb-1.5">
             <MiText variant="subheadline" weight="semibold" as="h3">Top markets · {{ regionLabel }}</MiText>
             <MiText variant="caption" tone="label2" as="span">{{ topShare }}% of {{ regionLabel === 'World' ? 'total' : 'region' }}</MiText>
           </div>
-          <ol class="tm__list">
+          <ol class="mi:grid mi:m-0 mi:p-0 mi:[list-style:none]">
             <li v-for="(t, i) in ranked" :key="t.code">
               <button
-                type="button" class="tm__row" :class="{ 'is-active': active === t.code }" :aria-pressed="pinned === t.code"
+                type="button" class="mi:grid mi:grid-cols-[18px_minmax(0,_1fr)_auto] mi:[grid-template-areas:'n_name_val'_'._bar_bar'] mi:items-center mi:gap-y-1 mi:gap-x-2.5 mi:w-full mi:py-[7px] mi:px-2 mi:[border:0] mi:rounded-md mi:text-inherit mi:[font:inherit] mi:text-start mi:cursor-pointer mi:[transition:background-color_var(--mi-dur-2)_var(--mi-ease)] mi:hover:bg-fill4 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" :class="active === t.code ? 'mi:bg-fill4' : 'mi:bg-transparent'" :aria-pressed="pinned === t.code"
                 @mouseenter="hover = t.code" @mouseleave="hover = ''" @focus="hover = t.code" @blur="hover = ''" @click="pin(t.code)"
               >
-                <span class="tm__row-n">{{ i + 1 }}</span>
-                <span class="tm__row-name">{{ t.name }}</span>
-                <span class="tm__row-val">{{ metric.format(t.value) }}</span>
-                <span class="tm__row-bar" aria-hidden="true"><span :style="{ transform: `scaleX(${t.value / (ranked[0]?.value || 1)})` }" /></span>
+                <span class="mi:[grid-area:n] mi:text-[12px] mi:font-semibold mi:text-label3 mi:tabular-nums">{{ i + 1 }}</span>
+                <span class="mi:[grid-area:name] mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:text-[14px] mi:font-medium">{{ t.name }}</span>
+                <span class="mi:[grid-area:val] mi:text-[13px] mi:font-semibold mi:tabular-nums">{{ metric.format(t.value) }}</span>
+                <span class="mi:[grid-area:bar] mi:h-[3px] mi:rounded-[2px] mi:bg-fill3 mi:overflow-hidden" aria-hidden="true"><span class="mi:block mi:h-full mi:bg-p mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)] mi:motion-reduce:[transition:none]" :style="{ transform: `scaleX(${t.value / (ranked[0]?.value || 1)})` }" /></span>
               </button>
             </li>
           </ol>
@@ -143,61 +143,3 @@ const focusFacts = computed(() => {
 })
 function pin (code: string) { pinned.value = pinned.value === code ? '' : code }
 </script>
-
-<style scoped>
-.tm { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
-.tm__head, .tm__map-top { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.tm__map-top { align-items: center; }
-.tm__grid { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); }
-@container (min-width: 900px) { .tm__grid { grid-template-columns: minmax(0, 1fr) 300px; } }
-
-.tm__map { display: grid; gap: 14px; min-width: 0; padding: 18px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-/* 15 columns: 14 for markets plus room for the half-tile nudge of odd rows. */
-.tm__tiles { --tm-gap: 3px; display: grid; grid-template-columns: repeat(15, minmax(0, 1fr)); grid-auto-rows: auto; gap: var(--tm-gap); padding: 6px 0; }
-@container (min-width: 520px) { .tm__tiles { --tm-gap: 5px; } }
-.tm__tile {
-  display: grid; place-items: center; aspect-ratio: 1; min-width: 0; padding: 0; border: 0; border-radius: 22%; cursor: pointer;
-  color: var(--mi-label); font: 600 9px/1 var(--mi-font); letter-spacing: .02em;
-  transition: transform var(--mi-dur-2) var(--mi-ease), opacity var(--mi-dur-2) var(--mi-ease);
-}
-.tm__tile span { display: none; }
-@container (min-width: 520px) { .tm__tile span { display: block; } .tm__tile { font-size: 10px; } }
-@container (min-width: 760px) { .tm__tile { font-size: 11px; } }
-.tm__tile.is-dark { color: var(--mi-p-on); }
-.tm__tile.is-odd { transform: translateX(calc(50% + var(--tm-gap) / 2)); }
-.tm__tile.is-dim { opacity: .22; }
-.tm__tile:hover, .tm__tile.is-active { transform: scale(1.18); box-shadow: 0 0 0 2px var(--mi-card), 0 0 0 4px var(--mi-label); position: relative; z-index: 1; }
-.tm__tile.is-odd:hover, .tm__tile.is-odd.is-active { transform: translateX(calc(50% + var(--tm-gap) / 2)) scale(1.18); }
-.tm__tile:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-
-.tm__side { display: grid; gap: 12px; align-content: start; grid-template-columns: minmax(0, 1fr); }
-@container (min-width: 600px) and (max-width: 899px) { .tm__side { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-.tm__readout, .tm__rank-card { min-width: 0; padding: 16px 18px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.tm__readout { display: grid; gap: 12px; align-content: start; min-height: 132px; }
-.tm__readout-top { display: flex; align-items: center; gap: 10px; min-width: 0; }
-.tm__readout-top > h3 { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.tm__code { display: grid; place-items: center; flex: none; width: 34px; height: 34px; border-radius: 9px; background: var(--mi-p); color: var(--mi-p-on); font-size: 12px; font-weight: 700; }
-.tm__rank { flex: none; font-variant-numeric: tabular-nums; }
-.tm__facts { display: grid; gap: 2px; margin: 0; }
-.tm__facts > div { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 7px 10px; border-radius: var(--mi-radius-m); }
-.tm__facts > div.is-on { background: var(--mi-p-tint); }
-.tm__facts dt { font-size: 13px; color: var(--mi-label2); }
-.tm__facts > div.is-on dt { color: var(--mi-p-text); font-weight: 600; }
-.tm__facts dd { margin: 0; font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; }
-
-.tm__rank-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 10px; margin-bottom: 6px; }
-.tm__list { display: grid; margin: 0; padding: 0; list-style: none; }
-.tm__row {
-  display: grid; grid-template-columns: 18px minmax(0, 1fr) auto; grid-template-areas: "n name val" ". bar bar"; align-items: center; gap: 4px 10px;
-  width: 100%; padding: 7px 8px; border: 0; border-radius: var(--mi-radius-m); background: transparent; color: inherit; font: inherit; text-align: start; cursor: pointer;
-  transition: background-color var(--mi-dur-2) var(--mi-ease);
-}
-.tm__row:hover, .tm__row.is-active { background: var(--mi-fill4); }
-.tm__row:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 1px; }
-.tm__row-n { grid-area: n; font-size: 12px; font-weight: 600; color: var(--mi-label3); font-variant-numeric: tabular-nums; }
-.tm__row-name { grid-area: name; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; font-weight: 500; }
-.tm__row-val { grid-area: val; font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; }
-.tm__row-bar { grid-area: bar; height: 3px; border-radius: 2px; background: var(--mi-fill3); overflow: hidden; }
-.tm__row-bar span { display: block; height: 100%; background: var(--mi-p); transform-origin: left; transition: transform var(--mi-dur-4) var(--mi-spring); }
-@media (prefers-reduced-motion: reduce) { .tm__tile, .tm__row-bar span { transition: none; } }
-</style>

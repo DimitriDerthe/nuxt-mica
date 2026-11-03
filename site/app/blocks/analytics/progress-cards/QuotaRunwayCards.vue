@@ -1,6 +1,6 @@
 <template>
-  <section class="qr" aria-labelledby="qr-title">
-    <header class="qr__head">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="qr-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="qr-title" variant="title3" as="h2" weight="semibold">Plan usage</MiText>
         <MiText variant="footnote" tone="label2">Team plan · cycle resets on Nov 14, in {{ DAYS_LEFT }} days</MiText>
@@ -8,30 +8,30 @@
       <MiSegmented v-model="paceId" label="Project with" :options="paces" />
     </header>
 
-    <div class="qr__grid">
-      <article v-for="q in quotas" :key="q.id" class="qr__card" :class="{ 'is-short': q.short }" :aria-labelledby="'qr-' + q.id">
-        <div class="qr__top">
-          <span class="qr__icon" aria-hidden="true"><MiIcon :svg="q.icon" :size="18" /></span>
-          <MiText :id="'qr-' + q.id" variant="subheadline" weight="semibold" as="h3">{{ q.label }}</MiText>
+    <div class="mi:grid mi:gap-3 mi:grid-cols-[minmax(0,_1fr)] mi:@[600px]:grid-cols-2 mi:@[1040px]:grid-cols-4">
+      <article v-for="q in quotas" :key="q.id" class="mi:grid mi:gap-2.5 mi:content-start mi:min-w-0 mi:p-4.5 mi:rounded-xl mi:[background:var(--mi-card)]" :class="q.short ? 'mi:shadow-[var(--mi-sh1),_inset_0_0_0_1px_color-mix(in_srgb,_var(--mi-orange)_35%,_transparent)]' : 'mi:shadow-1'" :aria-labelledby="'qr-' + q.id">
+        <div class="mi:flex mi:items-center mi:gap-2.5 mi:min-h-8">
+          <span class="mi:grid mi:place-items-center mi:w-8 mi:h-8 mi:rounded-[10px]" :class="q.short ? 'mi:text-orange-t mi:[background:color-mix(in_srgb,_var(--mi-orange)_16%,_transparent)]' : 'mi:[background:var(--mi-p-tint)] mi:text-p-text'" aria-hidden="true"><MiIcon :svg="q.icon" :size="18" /></span>
+          <MiText :id="'qr-' + q.id" variant="subheadline" weight="semibold" as="h3" class="mi:flex-1 mi:min-w-0">{{ q.label }}</MiText>
           <MiBadge v-if="q.short" tone="warning" label="Runs out" dot />
         </div>
 
-        <p class="qr__value"><b>{{ q.usedText }}</b><span> / {{ q.limitText }}</span></p>
+        <p class="mi:mt-1 mi:mx-0 mi:mb-0 mi:tabular-nums"><b class="mi:text-[30px] mi:font-bold mi:tracking-[-.04em]">{{ q.usedText }}</b><span class="mi:text-[14px] mi:text-label2"> / {{ q.limitText }}</span></p>
 
         <!-- Track spans 0 to 125% of the limit, so the projection can visibly cross the limit line. -->
         <div
-          class="qr__track" role="meter" :aria-label="`${q.label} used`" :aria-valuenow="q.pct" aria-valuemin="0" aria-valuemax="100"
+          class="mi:relative mi:h-2.5 mi:rounded-[5px] mi:[background:var(--mi-fill3)] mi:overflow-hidden" role="meter" :aria-label="`${q.label} used`" :aria-valuenow="q.pct" aria-valuemin="0" aria-valuemax="100"
           :aria-valuetext="`${q.pct}% used, ${q.projPct}% projected at reset`"
         >
-          <span class="qr__proj" :style="{ transform: `scaleX(${Math.min(q.projPct, 125) / 125})` }" />
-          <span class="qr__used" :style="{ transform: `scaleX(${Math.min(q.pct, 125) / 125})` }" />
-          <span class="qr__limit" aria-hidden="true" />
+          <span class="mi:absolute mi:inset-0 mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)] mi:motion-reduce:[transition:none]" :class="q.short ? 'mi:[background:repeating-linear-gradient(135deg,_color-mix(in_srgb,_var(--mi-orange)_55%,_transparent)_0_3px,_transparent_3px_6px)]' : 'mi:[background:repeating-linear-gradient(135deg,_color-mix(in_srgb,_var(--mi-p)_45%,_transparent)_0_3px,_transparent_3px_6px)]'" :style="{ transform: `scaleX(${Math.min(q.projPct, 125) / 125})` }" />
+          <span class="mi:absolute mi:inset-0 mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)] mi:rounded-[inherit] mi:motion-reduce:[transition:none]" :class="q.short ? 'mi:[background:var(--mi-orange)]' : 'mi:[background:var(--mi-p)]'" :style="{ transform: `scaleX(${Math.min(q.pct, 125) / 125})` }" />
+          <span class="mi:absolute mi:top-0 mi:bottom-0 mi:left-[80%] mi:w-0.5 mi:-ml-px mi:[background:var(--mi-label)]" aria-hidden="true" />
         </div>
-        <div class="qr__scale" aria-hidden="true"><span>{{ q.pct }}% used</span><span>Limit</span></div>
+        <div class="mi:relative mi:h-3.5 mi:text-[11px] mi:text-label2 mi:tabular-nums" aria-hidden="true"><span class="mi:last:absolute mi:last:left-[80%] mi:last:transform-[translateX(-50%)]">{{ q.pct }}% used</span><span class="mi:last:absolute mi:last:left-[80%] mi:last:transform-[translateX(-50%)]">Limit</span></div>
 
-        <MiText variant="footnote" :tone="q.short ? 'orange' : 'label2'" class="qr__runway">{{ q.runway }}</MiText>
+        <MiText variant="footnote" :tone="q.short ? 'orange' : 'label2'" class="mi:min-h-[2.8em]">{{ q.runway }}</MiText>
 
-        <div class="qr__foot">
+        <div class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2 mi:pt-2.5 mi:border-t mi:border-t-sep">
           <MiText variant="caption" tone="label2" as="span">{{ q.rateText }}</MiText>
           <MiButton
             :variant="q.short ? 'tinted' : 'plain'" size="small" :pressed="requested.has(q.id)"
@@ -91,37 +91,3 @@ function toggle (id: string) {
   else requested.add(id)
 }
 </script>
-
-<style scoped>
-.qr { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
-.qr__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.qr__grid { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); }
-@container (min-width: 600px) { .qr__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@container (min-width: 1040px) { .qr__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-
-.qr__card { display: grid; gap: 10px; align-content: start; min-width: 0; padding: 18px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.qr__card.is-short { box-shadow: var(--mi-sh1), inset 0 0 0 1px color-mix(in srgb, var(--mi-orange) 35%, transparent); }
-.qr__top { display: flex; align-items: center; gap: 10px; min-height: 32px; }
-.qr__top > h3 { flex: 1; min-width: 0; }
-.qr__icon { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 10px; background: var(--mi-p-tint); color: var(--mi-p-text); }
-.is-short .qr__icon { background: color-mix(in srgb, var(--mi-orange) 16%, transparent); color: var(--mi-orange-t); }
-
-.qr__value { margin: 4px 0 0; font-variant-numeric: tabular-nums; }
-.qr__value b { font-size: 30px; font-weight: 700; letter-spacing: -.04em; }
-.qr__value span { font-size: 14px; color: var(--mi-label2); }
-
-.qr__track { position: relative; height: 10px; border-radius: 5px; background: var(--mi-fill3); overflow: hidden; }
-.qr__used, .qr__proj { position: absolute; inset: 0; transform-origin: left; transition: transform var(--mi-dur-4) var(--mi-spring); }
-.qr__used { border-radius: inherit; background: var(--mi-p); }
-/* Projection to the reset date: hatched so it reads as a forecast, not usage. */
-.qr__proj { background: repeating-linear-gradient(135deg, color-mix(in srgb, var(--mi-p) 45%, transparent) 0 3px, transparent 3px 6px); }
-.is-short .qr__used { background: var(--mi-orange); }
-.is-short .qr__proj { background: repeating-linear-gradient(135deg, color-mix(in srgb, var(--mi-orange) 55%, transparent) 0 3px, transparent 3px 6px); }
-.qr__limit { position: absolute; top: 0; bottom: 0; left: 80%; width: 2px; margin-left: -1px; background: var(--mi-label); }
-.qr__scale { position: relative; height: 14px; font-size: 11px; color: var(--mi-label2); font-variant-numeric: tabular-nums; }
-.qr__scale span:last-child { position: absolute; left: 80%; transform: translateX(-50%); }
-
-.qr__runway { min-height: 2.8em; }
-.qr__foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; padding-top: 10px; border-top: 1px solid var(--mi-sep); }
-@media (prefers-reduced-motion: reduce) { .qr__used, .qr__proj { transition: none; } }
-</style>

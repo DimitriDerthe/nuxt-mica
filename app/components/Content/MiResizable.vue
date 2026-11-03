@@ -76,15 +76,15 @@ function onDown(i: number, e: PointerEvent) {
 </script>
 
 <template>
-  <div ref="root" class="mi-rs" :class="[`mi-rs--${orientation}`, { 'mi-rs--drag': active >= 0 }]">
+  <div ref="root" class="mi-rs mi:flex mi:w-full mi:h-full mi:font-mi mi:overflow-hidden mi:rounded-[14px] mi:[background:var(--mi-card)] mi:shadow-1" :class="[`mi-rs--${orientation}`, { 'mi-rs--drag mi:select-none': active >= 0 }]">
     <template v-for="(s, i) in sizes" :key="i">
-      <div class="mi-rs__panel" :style="{ flexBasis: s + '%' }">
+      <div class="mi-rs__panel mi:flex-[0_1_auto] mi:min-w-0 mi:min-h-0 mi:overflow-auto" :style="{ flexBasis: s + '%' }">
         <slot :name="`panel-${i}`" :size="s" />
       </div>
       <div
         v-if="i < sizes.length - 1"
-        class="mi-rs__handle"
-        :class="{ 'mi-rs__handle--on': active === i }"
+        class="mi-rs__handle mi:relative mi:flex-[none] mi:[background:var(--mi-sep)] mi:touch-none mi:[.mi-rs--horizontal>&]:w-px mi:[.mi-rs--horizontal>&]:cursor-col-resize mi:[.mi-rs--vertical>&]:h-px mi:[.mi-rs--vertical>&]:cursor-row-resize mi:before:content-[''] mi:before:absolute mi:before:inset-0 mi:before:[background:var(--mi-p)] mi:before:opacity-0 mi:before:[transition:opacity_var(--mi-dur-2)_linear] mi:[.mi-rs--horizontal>&]:after:content-[''] mi:[.mi-rs--horizontal>&]:after:absolute mi:[.mi-rs--horizontal>&]:after:top-0 mi:[.mi-rs--horizontal>&]:after:bottom-0 mi:[.mi-rs--horizontal>&]:after:left-[-5px] mi:[.mi-rs--horizontal>&]:after:right-[-5px] mi:[.mi-rs--vertical>&]:after:content-[''] mi:[.mi-rs--vertical>&]:after:absolute mi:[.mi-rs--vertical>&]:after:left-0 mi:[.mi-rs--vertical>&]:after:right-0 mi:[.mi-rs--vertical>&]:after:top-[-5px] mi:[.mi-rs--vertical>&]:after:bottom-[-5px] mi:[.mi-rs--horizontal>&]:before:-left-px mi:[.mi-rs--horizontal>&]:before:-right-px mi:[.mi-rs--vertical>&]:before:-top-px mi:[.mi-rs--vertical>&]:before:-bottom-px"
+        :class="{ 'mi-rs__handle--on mi:before:opacity-100': active === i }"
         role="separator"
         tabindex="0"
         :aria-label="handleLabel"
@@ -94,25 +94,13 @@ function onDown(i: number, e: PointerEvent) {
         :aria-valuemax="maxSize"
         @pointerdown="onDown(i, $event)"
         @keydown="onKey(i, $event)"
-      ><span v-if="withHandle" class="mi-rs__grip" aria-hidden="true" /></div>
+      ><span v-if="withHandle" class="mi-rs__grip mi:absolute mi:top-1/2 mi:left-1/2 mi:z-1 mi:w-3 mi:h-4 mi:rounded-[4px] mi:[background:var(--mi-fill2,var(--mi-sep))] mi:shadow-[inset_0_0_0_.5px_var(--mi-label3)] mi:transform-[translate(-50%,-50%)] mi:[.mi-rs--vertical>.mi-rs__handle_&]:w-4 mi:[.mi-rs--vertical>.mi-rs__handle_&]:h-3" aria-hidden="true" /></div>
     </template>
   </div>
 </template>
 
 <style scoped>
-.mi-rs{display:flex;width:100%;height:100%;font-family:var(--mi-font);color:var(--mi-label);overflow:hidden;border-radius:14px;background:var(--mi-card);box-shadow:var(--mi-sh1)}
+.mi-rs{color:var(--mi-label)}
 .mi-rs--vertical{flex-direction:column}
-.mi-rs--drag{user-select:none}
-.mi-rs__panel{flex:0 1 auto;min-width:0;min-height:0;overflow:auto}
-.mi-rs__handle{position:relative;flex:none;background:var(--mi-sep);touch-action:none}
-.mi-rs--horizontal>.mi-rs__handle{width:1px;cursor:col-resize}
-.mi-rs--vertical>.mi-rs__handle{height:1px;cursor:row-resize}
-.mi-rs__handle::before{content:"";position:absolute;inset:0;background:var(--mi-p);opacity:0;transition:opacity var(--mi-dur-2) linear}
-.mi-rs--horizontal>.mi-rs__handle::after{content:"";position:absolute;top:0;bottom:0;left:-5px;right:-5px}
-.mi-rs--vertical>.mi-rs__handle::after{content:"";position:absolute;left:0;right:0;top:-5px;bottom:-5px}
-.mi-rs__grip{position:absolute;top:50%;left:50%;z-index:1;width:12px;height:16px;border-radius:4px;background:var(--mi-fill2,var(--mi-sep));box-shadow:inset 0 0 0 .5px var(--mi-label3);transform:translate(-50%,-50%)}
-.mi-rs--vertical>.mi-rs__handle .mi-rs__grip{width:16px;height:12px}
-.mi-rs__handle:hover::before,.mi-rs__handle--on::before,.mi-rs__handle:focus-visible::before{opacity:1}
-.mi-rs--horizontal>.mi-rs__handle::before{left:-1px;right:-1px}
-.mi-rs--vertical>.mi-rs__handle::before{top:-1px;bottom:-1px}
+.mi-rs__handle:hover::before, .mi-rs__handle:focus-visible::before{opacity:1}
 </style>

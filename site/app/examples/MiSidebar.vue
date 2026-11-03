@@ -56,9 +56,9 @@ const current = computed(() => {
 <template>
   <div class="panel">
     <MiSidebar v-model="selected" v-bind="p" class="side" />
-    <section class="main">
-      <h3>{{ current }}</h3>
-      <p>Pick a row in the sidebar; collapsible groups remember their state.</p>
+    <section class="main mi:flex-1 mi:min-w-0 mi:p-6 mi:border-l mi:border-l-sep mi:max-[560px]:hidden">
+      <h3 class="mi:[.main_&]:m-0 mi:[.main_&]:font-bold mi:[.main_&]:text-label">{{ current }}</h3>
+      <p class="mi:[.main_&]:mt-1.5 mi:[.main_&]:mx-0 mi:[.main_&]:mb-0 mi:[.main_&]:text-label2">Pick a row in the sidebar; collapsible groups remember their state.</p>
     </section>
   </div>
 </template>
@@ -66,8 +66,6 @@ const current = computed(() => {
 <style scoped>
 .panel { display: flex; height: 460px; border-radius: 20px; overflow: hidden; background: var(--mi-card); box-shadow: var(--mi-sh1); }
 .side { flex: 0 0 auto; }
-.main { flex: 1; min-width: 0; padding: 24px; border-left: 1px solid var(--mi-sep); }
-.main h3 { margin: 0; font-size: 22px; font-weight: 700; color: var(--mi-label); }
-.main p { margin: 6px 0 0; font-size: 14px; color: var(--mi-label2); }
-@media (max-width: 560px) { .main { display: none; } }
+.main h3 { font-size: 22px; }
+.main p { font-size: 14px; }
 </style>

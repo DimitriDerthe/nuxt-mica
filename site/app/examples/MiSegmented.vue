@@ -27,14 +27,14 @@ const ranges = [
 
 <template>
   <div class="card">
-    <div class="row">
-      <div class="text">
+    <div class="row mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-2.5 mi:gap-x-4 mi:[.row+&]:pt-3.5 mi:[.row+&]:border-t mi:[.row+&]:border-t-sep">
+      <div class="text mi:grid mi:gap-0.5 mi:min-w-0">
         <MiText variant="headline" as="h3">Documents</MiText>
         <MiText variant="footnote" tone="label2">Showing 24 files as {{ view }}</MiText>
       </div>
       <MiSegmented v-model="view" v-bind="p" />
     </div>
-    <div class="row">
+    <div class="row mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-2.5 mi:gap-x-4 mi:[.row+&]:pt-3.5 mi:[.row+&]:border-t mi:[.row+&]:border-t-sep">
       <MiText variant="subheadline" tone="label2">Activity</MiText>
       <MiSegmented v-model="range" :variant="p.variant" :disabled="p.disabled" :options="ranges" label="Activity range" />
     </div>
@@ -43,7 +43,4 @@ const ranges = [
 
 <style scoped>
 .card { display: grid; gap: 14px; width: min(100%, 380px); padding: 16px 18px; border-radius: 18px; background: var(--mi-card); box-shadow: var(--mi-sh1); box-sizing: border-box; }
-.row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; }
-.row + .row { padding-top: 14px; border-top: 1px solid var(--mi-sep); }
-.text { display: grid; gap: 2px; min-width: 0; }
 </style>

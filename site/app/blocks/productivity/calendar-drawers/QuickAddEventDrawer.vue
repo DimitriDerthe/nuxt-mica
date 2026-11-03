@@ -1,48 +1,48 @@
 <template>
-  <section class="qad" aria-labelledby="qad-title">
-    <MiText id="qad-title" variant="title3" as="h2" weight="semibold" class="qad__sr">Quick add event drawer</MiText>
+  <section class="mi:@container mi:font-mi mi:text-label" aria-labelledby="qad-title">
+    <MiText id="qad-title" variant="title3" as="h2" weight="semibold" class="mi:overflow-hidden mi:whitespace-nowrap mi:absolute mi:w-px mi:h-px mi:[clip-path:inset(50%)]">Quick add event drawer</MiText>
 
-    <div class="qad__stage">
+    <div class="mi:grid mi:gap-4 mi:@[820px]:grid-cols-[minmax(0,_1fr)_minmax(380px,_420px)] mi:@[820px]:items-start mi:@[820px]:gap-5">
       <!-- Faux day view behind the drawer: the draft shows up as a dashed ghost while you edit. -->
-      <div class="qad__page" aria-hidden="true">
-        <div class="qad__page-head">
-          <span class="qad__eyebrow">{{ day.weekday }}</span>
-          <span class="qad__date">November {{ day.date }}</span>
+      <div class="mi:relative mi:grid mi:gap-3 mi:p-4.5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:after:content-[''] mi:after:absolute mi:after:inset-0 mi:after:rounded-[inherit] mi:after:bg-scrim mi:after:opacity-30 mi:after:pointer-events-none" aria-hidden="true">
+        <div class="mi:grid">
+          <span class="mi:text-[12px] mi:font-semibold mi:uppercase mi:tracking-[.06em] mi:text-label2">{{ day.weekday }}</span>
+          <span class="mi:text-[22px] mi:font-bold mi:tracking-[-.02em]">November {{ day.date }}</span>
         </div>
-        <div class="qad__day">
-          <span v-for="h in hours" :key="h" class="qad__hour" :style="{ gridRow: `${(h - 8) * 4 + 1} / span 4` }">{{ h }}:00</span>
-          <span v-for="e in dayEvents" :key="e.title" class="qad__ev" :style="slot(e.start, e.minutes)">{{ e.title }}</span>
-          <span class="qad__ev qad__ev--draft" :class="{ 'is-clash': clash }" :style="slot(start, duration)">{{ title || 'New event' }}</span>
+        <div class="mi:grid mi:grid-cols-[44px_minmax(0,_1fr)] mi:auto-rows-[9px] mi:gap-x-2.5">
+          <span v-for="h in hours" :key="h" class="mi:col-[1] mi:text-[11px] mi:text-label3 mi:tabular-nums mi:border-t mi:border-t-sep mi:pt-0.5" :style="{ gridRow: `${(h - 8) * 4 + 1} / span 4` }">{{ h }}:00</span>
+          <span v-for="e in dayEvents" :key="e.title" class="mi:col-[2] mi:z-1 mi:min-w-0 mi:my-px mi:mx-0 mi:py-[3px] mi:px-2 mi:overflow-hidden mi:rounded-sm mi:text-[12px] mi:font-semibold mi:whitespace-nowrap mi:text-ellipsis mi:bg-fill3 mi:text-label2" :style="slot(e.start, e.minutes)">{{ e.title }}</span>
+          <span class="mi:col-[2] mi:min-w-0 mi:my-px mi:mx-0 mi:py-[3px] mi:px-2 mi:overflow-hidden mi:rounded-sm mi:text-[12px] mi:font-semibold mi:whitespace-nowrap mi:text-ellipsis mi:z-2 mi:[border:1.5px_dashed_var(--mi-p)]" :class="clash ? 'mi:border-orange mi:[background:color-mix(in_srgb,_var(--mi-orange)_16%,_transparent)] mi:text-orange-t' : 'mi:bg-p-tint mi:text-p-text'" :style="slot(start, duration)">{{ title || 'New event' }}</span>
         </div>
       </div>
 
-      <div class="qad__drawer">
+      <div>
         <MiDrawer :model-value="true" inline show-swipe-handle title="New event" :description="summary">
-          <div class="qad__body">
+          <div class="mi:grid mi:gap-4">
             <MiField label="Title" :error="touched && !title.trim() ? 'Give the event a name.' : undefined">
               <template #default="{ id, describedBy }">
                 <MiInput :id="id" v-model="title" :aria-describedby="describedBy" placeholder="Design review" />
               </template>
             </MiField>
 
-            <div class="qad__group" role="group" aria-labelledby="qad-day-label">
+            <div class="mi:grid mi:gap-2 mi:min-w-0" role="group" aria-labelledby="qad-day-label">
               <MiText id="qad-day-label" variant="footnote" weight="semibold" tone="label2">Day</MiText>
-              <div class="qad__days">
+              <div class="mi:grid mi:grid-cols-5 mi:gap-1.5">
                 <button
-                  v-for="d in week" :key="d.date" type="button" class="qad__daybtn"
-                  :class="{ 'is-on': d.date === dayDate }" :aria-pressed="d.date === dayDate" @click="dayDate = d.date"
+                  v-for="d in week" :key="d.date" type="button" class="mi:[font:inherit] mi:text-[12px] mi:grid mi:justify-items-center mi:gap-0.5 mi:py-2 mi:px-0 mi:border mi:rounded-md mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]"
+                  :class="d.date === dayDate ? 'mi:border-p mi:bg-p-tint mi:text-p-text' : 'mi:border-sep mi:bg-transparent mi:text-label2'" :aria-pressed="d.date === dayDate" @click="dayDate = d.date"
                 >
-                  <span>{{ d.weekday.slice(0, 3) }}</span><strong>{{ d.date }}</strong>
+                  <span>{{ d.weekday.slice(0, 3) }}</span><strong class="mi:text-[16px]" :class="d.date === dayDate ? 'mi:text-p-text' : 'mi:text-label'">{{ d.date }}</strong>
                 </button>
               </div>
             </div>
 
-            <div class="qad__when">
-              <div class="qad__group">
+            <div class="mi:grid mi:gap-4 mi:@[520px]:grid-cols-[auto_minmax(0,_1fr)]">
+              <div class="mi:grid mi:gap-2 mi:min-w-0">
                 <MiText variant="footnote" weight="semibold" tone="label2">Starts</MiText>
                 <MiTimePicker v-model="startText" :minute-step="15" min="08:00" max="18:00" label="Start time" />
               </div>
-              <div class="qad__group">
+              <div class="mi:grid mi:gap-2 mi:min-w-0">
                 <MiText variant="footnote" weight="semibold" tone="label2">Duration</MiText>
                 <MiSegmented v-model="durationPick" label="Duration" :options="durations" />
               </div>
@@ -54,20 +54,20 @@
               :action-label="next !== null ? 'Move to ' + clock(next) : undefined" @action="moveToNext"
             />
 
-            <div class="qad__group">
+            <div class="mi:grid mi:gap-2 mi:min-w-0">
               <MiText variant="footnote" weight="semibold" tone="label2">Calendar</MiText>
               <MiToggleGroup v-model="calendar" :options="calendars" label="Calendar" variant="outline" size="sm" />
             </div>
           </div>
 
           <template #footer>
-            <div class="qad__foot">
+            <div class="mi:grid mi:grid-cols-[1fr_1fr] mi:gap-2">
               <MiButton variant="gray" block @click="reset">Discard</MiButton>
               <MiButton block :disabled="!!clash" @click="save">Add to calendar</MiButton>
             </div>
           </template>
         </MiDrawer>
-        <p class="qad__live" aria-live="polite">{{ saved }}</p>
+        <p class="mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap" aria-live="polite">{{ saved }}</p>
       </div>
     </div>
   </section>
@@ -146,40 +146,3 @@ function reset() {
 }
 </script>
 
-<style scoped>
-.qad { container-type: inline-size; font-family: var(--mi-font); color: var(--mi-label); }
-.qad__sr, .qad__live { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-.qad__stage { display: grid; gap: 16px; }
-
-.qad__page { position: relative; display: grid; gap: 12px; padding: 18px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.qad__page::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: var(--mi-scrim); opacity: .3; pointer-events: none; }
-.qad__page-head { display: grid; }
-.qad__eyebrow { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--mi-label2); }
-.qad__date { font-size: 22px; font-weight: 700; letter-spacing: -.02em; }
-.qad__day { display: grid; grid-template-columns: 44px minmax(0, 1fr); grid-auto-rows: 9px; column-gap: 10px; }
-.qad__hour { grid-column: 1; font-size: 11px; color: var(--mi-label3); font-variant-numeric: tabular-nums; border-top: 1px solid var(--mi-sep); padding-top: 2px; }
-.qad__ev {
-  grid-column: 2; z-index: 1; min-width: 0; margin: 1px 0; padding: 3px 8px; overflow: hidden; border-radius: var(--mi-radius-s);
-  font-size: 12px; font-weight: 600; white-space: nowrap; text-overflow: ellipsis;
-  background: var(--mi-fill3); color: var(--mi-label2);
-}
-.qad__ev--draft { z-index: 2; border: 1.5px dashed var(--mi-p); background: var(--mi-p-tint); color: var(--mi-p-text); }
-.qad__ev--draft.is-clash { border-color: var(--mi-orange); background: color-mix(in srgb, var(--mi-orange) 16%, transparent); color: var(--mi-orange-t); }
-
-.qad__body { display: grid; gap: 16px; }
-.qad__group { display: grid; gap: 8px; min-width: 0; }
-.qad__days { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
-.qad__daybtn {
-  display: grid; justify-items: center; gap: 2px; padding: 8px 0; border: 1px solid var(--mi-sep); border-radius: var(--mi-radius-m);
-  background: transparent; font: inherit; font-size: 12px; color: var(--mi-label2); cursor: pointer;
-}
-.qad__daybtn strong { font-size: 16px; color: var(--mi-label); }
-.qad__daybtn.is-on { border-color: var(--mi-p); background: var(--mi-p-tint); color: var(--mi-p-text); }
-.qad__daybtn.is-on strong { color: var(--mi-p-text); }
-.qad__daybtn:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-.qad__when { display: grid; gap: 16px; }
-.qad__foot { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-
-@container (min-width: 520px) { .qad__when { grid-template-columns: auto minmax(0, 1fr); } }
-@container (min-width: 820px) { .qad__stage { grid-template-columns: minmax(0, 1fr) minmax(380px, 420px); align-items: start; gap: 20px; } }
-</style>

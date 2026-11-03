@@ -27,11 +27,10 @@ const last = ref('Nothing yet')
 <template>
   <div class="wrap">
     <MiCommand v-bind="p" @select="last = $event.label" />
-    <p class="last">Last action: {{ last }}</p>
+    <p class="last mi:m-0 mi:text-[14px] mi:opacity-70">Last action: {{ last }}</p>
   </div>
 </template>
 
 <style scoped>
 .wrap { width: min(100%, 360px); display: grid; gap: 12px; }
-.last { margin: 0; font-size: 14px; opacity: .7; }
 </style>

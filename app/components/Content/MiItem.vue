@@ -40,15 +40,15 @@ const tag = computed(() => (props.href ? 'a' : 'div'))
 
 <template>
   <component :is="tag" :href="miSafeHref(href)" class="mi-item" :class="[`mi-item--${variant}`, `mi-item--${size}`, { 'mi-item--link': href }]" role="listitem">
-    <div v-if="$slots.header" class="mi-item__header"><slot name="header" /></div>
-    <div v-if="$slots.media" class="mi-item__media" :class="`mi-item__media--${mediaVariant}`"><slot name="media" /></div>
-    <div class="mi-item__body">
-      <div v-if="title || $slots.title" class="mi-item__title"><slot name="title">{{ title }}</slot></div>
-      <div v-if="description || $slots.description" class="mi-item__desc"><slot name="description">{{ description }}</slot></div>
+    <div v-if="$slots.header" class="mi-item__header mi:flex-[0_0_100%]"><slot name="header" /></div>
+    <div v-if="$slots.media" class="mi-item__media mi:flex-[none] mi:grid mi:place-items-center" :class="`mi-item__media--${mediaVariant}`"><slot name="media" /></div>
+    <div class="mi-item__body mi:flex-1 mi:min-w-0">
+      <div v-if="title || $slots.title" class="mi-item__title mi:font-semibold mi:leading-[1.3]"><slot name="title">{{ title }}</slot></div>
+      <div v-if="description || $slots.description" class="mi-item__desc mi:text-label2 mi:text-[13px] mi:leading-[1.4]"><slot name="description">{{ description }}</slot></div>
       <slot />
     </div>
-    <div v-if="$slots.actions" class="mi-item__actions"><slot name="actions" /></div>
-    <div v-if="$slots.footer" class="mi-item__footer"><slot name="footer" /></div>
+    <div v-if="$slots.actions" class="mi-item__actions mi:flex-[none] mi:flex mi:items-center mi:gap-2"><slot name="actions" /></div>
+    <div v-if="$slots.footer" class="mi-item__footer mi:flex-[0_0_100%]"><slot name="footer" /></div>
   </component>
 </template>
 
@@ -58,18 +58,12 @@ const tag = computed(() => (props.href ? 'a' : 'div'))
 .mi-item--sm{gap:10px;padding:8px 12px}
 .mi-item--xs{gap:8px;padding:6px 10px;font-size:13px}
 .mi-item{flex-wrap:wrap}
-.mi-item__header,.mi-item__footer{flex:0 0 100%}
 .mi-item--outline{border-color:var(--mi-sep)}
 .mi-item--muted{background:var(--mi-fill4)}
 .mi-item--link{cursor:pointer}
 @media (hover:hover){.mi-item--link:hover::before{opacity:1}}
 .mi-item--link:focus-visible{outline-offset:2px}
-.mi-item__media{flex:none;display:grid;place-items:center}
 .mi-item__media--icon{width:36px;height:36px;border-radius:10px;background:var(--mi-fill3);color:var(--mi-label2)}
 .mi-item__media--image{width:44px;height:44px;border-radius:10px;overflow:hidden}
 .mi-item__media--image :deep(img){width:100%;height:100%;object-fit:cover}
-.mi-item__body{flex:1;min-width:0}
-.mi-item__title{font-weight:600;line-height:1.3}
-.mi-item__desc{color:var(--mi-label2);font-size:13px;line-height:1.4}
-.mi-item__actions{flex:none;display:flex;align-items:center;gap:8px}
 </style>

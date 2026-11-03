@@ -1,35 +1,35 @@
 <template>
-  <section class="mac" aria-labelledby="mac-title">
-    <header class="mac__head">
-      <div class="mac__nav">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="mac-title">
+    <header class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-3">
+      <div class="mi:flex mi:items-center mi:gap-2.5">
         <MiIconButton size="small" variant="gray" label="Previous month" :disabled="month === 0" @click="month--"><MiIcon name="chevron-left" :size="16" /></MiIconButton>
-        <MiText id="mac-title" variant="title3" as="h2" weight="semibold" aria-live="polite">{{ monthName }}</MiText>
+        <MiText class="mi:m-0 mi:text-center mi:min-w-[9.5em]!" id="mac-title" variant="title3" as="h2" weight="semibold" aria-live="polite">{{ monthName }}</MiText>
         <MiIconButton size="small" variant="gray" label="Next month" :disabled="month === months.length - 1" @click="month++"><MiIcon name="chevron-right" :size="16" /></MiIconButton>
       </div>
-      <div class="mac__filters" role="group" aria-label="Calendars">
+      <div class="mi:flex mi:flex-wrap mi:gap-1.5" role="group" aria-label="Calendars">
         <MiChip v-for="c in calendars" :key="c.id" v-model="visible[c.id]" selectable size="small" tone="neutral">
-          <span class="mac__swatch" :class="'is-' + c.id" aria-hidden="true" />{{ c.label }}
+          <span class="mi:inline-block mi:w-2 mi:h-2 mi:mr-1.5 mi:rounded-[50%] mi:[background:var(--c)]" :class="CAL_VAR[c.id]" aria-hidden="true" />{{ c.label }}
         </MiChip>
       </div>
     </header>
 
-    <div class="mac__layout">
+    <div class="mi:grid mi:gap-4 mi:@[1000px]:grid-cols-[minmax(0,_1fr)_280px] mi:@[1000px]:items-start">
       <!-- Month grid: dots on phones, titled chips once there is room. -->
-      <div class="mac__month">
-        <div class="mac__weekdays" aria-hidden="true"><span v-for="w in weekdays" :key="w">{{ w }}</span></div>
-        <div class="mac__grid" role="group" :aria-label="monthName">
-          <div v-for="(week, wi) in weeks" :key="wi" class="mac__week">
+      <div class="mi:p-3 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1">
+        <div class="mi:grid mi:grid-cols-7" aria-hidden="true"><span class="mi:text-center mi:pt-1 mi:px-0 mi:pb-2 mi:text-[11px] mi:font-semibold mi:uppercase mi:tracking-[.05em] mi:text-label3" v-for="w in weekdays" :key="w">{{ w }}</span></div>
+        <div class="mi:grid mi:gap-0.5" role="group" :aria-label="monthName">
+          <div v-for="(week, wi) in weeks" :key="wi" class="mi:grid mi:grid-cols-7 mi:gap-0.5">
             <button
-              v-for="d in week" :key="d.key" type="button" class="mac__day"
-              :class="{ 'is-out': !d.inMonth, 'is-today': d.key === TODAY, 'is-on': d.key === selected }"
+              v-for="d in week" :key="d.key" type="button" class="mi:grid mi:justify-items-center mi:content-start mi:gap-1 mi:min-w-0 mi:min-h-13 mi:py-1.5 mi:px-0.5 mi:group mi:[border:0] mi:rounded-md mi:[font:inherit] mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px] mi:@[720px]:justify-items-stretch mi:@[720px]:min-h-23 mi:@[720px]:p-1.5"
+              :data-today="d.key === TODAY || undefined" :class="[d.inMonth ? 'mi:text-inherit' : 'mi:text-label3', d.key === selected ? 'mi:bg-p-tint' : 'mi:bg-transparent mi:hover:bg-fill4']"
               :aria-pressed="d.key === selected" :aria-label="d.label + (d.events.length ? ', ' + d.events.length + ' events' : '')"
               @click="selected = d.key"
             >
-              <span class="mac__num">{{ d.date }}</span>
-              <span class="mac__dots" aria-hidden="true"><i v-for="e in d.events.slice(0, 3)" :key="e.title" :class="'is-' + e.cal" /></span>
-              <span class="mac__chips" aria-hidden="true">
-                <span v-for="e in d.events.slice(0, 2)" :key="e.title" class="mac__chip" :class="'is-' + e.cal">{{ e.title }}</span>
-                <span v-if="d.events.length > 2" class="mac__more">+{{ d.events.length - 2 }} more</span>
+              <span class="mi:grid mi:place-items-center mi:w-6.5 mi:h-6.5 mi:rounded-[50%] mi:text-[13px] mi:font-semibold mi:tabular-nums mi:group-data-[today]:[background:var(--mi-p)] mi:group-data-[today]:text-p-on mi:@[720px]:justify-self-start">{{ d.date }}</span>
+              <span class="mi:flex mi:gap-[3px] mi:min-h-[5px] mi:@[720px]:hidden" aria-hidden="true"><i class="mi:[background:var(--c)] mi:w-[5px] mi:h-[5px] mi:rounded-[50%]" v-for="e in d.events.slice(0, 3)" :key="e.title" :class="CAL_VAR[e.cal]" /></span>
+              <span class="mi:hidden mi:@[720px]:grid mi:@[720px]:gap-[3px] mi:@[720px]:min-w-0" aria-hidden="true">
+                <span v-for="e in d.events.slice(0, 2)" :key="e.title" class="mi:@[720px]:py-0.5 mi:@[720px]:px-1.5 mi:@[720px]:overflow-hidden mi:@[720px]:rounded-[4px] mi:@[720px]:text-[11px] mi:@[720px]:font-semibold mi:@[720px]:text-start mi:@[720px]:whitespace-nowrap mi:@[720px]:text-ellipsis mi:@[720px]:[background:color-mix(in_srgb,_var(--c)_14%,_transparent)]" :class="CAL_VAR[e.cal]">{{ e.title }}</span>
+                <span v-if="d.events.length > 2" class="mi:@[720px]:pl-1.5 mi:@[720px]:text-[11px] mi:@[720px]:text-start mi:@[720px]:text-label2">+{{ d.events.length - 2 }} more</span>
               </span>
             </button>
           </div>
@@ -37,12 +37,12 @@
       </div>
 
       <!-- Agenda of the selected day. -->
-      <aside class="mac__agenda" aria-labelledby="mac-agenda-title">
-        <MiText id="mac-agenda-title" variant="headline" as="h3">{{ selectedLabel }}</MiText>
-        <ol v-if="selectedEvents.length" class="mac__list">
-          <li v-for="e in selectedEvents" :key="e.title" class="mac__item" :class="'is-' + e.cal">
-            <span class="mac__time">{{ e.time }}</span>
-            <span class="mac__item-title">{{ e.title }}</span>
+      <aside class="mi:grid mi:content-start mi:gap-3 mi:p-4.5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1" aria-labelledby="mac-agenda-title">
+        <MiText id="mac-agenda-title" class="mi:m-0" variant="headline" as="h3">{{ selectedLabel }}</MiText>
+        <ol v-if="selectedEvents.length" class="mi:grid mi:gap-2 mi:m-0 mi:p-0 mi:[list-style:none]">
+          <li v-for="e in selectedEvents" :key="e.title" class="mi:grid mi:grid-cols-[56px_minmax(0,_1fr)] mi:gap-2.5 mi:py-2.5 mi:px-3 mi:rounded-md mi:[background:color-mix(in_srgb,_var(--c)_10%,_transparent)] mi:shadow-[inset_3px_0_0_var(--c)]" :class="CAL_VAR[e.cal]">
+            <span class="mi:text-[13px] mi:font-semibold mi:text-label2 mi:tabular-nums">{{ e.time }}</span>
+            <span class="mi:text-[14px] mi:font-semibold">{{ e.title }}</span>
           </li>
         </ol>
         <MiText v-else variant="footnote" tone="label2">Nothing planned. A good day for deep work.</MiText>
@@ -55,6 +55,7 @@
 import { computed, reactive, ref } from 'vue'
 
 type CalId = 'team' | 'travel' | 'personal'
+const CAL_VAR: Record<CalId, string> = { team: 'mi:[--c:var(--mi-p)]', travel: 'mi:[--c:var(--mi-orange)]', personal: 'mi:[--c:var(--mi-green)]' }
 interface CalEvent { title: string, time: string, cal: CalId }
 interface Day { key: string, date: number, inMonth: boolean, label: string, events: CalEvent[] }
 
@@ -110,55 +111,3 @@ const selectedLabel = computed(() => {
   return (selected.value === TODAY ? 'Today · ' : '') + longDate.format(new Date(y, m - 1, d))
 })
 </script>
-
-<style scoped>
-.mac { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
-.mac__head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
-.mac__nav { display: flex; align-items: center; gap: 10px; }
-.mac__nav h2 { min-width: 9.5em; margin: 0; text-align: center; }
-.mac__filters { display: flex; flex-wrap: wrap; gap: 6px; }
-.mac__swatch { display: inline-block; width: 8px; height: 8px; margin-right: 6px; border-radius: 50%; }
-
-.is-team { --c: var(--mi-p); }
-.is-travel { --c: var(--mi-orange); }
-.is-personal { --c: var(--mi-green); }
-.mac__swatch, .mac__dots i { background: var(--c); }
-
-.mac__layout { display: grid; gap: 16px; }
-.mac__month { padding: 12px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.mac__weekdays, .mac__week { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); }
-.mac__weekdays span { padding: 4px 0 8px; font-size: 11px; font-weight: 600; text-align: center; text-transform: uppercase; letter-spacing: .05em; color: var(--mi-label3); }
-.mac__grid { display: grid; gap: 2px; }
-.mac__week { gap: 2px; }
-
-.mac__day {
-  display: grid; justify-items: center; align-content: start; gap: 4px; min-width: 0; min-height: 52px; padding: 6px 2px;
-  border: 0; border-radius: var(--mi-radius-m); background: transparent; font: inherit; color: inherit; cursor: pointer;
-}
-.mac__day:hover { background: var(--mi-fill4); }
-.mac__day:focus-visible { outline: 2px solid var(--mi-p); outline-offset: -2px; }
-.mac__day.is-out { color: var(--mi-label3); }
-.mac__day.is-on { background: var(--mi-p-tint); }
-.mac__num { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; }
-.mac__day.is-today .mac__num { background: var(--mi-p); color: var(--mi-p-on); }
-.mac__dots { display: flex; gap: 3px; min-height: 5px; }
-.mac__dots i { width: 5px; height: 5px; border-radius: 50%; }
-.mac__chips { display: none; }
-
-.mac__agenda { display: grid; align-content: start; gap: 12px; padding: 18px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.mac__agenda h3 { margin: 0; }
-.mac__list { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
-.mac__item { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 10px; padding: 10px 12px; border-radius: var(--mi-radius-m); background: color-mix(in srgb, var(--c) 10%, transparent); box-shadow: inset 3px 0 0 var(--c); }
-.mac__time { font-size: 13px; font-weight: 600; color: var(--mi-label2); font-variant-numeric: tabular-nums; }
-.mac__item-title { font-size: 14px; font-weight: 600; }
-
-@container (min-width: 720px) {
-  .mac__day { justify-items: stretch; min-height: 92px; padding: 6px; }
-  .mac__num { justify-self: start; }
-  .mac__dots { display: none; }
-  .mac__chips { display: grid; gap: 3px; min-width: 0; }
-  .mac__chip { padding: 2px 6px; overflow: hidden; border-radius: 4px; font-size: 11px; font-weight: 600; text-align: start; white-space: nowrap; text-overflow: ellipsis; background: color-mix(in srgb, var(--c) 14%, transparent); }
-  .mac__more { padding-left: 6px; font-size: 11px; text-align: start; color: var(--mi-label2); }
-}
-@container (min-width: 1000px) { .mac__layout { grid-template-columns: minmax(0, 1fr) 280px; align-items: start; } }
-</style>

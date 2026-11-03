@@ -84,14 +84,14 @@ watch(filter, () => { page.value = 1 })
 </script>
 
 <template>
-  <div class="mi-dt">
-    <div v-if="filterable" class="mi-dt__bar">
+  <div class="mi-dt mi:flex mi:flex-col mi:gap-3 mi:font-mi mi:text-label">
+    <div v-if="filterable" class="mi-dt__bar mi:flex mi:items-center mi:gap-2">
       <MiInput v-model="filter" class="mi-dt__filter" type="search" :placeholder="filterPlaceholder" :aria-label="filterPlaceholder" clearable />
       <slot name="toolbar" />
-      <details v-if="columnToggle" class="mi-dt__cols">
-        <summary class="mi-dt__colsbtn">Columns</summary>
-        <div class="mi-dt__colsmenu">
-          <label v-for="c in columns" :key="c.key" class="mi-dt__colopt"><input type="checkbox" :checked="!hidden.includes(c.key)" @change="toggleCol(c.key)"> {{ c.label }}</label>
+      <details v-if="columnToggle" class="mi-dt__cols mi:relative">
+        <summary class="mi-dt__colsbtn mi:inline-flex mi:items-center mi:h-9 mi:py-0 mi:px-3 mi:[border:.5px_solid_var(--mi-sep)] mi:rounded-[10px] mi:bg-card mi:text-[14px] mi:cursor-pointer mi:[list-style:none]">Columns</summary>
+        <div class="mi-dt__colsmenu mi:absolute mi:right-0 mi:z-5 mi:mt-1 mi:min-w-40 mi:p-1.5 mi:rounded-[12px] mi:bg-card mi:shadow-2">
+          <label v-for="c in columns" :key="c.key" class="mi-dt__colopt mi:flex mi:gap-2 mi:items-center mi:py-1.5 mi:px-2 mi:text-[13px] mi:cursor-pointer"><input type="checkbox" :checked="!hidden.includes(c.key)" @change="toggleCol(c.key)"> {{ c.label }}</label>
         </div>
       </details>
     </div>
@@ -111,22 +111,14 @@ watch(filter, () => { page.value = 1 })
       </template>
       <template #empty><slot name="empty">{{ emptyText }}</slot></template>
     </MiTable>
-    <div class="mi-dt__foot">
-      <span v-if="selectable" class="mi-dt__count">{{ selected.length }} of {{ sorted.length }} row(s) selected</span>
-      <span v-else class="mi-dt__count">{{ sorted.length }} row(s)</span>
+    <div class="mi-dt__foot mi:flex mi:items-center mi:justify-between mi:gap-3 mi:flex-wrap">
+      <span v-if="selectable" class="mi-dt__count mi:text-[13px] mi:text-label2">{{ selected.length }} of {{ sorted.length }} row(s) selected</span>
+      <span v-else class="mi-dt__count mi:text-[13px] mi:text-label2">{{ sorted.length }} row(s)</span>
       <MiPagination v-if="pages > 1" v-model="page" :total="pages" :summary="false" />
     </div>
   </div>
 </template>
 
 <style scoped>
-.mi-dt{display:flex;flex-direction:column;gap:12px;font-family:var(--mi-font);color:var(--mi-label)}
-.mi-dt__bar{display:flex;align-items:center;gap:8px}
 .mi-dt__filter{flex:1;max-width:320px}
-.mi-dt__cols{position:relative}
-.mi-dt__colsbtn{display:inline-flex;align-items:center;height:36px;padding:0 12px;border:.5px solid var(--mi-sep);border-radius:10px;background:var(--mi-card);font-size:14px;cursor:pointer;list-style:none}
-.mi-dt__colsmenu{position:absolute;right:0;z-index:5;margin-top:4px;min-width:160px;padding:6px;border-radius:12px;background:var(--mi-card);box-shadow:var(--mi-sh2)}
-.mi-dt__colopt{display:flex;gap:8px;align-items:center;padding:6px 8px;font-size:13px;cursor:pointer}
-.mi-dt__foot{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.mi-dt__count{font-size:13px;color:var(--mi-label2)}
 </style>

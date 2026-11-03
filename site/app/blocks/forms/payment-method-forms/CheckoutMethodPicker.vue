@@ -1,20 +1,20 @@
 <template>
-  <section class="cmp" aria-labelledby="cmp-title">
-    <form class="cmp__card" novalidate @submit.prevent="pay">
-      <header class="cmp__head">
+  <section class="mi:@container/cmp mi:font-mi mi:text-label" aria-labelledby="cmp-title">
+    <form class="mi:grid mi:gap-4.5 mi:max-w-140 mi:mx-auto mi:p-5.5 mi:rounded-xl mi:bg-card mi:shadow-1" novalidate @submit.prevent="pay">
+      <header class="mi:grid mi:gap-1">
         <MiText id="cmp-title" as="h2" variant="title3" weight="semibold">How would you like to pay?</MiText>
         <MiText variant="footnote" tone="label2">Order #SG-20931 · Linen duvet set and two pillowcases · <strong>{{ money(total) }}</strong></MiText>
       </header>
 
       <!-- Radio cards: each method reveals only the fields it needs. -->
-      <MiRadioGroup v-model="method" label="Payment method" class="cmp__methods">
-        <div v-for="m in methods" :key="m.id" class="cmp__method" :class="{ 'is-on': method === m.id }">
-          <div class="cmp__row">
+      <MiRadioGroup v-model="method" label="Payment method" class="mi:grid! mi:gap-2.5!">
+        <div v-for="m in methods" :key="m.id" class="mi:rounded-lg mi:[outline:1px_solid_transparent]" :class="method === m.id ? 'mi:bg-p-tint mi:outline-p/45' : 'mi:bg-fill4'">
+          <div class="mi:flex mi:[align-items:flex-start] mi:justify-between mi:gap-2.5 mi:py-3.5 mi:px-4">
             <MiRadio :value="m.id" :label="m.label" :description="m.hint" />
             <MiBadge v-if="m.badge" tone="success" :label="m.badge" />
           </div>
 
-          <div v-if="method === m.id && m.id === 'card'" class="cmp__panel">
+          <div v-if="method === m.id && m.id === 'card'" class="mi:grid mi:[--mi-in-y:-4px] mi:animate-[in_var(--mi-dur-3)_var(--mi-ease)] mi:motion-reduce:animate-none mi:gap-3 mi:pt-0 mi:px-4 mi:pb-4 mi:@[420px]/cmp:ps-12">
             <MiField label="Saved card">
               <MiSelect v-model="card" :options="cards" />
             </MiField>
@@ -25,10 +25,10 @@
             </MiField>
           </div>
 
-          <div v-else-if="method === m.id && m.id === 'split'" class="cmp__panel">
-            <ol class="cmp__plan" aria-label="Payment schedule">
-              <li v-for="(p, i) in schedule" :key="p.date" class="cmp__step">
-                <span class="cmp__dot" :class="{ 'is-now': i === 0 }" aria-hidden="true" />
+          <div v-else-if="method === m.id && m.id === 'split'" class="mi:grid mi:[--mi-in-y:-4px] mi:animate-[in_var(--mi-dur-3)_var(--mi-ease)] mi:motion-reduce:animate-none mi:gap-3 mi:pt-0 mi:px-4 mi:pb-4 mi:@[420px]/cmp:ps-12">
+            <ol class="mi:grid mi:grid-cols-2 mi:gap-3 mi:m-0 mi:p-0 mi:[list-style:none] mi:@[480px]/cmp:grid-cols-4" aria-label="Payment schedule">
+              <li v-for="(p, i) in schedule" :key="p.date" class="mi:grid mi:gap-0.5">
+                <span class="mi:w-2.5 mi:h-2.5 mi:mb-1 mi:rounded-[50%] mi:border-2 mi:border-p" :class="i === 0 ? 'mi:bg-p' : ''" aria-hidden="true" />
                 <MiText variant="caption" tone="label2">{{ p.date }}</MiText>
                 <MiText variant="subheadline" weight="semibold" tabular>{{ money(p.amount) }}</MiText>
               </li>
@@ -36,22 +36,22 @@
             <MiText variant="caption" tone="label3">0% interest, no fees when paid on time. A soft credit check does not affect your score.</MiText>
           </div>
 
-          <div v-else-if="method === m.id && m.id === 'bank'" class="cmp__panel">
+          <div v-else-if="method === m.id && m.id === 'bank'" class="mi:grid mi:[--mi-in-y:-4px] mi:animate-[in_var(--mi-dur-3)_var(--mi-ease)] mi:motion-reduce:animate-none mi:gap-3 mi:pt-0 mi:px-4 mi:pb-4 mi:@[420px]/cmp:ps-12">
             <MiDetails :items="bankDetails" label-width="110px" />
-            <div class="cmp__ref">
+            <div class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2">
               <MiText variant="caption" tone="label2">Use this reference so we can match your transfer.</MiText>
               <MiCopyButton :value="reference" label="Copy reference" variant="outline" />
             </div>
           </div>
 
-          <MiText v-else-if="method === m.id && m.id === 'wallet'" variant="caption" tone="label2" class="cmp__panel">
+          <MiText v-else-if="method === m.id && m.id === 'wallet'" variant="caption" tone="label2" class="mi:grid mi:[--mi-in-y:-4px] mi:animate-[in_var(--mi-dur-3)_var(--mi-ease)] mi:motion-reduce:animate-none mi:gap-3 mi:pt-0 mi:px-4 mi:pb-4 mi:@[420px]/cmp:ps-12">
             You confirm on your phone with Face ID or your passcode. Your card number is never shared with us.
           </MiText>
         </div>
       </MiRadioGroup>
 
-      <footer class="cmp__foot">
-        <p class="cmp__status" role="status" aria-live="polite">{{ status }}</p>
+      <footer class="mi:grid mi:gap-2.5">
+        <p class="mi:min-h-4.5 mi:m-0 mi:text-[13px] mi:text-green-t" role="status" aria-live="polite">{{ status }}</p>
         <MiButton type="submit" size="large" block>{{ cta }}</MiButton>
         <MiText variant="caption" tone="label3" align="center">
           <MiIcon name="lock" :size="12" /> Payments are encrypted. Sample data only, nothing is charged.
@@ -113,28 +113,3 @@ function pay() {
     : 'Payment authorised. A receipt is on its way to your inbox.'
 }
 </script>
-
-<style scoped>
-.cmp { container: cmp / inline-size; font-family: var(--mi-font); color: var(--mi-label); }
-.cmp__card { display: grid; gap: 18px; max-width: 560px; margin-inline: auto; padding: 22px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.cmp__head { display: grid; gap: 4px; }
-
-.cmp__methods { display: grid; gap: 10px; }
-.cmp__method { border-radius: var(--mi-radius-l); background: var(--mi-fill4); outline: 1px solid transparent; }
-.cmp__method.is-on { background: var(--mi-p-tint); outline-color: color-mix(in srgb, var(--mi-p) 45%, transparent); }
-.cmp__row { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; padding: 14px 16px; }
-.cmp__panel { display: grid; gap: 12px; padding: 0 16px 16px; animation: cmp-in var(--mi-dur-3) var(--mi-ease); }
-@container cmp (min-width: 420px) { .cmp__panel { padding-inline-start: 48px; } }
-
-.cmp__plan { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 0; padding: 0; list-style: none; }
-@container cmp (min-width: 480px) { .cmp__plan { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-.cmp__step { display: grid; gap: 2px; }
-.cmp__dot { width: 10px; height: 10px; margin-bottom: 4px; border-radius: 50%; border: 2px solid var(--mi-p); }
-.cmp__dot.is-now { background: var(--mi-p); }
-.cmp__ref { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
-
-.cmp__foot { display: grid; gap: 10px; }
-.cmp__status { min-height: 18px; margin: 0; font-size: 13px; color: var(--mi-green-t); }
-@keyframes cmp-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) { .cmp__panel { animation: none; } }
-</style>

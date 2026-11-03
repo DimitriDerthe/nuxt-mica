@@ -1,6 +1,6 @@
 <template>
-  <section class="lpc" aria-labelledby="lpc-title">
-    <header class="lpc__head">
+  <section class="mi:@container/lpc mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="lpc-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="lpc-title" as="h2" variant="title3" weight="semibold">Listing photos</MiText>
         <MiText variant="footnote" tone="label2">Loft on Rue Oberkampf · guests decide in the first five photos</MiText>
@@ -8,26 +8,26 @@
       <MiBadge :tone="ready ? 'success' : 'warning'" :label="`${requiredDone} of ${requiredCount} required`" dot />
     </header>
 
-    <div class="lpc__meter" role="meter" aria-label="Required shots uploaded" :aria-valuenow="requiredDone" aria-valuemin="0" :aria-valuemax="requiredCount">
-      <span :style="{ transform: `scaleX(${requiredDone / requiredCount})` }" />
+    <div class="mi:h-1.5 mi:rounded-[3px] mi:[background:var(--mi-fill3)] mi:overflow-hidden" role="meter" aria-label="Required shots uploaded" :aria-valuenow="requiredDone" aria-valuemin="0" :aria-valuemax="requiredCount">
+      <span class="mi:block mi:h-full mi:rounded-[inherit] mi:[background:linear-gradient(90deg,_var(--mi-p),_var(--mi-s))] mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleX(${requiredDone / requiredCount})` }" />
     </div>
 
-    <ul class="lpc__grid">
-      <li v-for="s in shots" :key="s.id" class="lpc__shot" :class="{ 'is-filled': s.file, 'is-cover': cover === s.id }">
+    <ul class="mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:gap-3 mi:m-0 mi:p-0 mi:[list-style:none] mi:@[540px]/lpc:grid-cols-2 mi:@[860px]/lpc:grid-cols-3">
+      <li v-for="s in shots" :key="s.id" class="mi:grid mi:grid-rows-[auto_1fr] mi:rounded-lg mi:[background:var(--mi-card)] mi:overflow-hidden" :class="cover === s.id ? 'mi:shadow-[0_0_0_2px_var(--mi-p),_var(--mi-sh1)]' : 'mi:shadow-1'">
         <!-- Drawn frame: a tinted gradient stands in for the photo, the shot guide shows while empty. -->
-        <div class="lpc__frame" :style="{ '--lpc-tint': s.tint }" aria-hidden="true">
+        <div class="mi:relative mi:grid mi:place-content-center mi:justify-items-center mi:gap-1.5 mi:aspect-[16_/_9] mi:overflow-hidden mi:text-label3" :class="s.file ? 'mi:[background:linear-gradient(160deg,_color-mix(in_srgb,_var(--lpc-tint)_30%,_var(--mi-card)),_color-mix(in_srgb,_var(--lpc-tint)_70%,_var(--mi-label)))] mi:[border-bottom:0]' : 'mi:[background:repeating-linear-gradient(135deg,_var(--mi-fill4)_0_10px,_transparent_10px_20px)] mi:[border-bottom:1px_dashed_var(--mi-sep)]'" :style="{ '--lpc-tint': s.tint }" aria-hidden="true">
           <template v-if="s.file">
-            <span class="lpc__sun" /><span class="lpc__hill" />
+            <span class="mi:absolute mi:top-[18%] mi:right-[18%] mi:w-[18%] mi:aspect-[1] mi:rounded-[50%] mi:[background:color-mix(in_srgb,_var(--mi-card)_80%,_transparent)]" /><span class="mi:absolute mi:top-[58%] mi:right-[-10%] mi:bottom-[-40%] mi:left-[-10%] mi:rounded-[50%_50%_0_0] mi:[background:color-mix(in_srgb,_var(--mi-label)_30%,_transparent)]" />
           </template>
           <template v-else>
             <MiIcon name="image" :size="26" />
-            <span class="lpc__guide">{{ s.guide }}</span>
+            <span class="mi:text-[12px] mi:font-medium">{{ s.guide }}</span>
           </template>
-          <span v-if="cover === s.id" class="lpc__cover-tag">Cover</span>
+          <span v-if="cover === s.id" class="mi:absolute mi:top-2.5 mi:left-2.5 mi:py-0.5 mi:px-[9px] mi:rounded-[999px] mi:text-[11px] mi:font-bold mi:text-p-on mi:[background:var(--mi-p)]">Cover</span>
         </div>
 
-        <div class="lpc__body">
-          <div class="lpc__title">
+        <div class="mi:grid mi:content-start mi:gap-2 mi:p-3.5">
+          <div class="mi:flex mi:items-baseline mi:justify-between mi:gap-2">
             <MiText :id="`lpc-${s.id}`" as="h3" variant="subheadline" weight="semibold">{{ s.name }}</MiText>
             <MiText v-if="!s.required" variant="caption" tone="label3">Optional</MiText>
           </div>
@@ -41,7 +41,7 @@
             :model-value="null" @update:model-value="pick(s, $event)" @reject="s.error = rejectText($event)"
           />
           <MiButton
-            v-if="s.file" class="lpc__cover-btn" size="small" :variant="cover === s.id ? 'tinted' : 'plain'" :pressed="cover === s.id"
+            v-if="s.file" class="mi:justify-self-start" size="small" :variant="cover === s.id ? 'tinted' : 'plain'" :pressed="cover === s.id"
             :aria-describedby="`lpc-${s.id}`" @click="cover = s.id"
           >
             <template #leading><MiIcon name="star" :size="14" :filled="cover === s.id" /></template>
@@ -51,8 +51,8 @@
       </li>
     </ul>
 
-    <footer class="lpc__foot">
-      <p class="lpc__status" role="status" aria-live="polite">{{ status }}</p>
+    <footer class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-3">
+      <p class="mi:flex-[1_1_240px] mi:m-0 mi:text-[13px] mi:text-label2" role="status" aria-live="polite">{{ status }}</p>
       <MiButton :disabled="!ready" @click="saved = true">Save photos</MiButton>
     </footer>
   </section>
@@ -100,33 +100,3 @@ function rejectText(list: Rejection[]) {
   return list[0]?.reason === 'size' ? 'Over 10 MB. Export at a smaller size.' : 'Only JPG or PNG photos.'
 }
 </script>
-
-<style scoped>
-.lpc { container: lpc / inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
-.lpc__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.lpc__meter { height: 6px; border-radius: 3px; background: var(--mi-fill3); overflow: hidden; }
-.lpc__meter span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--mi-p), var(--mi-s)); transform-origin: left; transition: transform var(--mi-dur-4) var(--mi-spring); }
-
-.lpc__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; margin: 0; padding: 0; list-style: none; }
-@container lpc (min-width: 540px) { .lpc__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@container lpc (min-width: 860px) { .lpc__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-
-.lpc__shot { display: grid; grid-template-rows: auto 1fr; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); overflow: hidden; }
-.lpc__shot.is-cover { box-shadow: 0 0 0 2px var(--mi-p), var(--mi-sh1); }
-.lpc__frame {
-  position: relative; display: grid; place-content: center; justify-items: center; gap: 6px; aspect-ratio: 16 / 9; overflow: hidden;
-  color: var(--mi-label3); background: repeating-linear-gradient(135deg, var(--mi-fill4) 0 10px, transparent 10px 20px); border-bottom: 1px dashed var(--mi-sep);
-}
-.is-filled .lpc__frame { border-bottom: 0; background: linear-gradient(160deg, color-mix(in srgb, var(--lpc-tint) 30%, var(--mi-card)), color-mix(in srgb, var(--lpc-tint) 70%, var(--mi-label))); }
-.lpc__sun { position: absolute; top: 18%; right: 18%; width: 18%; aspect-ratio: 1; border-radius: 50%; background: color-mix(in srgb, var(--mi-card) 80%, transparent); }
-.lpc__hill { position: absolute; inset: 58% -10% -40% -10%; border-radius: 50% 50% 0 0; background: color-mix(in srgb, var(--mi-label) 30%, transparent); }
-.lpc__guide { font-size: 12px; font-weight: 500; }
-.lpc__cover-tag { position: absolute; top: 10px; left: 10px; padding: 2px 9px; border-radius: 999px; font-size: 11px; font-weight: 700; color: var(--mi-p-on); background: var(--mi-p); }
-
-.lpc__body { display: grid; align-content: start; gap: 8px; padding: 14px; }
-.lpc__title { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
-.lpc__cover-btn { justify-self: start; }
-
-.lpc__foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
-.lpc__status { flex: 1 1 240px; margin: 0; font-size: 13px; color: var(--mi-label2); }
-</style>

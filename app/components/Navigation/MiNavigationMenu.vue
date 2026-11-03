@@ -70,54 +70,43 @@ onBeforeUnmount(() => { document.removeEventListener('pointerdown', onOutside, t
 </script>
 
 <template>
-  <nav ref="root" class="mi-nm" :aria-label="ariaLabel" @keydown="onKey" @pointerleave="leave">
-    <ul class="mi-nm__list">
-      <li v-for="it in items" :key="it.id" class="mi-nm__li" @pointerenter="enter(it.id, !!it.links)">
+  <nav ref="root" class="mi-nm mi:font-mi mi:text-label mi:relative" :aria-label="ariaLabel" @keydown="onKey" @pointerleave="leave">
+    <ul class="mi-nm__list mi:flex mi:gap-0.5 mi:m-0 mi:p-0 mi:[list-style:none]">
+      <li v-for="it in items" :key="it.id" class="mi-nm__li mi:relative" @pointerenter="enter(it.id, !!it.links)">
         <button
-          v-if="it.links" type="button" class="mi-nm__top" :data-id="it.id" :aria-expanded="model === it.id"
+          v-if="it.links" type="button" class="mi-nm__top mi:inline-flex mi:items-center mi:gap-1 mi:h-9 mi:py-0 mi:px-3.5 mi:[border:0] mi:rounded-[8px] mi:bg-transparent mi:text-label mi:[text-decoration:none] mi:cursor-pointer mi:hover:bg-fill3 mi:aria-expanded:bg-fill3 mi:focus-visible:[outline:3px_solid_color-mix(in_srgb,var(--mi-p)_55%,transparent)] mi:focus-visible:outline-offset-[-1px]" :data-id="it.id" :aria-expanded="model === it.id"
           :aria-controls="`mi-nm-${it.id}`" @click="toggle(it.id)"
         >
           {{ it.label }}
-          <svg class="mi-nm__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
+          <svg class="mi-nm__chev mi:w-3 mi:h-3 mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring)] mi:[.mi-nm__top[aria-expanded='true']_&]:transform-[rotate(180deg)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
         </button>
-        <a v-else class="mi-nm__top" :href="miSafeHref(it.href)">{{ it.label }}</a>
+        <a v-else class="mi-nm__top mi:inline-flex mi:items-center mi:gap-1 mi:h-9 mi:py-0 mi:px-3.5 mi:[border:0] mi:rounded-[8px] mi:bg-transparent mi:text-label mi:[text-decoration:none] mi:cursor-pointer mi:hover:bg-fill3 mi:aria-expanded:bg-fill3 mi:focus-visible:[outline:3px_solid_color-mix(in_srgb,var(--mi-p)_55%,transparent)] mi:focus-visible:outline-offset-[-1px]" :href="miSafeHref(it.href)">{{ it.label }}</a>
         <div
-          v-if="it.links && !viewport" :id="`mi-nm-${it.id}`" class="mi-nm__panel mi-nm__panel--anchored"
+          v-if="it.links && !viewport" :id="`mi-nm-${it.id}`" class="mi-nm__panel mi-nm__panel--anchored mi:absolute mi:top-full mi:left-0 mi:z-50 mi:flex mi:flex-col mi:gap-0.5 mi:min-w-65 mi:mt-1.5 mi:p-1.5 mi:rounded-[14px] mi:bg-mat mi:shadow-[var(--mi-sh3),inset_0_0_0_.5px_var(--mi-mat-b)] mi:opacity-0 mi:transform-[translate3d(0,-4px,0)_scale(.97)] mi:origin-[0_0] mi:invisible mi:pointer-events-none mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),transform_var(--mi-dur-3)_var(--mi-spring),visibility_0s_linear_var(--mi-dur-2)] mi:before:content-[''] mi:before:absolute mi:before:left-0 mi:before:right-0 mi:before:-top-2 mi:before:h-2 mi:[&.is-open]:opacity-100 mi:[&.is-open]:transform-none mi:[&.is-open]:visible mi:[&.is-open]:pointer-events-auto mi:[&.is-open]:delay-[0s]"
           :class="{ 'is-open': model === it.id }" :inert="model !== it.id || undefined" @pointerenter="enter(it.id, true)"
         >
-          <a v-for="l in it.links" :key="l.href" class="mi-nm__link" :href="miSafeHref(l.href)" @click="emit('navigate', l)">
-            <span class="mi-nm__title">{{ l.title }}</span>
-            <span v-if="l.description" class="mi-nm__desc">{{ l.description }}</span>
+          <a v-for="l in it.links" :key="l.href" class="mi-nm__link mi:focus-visible:[outline:3px_solid_color-mix(in_srgb,var(--mi-p)_55%,transparent)] mi:focus-visible:outline-offset-[-1px] mi:flex mi:flex-col mi:gap-0.5 mi:py-2 mi:px-2.5 mi:rounded-[8px] mi:text-label mi:[text-decoration:none]" :href="miSafeHref(l.href)" @click="emit('navigate', l)">
+            <span class="mi-nm__title mi:text-[14px] mi:font-semibold">{{ l.title }}</span>
+            <span v-if="l.description" class="mi-nm__desc mi:text-[13px] mi:text-label2">{{ l.description }}</span>
           </a>
         </div>
       </li>
     </ul>
     <div
-      v-if="viewport && last?.links" :id="`mi-nm-${last.id}`" class="mi-nm__panel mi-nm__viewport"
+      v-if="viewport && last?.links" :id="`mi-nm-${last.id}`" class="mi-nm__panel mi-nm__viewport mi:absolute mi:top-full mi:left-0 mi:z-50 mi:flex mi:flex-col mi:gap-0.5 mi:min-w-65 mi:mt-1.5 mi:p-1.5 mi:rounded-[14px] mi:bg-mat mi:shadow-[var(--mi-sh3),inset_0_0_0_.5px_var(--mi-mat-b)] mi:opacity-0 mi:transform-[translate3d(0,-4px,0)_scale(.97)] mi:origin-[0_0] mi:invisible mi:pointer-events-none mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),transform_var(--mi-dur-3)_var(--mi-spring),visibility_0s_linear_var(--mi-dur-2)] mi:before:content-[''] mi:before:absolute mi:before:left-0 mi:before:right-0 mi:before:-top-2 mi:before:h-2 mi:[&.is-open]:opacity-100 mi:[&.is-open]:transform-none mi:[&.is-open]:visible mi:[&.is-open]:pointer-events-auto mi:[&.is-open]:delay-[0s]"
       :class="{ 'is-open': !!active }" :inert="!active || undefined" @pointerenter="cancelClose"
     >
-      <a v-for="l in last.links" :key="l.href" class="mi-nm__link" :href="miSafeHref(l.href)" @click="emit('navigate', l)">
-        <span class="mi-nm__title">{{ l.title }}</span>
-        <span v-if="l.description" class="mi-nm__desc">{{ l.description }}</span>
+      <a v-for="l in last.links" :key="l.href" class="mi-nm__link mi:focus-visible:[outline:3px_solid_color-mix(in_srgb,var(--mi-p)_55%,transparent)] mi:focus-visible:outline-offset-[-1px] mi:flex mi:flex-col mi:gap-0.5 mi:py-2 mi:px-2.5 mi:rounded-[8px] mi:text-label mi:[text-decoration:none]" :href="miSafeHref(l.href)" @click="emit('navigate', l)">
+        <span class="mi-nm__title mi:text-[14px] mi:font-semibold">{{ l.title }}</span>
+        <span v-if="l.description" class="mi-nm__desc mi:text-[13px] mi:text-label2">{{ l.description }}</span>
       </a>
     </div>
   </nav>
 </template>
 
 <style scoped>
-.mi-nm{font-family:var(--mi-font);color:var(--mi-label);position:relative;display:inline-block}
-.mi-nm__list{display:flex;gap:2px;margin:0;padding:0;list-style:none}
-.mi-nm__li{position:relative}
-.mi-nm__top{display:inline-flex;align-items:center;gap:4px;height:36px;padding:0 14px;border:0;border-radius:8px;background:transparent;color:var(--mi-label);font:inherit;font-size:14px;font-weight:500;text-decoration:none;cursor:pointer}
-.mi-nm__top:hover,.mi-nm__top[aria-expanded='true']{background:var(--mi-fill3)}
-.mi-nm__top:focus-visible,.mi-nm__link:focus-visible{outline:3px solid color-mix(in srgb,var(--mi-p) 55%,transparent);outline-offset:-1px}
-.mi-nm__chev{width:12px;height:12px;transition:transform var(--mi-dur-3) var(--mi-spring)}
-.mi-nm__top[aria-expanded='true'] .mi-nm__chev{transform:rotate(180deg)}
-.mi-nm__panel{position:absolute;top:100%;left:0;z-index:50;display:flex;flex-direction:column;gap:2px;min-width:260px;margin-top:6px;padding:6px;border-radius:14px;background:var(--mi-mat);-webkit-backdrop-filter:saturate(180%) blur(24px);backdrop-filter:saturate(180%) blur(24px);box-shadow:var(--mi-sh3),inset 0 0 0 .5px var(--mi-mat-b);opacity:0;transform:translate3d(0,-4px,0) scale(.97);transform-origin:0 0;visibility:hidden;pointer-events:none;transition:opacity var(--mi-dur-2) var(--mi-ease),transform var(--mi-dur-3) var(--mi-spring),visibility 0s linear var(--mi-dur-2)}
-.mi-nm__panel::before{content:'';position:absolute;left:0;right:0;top:-8px;height:8px}
-.mi-nm__panel.is-open{opacity:1;transform:none;visibility:visible;pointer-events:auto;transition-delay:0s}
-.mi-nm__link{display:flex;flex-direction:column;gap:2px;padding:8px 10px;border-radius:8px;color:var(--mi-label);text-decoration:none}
+.mi-nm{display:inline-block}
+.mi-nm__top{font:inherit;font-size:14px;font-weight:500}
+.mi-nm__panel{-webkit-backdrop-filter:saturate(180%) blur(24px);backdrop-filter:saturate(180%) blur(24px)}
 .mi-nm__link:hover,.mi-nm__link:focus{background:var(--mi-fill3)}
-.mi-nm__title{font-size:14px;font-weight:600}
-.mi-nm__desc{font-size:13px;color:var(--mi-label2)}
 </style>

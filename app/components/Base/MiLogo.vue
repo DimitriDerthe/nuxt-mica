@@ -39,7 +39,7 @@ const style = computed(() => ({
 
 <template>
   <svg
-    class="mi-logo"
+    class="mi-logo mi:flex-[none] mi:align-middle mi:overflow-visible"
     :class="[`mi-logo--${tone}`, `mi-logo--dot-${dot}`, { 'mi-logo--pulse': pulse }]"
     :viewBox="box.join(' ')"
     :style="style"
@@ -58,20 +58,17 @@ const style = computed(() => ({
       </template>
     </g>
     <circle v-if="variant === 'wordmark'" cx="75.5" cy="-1.5" r="6.5" fill="currentColor" />
-    <circle v-if="variant === 'wordmark'" class="mi-logo__dot" cx="207" cy="49" r="11" />
-    <circle v-else-if="variant === 'short'" class="mi-logo__dot" cx="80" cy="49" r="11" />
-    <circle v-else class="mi-logo__dot" cx="11" cy="11" r="11" />
+    <circle v-if="variant === 'wordmark'" class="mi-logo__dot mi:fill-current mi:[transform-box:fill-box] mi:origin-center mi:[.mi-logo--dot-primary_&]:fill-p mi:[.mi-logo--dot-secondary_&]:fill-s" cx="207" cy="49" r="11" />
+    <circle v-else-if="variant === 'short'" class="mi-logo__dot mi:fill-current mi:[transform-box:fill-box] mi:origin-center mi:[.mi-logo--dot-primary_&]:fill-p mi:[.mi-logo--dot-secondary_&]:fill-s" cx="80" cy="49" r="11" />
+    <circle v-else class="mi-logo__dot mi:fill-current mi:[transform-box:fill-box] mi:origin-center mi:[.mi-logo--dot-primary_&]:fill-p mi:[.mi-logo--dot-secondary_&]:fill-s" cx="11" cy="11" r="11" />
   </svg>
 </template>
 
 <style scoped>
-.mi-logo{display:inline-block;flex:none;width:auto;vertical-align:middle;overflow:visible}
+.mi-logo{display:inline-block;width:auto}
 .mi-logo--label{color:var(--mi-label)}
 .mi-logo--inherit{color:inherit}
 .mi-logo--on-primary{color:var(--mi-p-on)}
-.mi-logo__dot{fill:currentColor;transform-box:fill-box;transform-origin:center}
-.mi-logo--dot-primary .mi-logo__dot{fill:var(--mi-p)}
-.mi-logo--dot-secondary .mi-logo__dot{fill:var(--mi-s)}
 .mi-logo--pulse .mi-logo__dot{animation:mi-logo-pulse 1.2s var(--mi-ease) infinite}
 @keyframes mi-logo-pulse{50%{transform:scale(.55);opacity:.45}}
 @media (prefers-reduced-motion:reduce){.mi-logo--pulse .mi-logo__dot{animation:none}}

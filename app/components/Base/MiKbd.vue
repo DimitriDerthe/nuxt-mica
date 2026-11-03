@@ -21,10 +21,10 @@ defineSlots<{
 </script>
 
 <template>
-  <kbd class="mi-kbd" :class="{ 'is-pressed': pressed }"><slot /></kbd>
+  <kbd class="mi-kbd mi:select-none mi:box-border" :class="{ 'is-pressed': pressed }"><slot /></kbd>
 </template>
 
 <style scoped>
-.mi-kbd{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 6px;border-radius:var(--mi-radius-s);background:var(--mi-fill2);color:var(--mi-label2);font-family:var(--mi-font);font-size:12px;line-height:1;font-weight:500;user-select:none;box-sizing:border-box;transition:transform var(--mi-dur-1) var(--mi-ease)}
+.mi-kbd{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 6px;border-radius:var(--mi-radius-s);background:var(--mi-fill2);color:var(--mi-label2);font-family:var(--mi-font);font-size:12px;line-height:1;font-weight:500;transition:transform var(--mi-dur-1) var(--mi-ease)}
 .mi-kbd.is-pressed{transform:translate3d(0,1px,0) scale(.92)}
 </style>

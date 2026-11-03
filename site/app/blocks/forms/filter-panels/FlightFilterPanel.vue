@@ -1,7 +1,7 @@
 <template>
-  <section class="ffp" aria-labelledby="ffp-title">
-    <div class="ffp__panel">
-      <header class="ffp__head">
+  <section class="mi:@container mi:font-mi mi:text-label" aria-labelledby="ffp-title">
+    <div class="mi:grid mi:gap-1 mi:max-w-105 mi:mx-auto mi:p-4.5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:@[760px]:max-w-none mi:@[760px]:grid-cols-2 mi:@[760px]:gap-x-7">
+      <header class="mi:@[760px]:col-span-full mi:flex mi:[align-items:flex-start] mi:justify-between mi:gap-2.5 mi:pb-2.5">
         <div>
           <MiText id="ffp-title" variant="headline" as="h2">Filters</MiText>
           <MiText variant="caption" tone="label2">Lisbon → Tokyo · 12–26 March · 1 adult</MiText>
@@ -9,48 +9,48 @@
         <MiBadge v-if="activeCount" :label="`${activeCount} on`" />
       </header>
 
-      <fieldset class="ffp__sec">
-        <legend class="ffp__legend">Stops</legend>
+      <fieldset class="mi:[border:0] mi:[border-top-width:1px] mi:[border-top-style:solid] mi:border-t-sep mi:grid mi:gap-2.5 mi:min-w-0 mi:m-0 mi:py-3.5 mi:px-0">
+        <legend class="mi:float-left mi:w-full mi:p-0 mi:text-[13px] mi:font-semibold">Stops</legend>
         <MiRadioGroup v-model="stops" label="Stops" :options="stopOptions" />
       </fieldset>
 
-      <fieldset class="ffp__sec">
-        <legend class="ffp__legend">Departure time</legend>
+      <fieldset class="mi:[border:0] mi:[border-top-width:1px] mi:[border-top-style:solid] mi:border-t-sep mi:grid mi:gap-2.5 mi:min-w-0 mi:m-0 mi:py-3.5 mi:px-0">
+        <legend class="mi:float-left mi:w-full mi:p-0 mi:text-[13px] mi:font-semibold">Departure time</legend>
         <MiSegmented v-model="leg" label="Flight leg" :options="[{ value: 'out', label: 'Outbound' }, { value: 'ret', label: 'Return' }]" />
         <!-- Each leg keeps its own window; the tiles show what is left for this leg. -->
-        <div class="ffp__slots" role="group" :aria-label="`${leg === 'out' ? 'Outbound' : 'Return'} departure windows`">
+        <div class="mi:grid mi:grid-cols-2 mi:gap-2" role="group" :aria-label="`${leg === 'out' ? 'Outbound' : 'Return'} departure windows`">
           <button
-            v-for="s in SLOTS" :key="s.id" type="button" class="ffp__slot" :aria-pressed="slots[legKey].includes(s.id)"
+            v-for="s in SLOTS" :key="s.id" type="button" class="mi:group mi:grid mi:justify-items-start mi:gap-0.5 mi:p-2.5 mi:[border:0] mi:rounded-md mi:cursor-pointer mi:bg-fill4 mi:text-inherit mi:[font:inherit] mi:text-start mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:active:transform-[scale(.97)] mi:aria-pressed:bg-p-tint mi:aria-pressed:shadow-[inset_0_0_0_1.5px_var(--mi-p)] mi:focus-visible:[outline:3px_solid_color-mix(in_srgb,_var(--mi-p)_45%,_transparent)] mi:focus-visible:outline-offset-[1px]" :aria-pressed="slots[legKey].includes(s.id)"
             @click="toggleSlot(s.id)"
           >
-            <MiIcon :name="s.icon" :size="16" />
-            <b>{{ s.label }}</b>
-            <small>{{ s.range }} · {{ slotCount(s.id) }}</small>
+            <MiIcon class="mi:text-label2 mi:group-aria-pressed:text-p-text" :name="s.icon" :size="16" />
+            <b class="mi:text-[13px]">{{ s.label }}</b>
+            <small class="mi:text-[11px] mi:text-label2">{{ s.range }} · {{ slotCount(s.id) }}</small>
           </button>
         </div>
       </fieldset>
 
-      <fieldset class="ffp__sec">
-        <legend class="ffp__legend">Airlines</legend>
-        <ul class="ffp__airlines">
-          <li v-for="a in AIRLINES" :key="a">
+      <fieldset class="mi:[border:0] mi:[border-top-width:1px] mi:[border-top-style:solid] mi:border-t-sep mi:grid mi:gap-2.5 mi:min-w-0 mi:m-0 mi:py-3.5 mi:px-0">
+        <legend class="mi:float-left mi:w-full mi:p-0 mi:text-[13px] mi:font-semibold">Airlines</legend>
+        <ul class="mi:grid mi:gap-1.5 mi:m-0 mi:p-0 mi:[list-style:none]">
+          <li class="mi:group/al mi:grid mi:grid-cols-[minmax(0,_1fr)_auto_24px] mi:items-center mi:gap-2" v-for="a in AIRLINES" :key="a">
             <MiCheckbox :model-value="airlines.includes(a)" :label="a" @update:model-value="toggleAirline(a)" />
-            <button type="button" class="ffp__only" :aria-label="`Only ${a}`" @click="airlines = [a]">Only</button>
-            <span class="ffp__n">{{ airlineCount(a) }}</span>
+            <button type="button" class="mi:[font:inherit] mi:text-[12px] mi:font-semibold mi:focus-visible:[outline:3px_solid_color-mix(in_srgb,_var(--mi-p)_45%,_transparent)] mi:focus-visible:outline-offset-[1px] mi:py-0.5 mi:px-2 mi:[border:0] mi:rounded-[999px] mi:bg-transparent mi:text-p-text mi:cursor-pointer mi:opacity-0 mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)] mi:group-hover/al:opacity-100 mi:focus-visible:opacity-100 mi:[@media_(hover:_none)]:opacity-100" :aria-label="`Only ${a}`" @click="airlines = [a]">Only</button>
+            <span class="mi:text-[12px] mi:text-end mi:text-label3 mi:tabular-nums">{{ airlineCount(a) }}</span>
           </li>
         </ul>
       </fieldset>
 
-      <fieldset class="ffp__sec">
-        <legend class="ffp__legend">Total travel time</legend>
+      <fieldset class="mi:[border:0] mi:[border-top-width:1px] mi:[border-top-style:solid] mi:border-t-sep mi:grid mi:gap-2.5 mi:min-w-0 mi:m-0 mi:py-3.5 mi:px-0">
+        <legend class="mi:float-left mi:w-full mi:p-0 mi:text-[13px] mi:font-semibold">Total travel time</legend>
         <MiSlider v-model="maxHours" :min="14" :max="32" aria-label="Maximum travel time" show-value :format="v => (v >= 32 ? 'Any length' : `Up to ${v} h`)" />
       </fieldset>
 
-      <footer class="ffp__foot">
+      <footer class="mi:@[760px]:col-span-full mi:flex mi:justify-between mi:gap-2.5 mi:pt-3.5 mi:border-t mi:border-t-sep">
         <MiButton variant="plain" :disabled="!activeCount" @click="reset">Reset</MiButton>
         <MiButton :disabled="!results.length">{{ results.length ? `Show ${results.length} flights from €${cheapest}` : 'No flights match' }}</MiButton>
       </footer>
-      <p class="ffp__sr" aria-live="polite">{{ results.length }} flights match</p>
+      <p class="mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:m-0" aria-live="polite">{{ results.length }} flights match</p>
     </div>
   </section>
 </template>
@@ -134,38 +134,3 @@ function reset() {
   maxHours.value = 32
 }
 </script>
-
-<style scoped>
-.ffp { container-type: inline-size; font-family: var(--mi-font); color: var(--mi-label); }
-.ffp__panel { display: grid; gap: 4px; max-width: 420px; margin-inline: auto; padding: 18px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-@container (min-width: 760px) {
-  .ffp__panel { max-width: none; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 28px; }
-  .ffp__head, .ffp__foot { grid-column: 1 / -1; }
-}
-.ffp__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; padding-bottom: 10px; }
-.ffp__sec { display: grid; gap: 10px; min-width: 0; margin: 0; padding: 14px 0; border: 0; border-top: 1px solid var(--mi-sep); }
-.ffp__legend { float: left; width: 100%; padding: 0; font-size: 13px; font-weight: 600; }
-
-.ffp__slots { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-.ffp__slot {
-  display: grid; justify-items: start; gap: 2px; padding: 10px; border: 0; border-radius: var(--mi-radius-m); cursor: pointer;
-  background: var(--mi-fill4); color: inherit; font: inherit; text-align: start; transition: transform var(--mi-dur-2) var(--mi-ease);
-}
-.ffp__slot:active { transform: scale(.97); }
-.ffp__slot :deep(svg) { color: var(--mi-label2); }
-.ffp__slot b { font-size: 13px; }
-.ffp__slot small { font-size: 11px; color: var(--mi-label2); }
-.ffp__slot[aria-pressed="true"] { background: var(--mi-p-tint); box-shadow: inset 0 0 0 1.5px var(--mi-p); }
-.ffp__slot[aria-pressed="true"] :deep(svg) { color: var(--mi-p-text); }
-.ffp__slot:focus-visible, .ffp__only:focus-visible { outline: 3px solid color-mix(in srgb, var(--mi-p) 45%, transparent); outline-offset: 1px; }
-
-.ffp__airlines { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
-.ffp__airlines li { display: grid; grid-template-columns: minmax(0, 1fr) auto 24px; align-items: center; gap: 8px; }
-.ffp__only { padding: 2px 8px; border: 0; border-radius: 999px; background: transparent; color: var(--mi-p-text); font: inherit; font-size: 12px; font-weight: 600; cursor: pointer; opacity: 0; transition: opacity var(--mi-dur-2) var(--mi-ease); }
-.ffp__airlines li:hover .ffp__only, .ffp__only:focus-visible { opacity: 1; }
-.ffp__n { font-size: 12px; text-align: end; color: var(--mi-label3); font-variant-numeric: tabular-nums; }
-
-.ffp__foot { display: flex; justify-content: space-between; gap: 10px; padding-top: 14px; border-top: 1px solid var(--mi-sep); }
-.ffp__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); margin: 0; }
-@media (hover: none) { .ffp__only { opacity: 1; } }
-</style>

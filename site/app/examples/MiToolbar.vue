@@ -27,16 +27,10 @@ const search = ref('')
 </script>
 
 <template>
-  <div class="window">
+  <div class="window mi:self-center mi:rounded-[16px] mi:overflow-hidden mi:bg-card mi:shadow-1 mi:min-w-0">
     <MiToolbar v-model:view="view" v-model:search="search" v-bind="p" />
-    <div class="body">
-      <span class="meta">{{ view === 'list' ? 'List' : 'Grid' }} view{{ search ? ` · matching "${search}"` : '' }}</span>
+    <div class="body mi:p-4.5 mi:min-h-15">
+      <span class="meta mi:text-[13px] mi:text-label2">{{ view === 'list' ? 'List' : 'Grid' }} view{{ search ? ` · matching "${search}"` : '' }}</span>
     </div>
   </div>
 </template>
-
-<style scoped>
-.window { align-self: center; border-radius: 16px; overflow: hidden; background: var(--mi-card); box-shadow: var(--mi-sh1); min-width: 0; }
-.body { padding: 18px; min-height: 60px; }
-.meta { font-size: 13px; color: var(--mi-label2); }
-</style>

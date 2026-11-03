@@ -1,18 +1,18 @@
 <template>
-  <div class="irl">
-    <div class="irl__shell">
+  <div class="mi:@container mi:min-h-full mi:font-mi mi:text-label mi:[background:radial-gradient(120%_80%_at_0%_0%,_var(--mi-p-tint),_transparent_60%),_var(--mi-page)]">
+    <div class="mi:grid mi:gap-3 mi:p-3 mi:@[640px]:grid-cols-[minmax(0,_1fr)_260px] mi:@[640px]:p-4 mi:@[640px]:gap-4 mi:@[960px]:grid-cols-[220px_minmax(0,_1fr)_280px] mi:@[960px]:items-start">
       <!-- Island 1: navigation. A floating column when wide, a floating pill strip when narrow. -->
-      <nav class="irl__nav" aria-label="Review files">
-        <div class="irl__brand">
-          <span class="irl__mark" aria-hidden="true" />
-          <MiText as="span" variant="subheadline" weight="bold" class="irl__brand-name">Proofroom</MiText>
+      <nav class="mi:rounded-[999px] mi:@[960px]:rounded-xl mi:min-w-0 mi:[background:var(--mi-card)] mi:shadow-[var(--mi-sh2),_inset_0_0_0_1px_var(--mi-sep)] mi:flex mi:items-center mi:gap-2.5 mi:pt-1.5 mi:pr-1.5 mi:pb-1.5 mi:pl-3 mi:@[640px]:col-span-full mi:@[960px]:col-[auto] mi:@[960px]:flex-col mi:@[960px]:items-stretch mi:@[960px]:gap-3 mi:@[960px]:py-3.5 mi:@[960px]:px-2.5" aria-label="Review files">
+        <div class="mi:flex mi:items-center mi:gap-2 mi:flex-[none] mi:@[960px]:py-0 mi:@[960px]:px-1.5">
+          <span class="mi:w-5.5 mi:h-5.5 mi:rounded-[50%] mi:[background:conic-gradient(from_90deg,_var(--mi-p),_var(--mi-s),_var(--mi-p))]" aria-hidden="true" />
+          <MiText as="span" variant="subheadline" weight="bold" class="mi:hidden! mi:@[960px]:inline!">Proofroom</MiText>
         </div>
-        <MiText as="span" variant="caption2" tone="label3" weight="semibold" class="irl__nav-label">Spring campaign</MiText>
-        <ul class="irl__files">
+        <MiText as="span" variant="caption2" tone="label3" weight="semibold" class="mi:hidden! mi:@[960px]:inline! mi:@[960px]:uppercase! mi:@[960px]:tracking-[.06em]! mi:@[960px]:py-0 mi:@[960px]:px-2">Spring campaign</MiText>
+        <ul class="mi:flex mi:gap-1 mi:flex-1 mi:min-w-0 mi:m-0 mi:p-0 mi:[list-style:none] mi:overflow-x-auto mi:[scrollbar-width:none] mi:@[960px]:flex-col mi:@[960px]:overflow-visible">
           <li v-for="f in files" :key="f.id">
-            <button type="button" class="irl__file" :aria-current="f.id === fileId ? 'page' : undefined" @click="openFile(f.id)">
-              <span class="irl__thumb" :style="{ '--a': `var(--mi-${f.hue})` }" aria-hidden="true" />
-              <span class="irl__file-name">{{ f.name }}</span>
+            <button type="button" class="mi:[font:inherit] mi:text-[13px] mi:font-medium mi:hover:bg-fill4 mi:[&[aria-current='page']]:bg-fill3 mi:flex mi:items-center mi:gap-2 mi:w-full mi:pt-1.5 mi:pr-2.5 mi:pb-1.5 mi:pl-1.5 mi:[border:0] mi:rounded-[999px] mi:text-label2 mi:[background:transparent] mi:whitespace-nowrap mi:cursor-pointer mi:[&[aria-current='page']]:text-label mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:@[960px]:rounded-[10px]" :aria-current="f.id === fileId ? 'page' : undefined" @click="openFile(f.id)">
+              <span class="mi:w-5.5 mi:h-5.5 mi:flex-[none] mi:rounded-[7px] mi:[background:linear-gradient(135deg,_var(--a),_color-mix(in_srgb,_var(--a)_30%,_var(--mi-card)))]" :style="{ '--a': `var(--mi-${f.hue})` }" aria-hidden="true" />
+              <span class="mi:flex-1 mi:text-start">{{ f.name }}</span>
               <MiBadge v-if="openCount(f) > 0" :count="openCount(f)" tone="primary" count-noun="open comments" />
             </button>
           </li>
@@ -20,32 +20,32 @@
       </nav>
 
       <!-- Island 2: the canvas, with numbered pins tied to the comments. -->
-      <main class="irl__canvas" aria-labelledby="irl-title">
-        <div class="irl__canvas-head">
+      <main class="mi:min-w-0 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-[var(--mi-sh2),_inset_0_0_0_1px_var(--mi-sep)] mi:grid mi:gap-3 mi:p-3.5" aria-labelledby="irl-title">
+        <div class="mi:flex mi:flex-wrap mi:items-baseline mi:justify-between mi:gap-y-1 mi:gap-x-3">
           <MiText id="irl-title" variant="headline" as="h2">{{ file.name }}</MiText>
           <MiText as="span" variant="caption" tone="label2">v{{ file.version }} · by {{ file.author }}</MiText>
         </div>
-        <div class="irl__art" :style="{ '--a': `var(--mi-${file.hue})` }">
-          <span class="irl__art-sun" aria-hidden="true" />
-          <span class="irl__art-title" aria-hidden="true">{{ file.headline }}</span>
+        <div class="mi:relative mi:aspect-[16_/_10] mi:rounded-lg mi:overflow-hidden mi:[background:linear-gradient(170deg,_color-mix(in_srgb,_var(--a)_28%,_var(--mi-card)),_color-mix(in_srgb,_var(--a)_8%,_var(--mi-page)))]" :style="{ '--a': `var(--mi-${file.hue})` }">
+          <span class="mi:absolute mi:right-[14%] mi:top-[14%] mi:w-[22%] mi:aspect-[1] mi:rounded-[50%] mi:[background:radial-gradient(circle_at_35%_35%,_color-mix(in_srgb,_var(--a)_60%,_var(--mi-card)),_var(--a))]" aria-hidden="true" />
+          <span class="mi:absolute mi:left-[8%] mi:bottom-[22%] mi:max-w-[70%] mi:text-[clamp(22px,_7cqi,_48px)] mi:font-extrabold mi:tracking-[-.04em] mi:leading-none mi:text-label" aria-hidden="true">{{ file.headline }}</span>
           <button
-            v-for="(c, i) in file.comments" :key="c.id" type="button" class="irl__pin" :class="{ 'is-on': c.id === focus, 'is-done': c.resolved }"
+            v-for="(c, i) in file.comments" :key="c.id" type="button" class="mi:[font:inherit] mi:text-[12px] mi:font-bold mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:absolute mi:grid mi:place-items-center mi:w-6.5 mi:h-6.5 mi:border-2 mi:border-card mi:rounded-[50%_50%_50%_4px] mi:[translate:-50%_-100%] mi:text-p-on mi:[background:var(--mi-p)] mi:shadow-2 mi:cursor-pointer mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring),_opacity_var(--mi-dur-2)_var(--mi-ease)]" :class="[c.id === focus ? 'mi:transform-[scale(1.18)]' : '', c.resolved ? 'mi:opacity-45' : '']"
             :style="{ left: c.x + '%', top: c.y + '%' }" :aria-label="`Comment ${i + 1} by ${c.who}`" :aria-pressed="c.id === focus" @click="focus = c.id"
           >{{ i + 1 }}</button>
         </div>
       </main>
 
       <!-- Island 3: comments. Selecting a pin highlights its thread; resolve dims the pin. -->
-      <aside class="irl__notes" aria-labelledby="irl-notes">
-        <div class="irl__notes-head">
+      <aside class="mi:min-w-0 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-[var(--mi-sh2),_inset_0_0_0_1px_var(--mi-sep)] mi:grid mi:content-start mi:gap-2 mi:p-3.5" aria-labelledby="irl-notes">
+        <div class="mi:flex mi:items-baseline mi:justify-between mi:gap-2">
           <MiText id="irl-notes" variant="headline" as="h3">Comments</MiText>
           <MiText as="span" variant="caption" tone="label2" tabular>{{ openCount(file) }} open</MiText>
         </div>
-        <ol class="irl__list">
-          <li v-for="(c, i) in file.comments" :key="c.id" class="irl__note" :class="{ 'is-on': c.id === focus, 'is-done': c.resolved }">
-            <button type="button" class="irl__note-main" @click="focus = c.id">
-              <span class="irl__num" aria-hidden="true">{{ i + 1 }}</span>
-              <span class="irl__note-text">
+        <ol class="mi:grid mi:gap-1 mi:m-0 mi:p-0 mi:[list-style:none]">
+          <li v-for="(c, i) in file.comments" :key="c.id" class="mi:group mi:flex mi:[align-items:flex-start] mi:gap-1 mi:p-1 mi:rounded-[12px] mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)]" :data-on="c.id === focus || undefined" :class="[c.id === focus ? 'mi:[background:var(--mi-p-tint)]' : '', c.resolved ? 'mi:opacity-60' : '']">
+            <button type="button" class="mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:flex mi:[align-items:flex-start] mi:gap-2.5 mi:flex-1 mi:min-w-0 mi:p-1.5 mi:[border:0] mi:rounded-[9px] mi:[font:inherit] mi:text-start mi:text-inherit mi:[background:transparent] mi:cursor-pointer" @click="focus = c.id">
+              <span class="mi:grid mi:place-items-center mi:w-5.5 mi:h-5.5 mi:flex-[none] mi:rounded-[50%] mi:text-[11px] mi:font-bold mi:text-p-text mi:[background:var(--mi-p-tint)] mi:group-data-[on]:text-p-on mi:group-data-[on]:[background:var(--mi-p)]" aria-hidden="true">{{ i + 1 }}</span>
+              <span class="mi:grid mi:gap-0.5 mi:min-w-0">
                 <MiText as="span" variant="footnote" weight="semibold">{{ c.who }}</MiText>
                 <MiText as="span" variant="footnote" tone="label2">{{ c.text }}</MiText>
               </span>
@@ -92,61 +92,3 @@ function openFile(id: string) {
   focus.value = file.value.comments[0]?.id ?? ''
 }
 </script>
-
-<style scoped>
-.irl { container-type: inline-size; min-height: 100%; font-family: var(--mi-font); color: var(--mi-label); background: radial-gradient(120% 80% at 0% 0%, var(--mi-p-tint), transparent 60%), var(--mi-page); }
-.irl__shell { display: grid; gap: 12px; padding: 12px; }
-
-/* Shared island look: every panel floats as its own card with breathing room around it. */
-.irl__nav, .irl__canvas, .irl__notes { min-width: 0; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh2), inset 0 0 0 1px var(--mi-sep); }
-
-.irl__nav { display: flex; align-items: center; gap: 10px; padding: 6px 6px 6px 12px; border-radius: 999px; }
-.irl__brand { display: flex; align-items: center; gap: 8px; flex: none; }
-.irl__mark { width: 22px; height: 22px; border-radius: 50%; background: conic-gradient(from 90deg, var(--mi-p), var(--mi-s), var(--mi-p)); }
-.irl__brand-name, .irl__nav-label { display: none; }
-.irl__files { display: flex; gap: 4px; flex: 1; min-width: 0; margin: 0; padding: 0; list-style: none; overflow-x: auto; scrollbar-width: none; }
-.irl__file { display: flex; align-items: center; gap: 8px; width: 100%; padding: 6px 10px 6px 6px; border: 0; border-radius: 999px; font: inherit; font-size: 13px; font-weight: 500; color: var(--mi-label2); background: transparent; white-space: nowrap; cursor: pointer; }
-.irl__file:hover { background: var(--mi-fill4); }
-.irl__file[aria-current="page"] { color: var(--mi-label); background: var(--mi-fill3); }
-.irl__file:focus-visible, .irl__pin:focus-visible, .irl__note-main:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-.irl__thumb { width: 22px; height: 22px; flex: none; border-radius: 7px; background: linear-gradient(135deg, var(--a), color-mix(in srgb, var(--a) 30%, var(--mi-card))); }
-.irl__file-name { flex: 1; text-align: start; }
-
-.irl__canvas { display: grid; gap: 12px; padding: 14px; }
-.irl__canvas-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 12px; }
-.irl__art { position: relative; aspect-ratio: 16 / 10; border-radius: var(--mi-radius-l); overflow: hidden; background: linear-gradient(170deg, color-mix(in srgb, var(--a) 28%, var(--mi-card)), color-mix(in srgb, var(--a) 8%, var(--mi-page))); }
-.irl__art-sun { position: absolute; right: 14%; top: 14%; width: 22%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 35% 35%, color-mix(in srgb, var(--a) 60%, var(--mi-card)), var(--a)); }
-.irl__art-title { position: absolute; left: 8%; bottom: 22%; max-width: 70%; font-size: clamp(22px, 7cqi, 48px); font-weight: 800; letter-spacing: -.04em; line-height: 1; color: var(--mi-label); }
-.irl__pin {
-  position: absolute; display: grid; place-items: center; width: 26px; height: 26px; border: 2px solid var(--mi-card); border-radius: 50% 50% 50% 4px; translate: -50% -100%;
-  font: inherit; font-size: 12px; font-weight: 700; color: var(--mi-p-on); background: var(--mi-p); box-shadow: var(--mi-sh2); cursor: pointer;
-  transition: transform var(--mi-dur-2) var(--mi-spring), opacity var(--mi-dur-2) var(--mi-ease);
-}
-.irl__pin.is-on { transform: scale(1.18); }
-.irl__pin.is-done { opacity: .45; }
-
-.irl__notes { display: grid; align-content: start; gap: 8px; padding: 14px; }
-.irl__notes-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
-.irl__list { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; }
-.irl__note { display: flex; align-items: flex-start; gap: 4px; padding: 4px; border-radius: 12px; transition: opacity var(--mi-dur-2) var(--mi-ease); }
-.irl__note.is-on { background: var(--mi-p-tint); }
-.irl__note.is-done { opacity: .6; }
-.irl__note-main { display: flex; align-items: flex-start; gap: 10px; flex: 1; min-width: 0; padding: 6px; border: 0; border-radius: 9px; font: inherit; text-align: start; color: inherit; background: transparent; cursor: pointer; }
-.irl__num { display: grid; place-items: center; width: 22px; height: 22px; flex: none; border-radius: 50%; font-size: 11px; font-weight: 700; color: var(--mi-p-text); background: var(--mi-p-tint); }
-.irl__note.is-on .irl__num { color: var(--mi-p-on); background: var(--mi-p); }
-.irl__note-text { display: grid; gap: 2px; min-width: 0; }
-
-@container (min-width: 640px) {
-  .irl__shell { grid-template-columns: minmax(0, 1fr) 260px; padding: 16px; gap: 16px; }
-  .irl__nav { grid-column: 1 / -1; }
-}
-@container (min-width: 960px) {
-  .irl__shell { grid-template-columns: 220px minmax(0, 1fr) 280px; align-items: start; }
-  .irl__nav { grid-column: auto; flex-direction: column; align-items: stretch; gap: 12px; padding: 14px 10px; border-radius: var(--mi-radius-xl); }
-  .irl__brand { padding: 0 6px; }
-  .irl__brand-name, .irl__nav-label { display: inline; }
-  .irl__nav-label { padding: 0 8px; text-transform: uppercase; letter-spacing: .06em; }
-  .irl__files { flex-direction: column; overflow: visible; }
-  .irl__file { border-radius: 10px; }
-}
-</style>

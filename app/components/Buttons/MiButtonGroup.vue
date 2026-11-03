@@ -50,20 +50,20 @@ const _slots = defineSlots<{
 </script>
 
 <template>
-  <span ref="root" class="mi-bgroup" :class="`mi-bgroup--${variant}`" role="group" :aria-label="label" @keydown="onKeydown">
+  <span ref="root" class="mi-bgroup mi:inline-flex mi:align-middle" :class="`mi-bgroup--${variant}`" role="group" :aria-label="label" @keydown="onKeydown">
     <template v-if="variant === 'segmented' && options">
       <button
         v-for="o in options"
         :key="o.value"
         type="button"
-        class="mi-bgroup__seg"
+        class="mi-bgroup__seg mi:relative mi:inline-flex mi:items-center mi:justify-center mi:min-w-8.5 mi:h-7 mi:p-0 mi:[border:0] mi:rounded-[7px] mi:bg-transparent mi:text-label2 mi:tracking-[-0.01em] mi:whitespace-nowrap mi:cursor-pointer mi:[-webkit-tap-highlight-color:transparent] mi:isolate mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease)] mi:before:content-[''] mi:before:absolute mi:before:inset-0 mi:before:-z-1 mi:before:rounded-[inherit] mi:before:bg-seg mi:before:shadow-[0_1px_3px_rgba(0,_0,_0,_0.12)] mi:before:opacity-0 mi:before:transform-[scale(0.9)] mi:before:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),_transform_var(--mi-dur-3)_var(--mi-spring)] mi:[&.is-on]:before:opacity-100 mi:[&.is-on]:before:transform-none mi:[&:active:not(:disabled)]:transform-[scale(0.95)] mi:disabled:cursor-default mi:focus-visible:[outline:3px_solid_color-mix(in_srgb,_var(--mi-p)_55%,_transparent)] mi:focus-visible:outline-offset-[2px]"
         :class="{ 'is-on': model === o.value, 'has-label': !!o.label }"
         :aria-pressed="model === o.value"
         :aria-label="o.ariaLabel"
         :disabled="o.disabled ? true : undefined"
         @click="select(o)"
       >
-        <span class="mi-bgroup__seg-in">
+        <span class="mi-bgroup__seg-in mi:inline-flex mi:items-center mi:justify-center">
           <slot name="option" :option="o" :selected="model === o.value">{{ o.label }}</slot>
         </span>
       </button>
@@ -73,7 +73,7 @@ const _slots = defineSlots<{
 </template>
 
 <style scoped>
-.mi-bgroup { display: inline-flex; font-family: var(--mi-font); vertical-align: middle; }
+.mi-bgroup { font-family: var(--mi-font); }
 
 /* attached */
 .mi-bgroup--attached {
@@ -108,45 +108,12 @@ const _slots = defineSlots<{
 /* segmented */
 .mi-bgroup--segmented { gap: 2px; padding: 2px; border-radius: 9px; background: var(--mi-fill3); }
 .mi-bgroup__seg {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 34px;
-  height: 28px;
-  padding: 0;
-  border: 0;
-  border-radius: 7px;
-  background: transparent;
-  color: var(--mi-label2);
   font: inherit;
   font-size: 13px;
   font-weight: 500;
-  letter-spacing: -0.01em;
-  white-space: nowrap;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  isolation: isolate;
-  transition: transform var(--mi-dur-1) var(--mi-ease);
 }
 .mi-bgroup__seg.has-label { padding: 0 12px; }
-.mi-bgroup__seg::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  border-radius: inherit;
-  background: var(--mi-seg);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
-  opacity: 0;
-  transform: scale(0.9);
-  transition: opacity var(--mi-dur-2) var(--mi-ease), transform var(--mi-dur-3) var(--mi-spring);
-}
 .mi-bgroup__seg.is-on { color: var(--mi-label); }
-.mi-bgroup__seg.is-on::before { opacity: 1; transform: none; }
-.mi-bgroup__seg:active:not(:disabled) { transform: scale(0.95); }
-.mi-bgroup__seg:disabled { color: var(--mi-label3); cursor: default; }
-.mi-bgroup__seg-in { display: inline-flex; align-items: center; justify-content: center; }
+.mi-bgroup__seg:disabled { color: var(--mi-label3); }
 .mi-bgroup__seg-in :deep(svg) { width: 16px; height: 16px; }
-.mi-bgroup__seg:focus-visible { outline: 3px solid color-mix(in srgb, var(--mi-p) 55%, transparent); outline-offset: 2px; }
 </style>

@@ -15,18 +15,15 @@ const line = computed(() => ({ ...props.p, height: px(props.p.height), radius: p
 </script>
 
 <template>
-  <section class="ex" aria-busy="true" aria-label="Loading messages">
-    <div v-for="n in 3" :key="n" class="row">
+  <section class="ex mi:py-1 mi:px-4 mi:shadow-1" aria-busy="true" aria-label="Loading messages">
+    <div v-for="n in 3" :key="n" class="row mi:flex mi:items-center mi:gap-3.5 mi:py-3.5 mi:px-0 mi:border-b mi:border-b-sep mi:last:[border-bottom:0]">
       <MiSkeleton variant="circle" :width="40" :height="40" :animated="p.animated" />
-      <div class="txt"><MiSkeleton v-bind="line" /></div>
+      <div class="txt mi:flex-1 mi:min-w-0"><MiSkeleton v-bind="line" /></div>
       <MiSkeleton :width="34" :height="10" :radius="5" :animated="p.animated" />
     </div>
   </section>
 </template>
 
 <style scoped>
-.ex { width: min(100%, 360px); padding: 4px 16px; border-radius: 18px; background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.row { display: flex; align-items: center; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--mi-sep); }
-.row:last-child { border-bottom: 0; }
-.txt { flex: 1; min-width: 0; }
+.ex { width: min(100%, 360px); border-radius: 18px; background: var(--mi-card); }
 </style>

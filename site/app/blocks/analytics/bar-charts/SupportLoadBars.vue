@@ -1,6 +1,6 @@
 <template>
-  <section class="sl" aria-labelledby="sl-title">
-    <header class="sl__head">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="sl-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="sl-title" variant="title3" as="h2" weight="semibold">Support load by hour</MiText>
         <MiText variant="footnote" tone="label2">Helpdesk · tickets opened per 2-hour window, 4-week average</MiText>
@@ -8,7 +8,7 @@
       <MiSegmented v-model="day" label="Days" :options="days" />
     </header>
 
-    <div class="sl__filters" role="group" aria-label="Channels">
+    <div class="mi:flex mi:flex-wrap mi:items-center mi:gap-2" role="group" aria-label="Channels">
       <MiText variant="caption" tone="label2" weight="medium" as="span">Channels</MiText>
       <MiChip
         v-for="c in channels" :key="c.id" selectable size="small" tone="neutral"
@@ -16,43 +16,43 @@
       />
     </div>
 
-    <div class="sl__body">
-      <div class="sl__chart">
+    <div class="mi:grid mi:gap-3 mi:grid-cols-[minmax(0,_1fr)] mi:@[820px]:grid-cols-[minmax(0,_1fr)_300px]">
+      <div class="mi:grid mi:gap-2.5 mi:min-w-0 mi:pt-4.5 mi:px-4.5 mi:pb-3.5 mi:rounded-xl mi:bg-card mi:shadow-1">
         <MiBarChart
           :data="bars" :card="false" :height="236" :max="scaleMax" :ticks="3" :max-bar-width="28"
           value-labels="peak" :format-value="(v) => v + ' tickets'"
           :aria-label="`Tickets per window, ${overCount} of 12 windows over staffed capacity`"
         />
-        <MiChartLegend :items="legend" class="sl__legend" aria-label="Bar colors" />
+        <MiChartLegend :items="legend" class="mi:justify-self-start!" aria-label="Bar colors" />
       </div>
 
-      <aside class="sl__side" aria-labelledby="sl-side-title">
-        <MiText id="sl-side-title" variant="headline" as="h3" class="sl__sr">Summary</MiText>
-        <dl class="sl__facts">
-          <div>
-            <dt>Tickets a day</dt>
-            <dd>{{ total }}</dd>
+      <aside class="mi:grid mi:gap-3 mi:content-start" aria-labelledby="sl-side-title">
+        <MiText id="sl-side-title" variant="headline" as="h3" class="mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:whitespace-nowrap mi:[clip-path:inset(50%)]">Summary</MiText>
+        <dl class="mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:m-0 mi:rounded-lg mi:bg-card mi:shadow-1 mi:[@container_(min-width:_520px)_and_(max-width:_819px)]:grid-cols-3">
+          <div class="mi:grid mi:gap-1 mi:py-3.5 mi:px-4 mi:min-w-0">
+            <dt class="mi:font-medium mi:text-[12px] mi:text-label2">Tickets a day</dt>
+            <dd class="mi:font-bold mi:m-0 mi:text-[22px] mi:tracking-[-.03em] mi:tabular-nums">{{ total }}</dd>
           </div>
-          <div>
-            <dt>Busiest window</dt>
-            <dd>{{ peak.label }}<small> · {{ peak.value }}</small></dd>
+          <div class="mi:border-t mi:border-t-sep mi:[@container_(min-width:_520px)_and_(max-width:_819px)]:[border-top:0] mi:[@container_(min-width:_520px)_and_(max-width:_819px)]:border-l mi:[@container_(min-width:_520px)_and_(max-width:_819px)]:border-l-sep mi:grid mi:gap-1 mi:py-3.5 mi:px-4 mi:min-w-0">
+            <dt class="mi:font-medium mi:text-[12px] mi:text-label2">Busiest window</dt>
+            <dd class="mi:font-bold mi:m-0 mi:text-[22px] mi:tracking-[-.03em] mi:tabular-nums">{{ peak.label }}<small class="mi:font-medium mi:text-[13px] mi:tracking-[0] mi:text-label2"> · {{ peak.value }}</small></dd>
           </div>
-          <div>
-            <dt>Hours over capacity</dt>
-            <dd :class="{ 'is-over': overCount > 0 }">{{ overCount * 2 }} h</dd>
+          <div class="mi:border-t mi:border-t-sep mi:[@container_(min-width:_520px)_and_(max-width:_819px)]:[border-top:0] mi:[@container_(min-width:_520px)_and_(max-width:_819px)]:border-l mi:[@container_(min-width:_520px)_and_(max-width:_819px)]:border-l-sep mi:grid mi:gap-1 mi:py-3.5 mi:px-4 mi:min-w-0">
+            <dt class="mi:font-medium mi:text-[12px] mi:text-label2">Hours over capacity</dt>
+            <dd class="mi:font-bold mi:m-0 mi:text-[22px] mi:tracking-[-.03em] mi:tabular-nums" :class="overCount > 0 ? 'mi:text-s-text' : ''">{{ overCount * 2 }} h</dd>
           </div>
         </dl>
 
         <!-- The memorable bit: the chart turns into a staffing move you can act on. -->
-        <article class="sl__tip" aria-live="polite">
-          <div class="sl__tip-icon" aria-hidden="true">
+        <article class="mi:grid mi:grid-cols-[auto_minmax(0,_1fr)] mi:gap-y-2.5 mi:gap-x-3 mi:p-4 mi:rounded-lg mi:[background:color-mix(in_srgb,_var(--mi-s)_9%,_var(--mi-card))] mi:shadow-[inset_0_0_0_1px_color-mix(in_srgb,_var(--mi-s)_22%,_transparent)]" aria-live="polite">
+          <div class="mi:grid mi:place-items-center mi:w-8 mi:h-8 mi:rounded-[10px] mi:bg-s mi:text-s-on" aria-hidden="true">
             <MiIcon :svg="swapIcon" :size="18" />
           </div>
-          <div class="sl__tip-copy">
+          <div class="mi:grid mi:gap-0.5">
             <MiText variant="subheadline" weight="semibold" as="h3">{{ advice.title }}</MiText>
             <MiText variant="footnote" tone="label2">{{ advice.body }}</MiText>
           </div>
-          <MiButton v-if="advice.action" variant="tinted" size="small" @click="applied = advice.key">
+          <MiButton v-if="advice.action" variant="tinted" size="small" class="mi:col-[2]! mi:justify-self-start!" @click="applied = advice.key">
             {{ applied === advice.key ? 'Drafted' : advice.action }}
           </MiButton>
         </article>
@@ -147,35 +147,3 @@ const advice = computed(() => {
 const swapIcon = '<path d="M7 4 3 8l4 4"/><path d="M3 8h13a4 4 0 0 1 4 4"/><path d="m17 20 4-4-4-4"/><path d="M21 16H8a4 4 0 0 1-4-4"/>'
 </script>
 
-<style scoped>
-.sl { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
-.sl__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.sl__filters { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
-.sl__body { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); }
-@container (min-width: 820px) { .sl__body { grid-template-columns: minmax(0, 1fr) 300px; } }
-
-.sl__chart { display: grid; gap: 10px; min-width: 0; padding: 18px 18px 14px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.sl__legend { justify-self: start; }
-
-.sl__side { display: grid; gap: 12px; align-content: start; }
-.sl__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-.sl__facts { display: grid; grid-template-columns: minmax(0, 1fr); margin: 0; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.sl__facts > div { display: grid; gap: 4px; padding: 14px 16px; min-width: 0; }
-.sl__facts > div + div { border-top: 1px solid var(--mi-sep); }
-@container (min-width: 520px) and (max-width: 819px) {
-  .sl__facts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .sl__facts > div + div { border-top: 0; border-left: 1px solid var(--mi-sep); }
-}
-.sl__facts dt { font-size: 12px; font-weight: 500; color: var(--mi-label2); }
-.sl__facts dd { margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
-.sl__facts dd small { font-size: 13px; font-weight: 500; letter-spacing: 0; color: var(--mi-label2); }
-.sl__facts dd.is-over { color: var(--mi-s-text); }
-
-.sl__tip {
-  display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px 12px; padding: 16px; border-radius: var(--mi-radius-l);
-  background: color-mix(in srgb, var(--mi-s) 9%, var(--mi-card)); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--mi-s) 22%, transparent);
-}
-.sl__tip-icon { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 10px; background: var(--mi-s); color: var(--mi-s-on); }
-.sl__tip-copy { display: grid; gap: 2px; }
-.sl__tip > :nth-child(3) { grid-column: 2; justify-self: start; }
-</style>

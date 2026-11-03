@@ -1,37 +1,37 @@
 <template>
-  <section class="nps" aria-labelledby="nps-board-title">
+  <section class="mi:@container mi:relative mi:grid mi:min-h-150 mi:rounded-xl mi:overflow-hidden mi:bg-page mi:shadow-[0_0_0_1px_var(--mi-sep)] mi:font-mi mi:text-label" aria-labelledby="nps-board-title">
     <!-- Faux board behind the sheet -->
-    <div class="nps__board" :inert="open || undefined">
-      <div class="nps__board-head">
+    <div class="mi:[grid-area:1_/_1] mi:grid mi:content-start mi:gap-3.5 mi:p-5" :inert="open || undefined">
+      <div class="mi:flex mi:items-center mi:justify-between mi:gap-3">
         <MiText id="nps-board-title" variant="title3" as="h2" weight="semibold">Projects</MiText>
         <MiButton size="small" @click="reopen">New project</MiButton>
       </div>
-      <div class="nps__cols">
-        <div v-for="p in projects" :key="p.key" class="nps__proj">
-          <span class="nps__key" :style="{ background: p.color }">{{ p.key }}</span>
-          <div class="nps__proj-text"><b>{{ p.name }}</b><span>{{ p.meta }}</span></div>
+      <div class="mi:grid mi:gap-2.5 mi:grid-cols-[minmax(0,_1fr)] mi:@[560px]:grid-cols-2 mi:@[900px]:grid-cols-4">
+        <div v-for="p in projects" :key="p.key" class="mi:flex mi:items-center mi:gap-3 mi:p-3.5 mi:rounded-lg mi:bg-card mi:shadow-1">
+          <span class="mi:grid mi:place-items-center mi:flex-[none] mi:rounded-[10px] mi:text-card mi:font-extrabold mi:tracking-[.04em] mi:w-10 mi:h-10 mi:text-[11px]" :style="{ background: p.color }">{{ p.key }}</span>
+          <div class="mi:grid mi:min-w-0 mi:text-[14px]"><b>{{ p.name }}</b><span class="mi:text-[12px] mi:text-label2">{{ p.meta }}</span></div>
         </div>
       </div>
     </div>
 
-    <Transition name="nps-fade">
-      <div v-if="open" class="nps__scrim">
-        <MiSheet :model-value="true" inline title="New project" cancel-label="Cancel" class="nps__sheet" @cancel="open = false">
+    <Transition enter-active-class="mi:transition-opacity mi:duration-[var(--mi-dur-3)] mi:ease-mi" leave-active-class="mi:transition-opacity mi:duration-[var(--mi-dur-3)] mi:ease-mi" enter-from-class="mi:opacity-0" leave-to-class="mi:opacity-0">
+      <div v-if="open" class="mi:[grid-area:1_/_1] mi:grid mi:items-end mi:justify-items-center mi:pt-12 mi:px-2.5 mi:pb-2.5 mi:bg-scrim mi:@[640px]:items-center mi:@[640px]:p-6">
+        <MiSheet :model-value="true" inline title="New project" cancel-label="Cancel" class="mi:w-full" @cancel="open = false">
           <template #trailing>
             <MiButton size="small" :disabled="!valid" @click="create">Create</MiButton>
           </template>
 
-          <form class="nps__form" novalidate @submit.prevent="create">
+          <form class="mi:grid mi:gap-4 mi:pt-1 mi:px-0 mi:pb-2" novalidate @submit.prevent="create">
             <!-- Live identity: what the project will look like in the sidebar and in issue ids. -->
-            <div class="nps__preview" aria-live="polite">
-              <span class="nps__tile" :style="{ background: color ?? 'var(--mi-p)' }">{{ key || '—' }}</span>
-              <div class="nps__preview-text">
+            <div class="mi:flex mi:items-center mi:gap-3.5 mi:p-3.5 mi:rounded-lg mi:bg-fill4" aria-live="polite">
+              <span class="mi:grid mi:place-items-center mi:flex-[none] mi:rounded-[10px] mi:text-card mi:font-extrabold mi:tracking-[.04em] mi:w-13 mi:h-13 mi:text-[14px] mi:shadow-1" :style="{ background: color ?? 'var(--mi-p)' }">{{ key || '—' }}</span>
+              <div class="mi:grid mi:gap-0.5 mi:min-w-0">
                 <MiText variant="headline" :lines="1">{{ name || 'Untitled project' }}</MiText>
                 <MiText variant="footnote" tone="label2">Issues will read {{ key || 'KEY' }}-1, {{ key || 'KEY' }}-2 · {{ privateProject ? 'Private' : 'Whole workspace' }}</MiText>
               </div>
             </div>
 
-            <div class="nps__pair">
+            <div class="mi:grid mi:gap-3.5 mi:grid-cols-[minmax(0,_1fr)] mi:@[520px]:grid-cols-[minmax(0,_1fr)_150px] mi:@[520px]:items-start mi:@[520px]:last:grid-cols-[minmax(0,_1fr)_minmax(0,_1fr)] mi:@[520px]:last:items-end">
               <MiField label="Name" required :error="touched ? nameError : ''">
                 <MiInput v-model="name" placeholder="Atlas onboarding revamp" maxlength="40" @blur="touched = true" />
               </MiField>
@@ -42,21 +42,21 @@
 
             <MiSwatch v-model="color" label="Color" :options="swatches" />
 
-            <fieldset class="nps__tpl">
-              <legend>Start from</legend>
-              <label v-for="t in templates" :key="t.id" class="nps__card" :class="{ 'is-on': template === t.id }">
-                <input v-model="template" type="radio" name="nps-template" :value="t.id" class="nps__radio">
-                <span class="nps__art" :class="'is-' + t.id" aria-hidden="true"><i /><i /><i /></span>
+            <fieldset class="mi:grid mi:grid-cols-3 mi:gap-2 mi:m-0 mi:p-0 mi:[border:0] mi:min-w-0">
+              <legend class="mi:mb-2 mi:p-0 mi:text-[13px] mi:font-semibold">Start from</legend>
+              <label v-for="t in templates" :key="t.id" class="mi:relative mi:grid mi:gap-0.5 mi:p-2.5 mi:rounded-md mi:cursor-pointer mi:text-[13px] mi:bg-card mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:hover:transform-[translateY(-1px)] mi:[&:has(:focus-visible)]:[outline:3px_solid_color-mix(in_srgb,_var(--mi-p)_45%,_transparent)] mi:[&:has(:focus-visible)]:outline-offset-[2px]" :class="template === t.id ? 'mi:shadow-[0_0_0_2px_var(--mi-p)]' : 'mi:shadow-[0_0_0_1px_var(--mi-sep)]'">
+                <input v-model="template" type="radio" name="nps-template" :value="t.id" class="mi:absolute mi:opacity-0 mi:pointer-events-none">
+                <span class="mi:flex mi:gap-[3px] mi:h-7.5 mi:mb-1.5" :class="t.id === 'board' ? '' : 'mi:flex-col'" aria-hidden="true"><i v-for="n in 3" :key="n" class="mi:flex-1 mi:rounded-[3px]" :class="artBar(t.id, n, template === t.id)" /></span>
                 <b>{{ t.label }}</b>
-                <span>{{ t.hint }}</span>
+                <span class="mi:text-[11px] mi:text-label2">{{ t.hint }}</span>
               </label>
             </fieldset>
 
-            <div class="nps__pair">
+            <div class="mi:grid mi:gap-3.5 mi:grid-cols-[minmax(0,_1fr)] mi:@[520px]:grid-cols-[minmax(0,_1fr)_150px] mi:@[520px]:items-start mi:@[520px]:last:grid-cols-[minmax(0,_1fr)_minmax(0,_1fr)] mi:@[520px]:last:items-end">
               <MiField label="Lead">
                 <MiSelect v-model="lead" :options="people" placeholder="Choose a lead" />
               </MiField>
-              <div class="nps__private">
+              <div class="mi:flex mi:items-center mi:justify-between mi:gap-3 mi:min-h-11">
                 <div>
                   <MiText id="nps-private" variant="subheadline" weight="medium">Private</MiText>
                   <MiText variant="caption" tone="label2">Only invited members see it</MiText>
@@ -89,6 +89,14 @@ const swatches = [
   { value: 'var(--mi-teal)', name: 'Teal', color: 'var(--mi-teal)' },
   { value: 'var(--mi-indigo)', name: 'Indigo', color: 'var(--mi-indigo)' }
 ]
+// Miniature of each layout: bar shapes per kind, tinted while its card is selected.
+const ART_BAR: Record<string, string[]> = {
+  board: ['mi:transform-[scaleY(.9)] mi:origin-top', '', 'mi:transform-[scaleY(.55)] mi:origin-top'],
+  timeline: ['mi:transform-[scaleX(.5)] mi:origin-left', 'mi:transform-[translateX(30%)_scaleX(.55)] mi:origin-left', 'mi:transform-[translateX(60%)_scaleX(.4)] mi:origin-left'],
+  list: ['', 'mi:transform-[scaleX(.8)] mi:origin-left', 'mi:transform-[scaleX(.6)] mi:origin-left']
+}
+const artBar = (kind: string, n: number, on: boolean) => [on ? 'mi:bg-p-tint' : 'mi:bg-fill2', ART_BAR[kind]?.[n - 1] ?? '']
+
 const templates = [
   { id: 'board', label: 'Board', hint: 'Columns by status' },
   { id: 'timeline', label: 'Timeline', hint: 'Milestones by week' },
@@ -138,57 +146,3 @@ function reopen() {
   open.value = true
 }
 </script>
-
-<style scoped>
-.nps { container-type: inline-size; position: relative; display: grid; min-height: 600px; border-radius: var(--mi-radius-xl); overflow: hidden; background: var(--mi-page); box-shadow: 0 0 0 1px var(--mi-sep); font-family: var(--mi-font); color: var(--mi-label); }
-.nps__board, .nps__scrim { grid-area: 1 / 1; }
-.nps__board { display: grid; align-content: start; gap: 14px; padding: 20px; }
-.nps__board-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.nps__cols { display: grid; gap: 10px; grid-template-columns: minmax(0, 1fr); }
-@container (min-width: 560px) { .nps__cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@container (min-width: 900px) { .nps__cols { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-.nps__proj { display: flex; align-items: center; gap: 12px; padding: 14px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.nps__key, .nps__tile { display: grid; place-items: center; flex: none; border-radius: 10px; color: var(--mi-card); font-weight: 800; letter-spacing: .04em; }
-.nps__key { width: 40px; height: 40px; font-size: 11px; }
-.nps__proj-text { display: grid; min-width: 0; font-size: 14px; }
-.nps__proj-text span { font-size: 12px; color: var(--mi-label2); }
-
-.nps__scrim { display: grid; align-items: end; justify-items: center; padding: 48px 10px 10px; background: var(--mi-scrim); }
-@container (min-width: 640px) { .nps__scrim { align-items: center; padding: 24px; } }
-.nps__sheet { width: 100%; max-width: 560px; }
-.nps-fade-enter-active, .nps-fade-leave-active { transition: opacity var(--mi-dur-3) var(--mi-ease); }
-.nps-fade-enter-from, .nps-fade-leave-to { opacity: 0; }
-
-.nps__form { display: grid; gap: 16px; padding: 4px 0 8px; }
-.nps__preview { display: flex; align-items: center; gap: 14px; padding: 14px; border-radius: var(--mi-radius-l); background: var(--mi-fill4); }
-.nps__tile { width: 52px; height: 52px; font-size: 14px; box-shadow: var(--mi-sh1); }
-.nps__preview-text { display: grid; gap: 2px; min-width: 0; }
-.nps__pair { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); }
-@container (min-width: 520px) { .nps__pair { grid-template-columns: minmax(0, 1fr) 150px; align-items: start; } .nps__pair:last-child { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: end; } }
-
-.nps__tpl { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 0; padding: 0; border: 0; min-width: 0; }
-.nps__tpl legend { margin-bottom: 8px; padding: 0; font-size: 13px; font-weight: 600; }
-.nps__card {
-  position: relative; display: grid; gap: 2px; padding: 10px; border-radius: var(--mi-radius-m); cursor: pointer; font-size: 13px;
-  background: var(--mi-card); box-shadow: 0 0 0 1px var(--mi-sep); transition: transform var(--mi-dur-2) var(--mi-ease);
-}
-.nps__card:hover { transform: translateY(-1px); }
-.nps__card.is-on { box-shadow: 0 0 0 2px var(--mi-p); }
-.nps__card:has(:focus-visible) { outline: 3px solid color-mix(in srgb, var(--mi-p) 45%, transparent); outline-offset: 2px; }
-.nps__card span:last-child { font-size: 11px; color: var(--mi-label2); }
-.nps__radio { position: absolute; opacity: 0; pointer-events: none; }
-/* Tiny diagrams of each template, drawn with three bars. */
-.nps__art { display: flex; gap: 3px; height: 30px; margin-bottom: 6px; }
-.nps__art i { flex: 1; border-radius: 3px; background: var(--mi-fill2); }
-.is-on .nps__art i { background: var(--mi-p-tint); }
-.nps__art.is-board i:nth-child(1) { transform: scaleY(.9); transform-origin: top; }
-.nps__art.is-board i:nth-child(3) { transform: scaleY(.55); transform-origin: top; }
-.nps__art.is-timeline { flex-direction: column; }
-.nps__art.is-timeline i:nth-child(1) { transform: scaleX(.5); transform-origin: left; }
-.nps__art.is-timeline i:nth-child(2) { transform: translateX(30%) scaleX(.55); transform-origin: left; }
-.nps__art.is-timeline i:nth-child(3) { transform: translateX(60%) scaleX(.4); transform-origin: left; }
-.nps__art.is-list { flex-direction: column; }
-.nps__art.is-list i:nth-child(2) { transform: scaleX(.8); transform-origin: left; }
-.nps__art.is-list i:nth-child(3) { transform: scaleX(.6); transform-origin: left; }
-.nps__private { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; }
-</style>

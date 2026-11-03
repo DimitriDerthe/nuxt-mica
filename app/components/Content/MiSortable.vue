@@ -264,12 +264,12 @@ onBeforeUnmount(detach)
 </script>
 
 <template>
-  <div class="mi-sort" :class="[`is-${orientation}`, { 'is-sorting': dragIndex !== null, 'is-disabled': disabled, 'is-bare': bare }]" :style="{ '--mi-sort-gap': `${gap}px` }">
-    <ul ref="list" class="mi-sort__list" role="list" :aria-label="ariaLabel" @focusout="onFocusOut">
+  <div class="mi-sort mi:font-mi" :class="[`is-${orientation}`, { 'is-sorting': dragIndex !== null, 'is-disabled': disabled, 'is-bare': bare }]" :style="{ '--mi-sort-gap': `${gap}px` }">
+    <ul ref="list" class="mi-sort__list mi:relative mi:[list-style:none] mi:m-0 mi:p-0 mi:flex mi:flex-col mi:gap-(--mi-sort-gap) mi:[.is-horizontal_&]:flex-row mi:[.is-horizontal_&]:items-stretch" role="list" :aria-label="ariaLabel" @focusout="onFocusOut">
       <li
         v-for="(item, i) in model"
         :key="keyOf(item, i)"
-        class="mi-sort__item"
+        class="mi-sort__item mi:[.is-horizontal_&]:flex-[none] mi:relative mi:flex mi:items-center mi:gap-2.5 mi:py-2.5 mi:px-3.5 mi:rounded-[var(--mi-radius-m,14px)] mi:bg-card mi:text-label mi:shadow-1 mi:[outline:none] mi:touch-auto mi:[-webkit-tap-highlight-color:transparent] mi:[&:not(.has-handle)]:touch-none mi:[&.has-handle]:pl-1.5 mi:[.is-bare_&]:rounded-none mi:[.is-bare_&.is-dragging]:rounded-[var(--mi-radius-m,14px)] mi:focus-visible:[outline:3px_solid_color-mix(in_srgb,var(--mi-p)_55%,transparent)] mi:focus-visible:outline-offset-[2px] mi:[.is-sorting_&]:select-none mi:[.is-sorting_&:not(.is-dragging)]:transform-[translate3d(var(--mi-tx,0px),var(--mi-ty,0px),0)] mi:[.is-sorting_&:not(.is-dragging)]:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:after:content-[''] mi:after:absolute mi:after:inset-0 mi:after:rounded-[inherit] mi:after:pointer-events-none mi:after:shadow-3 mi:after:opacity-0 mi:after:[transition:opacity_var(--mi-dur-1)_var(--mi-ease)] mi:[&.is-dragging]:z-2 mi:[&.is-dragging]:transform-[translate3d(var(--mi-dx,0px),var(--mi-dy,0px),0)_scale(1.02)] mi:[&.is-dragging]:will-change-transform mi:[&.is-grabbed]:z-1"
         :class="{ 'is-dragging': dragIndex === i, 'is-grabbed': grabbed === i, 'has-handle': handle }"
         :tabindex="handle || disabled ? undefined : 0"
         aria-roledescription="sortable item"
@@ -281,7 +281,7 @@ onBeforeUnmount(detach)
         <button
           v-if="handle"
           type="button"
-          class="mi-sort__handle"
+          class="mi-sort__handle mi:flex-[none] mi:flex mi:items-center mi:justify-center mi:w-8 mi:h-9 mi:-my-1 mi:mx-0 mi:[border:0] mi:rounded-[10px] mi:bg-transparent mi:text-label3 mi:cursor-grab mi:touch-none mi:disabled:opacity-40 mi:disabled:cursor-default mi:focus-visible:[outline:3px_solid_color-mix(in_srgb,var(--mi-p)_55%,transparent)] mi:focus-visible:outline-offset-[2px]"
           data-mi-handle
           :disabled="disabled"
           :aria-label="`Reorder ${labelOf(item, i)}`"
@@ -292,42 +292,26 @@ onBeforeUnmount(detach)
             <svg width="14" height="18" viewBox="0 0 14 18" fill="currentColor" aria-hidden="true"><circle cx="4" cy="3" r="1.5" /><circle cx="10" cy="3" r="1.5" /><circle cx="4" cy="9" r="1.5" /><circle cx="10" cy="9" r="1.5" /><circle cx="4" cy="15" r="1.5" /><circle cx="10" cy="15" r="1.5" /></svg>
           </slot>
         </button>
-        <div class="mi-sort__content"><slot :item="item" :index="i" :dragging="dragIndex === i || grabbed === i" /></div>
+        <div class="mi-sort__content mi:min-w-0 mi:flex-1"><slot :item="item" :index="i" :dragging="dragIndex === i || grabbed === i" /></div>
       </li>
       <li
-        v-if="ph" class="mi-sort__ph" aria-hidden="true" role="presentation"
+        v-if="ph" class="mi-sort__ph mi:absolute mi:z-0 mi:pointer-events-none mi:box-border mi:rounded-[var(--mi-radius-m,14px)] mi:[border:2px_dashed_color-mix(in_srgb,var(--mi-p)_45%,transparent)] mi:bg-p-tint mi:opacity-70 mi:transform-[translate3d(var(--mi-px,0px),var(--mi-py,0px),0)] mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)]" aria-hidden="true" role="presentation"
         :style="{ width: `${ph.w}px`, height: `${ph.h}px`, left: `${ph.x}px`, top: `${ph.y}px`, [horizontal() ? '--mi-px' : '--mi-py']: `${ph.d}px` }"
       />
     </ul>
-    <p :id="`${uid}-help`" class="mi-sort__sr">Press Space to pick up, the arrow keys to move, Space or Enter to drop, Escape to cancel.</p>
-    <div class="mi-sort__sr" role="status" aria-live="assertive" aria-atomic="true">{{ message }}</div>
+    <p :id="`${uid}-help`" class="mi-sort__sr mi:absolute mi:w-px mi:h-px mi:-m-px mi:p-0 mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">Press Space to pick up, the arrow keys to move, Space or Enter to drop, Escape to cancel.</p>
+    <div class="mi-sort__sr mi:absolute mi:w-px mi:h-px mi:-m-px mi:p-0 mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap" role="status" aria-live="assertive" aria-atomic="true">{{ message }}</div>
   </div>
 </template>
 
 <style scoped>
-.mi-sort{font-family:var(--mi-font);min-width:0}
-.mi-sort__list{position:relative;list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--mi-sort-gap)}
-.is-horizontal .mi-sort__list{flex-direction:row;align-items:stretch}
-.is-horizontal .mi-sort__item{flex:none}
-.mi-sort__item{position:relative;display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:var(--mi-radius-m,14px);background:var(--mi-card);color:var(--mi-label);box-shadow:var(--mi-sh1);outline:none;touch-action:auto;-webkit-tap-highlight-color:transparent}
+.mi-sort{min-width:0}
 .mi-sort__item:not(.has-handle){cursor:grab}
-.mi-sort__item:not(.has-handle){touch-action:none}
-.mi-sort__item.has-handle{padding-left:6px}
-.is-bare .mi-sort__item{background:transparent;box-shadow:none;border-radius:0}
-.is-bare .mi-sort__item.is-dragging{border-radius:var(--mi-radius-m,14px)}
-.mi-sort__content{min-width:0;flex:1}
-.mi-sort__handle{flex:none;display:flex;align-items:center;justify-content:center;width:32px;height:36px;margin:-4px 0;border:0;border-radius:10px;background:transparent;color:var(--mi-label3);cursor:grab;touch-action:none}
+.is-bare .mi-sort__item{background:transparent;box-shadow:none}
 .mi-sort__handle:hover{background:var(--mi-fill3);color:var(--mi-label2)}
 .mi-sort__handle[aria-pressed=true]{color:var(--mi-p-text);background:var(--mi-p-tint)}
-.mi-sort__handle:disabled{opacity:.4;cursor:default}
-.mi-sort__item:focus-visible,.mi-sort__handle:focus-visible{outline:3px solid color-mix(in srgb,var(--mi-p) 55%,transparent);outline-offset:2px}
 .is-disabled .mi-sort__item{cursor:default}
-.is-sorting .mi-sort__item{user-select:none}
-.is-sorting .mi-sort__item:not(.is-dragging){transform:translate3d(var(--mi-tx,0px),var(--mi-ty,0px),0);transition:transform var(--mi-dur-2) var(--mi-ease)}
-.mi-sort__item::after{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;box-shadow:var(--mi-sh3);opacity:0;transition:opacity var(--mi-dur-1) var(--mi-ease)}
-.mi-sort__item.is-dragging{z-index:2;cursor:grabbing;transform:translate3d(var(--mi-dx,0px),var(--mi-dy,0px),0) scale(1.02);will-change:transform;background:var(--mi-elev)}
+.mi-sort__item.is-dragging{cursor:grabbing;background:var(--mi-elev)}
 .mi-sort__item.is-dragging::after,.mi-sort__item.is-grabbed::after{opacity:1}
-.mi-sort__item.is-grabbed{z-index:1;box-shadow:inset 0 0 0 2px var(--mi-p)}
-.mi-sort__ph{position:absolute;z-index:0;pointer-events:none;box-sizing:border-box;border-radius:var(--mi-radius-m,14px);border:2px dashed color-mix(in srgb,var(--mi-p) 45%,transparent);background:var(--mi-p-tint);opacity:.7;transform:translate3d(var(--mi-px,0px),var(--mi-py,0px),0);transition:transform var(--mi-dur-2) var(--mi-ease)}
-.mi-sort__sr{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.mi-sort__item.is-grabbed{box-shadow:inset 0 0 0 2px var(--mi-p)}
 </style>

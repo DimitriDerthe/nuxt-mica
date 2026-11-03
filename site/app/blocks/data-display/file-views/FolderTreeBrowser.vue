@@ -1,21 +1,21 @@
 <template>
-  <section class="ftb" aria-labelledby="ftb-title">
-    <header class="ftb__head">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="ftb-title">
+    <header class="mi:grid mi:gap-0.5">
       <MiText id="ftb-title" variant="title3" as="h2" weight="semibold">Brand refresh 2025</MiText>
       <MiText variant="footnote" tone="label2">Shared drive · {{ fmtSize(sizeOf(ROOT)) }} · 3 collaborators</MiText>
     </header>
 
-    <div class="ftb__layout">
-      <nav class="ftb__tree" aria-label="Folders">
+    <div class="mi:grid mi:gap-3 mi:@[640px]:grid-cols-[minmax(220px,_280px)_minmax(0,_1fr)] mi:@[640px]:items-start">
+      <nav class="mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1 mi:min-w-0 mi:p-2" aria-label="Folders">
         <MiTree v-model:selected="selected" v-model:expanded="expanded" :items="treeItems" aria-label="Brand refresh files" />
       </nav>
 
-      <article class="ftb__pane" aria-live="polite">
-        <p class="ftb__path">{{ path.map(n => n.label).join(' / ') }}</p>
+      <article class="mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1 mi:min-w-0 mi:grid mi:content-start mi:gap-3.5 mi:p-4.5" aria-live="polite">
+        <p class="mi:m-0 mi:text-[12px] mi:text-label3 mi:wrap-anywhere">{{ path.map(n => n.label).join(' / ') }}</p>
 
-        <div class="ftb__hero">
-          <span class="ftb__art" :class="'is-' + node.kind" aria-hidden="true"><MiIcon :name="ICON[node.kind]" :size="26" /></span>
-          <div class="ftb__hero-text">
+        <div class="mi:flex mi:items-center mi:gap-3.5 mi:min-w-0">
+          <span class="mi:grid mi:place-items-center mi:flex-[none] mi:w-14 mi:h-14 mi:rounded-md" :class="[({ image: 'mi:text-s-text mi:[background:linear-gradient(145deg,var(--mi-s-tint),color-mix(in_srgb,var(--mi-s)_30%,transparent))]', sheet: 'mi:text-green-t mi:[background:color-mix(in_srgb,var(--mi-green)_16%,transparent)]', folder: 'mi:text-label2 mi:[background:var(--mi-fill3)]' } as Record<string, string>)[node.kind] ?? 'mi:text-p-text mi:[background:linear-gradient(145deg,_var(--mi-p-tint),_color-mix(in_srgb,_var(--mi-p)_26%,_transparent))]']" aria-hidden="true"><MiIcon :name="ICON[node.kind]" :size="26" /></span>
+          <div class="mi:grid mi:min-w-0">
             <MiText variant="headline" as="h3" :lines="1">{{ node.label }}</MiText>
             <MiText variant="footnote" tone="label2">
               {{ node.children ? countFiles(node) + ' files · ' : '' }}{{ fmtSize(sizeOf(node)) }}{{ node.owner ? ' · ' + node.owner : '' }}
@@ -30,11 +30,11 @@
         />
         <template v-else>
           <MiText variant="footnote" weight="semibold" as="h4">Versions</MiText>
-          <ol class="ftb__versions">
-            <li v-for="(v, i) in node.versions" :key="v.id" class="ftb__version">
+          <ol class="mi:grid mi:m-0 mi:p-0 mi:[list-style:none]">
+            <li v-for="(v, i) in node.versions" :key="v.id" class="mi:flex mi:items-center mi:gap-2.5 mi:py-2.5 mi:px-0 mi:not-first:border-t mi:not-first:border-t-sep">
               <MiAvatar :name="v.by" size="xs" tone="auto" decorative />
-              <div class="ftb__version-text">
-                <span><b>{{ v.by }}</b> · {{ v.when }}</span>
+              <div class="mi:grid mi:flex-1 mi:min-w-0 mi:text-[13px]">
+                <span><b class="mi:font-semibold">{{ v.by }}</b> · {{ v.when }}</span>
                 <MiText variant="caption" tone="label2">{{ v.note }}</MiText>
               </div>
               <MiBadge v-if="i === 0" tone="primary" label="Current" />
@@ -106,28 +106,3 @@ function restore(id: string) {
   list.unshift({ id: id + '-r' + list.length, by: 'You', when: 'Just now', note: 'Restored the version from ' + old.when })
 }
 </script>
-
-<style scoped>
-.ftb { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
-.ftb__head { display: grid; gap: 2px; }
-.ftb__layout { display: grid; gap: 12px; }
-.ftb__tree, .ftb__pane { border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); min-width: 0; }
-.ftb__tree { padding: 8px; }
-.ftb__pane { display: grid; align-content: start; gap: 14px; padding: 18px; }
-.ftb__path { margin: 0; font-size: 12px; color: var(--mi-label3); overflow-wrap: anywhere; }
-.ftb__hero { display: flex; align-items: center; gap: 14px; min-width: 0; }
-.ftb__hero-text { display: grid; min-width: 0; }
-.ftb__art { display: grid; place-items: center; flex: none; width: 56px; height: 56px; border-radius: var(--mi-radius-m); color: var(--mi-p-text); background: linear-gradient(145deg, var(--mi-p-tint), color-mix(in srgb, var(--mi-p) 26%, transparent)); }
-.ftb__art.is-image { color: var(--mi-s-text); background: linear-gradient(145deg, var(--mi-s-tint), color-mix(in srgb, var(--mi-s) 30%, transparent)); }
-.ftb__art.is-sheet { color: var(--mi-green-t); background: color-mix(in srgb, var(--mi-green) 16%, transparent); }
-.ftb__art.is-folder { color: var(--mi-label2); background: var(--mi-fill3); }
-.ftb__versions { display: grid; margin: 0; padding: 0; list-style: none; }
-.ftb__version { display: flex; align-items: center; gap: 10px; padding: 10px 0; }
-.ftb__version + .ftb__version { border-top: 1px solid var(--mi-sep); }
-.ftb__version-text { display: grid; flex: 1; min-width: 0; font-size: 13px; }
-.ftb__version-text b { font-weight: 600; }
-
-@container (min-width: 640px) {
-  .ftb__layout { grid-template-columns: minmax(220px, 280px) minmax(0, 1fr); align-items: start; }
-}
-</style>

@@ -13,19 +13,16 @@ defineProps<{ p: Record<string, unknown> }>()
 <template>
   <MiHoverCard v-bind="p">
     <template #trigger>
-      <a class="handle" href="#" @click.prevent>@maya.chen</a>
+      <a class="handle mi:text-p mi:text-[17px] mi:font-semibold mi:[text-decoration:underline] mi:underline-offset-[3px]" href="#" @click.prevent>@maya.chen</a>
     </template>
-    <div class="card">
+    <div class="card mi:grid mi:gap-1 mi:p-3 mi:text-[14px]">
       <strong>Maya Chen</strong>
-      <span class="sub">Design engineer at Northwind</span>
+      <span class="sub mi:text-[color:var(--mi-text-2,_inherit)] mi:opacity-70">Design engineer at Northwind</span>
       <p>Building calm interfaces and the occasional keyboard. Joined March 2022.</p>
     </div>
   </MiHoverCard>
 </template>
 
 <style scoped>
-.handle { color: var(--mi-p); font-size: 17px; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
-.card { display: grid; gap: 4px; padding: 12px; font-size: 14px; }
-.sub { color: var(--mi-text-2, inherit); opacity: .7; }
 p { margin: 4px 0 0; }
 </style>

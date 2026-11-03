@@ -1,7 +1,7 @@
 <template>
-  <div ref="root" class="cp" aria-hidden="true" inert>
-    <div v-if="example" class="cp__stage">
-      <div ref="inner" class="cp__scale" :style="{ transform: `scale(${scale})` }"><component :is="example" :p="values" /></div>
+  <div ref="root" class="cp mi:relative mi:h-45 mi:mt-auto mi:-mr-6.5 mi:mb-0 mi:ml-0 mi:rounded-[12px] mi:overflow-hidden mi:pointer-events-none mi:select-none mi:[background:radial-gradient(circle_at_1px_1px,_var(--mi-fill3)_1px,_transparent_0)_0_0_/_16px_16px,_var(--mi-page)] mi:shadow-[0_0_0_1px_var(--mi-sep)]" aria-hidden="true" inert>
+    <div v-if="example" class="cp__stage mi:absolute mi:inset-0 mi:flex mi:items-center mi:justify-center mi:p-3">
+      <div ref="inner" class="cp__scale mi:flex-[none] mi:flex mi:items-center mi:justify-center mi:w-105 mi:origin-center" :style="{ transform: `scale(${scale})` }"><component :is="example" :p="values" /></div>
     </div>
   </div>
 </template>
@@ -63,9 +63,6 @@ onErrorCaptured(() => { example.value = null; return false })
 </script>
 
 <style scoped>
-.cp { position: relative; height: 180px; margin: auto -26px 0 0; border-radius: 12px; overflow: hidden; pointer-events: none; user-select: none; background: radial-gradient(circle at 1px 1px, var(--mi-fill3) 1px, transparent 0) 0 0 / 16px 16px, var(--mi-page); box-shadow: 0 0 0 1px var(--mi-sep); }
-.cp__stage { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 12px; }
-.cp__scale { flex: none; display: flex; align-items: center; justify-content: center; width: 420px; transform-origin: center; }
 /* MiForm is a size container: as a flex item it would collapse to zero width. */
 .cp__scale > :deep(.mi-form) { width: 100%; }
 </style>

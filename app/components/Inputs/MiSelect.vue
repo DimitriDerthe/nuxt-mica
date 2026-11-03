@@ -132,8 +132,8 @@ defineExpose({ focus: () => (box.value?.$el as HTMLElement | undefined)?.focus()
       :aria-invalid="isInvalid || undefined" :aria-describedby="describedBy" :aria-required="field?.required.value || undefined"
       @click="popup.open.value ? popup.hide(false) : openList()" @keydown="onKeydown"
     >
-      <span class="mi-sel__value" :class="{ 'is-placeholder': !selected }">{{ selected ? selected.label : placeholder }}</span>
-      <span class="mi-sel__chev" :class="{ 'is-open': popup.open.value }" aria-hidden="true">
+      <span class="mi-sel__value mi:flex-1 mi:min-w-0 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:[&.is-placeholder]:text-label2" :class="{ 'is-placeholder': !selected }">{{ selected ? selected.label : placeholder }}</span>
+      <span class="mi-sel__chev mi:absolute mi:right-2 mi:top-1/2 mi:w-6 mi:h-6 mi:-mt-3 mi:rounded-[6px] mi:bg-p mi:text-p-on mi:flex mi:items-center mi:justify-center mi:pointer-events-none mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:[.mi-sel__trigger.mi-box--sm_&]:right-1.5 mi:[.mi-sel__trigger.mi-box--sm_&]:w-5.5 mi:[.mi-sel__trigger.mi-box--sm_&]:h-5.5 mi:[.mi-sel__trigger.mi-box--sm_&]:mt-[-11px] mi:[&.is-open]:transform-[scale(.9)] mi:[.mi-sel__trigger.is-disabled_&]:bg-fill mi:[.mi-sel__trigger.is-disabled_&]:text-label3" :class="{ 'is-open': popup.open.value }" aria-hidden="true">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M7 9l5-5 5 5M7 15l5 5 5-5" /></svg>
       </span>
     </MiFieldBox>
@@ -162,15 +162,6 @@ defineExpose({ focus: () => (box.value?.$el as HTMLElement | undefined)?.focus()
 .mi-sel { position: relative; display: flex; min-width: 0; }
 .mi-sel .mi-sel__trigger { padding: 0 40px 0 14px; cursor: pointer; }
 .mi-sel .mi-sel__trigger.mi-box--sm { padding-right: 36px; padding-left: 12px; }
-.mi-sel__value { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.mi-sel__value.is-placeholder { color: var(--mi-label2); }
-.mi-sel__chev {
-  position: absolute; right: 8px; top: 50%; width: 24px; height: 24px; margin-top: -12px; border-radius: 6px; background: var(--mi-p); color: var(--mi-p-on);
-  display: flex; align-items: center; justify-content: center; pointer-events: none; transition: transform var(--mi-dur-2) var(--mi-ease);
-}
-.mi-sel__trigger.mi-box--sm .mi-sel__chev { right: 6px; width: 22px; height: 22px; margin-top: -11px; }
-.mi-sel__chev.is-open { transform: scale(.9); }
-.mi-sel__trigger.is-disabled .mi-sel__chev { background: var(--mi-fill); color: var(--mi-label3); }
 </style>
 
 <style>

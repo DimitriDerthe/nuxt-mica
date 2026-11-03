@@ -1,78 +1,78 @@
 <template>
-  <section class="sca" aria-labelledby="sca-title">
-    <header class="sca__head">
-      <div class="sca__intro">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="sca-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
+      <div class="mi:grid mi:gap-0.5">
         <MiText id="sca-title" variant="title3" as="h2" weight="semibold">Sign-ups by first-touch channel</MiText>
         <MiText variant="footnote" tone="label2">Driftwood · trials started, Nov 2025 to Oct 2026</MiText>
       </div>
       <MiSegmented v-model="mode" label="Scale" :options="modes" />
     </header>
 
-    <div class="sca__grid">
-      <article class="sca__panel">
-        <div class="sca__now">
-          <p class="sca__big">{{ total(idx).toLocaleString('en-US') }}</p>
+    <div class="mi:grid mi:gap-3 mi:grid-cols-[minmax(0,_1fr)] mi:@[860px]:grid-cols-[minmax(0,_1fr)_300px]">
+      <article class="mi:min-w-0 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:grid mi:gap-4.5 mi:content-start mi:pt-5 mi:pr-5 mi:pb-3.5 mi:pl-3">
+        <div class="mi:grid mi:gap-1 mi:pl-2">
+          <p class="mi:m-0 mi:text-[clamp(30px,_6cqi,_40px)] mi:leading-none mi:font-bold mi:tracking-[-.04em] mi:tabular-nums">{{ total(idx).toLocaleString('en-US') }}</p>
           <MiText variant="footnote" tone="label2" tabular>
             sign-ups in {{ monthsLong[idx] }}<template v-if="idx > 0">, {{ growth >= 0 ? '+' : '−' }}{{ Math.abs(growth).toFixed(1) }}% on November</template>
           </MiText>
         </div>
-        <div class="sca__chart">
-          <div class="sca__yaxis" aria-hidden="true">
-            <div class="sca__ticks" :class="{ 'is-shown': !isShare }">
-              <span v-for="t in absTicks" :key="t" :style="{ top: (1 - t / absTop) * 100 + '%' }">{{ short(t) }}</span>
+        <div class="mi:grid mi:grid-cols-[38px_minmax(0,_1fr)] mi:gap-x-2.5">
+          <div class="mi:relative mi:h-70 mi:text-[11px] mi:text-label3 mi:tabular-nums" aria-hidden="true">
+            <div class="mi:absolute mi:inset-0 mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)] mi:motion-reduce:[transition:none]" :class="isShare ? 'mi:opacity-0' : 'mi:opacity-100'">
+              <span class="mi:absolute mi:right-0 mi:transform-[translateY(-50%)]" v-for="t in absTicks" :key="t" :style="{ top: (1 - t / absTop) * 100 + '%' }">{{ short(t) }}</span>
             </div>
-            <div class="sca__ticks" :class="{ 'is-shown': isShare }">
-              <span v-for="t in [0, 25, 50, 75, 100]" :key="t" :style="{ top: (100 - t) + '%' }">{{ t }}%</span>
+            <div class="mi:absolute mi:inset-0 mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)] mi:motion-reduce:[transition:none]" :class="isShare ? 'mi:opacity-100' : 'mi:opacity-0'">
+              <span class="mi:absolute mi:right-0 mi:transform-[translateY(-50%)]" v-for="t in [0, 25, 50, 75, 100]" :key="t" :style="{ top: (100 - t) + '%' }">{{ t }}%</span>
             </div>
           </div>
 
           <div
-            class="sca__plot" tabindex="0" role="slider" aria-label="Month" aria-valuemin="0" :aria-valuemax="months.length - 1"
+            class="mi:relative mi:h-70 mi:overflow-x-clip mi:rounded-[4px] mi:[outline:none] mi:touch-pan-y mi:focus-visible:shadow-[0_0_0_2px_var(--mi-card),_0_0_0_4px_var(--mi-p)]" tabindex="0" role="slider" aria-label="Month" aria-valuemin="0" :aria-valuemax="months.length - 1"
             :aria-valuenow="idx" :aria-valuetext="valueText" aria-describedby="sca-summary" @keydown="onKey"
           >
-            <svg viewBox="0 0 1000 300" preserveAspectRatio="none" aria-hidden="true">
-              <line v-for="t in [0, 75, 150, 225]" :key="t" x1="0" x2="1000" :y1="t" :y2="t" class="sca__gridline" />
+            <svg class="mi:w-full mi:block mi:h-full" viewBox="0 0 1000 300" preserveAspectRatio="none" aria-hidden="true">
+              <line v-for="t in [0, 75, 150, 225]" :key="t" x1="0" x2="1000" :y1="t" :y2="t" class="mi:stroke-sep mi:[stroke-width:1] mi:[vector-effect:non-scaling-stroke]" />
               <!-- Both scales are drawn once; switching crossfades the layers. -->
-              <g v-for="layer in layers" :key="layer.id" class="sca__layer" :class="{ 'is-shown': layer.id === (isShare ? 'share' : 'abs') }">
+              <g v-for="layer in layers" :key="layer.id" class="mi:[transition:opacity_var(--mi-dur-4)_var(--mi-ease)] mi:motion-reduce:[transition:none]" :class="shownLayer(layer.id) ? 'mi:opacity-100' : 'mi:opacity-0'">
                 <path
-                  v-for="(d, c) in layer.paths" :key="c" :d="d" class="sca__band"
-                  :class="{ 'is-dim': focus !== null && focus !== c }" :style="{ fill: channels[c]?.color }"
+                  v-for="(d, c) in layer.paths" :key="c" :d="d" class="mi:stroke-card mi:[stroke-width:1.25] mi:[stroke-linejoin:round] mi:[vector-effect:non-scaling-stroke] mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)] mi:motion-reduce:[transition:none]"
+                  :class="focus !== null && focus !== c ? 'mi:opacity-28' : ''" :style="{ fill: channels[c]?.color }"
                 />
               </g>
             </svg>
-            <div class="sca__hits" aria-hidden="true">
-              <span v-for="(m, i) in months" :key="m" @pointerenter="idx = i" />
+            <div class="mi:absolute mi:inset-0 mi:flex" aria-hidden="true">
+              <span class="mi:flex-[1_1_0] mi:first:[flex-grow:.5] mi:last:[flex-grow:.5]" v-for="(m, i) in months" :key="m" @pointerenter="idx = i" />
             </div>
-            <div class="sca__cursor" aria-hidden="true" :style="{ transform: `translateX(${(idx / (months.length - 1)) * 100}%)` }"><i /></div>
+            <div class="mi:absolute mi:inset-0 mi:pointer-events-none mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:motion-reduce:[transition:none]" aria-hidden="true" :style="{ transform: `translateX(${(idx / (months.length - 1)) * 100}%)` }"><i class="mi:absolute mi:w-0.5 mi:-left-px mi:top-0 mi:bottom-0 mi:rounded-[1px] mi:[background:var(--mi-label)] mi:opacity-70" /></div>
           </div>
 
-          <div class="sca__xaxis" aria-hidden="true">
-            <span v-for="(m, i) in months" :key="m" :class="{ 'is-on': i === idx, 'is-minor': i !== idx && (i % 2 === 1 || Math.abs(i - idx) === 1) }" :style="{ left: (i / (months.length - 1)) * 100 + '%' }">{{ m }}</span>
+          <div class="mi:relative mi:col-[2] mi:h-4.5 mi:mt-2 mi:text-[11px] mi:text-label3" aria-hidden="true">
+            <span class="mi:absolute mi:top-0 mi:transform-[translateX(-50%)] mi:[&:first-child]:transform-none mi:[&:last-child]:transform-[translateX(-100%)]" v-for="(m, i) in months" :key="m" :class="i === idx ? 'mi:text-label mi:font-650' : (i % 2 === 1 || Math.abs(i - idx) === 1) ? 'mi:opacity-0 mi:@[620px]:opacity-100' : ''" :style="{ left: (i / (months.length - 1)) * 100 + '%' }">{{ m }}</span>
           </div>
         </div>
-        <p id="sca-summary" class="sca__sr">{{ summary }}</p>
+        <p id="sca-summary" class="mi:absolute mi:w-px mi:h-px mi:m-0 mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">{{ summary }}</p>
       </article>
 
-      <aside class="sca__side" aria-labelledby="sca-side-title">
-        <div class="sca__side-top">
+      <aside class="mi:min-w-0 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:grid mi:gap-3.5 mi:content-start mi:pt-4.5 mi:px-4.5 mi:pb-4" aria-labelledby="sca-side-title">
+        <div class="mi:flex mi:flex-wrap mi:items-baseline mi:justify-between mi:gap-y-0.5 mi:gap-x-2.5">
           <MiText id="sca-side-title" variant="subheadline" weight="semibold" as="h3">Share in {{ monthsLong[idx] }}</MiText>
         </div>
-        <ul class="sca__shares">
+        <ul class="mi:grid mi:gap-0.5 mi:my-0 mi:-mx-2 mi:p-0 mi:[list-style:none] mi:[@container_(min-width:_560px)_and_(max-width:_859px)]:grid-cols-2 mi:[@container_(min-width:_560px)_and_(max-width:_859px)]:gap-x-4">
           <li v-for="r in rows" :key="r.name">
             <button
-              type="button" class="sca__row" :class="{ 'is-on': focus === r.c }" :aria-pressed="pinned === r.c"
+              type="button" class="mi:grid mi:grid-cols-[10px_minmax(0,_1fr)_auto] mi:items-center mi:gap-y-1 mi:gap-x-2.5 mi:w-full mi:p-2 mi:[border:0] mi:rounded-md mi:[background:none] mi:text-inherit mi:[font:inherit] mi:text-start mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" :class="[pinned === r.c ? 'mi:bg-p-tint' : focus === r.c ? 'mi:bg-fill4' : 'mi:hover:bg-fill4']" :aria-pressed="pinned === r.c"
               @pointerenter="hoverCh = r.c" @pointerleave="hoverCh = null" @focus="hoverCh = r.c" @blur="hoverCh = null"
               @click="pinned = pinned === r.c ? null : r.c"
             >
-              <i class="sca__sw" :style="{ background: r.color }" aria-hidden="true" />
-              <span class="sca__name">{{ r.name }}</span>
-              <span class="sca__share">{{ r.share.toFixed(1) }}%</span>
-              <span class="sca__track" aria-hidden="true"><span :style="{ transform: `scaleX(${r.share / 50})`, background: r.color }" /></span>
-              <span class="sca__shift" :class="r.shift >= 0 ? 'is-up' : 'is-down'">{{ r.shift >= 0 ? '+' : '−' }}{{ Math.abs(r.shift).toFixed(1) }} pt since Nov</span>
+              <i class="mi:w-2.5 mi:h-2.5 mi:rounded-[3px] mi:shadow-[inset_0_0_0_1px_var(--mi-sep)]" :style="{ background: r.color }" aria-hidden="true" />
+              <span class="mi:text-[13px] mi:font-550 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ r.name }}</span>
+              <span class="mi:text-[15px] mi:font-bold mi:tracking-[-.01em] mi:tabular-nums">{{ r.share.toFixed(1) }}%</span>
+              <span class="mi:col-[2_/_-1] mi:h-1 mi:rounded-[2px] mi:[background:var(--mi-fill4)] mi:overflow-hidden" aria-hidden="true"><span class="mi:block mi:h-full mi:rounded-[inherit] mi:origin-left mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring)] mi:motion-reduce:[transition:none]" :style="{ transform: `scaleX(${r.share / 50})`, background: r.color }" /></span>
+              <span class="mi:col-[2_/_-1] mi:text-[11px] mi:tabular-nums" :class="r.shift >= 0 ? 'mi:text-label2' : 'mi:text-label3'">{{ r.shift >= 0 ? '+' : '−' }}{{ Math.abs(r.shift).toFixed(1) }} pt since Nov</span>
             </button>
           </li>
         </ul>
-        <p class="sca__callout">
+        <p class="mi:[&_svg]:flex-none mi:[&_svg]:mt-px mi:[&_svg]:text-p-text mi:flex mi:gap-2 mi:m-0 mi:pt-3 mi:border-t mi:border-t-sep mi:text-[12px] mi:leading-[1.45] mi:text-label2 mi:text-pretty">
           <MiIcon name="info-circle" :size="15" />
           <span>Partner referrals went from {{ shareOf(0, 0).toFixed(1) }}% to {{ shareOf(0, months.length - 1).toFixed(1) }}% of sign-ups after the agency program opened in March.</span>
         </p>
@@ -87,6 +87,7 @@ import { computed, ref } from 'vue'
 const modes = [{ value: 'abs', label: 'Absolute' }, { value: 'share', label: '100%' }]
 const mode = ref<string | number | null>('abs')
 const isShare = computed(() => mode.value === 'share')
+const shownLayer = (id: string) => id === (isShare.value ? 'share' : 'abs')
 
 const months = ['Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct']
 const monthsLong = ['November', 'December', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October']
@@ -150,68 +151,3 @@ const onKey = (e: KeyboardEvent) => {
 }
 </script>
 
-<style scoped>
-.sca { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
-.sca__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.sca__intro { display: grid; gap: 2px; }
-.sca__grid { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); }
-@container (min-width: 860px) { .sca__grid { grid-template-columns: minmax(0, 1fr) 300px; } }
-
-.sca__panel, .sca__side { min-width: 0; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.sca__panel { display: grid; gap: 18px; align-content: start; padding: 20px 20px 14px 12px; }
-.sca__now { display: grid; gap: 4px; padding-left: 8px; }
-.sca__big { margin: 0; font-size: clamp(30px, 6cqi, 40px); line-height: 1; font-weight: 700; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
-
-.sca__chart { display: grid; grid-template-columns: 38px minmax(0, 1fr); column-gap: 10px; }
-.sca__yaxis { position: relative; height: 280px; font-size: 11px; color: var(--mi-label3); font-variant-numeric: tabular-nums; }
-.sca__ticks { position: absolute; inset: 0; opacity: 0; transition: opacity var(--mi-dur-3) var(--mi-ease); }
-.sca__ticks.is-shown { opacity: 1; }
-.sca__ticks span { position: absolute; right: 0; transform: translateY(-50%); }
-.sca__plot { position: relative; height: 280px; overflow-x: clip; border-radius: 4px; outline: none; touch-action: pan-y; }
-.sca__plot:focus-visible { box-shadow: 0 0 0 2px var(--mi-card), 0 0 0 4px var(--mi-p); }
-.sca__plot svg { display: block; width: 100%; height: 100%; }
-.sca__gridline { stroke: var(--mi-sep); stroke-width: 1; vector-effect: non-scaling-stroke; }
-.sca__layer { opacity: 0; transition: opacity var(--mi-dur-4) var(--mi-ease); }
-.sca__layer.is-shown { opacity: 1; }
-.sca__band { stroke: var(--mi-card); stroke-width: 1.25; stroke-linejoin: round; vector-effect: non-scaling-stroke; transition: opacity var(--mi-dur-3) var(--mi-ease); }
-.sca__band.is-dim { opacity: .28; }
-
-.sca__hits { position: absolute; inset: 0; display: flex; }
-.sca__hits span { flex: 1 1 0; }
-.sca__hits span:first-child, .sca__hits span:last-child { flex-grow: .5; }
-.sca__cursor { position: absolute; inset: 0; pointer-events: none; transition: transform var(--mi-dur-2) var(--mi-ease); }
-.sca__cursor i { position: absolute; left: -1px; top: 0; bottom: 0; width: 2px; border-radius: 1px; background: var(--mi-label); opacity: .7; }
-
-.sca__xaxis { position: relative; grid-column: 2; height: 18px; margin-top: 8px; font-size: 11px; color: var(--mi-label3); }
-.sca__xaxis span { position: absolute; top: 0; transform: translateX(-50%); }
-.sca__xaxis span:first-child { transform: none; }
-.sca__xaxis span:last-child { transform: translateX(-100%); }
-.sca__xaxis span.is-on { color: var(--mi-label); font-weight: 650; }
-.sca__xaxis span.is-minor:not(.is-on) { opacity: 0; }
-@container (min-width: 620px) { .sca__xaxis span.is-minor:not(.is-on) { opacity: 1; } }
-
-.sca__side { display: grid; gap: 14px; align-content: start; padding: 18px 18px 16px; }
-.sca__side-top { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 2px 10px; }
-.sca__shares { display: grid; gap: 2px; margin: 0 -8px; padding: 0; list-style: none; }
-@container (min-width: 560px) and (max-width: 859px) { .sca__shares { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 16px; } }
-.sca__row {
-  display: grid; grid-template-columns: 10px minmax(0, 1fr) auto; align-items: center; gap: 4px 10px; width: 100%; padding: 8px;
-  border: 0; border-radius: var(--mi-radius-m); background: none; color: inherit; font: inherit; text-align: start; cursor: pointer;
-}
-.sca__row:hover, .sca__row.is-on { background: var(--mi-fill4); }
-.sca__row[aria-pressed="true"] { background: var(--mi-p-tint); }
-.sca__row:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 1px; }
-.sca__sw { width: 10px; height: 10px; border-radius: 3px; box-shadow: inset 0 0 0 1px var(--mi-sep); }
-.sca__name { font-size: 13px; font-weight: 550; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.sca__share { font-size: 15px; font-weight: 700; letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
-.sca__track { grid-column: 2 / -1; height: 4px; border-radius: 2px; background: var(--mi-fill4); overflow: hidden; }
-.sca__track span { display: block; height: 100%; border-radius: inherit; transform-origin: left; transition: transform var(--mi-dur-3) var(--mi-spring); }
-.sca__shift { grid-column: 2 / -1; font-size: 11px; color: var(--mi-label3); font-variant-numeric: tabular-nums; }
-.sca__shift.is-up { color: var(--mi-label2); }
-.sca__callout { display: flex; gap: 8px; margin: 0; padding-top: 12px; border-top: 1px solid var(--mi-sep); font-size: 12px; line-height: 1.45; color: var(--mi-label2); text-wrap: pretty; }
-.sca__callout :deep(svg) { flex: none; margin-top: 1px; color: var(--mi-p-text); }
-
-.sca__sr { position: absolute; width: 1px; height: 1px; margin: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-
-@media (prefers-reduced-motion: reduce) { .sca__ticks, .sca__layer, .sca__band, .sca__cursor, .sca__track span { transition: none; } }
-</style>

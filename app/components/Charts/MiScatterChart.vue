@@ -232,17 +232,17 @@ onBeforeUnmount(() => { ro?.disconnect(); if (raf) cancelAnimationFrame(raf) })
   <MiChartCard :title="title" :subtitle="subtitle" :surface="card">
     <template v-if="toolbar && (series.length > 1 || toggle)" #actions>
       <MiChartLegend v-if="series.length > 1" :items="legendItems" />
-      <span v-if="toggle" class="mi-sc-seg" role="radiogroup" aria-label="Display" @keydown="onToggleKey">
-        <span class="mi-sc-thumb" :class="{ 'is-table': view === 'table' }" aria-hidden="true" />
-        <button :id="`${uid}-chart`" type="button" role="radio" :aria-checked="view === 'chart'" :tabindex="view === 'chart' ? 0 : -1" @click="view = 'chart'">{{ chartLabel }}</button>
-        <button :id="`${uid}-table`" type="button" role="radio" :aria-checked="view === 'table'" :tabindex="view === 'table' ? 0 : -1" @click="view = 'table'">{{ tableLabel }}</button>
+      <span v-if="toggle" class="mi-sc-seg mi:relative mi:inline-grid mi:grid-cols-2 mi:gap-0.5 mi:p-0.5 mi:rounded-[8px] mi:bg-fill3" role="radiogroup" aria-label="Display" @keydown="onToggleKey">
+        <span class="mi-sc-thumb mi:absolute mi:top-0.5 mi:bottom-0.5 mi:left-0.5 mi:w-[calc((100%_-_6px)_/_2)] mi:rounded-[6px] mi:bg-seg mi:shadow-[0_1px_3px_rgba(0,0,0,.14)] mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring)] mi:[&.is-table]:transform-[translate3d(calc(100%_+_2px),0,0)]" :class="{ 'is-table': view === 'table' }" aria-hidden="true" />
+        <button class="mi:[.mi-sc-seg_&]:relative mi:[.mi-sc-seg_&]:z-1 mi:[.mi-sc-seg_&]:h-6.5 mi:[.mi-sc-seg_&]:py-0 mi:[.mi-sc-seg_&]:px-3 mi:[.mi-sc-seg_&]:[border:0] mi:[.mi-sc-seg_&]:rounded-[6px] mi:[.mi-sc-seg_&]:bg-transparent mi:[.mi-sc-seg_&]:text-label mi:[.mi-sc-seg_&]:font-mi mi:[.mi-sc-seg_&]:text-[12px] mi:[.mi-sc-seg_&]:font-semibold" :id="`${uid}-chart`" type="button" role="radio" :aria-checked="view === 'chart'" :tabindex="view === 'chart' ? 0 : -1" @click="view = 'chart'">{{ chartLabel }}</button>
+        <button class="mi:[.mi-sc-seg_&]:relative mi:[.mi-sc-seg_&]:z-1 mi:[.mi-sc-seg_&]:h-6.5 mi:[.mi-sc-seg_&]:py-0 mi:[.mi-sc-seg_&]:px-3 mi:[.mi-sc-seg_&]:[border:0] mi:[.mi-sc-seg_&]:rounded-[6px] mi:[.mi-sc-seg_&]:bg-transparent mi:[.mi-sc-seg_&]:text-label mi:[.mi-sc-seg_&]:font-mi mi:[.mi-sc-seg_&]:text-[12px] mi:[.mi-sc-seg_&]:font-semibold" :id="`${uid}-table`" type="button" role="radio" :aria-checked="view === 'table'" :tabindex="view === 'table' ? 0 : -1" @click="view = 'table'">{{ tableLabel }}</button>
       </span>
     </template>
 
     <div
       v-if="view === 'chart'"
       ref="plotEl"
-      class="mi-sc-plot"
+      class="mi-sc-plot mi:relative mi:@container mi:rounded-[10px] mi:touch-pan-y mi:font-mi mi:text-label mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[4px]"
       tabindex="0"
       role="group"
       :aria-label="`${description} Use the arrow keys to read each point.`"
@@ -252,24 +252,24 @@ onBeforeUnmount(() => { ro?.disconnect(); if (raf) cancelAnimationFrame(raf) })
       @keydown="onKey"
       @blur="commit(-1, false)"
     >
-      <svg class="mi-sc-svg" :viewBox="`0 0 ${W} ${height}`" width="100%" role="img" :aria-label="description">
+      <svg class="mi-sc-svg mi:block mi:overflow-visible mi:h-auto" :viewBox="`0 0 ${W} ${height}`" width="100%" role="img" :aria-label="description">
         <g>
           <template v-for="(t, i) in tickY" :key="`y${i}`">
-            <line :x1="X0" :x2="x1" :y1="t.y" :y2="t.y" stroke-width="1" class="mi-sc-grid" />
-            <text :x="X0 - 10" :y="t.ty" text-anchor="end" font-size="11" class="mi-sc-axis">{{ t.label }}</text>
+            <line :x1="X0" :x2="x1" :y1="t.y" :y2="t.y" stroke-width="1" class="mi-sc-grid mi:stroke-sep" />
+            <text :x="X0 - 10" :y="t.ty" text-anchor="end" font-size="11" class="mi-sc-axis mi:fill-label2">{{ t.label }}</text>
           </template>
           <template v-for="(t, i) in tickX" :key="`x${i}`">
-            <line :x1="t.x" :x2="t.x" :y1="yT" :y2="yB" stroke-width="1" class="mi-sc-grid mi-sc-grid--v" />
-            <text :x="t.x" :y="yB + 18" text-anchor="middle" font-size="11" class="mi-sc-axis">{{ t.label }}</text>
+            <line :x1="t.x" :x2="t.x" :y1="yT" :y2="yB" stroke-width="1" class="mi-sc-grid mi-sc-grid--v mi:stroke-sep mi:[stroke-dasharray:2_4] mi:opacity-70" />
+            <text :x="t.x" :y="yB + 18" text-anchor="middle" font-size="11" class="mi-sc-axis mi:fill-label2">{{ t.label }}</text>
           </template>
-          <text v-if="yLabel" :x="X0 - 38" y="12" font-size="11" font-weight="600" class="mi-sc-axis">{{ yLabel }}</text>
-          <text v-if="xLabel" :x="(X0 + x1) / 2" :y="height - 8" text-anchor="middle" font-size="11" font-weight="600" class="mi-sc-axis">{{ xLabel }}</text>
+          <text v-if="yLabel" :x="X0 - 38" y="12" font-size="11" font-weight="600" class="mi-sc-axis mi:fill-label2">{{ yLabel }}</text>
+          <text v-if="xLabel" :x="(X0 + x1) / 2" :y="height - 8" text-anchor="middle" font-size="11" font-weight="600" class="mi-sc-axis mi:fill-label2">{{ xLabel }}</text>
         </g>
         <g class="mi-sc-pts">
           <circle
             v-for="d in drawn"
             :key="d.k"
-            class="mi-sc-dot"
+            class="mi-sc-dot mi:[fill-opacity:.5] mi:[transform-box:fill-box] mi:origin-center mi:pointer-events-none mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring),opacity_var(--mi-dur-2)_var(--mi-ease)] mi:[&.is-on]:transform-[scale(1.25)] mi:[&.is-on]:[fill-opacity:.8]"
             :class="{ 'is-on': hl === d.k, 'is-anim': animate }"
             :cx="d.cx"
             :cy="d.cy"
@@ -282,44 +282,22 @@ onBeforeUnmount(() => { ro?.disconnect(); if (raf) cancelAnimationFrame(raf) })
           <circle v-for="d in drawn" :key="`h${d.k}`" :data-k="d.k" :cx="d.cx" :cy="d.cy" :r="Math.max(d.rad, 9)" fill="transparent" />
         </g>
       </svg>
-      <div v-if="cur" class="mi-sc-tip" :class="{ 'is-on': hl >= 0 }" aria-hidden="true" :style="{ '--mi-sc-l': tipLeft, '--mi-sc-t': `${tipTop}px` }">
-        <div class="mi-sc-tip-in" :class="{ 'is-flip': flip }">
-          <span class="mi-sc-tip-title"><span class="mi-sc-tip-sw" :style="{ background: colorOf(cur.s) }" />{{ series[cur.s]!.name }}</span>
-          <span class="mi-sc-tip-row"><span class="mi-sc-tip-name">{{ xLabel || 'X' }}</span><span class="mi-sc-tip-val">{{ fmt(cur.x, 'x', series[cur.s]!) }}</span></span>
-          <span class="mi-sc-tip-row"><span class="mi-sc-tip-name">{{ yLabel || 'Y' }}</span><span class="mi-sc-tip-val">{{ fmt(cur.y, 'y', series[cur.s]!) }}</span></span>
-          <span v-if="cur.r !== undefined" class="mi-sc-tip-row"><span class="mi-sc-tip-name">{{ sizeLabel }}</span><span class="mi-sc-tip-val">{{ fmt(cur.r, 'r', series[cur.s]!) }}</span></span>
+      <div v-if="cur" class="mi-sc-tip mi:absolute mi:top-0 mi:left-0 mi:pointer-events-none mi:opacity-0 mi:transform-[translate3d(calc(var(--mi-sc-l)_*_100cqw),var(--mi-sc-t),0)] mi:[transition:opacity_var(--mi-dur-1)_ease] mi:z-2 mi:[&.is-on]:opacity-100" :class="{ 'is-on': hl >= 0 }" aria-hidden="true" :style="{ '--mi-sc-l': tipLeft, '--mi-sc-t': `${tipTop}px` }">
+        <div class="mi-sc-tip-in mi:min-w-35 mi:py-2.5 mi:px-3 mi:rounded-[10px] mi:bg-elev mi:shadow-2 mi:flex mi:flex-col mi:gap-[5px] mi:text-[13px] mi:transform-[translate3d(14px,calc(-100%_-_6px),0)] mi:[&.is-flip]:transform-[translate3d(calc(-100%_-_14px),calc(-100%_-_6px),0)]" :class="{ 'is-flip': flip }">
+          <span class="mi-sc-tip-title mi:flex mi:items-center mi:gap-2 mi:font-semibold"><span class="mi-sc-tip-sw mi:w-2.5 mi:h-2.5 mi:rounded-[50%] mi:flex-[none]" :style="{ background: colorOf(cur.s) }" />{{ series[cur.s]!.name }}</span>
+          <span class="mi-sc-tip-row mi:flex mi:justify-between mi:gap-4"><span class="mi-sc-tip-name mi:text-label2">{{ xLabel || 'X' }}</span><span class="mi-sc-tip-val mi:font-semibold mi:tabular-nums">{{ fmt(cur.x, 'x', series[cur.s]!) }}</span></span>
+          <span class="mi-sc-tip-row mi:flex mi:justify-between mi:gap-4"><span class="mi-sc-tip-name mi:text-label2">{{ yLabel || 'Y' }}</span><span class="mi-sc-tip-val mi:font-semibold mi:tabular-nums">{{ fmt(cur.y, 'y', series[cur.s]!) }}</span></span>
+          <span v-if="cur.r !== undefined" class="mi-sc-tip-row mi:flex mi:justify-between mi:gap-4"><span class="mi-sc-tip-name mi:text-label2">{{ sizeLabel }}</span><span class="mi-sc-tip-val mi:font-semibold mi:tabular-nums">{{ fmt(cur.r, 'r', series[cur.s]!) }}</span></span>
         </div>
       </div>
-      <span class="mi-sc-sr" role="status" aria-live="polite">{{ live }}</span>
+      <span class="mi-sc-sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap" role="status" aria-live="polite">{{ live }}</span>
     </div>
     <MiChartTable v-else :columns="tableColumns" :rows="tableRows" :caption="description" />
   </MiChartCard>
 </template>
 
 <style scoped>
-.mi-sc-seg{position:relative;display:inline-grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px;padding:2px;border-radius:8px;background:var(--mi-fill3)}
-.mi-sc-seg button{position:relative;z-index:1;height:26px;padding:0 12px;border:0;border-radius:6px;background:transparent;color:var(--mi-label);font-family:var(--mi-font);font-size:12px;font-weight:600}
-.mi-sc-thumb{position:absolute;top:2px;bottom:2px;left:2px;width:calc((100% - 6px) / 2);border-radius:6px;background:var(--mi-seg);box-shadow:0 1px 3px rgba(0,0,0,.14);transition:transform var(--mi-dur-3) var(--mi-spring)}
-.mi-sc-thumb.is-table{transform:translate3d(calc(100% + 2px),0,0)}
-.mi-sc-plot{position:relative;container-type:inline-size;border-radius:10px;touch-action:pan-y;font-family:var(--mi-font);color:var(--mi-label)}
-.mi-sc-plot:focus-visible{outline:2px solid var(--mi-p);outline-offset:4px}
-.mi-sc-svg{display:block;overflow:visible;height:auto}
-.mi-sc-grid{stroke:var(--mi-sep)}
-.mi-sc-grid--v{stroke-dasharray:2 4;opacity:.7}
-.mi-sc-axis{fill:var(--mi-label2)}
-.mi-sc-dot{fill-opacity:.5;transform-box:fill-box;transform-origin:center;pointer-events:none;transition:transform var(--mi-dur-2) var(--mi-spring),opacity var(--mi-dur-2) var(--mi-ease)}
-.mi-sc-dot.is-on{transform:scale(1.25);fill-opacity:.8}
 .mi-sc-dot.is-anim{animation:mi-sc-in var(--mi-dur-4) var(--mi-ease) var(--mi-sc-delay) backwards}
-.mi-sc-tip{position:absolute;top:0;left:0;pointer-events:none;opacity:0;transform:translate3d(calc(var(--mi-sc-l) * 100cqw),var(--mi-sc-t),0);transition:opacity var(--mi-dur-1) ease;z-index:2}
-.mi-sc-tip.is-on{opacity:1}
-.mi-sc-tip-in{min-width:140px;padding:10px 12px;border-radius:10px;background:var(--mi-elev);box-shadow:var(--mi-sh2);display:flex;flex-direction:column;gap:5px;font-size:13px;transform:translate3d(14px,calc(-100% - 6px),0)}
-.mi-sc-tip-in.is-flip{transform:translate3d(calc(-100% - 14px),calc(-100% - 6px),0)}
-.mi-sc-tip-title{display:flex;align-items:center;gap:8px;font-weight:600}
-.mi-sc-tip-sw{width:10px;height:10px;border-radius:50%;flex:none}
-.mi-sc-tip-row{display:flex;justify-content:space-between;gap:16px}
-.mi-sc-tip-name{color:var(--mi-label2)}
-.mi-sc-tip-val{font-weight:600;font-variant-numeric:tabular-nums}
-.mi-sc-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 @keyframes mi-sc-in{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:scale(1)}}
 @media (prefers-reduced-motion:reduce){.mi-sc-dot.is-anim{animation:none}}
 </style>

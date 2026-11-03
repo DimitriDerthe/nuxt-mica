@@ -69,27 +69,25 @@ const label = computed(() => props.alt ?? props.name ?? 'Avatar')
 
 <template>
   <span
-    class="mi-av"
+    class="mi-av mi:[--_bg:var(--mi-p)] mi:select-none"
     :class="[`mi-av--${shape}`, `mi-av--${resolvedTone}`]"
     :style="{ '--mi-av': dim.px + 'px', '--mi-av-fs': dim.fs + 'px' }"
     :role="decorative ? undefined : 'img'"
     :aria-label="decorative ? undefined : label"
     :aria-hidden="decorative ? 'true' : undefined"
   >
-    <img v-if="showImg" class="mi-av__img" :src="src" alt="" loading="lazy" decoding="async" draggable="false" @error="failed = true">
+    <img v-if="showImg" class="mi-av__img mi:absolute mi:inset-0 mi:w-full mi:h-full mi:object-cover mi:block" :src="src" alt="" loading="lazy" decoding="async" draggable="false" @error="failed = true">
     <template v-else-if="letters">{{ letters }}</template>
     <slot v-else>
-      <svg class="mi-av__ph" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="8.5" r="4" /><path d="M4 20.5a8 8 0 0116 0z" /></svg>
+      <svg class="mi-av__ph mi:w-[53%] mi:h-[53%]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="8.5" r="4" /><path d="M4 20.5a8 8 0 0116 0z" /></svg>
     </slot>
   </span>
 </template>
 
 <style scoped>
-.mi-av{--_bg:var(--mi-p);--_fg:var(--mi-p-on);position:relative;display:inline-flex;align-items:center;justify-content:center;flex:none;width:var(--mi-av);height:var(--mi-av);overflow:hidden;background:var(--_bg);color:var(--_fg);font-family:var(--mi-font);font-size:var(--mi-av-fs);font-weight:700;line-height:1;letter-spacing:0;user-select:none;vertical-align:middle}
+.mi-av{--_fg:var(--mi-p-on);position:relative;display:inline-flex;align-items:center;justify-content:center;flex:none;width:var(--mi-av);height:var(--mi-av);overflow:hidden;background:var(--_bg);color:var(--_fg);font-family:var(--mi-font);font-size:var(--mi-av-fs);font-weight:700;line-height:1;letter-spacing:0;vertical-align:middle}
 .mi-av--circle{border-radius:50%}
 .mi-av--square{border-radius:28%}
-.mi-av__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
-.mi-av__ph{width:53%;height:53%}
 .mi-av--secondary{--_bg:var(--mi-s);--_fg:var(--mi-s-on)}
 .mi-av--primary-soft{--_bg:var(--mi-p-tint);--_fg:var(--mi-p-text)}
 .mi-av--secondary-soft{--_bg:var(--mi-s-tint);--_fg:var(--mi-s-text)}

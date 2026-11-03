@@ -28,22 +28,16 @@ const results = computed(() => {
 <template>
   <div class="panel">
     <MiSearch v-model="query" v-bind="p" />
-    <ul class="list" aria-live="polite">
-      <li v-for="r in results" :key="r.name">
-        <span class="name">{{ r.name }}</span>
-        <span class="meta">{{ r.meta }}</span>
+    <ul class="list mi:[list-style:none] mi:m-0 mi:p-0" aria-live="polite">
+      <li class="mi:[.list_&]:flex mi:[.list_&]:justify-between mi:[.list_&]:items-baseline mi:[.list_&]:gap-3 mi:[.list_&]:py-2.5 mi:[.list_&]:px-1 mi:[.list_&]:border-t mi:[.list_&]:border-t-sep mi:[.list_&]:text-[15px] mi:[.list_&:first-child]:[border-top:0]" v-for="r in results" :key="r.name">
+        <span class="name mi:text-label">{{ r.name }}</span>
+        <span class="meta mi:text-[12px] mi:text-label3 mi:whitespace-nowrap">{{ r.meta }}</span>
       </li>
-      <li v-if="!results.length" class="empty">No projects match "{{ query }}"</li>
+      <li v-if="!results.length" class="empty mi:[.list_&]:flex mi:[.list_&]:justify-between mi:[.list_&]:items-baseline mi:[.list_&]:gap-3 mi:[.list_&]:py-2.5 mi:[.list_&]:px-1 mi:[.list_&]:border-t mi:[.list_&]:border-t-sep mi:[.list_&]:text-[15px] mi:[.list_&:first-child]:[border-top:0] mi:text-label2 mi:justify-center">No projects match "{{ query }}"</li>
     </ul>
   </div>
 </template>
 
 <style scoped>
 .panel { width: min(100%, 340px); padding: 14px; border-radius: 20px; background: var(--mi-card); box-shadow: var(--mi-sh1); display: grid; gap: 10px; box-sizing: border-box; }
-.list { list-style: none; margin: 0; padding: 0; }
-.list li { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 10px 4px; border-top: 1px solid var(--mi-sep); font-size: 15px; }
-.list li:first-child { border-top: 0; }
-.name { color: var(--mi-label); }
-.meta { font-size: 12px; color: var(--mi-label3); white-space: nowrap; }
-.empty { color: var(--mi-label2); justify-content: center; }
 </style>

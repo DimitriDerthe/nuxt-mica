@@ -1,116 +1,116 @@
 <template>
-  <div class="ft">
-    <div class="ft__shell" :class="{ 'is-detail': detail }" @keydown="onSlash">
-      <aside class="ft__side" aria-label="Workspace tree">
-        <header class="ft__head">
-          <span class="ft__logo" aria-hidden="true">Q</span>
-          <div class="ft__head-text">
+  <div class="mi:@container mi:font-mi mi:text-label">
+    <div class="mi:relative mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:h-160 mi:overflow-hidden mi:[background:var(--mi-page)] mi:@[720px]:grid-cols-[284px_minmax(0,_1fr)]" :data-detail="detail || undefined" @keydown="onSlash">
+      <aside class="mi:flex mi:flex-col mi:min-w-0 mi:min-h-0 mi:[background:var(--mi-side)] mi:@[720px]:border-r mi:@[720px]:border-r-sep" aria-label="Workspace tree">
+        <header class="mi:flex mi:items-center mi:gap-2.5 mi:pt-3.5 mi:pr-3 mi:pb-3 mi:pl-3.5">
+          <span class="mi:grid mi:place-items-center mi:flex-[none] mi:w-7 mi:h-7 mi:rounded-[8px] mi:text-[13px] mi:font-extrabold mi:text-card mi:[background:var(--mi-label)]" aria-hidden="true">Q</span>
+          <div class="mi:flex-1 mi:min-w-0 mi:grid mi:gap-px mi:leading-[1.2]">
             <MiText as="h2" variant="subheadline" weight="bold">Quarry Analytics</MiText>
-            <span class="ft__env"><i aria-hidden="true" />eu-west · production</span>
+            <span class="mi:inline-flex mi:items-center mi:gap-[5px] mi:text-[11.5px] mi:text-label2"><i class="mi:w-1.5 mi:h-1.5 mi:rounded-[50%] mi:[background:var(--mi-green)]" aria-hidden="true" />eu-west · production</span>
           </div>
           <MiIconButton size="small" variant="plain" label="New item"><MiIcon name="plus" :size="16" /></MiIconButton>
         </header>
 
         <!-- Live filter: matches are highlighted and their parents open on their own. -->
-        <div class="ft__filter" :class="{ 'has-query': q }">
-          <MiIcon name="search" :size="14" class="ft__filter-icon" />
+        <div class="mi:relative mi:flex mi:items-center mi:gap-1.5 mi:h-7.5 mi:my-0 mi:mx-2.5 mi:pt-0 mi:pr-1.5 mi:pb-0 mi:pl-[9px] mi:rounded-[8px] mi:[background:var(--mi-field)] mi:shadow-[inset_0_0_0_1px_var(--mi-field-b)] mi:focus-within:shadow-[inset_0_0_0_1px_var(--mi-p),_0_0_0_3px_color-mix(in_srgb,_var(--mi-p)_22%,_transparent)]">
+          <MiIcon name="search" :size="14" class="mi:flex-[none] mi:text-label3" />
           <input
-            id="ft-filter" ref="filterEl" v-model="query" class="ft__filter-input" type="text" autocomplete="off" spellcheck="false"
+            id="ft-filter" ref="filterEl" v-model="query" class="mi:[font:inherit] mi:text-[13px] mi:flex-1 mi:min-w-0 mi:h-full mi:p-0 mi:[border:0] mi:[outline:none] mi:[background:none] mi:text-label mi:placeholder:text-label3" type="text" autocomplete="off" spellcheck="false"
             placeholder="Filter pages and models" aria-label="Filter the tree" aria-describedby="ft-filter-status" @keydown.esc="query = ''"
           >
-          <MiKbd v-if="!q" class="ft__filter-key">/</MiKbd>
-          <button v-else type="button" class="ft__filter-clear" aria-label="Clear filter" @click="clear"><MiIcon name="close" :size="12" /></button>
+          <MiKbd v-if="!q" class="mi:flex-[none]">/</MiKbd>
+          <button v-else type="button" class="mi:grid mi:place-items-center mi:flex-[none] mi:w-4.5 mi:h-4.5 mi:p-0 mi:[border:0] mi:rounded-[50%] mi:text-card mi:[background:var(--mi-label3)] mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" aria-label="Clear filter" @click="clear"><MiIcon name="close" :size="12" /></button>
         </div>
-        <p id="ft-filter-status" class="ft__status" aria-live="polite">
+        <p id="ft-filter-status" class="mi:min-h-4 mi:mt-1.5 mi:mx-3.5 mi:mb-0.5 mi:text-[11px] mi:text-label2 mi:tabular-nums" aria-live="polite">
           <template v-if="q">{{ matchCount }} {{ matchCount === 1 ? 'match' : 'matches' }} for “{{ query.trim() }}”</template>
         </p>
 
-        <div class="ft__scroll">
-          <section v-if="!q" class="ft__sec" aria-labelledby="ft-sec-recent">
-            <button type="button" class="ft__sec-head" :aria-expanded="!closed.recent" aria-controls="ft-recent" @click="closed.recent = !closed.recent">
-              <MiIcon name="chevron-right" :size="11" class="ft__chev" :class="{ 'is-open': !closed.recent }" />
-              <span id="ft-sec-recent">Recent</span>
+        <div class="mi:flex-1 mi:min-h-0 mi:overflow-y-auto mi:pt-0 mi:px-1.5 mi:pb-2.5 mi:[scrollbar-width:thin]">
+          <section v-if="!q" class="mi:not-first:mt-1.5" aria-labelledby="ft-sec-recent">
+            <button type="button" class="mi:[font:inherit] mi:text-[11px] mi:font-[650] mi:flex mi:items-center mi:gap-1.5 mi:w-full mi:h-6.5 mi:py-0 mi:px-2 mi:[border:0] mi:rounded-[6px] mi:tracking-[.06em] mi:uppercase mi:text-label2 mi:[background:none] mi:cursor-pointer mi:hover:text-label mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px]" :aria-expanded="!closed.recent" aria-controls="ft-recent" @click="closed.recent = !closed.recent">
+              <MiIcon name="chevron-right" :size="11" class="mi:flex-[none] mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)]" :class="!closed.recent ? 'mi:transform-[rotate(90deg)]' : ''" />
+              <span class="mi:flex-1 mi:text-left" id="ft-sec-recent">Recent</span>
             </button>
-            <ul v-show="!closed.recent" id="ft-recent" class="ft__rows">
+            <ul v-show="!closed.recent" id="ft-recent" class="mi:m-0 mi:p-0 mi:[list-style:none]">
               <li v-for="r in recent" :key="r.id">
-                <button type="button" class="ft__row ft__row--recent" @click="select(r.id)">
-                  <span class="ft__kind" :data-kind="byId[r.id]!.kind" aria-hidden="true" />
-                  <span class="ft__label">{{ byId[r.id]!.label }}</span>
-                  <span class="ft__time">{{ r.ago }}</span>
+                <button type="button" class="mi:[font:inherit] mi:text-[13px] mi:hover:bg-fill4 mi:flex mi:items-center mi:gap-2 mi:flex-1 mi:min-w-0 mi:h-7 mi:pt-0 mi:pr-2 mi:pb-0 mi:[border:0] mi:rounded-[6px] mi:text-label mi:[background:none] mi:text-left mi:cursor-pointer mi:w-full mi:pl-6.5 mi:box-border mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px]" @click="select(r.id)">
+                  <span class="mi:flex-[none] mi:w-2.5 mi:h-2.5 mi:rounded-[3px] mi:[background:var(--mi-label3)] mi:[&[data-kind='folder']]:rounded-[2px_4px_4px_4px] mi:[&[data-kind='doc']]:w-2 mi:[&[data-kind='doc']]:mx-px mi:[&[data-kind='job']]:transform-[rotate(45deg)_scale(.85)] mi:data-[kind=folder]:bg-label2/55 mi:data-[kind=model]:rounded-[50%] mi:data-[kind=model]:bg-p mi:data-[kind=dash]:bg-teal mi:data-[kind=doc]:bg-orange mi:data-[kind=job]:rounded-[2px] mi:data-[kind=job]:bg-purple" :data-kind="byId[r.id]!.kind" aria-hidden="true" />
+                  <span class="mi:flex-1 mi:min-w-0 mi:overflow-hidden mi:whitespace-nowrap mi:text-ellipsis">{{ byId[r.id]!.label }}</span>
+                  <span class="mi:flex-[none] mi:text-[11px] mi:text-label3 mi:tabular-nums">{{ r.ago }}</span>
                 </button>
               </li>
             </ul>
           </section>
 
-          <section v-for="sec in visibleSections" :key="sec.id" class="ft__sec" :aria-labelledby="'ft-sec-' + sec.id">
-            <button type="button" class="ft__sec-head" :aria-expanded="isSecOpen(sec.id)" :aria-controls="'ft-list-' + sec.id" @click="closed[sec.id] = !closed[sec.id]">
-              <MiIcon name="chevron-right" :size="11" class="ft__chev" :class="{ 'is-open': isSecOpen(sec.id) }" />
-              <span :id="'ft-sec-' + sec.id">{{ sec.label }}</span>
-              <span class="ft__sec-count">{{ q ? sec.hits : sec.total }}</span>
+          <section v-for="sec in visibleSections" :key="sec.id" class="mi:not-first:mt-1.5" :aria-labelledby="'ft-sec-' + sec.id">
+            <button type="button" class="mi:[font:inherit] mi:text-[11px] mi:font-[650] mi:flex mi:items-center mi:gap-1.5 mi:w-full mi:h-6.5 mi:py-0 mi:px-2 mi:[border:0] mi:rounded-[6px] mi:tracking-[.06em] mi:uppercase mi:text-label2 mi:[background:none] mi:cursor-pointer mi:hover:text-label mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px]" :aria-expanded="isSecOpen(sec.id)" :aria-controls="'ft-list-' + sec.id" @click="closed[sec.id] = !closed[sec.id]">
+              <MiIcon name="chevron-right" :size="11" class="mi:flex-[none] mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)]" :class="isSecOpen(sec.id) ? 'mi:transform-[rotate(90deg)]' : ''" />
+              <span class="mi:flex-1 mi:text-left" :id="'ft-sec-' + sec.id">{{ sec.label }}</span>
+              <span class="mi:tabular-nums mi:font-medium mi:tracking-[0] mi:text-label3">{{ q ? sec.hits : sec.total }}</span>
             </button>
-            <ul v-show="isSecOpen(sec.id)" :id="'ft-list-' + sec.id" class="ft__rows">
+            <ul v-show="isSecOpen(sec.id)" :id="'ft-list-' + sec.id" class="mi:m-0 mi:p-0 mi:[list-style:none]">
               <li v-for="row in sec.rows" :key="row.node.id" :style="{ '--d': row.depth }">
-                <div class="ft__line">
-                  <span v-for="n in row.depth" :key="n" class="ft__guide" :style="{ '--g': n - 1 }" aria-hidden="true" />
+                <div class="mi:relative mi:flex mi:items-center mi:pl-[calc(var(--d)_*_14px)]">
+                  <span v-for="n in row.depth" :key="n" class="mi:absolute mi:top-0 mi:bottom-0 mi:left-[calc(var(--g)_*_14px_+_13px)] mi:w-px mi:[background:var(--mi-sep)]" :style="{ '--g': n - 1 }" aria-hidden="true" />
                   <button
-                    v-if="row.node.children" type="button" class="ft__toggle" :aria-expanded="row.open"
+                    v-if="row.node.children" type="button" class="mi:grid mi:place-items-center mi:flex-[none] mi:w-5 mi:h-7 mi:ml-1 mi:p-0 mi:[border:0] mi:rounded-[5px] mi:text-label3 mi:[background:none] mi:cursor-pointer mi:disabled:cursor-default mi:[&:not(:disabled):hover]:text-label mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px]" :aria-expanded="row.open"
                     :aria-label="(row.open ? 'Collapse ' : 'Expand ') + row.node.label" :disabled="!!q" @click="toggle(row.node.id)"
                   >
-                    <MiIcon name="chevron-right" :size="11" class="ft__chev" :class="{ 'is-open': row.open }" />
+                    <MiIcon name="chevron-right" :size="11" class="mi:flex-[none] mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)]" :class="row.open ? 'mi:transform-[rotate(90deg)]' : ''" />
                   </button>
-                  <span v-else class="ft__toggle" aria-hidden="true" />
+                  <span v-else class="mi:grid mi:place-items-center mi:flex-[none] mi:w-5 mi:h-7 mi:ml-1 mi:p-0 mi:[border:0] mi:rounded-[5px] mi:text-label3 mi:[background:none] mi:cursor-pointer mi:disabled:cursor-default mi:[&:not(:disabled):hover]:text-label mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px]" aria-hidden="true" />
                   <button
-                    type="button" class="ft__row" :class="{ 'is-active': selected === row.node.id, 'is-dim': q && !row.hit }"
+                    type="button" class="mi:[font:inherit] mi:text-[13px] mi:flex mi:items-center mi:gap-2 mi:flex-1 mi:min-w-0 mi:h-7 mi:pt-0 mi:pr-2 mi:pb-0 mi:pl-1 mi:[border:0] mi:rounded-[6px] mi:[background:none] mi:text-left mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px]" :class="[selected === row.node.id ? 'mi:bg-p-tint mi:font-[550]' : 'mi:hover:bg-fill4', q && !row.hit ? 'mi:text-label2' : selected === row.node.id ? 'mi:text-p-text' : 'mi:text-label']"
                     :aria-current="selected === row.node.id ? 'page' : undefined" @click="row.node.children && !q ? toggle(row.node.id) : select(row.node.id)"
                   >
-                    <span class="ft__kind" :data-kind="row.node.kind" aria-hidden="true" />
-                    <span class="ft__label"><template v-for="(part, pi) in row.parts" :key="pi"><mark v-if="part.hit">{{ part.text }}</mark><template v-else>{{ part.text }}</template></template></span>
-                    <span v-if="row.node.badge" class="ft__badge" :class="'is-' + row.node.badge.tone">{{ row.node.badge.text }}</span>
+                    <span class="mi:flex-[none] mi:w-2.5 mi:h-2.5 mi:rounded-[3px] mi:[background:var(--mi-label3)] mi:[&[data-kind='folder']]:rounded-[2px_4px_4px_4px] mi:[&[data-kind='doc']]:w-2 mi:[&[data-kind='doc']]:mx-px mi:[&[data-kind='job']]:transform-[rotate(45deg)_scale(.85)] mi:data-[kind=folder]:bg-label2/55 mi:data-[kind=model]:rounded-[50%] mi:data-[kind=model]:bg-p mi:data-[kind=dash]:bg-teal mi:data-[kind=doc]:bg-orange mi:data-[kind=job]:rounded-[2px] mi:data-[kind=job]:bg-purple" :data-kind="row.node.kind" aria-hidden="true" />
+                    <span class="mi:flex-1 mi:min-w-0 mi:overflow-hidden mi:whitespace-nowrap mi:text-ellipsis"><template v-for="(part, pi) in row.parts" :key="pi"><mark class="mi:py-0 mi:px-px mi:my-0 mi:-mx-px mi:text-inherit mi:font-[650] mi:rounded-[3px] mi:[background:color-mix(in_srgb,_var(--mi-yellow)_42%,_transparent)]" v-if="part.hit">{{ part.text }}</mark><template v-else>{{ part.text }}</template></template></span>
+                    <span v-if="row.node.badge" class="mi:flex-[none] mi:py-px mi:px-1.5 mi:rounded-[5px] mi:text-[10.5px] mi:font-semibold mi:leading-[15px]" :class="[row.node.badge.tone === 'warn' ? 'mi:text-orange-t mi:bg-orange/14' : row.node.badge.tone === 'ok' ? 'mi:text-green-t mi:bg-green/14' : '']">{{ row.node.badge.text }}</span>
                   </button>
                 </div>
               </li>
             </ul>
           </section>
 
-          <div v-if="q && !matchCount" class="ft__empty">
+          <div v-if="q && !matchCount" class="mi:grid mi:justify-items-center mi:gap-1 mi:my-4.5 mi:mx-2 mi:py-5 mi:px-3 mi:rounded-[12px] mi:text-center mi:text-label3 mi:[border:1px_dashed_var(--mi-sep)]">
             <MiIcon name="search" :size="20" />
-            <MiText as="p" variant="footnote" weight="semibold">Nothing matches “{{ query.trim() }}”</MiText>
-            <MiText as="p" variant="caption" tone="label2">Try a shorter word, or one of these:</MiText>
-            <div class="ft__suggest">
+            <MiText as="p" variant="footnote" weight="semibold" class="mi:text-label!">Nothing matches “{{ query.trim() }}”</MiText>
+            <MiText as="p" variant="caption" tone="label2" class="mi:text-label2!">Try a shorter word, or one of these:</MiText>
+            <div class="mi:flex mi:flex-wrap mi:justify-center mi:gap-1.5 mi:mt-2">
               <MiChip v-for="s in suggestions" :key="s" size="small" tone="neutral" selectable :model-value="false" @update:model-value="query = s">{{ s }}</MiChip>
             </div>
           </div>
         </div>
 
-        <footer class="ft__foot">
+        <footer class="mi:flex mi:items-center mi:gap-2 mi:py-2.5 mi:px-3.5 mi:border-t mi:border-t-sep">
           <MiAvatar name="Elif Aydın" size="xs" tone="auto" decorative />
-          <span class="ft__foot-name">Elif Aydın</span>
-          <span class="ft__total">{{ totalNodes }} items</span>
+          <span class="mi:flex-1 mi:min-w-0 mi:text-[12.5px] mi:font-550">Elif Aydın</span>
+          <span class="mi:text-[11.5px] mi:text-label3 mi:tabular-nums">{{ totalNodes }} items</span>
         </footer>
       </aside>
 
-      <main class="ft__main" aria-labelledby="ft-title">
-        <header class="ft__bar">
-          <MiIconButton class="ft__back" size="small" variant="gray" label="Back to the tree" @click="detail = false"><MiIcon name="chevron-left" :size="16" /></MiIconButton>
-          <ol class="ft__path" aria-label="Location">
-            <li v-for="(p, i) in path" :key="p.id" :aria-current="i === path.length - 1 ? 'page' : undefined">{{ p.label }}</li>
+      <main class="mi:absolute mi:inset-0 mi:z-2 mi:flex mi:flex-col mi:gap-8 mi:py-3.5 mi:px-4.5 mi:overflow-y-auto mi:[background:var(--mi-card)] mi:@[720px]:relative mi:@[720px]:inset-auto mi:@[720px]:z-[auto] mi:@[720px]:transform-none mi:@[720px]:visible mi:@[720px]:[transition:none] mi:@[720px]:pt-4.5 mi:@[720px]:px-9 mi:@[720px]:pb-8" :class="detail ? 'mi:transform-none mi:visible mi:[transition:transform_var(--mi-dur-3)_var(--mi-ease)]' : 'mi:transform-[translateX(102%)] mi:invisible mi:[transition:transform_var(--mi-dur-3)_var(--mi-ease),_visibility_0s_linear_var(--mi-dur-3)]'"" aria-labelledby="ft-title">
+        <header class="mi:flex mi:items-center mi:gap-2.5 mi:min-w-0">
+          <MiIconButton class="mi:@[720px]:hidden!" size="small" variant="gray" label="Back to the tree" @click="detail = false"><MiIcon name="chevron-left" :size="16" /></MiIconButton>
+          <ol class="mi:flex mi:flex-wrap mi:items-center mi:gap-y-0.5 mi:gap-x-0 mi:min-w-0 mi:m-0 mi:p-0 mi:[list-style:none] mi:text-[12.5px] mi:text-label2" aria-label="Location">
+            <li class="mi:not-first:before:content-['/'] mi:not-first:before:py-0 mi:not-first:before:px-[7px] mi:not-first:before:text-label3 mi:aria-[current]:text-label mi:aria-[current]:font-semibold" v-for="(p, i) in path" :key="p.id" :aria-current="i === path.length - 1 ? 'page' : undefined">{{ p.label }}</li>
           </ol>
         </header>
-        <article class="ft__doc">
-          <span class="ft__kind ft__kind--lg" :data-kind="current.kind" aria-hidden="true" />
+        <article class="mi:grid mi:justify-items-start mi:gap-1.5 mi:w-full mi:max-w-155 mi:@[720px]:mt-6">
+          <span class="mi:flex-[none] mi:w-2.5 mi:h-2.5 mi:rounded-[3px] mi:[background:var(--mi-label3)] mi:[&[data-kind='folder']]:rounded-[2px_4px_4px_4px] mi:[&[data-kind='doc']]:w-2 mi:[&[data-kind='doc']]:mx-px mi:[&[data-kind='job']]:transform-[rotate(45deg)_scale(.85)] mi:data-[kind=folder]:bg-label2/55 mi:data-[kind=model]:rounded-[50%] mi:data-[kind=model]:bg-p mi:data-[kind=dash]:bg-teal mi:data-[kind=doc]:bg-orange mi:data-[kind=job]:rounded-[2px] mi:data-[kind=job]:bg-purple mi:w-3.5 mi:h-3.5 mi:mb-1 mi:[&[data-kind='doc']]:w-[11px]" :data-kind="current.kind" aria-hidden="true" />
           <MiText id="ft-title" as="h3" variant="title2" weight="bold">{{ current.label }}</MiText>
           <MiText variant="footnote" tone="label2">{{ kindLabel[current.kind] }} · {{ current.meta ?? 'Updated this week' }}</MiText>
-          <dl class="ft__facts">
-            <div v-for="f in facts" :key="f.k"><dt>{{ f.k }}</dt><dd>{{ f.v }}</dd></div>
+          <dl class="mi:grid mi:grid-cols-3 mi:w-full mi:mt-5.5 mi:mx-0 mi:mb-0 mi:rounded-[12px] mi:shadow-[inset_0_0_0_1px_var(--mi-sep)]">
+            <div class="mi:grid mi:py-3 mi:px-3.5 mi:not-first:border-l mi:not-first:border-l-sep mi:gap-1 mi:min-w-0" v-for="f in facts" :key="f.k"><dt class="mi:text-label2 mi:text-[11px]">{{ f.k }}</dt><dd class="mi:m-0 mi:font-semibold mi:text-[14px] mi:tabular-nums mi:wrap-anywhere">{{ f.v }}</dd></div>
           </dl>
-          <MiText as="h4" variant="footnote" weight="semibold" tone="label2" class="ft__linked-title">Linked</MiText>
-          <ul class="ft__linked">
+          <MiText as="h4" variant="footnote" weight="semibold" tone="label2" class="mi:mt-6.5!">Linked</MiText>
+          <ul class="mi:grid mi:w-full mi:mt-1 mi:mx-0 mi:mb-0 mi:p-0 mi:[list-style:none]">
             <li v-for="l in linked" :key="l.id">
-              <button type="button" class="ft__link" @click="select(l.id)">
-                <span class="ft__kind" :data-kind="l.kind" aria-hidden="true" />
-                <span class="ft__link-label">{{ l.label }}</span>
-                <span class="ft__link-sec">{{ sections.find(s => s.id === sectionOf[l.id])?.label }}</span>
-                <MiIcon name="chevron-right" :size="13" class="ft__link-chev" />
+              <button type="button" class="mi:group mi:[border:0] mi:border-b mi:border-b-sep mi:[font:inherit] mi:text-[14px] mi:flex mi:items-center mi:gap-2.5 mi:w-full mi:py-[11px] mi:px-1.5 mi:text-label mi:[background:none] mi:text-left mi:cursor-pointer mi:[li:first-child_&]:border-t mi:[li:first-child_&]:border-t-sep mi:hover:[background:var(--mi-fill4)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px] mi:focus-visible:rounded-[6px]" @click="select(l.id)">
+                <span class="mi:flex-[none] mi:w-2.5 mi:h-2.5 mi:rounded-[3px] mi:[background:var(--mi-label3)] mi:[&[data-kind='folder']]:rounded-[2px_4px_4px_4px] mi:[&[data-kind='doc']]:w-2 mi:[&[data-kind='doc']]:mx-px mi:[&[data-kind='job']]:transform-[rotate(45deg)_scale(.85)] mi:data-[kind=folder]:bg-label2/55 mi:data-[kind=model]:rounded-[50%] mi:data-[kind=model]:bg-p mi:data-[kind=dash]:bg-teal mi:data-[kind=doc]:bg-orange mi:data-[kind=job]:rounded-[2px] mi:data-[kind=job]:bg-purple" :data-kind="l.kind" aria-hidden="true" />
+                <span class="mi:flex-1 mi:min-w-0 mi:font-medium mi:overflow-hidden mi:whitespace-nowrap mi:text-ellipsis">{{ l.label }}</span>
+                <span class="mi:flex-[none] mi:text-[12px] mi:text-label2">{{ sections.find(s => s.id === sectionOf[l.id])?.label }}</span>
+                <MiIcon name="chevron-right" :size="13" class="mi:flex-[none] mi:group-hover:transform-[translateX(2px)] mi:text-label3 mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)]" />
               </button>
             </li>
           </ul>
@@ -276,126 +276,3 @@ function onSlash(e: KeyboardEvent) {
   filterEl.value?.focus()
 }
 </script>
-
-<style scoped>
-.ft { container-type: inline-size; font-family: var(--mi-font); color: var(--mi-label); }
-.ft__shell { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); height: 640px; overflow: hidden; background: var(--mi-page); }
-
-/* Sidebar: dense, 28px rows */
-.ft__side { display: flex; flex-direction: column; min-width: 0; min-height: 0; background: var(--mi-side); }
-.ft__head { display: flex; align-items: center; gap: 10px; padding: 14px 12px 12px 14px; }
-.ft__logo {
-  display: grid; place-items: center; flex: none; width: 28px; height: 28px; border-radius: 8px;
-  font-size: 13px; font-weight: 800; color: var(--mi-card); background: var(--mi-label);
-}
-.ft__head-text { flex: 1; min-width: 0; display: grid; gap: 1px; line-height: 1.2; }
-.ft__env { display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px; color: var(--mi-label2); }
-.ft__env i { width: 6px; height: 6px; border-radius: 50%; background: var(--mi-green); }
-.ft__total { font-size: 11.5px; color: var(--mi-label3); font-variant-numeric: tabular-nums; }
-
-.ft__filter {
-  position: relative; display: flex; align-items: center; gap: 6px; height: 30px; margin: 0 10px; padding: 0 6px 0 9px;
-  border-radius: 8px; background: var(--mi-field); box-shadow: inset 0 0 0 1px var(--mi-field-b);
-}
-.ft__filter:focus-within { box-shadow: inset 0 0 0 1px var(--mi-p), 0 0 0 3px color-mix(in srgb, var(--mi-p) 22%, transparent); }
-.ft__filter-icon { flex: none; color: var(--mi-label3); }
-.ft__filter-input { flex: 1; min-width: 0; height: 100%; padding: 0; border: 0; outline: none; background: none; color: var(--mi-label); font: inherit; font-size: 13px; }
-.ft__filter-input::placeholder { color: var(--mi-label3); }
-.ft__filter-key { flex: none; }
-.ft__filter-clear { display: grid; place-items: center; flex: none; width: 18px; height: 18px; padding: 0; border: 0; border-radius: 50%; color: var(--mi-card); background: var(--mi-label3); cursor: pointer; }
-.ft__filter-clear:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 1px; }
-.ft__status { min-height: 16px; margin: 6px 14px 2px; font-size: 11px; color: var(--mi-label2); font-variant-numeric: tabular-nums; }
-
-.ft__scroll { flex: 1; min-height: 0; overflow-y: auto; padding: 0 6px 10px; scrollbar-width: thin; }
-.ft__sec + .ft__sec { margin-top: 6px; }
-.ft__sec-head {
-  display: flex; align-items: center; gap: 6px; width: 100%; height: 26px; padding: 0 8px; border: 0; border-radius: 6px;
-  font: inherit; font-size: 11px; font-weight: 650; letter-spacing: .06em; text-transform: uppercase; color: var(--mi-label2); background: none; cursor: pointer;
-}
-.ft__sec-head:hover { color: var(--mi-label); }
-.ft__sec-head span:first-of-type { flex: 1; text-align: left; }
-.ft__sec-count { font-variant-numeric: tabular-nums; font-weight: 500; letter-spacing: 0; color: var(--mi-label3); }
-.ft__chev { flex: none; transition: transform var(--mi-dur-2) var(--mi-ease); }
-.ft__chev.is-open { transform: rotate(90deg); }
-
-.ft__rows { margin: 0; padding: 0; list-style: none; }
-.ft__line { position: relative; display: flex; align-items: center; padding-left: calc(var(--d) * 14px); }
-.ft__guide { position: absolute; top: 0; bottom: 0; left: calc(var(--g) * 14px + 13px); width: 1px; background: var(--mi-sep); }
-.ft__toggle {
-  display: grid; place-items: center; flex: none; width: 20px; height: 28px; margin-left: 4px; padding: 0; border: 0; border-radius: 5px;
-  color: var(--mi-label3); background: none; cursor: pointer;
-}
-.ft__toggle:disabled { cursor: default; }
-.ft__toggle:not(:disabled):hover { color: var(--mi-label); }
-.ft__row {
-  display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; height: 28px; padding: 0 8px 0 4px; border: 0; border-radius: 6px;
-  font: inherit; font-size: 13px; color: var(--mi-label); background: none; text-align: left; cursor: pointer;
-}
-.ft__row:hover { background: var(--mi-fill4); }
-.ft__row.is-active { background: var(--mi-p-tint); color: var(--mi-p-text); font-weight: 550; }
-.ft__row.is-dim { color: var(--mi-label2); }
-.ft__row--recent { width: 100%; padding-left: 26px; box-sizing: border-box; }
-.ft__label { flex: 1; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-.ft__label mark { padding: 0 1px; margin: 0 -1px; border-radius: 3px; color: inherit; font-weight: 650; background: color-mix(in srgb, var(--mi-yellow) 42%, transparent); }
-.ft__time { flex: none; font-size: 11px; color: var(--mi-label3); font-variant-numeric: tabular-nums; }
-.ft__badge { flex: none; padding: 1px 6px; border-radius: 5px; font-size: 10.5px; font-weight: 600; line-height: 15px; }
-.ft__badge.is-warn { color: var(--mi-orange-t); background: color-mix(in srgb, var(--mi-orange) 14%, transparent); }
-.ft__badge.is-ok { color: var(--mi-green-t); background: color-mix(in srgb, var(--mi-green) 14%, transparent); }
-.ft__row:focus-visible, .ft__toggle:focus-visible, .ft__sec-head:focus-visible { outline: 2px solid var(--mi-p); outline-offset: -2px; }
-
-/* Kind glyphs: tiny token-coloured shapes rather than a wall of icons. */
-.ft__kind { flex: none; width: 10px; height: 10px; border-radius: 3px; background: var(--mi-label3); }
-.ft__kind[data-kind="folder"] { border-radius: 2px 4px 4px 4px; background: color-mix(in srgb, var(--mi-label2) 55%, transparent); }
-.ft__kind[data-kind="model"] { border-radius: 50%; background: var(--mi-p); }
-.ft__kind[data-kind="dash"] { background: var(--mi-teal); }
-.ft__kind[data-kind="doc"] { width: 8px; margin-inline: 1px; background: var(--mi-orange); }
-.ft__kind[data-kind="job"] { border-radius: 2px; background: var(--mi-purple); transform: rotate(45deg) scale(.85); }
-.ft__kind--lg { width: 14px; height: 14px; margin-bottom: 4px; }
-.ft__kind--lg[data-kind="doc"] { width: 11px; }
-
-.ft__empty { display: grid; justify-items: center; gap: 4px; margin: 18px 8px; padding: 20px 12px; border-radius: 12px; text-align: center; color: var(--mi-label3); border: 1px dashed var(--mi-sep); }
-.ft__empty p { color: var(--mi-label); }
-.ft__empty p + p { color: var(--mi-label2); }
-.ft__suggest { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin-top: 8px; }
-
-.ft__foot { display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-top: 1px solid var(--mi-sep); }
-.ft__foot-name { flex: 1; min-width: 0; font-size: 12.5px; font-weight: 550; }
-
-/* Main */
-.ft__main {
-  position: absolute; inset: 0; z-index: 2; display: flex; flex-direction: column; gap: 32px; padding: 14px 18px; overflow-y: auto; background: var(--mi-card);
-  transform: translateX(102%); visibility: hidden; transition: transform var(--mi-dur-3) var(--mi-ease), visibility 0s linear var(--mi-dur-3);
-}
-.is-detail .ft__main { transform: none; visibility: visible; transition: transform var(--mi-dur-3) var(--mi-ease); }
-.ft__bar { display: flex; align-items: center; gap: 10px; min-width: 0; }
-.ft__path { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 0; min-width: 0; margin: 0; padding: 0; list-style: none; font-size: 12.5px; color: var(--mi-label2); }
-.ft__path li + li::before { content: "/"; padding: 0 7px; color: var(--mi-label3); }
-.ft__path li[aria-current] { color: var(--mi-label); font-weight: 600; }
-.ft__doc { display: grid; justify-items: start; gap: 6px; width: 100%; max-width: 620px; }
-.ft__facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); width: 100%; margin: 22px 0 0; border-radius: 12px; box-shadow: inset 0 0 0 1px var(--mi-sep); }
-.ft__facts div { display: grid; gap: 4px; padding: 12px 14px; min-width: 0; }
-.ft__facts div + div { border-left: 1px solid var(--mi-sep); }
-.ft__facts dt { font-size: 11px; color: var(--mi-label2); }
-.ft__facts dd { margin: 0; font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
-.ft__linked-title { margin-top: 26px; }
-.ft__linked { display: grid; width: 100%; margin: 4px 0 0; padding: 0; list-style: none; }
-.ft__link {
-  display: flex; align-items: center; gap: 10px; width: 100%; padding: 11px 6px; border: 0; border-bottom: 1px solid var(--mi-sep);
-  font: inherit; font-size: 14px; color: var(--mi-label); background: none; text-align: left; cursor: pointer;
-}
-.ft__linked li:first-child .ft__link { border-top: 1px solid var(--mi-sep); }
-.ft__link:hover { background: var(--mi-fill4); }
-.ft__link:focus-visible { outline: 2px solid var(--mi-p); outline-offset: -2px; border-radius: 6px; }
-.ft__link-label { flex: 1; min-width: 0; font-weight: 500; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-.ft__link-sec { flex: none; font-size: 12px; color: var(--mi-label2); }
-.ft__link-chev { flex: none; color: var(--mi-label3); transition: transform var(--mi-dur-2) var(--mi-ease); }
-.ft__link:hover .ft__link-chev { transform: translateX(2px); }
-
-@container (min-width: 720px) {
-  .ft__shell { grid-template-columns: 284px minmax(0, 1fr); }
-  .ft__side { border-right: 1px solid var(--mi-sep); }
-  .ft__main, .is-detail .ft__main { position: relative; inset: auto; z-index: auto; transform: none; visibility: visible; transition: none; padding: 18px 36px 32px; }
-  .ft__back { display: none; }
-  .ft__doc { margin-top: 24px; }
-}
-</style>

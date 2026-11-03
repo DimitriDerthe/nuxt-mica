@@ -1,20 +1,20 @@
 <template>
-  <section class="msp" aria-labelledby="msp-title">
-    <div v-if="booked" class="msp__done" role="status" aria-live="polite">
-      <span class="msp__done-date" aria-hidden="true"><b>{{ booked.dayNum }}</b>{{ booked.month }}</span>
-      <div class="msp__done-text">
+  <section class="mi:@container/msp mi:font-mi mi:text-label" aria-labelledby="msp-title">
+    <div v-if="booked" class="mi:grid mi:grid-cols-[auto_minmax(0,_1fr)] mi:items-center mi:gap-y-4 mi:gap-x-5 mi:p-6 mi:rounded-xl mi:bg-card mi:shadow-1 mi:@[640px]/msp:grid-cols-[auto_minmax(0,_1fr)_auto]" role="status" aria-live="polite">
+      <span class="mi:grid mi:justify-items-center mi:w-18 mi:py-2.5 mi:px-0 mi:rounded-[16px] mi:bg-p-tint mi:text-p-text mi:text-[12px] mi:font-semibold mi:uppercase mi:tracking-[.06em]" aria-hidden="true"><b class="mi:text-[30px] mi:leading-[1.1] mi:tracking-[-.03em] mi:text-label">{{ booked.dayNum }}</b>{{ booked.month }}</span>
+      <div class="mi:grid mi:gap-1">
         <MiText as="h2" variant="title3" weight="semibold">You're booked with Dana</MiText>
         <MiText variant="subheadline" tone="label2">{{ booked.line }}</MiText>
         <MiText variant="footnote" tone="label3">An invite is on its way to your inbox with the {{ booked.where }} details.</MiText>
       </div>
-      <div class="msp__done-actions">
+      <div class="mi:col-span-full mi:@[640px]/msp:col-[auto]">
         <MiButton variant="gray" @click="booked = null">Change time</MiButton>
       </div>
     </div>
 
-    <form v-else class="msp__card" novalidate @submit.prevent="confirm">
-      <aside class="msp__host">
-        <div class="msp__who">
+    <form v-else class="mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:rounded-xl mi:bg-card mi:shadow-1 mi:overflow-hidden mi:@[760px]/msp:grid-cols-[290px_minmax(0,_1fr)]" novalidate @submit.prevent="confirm">
+      <aside class="mi:border-b mi:border-b-sep mi:@[760px]/msp:border-r mi:@[760px]/msp:border-r-sep mi:grid mi:content-start mi:gap-4.5 mi:p-5 mi:bg-fill4">
+        <div class="mi:flex mi:items-center mi:gap-3">
           <MiAvatar name="Dana Whitfield" size="md" tone="indigo" decorative />
           <div>
             <MiText variant="footnote" tone="label2">Dana Whitfield · Halcyon Health</MiText>
@@ -22,11 +22,11 @@
           </div>
         </div>
 
-        <div class="msp__opt">
+        <div class="mi:grid mi:gap-2">
           <MiText id="msp-dur" variant="footnote" weight="semibold">Length</MiText>
           <MiToggleGroup v-model="duration" :options="durations" variant="outline" size="sm" label="Meeting length" />
         </div>
-        <div class="msp__opt">
+        <div class="mi:grid mi:gap-2">
           <MiText variant="footnote" weight="semibold">Where</MiText>
           <MiSegmented v-model="where" label="Meeting place" :options="places" />
         </div>
@@ -35,39 +35,39 @@
         </MiField>
       </aside>
 
-      <div class="msp__pick">
-        <div class="msp__days" role="group" aria-label="Day">
+      <div class="mi:grid mi:content-start mi:gap-3.5 mi:p-5 mi:min-w-0">
+        <div class="mi:grid mi:grid-cols-5 mi:gap-1.5" role="group" aria-label="Day">
           <button
-            v-for="(d, i) in days" :key="d.key" type="button" class="msp__day" :class="{ 'is-on': day === i }"
+            v-for="(d, i) in days" :key="d.key" type="button" class="mi:grid mi:justify-items-center mi:gap-0.5 mi:pt-2.5 mi:px-1 mi:pb-2 mi:border mi:rounded-[14px] mi:text-label mi:[font:inherit] mi:cursor-pointer mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:[&:active:not(:disabled)]:transform-[scale(.97)] mi:disabled:cursor-not-allowed mi:disabled:opacity-45 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" :class="day === i ? 'mi:border-p mi:bg-p-tint' : 'mi:border-sep mi:bg-transparent mi:[&:hover:not(:disabled)]:bg-fill4'"
             :disabled="!slotsFor(i).length" :aria-pressed="day === i"
             :aria-label="d.long + (slotsFor(i).length ? ', ' + slotsFor(i).length + ' times free' : ', fully booked')"
             @click="day = i; slot = null"
           >
-            <span class="msp__dow">{{ d.dow }}</span>
-            <span class="msp__num">{{ d.num }}</span>
+            <span class="mi:text-[11px] mi:font-semibold mi:tracking-[.05em] mi:uppercase mi:text-label2">{{ d.dow }}</span>
+            <span class="mi:text-[22px] mi:font-bold mi:tracking-[-.03em] mi:tabular-nums">{{ d.num }}</span>
             <!-- Availability density: up to four pips. -->
-            <span class="msp__pips" aria-hidden="true">
-              <i v-for="p in 4" :key="p" :class="{ 'is-on': p <= Math.ceil(slotsFor(i).length / 3) }" />
+            <span class="mi:flex mi:gap-[3px] mi:mt-0.5" aria-hidden="true">
+              <i class="mi:w-1 mi:h-1 mi:rounded-[50%]" v-for="p in 4" :key="p" :class="p <= Math.ceil(slotsFor(i).length / 3) ? 'mi:bg-p' : 'mi:bg-fill2'" />
             </span>
           </button>
         </div>
 
-        <div class="msp__slots-head">
+        <div class="mi:flex mi:flex-wrap mi:items-baseline mi:justify-between mi:gap-y-1 mi:gap-x-3">
           <MiText as="h3" variant="subheadline" weight="semibold">{{ days[day]?.long }}</MiText>
           <MiText variant="caption" tone="label2">Your time · Dana's time</MiText>
         </div>
-        <div v-if="slots.length" class="msp__slots" role="group" aria-label="Start time">
+        <div v-if="slots.length" class="mi:grid mi:grid-cols-[repeat(auto-fill,_minmax(104px,_1fr))] mi:gap-2 mi:max-h-59 mi:overflow-y-auto mi:p-0.5" role="group" aria-label="Start time">
           <button
-            v-for="s in slots" :key="s" type="button" class="msp__slot" :class="{ 'is-on': slot === s }" :aria-pressed="slot === s"
+            v-for="s in slots" :key="s" type="button" class="mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:grid mi:gap-px mi:py-2 mi:px-2.5 mi:border mi:rounded-[12px] mi:[font:inherit] mi:text-start mi:cursor-pointer" :class="slot === s ? 'mi:bg-p mi:text-p-on mi:border-p' : 'mi:bg-transparent mi:text-label mi:border-sep mi:hover:[border-color:color-mix(in_srgb,_var(--mi-p)_50%,_var(--mi-sep))]'" :aria-pressed="slot === s"
             :aria-label="fmt(s + offsetDiff) + ' your time, ' + fmt(s) + ' for Dana'" @click="slot = s"
           >
-            <span class="msp__t1">{{ fmt(s + offsetDiff) }}</span>
-            <span class="msp__t2">{{ fmt(s) }}</span>
+            <span class="mi:text-[14px] mi:font-semibold mi:tabular-nums mi:whitespace-nowrap">{{ fmt(s + offsetDiff) }}</span>
+            <span class="mi:text-[11.5px] mi:opacity-70 mi:tabular-nums mi:whitespace-nowrap">{{ fmt(s) }}</span>
           </button>
         </div>
         <MiText v-else variant="footnote" tone="label2">No {{ duration }}-minute window left that day. Try a shorter meeting.</MiText>
 
-        <div class="msp__foot">
+        <div class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2.5 mi:pt-3.5 mi:border-t mi:border-t-sep">
           <MiText v-if="error" variant="footnote" tone="red" role="alert">{{ error }}</MiText>
           <MiText v-else variant="footnote" tone="label2" aria-live="polite">{{ summary }}</MiText>
           <MiButton type="submit">Confirm</MiButton>
@@ -155,49 +155,3 @@ function confirm() {
 }
 </script>
 
-<style scoped>
-.msp { container: msp / inline-size; font-family: var(--mi-font); color: var(--mi-label); }
-.msp__card { display: grid; grid-template-columns: minmax(0, 1fr); border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); overflow: hidden; }
-@container msp (min-width: 760px) { .msp__card { grid-template-columns: 290px minmax(0, 1fr); } .msp__host { border-right: 1px solid var(--mi-sep); border-bottom: 0; } }
-
-.msp__host { display: grid; align-content: start; gap: 18px; padding: 20px; border-bottom: 1px solid var(--mi-sep); background: var(--mi-fill4); }
-.msp__who { display: flex; align-items: center; gap: 12px; }
-.msp__opt { display: grid; gap: 8px; }
-
-.msp__pick { display: grid; align-content: start; gap: 14px; padding: 20px; min-width: 0; }
-.msp__days { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
-.msp__day {
-  display: grid; justify-items: center; gap: 2px; padding: 10px 4px 8px; border: 1px solid var(--mi-sep); border-radius: 14px;
-  background: transparent; color: var(--mi-label); font: inherit; cursor: pointer;
-  transition: transform var(--mi-dur-2) var(--mi-ease);
-}
-.msp__day:hover:not(:disabled) { background: var(--mi-fill4); }
-.msp__day:active:not(:disabled) { transform: scale(.97); }
-.msp__day:disabled { cursor: not-allowed; opacity: .45; }
-.msp__day.is-on { border-color: var(--mi-p); background: var(--mi-p-tint); }
-.msp__day:focus-visible, .msp__slot:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-.msp__dow { font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--mi-label2); }
-.msp__num { font-size: 22px; font-weight: 700; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
-.msp__pips { display: flex; gap: 3px; margin-top: 2px; }
-.msp__pips i { width: 4px; height: 4px; border-radius: 50%; background: var(--mi-fill2); }
-.msp__pips i.is-on { background: var(--mi-p); }
-
-.msp__slots-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 12px; }
-.msp__slots { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 8px; max-height: 236px; overflow-y: auto; padding: 2px; }
-.msp__slot {
-  display: grid; gap: 1px; padding: 8px 10px; border: 1px solid var(--mi-sep); border-radius: 12px; background: transparent;
-  font: inherit; text-align: start; color: var(--mi-label); cursor: pointer;
-}
-.msp__slot:hover { border-color: color-mix(in srgb, var(--mi-p) 50%, var(--mi-sep)); }
-.msp__slot.is-on { border-color: var(--mi-p); background: var(--mi-p); color: var(--mi-p-on); }
-.msp__t1 { font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
-.msp__t2 { font-size: 11.5px; opacity: .7; font-variant-numeric: tabular-nums; white-space: nowrap; }
-.msp__foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; padding-top: 14px; border-top: 1px solid var(--mi-sep); }
-
-.msp__done { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 16px 20px; padding: 24px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.msp__done-date { display: grid; justify-items: center; width: 72px; padding: 10px 0; border-radius: 16px; background: var(--mi-p-tint); color: var(--mi-p-text); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; }
-.msp__done-date b { font-size: 30px; line-height: 1.1; letter-spacing: -.03em; color: var(--mi-label); }
-.msp__done-text { display: grid; gap: 4px; }
-.msp__done-actions { grid-column: 1 / -1; }
-@container msp (min-width: 640px) { .msp__done { grid-template-columns: auto minmax(0, 1fr) auto; } .msp__done-actions { grid-column: auto; } }
-</style>

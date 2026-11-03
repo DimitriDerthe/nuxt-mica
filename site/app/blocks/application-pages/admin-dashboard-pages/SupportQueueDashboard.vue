@@ -1,59 +1,59 @@
 <template>
-  <section class="sqd" aria-labelledby="sqd-title">
-    <div class="sqd__in">
+  <section class="mi:@container mi:min-h-full mi:font-mi mi:text-label mi:bg-page" aria-labelledby="sqd-title">
+    <div class="mi:grid mi:min-h-full mi:@[960px]:grid-cols-[64px_minmax(0,_1fr)]">
       <!-- Shell: an icon rail on wide screens; the live status band carries the page header. -->
-      <nav class="sqd__rail" aria-label="Support desk">
-        <span class="sqd__logo" aria-hidden="true" />
-        <a v-for="r in rail" :key="r.label" href="#" class="sqd__rail-link" :aria-label="r.label" :aria-current="r.current ? 'page' : undefined" @click.prevent>
+      <nav class="mi:hidden mi:@[960px]:flex mi:@[960px]:flex-col mi:@[960px]:items-center mi:@[960px]:gap-1.5 mi:@[960px]:py-4 mi:@[960px]:px-0 mi:@[960px]:bg-card mi:@[960px]:border-r mi:@[960px]:border-r-sep" aria-label="Support desk">
+        <span class="mi:@[960px]:relative mi:@[960px]:w-7.5 mi:@[960px]:h-7.5 mi:@[960px]:mb-3.5 mi:@[960px]:rounded-[10px] mi:@[960px]:bg-p mi:@[960px]:after:content-[''] mi:@[960px]:after:absolute mi:@[960px]:after:top-2 mi:@[960px]:after:right-[7px] mi:@[960px]:after:bottom-[9px] mi:@[960px]:after:left-[7px] mi:@[960px]:after:rounded-[6px_6px_6px_2px] mi:@[960px]:after:border-2 mi:@[960px]:after:border-p-on" aria-hidden="true" />
+        <a v-for="r in rail" :key="r.label" href="#" class="mi:@[960px]:grid mi:@[960px]:place-items-center mi:@[960px]:w-10 mi:@[960px]:h-10 mi:@[960px]:rounded-[12px] mi:@[960px]:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:@[960px]:active:transform-[scale(.94)] mi:@[960px]:focus-visible:[outline:2px_solid_var(--mi-p)] mi:@[960px]:focus-visible:outline-offset-[1px]" :class="r.current ? 'mi:@[960px]:text-p-text mi:@[960px]:bg-p-tint' : 'mi:@[960px]:text-label2 mi:@[960px]:hover:text-label mi:@[960px]:hover:bg-fill4'" :aria-label="r.label" :aria-current="r.current ? 'page' : undefined" @click.prevent>
           <MiIcon :name="r.icon" :size="20" />
         </a>
       </nav>
 
-      <div class="sqd__main">
-        <header class="sqd__band">
-          <div class="sqd__band-title">
+      <div class="mi:grid mi:content-start mi:min-w-0">
+        <header class="mi:grid mi:gap-3.5 mi:p-4 mi:bg-card mi:border-b mi:border-b-sep mi:@[600px]:grid-cols-[auto_minmax(0,_1fr)] mi:@[600px]:items-center mi:@[600px]:gap-6 mi:@[600px]:py-4.5 mi:@[600px]:px-5">
+          <div class="mi:flex mi:items-center mi:gap-2.5">
             <MiText id="sqd-title" as="h2" variant="title3" weight="bold">Queue</MiText>
-            <span class="sqd__live"><i aria-hidden="true" />Live</span>
+            <span class="mi:inline-flex mi:items-center mi:gap-1.5 mi:pt-[3px] mi:pr-[9px] mi:pb-[3px] mi:pl-2 mi:rounded-[999px] mi:text-[11px] mi:font-[650] mi:tracking-[.04em] mi:uppercase mi:text-green-t mi:[background:color-mix(in_srgb,_var(--mi-green)_12%,_transparent)]"><i class="mi:bg-green mi:[--mi-beat:.8] mi:[--mi-beat-o:.35] mi:animate-[beat_2s_var(--mi-ease-in-out)_infinite] mi:motion-reduce:animate-none mi:w-[7px] mi:h-[7px] mi:rounded-[50%]" aria-hidden="true" />Live</span>
           </div>
-          <dl class="sqd__stats">
-            <div><dt>Open</dt><dd>{{ tickets.length + 38 }}</dd></div>
-            <div><dt>Unassigned</dt><dd>{{ unassigned }}</dd></div>
-            <div><dt>Median first reply</dt><dd>3m 40s</dd></div>
-            <div :class="{ 'is-warn': atRisk > 0 }"><dt>At risk, next 15 min</dt><dd>{{ atRisk }}</dd></div>
+          <dl class="mi:grid mi:grid-cols-2 mi:gap-y-2.5 mi:gap-x-4 mi:m-0 mi:@[600px]:grid-cols-[repeat(4,_auto)] mi:@[600px]:justify-end mi:@[600px]:gap-0">
+            <div class="mi:grid mi:gap-0.5 mi:min-w-0 mi:@[600px]:py-0 mi:@[600px]:px-4.5 mi:@[600px]:border-l mi:@[600px]:border-l-sep mi:@[600px]:last:pr-0"><dt class="mi:text-label2 mi:text-[11.5px]">Open</dt><dd class="mi:font-bold mi:m-0 mi:text-[19px] mi:tracking-[-.02em] mi:tabular-nums">{{ tickets.length + 38 }}</dd></div>
+            <div class="mi:grid mi:gap-0.5 mi:min-w-0 mi:@[600px]:py-0 mi:@[600px]:px-4.5 mi:@[600px]:border-l mi:@[600px]:border-l-sep mi:@[600px]:last:pr-0"><dt class="mi:text-label2 mi:text-[11.5px]">Unassigned</dt><dd class="mi:font-bold mi:m-0 mi:text-[19px] mi:tracking-[-.02em] mi:tabular-nums">{{ unassigned }}</dd></div>
+            <div class="mi:grid mi:gap-0.5 mi:min-w-0 mi:@[600px]:py-0 mi:@[600px]:px-4.5 mi:@[600px]:border-l mi:@[600px]:border-l-sep mi:@[600px]:last:pr-0"><dt class="mi:text-label2 mi:text-[11.5px]">Median first reply</dt><dd class="mi:font-bold mi:m-0 mi:text-[19px] mi:tracking-[-.02em] mi:tabular-nums">3m 40s</dd></div>
+            <div class="mi:grid mi:gap-0.5 mi:min-w-0 mi:@[600px]:py-0 mi:@[600px]:px-4.5 mi:@[600px]:border-l mi:@[600px]:border-l-sep mi:@[600px]:last:pr-0"><dt class="mi:text-label2 mi:text-[11.5px]">At risk, next 15 min</dt><dd class="mi:font-bold mi:m-0 mi:text-[19px] mi:tracking-[-.02em] mi:tabular-nums" :class="atRisk > 0 ? 'mi:text-orange-t' : ''">{{ atRisk }}</dd></div>
           </dl>
         </header>
 
-        <div class="sqd__body">
-          <section class="sqd__queue" aria-labelledby="sqd-queue">
-            <div class="sqd__queue-head">
+        <div class="mi:grid mi:gap-4 mi:p-4 mi:min-w-0 mi:@[600px]:p-5 mi:@[1080px]:grid-cols-[minmax(0,_1fr)_300px] mi:@[1080px]:items-start mi:@[1080px]:p-6 mi:@[1080px]:gap-5">
+          <section class="mi:grid mi:gap-3 mi:min-w-0" aria-labelledby="sqd-queue">
+            <div class="mi:grid mi:gap-0.5">
               <MiText id="sqd-queue" as="h3" variant="headline" weight="semibold">By priority</MiText>
               <MiText variant="caption" tone="label2">First-response SLA · urgent 15 min, high 1 h, normal 8 h</MiText>
             </div>
-            <MiSegmented v-model="lane" class="sqd__lane-pick" label="Priority" :options="lanes.map(l => ({ value: l.id, label: `${l.label} ${byLane(l.id).length}` }))" />
+            <MiSegmented v-model="lane" class="mi:@[720px]:hidden!" label="Priority" :options="lanes.map(l => ({ value: l.id, label: `${l.label} ${byLane(l.id).length}` }))" />
 
-            <div class="sqd__lanes">
-              <div v-for="l in lanes" :key="l.id" class="sqd__lane" :class="{ 'is-shown': lane === l.id }" role="region" :aria-labelledby="`sqd-lane-${l.id}`">
-                <div class="sqd__lane-head">
-                  <span class="sqd__lane-dot" :class="'is-' + l.id" aria-hidden="true" />
+            <div class="mi:grid mi:gap-3 mi:@[720px]:grid-cols-3">
+              <div v-for="l in lanes" :key="l.id" class="mi:content-start mi:gap-2.5 mi:min-w-0 mi:p-3 mi:rounded-xl mi:bg-fill4 mi:@[720px]:grid" :class="lane === l.id ? 'mi:grid' : 'mi:hidden'" role="region" :aria-labelledby="`sqd-lane-${l.id}`">
+                <div class="mi:flex mi:items-center mi:gap-2 mi:py-0.5 mi:px-1">
+                  <span class="mi:w-2 mi:h-2 mi:rounded-[50%] mi:flex-[none]" :class="[l.id === 'urgent' ? 'mi:bg-red' : l.id === 'high' ? 'mi:bg-orange' : 'mi:bg-label3']" aria-hidden="true" />
                   <MiText :id="`sqd-lane-${l.id}`" as="h4" variant="subheadline" weight="semibold">{{ l.label }}</MiText>
-                  <span class="sqd__lane-count">{{ byLane(l.id).length }}</span>
-                  <span class="sqd__lane-next">{{ nextDue(l.id) ? `next due ${clock(nextDue(l.id))}` : 'all breached' }}</span>
+                  <span class="mi:text-[12px] mi:font-semibold mi:text-label2 mi:tabular-nums">{{ byLane(l.id).length }}</span>
+                  <span class="mi:ml-auto mi:text-[11.5px] mi:text-label3 mi:whitespace-nowrap mi:tabular-nums">{{ nextDue(l.id) ? `next due ${clock(nextDue(l.id))}` : 'all breached' }}</span>
                 </div>
-                <ul class="sqd__cards">
-                  <li v-for="t in byLane(l.id)" :key="t.id" class="sqd__card" :class="{ 'is-mine': t.owner === ME }">
-                    <div class="sqd__card-top">
+                <ul class="mi:grid mi:gap-2 mi:m-0 mi:p-0 mi:[list-style:none]">
+                  <li v-for="t in byLane(l.id)" :key="t.id" class="mi:grid mi:gap-2 mi:py-3 mi:px-[13px] mi:rounded-lg mi:bg-card mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:hover:transform-[translateY(-1px)]" :class="t.owner === ME ? 'mi:shadow-[var(--mi-sh1),_inset_3px_0_0_var(--mi-p)]' : 'mi:shadow-1'">
+                    <div class="mi:flex mi:items-center mi:justify-between mi:gap-2">
                       <MiText variant="caption2" tone="label3" tabular>{{ t.id }} · {{ t.channel }}</MiText>
                       <span
-                        class="sqd__sla" :class="'is-' + state(t)" role="timer"
+                        class="mi:relative mi:inline-flex mi:items-center mi:gap-1 mi:pt-[3px] mi:px-2 mi:pb-[5px] mi:rounded-[7px] mi:text-[12px] mi:font-[650] mi:leading-[1.1] mi:tabular-nums mi:whitespace-nowrap mi:overflow-hidden" :class="[state(t) === 'soon' ? 'mi:text-orange-t mi:bg-orange/14' : state(t) === 'critical' ? 'mi:text-red-t mi:bg-red/14' : state(t) === 'breached' ? 'mi:text-p-on mi:bg-red' : 'mi:text-label2 mi:bg-fill3']" role="timer"
                         :aria-label="state(t) === 'breached' ? `SLA breached ${clock(t)} ago` : `${clock(t)} left on SLA`"
                       >
                         <MiIcon v-if="state(t) === 'breached'" name="exclamation-circle" :size="12" />
                         {{ state(t) === 'breached' ? '+' : '' }}{{ clock(t) }}
-                        <b aria-hidden="true"><i :style="{ transform: `scaleX(${ratio(t)})` }" /></b>
+                        <b class="mi:h-0.5 mi:rounded-[1px] mi:bg-[color:color-mix(in_srgb,_currentColor_18%,_transparent)] mi:overflow-hidden mi:absolute mi:left-1.5 mi:right-1.5 mi:bottom-0.5" :class="state(t) === 'breached' ? 'mi:hidden' : ''" aria-hidden="true"><i class="mi:block mi:h-full mi:origin-left mi:[transition:transform_1s_linear] mi:bg-current mi:[--mi-blink:.35] mi:motion-reduce:animate-none" :class="state(t) === 'critical' ? 'mi:animate-[blink_1s_steps(2,jump-none)_infinite]' : ''" :style="{ transform: `scaleX(${ratio(t)})` }" /></b>
                       </span>
                     </div>
-                    <MiText variant="footnote" weight="semibold" class="sqd__subject">{{ t.subject }}</MiText>
-                    <div class="sqd__card-foot">
+                    <MiText variant="footnote" weight="semibold" class="mi:text-pretty!">{{ t.subject }}</MiText>
+                    <div class="mi:flex mi:items-center mi:justify-between mi:gap-2 mi:min-h-6.5">
                       <MiText variant="caption" tone="label2" :lines="1">{{ t.customer }}</MiText>
                       <MiAvatar v-if="t.owner" :name="t.owner" size="xs" tone="auto" />
                       <MiButton v-else variant="tinted" size="mini" :aria-label="`Take ${t.id}`" @click="t.owner = ME">Take</MiButton>
@@ -64,37 +64,37 @@
             </div>
           </section>
 
-          <aside class="sqd__side">
-            <section class="sqd__panel" aria-labelledby="sqd-agents">
-              <div class="sqd__panel-head">
+          <aside class="mi:grid mi:gap-4 mi:content-start mi:min-w-0 mi:@[720px]:grid-cols-2 mi:@[1080px]:grid-cols-[minmax(0,_1fr)]">
+            <section class="mi:grid mi:content-start mi:gap-3 mi:min-w-0 mi:p-4 mi:rounded-xl mi:bg-card mi:shadow-1" aria-labelledby="sqd-agents">
+              <div class="mi:flex mi:items-baseline mi:justify-between mi:gap-2">
                 <MiText id="sqd-agents" as="h3" variant="headline" weight="semibold">Agents</MiText>
                 <MiText variant="caption" tone="label2">{{ agents.filter(a => a.presence === 'online').length }} available</MiText>
               </div>
-              <ul class="sqd__agents">
-                <li v-for="a in agentRows" :key="a.name">
-                  <span class="sqd__who">
+              <ul class="mi:grid mi:gap-3 mi:m-0 mi:p-0 mi:[list-style:none]">
+                <li class="mi:grid mi:items-center mi:grid-cols-[auto_minmax(0,_1fr)_72px] mi:gap-2.5" v-for="a in agentRows" :key="a.name">
+                  <span class="mi:relative mi:block">
                     <MiAvatar :name="a.name" size="sm" tone="auto" decorative />
-                    <i class="sqd__presence" :class="'is-' + a.presence" />
+                    <i class="mi:absolute mi:-right-px mi:-bottom-px mi:w-2.5 mi:h-2.5 mi:rounded-[50%] mi:shadow-[0_0_0_2px_var(--mi-card)]" :class="[a.presence === 'online' ? 'mi:bg-green' : a.presence === 'busy' ? 'mi:bg-red' : a.presence === 'away' ? 'mi:bg-orange' : 'mi:bg-label3']" />
                   </span>
-                  <span class="sqd__agent-text">
-                    <span class="sqd__agent-name">{{ a.name }}<em v-if="a.name === ME"> (you)</em></span>
-                    <span class="sqd__agent-sub">{{ a.note }}</span>
+                  <span class="mi:grid mi:min-w-0">
+                    <span class="mi:text-[13.5px] mi:font-semibold mi:whitespace-nowrap mi:overflow-hidden mi:text-ellipsis">{{ a.name }}<em class="mi:font-normal mi:text-label2 mi:not-italic" v-if="a.name === ME"> (you)</em></span>
+                    <span class="mi:text-[12px] mi:text-label2 mi:whitespace-nowrap mi:overflow-hidden mi:text-ellipsis">{{ a.note }}</span>
                   </span>
-                  <span class="sqd__load" role="meter" :aria-label="`${a.name} load`" :aria-valuenow="a.load" aria-valuemin="0" :aria-valuemax="CAP" :aria-valuetext="`${a.load} of ${CAP} conversations`">
-                    <span class="sqd__load-num">{{ a.load }}/{{ CAP }}</span>
-                    <span class="sqd__load-track"><i :class="loadTone(a.load)" :style="{ transform: `scaleX(${a.load / CAP})` }" /></span>
+                  <span class="mi:grid mi:gap-1 mi:justify-items-end" role="meter" :aria-label="`${a.name} load`" :aria-valuenow="a.load" aria-valuemin="0" :aria-valuemax="CAP" :aria-valuetext="`${a.load} of ${CAP} conversations`">
+                    <span class="mi:text-[11.5px] mi:font-semibold mi:text-label2 mi:tabular-nums">{{ a.load }}/{{ CAP }}</span>
+                    <span class="mi:w-full mi:h-1 mi:rounded-[2px] mi:bg-fill3 mi:overflow-hidden"><i class="mi:block mi:h-full mi:rounded-[inherit] mi:origin-left mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring)]" :class="a.load >= CAP ? 'mi:bg-red' : a.load / CAP >= 0.8 ? 'mi:bg-orange' : 'mi:bg-p'" :style="{ transform: `scaleX(${a.load / CAP})` }" /></span>
                   </span>
                 </li>
               </ul>
             </section>
 
-            <section class="sqd__panel" aria-labelledby="sqd-csat">
-              <div class="sqd__panel-head">
+            <section class="mi:grid mi:content-start mi:gap-3 mi:min-w-0 mi:p-4 mi:rounded-xl mi:bg-card mi:shadow-1" aria-labelledby="sqd-csat">
+              <div class="mi:flex mi:items-baseline mi:justify-between mi:gap-2">
                 <MiText id="sqd-csat" as="h3" variant="headline" weight="semibold">CSAT</MiText>
                 <MiText variant="caption" tone="label2">Last 14 days</MiText>
               </div>
-              <div class="sqd__csat-top">
-                <span class="sqd__csat-big">94.2%</span>
+              <div class="mi:flex mi:items-center mi:gap-2.5">
+                <span class="mi:text-[32px] mi:font-bold mi:tracking-[-.04em] mi:leading-none mi:tabular-nums">94.2%</span>
                 <MiBadge tone="success" label="+1.8 pt" />
               </div>
               <MiText variant="caption" tone="label2" tabular>412 rated · 25 unhappy · 31% response rate</MiText>
@@ -176,116 +176,7 @@ const agents = [
 ] as const
 // Loads follow the queue: taking a ticket adds it to your bar.
 const agentRows = computed(() => agents.map(a => ({ ...a, load: Math.min(CAP, a.base + tickets.filter(t => t.owner === a.name).length) })))
-const loadTone = (n: number) => (n >= CAP ? 'is-full' : n / CAP >= 0.8 ? 'is-high' : '')
 
 const csatDays = ['Oct 20', 'Oct 21', 'Oct 22', 'Oct 23', 'Oct 24', 'Oct 25', 'Oct 26', 'Oct 27', 'Oct 28', 'Oct 29', 'Oct 30', 'Oct 31', 'Nov 1', 'Nov 2']
 const csat = [91.4, 92.1, 90.8, 92.6, 93.0, 92.2, 93.4, 93.1, 94.0, 92.9, 93.8, 94.5, 93.9, 94.2]
 </script>
-
-<style scoped>
-.sqd { container-type: inline-size; min-height: 100%; font-family: var(--mi-font); color: var(--mi-label); background: var(--mi-page); }
-.sqd__in { display: grid; min-height: 100%; }
-
-.sqd__rail { display: none; }
-.sqd__main { display: grid; align-content: start; min-width: 0; }
-
-/* Live band */
-.sqd__band { display: grid; gap: 14px; padding: 16px; background: var(--mi-card); border-bottom: 1px solid var(--mi-sep); }
-.sqd__band-title { display: flex; align-items: center; gap: 10px; }
-.sqd__live { display: inline-flex; align-items: center; gap: 6px; padding: 3px 9px 3px 8px; border-radius: 999px; font-size: 11px; font-weight: 650; letter-spacing: .04em; text-transform: uppercase; color: var(--mi-green-t); background: color-mix(in srgb, var(--mi-green) 12%, transparent); }
-.sqd__live i { width: 7px; height: 7px; border-radius: 50%; background: var(--mi-green); animation: sqd-pulse 2s var(--mi-ease-in-out) infinite; }
-@keyframes sqd-pulse { 50% { opacity: .35; transform: scale(.8); } }
-.sqd__stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 16px; margin: 0; }
-.sqd__stats div { display: grid; gap: 2px; min-width: 0; }
-.sqd__stats dt { font-size: 11.5px; color: var(--mi-label2); }
-.sqd__stats dd { margin: 0; font-size: 19px; font-weight: 700; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
-.sqd__stats .is-warn dd { color: var(--mi-orange-t); }
-
-.sqd__body { display: grid; gap: 16px; padding: 16px; min-width: 0; }
-
-/* Queue */
-.sqd__queue { display: grid; gap: 12px; min-width: 0; }
-.sqd__queue-head { display: grid; gap: 2px; }
-.sqd__lanes { display: grid; gap: 12px; }
-.sqd__lane { display: none; align-content: start; gap: 10px; min-width: 0; padding: 12px; border-radius: var(--mi-radius-xl); background: var(--mi-fill4); }
-.sqd__lane.is-shown { display: grid; }
-.sqd__lane-head { display: flex; align-items: center; gap: 8px; padding: 2px 4px; }
-.sqd__lane-dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
-.sqd__lane-dot.is-urgent { background: var(--mi-red); }
-.sqd__lane-dot.is-high { background: var(--mi-orange); }
-.sqd__lane-dot.is-normal { background: var(--mi-label3); }
-.sqd__lane-count { font-size: 12px; font-weight: 600; color: var(--mi-label2); font-variant-numeric: tabular-nums; }
-.sqd__lane-next { margin-left: auto; font-size: 11.5px; color: var(--mi-label3); white-space: nowrap; font-variant-numeric: tabular-nums; }
-.sqd__cards { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
-.sqd__card { display: grid; gap: 8px; padding: 12px 13px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); transition: transform var(--mi-dur-2) var(--mi-ease); }
-.sqd__card:hover { transform: translateY(-1px); }
-.sqd__card.is-mine { box-shadow: var(--mi-sh1), inset 3px 0 0 var(--mi-p); }
-.sqd__card-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.sqd__subject { text-wrap: pretty; }
-.sqd__card-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 26px; }
-
-/* SLA chip: a countdown with a draining hairline underneath. */
-.sqd__sla { position: relative; display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px 5px; border-radius: 7px; font-size: 12px; font-weight: 650; line-height: 1.1; font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--mi-label2); background: var(--mi-fill3); overflow: hidden; }
-.sqd__sla b { position: absolute; left: 6px; right: 6px; bottom: 2px; height: 2px; border-radius: 1px; background: color-mix(in srgb, currentColor 18%, transparent); overflow: hidden; }
-.sqd__sla b i { display: block; height: 100%; background: currentColor; transform-origin: left; transition: transform 1s linear; }
-.sqd__sla.is-soon { color: var(--mi-orange-t); background: color-mix(in srgb, var(--mi-orange) 14%, transparent); }
-.sqd__sla.is-critical { color: var(--mi-red-t); background: color-mix(in srgb, var(--mi-red) 14%, transparent); }
-.sqd__sla.is-critical b i { animation: sqd-blink 1s steps(2, jump-none) infinite; }
-.sqd__sla.is-breached { color: var(--mi-p-on); background: var(--mi-red); }
-.sqd__sla.is-breached b { display: none; }
-@keyframes sqd-blink { 50% { opacity: .35; } }
-@media (prefers-reduced-motion: reduce) { .sqd__live i, .sqd__sla.is-critical b i { animation: none; } }
-
-/* Side panels */
-.sqd__side { display: grid; gap: 16px; align-content: start; min-width: 0; }
-.sqd__panel { display: grid; align-content: start; gap: 12px; min-width: 0; padding: 16px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.sqd__panel-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
-.sqd__agents { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
-.sqd__agents li { display: grid; grid-template-columns: auto minmax(0, 1fr) 72px; align-items: center; gap: 10px; }
-.sqd__who { position: relative; display: block; }
-.sqd__presence { position: absolute; right: -1px; bottom: -1px; width: 10px; height: 10px; border-radius: 50%; box-shadow: 0 0 0 2px var(--mi-card); background: var(--mi-label3); }
-.sqd__presence.is-online { background: var(--mi-green); }
-.sqd__presence.is-busy { background: var(--mi-red); }
-.sqd__presence.is-away { background: var(--mi-orange); }
-.sqd__agent-text { display: grid; min-width: 0; }
-.sqd__agent-name { font-size: 13.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.sqd__agent-name em { font-style: normal; font-weight: 400; color: var(--mi-label2); }
-.sqd__agent-sub { font-size: 12px; color: var(--mi-label2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.sqd__load { display: grid; gap: 4px; justify-items: end; }
-.sqd__load-num { font-size: 11.5px; font-weight: 600; color: var(--mi-label2); font-variant-numeric: tabular-nums; }
-.sqd__load-track { width: 100%; height: 4px; border-radius: 2px; background: var(--mi-fill3); overflow: hidden; }
-.sqd__load-track i { display: block; height: 100%; border-radius: inherit; background: var(--mi-p); transform-origin: left; transition: transform var(--mi-dur-3) var(--mi-spring); }
-.sqd__load-track i.is-high { background: var(--mi-orange); }
-.sqd__load-track i.is-full { background: var(--mi-red); }
-.sqd__csat-top { display: flex; align-items: center; gap: 10px; }
-.sqd__csat-big { font-size: 32px; font-weight: 700; letter-spacing: -.04em; line-height: 1; font-variant-numeric: tabular-nums; }
-
-@container (min-width: 600px) {
-  .sqd__band { grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 24px; padding: 18px 20px; }
-  .sqd__stats { grid-template-columns: repeat(4, auto); justify-content: end; gap: 0; }
-  .sqd__stats div { padding: 0 18px; border-left: 1px solid var(--mi-sep); }
-  .sqd__stats div:last-child { padding-right: 0; }
-  .sqd__body { padding: 20px; }
-}
-@container (min-width: 720px) {
-  .sqd__lane-pick { display: none; }
-  .sqd__lanes { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .sqd__lane, .sqd__lane.is-shown { display: grid; }
-  .sqd__side { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-@container (min-width: 960px) {
-  .sqd__in { grid-template-columns: 64px minmax(0, 1fr); }
-  .sqd__rail { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 16px 0; background: var(--mi-card); border-right: 1px solid var(--mi-sep); }
-  .sqd__logo { position: relative; width: 30px; height: 30px; margin-bottom: 14px; border-radius: 10px; background: var(--mi-p); }
-  .sqd__logo::after { content: ""; position: absolute; inset: 8px 7px 9px; border-radius: 6px 6px 6px 2px; border: 2px solid var(--mi-p-on); }
-  .sqd__rail-link { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; color: var(--mi-label2); transition: transform var(--mi-dur-2) var(--mi-ease); }
-  .sqd__rail-link:hover { color: var(--mi-label); background: var(--mi-fill4); }
-  .sqd__rail-link:active { transform: scale(.94); }
-  .sqd__rail-link:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 1px; }
-  .sqd__rail-link[aria-current="page"] { color: var(--mi-p-text); background: var(--mi-p-tint); }
-}
-@container (min-width: 1080px) {
-  .sqd__body { grid-template-columns: minmax(0, 1fr) 300px; align-items: start; padding: 24px; gap: 20px; }
-  .sqd__side { grid-template-columns: minmax(0, 1fr); }
-}
-</style>

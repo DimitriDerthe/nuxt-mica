@@ -69,42 +69,19 @@ defineExpose({ focus: () => input.value?.focus() })
 </script>
 
 <template>
-  <div class="mi-fi" :class="{ 'is-disabled': disabled, 'is-invalid': error }">
-    <div class="mi-fi__box">
-      <label class="mi-fi__btn" :for="id">{{ buttonLabel }}</label>
-      <span class="mi-fi__text" :class="{ 'is-empty': !files.length }" aria-live="polite">{{ text }}</span>
-      <button v-if="files.length && !disabled" type="button" class="mi-fi__clear" :aria-label="clearLabel" @click="clear">
+  <div class="mi-fi mi:content-start mi:gap-1.5 mi:font-mi mi:text-label mi:[&.is-disabled]:opacity-45" :class="{ 'is-disabled': disabled, 'is-invalid': error }">
+    <div class="mi-fi__box mi:relative mi:flex mi:items-center mi:gap-2.5 mi:min-h-11 mi:pt-1 mi:pr-1.5 mi:pb-1 mi:pl-1 mi:rounded-[10px] mi:bg-field mi:shadow-[inset_0_0_0_1px_var(--mi-field-b)] mi:[.is-invalid_&]:shadow-[inset_0_0_0_1.5px_var(--mi-red)] mi:[&:has(.mi-fi__input:focus-visible)]:[outline:3px_solid_color-mix(in_srgb,_var(--mi-p)_55%,_transparent)] mi:[&:has(.mi-fi__input:focus-visible)]:outline-offset-[1px]">
+      <label class="mi-fi__btn mi:flex-[none] mi:py-[7px] mi:px-3.5 mi:rounded-[7px] mi:bg-fill3 mi:text-[14px] mi:font-semibold mi:cursor-pointer mi:whitespace-nowrap mi:[.is-disabled_&]:cursor-not-allowed" :for="id">{{ buttonLabel }}</label>
+      <span class="mi-fi__text mi:flex-1 mi:min-w-0 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:text-[14px] mi:[&.is-empty]:text-label2" :class="{ 'is-empty': !files.length }" aria-live="polite">{{ text }}</span>
+      <button v-if="files.length && !disabled" type="button" class="mi-fi__clear mi:relative mi:z-1 mi:inline-flex mi:items-center mi:justify-center mi:flex-[none] mi:w-7.5 mi:h-7.5 mi:p-0 mi:[border:0] mi:rounded-[99px] mi:bg-transparent mi:text-label2 mi:cursor-pointer mi:hover:bg-fill3 mi:hover:text-label mi:focus-visible:[outline:3px_solid_color-mix(in_srgb,_var(--mi-p)_55%,_transparent)] mi:focus-visible:outline-offset-[1px]" :aria-label="clearLabel" @click="clear">
         <MiIcon name="close" :size="14" :weight="2.4" />
       </button>
-      <input :id="id" ref="input" class="mi-fi__input" type="file" :accept="accept" :multiple="multiple" :disabled="disabled" :aria-label="label" :aria-invalid="error ? true : undefined" :aria-describedby="error ? `${id}-err` : undefined" @change="onChange">
+      <input :id="id" ref="input" class="mi-fi__input mi:absolute mi:w-px mi:h-px mi:opacity-0 mi:overflow-hidden" type="file" :accept="accept" :multiple="multiple" :disabled="disabled" :aria-label="label" :aria-invalid="error ? true : undefined" :aria-describedby="error ? `${id}-err` : undefined" @change="onChange">
     </div>
-    <p v-if="error" :id="`${id}-err`" class="mi-fi__error" role="alert">{{ error }}</p>
+    <p v-if="error" :id="`${id}-err`" class="mi-fi__error mi:m-0 mi:text-[13px] mi:text-red-t" role="alert">{{ error }}</p>
   </div>
 </template>
 
 <style scoped>
-.mi-fi { display: grid; align-content: start; gap: 6px; font-family: var(--mi-font); color: var(--mi-label); }
-.mi-fi.is-disabled { opacity: .45; }
-.mi-fi__box {
-  position: relative; display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 4px 6px 4px 4px;
-  border-radius: 10px; background: var(--mi-field); box-shadow: inset 0 0 0 1px var(--mi-field-b);
-}
-.is-invalid .mi-fi__box { box-shadow: inset 0 0 0 1.5px var(--mi-red); }
-.mi-fi__box:has(.mi-fi__input:focus-visible) { outline: 3px solid color-mix(in srgb, var(--mi-p) 55%, transparent); outline-offset: 1px; }
-.mi-fi__btn {
-  flex: none; padding: 7px 14px; border-radius: 7px; background: var(--mi-fill3);
-  font-size: 14px; font-weight: 600; cursor: pointer; white-space: nowrap;
-}
-.is-disabled .mi-fi__btn { cursor: not-allowed; }
-.mi-fi__text { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; }
-.mi-fi__text.is-empty { color: var(--mi-label2); }
-.mi-fi__clear {
-  position: relative; z-index: 1; display: inline-flex; align-items: center; justify-content: center; flex: none;
-  width: 30px; height: 30px; padding: 0; border: 0; border-radius: 99px; background: transparent; color: var(--mi-label2); cursor: pointer;
-}
-.mi-fi__clear:hover { background: var(--mi-fill3); color: var(--mi-label); }
-.mi-fi__clear:focus-visible { outline: 3px solid color-mix(in srgb, var(--mi-p) 55%, transparent); outline-offset: 1px; }
-/* The native input stays focusable and clickable behind the visible label; only the label is the real target. */
-.mi-fi__input { position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden; }
-.mi-fi__error { margin: 0; font-size: 13px; color: var(--mi-red-t); }
+.mi-fi { display: grid; }
 </style>

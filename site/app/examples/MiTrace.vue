@@ -11,7 +11,7 @@ defineProps<{ p: Record<string, unknown> }>()
 </script>
 
 <template>
-  <div class="ex">
+  <div class="ex mi:w-[min(100%,_420px)]">
     <MiTrace v-bind="p">
       <MiTraceLine>
         <MiTraceIcon><MiIcon name="check" :size="16" /></MiTraceIcon>
@@ -46,7 +46,3 @@ defineProps<{ p: Record<string, unknown> }>()
     </MiTrace>
   </div>
 </template>
-
-<style scoped>
-.ex { width: min(100%, 420px); }
-</style>

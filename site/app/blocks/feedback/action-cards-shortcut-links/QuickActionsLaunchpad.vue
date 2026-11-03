@@ -1,53 +1,53 @@
 <template>
   <!-- Single-letter shortcuts fire while focus is anywhere inside this panel, never page-wide. -->
-  <section class="qal" aria-labelledby="qal-title" @keydown="onKey">
-    <header class="qal__head">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-4.5 mi:font-mi mi:text-label" aria-labelledby="qal-title" @keydown="onKey">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-y-2 mi:gap-x-4">
       <div>
         <MiText id="qal-title" variant="title3" as="h2" weight="semibold">Quick actions</MiText>
         <MiText variant="footnote" tone="label2">Focus the panel and press a key, or click a card.</MiText>
       </div>
-      <p class="qal__live" role="status" aria-live="polite">{{ announce }}</p>
+      <p class="mi:m-0 mi:min-h-[1.4em] mi:text-[13px] mi:font-medium mi:text-p-text" role="status" aria-live="polite">{{ announce }}</p>
     </header>
 
-    <div class="qal__layout">
-      <ul class="qal__grid" aria-label="Actions">
+    <div class="mi:grid mi:gap-5 mi:@[900px]:grid-cols-[minmax(0,_1fr)_300px] mi:@[900px]:items-start">
+      <ul class="mi:[list-style:none] mi:m-0 mi:p-0 mi:grid mi:gap-2.5 mi:grid-cols-[minmax(0,_1fr)] mi:@[480px]:grid-cols-2 mi:@[660px]:grid-cols-3" aria-label="Actions">
         <li v-for="a in actions" :key="a.key">
-          <button type="button" class="qal__card" :aria-keyshortcuts="a.key" :style="{ '--qal-c': a.color }" @click="fire(a)">
-            <span v-if="flashes[a.key]" :key="flashes[a.key]" class="qal__flash" aria-hidden="true" />
-            <span class="qal__icon"><MiIcon :svg="a.glyph" :size="20" /></span>
-            <span class="qal__text">
-              <strong>{{ a.title }}</strong>
+          <button type="button" class="mi:relative mi:grid mi:grid-cols-[auto_minmax(0,_1fr)_auto] mi:items-center mi:gap-3 mi:w-full mi:h-full mi:p-3.5 mi:[border:0] mi:rounded-lg mi:bg-card mi:shadow-1 mi:text-inherit mi:[font:inherit] mi:text-start mi:cursor-pointer mi:isolate mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring)] mi:hover:transform-[translateY(-2px)] mi:active:transform-[scale(.98)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:@[660px]:grid-cols-[1fr_auto] mi:@[660px]:grid-rows-[auto_1fr] mi:@[660px]:items-start mi:@[660px]:gap-y-4.5 mi:@[660px]:gap-x-2 mi:@[660px]:p-4 mi:motion-reduce:[transition:none]" :aria-keyshortcuts="a.key" :style="{ '--qal-c': a.color }" @click="fire(a)">
+            <span v-if="flashes[a.key]" :key="flashes[a.key]" class="mi:[--mi-out-s:1.04] mi:animate-[out_700ms_var(--mi-ease)_both] mi:motion-reduce:animate-none mi:absolute mi:inset-0 mi:-z-1 mi:rounded-[inherit] mi:[background:color-mix(in_srgb,_var(--qal-c)_18%,_transparent)]" aria-hidden="true" />
+            <span class="mi:grid mi:place-items-center mi:w-10 mi:h-10 mi:rounded-[12px] mi:text-(--qal-c) mi:[background:color-mix(in_srgb,_var(--qal-c)_14%,_transparent)]"><MiIcon :svg="a.glyph" :size="20" /></span>
+            <span class="mi:@[660px]:col-span-full mi:@[660px]:row-[2] mi:grid mi:gap-0.5 mi:min-w-0 mi:text-[13px] mi:text-label2">
+              <strong class="mi:text-[15px] mi:font-semibold mi:text-label">{{ a.title }}</strong>
               <span>{{ a.desc }}</span>
             </span>
-            <MiKbd class="qal__key">{{ a.key }}</MiKbd>
+            <MiKbd class="mi:@[660px]:col-[2] mi:@[660px]:row-[1]">{{ a.key }}</MiKbd>
           </button>
         </li>
       </ul>
 
-      <aside class="qal__side" aria-labelledby="qal-jump">
+      <aside class="mi:grid mi:gap-3 mi:p-4 mi:rounded-lg mi:bg-fill4" aria-labelledby="qal-jump">
         <MiText id="qal-jump" variant="subheadline" as="h3" weight="semibold">Jump back in</MiText>
-        <ul class="qal__links">
-          <li v-for="l in sortedLinks" :key="l.id" class="qal__link">
-            <a href="#" class="qal__link-a">
-              <span class="qal__link-kind">{{ l.kind }}</span>
-              <span class="qal__link-title">{{ l.title }}</span>
-              <span class="qal__link-meta">{{ l.meta }}</span>
+        <ul class="mi:[list-style:none] mi:m-0 mi:p-0 mi:grid mi:gap-0.5">
+          <li v-for="l in sortedLinks" :key="l.id" class="mi:flex mi:items-center mi:gap-1">
+            <a href="#" class="mi:grid mi:flex-1 mi:min-w-0 mi:py-2 mi:px-2.5 mi:rounded-md mi:[text-decoration:none] mi:text-inherit mi:hover:bg-fill3 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]">
+              <span class="mi:text-[11px] mi:font-semibold mi:uppercase mi:tracking-[.06em] mi:text-label3">{{ l.kind }}</span>
+              <span class="mi:text-[14px] mi:font-semibold mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ l.title }}</span>
+              <span class="mi:text-[12px] mi:text-label2">{{ l.meta }}</span>
             </a>
             <MiIconButton
               :label="(l.pinned ? 'Unpin ' : 'Pin ') + l.title" variant="plain" size="small" :pressed="l.pinned"
               @click="l.pinned = !l.pinned"
             >
-              <MiIcon name="star" :size="16" :filled="l.pinned" :class="{ 'qal__pin--on': l.pinned }" />
+              <MiIcon name="star" :size="16" :filled="l.pinned" :class="l.pinned ? 'mi:text-orange' : ''" />
             </MiIconButton>
           </li>
         </ul>
 
-        <div v-if="recent.length" class="qal__recent">
-          <MiText variant="caption" tone="label3" weight="semibold" class="qal__caps">Just used</MiText>
-          <ol class="qal__recent-list">
-            <li v-for="r in recent" :key="r.id">
-              <span class="qal__recent-dot" :style="{ background: r.color }" aria-hidden="true" />
-              <span>{{ r.title }}</span>
+        <div v-if="recent.length" class="mi:grid mi:gap-2 mi:pt-3 mi:border-t mi:border-t-sep">
+          <MiText variant="caption" tone="label3" weight="semibold" class="mi:uppercase! mi:tracking-[.06em]!">Just used</MiText>
+          <ol class="mi:[list-style:none] mi:m-0 mi:p-0 mi:grid mi:gap-1.5 mi:text-[13px]">
+            <li class="mi:flex mi:[--mi-in-x:-6px] mi:animate-[in_var(--mi-dur-3)_var(--mi-spring)_both] mi:motion-reduce:animate-none mi:items-center mi:gap-2" v-for="r in recent" :key="r.id">
+              <span class="mi:w-2 mi:h-2 mi:rounded-[50%]" :style="{ background: r.color }" aria-hidden="true" />
+              <span class="mi:flex-1">{{ r.title }}</span>
               <MiText variant="caption2" tone="label3" as="span">{{ r.at }}</MiText>
             </li>
           </ol>
@@ -101,56 +101,3 @@ function onKey(e: KeyboardEvent) {
   fire(a)
 }
 </script>
-
-<style scoped>
-.qal { container-type: inline-size; display: grid; align-content: start; gap: 18px; font-family: var(--mi-font); color: var(--mi-label); }
-.qal__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 8px 16px; }
-.qal__live { margin: 0; min-height: 1.4em; font-size: 13px; font-weight: 500; color: var(--mi-p-text); }
-
-.qal__layout { display: grid; gap: 20px; }
-@container (min-width: 900px) { .qal__layout { grid-template-columns: minmax(0, 1fr) 300px; align-items: start; } }
-
-.qal__grid { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; grid-template-columns: minmax(0, 1fr); }
-@container (min-width: 480px) { .qal__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@container (min-width: 660px) { .qal__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-
-.qal__card {
-  position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 12px; width: 100%; height: 100%;
-  padding: 14px; border: 0; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1);
-  color: inherit; font: inherit; text-align: start; cursor: pointer; isolation: isolate;
-  transition: transform var(--mi-dur-2) var(--mi-spring);
-}
-.qal__card:hover { transform: translateY(-2px); }
-.qal__card:active { transform: scale(.98); }
-.qal__card:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-@container (min-width: 660px) {
-  .qal__card { grid-template-columns: 1fr auto; grid-template-rows: auto 1fr; align-items: start; gap: 18px 8px; padding: 16px; }
-  .qal__text { grid-column: 1 / -1; grid-row: 2; }
-  .qal__key { grid-column: 2; grid-row: 1; }
-}
-.qal__icon { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; color: var(--qal-c); background: color-mix(in srgb, var(--qal-c) 14%, transparent); }
-.qal__text { display: grid; gap: 2px; min-width: 0; font-size: 13px; color: var(--mi-label2); }
-.qal__text strong { font-size: 15px; font-weight: 600; color: var(--mi-label); }
-.qal__flash { position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: color-mix(in srgb, var(--qal-c) 18%, transparent); animation: qal-flash 700ms var(--mi-ease) both; }
-@keyframes qal-flash { from { opacity: 1; transform: scale(.96); } to { opacity: 0; transform: scale(1.04); } }
-
-.qal__side { display: grid; gap: 12px; padding: 16px; border-radius: var(--mi-radius-l); background: var(--mi-fill4); }
-.qal__links { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
-.qal__link { display: flex; align-items: center; gap: 4px; }
-.qal__link-a { display: grid; flex: 1; min-width: 0; padding: 8px 10px; border-radius: var(--mi-radius-m); text-decoration: none; color: inherit; }
-.qal__link-a:hover { background: var(--mi-fill3); }
-.qal__link-a:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 1px; }
-.qal__link-kind { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--mi-label3); }
-.qal__link-title { font-size: 14px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.qal__link-meta { font-size: 12px; color: var(--mi-label2); }
-.qal__pin--on { color: var(--mi-orange); }
-
-.qal__recent { display: grid; gap: 8px; padding-top: 12px; border-top: 1px solid var(--mi-sep); }
-.qal__caps { text-transform: uppercase; letter-spacing: .06em; }
-.qal__recent-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font-size: 13px; }
-.qal__recent-list li { display: flex; align-items: center; gap: 8px; animation: qal-in var(--mi-dur-3) var(--mi-spring) both; }
-.qal__recent-list li > span:nth-child(2) { flex: 1; }
-.qal__recent-dot { width: 8px; height: 8px; border-radius: 50%; }
-@keyframes qal-in { from { opacity: 0; transform: translateX(-6px); } }
-@media (prefers-reduced-motion: reduce) { .qal__flash, .qal__recent-list li { animation: none; } .qal__card { transition: none; } }
-</style>

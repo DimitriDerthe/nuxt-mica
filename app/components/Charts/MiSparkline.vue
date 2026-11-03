@@ -44,7 +44,7 @@ const end = computed(() => points.value[points.value.length - 1])
   >
     <path
       v-if="points.length"
-      class="mi-spark-line"
+      class="mi-spark-line mi:[&.is-anim]:[stroke-dasharray:1_1] mi:[&.is-anim]:will-change-[stroke-dashoffset]"
       :class="{ 'is-anim': animate }"
       :d="d"
       pathLength="1"
@@ -56,7 +56,7 @@ const end = computed(() => points.value[points.value.length - 1])
     />
     <circle
       v-if="dot && end"
-      class="mi-spark-dot"
+      class="mi-spark-dot mi:[&.is-anim]:[transform-box:fill-box] mi:[&.is-anim]:origin-center"
       :class="{ 'is-anim': animate }"
       :cx="end[0]"
       :cy="end[1]"
@@ -69,8 +69,8 @@ const end = computed(() => points.value[points.value.length - 1])
 
 <style scoped>
 .mi-spark{flex:none;overflow:visible;display:block}
-.mi-spark-line.is-anim{stroke-dasharray:1 1;animation:mi-spark-draw var(--mi-dur-4) var(--mi-ease) both;will-change:stroke-dashoffset}
-.mi-spark-dot.is-anim{animation:mi-spark-pop var(--mi-dur-3) var(--mi-ease) calc(var(--mi-dur-4) * .7) both;transform-box:fill-box;transform-origin:center}
+.mi-spark-line.is-anim{animation:mi-spark-draw var(--mi-dur-4) var(--mi-ease) both}
+.mi-spark-dot.is-anim{animation:mi-spark-pop var(--mi-dur-3) var(--mi-ease) calc(var(--mi-dur-4) * .7) both}
 @keyframes mi-spark-draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
 @keyframes mi-spark-pop{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:scale(1)}}
 </style>

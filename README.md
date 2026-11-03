@@ -1,10 +1,80 @@
-# Mica, a UI layer for Nuxt
+<div align="center">
 
-A Nuxt 4 layer shipping 134 SSR-safe UI components, 177 `<Mi…>` tags counting the parts of compound components (buttons, controls, inputs, navigation, feedback, content, charts and foundations) built on a single set of `--mi-*` CSS tokens. Every component targets 60 fps: motion is limited to `transform` and `opacity`, enforced by a lint script and measured by a frame-time probe. Light and dark modes are built in, with a runtime-configurable brand color pair.
+<a href="https://dimitriderthe.github.io/nuxt-mica/">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset=".github/assets/banner-dark.svg">
+    <img alt="mica. Native calm, for every Nuxt app." src=".github/assets/banner-light.svg" width="100%">
+  </picture>
+</a>
 
-## Consume it
+<h3>The native-feeling UI layer for Nuxt 4.</h3>
 
-Mica is a native Nuxt layer. There is no npm package to publish or install: Nuxt fetches the layer from GitHub. In the consuming project's `nuxt.config.ts`:
+<p>One line in <code>nuxt.config</code>. No npm package, no plugin, no imports.<br>Then write <code>&lt;MiButton&gt;</code>.</p>
+
+<p>
+  <a href="https://github.com/DimitriDerthe/nuxt-mica/releases"><img alt="Version" src="https://img.shields.io/github/package-json/v/DimitriDerthe/nuxt-mica?style=flat-square&label=version&color=0071E3"></a>
+  <a href="https://nuxt.com/docs/getting-started/layers"><img alt="Nuxt 4 layer" src="https://img.shields.io/badge/Nuxt_4-layer-00DC82?style=flat-square&logo=nuxt&logoColor=white"></a>
+  <a href="https://vuejs.org"><img alt="Vue 3.5" src="https://img.shields.io/badge/Vue-3.5-4FC08D?style=flat-square&logo=vuedotjs&logoColor=white"></a>
+  <a href="https://www.typescriptlang.org"><img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-typed-3178C6?style=flat-square&logo=typescript&logoColor=white"></a>
+  <a href="LICENSE"><img alt="MIT license" src="https://img.shields.io/badge/license-MIT-1D1D1F?style=flat-square"></a>
+</p>
+<p>
+  <a href="#whats-inside"><img alt="134 components" src="https://img.shields.io/badge/components-134-0071E3?style=flat-square"></a>
+  <a href="docs/blocks.md"><img alt="302 blocks" src="https://img.shields.io/badge/blocks-302-BF4800?style=flat-square"></a>
+  <a href="#built-for-60-fps"><img alt="60 fps" src="https://img.shields.io/badge/motion-60_fps-30D158?style=flat-square"></a>
+  <a href="#theming"><img alt="Zero runtime dependencies" src="https://img.shields.io/badge/runtime_deps-0-1D1D1F?style=flat-square"></a>
+  <a href="#ai-ready-docs"><img alt="AI-ready docs" src="https://img.shields.io/badge/llms.txt-AI_ready-8E5CF7?style=flat-square"></a>
+  <a href="https://github.com/DimitriDerthe/nuxt-mica/actions/workflows/pages.yml"><img alt="Build" src="https://img.shields.io/github/actions/workflow/status/DimitriDerthe/nuxt-mica/pages.yml?branch=main&style=flat-square&label=build"></a>
+</p>
+
+**[Website](https://dimitriderthe.github.io/nuxt-mica/)** ·
+**[Component explorer](https://dimitriderthe.github.io/nuxt-mica/components)** ·
+**[Blocks](https://dimitriderthe.github.io/nuxt-mica/blocks)** ·
+**[Live demo](https://dimitriderthe.github.io/nuxt-mica/demo/showcase)** ·
+**[llms.txt](llms.txt)**
+
+</div>
+
+---
+
+A Nuxt 4 layer shipping 134 SSR-safe UI components, 177 `<Mi…>` tags counting the parts of compound components, from buttons and forms to charts, chat and AI interfaces. Everything is built on a single set of `--mi-*` CSS tokens, so screens built months apart still feel like one product.
+
+## Why Mica
+
+<table>
+  <tr>
+    <td width="33%" valign="top">
+      <h4>⚡ One line to start</h4>
+      A native Nuxt layer fetched from GitHub. Components, tokens and composables are auto-registered and SSR-safe from the first render.
+    </td>
+    <td width="33%" valign="top">
+      <h4>🎨 Your brand, every shade</h4>
+      Pick two hex colors at runtime; every ramp is derived for light and dark. Theme is read from cookies during SSR: no flash.
+    </td>
+    <td width="33%" valign="top">
+      <h4>🎞️ 60 fps, enforced</h4>
+      Motion touches only <code>transform</code> and <code>opacity</code>. A lint script and a frame-time probe keep it that way.
+    </td>
+  </tr>
+  <tr>
+    <td width="33%" valign="top">
+      <h4>🧱 302 ready-made blocks</h4>
+      Dashboards, tables, forms, auth, billing, chat, calendars: copy-paste sections built only with Mica components.
+    </td>
+    <td width="33%" valign="top">
+      <h4>🪶 <code>mi:</code> utility classes</h4>
+      A Tailwind-like atomic engine with no dependency and no runtime. Only the classes you use are generated, at build time.
+    </td>
+    <td width="33%" valign="top">
+      <h4>🤖 Docs your AI can read</h4>
+      <code>llms.txt</code> covers the whole library in about 3k tokens, with one small API file per component.
+    </td>
+  </tr>
+</table>
+
+## Quick start
+
+**1. Extend the layer** in your project's `nuxt.config.ts`:
 
 ```ts
 export default defineNuxtConfig({
@@ -15,11 +85,7 @@ export default defineNuxtConfig({
 })
 ```
 
-For a private repository, set `GIGET_AUTH` to a GitHub token in the consuming project's environment.
-
-Components are auto-imported with no path prefix (`<MiButton>`, `<MiTable>`, ...). The layer registers its stylesheet, theme plugin, composables and utils automatically. Component imports inside the layer are relative, so they do not depend on the consumer's `~` alias.
-
-Wrap your app root in an element with the `mi` class so tokens and typography apply:
+**2. Wrap your app root** in the `mi` class so tokens and typography apply:
 
 ```vue
 <div class="mi" style="min-height:100dvh;background:var(--mi-page);color:var(--mi-label)">
@@ -27,7 +93,132 @@ Wrap your app root in an element with the `mi` class so tokens and typography ap
 </div>
 ```
 
-### Releasing
+**3. Write components.** No imports, no prefix path:
+
+```vue
+<template>
+  <MiCard>
+    <div class="mi:grid mi:gap-4">
+      <MiStatTile label="Monthly revenue" value="€48.2k" delta="12.4%" />
+      <MiSwitch v-model="sync" label="Cloud sync" />
+      <MiButton @click="toast.success('Saved')">Save</MiButton>
+    </div>
+  </MiCard>
+  <MiToaster />
+</template>
+
+<script setup lang="ts">
+const sync = ref(true)
+const toast = useMiToast()
+</script>
+```
+
+> [!TIP]
+> Private fork? Set `GIGET_AUTH` to a GitHub token in the consuming project's environment so Nuxt can fetch the layer.
+
+## What's inside
+
+| Group | | Highlights |
+|---|--:|---|
+| **[Foundations](docs/foundations.md)** | 15 | MiText, MiIcon, MiSurface, MiLogo, MiKbd, MiThemeSwitcher, MiColorPicker, MiColorRamp |
+| **[Buttons](docs/buttons.md)** | 6 | MiButton, MiButtonGroup, MiIconButton, MiCopyButton, MiMenu, MiTextLink |
+| **[Controls](docs/controls.md)** | 13 | MiSwitch, MiSlider, MiSegmented, MiCheckbox, MiRadioGroup, MiChip, MiRating, MiToggle |
+| **[Inputs](docs/inputs.md)** | 21 | MiInput, MiSelect, MiCombobox, MiCommand, MiDatePicker, MiTimePicker, MiEditor, MiFileUpload, MiForm |
+| **[Navigation](docs/navigation.md)** | 14 | MiSidebar, MiNavBar, MiTabBar, MiTabs, MiMenubar, MiNavigationMenu, MiBreadcrumb, MiPagination, MiSteps |
+| **[Feedback](docs/feedback.md)** | 21 | MiDialog, MiSheet, MiDrawer, MiToast, MiPopover, MiTooltip, MiHoverCard, MiSkeleton, MiConfetti |
+| **[Content](docs/content.md)** | 21 | MiCard, MiList, MiTable, MiDataTable, MiTree, MiTimeline, MiCarousel, MiSortable, MiResizable |
+| **[Charts](docs/charts.md)** | 13 | MiLineChart, MiBarChart, MiDonutChart, MiScatterChart, MiHeatmap, MiRings, MiSparkline, MiStatTile |
+| **[Chat](docs/chat.md)** | 4 | MiMessage, MiBubble, MiMarker, MiMessageScroller (sticks to the bottom while streaming) |
+| **[AI](docs/ai.md)** | 6 | MiOrb, MiShimmerText, MiTrace, MiQuestionnaire, MiCodeBlock, MiAttachment |
+
+Every component, with a live preview, prop controls and its full API: **[component explorer](https://dimitriderthe.github.io/nuxt-mica/components)**. The complete list in one file: [`llms.txt`](llms.txt).
+
+### Blocks
+
+302 application sections in 139 categories across 15 families: analytics and KPIs, tables, forms, authentication, application pages, billing, communication, productivity, search, modals, drawers, navigation and more. Each block is one `.vue` file using only Mica components, previewed at mobile, tablet and desktop widths. Browse them on the **[blocks gallery](https://dimitriderthe.github.io/nuxt-mica/blocks)** or in [`docs/blocks.md`](docs/blocks.md).
+
+## Theming
+
+`useMiTheme()` (auto-imported) returns `mode`, `primary`, `secondary`, `resolved`, `isDark`, `setMode`, `setPrimary`, `setSecondary`, `apply`.
+
+```ts
+const { setMode, setPrimary } = useMiTheme()
+setMode('dark')        // 'light' | 'dark' | 'system'
+setPrimary('#5E5CE6')  // every --mi-p* shade follows, in both appearances
+```
+
+Set the defaults in `nuxt.config.ts`:
+
+```ts
+export default defineNuxtConfig({
+  runtimeConfig: { public: { mi: { primary: '#0071E3', secondary: '#BF4800', mode: 'system' } } }
+})
+```
+
+<details>
+<summary><b>How it works and every token</b></summary>
+
+- Switching mode only flips `data-theme` on `<html>`; a theme change does not recompute component styles.
+- Cookies (1 year, `SameSite=Lax`): `mi-mode`, `mi-primary`, `mi-secondary`. They are read during SSR, so there is no theme flash; a blocking head script resolves `system` before first paint.
+- Brand ramps: `--mi-p*` (primary) and `--mi-s*` (secondary) are generated from a hex and emitted once in `<head>` for both appearances.
+- Other CSS variables: `--mi-page`, `--mi-card`, `--mi-label`, `--mi-label2`, `--mi-label3`, `--mi-sep`, `--mi-fill`..`--mi-fill4`, `--mi-field`, `--mi-mat`, `--mi-scrim`, status colors (`--mi-red`, `--mi-green`, `--mi-orange`, ...), radii (`--mi-radius-s|m|l|xl`), shadows (`--mi-sh1..3`), motion (`--mi-dur-1..4`, `--mi-ease`, `--mi-ease-in-out`, `--mi-spring`), `--mi-font`.
+- `<MiThemeSwitcher>` and `<MiColorPicker>` give a ready-made UI for the same API.
+
+</details>
+
+## Utility classes
+
+The layer includes `mi-atomic`, a Tailwind-like atomic CSS engine with no dependency and no runtime. Classes are prefixed with `mi:` so they live next to Tailwind without clashing, and the theme maps to the `--mi-*` tokens:
+
+```vue
+<div class="mi:@container mi:grid mi:gap-3 mi:@[560px]:grid-cols-2">
+  <article class="mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:hover:bg-p/10">…</article>
+</div>
+```
+
+At build time it scans the `app/` directory of every layer and of your project and writes the CSS of the classes it finds, and only those, to `.nuxt/mi-atomic.css` (hot-reloaded in dev). Production builds use short class names and compose per-element styles into the component stylesheets. Syntax, utilities and variants: [docs/atomic.md](docs/atomic.md).
+
+## Built for 60 fps
+
+- Animations and transitions touch only `transform` and `opacity` (plus `filter`/`clip-path` where compositor-friendly). Never `width`, `height`, `top`/`left`, margins, paddings, `box-shadow`, `background` or `all`.
+- Pointer-driven updates (drag, slider, sheet, swipe) are coalesced to one write per animation frame via `miOverlayRaf`.
+- Brand colors are emitted once; a theme change does not recompute component styles.
+- `node scripts/lint-motion.mjs [dir]` scans every component's `<style>` for transitions and keyframes on layout or paint properties and exits non-zero on any violation.
+- `node scripts/fps.mjs /<page> [baseUrl]` loads a playground page at mobile (390), tablet (820) and desktop (1440) widths in light and dark, interacts with it, samples `requestAnimationFrame` deltas and long tasks, and reports PASS/FAIL with console errors and horizontal overflow.
+
+## AI-ready docs
+
+Mica is designed to be written by AI assistants as well as by hand:
+
+- [`llms.txt`](llms.txt) lists every component in one line (about 3k tokens).
+- `docs/api/<MiName>.md` gives the exact props, slots and emits of one component (about 200 tokens each).
+- [`docs/blocks.md`](docs/blocks.md) indexes every block with its path and summary.
+- [`components.json`](components.json) holds the same data for tooling.
+
+All of it is generated from the source (`pnpm docs:gen`) and checked by `pnpm docs:check` and the test suite, so it never drifts. Point your assistant at [`AGENTS.md`](AGENTS.md), or copy its rules into your project's `CLAUDE.md`/`AGENTS.md`. The website serves the same files at `/llms.txt`, `/docs/<group>.md` and `/docs/api/<MiName>.md`.
+
+## Contributing
+
+<details>
+<summary><b>Development, tests and builds</b></summary>
+
+```bash
+pnpm install                                # development only, consumers install nothing
+pnpm dev                                    # playground on .playground
+pnpm test                                   # unit tests (tests/*.spec.ts)
+node scripts/lint-motion.mjs                # motion rules
+node scripts/fps.mjs /buttons http://localhost:3100   # frame-time probe (dev server must run)
+pnpm build                                  # production build of the playground
+pnpm typecheck                              # vue-tsc over layer and playground
+node scripts/gen-banner.mjs                 # regenerate the README banner after a count change
+```
+
+Node 24 or later is required. TypeScript is pinned to `~5.9` because `vue-tsc` 3.3 is not compatible with TypeScript 7. The playground lives in `.playground/` with one page per group. Binding rules for contributors: [docs/CONVENTIONS.md](docs/CONVENTIONS.md).
+
+</details>
+
+<details>
+<summary><b>Releasing</b></summary>
 
 The version lives in `package.json`; the git tag, the README pin and the version shown on the site all follow it. Never edit them by hand.
 
@@ -52,80 +243,10 @@ pnpm release patch --push   # or minor, major, x.y.z: force a level, commit, tag
 pnpm release:check          # also part of the test suite
 ```
 
-## Theming
+</details>
 
-`useMiTheme()` (auto-imported) returns `mode`, `primary`, `secondary`, `resolved`, `isDark`, `setMode`, `setPrimary`, `setSecondary`, `apply`.
-
-- Modes: `'light' | 'dark' | 'system'`. Switching only flips `data-theme` on `<html>`.
-- Cookies (1 year, `SameSite=Lax`): `mi-mode`, `mi-primary`, `mi-secondary`. They are read during SSR, so there is no theme flash; a blocking head script resolves `system` before first paint.
-- Brand ramps: `--mi-p*` (primary) and `--mi-s*` (secondary) are generated from a hex and emitted once in `<head>` for both appearances.
-- Other CSS variables: `--mi-page`, `--mi-card`, `--mi-label`, `--mi-label2`, `--mi-label3`, `--mi-sep`, `--mi-fill`..`--mi-fill4`, `--mi-field`, `--mi-mat`, `--mi-scrim`, status colors (`--mi-red`, `--mi-green`, `--mi-orange`, ...), radii (`--mi-radius-s|m|l|xl`), shadows (`--mi-sh1..3`), motion (`--mi-dur-1..4`, `--mi-ease`, `--mi-ease-in-out`, `--mi-spring`), `--mi-font`.
-- Defaults via `runtimeConfig.public.mi`:
-
-```ts
-export default defineNuxtConfig({
-  runtimeConfig: { public: { mi: { primary: '#0071E3', secondary: '#BF4800', mode: 'system' } } }
-})
-```
-
-`<MiThemeSwitcher>` and `<MiColorPicker>` give a ready-made UI for the same API.
-
-## Utility classes
-
-The layer includes `mi-atomic`, a Tailwind-like atomic CSS engine with no dependency and no runtime. Classes are prefixed with `mi:` so they live next to Tailwind without clashing; the theme maps to the `--mi-*` tokens:
-
-```vue
-<div class="mi:@container mi:grid mi:gap-3 mi:@[560px]:grid-cols-2">
-  <article class="mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:hover:bg-p/10">…</article>
-</div>
-```
-
-At build time it scans the `app/` directory of every layer and of your project, and writes the CSS of the classes it finds, and only those, to `.nuxt/mi-atomic.css` (hot-reloaded in dev). Syntax, utilities and variants: [docs/atomic.md](docs/atomic.md).
-
-Other composables: `useMiToast()` (with `<MiToaster>`), `useMiInputPopup()`.
-
-## Component index
-
-| Group | Docs | Components |
-|---|---|---|
-| Foundations (`Base`) | [docs/foundations.md](docs/foundations.md) | MiColorPicker, MiColorRamp, MiIcon, MiSurface, MiText, MiThemeSwitcher |
-| Buttons | [docs/buttons.md](docs/buttons.md) | MiButton, MiButtonGroup, MiIconButton, MiMenu, MiTextLink |
-| Controls | [docs/controls.md](docs/controls.md) | MiCheckbox, MiCheckboxGroup, MiChip, MiRadio, MiRadioGroup, MiSegmented, MiSlider, MiStepper, MiSwatch, MiSwitch |
-| Inputs | [docs/inputs.md](docs/inputs.md) | MiCalendar, MiCodeInput, MiDatePicker, MiField, MiFieldBox, MiForm, MiFormRow, MiInput, MiSearch, MiSelect, MiTagInput, MiTextarea |
-| Navigation | [docs/navigation.md](docs/navigation.md) | MiBreadcrumb, MiLocalNav, MiNavBar, MiNavGlyph, MiPageControl, MiPagination, MiSidebar, MiSteps, MiTabBar, MiToolbar |
-| Feedback | [docs/feedback.md](docs/feedback.md) | MiActionSheet, MiAlert, MiBadge, MiBanner, MiContextMenu, MiDialog, MiEmptyState, MiFbIcon, MiNotification, MiPopover, MiProgress, MiProgressRing, MiSheet, MiSkeleton, MiSpinner, MiToast, MiToaster, MiTooltip |
-| Content | [docs/content.md](docs/content.md) | MiAccordion, MiAccordionItem, MiAvatar, MiAvatarGroup, MiCard, MiDetails, MiList, MiListItem, MiSwipeRow, MiTable |
-| Charts | [docs/charts.md](docs/charts.md) | MiBarChart, MiChartCard, MiChartLegend, MiChartTable, MiHeatmap, MiLineChart, MiMeter, MiRings, MiSparkline, MiStackedBar, MiStatTile |
-
-Binding rules for contributors: [docs/CONVENTIONS.md](docs/CONVENTIONS.md).
-
-## AI-friendly docs
-
-`llms.txt` lists every component in one line (about 3k tokens); `docs/api/<MiName>.md` gives the exact props, slots and emits of one component. Both are generated from the source (`pnpm docs:gen`, checked by `pnpm docs:check` and the test suite). Point your assistant at `AGENTS.md` (copy its rules into your project's `CLAUDE.md`/`AGENTS.md`).
-
-## Performance guarantees
-
-- Animations and transitions touch only `transform` and `opacity` (plus `filter`/`clip-path` where compositor-friendly). Never `width`, `height`, `top`/`left`, margins, paddings, `box-shadow`, `background` or `all`.
-- Pointer-driven updates (drag, slider, sheet, swipe) are coalesced to one write per animation frame via `miOverlayRaf`.
-- Brand colors are emitted once; a theme change does not recompute component styles.
-- `node scripts/lint-motion.mjs [dir]` scans every component's `<style>` for transitions and keyframes on layout or paint properties and exits non-zero on any violation.
-- `node scripts/fps.mjs /<page> [baseUrl]` loads a playground page at mobile (390), tablet (820) and desktop (1440) widths in light and dark, interacts with it, samples `requestAnimationFrame` deltas and long tasks, and reports PASS/FAIL with console errors and horizontal overflow.
-
-## Testing and development
-
-```bash
-pnpm install                                # development only, consumers install nothing
-pnpm dev                                   # playground on .playground
-npx vitest run                             # unit tests (tests/*.spec.ts)
-node scripts/lint-motion.mjs               # motion rules
-node scripts/fps.mjs /buttons http://localhost:3100   # frame-time probe (dev server must run)
-npx nuxt build .playground                 # production build
-npx nuxt typecheck .playground             # vue-tsc over layer and playground
-```
-
-TypeScript is pinned to `~5.9` because `vue-tsc` 3.3 is not compatible with TypeScript 7. The playground lives in `.playground/` with one page per group.
-
-## Website
+<details>
+<summary><b>Website and GitHub Pages</b></summary>
 
 `site/` is the Mica landing page. It is a separate Nuxt app that extends the layer exactly like a user project would, in English (default) and French via `@nuxtjs/i18n`.
 
@@ -136,15 +257,21 @@ pnpm site:generate   # static output in site/.output/public, ready for an S3 buc
 
 The component explorer lives at `/components`: one page per component with a live preview, prop controls inferred from the generated manifest, a usage snippet and the full API. Each preview is a small file in `site/app/examples/<MiName>.vue`; see `site/app/examples/README.md` for the contract. A new component shows its API page right away and a placeholder until its example is added.
 
-Application UI blocks live at `/blocks`: ready-made sections (dashboards, tables, forms, chat, calendars, navigation…) built only with Mica components, each with a live preview at mobile, tablet and desktop widths and its source. One SFC per block in `site/app/blocks/<family>/<category>/`, described by the `meta.json` next to it; rules in `site/app/blocks/README.md`, inventory in [docs/blocks.md](docs/blocks.md).
-
-### GitHub Pages
+Blocks live at `/blocks`, one SFC per block in `site/app/blocks/<family>/<category>/`, described by the `meta.json` next to it; rules in `site/app/blocks/README.md`, inventory in [docs/blocks.md](docs/blocks.md).
 
 ```bash
 pnpm pages:build     # site at /nuxt-mica/, playground demos at /nuxt-mica/demo/, output in pages-dist
 pnpm pages:preview   # serve pages-dist locally (mount it under /nuxt-mica/ to test the sub-path)
 ```
 
-`.github/workflows/pages.yml` runs the docs check, the tests and `pages:build`, then deploys `pages-dist` on every push to `main`. In the repository settings, set Pages > Source to "GitHub Actions". The sub-path is the repository name; for a user or organisation site (or a custom domain) run `node scripts/build-pages.mjs ""` to build for the root. The site also serves the AI docs: `/llms.txt`, `/docs/<group>.md` and `/docs/api/<MiName>.md`.
+`.github/workflows/pages.yml` runs the docs check, the tests and `pages:build`, then deploys `pages-dist` on every push to `main`. In the repository settings, set Pages > Source to "GitHub Actions". The sub-path is the repository name; for a user or organisation site (or a custom domain) run `node scripts/build-pages.mjs ""` to build for the root.
 
 Set `NUXT_PUBLIC_I18N_BASE_URL` to the public origin (hreflang and canonical tags) and `NUXT_PUBLIC_SHOWCASE_URL` to where the playground showcase is served. The component catalog and the `llms.txt` excerpt on the page are read from the generated manifest at build time, so they never drift.
+
+</details>
+
+---
+
+<div align="center">
+  <sub>MIT licensed · Made with care for calm interfaces · <a href="https://dimitriderthe.github.io/nuxt-mica/">dimitriderthe.github.io/nuxt-mica</a></sub>
+</div>

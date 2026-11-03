@@ -21,7 +21,7 @@ const items = ref([
 <template>
   <MiSortable v-model="items" v-bind="p" class="ex-sort" :item-label="i => i.title">
     <template #default="{ item }">
-      <div class="ex-sort__row">
+      <div class="ex-sort__row mi:grid mi:gap-0.5 mi:whitespace-nowrap">
         <MiText variant="body" weight="medium">{{ item.title }}</MiText>
         <MiText variant="footnote" tone="label2">{{ item.meta }}</MiText>
       </div>
@@ -31,5 +31,4 @@ const items = ref([
 
 <style scoped>
 .ex-sort { width: min(100%, 420px); }
-.ex-sort__row { display: grid; gap: 2px; white-space: nowrap; }
 </style>
