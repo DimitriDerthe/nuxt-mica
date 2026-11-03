@@ -3,6 +3,8 @@ import { join } from 'node:path'
 export default defineNuxtConfig({
   compatibilityDate: '2026-10-01',
   components: [{ path: join(import.meta.dirname, 'app/components'), pathPrefix: false }],
+  // `mi:` atomic utility classes, generated at build time from the classes the sources use.
+  modules: [join(import.meta.dirname, 'modules/mi-atomic')],
   css: [join(import.meta.dirname, 'app/assets/css/mi.css')],
   runtimeConfig: {
     public: {
