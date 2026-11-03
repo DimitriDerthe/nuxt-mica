@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { decode, extract, generate, parse } from '../modules/mi-atomic/engine'
+import { apply, globalClasses, plan } from '../modules/mi-atomic/compose'
+import { composeCss, decode, extract, generate, parse, rename, shortNames } from '../modules/mi-atomic/engine'
 
 const css = (...t: string[]) => generate(t)
 const decls = (t: string) => parse(t)?.decls
@@ -106,5 +107,48 @@ describe('mi-atomic extraction', () => {
 
   it('drops prose punctuation', () => {
     expect([...extract('Use mi:flex. Or mi:grid:')]).toEqual(['mi:flex', 'mi:grid'])
+  })
+})
+
+describe('mi-atomic production names', () => {
+  it('gives the shortest names to the most used classes and renames sources', () => {
+    const names = shortNames(new Map([['mi:p-2', 1], ['mi:flex', 9], ['mi:group', 3]]))
+    expect([...names]).toEqual([['mi:flex', '_0'], ['mi:group', '_1'], ['mi:p-2', '_2']])
+    expect(rename('<a class="kpi mi:flex mi:group"> mi:nope', names)).toBe('<a class="kpi _0 _1"> mi:nope')
+    expect(generate(['mi:group-hover:p-2', 'mi:group'], 'mi', new Map([['mi:group', '_1'], ['mi:group-hover:p-2', '_2']]))).toBe('._1:hover ._2{padding:8px}')
+  })
+})
+
+describe('mi-atomic composition', () => {
+  const sfc = (tpl: string, script = '') => `<template>\n${tpl}\n</template>\n<script setup>${script}</script>\n<style scoped>\n.k { color: red }\n</style>`
+
+  it('merges the static classes of an element in the fixed order, folding shorthands back', () => {
+    expect(composeCss(['mi:pt-2', 'mi:py-4', 'mi:px-4.5', 'mi:hover:bg-p', 'mi:@[560px]:grid'], '_x'))
+      .toBe('._x{padding-block:16px;padding-inline:18px;padding-top:8px}._x:hover{background-color:var(--mi-p)}@container (min-width:560px){._x{display:grid}}')
+    expect(composeCss(['mi:py-4', 'mi:px-4.5', 'mi:border', 'mi:border-sep'], '_x')).toBe('._x{border-style:solid;border-width:1px;border-color:var(--mi-sep);padding:16px 18px}')
+    expect(composeCss(['mi:border', 'mi:border-dashed'], '_x')).toContain('var(--mia-bs, solid)')
+  })
+
+  it('composes static classes, keeps dynamic ones and those they could override atomic', () => {
+    const src = sfc('<div class="k mi:flex mi:gap-3 mi:p-4" :class="{ \'mi:bg-p\': on }"><span class="mi:p-2 mi:pt-1 mi:bg-card" :class="x" /></div>', 'const x = on ? \'mi:bg-red\' : \'\'')
+    const p = plan(src)
+    expect(p.elements.map(e => [e.tokens, e.keep])).toEqual([[['mi:flex', 'mi:gap-3', 'mi:p-4'], ['k']], [['mi:p-2', 'mi:pt-1'], ['mi:bg-card']]])
+    expect([...p.atomic].sort()).toEqual(['mi:bg-card', 'mi:bg-p', 'mi:bg-red'])
+    // Any `:class` may also receive the script's classes, so every background class here competes.
+    expect(globalClasses([p])).toEqual(new Set(['mi:bg-red', 'mi:bg-p', 'mi:bg-card']))
+  })
+
+  it('writes composed rules into the scoped block as :global() rules', () => {
+    const src = sfc('<div class="k mi:flex mi:gap-2"><i class="mi:[.k_&]:block mi:p-1" /></div>')
+    const out = apply(src, plan(src, 'mi', new Map([['mi:flex mi:gap-2', '_a'], ['mi:[.k_&]:block mi:p-1', '_b']])))
+    expect(out).toContain('<div class="k _a"><i class="_b" />')
+    expect(out).toMatch(/\.k \{ color: red \}\n\n:global\(\._a\)\{display:flex;gap:8px\}:global\(\._b\)\{padding:4px\}:global\(\.k \._b\)\{display:block\}\n<\/style>/)
+  })
+
+  it('drops plain classes nothing selects when stripping, and keeps the referenced ones', () => {
+    const src = sfc('<div class="k bar mi:flex mi:gap-2"><i class="mi:[.bar_&]:block mi:p-1" /></div>')
+    expect(apply(src, plan(src), 'mi', undefined, undefined, true)).toMatch(/<div class="k bar __\w+">/)
+    const lone = sfc('<p class="lone mi:flex mi:gap-2" />')
+    expect(apply(lone, plan(lone), 'mi', undefined, undefined, true)).toMatch(/<p class="__\w+" \/>/)
   })
 })

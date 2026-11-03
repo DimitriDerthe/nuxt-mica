@@ -62,11 +62,26 @@ Variants apply left to right: `mi:[&_span]:hover:underline` styles a hovered spa
 
 ## Cascade
 
-The order of the generated sheet is fixed, not taken from the source: rules without at-rules first, then media queries, then container queries (each sorted by width, `min` ascending, `max` descending); within a group, plain rules before variants; then shorthands before longhands (`mi:p-4 mi:pt-2` keeps the 8px top padding). Utilities are single-class selectors, unlayered, loaded after `mi.css`: a scoped style (`.x[data-v]`) still wins over them.
+The order of the generated sheet is fixed, not taken from the source: rules without at-rules first, then media queries, then container queries (each sorted by width, `min` ascending, `max` descending); within a group, plain rules before variants; then shorthands before longhands (`mi:p-4 mi:pt-2` keeps the 8px top padding). Utilities are single-class selectors, unlayered, loaded after `mi.css` (whose base rules use `:where()`, so a utility beats them): a scoped style (`.x[data-v]`) still wins over them.
+
+## Production build
+
+Dev serves one readable sheet of `mi:` classes. A production build (`nuxt build`/`nuxt generate`) goes further, with the same rendering:
+
+- **Short names** (`mangle`): every class becomes `_0`, `_1`, … in markup, scripts and CSS, the most used getting the shortest. `?raw` imports keep the readable source.
+- **Composition** (`compose`): the static `mi:` classes of each template element merge into one class, written into the component's own stylesheet (inside its `<style scoped>` block as `:global()` rules, so no scope attribute and no extra sheet). The rules keep the engine's order, and block/inline pairs fold back into shorthands (`padding: 16px 18px`). An element then has one class to match, as with a hand-written rule, and a page loads only the rules of the components it renders. Classes set from `:class` or from script stay atomic; those that could compete on one element stay in the global sheet, in its fixed order.
+- **Strip** (`strip`, opt-in per directory): composed elements drop the plain class names nothing selects any more. Meant for app code; the layer's own `mi-*` class names stay.
+
+```ts
+export default defineNuxtConfig({
+  miAtomic: { prefix: 'mi', scan: ['content'], mangle: true, compose: true, strip: ['app/pages'] }
+})
+```
+
+`mangle` and `compose` default to on in production and off in dev; `strip` defaults to none.
 
 ## Performance
 
-- Only the classes present in the sources are generated: the sheet is tree-shaken by construction.
+- Only the classes present in the sources are generated: the sheet is tree-shaken by construction. No runtime code.
 - Values are literals where possible (`18px`, not `calc(var(--spacing) * 4.5)`); helper `@property` and `@keyframes` blocks are emitted only when a class needs them.
-- Every rule is one class selector (the cheapest to match), rules with the same declarations are merged, and each at-rule block is opened once.
-- `prefix` and extra scan directories are set in `nuxt.config`: `miAtomic: { prefix: 'mi', scan: ['content'] }`.
+- Every rule is one class selector, rules with the same declarations are merged, and each at-rule block is opened once.

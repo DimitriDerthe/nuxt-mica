@@ -13,6 +13,9 @@ export interface Rule {
   /** At-rule preludes, outermost first (`@container (min-width:560px)`). */
   at: string[]
   selector: string
+  /** Selector with `&` standing for the class, and the marker classes (`group`, `peer`) it references. */
+  template: string
+  markers: string[]
   decls: Decl[]
   important: boolean
   key: SortKey
@@ -549,7 +552,7 @@ function attrSel(prefix: 'aria' | 'data', v: string): string | null {
   return /^[\w-]+$/.test(v) ? `[data-${v}]` : null
 }
 
-function variant(v: string, prefix: string): Variant | null {
+function variant(v: string, prefix: string, markers: string[] = []): Variant | null {
   const sel = pseudoSel(v)
   if (sel) return { kind: 'sel', tpl: '&' + sel, order: 10 + PSEUDO.indexOf(v) }
   if (v in ELEMENTS) return { kind: 'el', el: ELEMENTS[v]!, order: 0 }
@@ -593,7 +596,9 @@ function variant(v: string, prefix: string): Variant | null {
   if (m) return { kind: 'sel', tpl: `&:has(${decode(m[1]!)})`, order: 7 }
   m = /^(group|peer)-(.+?)(?:\/([\w-]+))?$/.exec(v)
   if (m) {
-    const marker = '.' + escape(`${prefix}:${m[1]}${m[3] ? '/' + m[3] : ''}`)
+    const markerToken = `${prefix}:${m[1]}${m[3] ? '/' + m[3] : ''}`
+    markers.push(markerToken)
+    const marker = '.' + escape(markerToken)
     const s = pseudoSel(m[2]!) ?? (/^\[(.+)\]$/.test(m[2]!) ? decode(m[2]!.slice(1, -1)) : null)
       ?? (/^(aria|data)-/.test(m[2]!) ? attrSel(m[2]!.slice(0, 4) as 'aria' | 'data', m[2]!.slice(5)) : null)
     if (!s) return null
@@ -707,8 +712,9 @@ function build(token: string, prefix: string): Rule | null {
   const at: string[] = []
   const atKey: number[] = []
   const variants: number[] = []
+  const markers: string[] = []
   for (const p of parts) {
-    const v = variant(p, prefix)
+    const v = variant(p, prefix, markers)
     if (!v) return null
     if (v.kind === 'el') { if (el) return null; el = v.el; variants.push(100) }
     else if (v.kind === 'at') { at.push(v.at); atKey.push(...v.key) }
@@ -722,6 +728,8 @@ function build(token: string, prefix: string): Rule | null {
     token,
     at,
     selector: sel.replaceAll('&', '.' + escape(token)) + el,
+    template: sel + el,
+    markers,
     decls,
     important,
     extras: res.extras,
@@ -746,8 +754,19 @@ export function compare(a: Rule, b: Rule): number {
 
 const body = (r: Rule) => r.decls.map(([p, v]) => `${p}:${v}${r.important ? '!important' : ''}`).join(';')
 
-/** Generates the stylesheet for a set of classes. Unknown classes are ignored. */
-export function generate(tokens: Iterable<string>, prefix = 'mi'): string {
+/** The selector of a rule, with its class (and markers) under their short production names when given. */
+function selectorOf(r: Rule, names?: Map<string, string>): string {
+  if (!names) return r.selector
+  let s = r.template.replaceAll('&', '.' + escape(names.get(r.token) ?? r.token))
+  for (const m of r.markers) s = s.replaceAll('.' + escape(m), '.' + escape(names.get(m) ?? m))
+  return s
+}
+
+/**
+ * Generates the stylesheet for a set of classes. Unknown classes are ignored. `names` maps classes to the short
+ * names production markup uses instead (see `shortNames` and `rename`).
+ */
+export function generate(tokens: Iterable<string>, prefix = 'mi', names?: Map<string, string>): string {
   const rules: Rule[] = []
   for (const t of new Set(tokens)) {
     const r = parse(t, prefix)
@@ -771,16 +790,69 @@ export function generate(tokens: Iterable<string>, prefix = 'mi'): string {
     }
     // Merge consecutive rules that declare the same thing.
     const b = body(r)
-    if (prev && body(prev) === b) out = out.slice(0, out.lastIndexOf('{')) + ',' + r.selector + '{' + b + '}'
-    else out += `${r.selector}{${b}}`
+    const sel = selectorOf(r, names)
+    if (prev && body(prev) === b) out = out.slice(0, out.lastIndexOf('{')) + ',' + sel + '{' + b + '}'
+    else out += `${sel}{${b}}`
     prev = r
   }
   out += '}'.repeat(open.length)
   return [...extras].join('') + out
 }
 
-/** Pulls every `<prefix>:` class candidate out of source text (templates, scripts, any string). */
-export function extract(src: string, prefix = 'mi', into = new Set<string>()): Set<string> {
+/**
+ * CSS of one composed class: the rules of `tokens` under the single class `name`, in the engine's fixed order.
+ * Consecutive rules with the same condition merge into one, declarations kept in order, so the element computes
+ * exactly what it would with the separate classes. `@property`/`@keyframes` blocks are left to the global sheet.
+ */
+export function composeCss(tokens: Iterable<string>, name: string, prefix = 'mi', names?: Map<string, string>): string {
+  const rules = [...new Set(tokens)].map(t => parse(t, prefix)).filter((r): r is Rule => !!r && r.decls.length > 0).sort(compare)
+  // The element's whole set is known: a border or outline style left to its `var(--mia-*, solid)` fallback is solid.
+  const sets = (v: string) => rules.some(r => r.decls.some(([p]) => p === v))
+  const solid = { '--mia-bs': !sets('--mia-bs'), '--mia-os': !sets('--mia-os') }
+  const blocks: { at: string[], sel: string, decls: [string, string, boolean][] }[] = []
+  for (const r of rules) {
+    let sel = r.template.replaceAll('&', '.' + escape(name))
+    if (names) for (const m of r.markers) sel = sel.replaceAll('.' + escape(m), '.' + escape(names.get(m) ?? m))
+    const last = blocks[blocks.length - 1]
+    const decls = r.decls.map(([p, v]) => [p, v.replace(/var\((--mia-[bo]s), solid\)/g, (m, k: '--mia-bs' | '--mia-os') => (solid[k] ? 'solid' : m)), r.important] as [string, string, boolean])
+    if (last && last.sel === sel && last.at.join('\0') === r.at.join('\0')) last.decls.push(...decls)
+    else blocks.push({ at: r.at, sel, decls })
+  }
+  let out = ''
+  let open: string[] = []
+  for (const b of blocks) {
+    let same = 0
+    while (same < open.length && same < b.at.length && open[same] === b.at[same]) same++
+    if (same < open.length || b.at.length > same) {
+      out += '}'.repeat(open.length - same)
+      for (const a of b.at.slice(same)) out += a + '{'
+      open = b.at
+    }
+    out += `${b.sel}{${shorthands(b.decls).map(([p, v, i]) => `${p}:${v}${i ? '!important' : ''}`).join(';')}}`
+  }
+  return out + '}'.repeat(open.length)
+}
+
+const PAIRS: [string, string, string, RegExp][] = [
+  ['padding-block', 'padding-inline', 'padding', /^padding/], ['margin-block', 'margin-inline', 'margin', /^margin/],
+  ['inset-block', 'inset-inline', 'inset', /^(inset|top|right|bottom|left)/], ['row-gap', 'column-gap', 'gap', /^(gap|row-gap|column-gap)$/]
+]
+/** Folds block/inline longhand pairs back into their shorthand when nothing else in the rule touches that box. */
+function shorthands(decls: [string, string, boolean][]): [string, string, boolean][] {
+  let out = decls
+  for (const [a, b, short, family] of PAIRS) {
+    const ia = out.findIndex(d => d[0] === a)
+    const ib = out.findIndex(d => d[0] === b)
+    if (ia === -1 || ib === -1 || out[ia]![2] !== out[ib]![2]) continue
+    if (out.some((d, i) => i !== ia && i !== ib && family.test(d[0]))) continue
+    const first = Math.min(ia, ib)
+    out = out.flatMap((d, i) => (i === first ? [[short, `${out[ia]![1]} ${out[ib]![1]}`, d[2]] as [string, string, boolean]] : i === ia || i === ib ? [] : [d]))
+  }
+  return out
+}
+
+/** Calls `found(start, end)` for every `<prefix>:` class candidate in source text (templates, scripts, any string). */
+function scan(src: string, prefix: string, found: (start: number, end: number) => void): void {
   const head = prefix + ':'
   let i = src.indexOf(head)
   while (i !== -1) {
@@ -798,15 +870,47 @@ export function extract(src: string, prefix = 'mi', into = new Set<string>()): S
         else if (depth && (c === 39 || c === 34)) quote = c
         else if (!depth && (c <= 32 || c === 34 || c === 39 || c === 96 || c === 60 || c === 62 || c === 44 || c === 59 || c === 123 || c === 125 || c === 92)) break
       }
-      let t = src.slice(i, j)
       // Trailing punctuation from prose or code (`mi:flex.`) is not part of the class.
-      while (t.length > head.length && /[.:]$/.test(t)) t = t.slice(0, -1)
-      if (t.length > head.length) into.add(t)
+      let end = j
+      while (end > i + head.length && (src[end - 1] === '.' || src[end - 1] === ':')) end--
+      if (end > i + head.length) found(i, end)
       i = src.indexOf(head, j)
     }
     else i = src.indexOf(head, i + head.length)
   }
+}
+
+/** Every `<prefix>:` class candidate in source text. */
+export function extract(src: string, prefix = 'mi', into = new Set<string>()): Set<string> {
+  scan(src, prefix, (a, b) => into.add(src.slice(a, b)))
   return into
+}
+
+/** How many times each class candidate occurs in source text, added to `into`. */
+export function occurrences(src: string, prefix = 'mi', into = new Map<string, number>()): Map<string, number> {
+  scan(src, prefix, (a, b) => { const t = src.slice(a, b); into.set(t, (into.get(t) ?? 0) + 1) })
+  return into
+}
+
+/** Production names: the most used classes get the shortest ones (`_0`, `_1`, … `_z`, `_10`, …). */
+export function shortNames(counts: Map<string, number>): Map<string, string> {
+  const names = new Map<string, string>()
+  const sorted = [...counts].sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1))
+  sorted.forEach(([t], i) => names.set(t, '_' + i.toString(36)))
+  return names
+}
+
+/** Replaces every known class of a source text by its production name. */
+export function rename(src: string, names: Map<string, string>, prefix = 'mi'): string {
+  let out = ''
+  let last = 0
+  scan(src, prefix, (a, b) => {
+    const n = names.get(src.slice(a, b))
+    if (n === undefined) return
+    out += src.slice(last, a) + n
+    last = b
+  })
+  return last ? out + src.slice(last) : src
 }
 
 function isWord(c: number): boolean {
