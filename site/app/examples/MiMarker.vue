@@ -12,7 +12,7 @@ defineProps<{ p: Record<string, unknown> }>()
 </script>
 
 <template>
-  <div class="ex-thread">
+  <div class="ex-thread mi:grid mi:gap-3">
     <MiBubble align="start" variant="secondary">Did the build go through?</MiBubble>
     <MiMarker v-bind="p" :href="p.as === 'a' ? '#' : undefined">
       <template #icon><MiIcon name="calendar" :size="14" /></template>
@@ -23,5 +23,5 @@ defineProps<{ p: Record<string, unknown> }>()
 </template>
 
 <style scoped>
-.ex-thread { display: grid; gap: 12px; width: min(100%, 420px); margin-inline: auto; }
+.ex-thread { width: min(100%, 420px); margin-inline: auto; }
 </style>

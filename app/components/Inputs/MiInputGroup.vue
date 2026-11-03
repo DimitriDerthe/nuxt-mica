@@ -46,31 +46,29 @@ defineSlots<{
 </script>
 
 <template>
-  <MiFieldBox class="mi-ig" :class="{ 'mi-ig--multi': multiline }" v-bind="rootAttrs" role="group" :size="size" :invalid="isInvalid" :disabled="isDisabled">
-    <div v-if="$slots['block-start']" class="mi-ig__block mi-ig__block--start"><slot name="block-start" /></div>
-    <div class="mi-ig__row">
-      <span v-if="$slots['inline-start'] || $slots.leading" class="mi-ig__addon"><slot name="inline-start"><slot name="leading" /></slot></span>
+  <MiFieldBox class="mi-ig mi:flex-col" :class="{ 'mi-ig--multi': multiline }" v-bind="rootAttrs" role="group" :size="size" :invalid="isInvalid" :disabled="isDisabled">
+    <div v-if="$slots['block-start']" class="mi-ig__block mi-ig__block--start mi:flex mi:items-center mi:gap-1.5 mi:py-2 mi:px-3 mi:text-label2 mi:text-[.9em]"><slot name="block-start" /></div>
+    <div class="mi-ig__row mi:flex mi:items-center mi:flex-1 mi:min-w-0 mi:min-h-[inherit]">
+      <span v-if="$slots['inline-start'] || $slots.leading" class="mi-ig__addon mi:flex mi:items-center mi:gap-1.5 mi:flex-[none] mi:text-label2 mi:text-[.9em]"><slot name="inline-start"><slot name="leading" /></slot></span>
       <textarea
-        v-if="multiline" v-bind="inAttrs" :id="id" v-model="model" class="mi-ig__input mi-ig__input--area" :rows="rows" :disabled="isDisabled"
+        v-if="multiline" v-bind="inAttrs" :id="id" v-model="model" class="mi-ig__input mi-ig__input--area mi:self-stretch mi:[border:0] mi:[outline:none] mi:resize-none" :rows="rows" :disabled="isDisabled"
         :aria-invalid="isInvalid || undefined" :aria-describedby="field?.describedBy.value"
       />
       <input
-        v-else v-bind="inAttrs" :id="id" v-model="model" class="mi-ig__input" :disabled="isDisabled"
+        v-else v-bind="inAttrs" :id="id" v-model="model" class="mi-ig__input mi:self-stretch mi:[border:0] mi:[outline:none]" :disabled="isDisabled"
         :aria-invalid="isInvalid || undefined" :aria-describedby="field?.describedBy.value"
       >
-      <span v-if="$slots['inline-end'] || $slots.trailing" class="mi-ig__addon mi-ig__addon--end"><slot name="inline-end"><slot name="trailing" /></slot></span>
+      <span v-if="$slots['inline-end'] || $slots.trailing" class="mi-ig__addon mi-ig__addon--end mi:flex mi:items-center mi:gap-1.5 mi:flex-[none] mi:text-label2 mi:text-[.9em]"><slot name="inline-end"><slot name="trailing" /></slot></span>
     </div>
-    <div v-if="$slots['block-end']" class="mi-ig__block mi-ig__block--end"><slot name="block-end" /></div>
+    <div v-if="$slots['block-end']" class="mi-ig__block mi-ig__block--end mi:flex mi:items-center mi:gap-1.5 mi:py-2 mi:px-3 mi:text-label2 mi:text-[.9em]"><slot name="block-end" /></div>
   </MiFieldBox>
 </template>
 
 <style scoped>
-.mi-ig { flex-direction: column; align-items: stretch; }
-.mi-ig__row { display: flex; align-items: center; flex: 1; min-width: 0; min-height: inherit; }
-.mi-ig__input { flex: 1; min-width: 0; align-self: stretch; padding: 0 14px; border: 0; background: transparent; color: inherit; font: inherit; outline: none; }
-.mi-ig__input--area { padding: 10px 14px; resize: none; }
+.mi-ig { align-items: stretch; }
+.mi-ig__input { flex: 1; min-width: 0; padding: 0 14px; background: transparent; color: inherit; font: inherit; }
+.mi-ig__input--area { padding: 10px 14px; }
 .mi-ig__input::placeholder { color: var(--mi-label2); }
-.mi-ig__addon { display: flex; align-items: center; gap: 6px; flex: none; padding: 0 8px 0 12px; color: var(--mi-label2); font-size: .9em; }
+.mi-ig__addon { padding: 0 8px 0 12px; }
 .mi-ig__addon--end { padding: 0 8px 0 4px; }
-.mi-ig__block { display: flex; align-items: center; gap: 6px; padding: 8px 12px; color: var(--mi-label2); font-size: .9em; }
 </style>

@@ -40,27 +40,21 @@ function openFrom(e: MouseEvent) {
 </script>
 
 <template>
-  <div class="ex">
+  <div class="ex mi:grid mi:gap-3 mi:justify-items-center">
     <MiContextMenu ref="menu" v-model="open" v-bind="p" @select="id => (last = 'Selected: ' + id)">
-      <div class="file" tabindex="0">
-        <div class="doc"><MiIcon name="document" :size="26" /></div>
+      <div class="file mi:flex mi:items-center mi:gap-3.5 mi:w-[min(100vw_-_72px,_280px)] mi:py-3.5 mi:px-4 mi:rounded-[16px] mi:bg-card mi:shadow-1 mi:cursor-[context-menu] mi:select-none mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" tabindex="0">
+        <div class="doc mi:grid mi:place-items-center mi:w-11.5 mi:h-11.5 mi:rounded-[12px] mi:bg-p-tint mi:text-p"><MiIcon name="document" :size="26" /></div>
         <div class="txt">
-          <div class="name">Q4 roadmap.key</div>
-          <div class="sub">Right-click or long-press</div>
+          <div class="name mi:text-[15px] mi:font-semibold mi:text-label">Q4 roadmap.key</div>
+          <div class="sub mi:text-[13px] mi:text-label2">Right-click or long-press</div>
         </div>
       </div>
     </MiContextMenu>
     <MiButton variant="gray" size="small" @click="openFrom">Open menu</MiButton>
-    <p class="note" aria-live="polite">{{ last || 'Edited 2 hours ago by Maya' }}</p>
+    <p class="note mi:text-[13px] mi:text-label2 mi:m-0" aria-live="polite">{{ last || 'Edited 2 hours ago by Maya' }}</p>
   </div>
 </template>
 
 <style scoped>
-.ex { display: grid; gap: 12px; justify-items: center; width: min(100%, 300px); }
-.file { display: flex; align-items: center; gap: 14px; width: min(100vw - 72px, 280px); padding: 14px 16px; border-radius: 16px; background: var(--mi-card); box-shadow: var(--mi-sh1); cursor: context-menu; user-select: none; }
-.file:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-.doc { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 12px; background: var(--mi-p-tint); color: var(--mi-p); }
-.name { font-size: 15px; font-weight: 600; color: var(--mi-label); }
-.sub, .note { font-size: 13px; color: var(--mi-label2); }
-.note { margin: 0; }
+.ex { width: min(100%, 300px); }
 </style>

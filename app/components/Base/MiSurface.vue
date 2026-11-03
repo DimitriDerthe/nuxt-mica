@@ -37,7 +37,7 @@ defineSlots<{
     class="mi-surface"
     :class="[`mi-surface--${variant}`, `mi-surface--r-${radius}`, `mi-surface--p-${padding}`, `mi-surface--e${level}`, variant === 'material' && `mi-surface--m-${material}`]"
   >
-    <span v-if="variant === 'material'" class="mi-surface__bg" aria-hidden="true" />
+    <span v-if="variant === 'material'" class="mi-surface__bg mi:absolute mi:inset-0 mi:-z-1 mi:rounded-[inherit] mi:pointer-events-none mi:shadow-[inset_0_0_0_.5px_var(--mi-mat-b)] mi:bg-mat" aria-hidden="true" />
     <slot />
   </component>
 </template>
@@ -60,7 +60,7 @@ defineSlots<{
 .mi-surface--p-md{padding:18px}
 .mi-surface--p-lg{padding:24px}
 /* Blur lives on one static layer behind the content; nothing inside it is animated by the surface. */
-.mi-surface__bg{position:absolute;inset:0;z-index:-1;border-radius:inherit;pointer-events:none;box-shadow:inset 0 0 0 .5px var(--mi-mat-b);background:var(--mi-mat);-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%)}
+.mi-surface__bg{-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%)}
 .mi-surface--m-ultra-thin .mi-surface__bg{background:color-mix(in srgb,var(--mi-mat) 42%,transparent)}
 .mi-surface--m-thin .mi-surface__bg{background:color-mix(in srgb,var(--mi-mat) 69%,transparent)}
 .mi-surface--m-regular .mi-surface__bg{background:var(--mi-mat)}

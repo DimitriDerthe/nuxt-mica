@@ -1,6 +1,6 @@
 <template>
-  <section class="dsi" aria-labelledby="dsi-title">
-    <header class="dsi__head">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="dsi-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="dsi-title" variant="title3" as="h2" weight="semibold">Warehouse tables</MiText>
         <MiText variant="footnote" tone="label2">analytics schema · {{ staleCount }} of {{ sets.length }} tables past their freshness SLA</MiText>
@@ -11,17 +11,17 @@
       </MiButton>
     </header>
 
-    <div class="dsi__layout">
+    <div class="mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:gap-3 mi:@[760px]:grid-cols-[260px_minmax(0,_1fr)] mi:@[760px]:items-start">
       <!-- Freshness list: each bar is the table's age as a share of its SLA, so stale tables read at a glance. -->
-      <ul class="dsi__list" aria-label="Tables">
+      <ul class="mi:grid mi:gap-1.5 mi:m-0 mi:p-0 mi:[list-style:none] mi:[@container_(min-width:_480px)_and_(max-width:_759px)]:grid-cols-2" aria-label="Tables">
         <li v-for="d in sets" :key="d.id">
-          <button type="button" class="dsi__item" :class="{ 'is-on': d.id === active }" :aria-pressed="d.id === active" @click="active = d.id">
-            <span class="dsi__item-top">
-              <span class="dsi__mono">{{ d.name }}</span>
+          <button type="button" class="mi:grid mi:gap-1.5 mi:w-full mi:p-3 mi:[border:0] mi:rounded-lg mi:text-start mi:[font:inherit] mi:text-inherit mi:bg-card mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" :class="d.id === active ? 'mi:shadow-[0_0_0_2px_var(--mi-p),_var(--mi-sh1)]' : 'mi:shadow-1'" :aria-pressed="d.id === active" @click="active = d.id">
+            <span class="mi:flex mi:items-baseline mi:justify-between mi:gap-2">
+              <span class="mi:font-[ui-monospace,SFMono-Regular,Menlo,monospace] mi:text-[12.5px] mi:font-semibold mi:wrap-anywhere">{{ d.name }}</span>
               <MiText as="span" variant="caption" tone="label2" tabular>{{ d.rows }}</MiText>
             </span>
-            <span class="dsi__fresh" :class="'is-' + state(d)">
-              <i :style="{ transform: `scaleX(${Math.min(1, d.age / d.sla)})` }" />
+            <span class="mi:block mi:h-1 mi:rounded-[2px] mi:bg-fill3 mi:overflow-hidden">
+              <i class="mi:block mi:h-full mi:rounded-[inherit] mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)] " :class="state(d) === 'warn' ? 'mi:bg-orange' : state(d) === 'stale' ? 'mi:bg-red' : 'mi:bg-green'" :style="{ transform: `scaleX(${Math.min(1, d.age / d.sla)})` }" />
             </span>
             <MiText as="span" variant="caption" :tone="state(d) === 'stale' ? 'red' : 'label2'" tabular>
               Updated {{ ago(d.age) }} ago · SLA {{ ago(d.sla) }}
@@ -30,51 +30,51 @@
         </li>
       </ul>
 
-      <article class="dsi__detail" :aria-label="current.name + ' details'">
-        <div class="dsi__detail-head">
-          <div class="dsi__detail-title">
-            <MiText as="h3" variant="headline" class="dsi__mono dsi__mono--lg">analytics.{{ current.name }}</MiText>
+      <article class="mi:grid mi:gap-4 mi:p-4 mi:rounded-xl mi:bg-card mi:shadow-1 mi:min-w-0" :aria-label="current.name + ' details'">
+        <div class="mi:flex mi:flex-wrap mi:[align-items:flex-start] mi:justify-between mi:gap-2.5">
+          <div class="mi:grid mi:gap-0.5 mi:min-w-0">
+            <MiText as="h3" variant="headline" class="mi:font-[ui-monospace,SFMono-Regular,Menlo,monospace]! mi:text-[15px]! mi:font-semibold! mi:wrap-anywhere!">analytics.{{ current.name }}</MiText>
             <MiText variant="caption" tone="label2">{{ current.blurb }}</MiText>
           </div>
           <MiSegmented v-model="tab" label="Detail view" :options="tabs" />
         </div>
 
-        <dl class="dsi__facts">
-          <div><dt>Rows</dt><dd>{{ current.rows }}</dd></div>
-          <div><dt>Size</dt><dd>{{ current.size }}</dd></div>
-          <div><dt>Owner</dt><dd class="dsi__owner"><MiAvatar :name="current.owner" size="xs" tone="auto" decorative />{{ current.owner }}</dd></div>
-          <div><dt>Masked</dt><dd>{{ masked }} of {{ current.columns.length }}</dd></div>
+        <dl class="mi:grid mi:grid-cols-2 mi:gap-px mi:m-0 mi:rounded-md mi:overflow-hidden mi:bg-sep mi:@[560px]:grid-cols-4">
+          <div class="mi:grid mi:bg-card mi:gap-0.5 mi:py-2.5 mi:px-3"><dt class="mi:text-[11px] mi:text-label2">Rows</dt><dd class="mi:text-[15px] mi:font-semibold mi:m-0 mi:tabular-nums">{{ current.rows }}</dd></div>
+          <div class="mi:grid mi:bg-card mi:gap-0.5 mi:py-2.5 mi:px-3"><dt class="mi:text-[11px] mi:text-label2">Size</dt><dd class="mi:text-[15px] mi:font-semibold mi:m-0 mi:tabular-nums">{{ current.size }}</dd></div>
+          <div class="mi:grid mi:bg-card mi:gap-0.5 mi:py-2.5 mi:px-3"><dt class="mi:text-[11px] mi:text-label2">Owner</dt><dd class="mi:text-[13px] mi:font-semibold mi:m-0 mi:tabular-nums mi:flex mi:items-center mi:gap-1.5 mi:min-w-0"><MiAvatar :name="current.owner" size="xs" tone="auto" decorative />{{ current.owner }}</dd></div>
+          <div class="mi:grid mi:bg-card mi:gap-0.5 mi:py-2.5 mi:px-3"><dt class="mi:text-[11px] mi:text-label2">Masked</dt><dd class="mi:text-[15px] mi:font-semibold mi:m-0 mi:tabular-nums">{{ masked }} of {{ current.columns.length }}</dd></div>
         </dl>
 
-        <ul v-if="tab === 'schema'" class="dsi__cols" aria-label="Columns">
-          <li v-for="c in current.columns" :key="c.name" class="dsi__col">
-            <div class="dsi__col-name">
-              <span class="dsi__mono">{{ c.name }}</span>
-              <span class="dsi__type">{{ c.type }}</span>
+        <ul v-if="tab === 'schema'" class="mi:grid mi:m-0 mi:p-0 mi:[list-style:none]" aria-label="Columns">
+          <li v-for="c in current.columns" :key="c.name" class="mi:grid mi:grid-cols-[minmax(0,_1fr)_auto] mi:items-center mi:gap-y-1.5 mi:gap-x-3 mi:py-2.5 mi:px-0 mi:not-first:border-t mi:not-first:border-t-sep mi:@[640px]:grid-cols-[minmax(0,_1fr)_150px_auto]">
+            <div class="mi:flex mi:flex-wrap mi:items-center mi:gap-1.5 mi:min-w-0">
+              <span class="mi:font-[ui-monospace,SFMono-Regular,Menlo,monospace] mi:text-[12.5px] mi:font-semibold mi:wrap-anywhere">{{ c.name }}</span>
+              <span class="mi:py-px mi:px-1.5 mi:rounded-[5px] mi:text-[11px] mi:text-label2 mi:bg-fill2">{{ c.type }}</span>
               <MiBadge v-if="c.pii" tone="warning" label="PII" />
             </div>
-            <div class="dsi__nulls" role="meter" :aria-label="c.name + ' null share'" aria-valuemin="0" aria-valuemax="100" :aria-valuenow="c.nulls">
-              <span><i :style="{ transform: `scaleX(${c.nulls / 100})` }" /></span>
-              <MiText as="span" variant="caption" tone="label2" tabular>{{ c.nulls }}% null</MiText>
+            <div class="mi:flex mi:items-center mi:gap-2 mi:col-[1] mi:row-[2] mi:@[640px]:col-[2] mi:@[640px]:row-[1]" role="meter" :aria-label="c.name + ' null share'" aria-valuemin="0" aria-valuemax="100" :aria-valuenow="c.nulls">
+              <span class="mi:bg-fill3 mi:overflow-hidden mi:flex-[0_0_64px] mi:h-1 mi:rounded-[2px]"><i class="mi:block mi:bg-label3 mi:h-full mi:origin-left" :style="{ transform: `scaleX(${c.nulls / 100})` }" /></span>
+              <MiText class="mi:bg-fill3 mi:overflow-hidden mi:flex-[0_0_64px]! mi:h-1! mi:rounded-[2px]!" as="span" variant="caption" tone="label2" tabular>{{ c.nulls }}% null</MiText>
             </div>
-            <MiSwitch v-model="c.mask" size="compact" :disabled="!c.pii" :label="'Mask ' + c.name" />
+            <MiSwitch v-model="c.mask" size="compact" class="mi:col-[2] mi:row-[1_/_span_2] mi:@[640px]:col-[3] mi:@[640px]:row-[1]" :disabled="!c.pii" :label="'Mask ' + c.name" />
           </li>
         </ul>
 
-        <div v-else class="dsi__lineage" aria-label="Lineage">
-          <div class="dsi__lane">
-            <MiText as="span" variant="caption2" tone="label2" weight="semibold">Sources</MiText>
-            <span v-for="s in current.sources" :key="s" class="dsi__node">{{ s }}</span>
+        <div v-else class="mi:grid mi:gap-2.5 mi:justify-items-start mi:@[900px]:grid-cols-[1fr_40px_auto_40px_1fr] mi:@[900px]:items-center" aria-label="Lineage">
+          <div class="mi:flex mi:flex-wrap mi:items-center mi:gap-1.5 mi:@[900px]:flex-col mi:@[900px]:items-stretch">
+            <MiText as="span" variant="caption2" tone="label2" weight="semibold" class="mi:basis-full">Sources</MiText>
+            <span v-for="s in current.sources" :key="s" class="mi:text-[13px] mi:shadow-[inset_0_0_0_1px_var(--mi-sep)] mi:py-1.5 mi:px-2.5 mi:rounded-[9px] mi:font-medium mi:bg-fill2">{{ s }}</span>
           </div>
-          <span class="dsi__arrow" aria-hidden="true" />
-          <div class="dsi__lane">
-            <MiText as="span" variant="caption2" tone="label2" weight="semibold">This table</MiText>
-            <span class="dsi__node dsi__node--self">{{ current.name }}</span>
+          <span class="mi:after:[border:5px_solid_transparent] mi:after:border-t-label3 mi:after:border-b-0 mi:after:[border-bottom-style:none] mi:after:border-b-current mi:@[900px]:after:[border:5px_solid_transparent] mi:@[900px]:after:border-l-label3 mi:@[900px]:after:border-r-0 mi:@[900px]:after:[border-right-style:none] mi:@[900px]:after:border-r-current mi:w-0.5 mi:h-4.5 mi:ms-4.5 mi:bg-sep mi:relative mi:after:content-[''] mi:after:absolute mi:after:-bottom-0.5 mi:after:-left-1 mi:@[900px]:w-full mi:@[900px]:h-0.5 mi:@[900px]:mt-4.5 mi:@[900px]:mx-0 mi:@[900px]:mb-0 mi:@[900px]:after:bottom-auto mi:@[900px]:after:-top-1 mi:@[900px]:after:left-auto mi:@[900px]:after:-right-0.5" aria-hidden="true" />
+          <div class="mi:flex mi:flex-wrap mi:items-center mi:gap-1.5 mi:@[900px]:flex-col mi:@[900px]:items-stretch">
+            <MiText as="span" variant="caption2" tone="label2" weight="semibold" class="mi:basis-full">This table</MiText>
+            <span class="mi:text-[12.5px] mi:shadow-[inset_0_0_0_1px_color-mix(in_srgb,_var(--mi-p)_35%,_transparent)] mi:py-1.5 mi:px-2.5 mi:rounded-[9px] mi:font-medium mi:font-[ui-monospace,_SFMono-Regular,_Menlo,_monospace] mi:text-p-text mi:bg-p-tint">{{ current.name }}</span>
           </div>
-          <span class="dsi__arrow" aria-hidden="true" />
-          <div class="dsi__lane">
-            <MiText as="span" variant="caption2" tone="label2" weight="semibold">Used by</MiText>
-            <span v-for="s in current.consumers" :key="s" class="dsi__node">{{ s }}</span>
+          <span class="mi:after:[border:5px_solid_transparent] mi:after:border-t-label3 mi:after:border-b-0 mi:after:[border-bottom-style:none] mi:after:border-b-current mi:@[900px]:after:[border:5px_solid_transparent] mi:@[900px]:after:border-l-label3 mi:@[900px]:after:border-r-0 mi:@[900px]:after:[border-right-style:none] mi:@[900px]:after:border-r-current mi:w-0.5 mi:h-4.5 mi:ms-4.5 mi:bg-sep mi:relative mi:after:content-[''] mi:after:absolute mi:after:-bottom-0.5 mi:after:-left-1 mi:@[900px]:w-full mi:@[900px]:h-0.5 mi:@[900px]:mt-4.5 mi:@[900px]:mx-0 mi:@[900px]:mb-0 mi:@[900px]:after:bottom-auto mi:@[900px]:after:-top-1 mi:@[900px]:after:left-auto mi:@[900px]:after:-right-0.5" aria-hidden="true" />
+          <div class="mi:flex mi:flex-wrap mi:items-center mi:gap-1.5 mi:@[900px]:flex-col mi:@[900px]:items-stretch">
+            <MiText as="span" variant="caption2" tone="label2" weight="semibold" class="mi:basis-full">Used by</MiText>
+            <span v-for="s in current.consumers" :key="s" class="mi:text-[13px] mi:shadow-[inset_0_0_0_1px_var(--mi-sep)] mi:py-1.5 mi:px-2.5 mi:rounded-[9px] mi:font-medium mi:bg-fill2">{{ s }}</span>
           </div>
         </div>
       </article>
@@ -154,67 +154,3 @@ const staleCount = computed(() => sets.filter(d => state(d) === 'stale').length)
 const masked = computed(() => current.value.columns.filter(c => c.mask).length)
 const ago = (min: number) => (min < 60 ? `${min} min` : min < 1440 ? `${Math.round(min / 60)} h` : `${Math.floor(min / 1440)} d ${Math.round((min % 1440) / 60)} h`)
 </script>
-
-<style scoped>
-.dsi { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
-.dsi__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.dsi__mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12.5px; font-weight: 600; overflow-wrap: anywhere; }
-.dsi__mono--lg { font-size: 15px; }
-
-.dsi__layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
-@container (min-width: 760px) { .dsi__layout { grid-template-columns: 260px minmax(0, 1fr); align-items: start; } }
-
-.dsi__list { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
-@container (min-width: 480px) and (max-width: 759px) { .dsi__list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-.dsi__item {
-  display: grid; gap: 6px; width: 100%; padding: 12px; border: 0; border-radius: var(--mi-radius-l); text-align: start; font: inherit; color: inherit;
-  background: var(--mi-card); box-shadow: var(--mi-sh1); cursor: pointer;
-}
-.dsi__item.is-on { box-shadow: 0 0 0 2px var(--mi-p), var(--mi-sh1); }
-.dsi__item:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-.dsi__item-top { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
-.dsi__fresh { display: block; height: 4px; border-radius: 2px; background: var(--mi-fill3); overflow: hidden; }
-.dsi__fresh i { display: block; height: 100%; border-radius: inherit; transform-origin: left; transition: transform var(--mi-dur-4) var(--mi-spring); }
-.dsi__fresh.is-ok i { background: var(--mi-green); }
-.dsi__fresh.is-warn i { background: var(--mi-orange); }
-.dsi__fresh.is-stale i { background: var(--mi-red); }
-
-.dsi__detail { display: grid; gap: 16px; padding: 16px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); min-width: 0; }
-.dsi__detail-head { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 10px; }
-.dsi__detail-title { display: grid; gap: 2px; min-width: 0; }
-.dsi__facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; margin: 0; border-radius: var(--mi-radius-m); overflow: hidden; background: var(--mi-sep); }
-@container (min-width: 560px) { .dsi__facts { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-.dsi__facts div { display: grid; gap: 2px; padding: 10px 12px; background: var(--mi-card); }
-.dsi__facts dt { font-size: 11px; color: var(--mi-label2); }
-.dsi__facts dd { margin: 0; font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums; }
-.dsi__facts dd.dsi__owner { display: flex; align-items: center; gap: 6px; min-width: 0; font-size: 13px; }
-
-.dsi__cols { display: grid; margin: 0; padding: 0; list-style: none; }
-.dsi__col { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 6px 12px; padding: 10px 0; }
-.dsi__col + .dsi__col { border-top: 1px solid var(--mi-sep); }
-.dsi__col-name { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; min-width: 0; }
-.dsi__type { padding: 1px 6px; border-radius: 5px; font-size: 11px; color: var(--mi-label2); background: var(--mi-fill2); }
-.dsi__nulls { display: flex; align-items: center; gap: 8px; grid-column: 1; grid-row: 2; }
-.dsi__nulls > span { flex: 0 0 64px; height: 4px; border-radius: 2px; background: var(--mi-fill3); overflow: hidden; }
-.dsi__nulls i { display: block; height: 100%; background: var(--mi-label3); transform-origin: left; }
-.dsi__col > :last-child { grid-column: 2; grid-row: 1 / span 2; }
-@container (min-width: 640px) {
-  .dsi__col { grid-template-columns: minmax(0, 1fr) 150px auto; }
-  .dsi__nulls { grid-column: 2; grid-row: 1; }
-  .dsi__col > :last-child { grid-column: 3; grid-row: 1; }
-}
-
-.dsi__lineage { display: grid; gap: 10px; justify-items: start; }
-.dsi__lane { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
-.dsi__lane > :first-child { flex-basis: 100%; }
-.dsi__node { padding: 6px 10px; border-radius: 9px; font-size: 13px; font-weight: 500; background: var(--mi-fill2); box-shadow: inset 0 0 0 1px var(--mi-sep); }
-.dsi__node--self { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12.5px; color: var(--mi-p-text); background: var(--mi-p-tint); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--mi-p) 35%, transparent); }
-.dsi__arrow { width: 2px; height: 18px; margin-inline-start: 18px; background: var(--mi-sep); position: relative; }
-.dsi__arrow::after { content: ""; position: absolute; bottom: -2px; left: -4px; border: 5px solid transparent; border-top-color: var(--mi-label3); border-bottom: 0; }
-@container (min-width: 900px) {
-  .dsi__lineage { grid-template-columns: 1fr 40px auto 40px 1fr; align-items: center; }
-  .dsi__lane { flex-direction: column; align-items: stretch; }
-  .dsi__arrow { width: 100%; height: 2px; margin: 18px 0 0; }
-  .dsi__arrow::after { bottom: auto; top: -4px; left: auto; right: -2px; border: 5px solid transparent; border-left-color: var(--mi-label3); border-right: 0; }
-}
-</style>

@@ -1,56 +1,56 @@
 <template>
-  <section class="cw" aria-labelledby="cw-title">
-    <div class="cw__stage">
+  <section class="mi:@container mi:font-mi mi:text-label" aria-labelledby="cw-title">
+    <div class="mi:relative mi:flex mi:flex-col mi:[align-items:flex-end] mi:[justify-content:flex-end] mi:gap-3 mi:min-h-155 mi:p-4 mi:overflow-hidden mi:[background:var(--mi-page)] mi:@[560px]:p-6">
       <!-- Faux storefront behind the widget. -->
-      <div class="cw__page" aria-hidden="true">
-        <span class="cw__hero" />
-        <span v-for="n in 3" :key="n" class="cw__tile" />
+      <div class="mi:absolute mi:inset-0 mi:grid mi:grid-cols-3 mi:content-start mi:gap-3.5 mi:p-6 mi:opacity-55" aria-hidden="true">
+        <span class="mi:col-span-full mi:h-45 mi:rounded-xl mi:[background:linear-gradient(135deg,_var(--mi-p-tint2),_var(--mi-s-tint))]" />
+        <span v-for="n in 3" :key="n" class="mi:h-37.5 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1" />
       </div>
 
-      <div v-if="openWidget" id="cw-panel" class="cw__widget">
-        <header class="cw__head">
+      <div v-if="openWidget" id="cw-panel" class="mi:relative mi:w-full mi:max-w-95 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-3 mi:overflow-hidden mi:origin-bottom-right mi:[--mi-in-y:8px] mi:[--mi-in-s:.97] mi:animate-[in_var(--mi-dur-3)_var(--mi-spring)] mi:motion-reduce:animate-none">
+        <header class="mi:grid mi:gap-2 mi:pt-5 mi:px-5 mi:pb-4 mi:[background:linear-gradient(160deg,_var(--mi-p-tint),_transparent_80%)]">
           <MiAvatarGroup :items="team" :max="3" size="sm" label="Support team: Ana, Felix and Grace" />
           <MiText id="cw-title" as="h2" variant="title3" weight="semibold">How can we reach you?</MiText>
-          <MiText variant="footnote" class="cw__hours"><span class="cw__dot" aria-hidden="true" />Team online until 20:00 · replies in about 4 min</MiText>
+          <MiText variant="footnote" class="mi:flex! mi:text-label2! mi:items-center mi:gap-1.5"><span class="mi:w-2 mi:h-2 mi:rounded-[50%] mi:[background:var(--mi-green)]" aria-hidden="true" />Team online until 20:00 · replies in about 4 min</MiText>
         </header>
 
-        <div v-if="mode === 'menu'" class="cw__body">
-          <a href="#" class="cw__opt" @click.prevent>
-            <MiIcon name="chat" :size="20" class="cw__opt-icon" />
-            <span class="cw__opt-text"><strong>Chat now</strong><span>Wait under 4 minutes</span></span>
+        <div v-if="mode === 'menu'" class="mi:pt-4 mi:px-5 mi:pb-5 mi:grid mi:gap-3">
+          <a href="#" class="mi:flex mi:items-center mi:gap-3 mi:w-full mi:py-3 mi:px-3.5 mi:border mi:border-sep mi:rounded-lg mi:[background:var(--mi-card)] mi:text-label2 mi:[font:inherit] mi:text-start mi:[text-decoration:none] mi:cursor-pointer mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:hover:transform-[translateY(-1px)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" @click.prevent>
+            <MiIcon name="chat" :size="20" class="mi:text-p-text" />
+            <span class="mi:grid mi:flex-1 mi:min-w-0 mi:text-[12.5px]"><strong class="mi:text-label mi:text-[14.5px]">Chat now</strong><span>Wait under 4 minutes</span></span>
             <MiIcon name="chevron-right" :size="16" />
           </a>
-          <button type="button" class="cw__opt" @click="mode = 'callback'">
-            <MiIcon name="speaker-wave" :size="20" class="cw__opt-icon" />
-            <span class="cw__opt-text"><strong>Call me back</strong><span>Pick a 15-minute slot</span></span>
+          <button type="button" class="mi:flex mi:items-center mi:gap-3 mi:w-full mi:py-3 mi:px-3.5 mi:border mi:border-sep mi:rounded-lg mi:[background:var(--mi-card)] mi:text-label2 mi:[font:inherit] mi:text-start mi:[text-decoration:none] mi:cursor-pointer mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:hover:transform-[translateY(-1px)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" @click="mode = 'callback'">
+            <MiIcon name="speaker-wave" :size="20" class="mi:text-p-text" />
+            <span class="mi:grid mi:flex-1 mi:min-w-0 mi:text-[12.5px]"><strong class="mi:text-label mi:text-[14.5px]">Call me back</strong><span>Pick a 15-minute slot</span></span>
             <MiIcon name="chevron-right" :size="16" />
           </button>
-          <a href="#" class="cw__opt" @click.prevent>
-            <MiIcon name="tray" :size="20" class="cw__opt-icon" />
-            <span class="cw__opt-text"><strong>Email us</strong><span>Answer within one business day</span></span>
+          <a href="#" class="mi:flex mi:items-center mi:gap-3 mi:w-full mi:py-3 mi:px-3.5 mi:border mi:border-sep mi:rounded-lg mi:[background:var(--mi-card)] mi:text-label2 mi:[font:inherit] mi:text-start mi:[text-decoration:none] mi:cursor-pointer mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:hover:transform-[translateY(-1px)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" @click.prevent>
+            <MiIcon name="tray" :size="20" class="mi:text-p-text" />
+            <span class="mi:grid mi:flex-1 mi:min-w-0 mi:text-[12.5px]"><strong class="mi:text-label mi:text-[14.5px]">Email us</strong><span>Answer within one business day</span></span>
             <MiIcon name="chevron-right" :size="16" />
           </a>
         </div>
 
-        <form v-else-if="mode === 'callback'" class="cw__body" @submit.prevent="book">
+        <form v-else-if="mode === 'callback'" class="mi:pt-4 mi:px-5 mi:pb-5 mi:grid mi:gap-3" @submit.prevent="book">
           <MiSegmented v-model="day" label="Day" :options="days" />
-          <div class="cw__slots" role="radiogroup" aria-label="Time slot">
+          <div class="mi:grid mi:grid-cols-3 mi:gap-1.5" role="radiogroup" aria-label="Time slot">
             <button
-              v-for="s in slots" :key="s" type="button" role="radio" class="cw__slot"
-              :aria-checked="slot === s" :class="{ 'is-on': slot === s }" @click="slot = s"
+              v-for="s in slots" :key="s" type="button" role="radio" class="mi:[font:inherit] mi:text-[14px] mi:tabular-nums mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:py-2 mi:px-0 mi:border mi:rounded-md mi:cursor-pointer"
+              :aria-checked="slot === s" :class="slot === s ? 'mi:font-semibold mi:border-p mi:[background:var(--mi-p)] mi:text-p-on' : 'mi:border-sep mi:[background:var(--mi-card)] mi:text-label'" @click="slot = s"
             >{{ s }}</button>
           </div>
           <MiField label="Phone number" :error="phoneError">
             <MiInput v-model="phone" type="tel" placeholder="+44 20 7946 0000" />
           </MiField>
-          <div class="cw__row">
+          <div class="mi:flex mi:justify-between mi:items-center mi:gap-2">
             <MiButton variant="plain" size="small" @click="mode = 'menu'">Back</MiButton>
             <MiButton type="submit" :disabled="!slot">Book callback</MiButton>
           </div>
         </form>
 
-        <div v-else class="cw__body cw__done" role="status">
-          <MiIcon name="check-circle-fill" :size="36" class="cw__ok" />
+        <div v-else class="mi:pt-6 mi:px-5 mi:pb-6 mi:grid mi:gap-3 mi:justify-items-center mi:text-center" role="status">
+          <MiIcon name="check-circle-fill" :size="36" class="mi:text-green" />
           <MiText as="p" variant="headline" weight="semibold">Callback booked</MiText>
           <MiText variant="footnote" tone="label2">{{ dayLabel }} at {{ slot }}. We will call {{ phone }} from +44 20 3808 1100.</MiText>
           <MiButton variant="gray" size="small" @click="reset">Done</MiButton>
@@ -58,7 +58,7 @@
       </div>
 
       <MiIconButton
-        class="cw__launcher" :label="openWidget ? 'Close support' : 'Contact support'" size="large"
+        class="mi:relative! mi:flex-none!" :label="openWidget ? 'Close support' : 'Contact support'" size="large"
         aria-controls="cw-panel" :aria-expanded="openWidget" @click="openWidget = !openWidget"
       >
         <MiIcon :name="openWidget ? 'close' : 'chat'" />
@@ -104,36 +104,3 @@ function reset() {
   tried.value = false
 }
 </script>
-
-<style scoped>
-.cw { container-type: inline-size; font-family: var(--mi-font); color: var(--mi-label); }
-.cw__stage { position: relative; display: flex; flex-direction: column; align-items: flex-end; justify-content: flex-end; gap: 12px; min-height: 620px; padding: 16px; overflow: hidden; background: var(--mi-page); }
-.cw__page { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-content: start; gap: 14px; padding: 24px; opacity: .55; }
-.cw__hero { grid-column: 1 / -1; height: 180px; border-radius: var(--mi-radius-xl); background: linear-gradient(135deg, var(--mi-p-tint2), var(--mi-s-tint)); }
-.cw__tile { height: 150px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-
-.cw__widget { position: relative; width: 100%; max-width: 380px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh3); overflow: hidden; transform-origin: bottom right; animation: cw-in var(--mi-dur-3) var(--mi-spring); }
-@keyframes cw-in { from { opacity: 0; transform: translateY(8px) scale(.97); } }
-.cw__head { display: grid; gap: 8px; padding: 20px 20px 16px; background: linear-gradient(160deg, var(--mi-p-tint), transparent 80%); }
-.cw__hours { display: flex; align-items: center; gap: 6px; color: var(--mi-label2); }
-.cw__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--mi-green); }
-
-.cw__body { display: grid; gap: 12px; padding: 16px 20px 20px; }
-.cw__opt { display: flex; align-items: center; gap: 12px; width: 100%; padding: 12px 14px; border: 1px solid var(--mi-sep); border-radius: var(--mi-radius-l); background: var(--mi-card); color: var(--mi-label2); font: inherit; text-align: start; text-decoration: none; cursor: pointer; transition: transform var(--mi-dur-2) var(--mi-ease); }
-.cw__opt:hover { transform: translateY(-1px); }
-.cw__opt:focus-visible, .cw__slot:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-.cw__opt-icon { color: var(--mi-p-text); }
-.cw__opt-text { display: grid; flex: 1; min-width: 0; font-size: 12.5px; }
-.cw__opt-text strong { font-size: 14.5px; color: var(--mi-label); }
-
-.cw__slots { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
-.cw__slot { padding: 8px 0; border: 1px solid var(--mi-sep); border-radius: var(--mi-radius-m); background: var(--mi-card); color: var(--mi-label); font: inherit; font-size: 14px; font-variant-numeric: tabular-nums; cursor: pointer; }
-.cw__slot.is-on { border-color: var(--mi-p); background: var(--mi-p); color: var(--mi-p-on); font-weight: 600; }
-.cw__row { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-.cw__done { justify-items: center; text-align: center; padding-block: 24px; }
-.cw__ok { color: var(--mi-green); }
-.cw__launcher { position: relative; flex: none; }
-
-@container (min-width: 560px) { .cw__stage { padding: 24px; } }
-@media (prefers-reduced-motion: reduce) { .cw__widget { animation: none; } }
-</style>

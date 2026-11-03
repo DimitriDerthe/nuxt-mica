@@ -1,6 +1,6 @@
 <template>
-  <section class="ok" aria-labelledby="ok-title">
-    <header class="ok__head">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="ok-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="ok-title" variant="title3" as="h2" weight="semibold">Q4 objectives</MiText>
         <MiText variant="footnote" tone="label2">Product group · each bar shows where you are, the tick where you should be today</MiText>
@@ -9,55 +9,55 @@
     </header>
 
     <!-- Quarter clock: time spent is the yardstick every key result is read against. -->
-    <div class="ok__clock">
-      <div class="ok__clock-text">
+    <div class="mi:grid mi:gap-2.5 mi:py-3.5 mi:px-4.5 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1 mi:@[760px]:grid-cols-[auto_minmax(0,_1fr)_auto] mi:@[760px]:items-center mi:@[760px]:gap-4.5">
+      <div class="mi:flex mi:flex-wrap mi:items-baseline mi:gap-y-1 mi:gap-x-2.5">
         <MiText variant="subheadline" weight="semibold" as="span">Day {{ DAY }} of {{ DAYS }}</MiText>
         <MiText variant="footnote" tone="label2" as="span">{{ Math.round(pace * 100) }}% of the quarter gone</MiText>
       </div>
-      <div class="ok__clock-bar" role="meter" aria-label="Quarter elapsed" :aria-valuenow="Math.round(pace * 100)" aria-valuemin="0" aria-valuemax="100">
-        <span :style="{ transform: `scaleX(${pace})` }" />
+      <div class="mi:h-2 mi:rounded-[4px] mi:overflow-hidden mi:[background:repeating-linear-gradient(90deg,_var(--mi-fill3)_0_calc(100%_/_13_-_2px),_transparent_calc(100%_/_13_-_2px)_calc(100%_/_13))]" role="meter" aria-label="Quarter elapsed" :aria-valuenow="Math.round(pace * 100)" aria-valuemin="0" aria-valuemax="100">
+        <span class="mi:block mi:h-full mi:[background:var(--mi-label)] mi:opacity-75 mi:origin-left" :style="{ transform: `scaleX(${pace})` }" />
       </div>
-      <ul class="ok__tally" aria-label="Key results by status">
-        <li v-for="s in tally" :key="s.id"><i :class="'is-' + s.id" aria-hidden="true" />{{ s.count }} {{ s.label }}</li>
+      <ul class="mi:flex mi:flex-wrap mi:gap-y-1 mi:gap-x-3.5 mi:m-0 mi:p-0 mi:[list-style:none] mi:text-[12px] mi:text-label2 mi:tabular-nums" aria-label="Key results by status">
+        <li class="mi:inline-flex mi:items-center mi:gap-1.5" v-for="s in tally" :key="s.id"><i class="mi:w-2 mi:h-2 mi:rounded-[50%] mi:[background:var(--ok-c)]" :class="OKC[s.id]" aria-hidden="true" />{{ s.count }} {{ s.label }}</li>
       </ul>
     </div>
 
-    <div class="ok__grid">
-      <article v-for="o in visible" :key="o.id" class="ok__card" :aria-labelledby="'ok-' + o.id">
-        <header class="ok__card-head">
+    <div class="mi:grid mi:gap-3 mi:grid-cols-[minmax(0,_1fr)] mi:items-start mi:@[760px]:grid-cols-2 mi:@[1100px]:grid-cols-3">
+      <article v-for="o in visible" :key="o.id" class="mi:[@container_(min-width:_760px)_and_(max-width:_1099px)]:[&:nth-child(odd):last-child]:col-[span_2] mi:grid mi:gap-3.5 mi:min-w-0 mi:p-4.5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1" :aria-labelledby="'ok-' + o.id">
+        <header class="mi:grid mi:grid-cols-[auto_minmax(0,_1fr)] mi:items-center mi:gap-3">
           <MiProgressRing :value="o.score" :size="48" :stroke="5" show-value :label="`${o.title} progress`">
-            <span class="ok__ring">{{ o.score }}</span>
+            <span class="mi:text-[13px] mi:font-bold mi:tabular-nums">{{ o.score }}</span>
           </MiProgressRing>
-          <div class="ok__card-title">
+          <div class="mi:grid mi:gap-1 mi:min-w-0">
             <MiText :id="'ok-' + o.id" variant="headline" as="h3">{{ o.title }}</MiText>
-            <div class="ok__owner">
+            <div class="mi:inline-flex mi:items-center mi:gap-1.5">
               <MiAvatar :name="o.owner" size="xs" tone="auto" decorative />
               <MiText variant="caption" tone="label2" as="span">{{ o.owner }}</MiText>
             </div>
           </div>
         </header>
 
-        <ul class="ok__krs">
-          <li v-for="k in o.krs" :key="k.id" class="ok__kr">
-            <div class="ok__kr-top">
-              <MiText variant="footnote" weight="medium">{{ k.title }}</MiText>
-              <MiBadge :tone="statusMeta[k.status].tone" :label="statusMeta[k.status].label" />
+        <ul class="mi:grid mi:m-0 mi:p-0 mi:[list-style:none]">
+          <li v-for="k in o.krs" :key="k.id" class="mi:grid mi:gap-2 mi:py-3 mi:px-0 mi:border-t mi:border-t-sep mi:last:pb-0">
+            <div class="mi:flex mi:[align-items:flex-start] mi:justify-between mi:gap-2.5">
+              <MiText variant="footnote" weight="medium" class="mi:min-w-0">{{ k.title }}</MiText>
+              <MiBadge :tone="statusMeta[k.status].tone" :label="statusMeta[k.status].label" class="mi:flex-[none]" />
             </div>
-            <div class="ok__track" role="meter" :aria-label="k.title" :aria-valuenow="Math.round(k.progress * 100)" aria-valuemin="0" aria-valuemax="100" :aria-valuetext="`${Math.round(k.progress * 100)}%, expected ${Math.round(pace * 100)}% by today`">
-              <span class="ok__fill" :class="'is-' + k.status" :style="{ transform: `scaleX(${k.progress})` }" />
-              <span class="ok__pace" :style="{ insetInlineStart: pace * 100 + '%' }" aria-hidden="true" />
+            <div class="mi:relative mi:h-2 mi:rounded-[4px] mi:[background:var(--mi-fill3)]" role="meter" :aria-label="k.title" :aria-valuenow="Math.round(k.progress * 100)" aria-valuemin="0" aria-valuemax="100" :aria-valuetext="`${Math.round(k.progress * 100)}%, expected ${Math.round(pace * 100)}% by today`">
+              <span class="mi:absolute mi:inset-0 mi:rounded-[inherit] mi:[background:var(--ok-c)] mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)] mi:motion-reduce:[transition:none]" :class="OKC[k.status]" :style="{ transform: `scaleX(${k.progress})` }" />
+              <span class="mi:absolute mi:-top-1 mi:-bottom-1 mi:w-0.5 mi:-ms-px mi:rounded-[1px] mi:[background:var(--mi-label)] mi:shadow-[0_0_0_2px_var(--mi-card)]" :style="{ insetInlineStart: pace * 100 + '%' }" aria-hidden="true" />
             </div>
-            <div class="ok__kr-foot">
-              <MiText variant="caption" tone="label2" as="span" tabular>{{ fmt(k, k.start) }} → <b>{{ fmt(k, k.current) }}</b> → {{ fmt(k, k.target) }}</MiText>
+            <div class="mi:flex mi:items-center mi:justify-between mi:gap-2 mi:min-h-7">
+              <MiText variant="caption" tone="label2" as="span" tabular>{{ fmt(k, k.start) }} → <b class="mi:text-label mi:font-semibold">{{ fmt(k, k.current) }}</b> → {{ fmt(k, k.target) }}</MiText>
               <MiButton v-if="editing !== k.id" variant="plain" size="mini" :aria-label="`Check in on ${k.title}`" @click="startEdit(k)">Check in</MiButton>
             </div>
 
-            <div v-if="editing === k.id" class="ok__checkin">
+            <div v-if="editing === k.id" class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2.5 mi:p-2.5 mi:rounded-md mi:[background:var(--mi-fill4)]">
               <MiStepper
                 v-model="draft" variant="field" :min="k.min" :max="k.max" :step="k.step" :unit="k.unit.trim()"
                 :label="`New value for ${k.title}`"
               />
-              <div class="ok__checkin-actions">
+              <div class="mi:flex mi:gap-1.5">
                 <MiButton variant="gray" size="small" @click="editing = ''">Cancel</MiButton>
                 <MiButton size="small" @click="save(k.id)">Save</MiButton>
               </div>
@@ -66,12 +66,19 @@
         </ul>
       </article>
     </div>
-    <p class="ok__sr" aria-live="polite">{{ announce }}</p>
+    <p class="mi:absolute mi:w-px mi:h-px mi:m-0 mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap" aria-live="polite">{{ announce }}</p>
   </section>
 </template>
 
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
+
+const OKC: Record<string, string> = {
+  ahead: 'mi:[--ok-c:var(--mi-green)]',
+  track: 'mi:[--ok-c:var(--mi-p)]',
+  risk: 'mi:[--ok-c:var(--mi-orange)]',
+  behind: 'mi:[--ok-c:var(--mi-red)]'
+}
 
 type Status = 'ahead' | 'track' | 'risk' | 'behind'
 
@@ -159,55 +166,3 @@ function save (id: string) {
   editing.value = ''
 }
 </script>
-
-<style scoped>
-.ok { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
-.ok__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.ok__sr { position: absolute; width: 1px; height: 1px; margin: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-
-.ok__clock { display: grid; gap: 10px; padding: 14px 18px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-@container (min-width: 760px) { .ok__clock { grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 18px; } }
-.ok__clock-text { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
-.ok__clock-bar { height: 8px; border-radius: 4px; overflow: hidden; background: repeating-linear-gradient(90deg, var(--mi-fill3) 0 calc(100% / 13 - 2px), transparent calc(100% / 13 - 2px) calc(100% / 13)); }
-.ok__clock-bar span { display: block; height: 100%; background: var(--mi-label); opacity: .75; transform-origin: left; }
-.ok__tally { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 0; padding: 0; list-style: none; font-size: 12px; color: var(--mi-label2); font-variant-numeric: tabular-nums; }
-.ok__tally li { display: inline-flex; align-items: center; gap: 6px; }
-.ok__tally i { width: 8px; height: 8px; border-radius: 50%; }
-
-.is-ahead { --ok-c: var(--mi-green); }
-.is-track { --ok-c: var(--mi-p); }
-.is-risk { --ok-c: var(--mi-orange); }
-.is-behind { --ok-c: var(--mi-red); }
-.ok__tally i { background: var(--ok-c); }
-
-.ok__grid { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); align-items: start; }
-@container (min-width: 760px) { .ok__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-/* An odd card out on two columns takes the full row instead of leaving a hole. */
-@container (min-width: 760px) and (max-width: 1099px) { .ok__card:nth-child(odd):last-child { grid-column: span 2; } }
-@container (min-width: 1100px) { .ok__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-
-.ok__card { display: grid; gap: 14px; min-width: 0; padding: 18px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.ok__card-head { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 12px; }
-.ok__ring { font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; }
-.ok__card-title { display: grid; gap: 4px; min-width: 0; }
-.ok__owner { display: inline-flex; align-items: center; gap: 6px; }
-
-.ok__krs { display: grid; margin: 0; padding: 0; list-style: none; }
-.ok__kr { display: grid; gap: 8px; padding: 12px 0; border-top: 1px solid var(--mi-sep); }
-.ok__kr:last-child { padding-bottom: 0; }
-.ok__kr-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
-.ok__kr-top > :first-child { min-width: 0; }
-.ok__kr-top > :last-child { flex: none; }
-
-.ok__track { position: relative; height: 8px; border-radius: 4px; background: var(--mi-fill3); }
-.ok__fill { position: absolute; inset: 0; border-radius: inherit; background: var(--ok-c); transform-origin: left; transition: transform var(--mi-dur-4) var(--mi-spring); }
-/* Pace tick: where this key result should be today if progress were linear. */
-.ok__pace { position: absolute; top: -4px; bottom: -4px; width: 2px; margin-inline-start: -1px; border-radius: 1px; background: var(--mi-label); box-shadow: 0 0 0 2px var(--mi-card); }
-
-.ok__kr-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 28px; }
-.ok__kr-foot b { color: var(--mi-label); font-weight: 600; }
-
-.ok__checkin { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; padding: 10px; border-radius: var(--mi-radius-m); background: var(--mi-fill4); }
-.ok__checkin-actions { display: flex; gap: 6px; }
-@media (prefers-reduced-motion: reduce) { .ok__fill { transition: none; } }
-</style>

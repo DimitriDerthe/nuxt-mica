@@ -50,20 +50,20 @@ function toggle() {
   <button
     type="button"
     role="checkbox"
-    class="mi-checkbox"
+    class="mi-checkbox mi:min-h-11 mi:[-webkit-tap-highlight-color:transparent] mi:[&.has-desc]:min-h-13 mi:disabled:cursor-default"
     :class="{ 'is-on': checked || indeterminate, 'has-desc': !!description }"
     :aria-checked="aria"
     :disabled="isDisabled"
     @click="toggle"
   >
-    <span class="mi-checkbox__box" aria-hidden="true">
-      <span class="mi-checkbox__fill" />
-      <svg class="mi-checkbox__mark" :class="{ 'is-shown': checked && !indeterminate }" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7" pathLength="1" /></svg>
-      <svg class="mi-checkbox__mark" :class="{ 'is-shown': indeterminate }" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"><path d="M6 12h12" pathLength="1" /></svg>
+    <span class="mi-checkbox__box mi:relative mi:flex mi:flex-[none] mi:items-center mi:justify-center mi:w-5 mi:h-5 mi:rounded-[6px] mi:bg-field mi:text-p-on mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring)] mi:[.mi-checkbox:active:not(:disabled)_&]:transform-[scale(.9)] mi:before:content-[''] mi:before:absolute mi:before:inset-0 mi:before:rounded-[inherit] mi:before:shadow-[inset_0_0_0_1.5px_var(--mi-ctl,_#8E8E93)] mi:before:opacity-100 mi:before:[transition:opacity_var(--mi-dur-1)_ease] mi:[.is-on_&]:before:opacity-0" aria-hidden="true">
+      <span class="mi-checkbox__fill mi:absolute mi:inset-0 mi:rounded-[inherit] mi:bg-p mi:opacity-0 mi:[transition:opacity_var(--mi-dur-1)_ease] mi:[.is-on_&]:opacity-100" />
+      <svg class="mi-checkbox__mark mi:absolute mi:inset-0 mi:m-auto mi:[stroke-dasharray:1] mi:[stroke-dashoffset:1] mi:[transition:stroke-dashoffset_var(--mi-dur-1)_ease] mi:[&.is-shown]:[stroke-dashoffset:0] mi:[&.is-shown]:[transition:stroke-dashoffset_var(--mi-dur-2)_var(--mi-ease)_50ms]" :class="{ 'is-shown': checked && !indeterminate }" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7" pathLength="1" /></svg>
+      <svg class="mi-checkbox__mark mi:absolute mi:inset-0 mi:m-auto mi:[stroke-dasharray:1] mi:[stroke-dashoffset:1] mi:[transition:stroke-dashoffset_var(--mi-dur-1)_ease] mi:[&.is-shown]:[stroke-dashoffset:0] mi:[&.is-shown]:[transition:stroke-dashoffset_var(--mi-dur-2)_var(--mi-ease)_50ms]" :class="{ 'is-shown': indeterminate }" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"><path d="M6 12h12" pathLength="1" /></svg>
     </span>
-    <span v-if="label || description || $slots.default" class="mi-checkbox__text">
+    <span v-if="label || description || $slots.default" class="mi-checkbox__text mi:flex mi:flex-col mi:gap-px mi:min-w-0">
       <span class="mi-checkbox__label"><slot>{{ label }}</slot></span>
-      <span v-if="description" class="mi-checkbox__desc">{{ description }}</span>
+      <span v-if="description" class="mi-checkbox__desc mi:text-[13px] mi:font-normal mi:text-label2">{{ description }}</span>
     </span>
   </button>
 </template>
@@ -74,7 +74,6 @@ function toggle() {
   align-items: center;
   gap: 12px;
   width: 100%;
-  min-height: 44px;
   padding: 4px 0;
   border: 0;
   background: transparent;
@@ -82,60 +81,8 @@ function toggle() {
   font-family: var(--mi-font);
   font-size: 15px;
   text-align: left;
-  -webkit-tap-highlight-color: transparent;
 }
-.mi-checkbox.has-desc { min-height: 52px; }
-.mi-checkbox:disabled { opacity: .4; cursor: default; }
+.mi-checkbox:disabled { opacity: .4; }
 /* Group parent row: bold label with a hairline under it. */
 .mi-checkbox--parent { font-weight: 600; border-bottom: .5px solid var(--mi-sep); padding-bottom: 0; }
-
-.mi-checkbox__box {
-  position: relative;
-  display: flex;
-  flex: none;
-  align-items: center;
-  justify-content: center;
-  width: 20px;
-  height: 20px;
-  border-radius: 6px;
-  background: var(--mi-field);
-  color: var(--mi-p-on);
-  transition: transform var(--mi-dur-2) var(--mi-spring);
-}
-.mi-checkbox:active:not(:disabled) .mi-checkbox__box { transform: scale(.9); }
-.mi-checkbox__box::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  box-shadow: inset 0 0 0 1.5px var(--mi-ctl, #8E8E93);
-  opacity: 1;
-  transition: opacity var(--mi-dur-1) ease;
-}
-.is-on .mi-checkbox__box::before { opacity: 0; }
-.mi-checkbox__fill {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: var(--mi-p);
-  opacity: 0;
-  transition: opacity var(--mi-dur-1) ease;
-}
-.is-on .mi-checkbox__fill { opacity: 1; }
-
-.mi-checkbox__mark {
-  position: absolute;
-  inset: 0;
-  margin: auto;
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  transition: stroke-dashoffset var(--mi-dur-1) ease;
-}
-.mi-checkbox__mark.is-shown {
-  stroke-dashoffset: 0;
-  transition: stroke-dashoffset var(--mi-dur-2) var(--mi-ease) 50ms;
-}
-
-.mi-checkbox__text { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
-.mi-checkbox__desc { font-size: 13px; font-weight: 400; color: var(--mi-label2); }
 </style>

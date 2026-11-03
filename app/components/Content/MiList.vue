@@ -26,20 +26,17 @@ const slots = useSlots()
 </script>
 
 <template>
-  <section class="mi-list">
-    <p v-if="header || slots.header" class="mi-list__head"><slot name="header">{{ header }}</slot></p>
-    <div class="mi-list__box" :class="{ 'mi-list__box--grouped': grouped }" role="list" :aria-label="label">
+  <section class="mi-list mi:flex-col mi:gap-2.5 mi:font-mi">
+    <p v-if="header || slots.header" class="mi-list__head mi:mt-3.5 mi:mx-4 mi:mb-0 mi:text-[13px] mi:text-label2 mi:uppercase mi:tracking-[.02em]"><slot name="header">{{ header }}</slot></p>
+    <div class="mi-list__box" :class="{ 'mi-list__box--grouped mi:rounded-[14px] mi:bg-card mi:shadow-1 mi:overflow-hidden': grouped }" role="list" :aria-label="label">
       <slot />
     </div>
-    <p v-if="footer || slots.footer" class="mi-list__foot"><slot name="footer">{{ footer }}</slot></p>
+    <p v-if="footer || slots.footer" class="mi-list__foot mi:my-0 mi:mx-4 mi:text-[13px] mi:leading-[18px] mi:text-label2"><slot name="footer">{{ footer }}</slot></p>
   </section>
 </template>
 
 <style scoped>
-.mi-list{display:flex;flex-direction:column;gap:10px;font-family:var(--mi-font);color:var(--mi-label);min-width:0}
-.mi-list__head{margin:14px 16px 0;font-size:13px;color:var(--mi-label2);text-transform:uppercase;letter-spacing:.02em}
-.mi-list__foot{margin:0 16px;font-size:13px;line-height:18px;color:var(--mi-label2)}
-.mi-list__box--grouped{border-radius:14px;background:var(--mi-card);box-shadow:var(--mi-sh1);overflow:hidden}
+.mi-list{display:flex;color:var(--mi-label);min-width:0}
 .mi-list__box :deep(.mi-li--row + .mi-li--row .mi-li__body){border-top:.5px solid var(--mi-sep)}
 .mi-list__box :deep(:not(:last-child) .mi-li--rich .mi-li__main),.mi-list__box :deep(.mi-li--rich:not(:last-child) .mi-li__main){border-bottom:.5px solid var(--mi-sep)}
 </style>

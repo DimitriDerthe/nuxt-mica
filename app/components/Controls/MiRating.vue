@@ -79,7 +79,7 @@ function onKey(e: KeyboardEvent) {
 
 <template>
   <span
-    class="mi-rating"
+    class="mi-rating mi:font-mi mi:[outline:none] mi:focus-visible:[outline:3px_solid_color-mix(in_srgb,_var(--mi-p)_55%,_transparent)] mi:focus-visible:outline-offset-[3px]"
     :class="[`is-${size}`, { 'is-disabled': disabled, 'is-readonly': readonly, 'is-active': active }]"
     role="slider"
     :tabindex="disabled ? -1 : 0"
@@ -94,40 +94,29 @@ function onKey(e: KeyboardEvent) {
     @keydown="onKey"
     @pointerleave="hover = null"
   >
-    <span class="mi-rating__stars">
+    <span class="mi-rating__stars mi:inline-flex mi:gap-0.5">
       <span
         v-for="(fill, i) in stars"
         :key="i"
-        class="mi-rating__star"
+        class="mi-rating__star mi:relative mi:inline-block mi:touch-manipulation mi:[-webkit-tap-highlight-color:transparent] mi:[.is-active_&]:cursor-pointer mi:[.is-active_&:hover]:transform-[scale(1.12)] mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring)]"
         :style="{ width: `${px}px`, height: `${px}px` }"
         data-star
         @pointermove="onMove(i, $event)"
         @click="onClick(i, $event)"
       >
-        <span class="mi-rating__clip" :style="{ clipPath: `inset(0 0 0 ${fill * 100}%)` }" data-empty>
-          <MiIcon class="mi-rating__bg" name="star" :size="px" :weight="1.6" />
+        <span class="mi-rating__clip mi:absolute mi:inset-0 mi:pointer-events-none" :style="{ clipPath: `inset(0 0 0 ${fill * 100}%)` }" data-empty>
+          <MiIcon class="mi-rating__bg mi:text-label3" name="star" :size="px" :weight="1.6" />
         </span>
-        <span class="mi-rating__clip" :style="{ clipPath: `inset(0 ${(1 - fill) * 100}% 0 0)` }">
-          <MiIcon class="mi-rating__fg" name="star" :size="px" :weight="1.6" filled />
+        <span class="mi-rating__clip mi:absolute mi:inset-0 mi:pointer-events-none" :style="{ clipPath: `inset(0 ${(1 - fill) * 100}% 0 0)` }">
+          <MiIcon class="mi-rating__fg mi:text-orange" name="star" :size="px" :weight="1.6" filled />
         </span>
       </span>
     </span>
-    <output v-if="showValue" class="mi-rating__value" aria-hidden="true">{{ model }}</output>
+    <output v-if="showValue" class="mi-rating__value mi:text-[15px] mi:font-semibold mi:tabular-nums mi:text-label2 mi:[.is-lg_&]:text-[18px]" aria-hidden="true">{{ model }}</output>
   </span>
 </template>
 
 <style scoped>
-.mi-rating { display: inline-flex; align-items: center; gap: 10px; font-family: var(--mi-font); color: var(--mi-label); outline: none; border-radius: 8px; }
+.mi-rating { display: inline-flex; align-items: center; gap: 10px; color: var(--mi-label); border-radius: 8px; }
 .mi-rating.is-disabled { opacity: .4; }
-.mi-rating:focus-visible { outline: 3px solid color-mix(in srgb, var(--mi-p) 55%, transparent); outline-offset: 3px; }
-.mi-rating__stars { display: inline-flex; gap: 2px; }
-.mi-rating__star { position: relative; display: inline-block; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
-.is-active .mi-rating__star { cursor: pointer; }
-.is-active .mi-rating__star:hover { transform: scale(1.12); }
-.mi-rating__star { transition: transform var(--mi-dur-2) var(--mi-spring); }
-.mi-rating__bg { color: var(--mi-label3); }
-.mi-rating__clip { position: absolute; inset: 0; pointer-events: none; }
-.mi-rating__fg { color: var(--mi-orange); }
-.mi-rating__value { font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--mi-label2); }
-.is-lg .mi-rating__value { font-size: 18px; }
 </style>

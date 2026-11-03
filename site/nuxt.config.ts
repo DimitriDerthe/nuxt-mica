@@ -60,6 +60,8 @@ export default defineNuxtConfig({
       version
     }
   },
+  // Blocks are shown as source; in the built site their composed elements drop the class names nothing selects.
+  miAtomic: { strip: ['app/blocks'] },
   i18n: {
     defaultLocale: 'en',
     // Runtime value comes from NUXT_PUBLIC_I18N_BASE_URL; the build-time origin above feeds the sitemap.

@@ -1,19 +1,19 @@
 <template>
-  <section class="tpp" aria-labelledby="tpp-title">
-    <div class="tpp__in">
+  <section class="mi:@container mi:font-mi mi:text-label" aria-labelledby="tpp-title">
+    <div class="mi:grid mi:gap-3.5 mi:@[900px]:grid-cols-[320px_minmax(0,_1fr)] mi:@[900px]:items-start">
     <!-- Your own status, editable; the card on the right previews what teammates see. -->
-    <article class="tpp__me">
-      <div class="tpp__me-head">
+    <article class="mi:grid mi:gap-3.5 mi:p-4.5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1">
+      <div class="mi:grid mi:gap-0.5">
         <MiText id="tpp-title" as="h2" variant="headline" weight="semibold">Your status</MiText>
         <MiText variant="caption" tone="label2">Visible to the Lighthouse team</MiText>
       </div>
-      <MiSegmented v-model="presence" label="Presence" :options="presenceOptions" class="tpp__seg" />
+      <MiSegmented v-model="presence" label="Presence" :options="presenceOptions" class="mi:max-w-full" />
       <MiField label="What are you up to?">
         <template #default="{ id }">
           <MiInput :id="id" v-model="note" clearable placeholder="Add a short status" />
         </template>
       </MiField>
-      <div class="tpp__presets" role="group" aria-label="Suggestions">
+      <div class="mi:flex mi:flex-wrap mi:gap-1.5" role="group" aria-label="Suggestions">
         <MiChip v-for="p in presets" :key="p" size="small" tone="neutral" :label="p" selectable :model-value="note === p" @update:model-value="note = $event ? p : ''" />
       </div>
       <MiField label="Clear after">
@@ -21,11 +21,11 @@
           <MiNativeSelect :id="id" v-model="clearAfter" size="sm" :options="clearOptions" />
         </template>
       </MiField>
-      <div class="tpp__preview" aria-live="polite">
+      <div class="mi:flex mi:items-center mi:gap-3 mi:p-3 mi:rounded-lg mi:[background:linear-gradient(120deg,_var(--mi-p-tint),_transparent_80%),_var(--mi-fill4)] mi:min-w-0" aria-live="polite">
         <MiBadge dot-only :tone="tones[String(presence)]" :dot-size="12" placement="bottom-right">
           <template #target><MiAvatar name="Nadia Haddad" size="md" tone="auto" decorative /></template>
         </MiBadge>
-        <div class="tpp__preview-text">
+        <div class="mi:min-w-0">
           <MiText variant="subheadline" weight="semibold">Nadia Haddad <MiText as="span" variant="caption" tone="label2" weight="regular">· you</MiText></MiText>
           <MiText variant="footnote" tone="label2" :lines="1">{{ presenceLabel }}{{ note ? ' · ' + note : '' }}</MiText>
         </div>
@@ -33,33 +33,33 @@
     </article>
 
     <!-- Teammates, each with a 24-hour strip showing when your working days overlap. -->
-    <ul class="tpp__team" aria-label="Teammates">
-      <li v-for="p in people" :key="p.name" class="tpp__card">
-        <div class="tpp__who">
+    <ul class="mi:grid mi:gap-3 mi:m-0 mi:p-0 mi:[list-style:none] mi:[@container_(min-width:_600px)_and_(max-width:_899px)]:grid-cols-[repeat(2,_minmax(0,_1fr))] mi:@[1140px]:grid-cols-[repeat(3,_minmax(0,_1fr))]" aria-label="Teammates">
+      <li v-for="p in people" :key="p.name" class="mi:[@container_(min-width:_600px)_and_(max-width:_899px)]:last:col-[span_2] mi:grid mi:content-start mi:gap-3 mi:p-4 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:min-w-0">
+        <div class="mi:grid mi:grid-cols-[auto_minmax(0,_1fr)_auto] mi:items-center mi:gap-3">
           <MiBadge dot-only :tone="tones[p.presence]" :dot-size="12" placement="bottom-right" :aria-label="p.presence">
             <template #target><MiAvatar :name="p.name" size="md" tone="auto" decorative /></template>
           </MiBadge>
-          <div class="tpp__who-text">
+          <div class="mi:min-w-0">
             <MiText as="h3" variant="subheadline" weight="semibold" :lines="1">{{ p.name }}</MiText>
             <MiText variant="caption" tone="label2" :lines="1">{{ p.role }}</MiText>
           </div>
-          <div class="tpp__clock">
+          <div class="mi:grid mi:justify-items-end">
             <MiText as="span" variant="subheadline" weight="semibold" tabular>{{ p.local }}</MiText>
             <MiText as="span" variant="caption2" tone="label2">{{ p.city }}</MiText>
           </div>
         </div>
-        <MiText variant="footnote" :lines="2" class="tpp__status">{{ p.status }}</MiText>
+        <MiText variant="footnote" :lines="2" class="mi:min-h-[2.6em] mi:text-label2!">{{ p.status }}</MiText>
 
-        <div class="tpp__strip-wrap">
-          <div class="tpp__strip" role="img" :aria-label="p.overlapText">
+        <div class="mi:grid mi:gap-1">
+          <div class="mi:grid mi:grid-cols-24 mi:gap-0.5 mi:h-5.5" role="img" :aria-label="p.overlapText">
             <span
-              v-for="(c, h) in p.cells" :key="h" class="tpp__cell"
-              :class="{ 'is-them': c.them, 'is-me': c.me, 'is-both': c.them && c.me, 'is-now': h === nowMine }"
+              v-for="(c, h) in p.cells" :key="h" class="mi:relative mi:rounded-[3px]"
+              :class="[c.them && c.me ? 'mi:bg-p mi:shadow-none' : c.them ? 'mi:bg-s/30' : c.me ? 'mi:[background:var(--mi-fill4)] mi:shadow-[inset_0_0_0_1px_color-mix(in_srgb,_var(--mi-p)_45%,_transparent)]' : 'mi:[background:var(--mi-fill4)]', h === nowMine ? `mi:after:content-[''] mi:after:absolute mi:after:left-1/2 mi:after:-top-1 mi:after:-bottom-1 mi:after:w-0.5 mi:after:-ml-px mi:after:rounded-[1px] mi:after:[background:var(--mi-label)]` : '']"
             />
           </div>
-          <div class="tpp__axis" aria-hidden="true"><span>0</span><span>6</span><span>12</span><span>18</span><span>24</span></div>
+          <div class="mi:flex mi:justify-between mi:text-[10px] mi:text-label3 mi:tabular-nums" aria-hidden="true"><span>0</span><span>6</span><span>12</span><span>18</span><span>24</span></div>
         </div>
-        <div class="tpp__foot">
+        <div class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2 mi:pt-2.5 mi:border-t mi:border-t-sep">
           <MiText variant="caption" :tone="p.overlap ? 'label' : 'orange'" weight="medium">{{ p.overlapText }}</MiText>
           <MiButton variant="gray" size="small">{{ p.presence === 'focus' ? 'Leave a note' : 'Message' }}</MiButton>
         </div>
@@ -113,36 +113,3 @@ const people = team.map((p) => {
   }
 })
 </script>
-
-<style scoped>
-.tpp { container-type: inline-size; font-family: var(--mi-font); color: var(--mi-label); }
-.tpp__in { display: grid; gap: 14px; }
-@container (min-width: 900px) { .tpp__in { grid-template-columns: 320px minmax(0, 1fr); align-items: start; } }
-
-.tpp__me { display: grid; gap: 14px; padding: 18px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.tpp__me-head { display: grid; gap: 2px; }
-.tpp__seg { max-width: 100%; }
-.tpp__presets { display: flex; flex-wrap: wrap; gap: 6px; }
-.tpp__preview { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: var(--mi-radius-l); background: linear-gradient(120deg, var(--mi-p-tint), transparent 80%), var(--mi-fill4); min-width: 0; }
-.tpp__preview-text { min-width: 0; }
-
-.tpp__team { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
-@container (min-width: 600px) and (max-width: 899px) { .tpp__team { grid-template-columns: repeat(2, minmax(0, 1fr)); } .tpp__card:last-child { grid-column: span 2; } }
-@container (min-width: 1140px) { .tpp__team { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-
-.tpp__card { display: grid; align-content: start; gap: 12px; padding: 16px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); min-width: 0; }
-.tpp__who { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 12px; }
-.tpp__who-text { min-width: 0; }
-.tpp__clock { display: grid; justify-items: end; }
-.tpp__status { min-height: 2.6em; color: var(--mi-label2); }
-
-.tpp__strip-wrap { display: grid; gap: 4px; }
-.tpp__strip { display: grid; grid-template-columns: repeat(24, minmax(0, 1fr)); gap: 2px; height: 22px; }
-.tpp__cell { position: relative; border-radius: 3px; background: var(--mi-fill4); }
-.tpp__cell.is-me { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--mi-p) 45%, transparent); }
-.tpp__cell.is-them { background: color-mix(in srgb, var(--mi-s) 30%, transparent); }
-.tpp__cell.is-both { background: var(--mi-p); box-shadow: none; }
-.tpp__cell.is-now::after { content: ""; position: absolute; left: 50%; top: -4px; bottom: -4px; width: 2px; margin-left: -1px; border-radius: 1px; background: var(--mi-label); }
-.tpp__axis { display: flex; justify-content: space-between; font-size: 10px; color: var(--mi-label3); font-variant-numeric: tabular-nums; }
-.tpp__foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; padding-top: 10px; border-top: 1px solid var(--mi-sep); }
-</style>

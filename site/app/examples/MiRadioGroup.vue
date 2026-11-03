@@ -20,12 +20,12 @@ const cycle = ref<string | number | boolean | null>('yearly')
 </script>
 
 <template>
-  <div class="card">
+  <div class="card mi:shadow-1 mi:box-border">
     <MiText variant="headline" as="h3">Billing cycle</MiText>
     <MiRadioGroup v-model="cycle" v-bind="p" />
   </div>
 </template>
 
 <style scoped>
-.card { display: grid; gap: 14px; width: min(100%, 520px); padding: 16px 18px; border-radius: 18px; background: var(--mi-card); box-shadow: var(--mi-sh1); box-sizing: border-box; }
+.card { display: grid; gap: 14px; width: min(100%, 520px); padding: 16px 18px; border-radius: 18px; background: var(--mi-card); }
 </style>

@@ -14,11 +14,11 @@ const ariaOrientation = computed(() => (!props.decorative && props.orientation =
 </script>
 
 <template>
-  <div class="mi-separator" :class="`mi-separator--${orientation}`" :role="role" :aria-orientation="ariaOrientation" />
+  <div class="mi-separator mi:shrink-0" :class="`mi-separator--${orientation}`" :role="role" :aria-orientation="ariaOrientation" />
 </template>
 
 <style scoped>
-.mi-separator{flex-shrink:0;background:var(--mi-sep)}
+.mi-separator{background:var(--mi-sep)}
 .mi-separator--horizontal{height:1px;width:100%}
 .mi-separator--vertical{width:1px;align-self:stretch;min-height:1em}
 </style>

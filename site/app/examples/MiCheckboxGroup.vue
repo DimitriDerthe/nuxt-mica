@@ -23,12 +23,12 @@ const channels = ref<(string | number)[]>(['email', 'push'])
 </script>
 
 <template>
-  <div class="card">
+  <div class="card mi:shadow-1 mi:box-border">
     <MiText variant="headline" as="h3">Notify me about mentions</MiText>
     <MiCheckboxGroup v-model="channels" v-bind="p" />
   </div>
 </template>
 
 <style scoped>
-.card { display: grid; gap: 14px; width: min(100%, 360px); padding: 16px 18px; border-radius: 18px; background: var(--mi-card); box-shadow: var(--mi-sh1); box-sizing: border-box; }
+.card { display: grid; gap: 14px; width: min(100%, 360px); padding: 16px 18px; border-radius: 18px; background: var(--mi-card); }
 </style>

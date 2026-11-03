@@ -1,20 +1,20 @@
 <template>
-  <section class="csr" aria-labelledby="csr-title">
-    <header class="csr__head">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-4.5 mi:font-mi mi:text-label" aria-labelledby="csr-title">
+    <header class="mi:grid mi:gap-2">
       <MiSearch v-model="query" placeholder="Search the shop" aria-label="Search products" :cancelable="false" />
       <!-- Typo correction: the shop searched the fixed spelling, with a way back to the literal one. -->
-      <MiText v-if="corrected" variant="footnote" tone="label2" class="csr__fix">
+      <MiText v-if="corrected" variant="footnote" tone="label2">
         Showing results for <strong>{{ corrected }}</strong>.
-        <a href="#" @click.prevent="literal = query">Search instead for {{ query }}</a>
+        <a class="mi:text-p-text" href="#" @click.prevent="literal = query">Search instead for {{ query }}</a>
       </MiText>
     </header>
 
-    <div class="csr__layout">
-      <aside class="csr__facets" aria-label="Filters">
+    <div class="mi:grid mi:gap-5 mi:@[760px]:grid-cols-[240px_minmax(0,_1fr)] mi:@[760px]:items-start">
+      <aside class="mi:[&>button]:justify-self-start mi:grid mi:content-start mi:gap-4.5 mi:p-4 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1" aria-label="Filters">
         <MiSlider v-model="price" :min="40" :max="240" :step="10" label="Price" :format="dollars" />
-        <div class="csr__facet" role="group" aria-labelledby="csr-brand">
+        <div class="mi:grid mi:gap-2" role="group" aria-labelledby="csr-brand">
           <MiText id="csr-brand" variant="footnote" weight="semibold" tone="label2">Brand</MiText>
-          <div class="csr__chips">
+          <div class="mi:flex mi:flex-wrap mi:gap-1.5">
             <MiChip v-for="b in brands" :key="b" v-model="brandOn[b]" selectable size="small" tone="neutral" :label="`${b} · ${brandCount(b)}`" />
           </div>
         </div>
@@ -22,26 +22,26 @@
         <MiButton v-if="filtered" size="small" variant="plain" @click="clearAll">Clear filters</MiButton>
       </aside>
 
-      <div class="csr__main">
-        <div class="csr__bar">
-          <MiText id="csr-title" variant="headline" as="h2" aria-live="polite">{{ results.length }} results for “{{ term }}”</MiText>
+      <div class="mi:grid mi:content-start mi:gap-3.5 mi:min-w-0">
+        <div class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2.5">
+          <MiText id="csr-title" variant="headline" as="h2" aria-live="polite" class="mi:m-0">{{ results.length }} results for “{{ term }}”</MiText>
           <MiNativeSelect v-model="sort" :options="sorts" size="sm" aria-label="Sort by" />
         </div>
 
-        <ul v-if="results.length" class="csr__grid">
-          <li v-for="p in results" :key="p.id" class="csr__card">
-            <a href="#" class="csr__link" @click.prevent>
-              <span class="csr__art" :style="{ '--a': p.hue }" aria-hidden="true">
-                <svg viewBox="0 0 120 60" class="csr__shoe"><path d="M8 44c10 0 18-4 26-14l10-12c4-4 10-4 12 2 3 8 12 12 26 14 14 2 30 4 30 14v4H8z" /></svg>
-                <MiBadge v-if="p.tag" :label="p.tag" :tone="p.tag === 'Sale' ? 'danger' : 'primary'" variant="solid" class="csr__tag" />
+        <ul v-if="results.length" class="mi:grid mi:grid-cols-2 mi:gap-3 mi:m-0 mi:p-0 mi:[list-style:none] mi:@[760px]:grid-cols-[repeat(auto-fill,_minmax(190px,_1fr))]">
+          <li v-for="p in results" :key="p.id">
+            <a href="#" class="mi:group mi:grid mi:gap-1 mi:h-full mi:pt-2.5 mi:px-2.5 mi:pb-3.5 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1 mi:text-inherit mi:[text-decoration:none] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" @click.prevent>
+              <span class="mi:relative mi:grid mi:place-items-center mi:aspect-[4_/_3] mi:mb-1.5 mi:rounded-md mi:[background:radial-gradient(90%_90%_at_30%_20%,_color-mix(in_srgb,_var(--a)_28%,_transparent),_transparent_70%),_var(--mi-fill4)]" :style="{ '--a': p.hue }" aria-hidden="true">
+                <svg viewBox="0 0 120 60" class="mi:group-hover:transform-[translateY(-3px)_rotate(-3deg)] mi:w-[72%] mi:fill-(--a) mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring)]"><path d="M8 44c10 0 18-4 26-14l10-12c4-4 10-4 12 2 3 8 12 12 26 14 14 2 30 4 30 14v4H8z" /></svg>
+                <MiBadge v-if="p.tag" :label="p.tag" :tone="p.tag === 'Sale' ? 'danger' : 'primary'" variant="solid" class="mi:absolute! mi:top-2 mi:left-2" />
               </span>
-              <span class="csr__brand">{{ p.brand }}</span>
-              <span class="csr__name">{{ p.name }}</span>
-              <span class="csr__rate"><MiIcon name="star" filled :size="13" />{{ p.rating }} <small>({{ p.reviews }})</small></span>
-              <span class="csr__price">
-                <strong>${{ p.price }}</strong>
-                <s v-if="p.was">${{ p.was }}</s>
-                <small v-if="p.stock < 4 && p.stock > 0" class="csr__low">Only {{ p.stock }} left</small>
+              <span class="mi:text-[11px] mi:font-semibold mi:uppercase mi:tracking-[.06em] mi:text-label2">{{ p.brand }}</span>
+              <span class="mi:text-[14px] mi:font-semibold mi:leading-[1.3]">{{ p.name }}</span>
+              <span class="mi:inline-flex mi:items-center mi:gap-1 mi:text-[12px] mi:font-semibold mi:text-orange-t"><MiIcon name="star" filled :size="13" />{{ p.rating }} <small class="mi:text-label2 mi:font-normal">({{ p.reviews }})</small></span>
+              <span class="mi:flex mi:flex-wrap mi:items-baseline mi:gap-y-1 mi:gap-x-2 mi:mt-0.5">
+                <strong class="mi:text-[16px] mi:tabular-nums">${{ p.price }}</strong>
+                <s v-if="p.was" class="mi:text-[13px] mi:text-label3">${{ p.was }}</s>
+                <small v-if="p.stock < 4 && p.stock > 0" class="mi:text-[12px] mi:font-semibold mi:text-red-t">Only {{ p.stock }} left</small>
               </span>
             </a>
           </li>
@@ -111,39 +111,3 @@ function clearAll() {
 }
 </script>
 
-<style scoped>
-.csr { container-type: inline-size; display: grid; align-content: start; gap: 18px; font-family: var(--mi-font); color: var(--mi-label); }
-.csr__head { display: grid; gap: 8px; }
-.csr__fix a { color: var(--mi-p-text); }
-.csr__layout { display: grid; gap: 20px; }
-
-.csr__facets { display: grid; align-content: start; gap: 18px; padding: 16px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.csr__facet { display: grid; gap: 8px; }
-.csr__chips { display: flex; flex-wrap: wrap; gap: 6px; }
-.csr__facets > :deep(button) { justify-self: start; }
-
-.csr__main { display: grid; align-content: start; gap: 14px; min-width: 0; }
-.csr__bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
-.csr__bar h2 { margin: 0; }
-.csr__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 0; padding: 0; list-style: none; }
-
-.csr__link { display: grid; gap: 4px; height: 100%; padding: 10px 10px 14px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); color: inherit; text-decoration: none; }
-.csr__link:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-.csr__link:hover .csr__shoe { transform: translateY(-3px) rotate(-3deg); }
-.csr__art { position: relative; display: grid; place-items: center; aspect-ratio: 4 / 3; margin-bottom: 6px; border-radius: var(--mi-radius-m); background: radial-gradient(90% 90% at 30% 20%, color-mix(in srgb, var(--a) 28%, transparent), transparent 70%), var(--mi-fill4); }
-.csr__shoe { width: 72%; fill: var(--a); transition: transform var(--mi-dur-3) var(--mi-spring); }
-.csr__tag { position: absolute; top: 8px; left: 8px; }
-.csr__brand { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--mi-label2); }
-.csr__name { font-size: 14px; font-weight: 600; line-height: 1.3; }
-.csr__rate { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; color: var(--mi-orange-t); }
-.csr__rate small { font-weight: 400; color: var(--mi-label2); }
-.csr__price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; margin-top: 2px; }
-.csr__price strong { font-size: 16px; font-variant-numeric: tabular-nums; }
-.csr__price s { font-size: 13px; color: var(--mi-label3); }
-.csr__low { font-size: 12px; font-weight: 600; color: var(--mi-red-t); }
-
-@container (min-width: 760px) {
-  .csr__layout { grid-template-columns: 240px minmax(0, 1fr); align-items: start; }
-  .csr__grid { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); }
-}
-</style>

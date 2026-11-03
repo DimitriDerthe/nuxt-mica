@@ -1,62 +1,62 @@
 <template>
-  <div class="cfh">
-    <header class="cfh__header">
-      <div class="cfh__bar">
-        <a href="#" class="cfh__back" @click.prevent>
-          <MiIcon name="chevron-left" :size="16" /><span class="cfh__back-text">Back to shop</span>
+  <div class="mi:@container mi:grid mi:grid-rows-[auto_1fr] mi:min-h-full mi:font-mi mi:text-label mi:bg-page">
+    <header class="mi:bg-card mi:shadow-[inset_0_-1px_0_var(--mi-sep)]">
+      <div class="mi:grid mi:grid-cols-[1fr_auto_1fr] mi:items-center mi:gap-2 mi:min-h-13 mi:py-1.5 mi:px-3.5 mi:@[860px]:py-2 mi:@[860px]:px-6 mi:@[860px]:min-h-15">
+        <a href="#" class="mi:inline-flex mi:items-center mi:gap-1 mi:justify-self-start mi:text-[14px] mi:font-medium mi:text-label2 mi:[text-decoration:none] mi:rounded-[6px] mi:hover:text-label mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" @click.prevent>
+          <MiIcon name="chevron-left" :size="16" /><span class="mi:hidden mi:@[520px]:inline">Back to shop</span>
         </a>
-        <span class="cfh__brand">Kiln &amp; Clay</span>
-        <span class="cfh__secure"><MiIcon name="lock" :size="14" /><span class="cfh__secure-text">Secure checkout</span></span>
+        <span class="mi:text-[17px] mi:font-bold mi:tracking-[-.02em] mi:whitespace-nowrap">Kiln &amp; Clay</span>
+        <span class="mi:inline-flex mi:items-center mi:gap-1.5 mi:justify-self-end mi:text-[12px] mi:font-semibold mi:text-green-t"><MiIcon name="lock" :size="14" /><span class="mi:hidden mi:@[520px]:inline">Secure checkout</span></span>
       </div>
 
       <!-- Steps as a trail: done steps link back, later ones are plain text. -->
-      <nav class="cfh__trail" aria-label="Checkout steps">
-        <ol>
-          <li v-for="(s, i) in steps" :key="s" :class="{ 'is-done': i < step, 'is-now': i === step }">
-            <a v-if="i < step" href="#" @click.prevent="step = i">{{ s }}</a>
+      <nav aria-label="Checkout steps">
+        <ol class="mi:flex mi:justify-center mi:gap-1 mi:m-0 mi:text-[13px] mi:flex-wrap mi:pt-0 mi:px-3.5 mi:pb-3 mi:[list-style:none]">
+          <li v-for="(s, i) in steps" :key="s" class="mi:inline-flex mi:items-center mi:gap-1" :class="i === step ? 'mi:font-semibold mi:text-label' : 'mi:text-label3'">
+            <a class="mi:text-p-text mi:font-medium mi:[text-decoration:none] mi:rounded-[4px] mi:hover:[text-decoration:underline] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" v-if="i < step" href="#" @click.prevent="step = i">{{ s }}</a>
             <span v-else :aria-current="i === step ? 'step' : undefined">{{ s }}</span>
-            <MiIcon v-if="i < steps.length - 1" name="chevron-right" :size="12" class="cfh__sep" />
+            <MiIcon v-if="i < steps.length - 1" name="chevron-right" :size="12" class="mi:text-label3" />
           </li>
         </ol>
       </nav>
 
       <!-- Narrow: the order summary folds under the header behind its total. -->
-      <button type="button" class="cfh__toggle" :aria-expanded="summary" aria-controls="cfh-summary" @click="summary = !summary">
+      <button type="button" class="mi:[font:inherit] mi:text-[14px] mi:font-medium mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:flex mi:items-center mi:gap-2 mi:w-full mi:py-3 mi:px-3.5 mi:[border:0] mi:text-p-text mi:bg-fill4 mi:shadow-[inset_0_1px_0_var(--mi-sep)] mi:cursor-pointer mi:@[860px]:hidden" :aria-expanded="summary" aria-controls="cfh-summary" @click="summary = !summary">
         <MiIcon name="list-bullet" :size="16" />
         <span>{{ summary ? 'Hide' : 'Show' }} order summary</span>
-        <MiIcon name="chevron-down" :size="14" class="cfh__chev" />
-        <b class="cfh__total" aria-live="polite">{{ money(total) }}</b>
+        <MiIcon name="chevron-down" :size="14" class="mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)]" :class="summary ? 'mi:transform-[rotate(180deg)]' : ''" />
+        <b class="mi:ms-auto mi:text-[16px] mi:text-label mi:tabular-nums" aria-live="polite">{{ money(total) }}</b>
       </button>
     </header>
 
-    <div class="cfh__body">
-      <section id="cfh-summary" class="cfh__summary" :class="{ 'is-open': summary }" aria-labelledby="cfh-sum-title">
+    <div class="mi:grid mi:content-start mi:@[860px]:grid-cols-[minmax(0,_1fr)_340px]">
+      <section id="cfh-summary" class="mi:gap-3 mi:py-4 mi:px-3.5 mi:bg-fill4 mi:shadow-[inset_0_-1px_0_var(--mi-sep)] mi:@[860px]:grid mi:@[860px]:content-start mi:@[860px]:col-[2] mi:@[860px]:row-[1] mi:@[860px]:min-h-full mi:@[860px]:py-7 mi:@[860px]:px-6 mi:@[860px]:shadow-[inset_1px_0_0_var(--mi-sep)] mi:@[860px]:animate-none" :class="summary ? 'mi:grid mi:[--mi-in-y:-6px] mi:animate-[in_var(--mi-dur-3)_var(--mi-spring)] mi:motion-reduce:animate-none' : 'mi:hidden'" aria-labelledby="cfh-sum-title">
         <MiText id="cfh-sum-title" variant="headline" as="h3">Your order</MiText>
-        <ul class="cfh__items">
-          <li v-for="it in items" :key="it.name" class="cfh__item">
-            <span class="cfh__swatch" :style="{ background: `var(--mi-${it.glaze})` }" aria-hidden="true"><i>{{ it.qty }}</i></span>
-            <span class="cfh__item-name"><MiText as="span" variant="footnote" weight="semibold">{{ it.name }}</MiText><MiText as="span" variant="caption" tone="label2">{{ it.detail }}</MiText></span>
+        <ul class="mi:grid mi:gap-2.5 mi:m-0 mi:p-0 mi:[list-style:none]">
+          <li v-for="it in items" :key="it.name" class="mi:flex mi:items-center mi:gap-3">
+            <span class="mi:relative mi:w-11 mi:h-11 mi:flex-[none] mi:rounded-[12px] mi:shadow-[inset_0_-10px_18px_color-mix(in_srgb,_var(--mi-label)_18%,_transparent)]" :style="{ background: `var(--mi-${it.glaze})` }" aria-hidden="true"><i class="mi:grid mi:place-items-center mi:text-[11px] mi:text-card mi:absolute mi:-top-1.5 mi:-right-1.5 mi:min-w-5 mi:h-5 mi:rounded-[10px] mi:not-italic mi:font-bold mi:bg-label2">{{ it.qty }}</i></span>
+            <span class="mi:grid mi:flex-1 mi:min-w-0"><MiText as="span" variant="footnote" weight="semibold">{{ it.name }}</MiText><MiText as="span" variant="caption" tone="label2">{{ it.detail }}</MiText></span>
             <MiText as="span" variant="footnote" tabular>{{ money(it.price * it.qty) }}</MiText>
           </li>
         </ul>
-        <dl class="cfh__sums">
-          <div><dt>Subtotal</dt><dd>{{ money(subtotal) }}</dd></div>
-          <div><dt>Shipping</dt><dd>{{ shippingCost ? money(shippingCost) : 'Free' }}</dd></div>
-          <div class="is-total"><dt>Total</dt><dd>{{ money(total) }}</dd></div>
+        <dl class="mi:grid mi:gap-1.5 mi:m-0 mi:pt-3 mi:shadow-[inset_0_1px_0_var(--mi-sep)] mi:text-[14px]">
+          <div class="mi:flex mi:justify-between mi:gap-3"><dt class="mi:text-label2">Subtotal</dt><dd class="mi:m-0 mi:tabular-nums">{{ money(subtotal) }}</dd></div>
+          <div class="mi:flex mi:justify-between mi:gap-3"><dt class="mi:text-label2">Shipping</dt><dd class="mi:m-0 mi:tabular-nums">{{ shippingCost ? money(shippingCost) : 'Free' }}</dd></div>
+          <div class="mi:flex mi:justify-between mi:gap-3 mi:pt-1.5 mi:text-[17px] mi:font-bold"><dt class="mi:text-label">Total</dt><dd class="mi:m-0 mi:tabular-nums">{{ money(total) }}</dd></div>
         </dl>
       </section>
 
-      <main class="cfh__main" aria-labelledby="cfh-title">
+      <main class="mi:grid mi:content-start mi:gap-2.5 mi:w-full mi:max-w-140 mi:my-0 mi:mx-auto mi:pt-6 mi:px-3.5 mi:pb-9 mi:@[860px]:col-[1] mi:@[860px]:row-[1] mi:@[860px]:py-9 mi:@[860px]:px-7" aria-labelledby="cfh-title">
         <template v-if="step === 2">
           <MiText id="cfh-title" variant="title2" as="h2" weight="bold">How should it travel?</MiText>
           <MiText variant="callout" tone="label2">Every piece is wrapped by hand. The total in the header follows your pick.</MiText>
-          <MiRadioGroup v-model="shipping" :options="shippingOptions" label="Shipping method" class="cfh__radios" />
+          <MiRadioGroup v-model="shipping" :options="shippingOptions" label="Shipping method" class="mi:mt-2" />
         </template>
         <template v-else>
           <MiText id="cfh-title" variant="title2" as="h2" weight="bold">{{ steps[step] }}</MiText>
           <MiText variant="callout" tone="label2">{{ notes[step] }}</MiText>
         </template>
-        <div class="cfh__nav">
+        <div class="mi:flex mi:justify-between mi:gap-2.5 mi:pt-4">
           <MiButton variant="gray" :disabled="step === 0" @click="step--">Back</MiButton>
           <MiButton :disabled="step === steps.length - 1" @click="step++">{{ step === steps.length - 2 ? 'Continue to payment' : 'Continue' }}</MiButton>
         </div>
@@ -100,60 +100,3 @@ const total = computed(() => subtotal.value + shippingCost.value)
 
 function money(n: number) { return fmt.format(n) }
 </script>
-
-<style scoped>
-.cfh { container-type: inline-size; display: grid; grid-template-rows: auto 1fr; min-height: 100%; font-family: var(--mi-font); color: var(--mi-label); background: var(--mi-page); }
-.cfh__header { background: var(--mi-card); box-shadow: inset 0 -1px 0 var(--mi-sep); }
-.cfh__bar { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 8px; min-height: 52px; padding: 6px 14px; }
-.cfh__back { display: inline-flex; align-items: center; gap: 4px; justify-self: start; font-size: 14px; font-weight: 500; color: var(--mi-label2); text-decoration: none; border-radius: 6px; }
-.cfh__back:hover { color: var(--mi-label); }
-.cfh__back-text, .cfh__secure-text { display: none; }
-.cfh__brand { font-size: 17px; font-weight: 700; letter-spacing: -.02em; white-space: nowrap; }
-.cfh__secure { display: inline-flex; align-items: center; gap: 6px; justify-self: end; font-size: 12px; font-weight: 600; color: var(--mi-green-t); }
-
-.cfh__trail ol { display: flex; justify-content: center; flex-wrap: wrap; gap: 4px; margin: 0; padding: 0 14px 12px; list-style: none; font-size: 13px; }
-.cfh__trail li { display: inline-flex; align-items: center; gap: 4px; color: var(--mi-label3); }
-.cfh__trail li.is-done a { color: var(--mi-p-text); font-weight: 500; text-decoration: none; border-radius: 4px; }
-.cfh__trail li.is-done a:hover { text-decoration: underline; }
-.cfh__trail li.is-now { color: var(--mi-label); font-weight: 600; }
-.cfh__sep { color: var(--mi-label3); }
-.cfh__back:focus-visible, .cfh__trail a:focus-visible, .cfh__toggle:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-
-.cfh__toggle {
-  display: flex; align-items: center; gap: 8px; width: 100%; padding: 12px 14px; border: 0; font: inherit; font-size: 14px; font-weight: 500;
-  color: var(--mi-p-text); background: var(--mi-fill4); box-shadow: inset 0 1px 0 var(--mi-sep); cursor: pointer;
-}
-.cfh__chev { transition: transform var(--mi-dur-2) var(--mi-ease); }
-.cfh__toggle[aria-expanded="true"] .cfh__chev { transform: rotate(180deg); }
-.cfh__total { margin-inline-start: auto; font-size: 16px; color: var(--mi-label); font-variant-numeric: tabular-nums; }
-
-.cfh__body { display: grid; align-content: start; }
-.cfh__summary { display: none; gap: 12px; padding: 16px 14px; background: var(--mi-fill4); box-shadow: inset 0 -1px 0 var(--mi-sep); }
-.cfh__summary.is-open { display: grid; animation: cfh-in var(--mi-dur-3) var(--mi-spring); }
-@keyframes cfh-in { from { opacity: 0; transform: translateY(-6px); } }
-@media (prefers-reduced-motion: reduce) { .cfh__summary.is-open { animation: none; } }
-.cfh__items { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
-.cfh__item { display: flex; align-items: center; gap: 12px; }
-.cfh__swatch { position: relative; width: 44px; height: 44px; flex: none; border-radius: 12px; box-shadow: inset 0 -10px 18px color-mix(in srgb, var(--mi-label) 18%, transparent); }
-.cfh__swatch i { position: absolute; top: -6px; right: -6px; display: grid; place-items: center; min-width: 20px; height: 20px; border-radius: 10px; font-size: 11px; font-style: normal; font-weight: 700; color: var(--mi-card); background: var(--mi-label2); }
-.cfh__item-name { display: grid; flex: 1; min-width: 0; }
-.cfh__sums { display: grid; gap: 6px; margin: 0; padding-top: 12px; box-shadow: inset 0 1px 0 var(--mi-sep); font-size: 14px; }
-.cfh__sums div { display: flex; justify-content: space-between; gap: 12px; }
-.cfh__sums dt { color: var(--mi-label2); }
-.cfh__sums dd { margin: 0; font-variant-numeric: tabular-nums; }
-.cfh__sums .is-total { padding-top: 6px; font-size: 17px; font-weight: 700; }
-.cfh__sums .is-total dt { color: var(--mi-label); }
-
-.cfh__main { display: grid; align-content: start; gap: 10px; width: 100%; max-width: 560px; margin: 0 auto; padding: 24px 14px 36px; }
-.cfh__radios { margin-top: 8px; }
-.cfh__nav { display: flex; justify-content: space-between; gap: 10px; padding-top: 16px; }
-
-@container (min-width: 520px) { .cfh__back-text, .cfh__secure-text { display: inline; } }
-@container (min-width: 860px) {
-  .cfh__bar { padding: 8px 24px; min-height: 60px; }
-  .cfh__toggle { display: none; }
-  .cfh__body { grid-template-columns: minmax(0, 1fr) 340px; }
-  .cfh__summary, .cfh__summary.is-open { display: grid; align-content: start; grid-column: 2; grid-row: 1; min-height: 100%; padding: 28px 24px; box-shadow: inset 1px 0 0 var(--mi-sep); animation: none; }
-  .cfh__main { grid-column: 1; grid-row: 1; padding: 36px 28px; }
-}
-</style>

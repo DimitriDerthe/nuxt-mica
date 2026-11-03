@@ -53,7 +53,7 @@ const _slots = defineSlots<{
 
 <template>
   <button
-    class="mi-icon-btn"
+    class="mi-icon-btn mi:[--_solid:var(--mi-p)] mi:[--_on:var(--mi-p-on)] mi:[--_text:var(--mi-p-text)] mi:[--w:44px] mi:[--h:44px] mi:[--icon:20px] mi:[--r:50%] mi:[-webkit-tap-highlight-color:transparent] mi:isolate mi:after:pointer-events-none"
     :class="[
       `mi-icon-btn--${variant}`,
       `mi-icon-btn--${size}`,
@@ -73,11 +73,7 @@ const _slots = defineSlots<{
 
 <style scoped>
 .mi-icon-btn {
-  --_solid: var(--mi-p);
-  --_on: var(--mi-p-on);
   --_tint: var(--mi-p-tint);
-  --_text: var(--mi-p-text);
-  --w: 44px; --h: 44px; --icon: 20px; --r: 50%;
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -96,8 +92,6 @@ const _slots = defineSlots<{
   font-weight: 800;
   line-height: 1;
   cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  isolation: isolate;
   transition: transform var(--mi-dur-1) var(--mi-ease);
 }
 .mi-icon-btn--secondary {
@@ -129,7 +123,6 @@ const _slots = defineSlots<{
   border-radius: inherit;
   background: var(--mi-label);
   opacity: 0;
-  pointer-events: none;
   transition: opacity var(--mi-dur-2) var(--mi-ease);
 }
 @media (hover: hover) {

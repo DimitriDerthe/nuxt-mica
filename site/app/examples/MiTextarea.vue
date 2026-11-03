@@ -14,11 +14,11 @@ const note = ref('The export finished, but the CSV dropped the time zone column.
 </script>
 
 <template>
-  <div class="card">
+  <div class="card mi:box-border">
     <MiField label="Message" hint="Our team usually replies within a few hours.">
       <MiTextarea v-model="note" v-bind="p" />
     </MiField>
-    <div class="actions">
+    <div class="actions mi:flex mi:[justify-content:flex-end] mi:gap-2">
       <MiButton variant="gray">Attach file</MiButton>
       <MiButton>Send</MiButton>
     </div>
@@ -26,6 +26,5 @@ const note = ref('The export finished, but the CSV dropped the time zone column.
 </template>
 
 <style scoped>
-.card { width: min(100%, 400px); padding: 18px; border-radius: 20px; background: var(--mi-card); box-shadow: var(--mi-sh1); display: grid; gap: 14px; box-sizing: border-box; }
-.actions { display: flex; justify-content: flex-end; gap: 8px; }
+.card { width: min(100%, 400px); padding: 18px; border-radius: 20px; background: var(--mi-card); box-shadow: var(--mi-sh1); display: grid; gap: 14px; }
 </style>

@@ -58,22 +58,22 @@ const heading = computed(() => `h${props.headingLevel}`)
     class="mi-card"
     :class="[`mi-card--${variant}`, `mi-card--${align}`, `mi-card--pad-${padding === 'auto' ? (hasMedia ? 'media' : 'md') : padding}`, { 'mi-card--link': href || to }]"
   >
-    <div v-if="hasMedia" class="mi-card__media" :style="{ height: mediaHeight + 'px' }">
+    <div v-if="hasMedia" class="mi-card__media mi:relative mi:flex-[none] mi:overflow-hidden mi:flex mi:flex-col mi:items-center mi:justify-center mi:gap-1.5" :style="{ height: mediaHeight + 'px' }">
       <slot name="media">
-        <img class="mi-card__img" :src="image" :alt="imageAlt ?? ''" loading="lazy" decoding="async">
+        <img class="mi-card__img mi:absolute mi:inset-0 mi:w-full mi:h-full mi:object-cover mi:block" :src="image" :alt="imageAlt ?? ''" loading="lazy" decoding="async">
       </slot>
     </div>
-    <div class="mi-card__body">
-      <div v-if="hasHead" class="mi-card__head"><slot name="header" /></div>
+    <div class="mi-card__body mi:flex mi:flex-1 mi:flex-col mi:gap-1.5 mi:min-w-0 mi:[.mi-card--center_&]:items-center mi:[.mi-card--center_&]:text-center">
+      <div v-if="hasHead" class="mi-card__head mi:self-stretch"><slot name="header" /></div>
       <template v-if="hasText">
-        <span v-if="eyebrow" class="mi-card__eyebrow">{{ eyebrow }}</span>
+        <span v-if="eyebrow" class="mi-card__eyebrow mi:text-[12px] mi:font-semibold mi:text-s-text mi:uppercase mi:tracking-[.04em]">{{ eyebrow }}</span>
         <component :is="heading" v-if="title" class="mi-card__title">{{ title }}</component>
-        <p v-if="description" class="mi-card__desc">{{ description }}</p>
+        <p v-if="description" class="mi-card__desc mi:m-0 mi:text-[15px] mi:leading-[21px] mi:text-label2">{{ description }}</p>
       </template>
       <slot />
       <template v-if="hasFoot">
-        <span class="mi-card__grow" />
-        <div class="mi-card__foot"><slot name="footer" /></div>
+        <span class="mi-card__grow mi:flex-1" />
+        <div class="mi-card__foot mi:self-stretch mi:mt-1"><slot name="footer" /></div>
       </template>
     </div>
   </component>
@@ -86,19 +86,10 @@ const heading = computed(() => `h${props.headingLevel}`)
 .mi-card--link{transition:transform var(--mi-dur-2) var(--mi-ease)}
 @media (hover:hover){.mi-card--link:hover{transform:translate3d(0,-2px,0)}}
 .mi-card--link:active{transform:scale(.99)}
-.mi-card__media{position:relative;flex:none;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
-.mi-card__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
-.mi-card__body{display:flex;flex:1;flex-direction:column;gap:6px;min-width:0}
 .mi-card--pad-md .mi-card__body{padding:22px;gap:14px}
 .mi-card--pad-lg .mi-card__body{padding:28px;gap:16px}
 .mi-card--pad-media .mi-card__body{padding:18px 20px 20px}
 .mi-card--pad-none .mi-card__body{padding:0}
-.mi-card--center .mi-card__body{align-items:center;text-align:center}
 .mi-card--pad-md.mi-card--center .mi-card__body{gap:10px}
-.mi-card__head{align-self:stretch}
-.mi-card__eyebrow{font-size:12px;font-weight:600;color:var(--mi-s-text);text-transform:uppercase;letter-spacing:.04em}
 .mi-card__title{margin:0;font-size:20px;line-height:25px;font-weight:700;letter-spacing:-.015em}
-.mi-card__desc{margin:0;font-size:15px;line-height:21px;color:var(--mi-label2)}
-.mi-card__grow{flex:1}
-.mi-card__foot{align-self:stretch;margin-top:4px}
 </style>

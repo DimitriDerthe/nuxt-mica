@@ -1,7 +1,7 @@
 <template>
-  <div class="bat">
-    <section class="bat__card" aria-labelledby="bat-title">
-      <header class="bat__head">
+  <div class="mi:@container mi:font-mi mi:text-label">
+    <section class="mi:grid mi:gap-4.5 mi:p-5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:@[820px]:py-6 mi:@[820px]:px-7" aria-labelledby="bat-title">
+      <header class="mi:flex mi:flex-wrap mi:[align-items:flex-start] mi:justify-between mi:gap-y-2 mi:gap-x-4">
         <div>
           <MiText id="bat-title" variant="title3" as="h2" weight="semibold">Tag photos</MiText>
           <MiText variant="footnote" tone="label2">Autumn lookbook · {{ picked.length }} of {{ assets.length }} selected</MiText>
@@ -11,30 +11,30 @@
         </MiButton>
       </header>
 
-      <div class="bat__layout">
-        <ul class="bat__grid" aria-label="Photos">
+      <div class="mi:grid mi:gap-5 mi:@[820px]:grid-cols-[minmax(0,_1fr)_280px] mi:@[820px]:items-start">
+        <ul class="mi:grid mi:grid-cols-2 mi:gap-2.5 mi:m-0 mi:p-0 mi:[list-style:none] mi:@[520px]:grid-cols-3" aria-label="Photos">
           <li v-for="a in assets" :key="a.id">
-            <button type="button" class="bat__tile" :aria-pressed="picked.includes(a.id)" @click="togglePick(a.id)">
-              <span class="bat__thumb" :style="{ '--a': a.hue }" aria-hidden="true"><MiIcon v-if="picked.includes(a.id)" name="check" :size="14" class="bat__tick" /></span>
-              <span class="bat__name">{{ a.name }}</span>
-              <span class="bat__count">{{ a.tags.length ? a.tags.join(', ') : 'No tags' }}</span>
+            <button type="button" class="mi:grid mi:gap-1 mi:w-full mi:pt-1.5 mi:px-1.5 mi:pb-2.5 mi:[border:0] mi:rounded-lg mi:[background:var(--mi-fill4)] mi:text-inherit mi:[font:inherit] mi:text-start mi:cursor-pointer mi:shadow-[inset_0_0_0_2px_transparent] mi:aria-pressed:[background:var(--mi-p-tint)] mi:aria-pressed:shadow-[inset_0_0_0_2px_var(--mi-p)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" :aria-pressed="picked.includes(a.id)" @click="togglePick(a.id)">
+              <span class="mi:relative mi:block mi:aspect-[4_/_3] mi:rounded-md mi:[background:radial-gradient(circle_at_30%_35%,_color-mix(in_srgb,_var(--a)_70%,_var(--mi-card))_0_18%,_transparent_19%),_linear-gradient(160deg,_color-mix(in_srgb,_var(--a)_35%,_var(--mi-card)),_color-mix(in_srgb,_var(--a)_80%,_var(--mi-label)))]" :style="{ '--a': a.hue }" aria-hidden="true"><MiIcon v-if="picked.includes(a.id)" name="check" :size="14" class="mi:absolute mi:top-1.5 mi:right-1.5 mi:p-[3px] mi:rounded-[50%] mi:[background:var(--mi-p)] mi:text-p-on" /></span>
+              <span class="mi:py-0 mi:px-1 mi:text-[13px] mi:font-semibold">{{ a.name }}</span>
+              <span class="mi:py-0 mi:px-1 mi:text-[12px] mi:text-label2 mi:whitespace-nowrap mi:overflow-hidden mi:text-ellipsis">{{ a.tags.length ? a.tags.join(', ') : 'No tags' }}</span>
             </button>
           </li>
         </ul>
 
         <!-- Tag picker for a mixed selection: a dash means only some selected photos carry the tag. -->
-        <div class="bat__picker">
+        <div class="mi:grid mi:content-start mi:gap-3 mi:p-4 mi:rounded-lg mi:[background:var(--mi-elev)] mi:shadow-2">
           <MiText variant="headline" as="h3">Tags on selection</MiText>
           <MiSearch v-model="query" size="compact" placeholder="Find or create a tag" aria-label="Find or create a tag" @search="create" />
-          <ul class="bat__tags" aria-label="Tags">
-            <li v-for="t in tagRows" :key="t.name" class="bat__tag">
+          <ul class="mi:grid mi:gap-2.5 mi:m-0 mi:p-0 mi:[list-style:none]" aria-label="Tags">
+            <li v-for="t in tagRows" :key="t.name">
               <MiCheckbox
                 :model-value="t.state === 'all'" :indeterminate="t.state === 'some'" :disabled="!picked.length"
                 :label="t.name" :description="t.state === 'some' ? `On ${t.on} of ${picked.length}` : undefined"
                 @update:model-value="apply(t.name, $event)"
               />
             </li>
-            <li v-if="canCreate" class="bat__create">
+            <li v-if="canCreate">
               <MiButton variant="tinted" size="small" :disabled="!picked.length" @click="create">
                 <template #leading><MiIcon name="plus" :size="14" /></template>
                 Create “{{ query.trim() }}”
@@ -99,37 +99,3 @@ function create(): void {
   query.value = ''
 }
 </script>
-
-<style scoped>
-.bat { container-type: inline-size; font-family: var(--mi-font); color: var(--mi-label); }
-.bat__card { display: grid; gap: 18px; padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.bat__head { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 8px 16px; }
-
-.bat__layout { display: grid; gap: 20px; }
-.bat__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 0; padding: 0; list-style: none; }
-.bat__tile {
-  display: grid; gap: 4px; width: 100%; padding: 6px 6px 10px; border: 0; border-radius: var(--mi-radius-l);
-  background: var(--mi-fill4); color: inherit; font: inherit; text-align: start; cursor: pointer;
-  box-shadow: inset 0 0 0 2px transparent;
-}
-.bat__tile[aria-pressed="true"] { background: var(--mi-p-tint); box-shadow: inset 0 0 0 2px var(--mi-p); }
-.bat__tile:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-/* Drawn thumbnail: two token gradients, no image files. */
-.bat__thumb {
-  position: relative; display: block; aspect-ratio: 4 / 3; border-radius: var(--mi-radius-m);
-  background: radial-gradient(circle at 30% 35%, color-mix(in srgb, var(--a) 70%, var(--mi-card)) 0 18%, transparent 19%),
-    linear-gradient(160deg, color-mix(in srgb, var(--a) 35%, var(--mi-card)), color-mix(in srgb, var(--a) 80%, var(--mi-label)));
-}
-.bat__tick { position: absolute; top: 6px; right: 6px; padding: 3px; border-radius: 50%; background: var(--mi-p); color: var(--mi-p-on); }
-.bat__name { padding: 0 4px; font-size: 13px; font-weight: 600; }
-.bat__count { padding: 0 4px; font-size: 12px; color: var(--mi-label2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-.bat__picker { display: grid; align-content: start; gap: 12px; padding: 16px; border-radius: var(--mi-radius-l); background: var(--mi-elev); box-shadow: var(--mi-sh2); }
-.bat__tags { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
-
-@container (min-width: 520px) { .bat__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-@container (min-width: 820px) {
-  .bat__card { padding: 24px 28px; }
-  .bat__layout { grid-template-columns: minmax(0, 1fr) 280px; align-items: start; }
-}
-</style>

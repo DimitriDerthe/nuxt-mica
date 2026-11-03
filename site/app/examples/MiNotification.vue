@@ -21,9 +21,9 @@ const shown = ref(true)
 
 <template>
   <section class="ex" aria-label="Notifications">
-    <div class="head"><span>Today</span><span class="count">{{ shown ? 1 : 0 }} new</span></div>
+    <div class="head mi:flex mi:justify-between mi:py-0 mi:px-1.5 mi:text-[13px] mi:font-semibold mi:text-label2"><span>Today</span><span class="count mi:font-medium">{{ shown ? 1 : 0 }} new</span></div>
     <MiNotification v-if="shown" v-bind="p" @dismiss="shown = false" />
-    <div v-else class="done">
+    <div v-else class="done mi:flex mi:items-center mi:justify-between mi:gap-3 mi:py-3.5 mi:px-4 mi:rounded-[18px] mi:bg-card mi:shadow-1 mi:text-[14px] mi:text-label2">
       You’re all caught up.
       <MiButton variant="plain" size="small" @click="shown = true">Undo</MiButton>
     </div>
@@ -32,7 +32,4 @@ const shown = ref(true)
 
 <style scoped>
 .ex { display: grid; gap: 10px; width: min(100%, 380px); }
-.head { display: flex; justify-content: space-between; padding: 0 6px; font-size: 13px; font-weight: 600; color: var(--mi-label2); }
-.count { font-weight: 500; }
-.done { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px; border-radius: 18px; background: var(--mi-card); box-shadow: var(--mi-sh1); font-size: 14px; color: var(--mi-label2); }
 </style>

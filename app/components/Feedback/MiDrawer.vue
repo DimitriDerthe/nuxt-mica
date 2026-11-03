@@ -137,19 +137,19 @@ defineSlots<{
   <Teleport to="body" :disabled="inline">
     <div
       v-if="inline || rendered"
-      class="mi mi-dr-root"
+      class="mi mi-dr-root mi:font-mi mi:[&.is-modeless]:pointer-events-none"
       :class="[`mi-dr--${side}`, { 'is-inline': inline, 'is-modeless': !modal }]"
       :style="inline ? undefined : { zIndex: MI_OVERLAY_Z.dialog }"
     >
       <Transition v-if="!inline && modal" name="mi-dr-fade" appear>
-        <div v-if="open" class="mi-dr-scrim" aria-hidden="true" @pointerdown="onScrimDown" @click="onScrimClick" />
+        <div v-if="open" class="mi-dr-scrim mi:absolute mi:inset-0 mi:bg-scrim" aria-hidden="true" @pointerdown="onScrimDown" @click="onScrimClick" />
       </Transition>
       <Transition :name="`mi-dr-${side}`" :appear="!inline" @after-leave="afterLeave">
-        <div v-if="inline || open" class="mi-dr-wrap">
+        <div v-if="inline || open" class="mi-dr-wrap mi:absolute mi:flex mi:pointer-events-none mi:[.mi-dr--bottom_&]:left-0 mi:[.mi-dr--bottom_&]:right-0 mi:[.mi-dr--bottom_&]:bottom-0 mi:[.mi-dr--bottom_&]:justify-center mi:[.mi-dr--top_&]:justify-center mi:[.mi-dr--left_&]:bottom-0 mi:[.mi-dr--right_&]:bottom-0 mi:[.is-inline_&]:static mi:[.is-inline_&]:block">
           <div
             ref="panel"
             v-bind="$attrs"
-            class="mi-dr"
+            class="mi-dr mi:pointer-events-auto mi:[outline:none] mi:min-h-0"
             :class="{ 'is-dragging': dragging }"
             role="dialog"
             :aria-modal="!inline && modal ? 'true' : undefined"
@@ -158,34 +158,34 @@ defineSlots<{
             :aria-label="title || $slots.title ? undefined : (label ?? 'Drawer')"
             tabindex="-1"
           >
-            <div ref="card" class="mi-dr-card">
+            <div ref="card" class="mi-dr-card mi:flex-1 mi:min-w-0 mi:flex mi:flex-col mi:bg-elev mi:shadow-3 mi:overflow-hidden mi:[.mi-dr.is-dragging_&]:will-change-transform">
               <div
                 v-if="showHandle || title || $slots.title"
-                class="mi-dr-head"
+                class="mi-dr-head mi:flex-[none] mi:touch-none mi:[&.is-draggable]:cursor-grab mi:[&.is-draggable:active]:cursor-grabbing"
                 :class="{ 'is-draggable': !inline && dismissible }"
                 @pointerdown="onDragStart"
                 @pointermove="onDragMove"
                 @pointerup="onDragEnd"
                 @pointercancel="onDragEnd"
               >
-                <span v-if="showHandle && side !== 'top'" class="mi-dr-handle" data-handle aria-hidden="true" />
-                <div v-if="title || $slots.title || description || $slots.description" class="mi-dr-text">
-                  <h3 :id="titleId" class="mi-dr-title"><slot name="title">{{ title }}</slot></h3>
-                  <p v-if="description || $slots.description" :id="descId" class="mi-dr-desc"><slot name="description">{{ description }}</slot></p>
+                <span v-if="showHandle && side !== 'top'" class="mi-dr-handle mi:block mi:w-9 mi:h-[5px] mi:mt-2 mi:mx-auto mi:mb-0 mi:rounded-[999px] mi:bg-fill" data-handle aria-hidden="true" />
+                <div v-if="title || $slots.title || description || $slots.description" class="mi-dr-text mi:flex mi:flex-col mi:gap-1 mi:pt-3 mi:px-5 mi:pb-2">
+                  <h3 :id="titleId" class="mi-dr-title mi:m-0 mi:text-[17px] mi:leading-[22px] mi:font-semibold"><slot name="title">{{ title }}</slot></h3>
+                  <p v-if="description || $slots.description" :id="descId" class="mi-dr-desc mi:m-0 mi:text-[13px] mi:leading-[18px] mi:text-label2"><slot name="description">{{ description }}</slot></p>
                 </div>
               </div>
-              <div class="mi-dr-content"><slot :close="() => close('drag')" /></div>
-              <div v-if="$slots.footer" class="mi-dr-foot"><slot name="footer" :close="() => close('drag')" /></div>
+              <div class="mi-dr-content mi:flex-1 mi:min-h-0 mi:overflow-y-auto mi:overscroll-contain mi:pt-2 mi:px-5 mi:pb-5"><slot :close="() => close('drag')" /></div>
+              <div v-if="$slots.footer" class="mi-dr-foot mi:flex-[none] mi:pt-3 mi:px-5 mi:pb-[max(16px,env(safe-area-inset-bottom))] mi:[border-top:.5px_solid_var(--mi-sep)] mi:flex mi:flex-col mi:gap-2"><slot name="footer" :close="() => close('drag')" /></div>
               <div
                 v-if="showHandle && side === 'top'"
-                class="mi-dr-tail"
+                class="mi-dr-tail mi:flex-[none] mi:touch-none mi:[&.is-draggable]:cursor-grab mi:[&.is-draggable:active]:cursor-grabbing mi:pb-2"
                 :class="{ 'is-draggable': !inline && dismissible }"
                 @pointerdown="onDragStart"
                 @pointermove="onDragMove"
                 @pointerup="onDragEnd"
                 @pointercancel="onDragEnd"
               >
-                <span class="mi-dr-handle" data-handle aria-hidden="true" />
+                <span class="mi-dr-handle mi:block mi:w-9 mi:h-[5px] mi:mt-2 mi:mx-auto mi:mb-0 mi:rounded-[999px] mi:bg-fill" data-handle aria-hidden="true" />
               </div>
             </div>
           </div>
@@ -196,38 +196,24 @@ defineSlots<{
 </template>
 
 <style scoped>
-.mi-dr-root{position:fixed;inset:0;font-family:var(--mi-font)}
-.mi-dr-root.is-modeless{pointer-events:none}
+.mi-dr-root{position:fixed;inset:0}
 .mi-dr-root.is-inline{position:static;inset:auto}
-.mi-dr-scrim{position:absolute;inset:0;background:var(--mi-scrim)}
-.mi-dr-wrap{position:absolute;display:flex;pointer-events:none}
-.mi-dr--bottom .mi-dr-wrap{left:0;right:0;bottom:0;max-height:92dvh;justify-content:center}
-.mi-dr--top .mi-dr-wrap{left:0;right:0;top:0;max-height:92dvh;justify-content:center}
-.mi-dr--left .mi-dr-wrap{left:0;top:0;bottom:0;max-width:min(380px,92vw)}
-.mi-dr--right .mi-dr-wrap{right:0;top:0;bottom:0;max-width:min(380px,92vw)}
-.is-inline .mi-dr-wrap{position:static;max-height:none;max-width:none;display:block}
-.mi-dr{position:relative;pointer-events:auto;outline:none;color:var(--mi-label);letter-spacing:-.01em;display:flex;min-width:0;min-height:0}
+.mi-dr--bottom .mi-dr-wrap{max-height:92dvh}
+.mi-dr--top .mi-dr-wrap{left:0;right:0;top:0;max-height:92dvh}
+.mi-dr--left .mi-dr-wrap{left:0;top:0;max-width:min(380px,92vw)}
+.mi-dr--right .mi-dr-wrap{right:0;top:0;max-width:min(380px,92vw)}
+.is-inline .mi-dr-wrap{max-height:none;max-width:none}
+.mi-dr{position:relative;color:var(--mi-label);letter-spacing:-.01em;display:flex;min-width:0}
 .mi-dr--bottom .mi-dr,.mi-dr--top .mi-dr{width:100%;max-width:640px}
 .mi-dr--left .mi-dr,.mi-dr--right .mi-dr{width:min(380px,92vw);height:100%}
 .is-inline .mi-dr{width:100%;max-width:none;height:auto}
-.mi-dr-card{flex:1;min-width:0;display:flex;flex-direction:column;background:var(--mi-elev);box-shadow:var(--mi-sh3);overflow:hidden}
 .mi-dr--bottom .mi-dr-card{border-radius:22px 22px 0 0;transform:translate3d(0,var(--mi-dr-drag,0px),0)}
 .mi-dr--top .mi-dr-card{border-radius:0 0 22px 22px;transform:translate3d(0,calc(var(--mi-dr-drag,0px) * -1),0)}
 .mi-dr--right .mi-dr-card{border-radius:22px 0 0 22px;transform:translate3d(var(--mi-dr-drag,0px),0,0)}
 .mi-dr--left .mi-dr-card{border-radius:0 22px 22px 0;transform:translate3d(calc(var(--mi-dr-drag,0px) * -1),0,0)}
 .is-inline .mi-dr-card{border-radius:22px;transform:none}
-.mi-dr.is-dragging .mi-dr-card{will-change:transform}
-.mi-dr-head,.mi-dr-tail{flex:none;touch-action:none;user-select:none;-webkit-user-select:none}
-.mi-dr-head.is-draggable,.mi-dr-tail.is-draggable{cursor:grab}
-.mi-dr-head.is-draggable:active,.mi-dr-tail.is-draggable:active{cursor:grabbing}
-.mi-dr-handle{display:block;width:36px;height:5px;margin:8px auto 0;border-radius:999px;background:var(--mi-fill)}
-.mi-dr-tail{padding-bottom:8px}
-.mi-dr-text{display:flex;flex-direction:column;gap:4px;padding:12px 20px 8px}
+.mi-dr-head, .mi-dr-tail{user-select:none;-webkit-user-select:none}
 .mi-dr--bottom .mi-dr-text,.mi-dr--top .mi-dr-text{text-align:center}
-.mi-dr-title{margin:0;font-size:17px;line-height:22px;font-weight:600}
-.mi-dr-desc{margin:0;font-size:13px;line-height:18px;color:var(--mi-label2)}
-.mi-dr-content{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:8px 20px 20px}
-.mi-dr-foot{flex:none;padding:12px 20px max(16px,env(safe-area-inset-bottom));border-top:.5px solid var(--mi-sep);display:flex;flex-direction:column;gap:8px}
 
 .mi-dr-fade-enter-active,.mi-dr-fade-leave-active{transition:opacity var(--mi-dur-3) var(--mi-ease);will-change:opacity}
 .mi-dr-fade-enter-from,.mi-dr-fade-leave-to{opacity:0}

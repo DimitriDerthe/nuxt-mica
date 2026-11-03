@@ -1,36 +1,36 @@
 <template>
-  <section class="tt" aria-labelledby="tt-title">
-    <div class="tt__shell" :class="{ 'is-open': reading }">
-      <nav class="tt__side" aria-labelledby="tt-title">
-        <header class="tt__stream">
+  <section class="mi:@container mi:h-160 mi:font-mi mi:text-label mi:bg-page" aria-labelledby="tt-title">
+    <div class="mi:group mi:grid mi:h-full mi:grid-cols-[minmax(0,_1fr)] mi:@[760px]:grid-cols-[300px_minmax(0,_1fr)]" :data-open="reading || undefined">
+      <nav class="mi:group-data-[open]:hidden mi:@[760px]:flex mi:@[760px]:group-data-[open]:flex mi:flex mi:flex-col mi:min-h-0 mi:bg-card mi:border-r mi:border-r-sep" aria-labelledby="tt-title">
+        <header class="mi:grid mi:gap-1.5 mi:pt-4.5 mi:px-4 mi:pb-3.5 mi:border-b mi:border-b-sep">
           <MiText id="tt-title" as="h2" variant="headline" weight="bold" :lines="1">#product-feedback</MiText>
           <MiText variant="caption" tone="label2">Every conversation is a topic. Resolve it when it is settled.</MiText>
-          <MiSegmented v-model="filter" label="Topic status" :options="filters" />
+          <MiSegmented v-model="filter" label="Topic status" :options="filters" class="mi:mt-2" />
         </header>
-        <ul class="tt__topics">
+        <ul class="mi:flex-1 mi:min-h-0 mi:overflow-y-auto mi:[list-style:none] mi:m-0 mi:p-2 mi:grid mi:content-start mi:gap-0.5">
           <li v-for="t in visible" :key="t.id">
             <button
-              type="button" class="tt__topic" :class="{ 'is-on': t.id === activeId }"
+              type="button" class="mi:grid mi:gap-[3px] mi:w-full mi:py-2.5 mi:px-3 mi:[border:0] mi:rounded-md mi:text-inherit mi:[font:inherit] mi:text-start mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px]" :class="t.id === activeId ? 'mi:bg-p-tint' : 'mi:bg-transparent mi:hover:bg-fill4'"
               :aria-current="t.id === activeId ? 'true' : undefined" @click="open(t.id)"
             >
-              <span class="tt__topic-top">
-                <MiIcon v-if="t.resolved" name="check-circle-fill" :size="15" class="tt__ok" />
-                <span class="tt__topic-name">{{ t.title }}</span>
+              <span class="mi:flex mi:items-center mi:gap-1.5 mi:min-w-0">
+                <MiIcon v-if="t.resolved" name="check-circle-fill" :size="15" class="mi:text-green" />
+                <span class="mi:flex-1 mi:min-w-0 mi:text-[14.5px] mi:font-semibold mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap" :class="t.id === activeId ? 'mi:text-p-text' : ''">{{ t.title }}</span>
                 <MiBadge v-if="t.unread" :count="t.unread" tone="primary" variant="solid" />
               </span>
-              <span class="tt__topic-meta">{{ lastOf(t).who }} · {{ t.messages.length }} {{ t.messages.length === 1 ? 'message' : 'messages' }}</span>
+              <span class="mi:text-[12.5px] mi:text-label3">{{ lastOf(t).who }} · {{ t.messages.length }} {{ t.messages.length === 1 ? 'message' : 'messages' }}</span>
             </button>
           </li>
         </ul>
-        <p v-if="!visible.length" class="tt__empty">No {{ filter }} topics in this stream.</p>
+        <p v-if="!visible.length" class="mi:m-0 mi:p-4 mi:text-[13px] mi:text-label2">No {{ filter }} topics in this stream.</p>
       </nav>
 
-      <div class="tt__main">
-        <header class="tt__head">
-          <MiIconButton class="tt__back" label="Back to topics" variant="gray" size="regular" @click="reading = false">
+      <div class="mi:hidden mi:group-data-[open]:flex mi:@[760px]:flex mi:flex-col mi:min-w-0 mi:min-h-0">
+        <header class="mi:flex mi:items-center mi:gap-3 mi:py-3 mi:px-4 mi:border-b mi:border-b-sep mi:bg-card">
+          <MiIconButton class="mi:@[760px]:hidden!" label="Back to topics" variant="gray" size="regular" @click="reading = false">
             <MiIcon name="chevron-left" />
           </MiIconButton>
-          <div class="tt__head-text">
+          <div class="mi:flex-1 mi:min-w-0">
             <MiText as="h3" variant="headline" weight="semibold" :lines="1">{{ active.title }}</MiText>
             <MiText variant="caption" tone="label2" :lines="1">Started by {{ active.messages[0]?.who }} · {{ people(active) }} people</MiText>
           </div>
@@ -40,11 +40,11 @@
           </MiButton>
         </header>
 
-        <MiMessageScroller :key="activeId" class="tt__log" :label="'Messages in ' + active.title">
+        <MiMessageScroller :key="activeId" class="mi:flex-1 mi:min-h-0" :label="'Messages in ' + active.title">
           <MiMessageScrollerItem v-for="m in active.messages" :key="m.id" :message-id="'tt-' + m.id">
-            <MiMessage :label="m.who" class="tt__row">
+            <MiMessage :label="m.who" class="mi:max-w-[46rem]!">
               <template #avatar><MiAvatar :name="m.who" size="sm" :tone="m.who === me ? 'primary' : 'auto'" decorative /></template>
-              <template #header><span class="tt__who">{{ m.who === me ? 'You' : m.who }} <time>{{ m.time }}</time></span></template>
+              <template #header><span class="mi:font-semibold mi:text-label">{{ m.who === me ? 'You' : m.who }} <time class="mi:ml-1.5 mi:font-normal mi:text-label3">{{ m.time }}</time></span></template>
               <MiBubble variant="ghost">{{ m.text }}</MiBubble>
             </MiMessage>
           </MiMessageScrollerItem>
@@ -54,7 +54,7 @@
           </MiMarker>
         </MiMessageScroller>
 
-        <form class="tt__composer" @submit.prevent="send">
+        <form class="mi:pt-3 mi:px-4 mi:pb-4 mi:border-t mi:border-t-sep mi:bg-card" @submit.prevent="send">
           <MiInputGroup v-model="draft" :aria-label="'Reply in ' + active.title" :placeholder="active.resolved ? 'Replying reopens this topic' : 'Reply to this topic'">
             <template #trailing>
               <MiIconButton type="submit" label="Send reply" size="small" :disabled="!draft.trim()"><MiIcon name="arrow-up" :size="16" /></MiIconButton>
@@ -134,41 +134,3 @@ function send() {
   draft.value = ''
 }
 </script>
-
-<style scoped>
-.tt { container-type: inline-size; height: 640px; font-family: var(--mi-font); color: var(--mi-label); background: var(--mi-page); }
-.tt__shell { display: grid; height: 100%; grid-template-columns: minmax(0, 1fr); }
-.tt__main { display: none; }
-.tt__shell.is-open .tt__side { display: none; }
-.tt__shell.is-open .tt__main { display: flex; }
-@container (min-width: 760px) {
-  .tt__shell { grid-template-columns: 300px minmax(0, 1fr); }
-  .tt__shell .tt__side, .tt__shell.is-open .tt__side { display: flex; }
-  .tt__shell .tt__main { display: flex; }
-  .tt__back { display: none; }
-}
-
-.tt__side { display: flex; flex-direction: column; min-height: 0; background: var(--mi-card); border-right: 1px solid var(--mi-sep); }
-.tt__stream { display: grid; gap: 6px; padding: 18px 16px 14px; border-bottom: 1px solid var(--mi-sep); }
-.tt__stream > :last-child { margin-top: 8px; }
-.tt__topics { flex: 1; min-height: 0; overflow-y: auto; list-style: none; margin: 0; padding: 8px; display: grid; align-content: start; gap: 2px; }
-.tt__topic { display: grid; gap: 3px; width: 100%; padding: 10px 12px; border: 0; border-radius: var(--mi-radius-m); background: transparent; color: inherit; font: inherit; text-align: start; cursor: pointer; }
-.tt__topic:hover { background: var(--mi-fill4); }
-.tt__topic.is-on { background: var(--mi-p-tint); }
-.tt__topic:focus-visible { outline: 2px solid var(--mi-p); outline-offset: -2px; }
-.tt__topic-top { display: flex; align-items: center; gap: 6px; min-width: 0; }
-.tt__topic-name { flex: 1; min-width: 0; font-size: 14.5px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.tt__topic.is-on .tt__topic-name { color: var(--mi-p-text); }
-.tt__topic-meta { font-size: 12.5px; color: var(--mi-label3); }
-.tt__ok { flex: none; color: var(--mi-green); }
-.tt__empty { margin: 0; padding: 16px; font-size: 13px; color: var(--mi-label2); }
-
-.tt__main { flex-direction: column; min-width: 0; min-height: 0; }
-.tt__head { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--mi-sep); background: var(--mi-card); }
-.tt__head-text { flex: 1; min-width: 0; }
-.tt__log { flex: 1; min-height: 0; }
-.tt__row { max-width: 46rem; }
-.tt__who { font-weight: 600; color: var(--mi-label); }
-.tt__who time { margin-left: 6px; font-weight: 400; color: var(--mi-label3); }
-.tt__composer { padding: 12px 16px 16px; border-top: 1px solid var(--mi-sep); background: var(--mi-card); }
-</style>

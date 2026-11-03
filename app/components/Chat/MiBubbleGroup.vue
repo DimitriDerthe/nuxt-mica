@@ -8,9 +8,5 @@ defineSlots<{
 </script>
 
 <template>
-  <div class="mi-bg"><slot /></div>
+  <div class="mi-bg mi:flex mi:flex-col mi:gap-0.5 mi:min-w-0"><slot /></div>
 </template>
-
-<style scoped>
-.mi-bg{display:flex;flex-direction:column;gap:2px;min-width:0}
-</style>

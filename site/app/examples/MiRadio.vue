@@ -17,13 +17,9 @@ const shipping = ref<string | number | boolean | null>('standard')
 </script>
 
 <template>
-  <div class="card" role="radiogroup" aria-labelledby="ex-radio-title">
+  <div class="card mi:grid mi:gap-3.5 mi:w-[min(100%,_340px)] mi:py-4 mi:px-4.5 mi:rounded-[18px] mi:bg-card mi:shadow-1 mi:box-border" role="radiogroup" aria-labelledby="ex-radio-title">
     <MiText id="ex-radio-title" variant="headline" as="h3">Delivery</MiText>
     <MiRadio v-model="shipping" v-bind="p" />
     <MiRadio v-model="shipping" value="express" label="Express shipping" description="Next business day · $9.90" />
   </div>
 </template>
-
-<style scoped>
-.card { display: grid; gap: 14px; width: min(100%, 340px); padding: 16px 18px; border-radius: 18px; background: var(--mi-card); box-shadow: var(--mi-sh1); box-sizing: border-box; }
-</style>

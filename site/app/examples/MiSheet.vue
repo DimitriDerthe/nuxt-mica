@@ -23,10 +23,10 @@ const rows = [
 
 <template>
   <div class="ex">
-    <div class="bar">
+    <div class="bar mi:flex mi:items-center mi:justify-between mi:gap-4 mi:py-3.5 mi:px-4 mi:rounded-[18px] mi:bg-card mi:shadow-1">
       <div>
-        <div class="name">Running shoes</div>
-        <div class="sub">128 results</div>
+        <div class="name mi:text-[15px] mi:font-semibold mi:text-label">Running shoes</div>
+        <div class="sub mi:text-[13px] mi:text-label2">128 results</div>
       </div>
       <MiButton variant="gray" size="small" @click="open = true">Filters · {{ active }}</MiButton>
     </div>
@@ -34,11 +34,11 @@ const rows = [
       v-model="open" v-model:detent="detent" v-bind="p"
       @cancel="filters = { stock: false, shipping: false, sale: false }"
     >
-      <div class="list">
-        <div v-for="r in rows" :key="r.key" class="row">
+      <div class="list mi:grid mi:py-1 mi:px-0">
+        <div v-for="r in rows" :key="r.key" class="row mi:flex mi:items-center mi:justify-between mi:gap-4 mi:py-3 mi:px-0 mi:border-b mi:border-b-sep mi:last:[border-bottom:0]">
           <div>
-            <div :id="'ex-sheet-' + r.key" class="name">{{ r.label }}</div>
-            <div class="sub">{{ r.hint }}</div>
+            <div :id="'ex-sheet-' + r.key" class="name mi:text-[15px] mi:font-semibold mi:text-label">{{ r.label }}</div>
+            <div class="sub mi:text-[13px] mi:text-label2">{{ r.hint }}</div>
           </div>
           <MiSwitch v-model="filters[r.key]" :aria-labelledby="'ex-sheet-' + r.key" />
         </div>
@@ -49,10 +49,4 @@ const rows = [
 
 <style scoped>
 .ex { width: min(100%, 340px); }
-.bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 16px; border-radius: 18px; background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.name { font-size: 15px; font-weight: 600; color: var(--mi-label); }
-.sub { font-size: 13px; color: var(--mi-label2); }
-.list { display: grid; padding: 4px 0; }
-.row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--mi-sep); }
-.row:last-child { border-bottom: 0; }
 </style>

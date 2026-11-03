@@ -58,7 +58,7 @@ defineSlots<{
 <template>
   <MiFieldBox class="mi-ns" v-bind="rootAttrs" :size="size" :invalid="isInvalid" :disabled="isDisabled">
     <select
-      v-bind="selAttrs" :id="id" class="mi-ns__select" :name="name" :disabled="isDisabled" :value="model ?? ''"
+      v-bind="selAttrs" :id="id" class="mi-ns__select mi:min-h-[inherit] mi:appearance-none" :name="name" :disabled="isDisabled" :value="model ?? ''"
       :aria-invalid="isInvalid || undefined" :aria-describedby="field?.describedBy.value" @change="onChange"
     >
       <option v-if="placeholder" value="" disabled>{{ placeholder }}</option>
@@ -68,12 +68,11 @@ defineSlots<{
       </optgroup>
       <slot />
     </select>
-    <svg class="mi-ns__chev" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 9l5-5 5 5M7 15l5 5 5-5" /></svg>
+    <svg class="mi-ns__chev mi:absolute mi:right-3 mi:top-1/2 mi:-mt-1.5 mi:text-label2 mi:pointer-events-none" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 9l5-5 5 5M7 15l5 5 5-5" /></svg>
   </MiFieldBox>
 </template>
 
 <style scoped>
-.mi-ns__select { flex: 1; min-width: 0; height: 100%; min-height: inherit; padding: 0 36px 0 14px; border: 0; background: transparent; color: inherit; font: inherit; appearance: none; outline: none; cursor: pointer; }
+.mi-ns__select { flex: 1; min-width: 0; height: 100%; padding: 0 36px 0 14px; border: 0; background: transparent; color: inherit; font: inherit; outline: none; cursor: pointer; }
 .mi-ns__select:disabled { cursor: not-allowed; color: var(--mi-label3); }
-.mi-ns__chev { position: absolute; right: 12px; top: 50%; margin-top: -6px; color: var(--mi-label2); pointer-events: none; }
 </style>

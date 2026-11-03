@@ -1,6 +1,6 @@
 <template>
-  <section class="cfm" aria-labelledby="cfm-title">
-    <header class="cfm__head">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="cfm-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText variant="caption" tone="label2" weight="medium">Women · Knitwear</MiText>
         <MiText id="cfm-title" variant="title3" as="h2" weight="semibold">Merino and cashmere</MiText>
@@ -8,9 +8,9 @@
       <MiMenu v-model="sort" variant="popup" :items="sortItems" aria-label="Sort products" placement="bottom-end" />
     </header>
 
-    <div class="cfm__body">
+    <div class="mi:grid mi:gap-4 mi:grid-cols-[minmax(0,_1fr)] mi:items-start mi:@[760px]:grid-cols-[300px_minmax(0,_1fr)] mi:@[760px]:gap-6">
       <!-- Filter popover, shown open in place; the wrapper owns its grid cell. -->
-      <div class="cfm__filters">
+      <div class="mi:min-w-0">
         <MiPopover v-model="open" inline trigger="manual" :width="300" :arrow-offset="44" label="Filters">
           <template #trigger="{ attrs, toggle }">
             <MiButton v-bind="attrs" size="small" :variant="activeCount ? 'tinted' : 'gray'" @click="toggle">
@@ -19,14 +19,14 @@
             </MiButton>
           </template>
 
-          <div class="cfm__panel">
+          <div class="mi:grid mi:gap-4">
             <MiSlider v-model="price" :min="40" :max="260" :step="10" label="Price" :format="v => '$' + v" />
-            <div class="cfm__group">
+            <div class="mi:grid mi:gap-2">
               <MiText variant="footnote" weight="semibold" aria-hidden="true">Size</MiText>
               <MiToggleGroup v-model="sizes" multiple :options="sizeOptions" size="sm" variant="outline" label="Size" />
             </div>
             <MiSwatch v-model="color" :options="colors" label="Colour" />
-            <div class="cfm__panel-foot">
+            <div class="mi:flex mi:justify-between mi:gap-2 mi:border-t mi:border-t-sep mi:pt-3">
               <MiButton size="small" variant="plain" :disabled="!activeCount" @click="reset">Reset</MiButton>
               <MiButton size="small" @click="open = false">Show {{ shown.length }} {{ shown.length === 1 ? 'item' : 'items' }}</MiButton>
             </div>
@@ -34,18 +34,18 @@
         </MiPopover>
       </div>
 
-      <ul class="cfm__grid" aria-label="Products" aria-live="polite">
-        <li v-for="p in shown" :key="p.id" class="cfm__card">
-          <span class="cfm__art" :style="{ '--tone': toneOf(p.color) }" aria-hidden="true"><i /></span>
-          <div class="cfm__info">
+      <ul class="mi:grid mi:gap-3 mi:grid-cols-2 mi:m-0 mi:p-0 mi:[list-style:none] mi:@[1000px]:grid-cols-3" aria-label="Products" aria-live="polite">
+        <li v-for="p in shown" :key="p.id" class="mi:grid mi:gap-2 mi:min-w-0 mi:pt-2 mi:px-2 mi:pb-3 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1">
+          <span class="mi:grid mi:place-items-center mi:aspect-[4_/_3] mi:rounded-md mi:[background:repeating-linear-gradient(90deg,_color-mix(in_srgb,_var(--tone)_22%,_var(--mi-card))_0_6px,_color-mix(in_srgb,_var(--tone)_32%,_var(--mi-card))_6px_9px)]" :style="{ '--tone': toneOf(p.color) }" aria-hidden="true"><i class="mi:w-[44%] mi:aspect-[1] mi:rounded-[30%_30%_12%_12%] mi:[background:var(--tone)] mi:shadow-2" /></span>
+          <div class="mi:grid mi:min-w-0 mi:px-1">
             <MiText variant="subheadline" weight="semibold" :lines="1">{{ p.name }}</MiText>
             <MiText variant="caption" tone="label2">{{ p.sizes.join(' · ') }}</MiText>
           </div>
-          <span class="cfm__price">
-            <s v-if="p.was" class="cfm__was">${{ p.was }}</s>${{ p.price }}
+          <span class="mi:px-1 mi:font-bold mi:tabular-nums">
+            <s v-if="p.was" class="mi:me-1.5 mi:font-medium mi:text-label3">${{ p.was }}</s>${{ p.price }}
           </span>
         </li>
-        <li v-if="!shown.length" class="cfm__empty"><MiText variant="footnote" tone="label2">Nothing in this range. Widen the price or clear a size.</MiText></li>
+        <li v-if="!shown.length" class="mi:col-span-full mi:py-7 mi:px-3 mi:text-center mi:rounded-lg mi:[background:var(--mi-fill4)]"><MiText variant="footnote" tone="label2">Nothing in this range. Widen the price or clear a size.</MiText></li>
       </ul>
     </div>
   </section>
@@ -99,26 +99,3 @@ const shown = computed(() => {
 const toneOf = (c: string) => colors.find(x => x.value === c)?.color ?? 'var(--mi-fill2)'
 function reset() { price.value = [40, 260]; sizes.value = []; color.value = null }
 </script>
-
-<style scoped>
-.cfm { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
-.cfm__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-
-.cfm__body { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); align-items: start; }
-@container (min-width: 760px) { .cfm__body { grid-template-columns: 300px minmax(0, 1fr); gap: 24px; } }
-.cfm__filters { min-width: 0; }
-.cfm__panel { display: grid; gap: 16px; }
-.cfm__group { display: grid; gap: 8px; }
-.cfm__panel-foot { display: flex; justify-content: space-between; gap: 8px; border-top: 1px solid var(--mi-sep); padding-top: 12px; }
-
-.cfm__grid { display: grid; gap: 12px; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 0; padding: 0; list-style: none; }
-@container (min-width: 1000px) { .cfm__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-.cfm__card { display: grid; gap: 8px; min-width: 0; padding: 8px 8px 12px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-/* Product art: a knit-like stripe pattern in the product colour, no images. */
-.cfm__art { display: grid; place-items: center; aspect-ratio: 4 / 3; border-radius: var(--mi-radius-m); background: repeating-linear-gradient(90deg, color-mix(in srgb, var(--tone) 22%, var(--mi-card)) 0 6px, color-mix(in srgb, var(--tone) 32%, var(--mi-card)) 6px 9px); }
-.cfm__art i { width: 44%; aspect-ratio: 1; border-radius: 30% 30% 12% 12%; background: var(--tone); box-shadow: var(--mi-sh2); }
-.cfm__info { display: grid; min-width: 0; padding-inline: 4px; }
-.cfm__price { padding-inline: 4px; font-weight: 700; font-variant-numeric: tabular-nums; }
-.cfm__was { margin-inline-end: 6px; font-weight: 500; color: var(--mi-label3); }
-.cfm__empty { grid-column: 1 / -1; padding: 28px 12px; text-align: center; border-radius: var(--mi-radius-l); background: var(--mi-fill4); }
-</style>

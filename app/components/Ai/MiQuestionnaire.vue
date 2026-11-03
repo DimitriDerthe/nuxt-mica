@@ -106,7 +106,7 @@ defineSlots<{
 </script>
 
 <template>
-  <form class="mi-qn" @submit.prevent="next" @keydown="onKeydown">
+  <form class="mi-qn mi:flex mi:flex-col mi:gap-4 mi:p-4 mi:rounded-[16px] mi:bg-card mi:shadow-2 mi:font-mi mi:text-label mi:max-w-120" @submit.prevent="next" @keydown="onKeydown">
     <slot>
       <MiQuestionnaireProgress />
       <MiQuestionnaireItem v-for="q in questions" :key="q.name" :name="q.name" :multiple="q.multiple" :required="q.required">
@@ -132,7 +132,6 @@ defineSlots<{
 </template>
 
 <style scoped>
-.mi-qn { display: flex; flex-direction: column; gap: 16px; padding: 16px; border-radius: 16px; background: var(--mi-card); box-shadow: var(--mi-sh2); font-family: var(--mi-font); color: var(--mi-label); max-width: 480px; }
 .mi-qn :deep(.mi-qn__prog) { display: flex; flex-direction: column; gap: 6px; font-size: 12px; opacity: .8; }
 .mi-qn :deep(.mi-qn__bar) { height: 4px; border-radius: 2px; overflow: hidden; background: var(--mi-p-tint2); }
 .mi-qn :deep(.mi-qn__fill) { display: block; height: 100%; background: var(--mi-p); transform-origin: left; transition: transform var(--mi-dur-3) var(--mi-ease); }

@@ -1,58 +1,58 @@
 <template>
-  <section class="ac" aria-labelledby="ac-title">
-    <div class="ac__shell" :class="{ 'is-history': showHistory }">
-      <nav class="ac__hist" aria-label="Conversations">
-        <header class="ac__hist-head">
-          <MiIconButton class="ac__back" label="Back to chat" variant="gray" size="regular" @click="showHistory = false">
+  <section class="mi:@container mi:h-175 mi:font-mi mi:text-label mi:bg-page" aria-labelledby="ac-title">
+    <div class="mi:grid mi:h-full mi:grid-cols-[minmax(0,_1fr)] mi:@[900px]:grid-cols-[260px_minmax(0,_1fr)]">
+      <nav class="mi:@[900px]:flex mi:@[900px]:border-r mi:@[900px]:border-r-sep mi:flex-col mi:min-h-0 mi:bg-card" :class="showHistory ? 'mi:flex' : 'mi:hidden'" aria-label="Conversations">
+        <header class="mi:flex mi:items-center mi:gap-2.5 mi:min-h-15 mi:pt-0 mi:pr-3 mi:pb-0 mi:pl-4 mi:border-b mi:border-b-sep">
+          <MiIconButton class="mi:@[900px]:hidden!" label="Back to chat" variant="gray" size="regular" @click="showHistory = false">
             <MiIcon name="chevron-left" />
           </MiIconButton>
-          <MiText as="h3" variant="subheadline" weight="semibold">Research</MiText>
+          <MiText as="h3" variant="subheadline" weight="semibold" class="mi:flex-1">Research</MiText>
           <MiButton variant="tinted" size="small" @click="newChat">
             <template #leading><MiIcon name="plus" :size="16" /></template>New
           </MiButton>
         </header>
-        <ul class="ac__hist-list">
+        <ul class="mi:flex-1 mi:min-h-0 mi:overflow-y-auto mi:[list-style:none] mi:m-0 mi:p-2 mi:grid mi:content-start mi:gap-0.5">
           <li v-for="c in chats" :key="c.id">
-            <button type="button" class="ac__hist-item" :class="{ 'is-on': c.id === activeId }" :aria-current="c.id === activeId ? 'true' : undefined" @click="openChat(c.id)">
-              <span class="ac__hist-title">{{ c.title }}</span>
-              <span class="ac__hist-meta">{{ c.when }} · {{ sourceCount(c) }} sources</span>
+            <button type="button" class="mi:grid mi:gap-[3px] mi:w-full mi:py-2.5 mi:px-3 mi:[border:0] mi:rounded-md mi:text-inherit mi:[font:inherit] mi:text-start mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" :class="c.id === activeId ? 'mi:bg-fill3' : 'mi:bg-transparent mi:hover:bg-fill4'" :aria-current="c.id === activeId ? 'true' : undefined" @click="openChat(c.id)">
+              <span class="mi:text-[14px] mi:font-medium mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ c.title }}</span>
+              <span class="mi:text-[12px] mi:text-label3">{{ c.when }} · {{ sourceCount(c) }} sources</span>
             </button>
           </li>
         </ul>
       </nav>
 
-      <div class="ac__main">
-        <header class="ac__head">
-          <MiIconButton class="ac__hist-btn" label="Show conversations" variant="gray" size="regular" @click="showHistory = true">
+      <div class="mi:@[900px]:flex mi:flex-col mi:min-w-0 mi:min-h-0" :class="showHistory ? 'mi:hidden' : 'mi:flex'">
+        <header class="mi:flex mi:items-center mi:gap-3 mi:min-h-15 mi:py-0 mi:px-4 mi:border-b mi:border-b-sep mi:bg-card">
+          <MiIconButton class="mi:@[900px]:hidden!" label="Show conversations" variant="gray" size="regular" @click="showHistory = true">
             <MiIcon name="sidebar" />
           </MiIconButton>
-          <MiText id="ac-title" as="h2" variant="headline" weight="semibold" :lines="1" class="ac__title">{{ active.title }}</MiText>
+          <MiText id="ac-title" as="h2" variant="headline" weight="semibold" :lines="1" class="mi:flex-1 mi:min-w-0">{{ active.title }}</MiText>
           <MiBadge tone="secondary" label="Cited answers" />
         </header>
 
-        <MiMessageScroller :key="activeId" class="ac__log" :busy="pending" :label="'Conversation: ' + active.title">
+        <MiMessageScroller :key="activeId" class="mi:flex-1 mi:min-h-0" :busy="pending" :label="'Conversation: ' + active.title">
           <MiMessageScrollerItem v-for="m in active.messages" :key="m.id" :message-id="'ac-' + m.id" :scroll-anchor="m.role === 'user'">
-            <MiMessage v-if="m.role === 'user'" align="end" label="You" class="ac__user">
-              <MiBubble align="end" variant="secondary" class="ac__bub">{{ m.text }}</MiBubble>
+            <MiMessage v-if="m.role === 'user'" align="end" label="You" class="mi:ms-auto mi:max-w-[min(86%,_34rem)]!">
+              <MiBubble align="end" variant="secondary" class="mi:max-w-full!">{{ m.text }}</MiBubble>
             </MiMessage>
 
-            <article v-else class="ac__answer" :aria-busy="m.pending ? 'true' : undefined">
-              <MiTrace :steps="m.trace" :label="'How this answer was made'" class="ac__trace" />
+            <article v-else class="mi:grid mi:gap-3 mi:max-w-[46rem] mi:pt-1 mi:px-1 mi:pb-2" :aria-busy="m.pending ? 'true' : undefined">
+              <MiTrace :steps="m.trace" :label="'How this answer was made'" class="mi:max-w-[30rem]" />
               <template v-if="!m.pending">
                 <!-- Each claim carries a numbered citation that lights up its source card. -->
-                <p v-for="(para, i) in m.paras" :key="i" class="ac__p">
+                <p v-for="(para, i) in m.paras" :key="i" class="mi:m-0 mi:text-[15px] mi:leading-[1.65] mi:wrap-anywhere">
                   <template v-for="(seg, j) in para" :key="j">{{ seg.t }}<button
-                    v-if="seg.cite" type="button" class="ac__cite" :class="{ 'is-hot': hot === m.id + ':' + seg.cite }"
-                    :aria-label="'Source ' + seg.cite" @click="hot = m.id + ':' + seg.cite"
+                    v-if="seg.cite" type="button" class="mi:[font:inherit] mi:text-[11px] mi:font-bold mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px] mi:inline-grid mi:place-items-center mi:min-w-4.5 mi:h-4.5 mi:my-0 mi:mx-0.5 mi:py-0 mi:px-1 mi:[border:0] mi:rounded-[6px] mi:[vertical-align:2px] mi:cursor-pointer mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring)]" :class="hot === `${m.id}:${seg.cite}` ? 'mi:bg-p mi:text-p-on mi:transform-[scale(1.12)]' : 'mi:bg-fill3 mi:text-label2'"
+                    :aria-label="'Source ' + seg.cite" @click="hot = `${m.id}:${seg.cite}`"
                   >{{ seg.cite }}</button></template>
                 </p>
-                <ol class="ac__sources" :aria-label="'Sources for this answer'">
+                <ol class="mi:[list-style:none] mi:mt-1 mi:mx-0 mi:mb-0 mi:p-0 mi:grid mi:gap-2 mi:grid-cols-[minmax(0,_1fr)] mi:@[620px]:grid-cols-[repeat(auto-fill,_minmax(220px,_1fr))]" :aria-label="'Sources for this answer'">
                   <li v-for="s in m.sources" :key="s.n">
-                    <button type="button" class="ac__src" :class="{ 'is-hot': hot === m.id + ':' + s.n }" @click="hot = m.id + ':' + s.n">
-                      <span class="ac__src-n">{{ s.n }}</span>
-                      <span class="ac__src-text">
-                        <span class="ac__src-title">{{ s.title }}</span>
-                        <span class="ac__src-host">{{ s.host }}</span>
+                    <button type="button" class="mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px] mi:relative mi:flex mi:gap-2.5 mi:w-full mi:h-full mi:py-2.5 mi:px-3 mi:border mi:border-sep mi:rounded-md mi:bg-card mi:text-inherit mi:[font:inherit] mi:text-start mi:cursor-pointer mi:after:content-[''] mi:after:absolute mi:after:-inset-px mi:after:rounded-[inherit] mi:after:shadow-[0_0_0_2px_var(--mi-p)] mi:after:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)] mi:after:pointer-events-none" :class="hot === `${m.id}:${s.n}` ? 'mi:after:opacity-100' : 'mi:after:opacity-0'" @click="hot = `${m.id}:${s.n}`">
+                      <span class="mi:grid mi:place-items-center mi:flex-[none] mi:w-5 mi:h-5 mi:rounded-[6px] mi:bg-p-tint mi:text-p-text mi:text-[11px] mi:font-bold">{{ s.n }}</span>
+                      <span class="mi:grid mi:gap-0.5 mi:min-w-0">
+                        <span class="mi:text-[13px] mi:font-medium mi:leading-[1.35]">{{ s.title }}</span>
+                        <span class="mi:text-[12px] mi:text-label3">{{ s.host }}</span>
                       </span>
                     </button>
                   </li>
@@ -62,12 +62,12 @@
           </MiMessageScrollerItem>
         </MiMessageScroller>
 
-        <form class="ac__composer" @submit.prevent="ask">
+        <form class="mi:pt-3 mi:px-4 mi:pb-4 mi:border-t mi:border-t-sep mi:bg-card" @submit.prevent="ask">
           <MiInputGroup v-model="draft" multiline :rows="2" aria-label="Ask a research question" placeholder="Ask a follow-up…" @keydown.enter.exact.prevent="ask">
             <template #block-end>
-              <div class="ac__bar">
+              <div class="mi:flex mi:items-center mi:gap-2.5 mi:w-full">
                 <MiChip v-model="deep" selectable size="small" tone="secondary" label="Deep research" />
-                <MiText variant="caption" tone="label3" class="ac__hint">Answers cite every claim</MiText>
+                <MiText variant="caption" tone="label3" class="mi:flex-1 mi:min-w-0 mi:text-end mi:@max-[380px]:invisible">Answers cite every claim</MiText>
                 <MiIconButton type="submit" label="Ask" size="small" :disabled="!draft.trim() || pending">
                   <MiIcon name="arrow-up" :size="16" />
                 </MiIconButton>
@@ -193,56 +193,3 @@ function ask() {
 
 onBeforeUnmount(() => clearTimeout(timer))
 </script>
-
-<style scoped>
-.ac { container-type: inline-size; height: 700px; font-family: var(--mi-font); color: var(--mi-label); background: var(--mi-page); }
-.ac__shell { display: grid; height: 100%; grid-template-columns: minmax(0, 1fr); }
-.ac__hist { display: none; }
-.ac__shell.is-history .ac__hist { display: flex; }
-.ac__shell.is-history .ac__main { display: none; }
-
-@container (min-width: 900px) {
-  .ac__shell { grid-template-columns: 260px minmax(0, 1fr); }
-  .ac__shell .ac__hist { display: flex; border-right: 1px solid var(--mi-sep); }
-  .ac__shell .ac__main, .ac__shell.is-history .ac__main { display: flex; }
-  .ac__back, .ac__hist-btn { display: none; }
-}
-
-.ac__hist { flex-direction: column; min-height: 0; background: var(--mi-card); }
-.ac__hist-head { display: flex; align-items: center; gap: 10px; min-height: 60px; padding: 0 12px 0 16px; border-bottom: 1px solid var(--mi-sep); }
-.ac__hist-head > :nth-child(2) { flex: 1; }
-.ac__hist-list { flex: 1; min-height: 0; overflow-y: auto; list-style: none; margin: 0; padding: 8px; display: grid; align-content: start; gap: 2px; }
-.ac__hist-item { display: grid; gap: 3px; width: 100%; padding: 10px 12px; border: 0; border-radius: var(--mi-radius-m); background: transparent; color: inherit; font: inherit; text-align: start; cursor: pointer; }
-.ac__hist-item:hover { background: var(--mi-fill4); }
-.ac__hist-item.is-on { background: var(--mi-fill3); }
-.ac__hist-item:focus-visible, .ac__src:focus-visible, .ac__cite:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 1px; }
-.ac__hist-title { font-size: 14px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.ac__hist-meta { font-size: 12px; color: var(--mi-label3); }
-
-.ac__main { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
-.ac__head { display: flex; align-items: center; gap: 12px; min-height: 60px; padding: 0 16px; border-bottom: 1px solid var(--mi-sep); background: var(--mi-card); }
-.ac__title { flex: 1; min-width: 0; }
-.ac__log { flex: 1; min-height: 0; }
-.ac__user { max-width: min(86%, 34rem); margin-inline-start: auto; }
-.ac .ac__bub { max-width: 100%; }
-
-.ac__answer { display: grid; gap: 12px; max-width: 46rem; padding: 4px 4px 8px; }
-.ac__trace { max-width: 30rem; }
-.ac__p { margin: 0; font-size: 15px; line-height: 1.65; overflow-wrap: anywhere; }
-.ac__cite { display: inline-grid; place-items: center; min-width: 18px; height: 18px; margin: 0 2px; padding: 0 4px; border: 0; border-radius: 6px; background: var(--mi-fill3); color: var(--mi-label2); font: inherit; font-size: 11px; font-weight: 700; vertical-align: 2px; cursor: pointer; transition: transform var(--mi-dur-2) var(--mi-spring); }
-.ac__cite.is-hot { background: var(--mi-p); color: var(--mi-p-on); transform: scale(1.12); }
-.ac__sources { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 8px; grid-template-columns: minmax(0, 1fr); }
-@container (min-width: 620px) { .ac__sources { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); } }
-.ac__src { position: relative; display: flex; gap: 10px; width: 100%; height: 100%; padding: 10px 12px; border: 1px solid var(--mi-sep); border-radius: var(--mi-radius-m); background: var(--mi-card); color: inherit; font: inherit; text-align: start; cursor: pointer; }
-.ac__src::after { content: ""; position: absolute; inset: -1px; border-radius: inherit; box-shadow: 0 0 0 2px var(--mi-p); opacity: 0; transition: opacity var(--mi-dur-2) var(--mi-ease); pointer-events: none; }
-.ac__src.is-hot::after { opacity: 1; }
-.ac__src-n { display: grid; place-items: center; flex: none; width: 20px; height: 20px; border-radius: 6px; background: var(--mi-p-tint); color: var(--mi-p-text); font-size: 11px; font-weight: 700; }
-.ac__src-text { display: grid; gap: 2px; min-width: 0; }
-.ac__src-title { font-size: 13px; font-weight: 500; line-height: 1.35; }
-.ac__src-host { font-size: 12px; color: var(--mi-label3); }
-
-.ac__composer { padding: 12px 16px 16px; border-top: 1px solid var(--mi-sep); background: var(--mi-card); }
-.ac__bar { display: flex; align-items: center; gap: 10px; width: 100%; }
-.ac__hint { flex: 1; min-width: 0; text-align: end; }
-@container (max-width: 380px) { .ac__hint { visibility: hidden; } }
-</style>

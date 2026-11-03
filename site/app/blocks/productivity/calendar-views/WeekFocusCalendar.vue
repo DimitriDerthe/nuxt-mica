@@ -1,88 +1,88 @@
 <template>
-  <section class="wk" aria-labelledby="week-focus-title">
-    <header class="wk__head">
+  <section class="mi:[--h:46px] mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="week-focus-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="week-focus-title" variant="title3" as="h2" weight="semibold">Week 45</MiText>
         <MiText variant="footnote" tone="label2">November 2 – {{ showWeekend ? 8 : 6 }}, 2026 · Paris time</MiText>
       </div>
-      <div class="wk__tools">
-        <div class="wk__cals" role="group" aria-label="Visible calendars">
+      <div class="mi:flex mi:flex-wrap mi:items-center mi:gap-3">
+        <div class="mi:flex mi:flex-wrap mi:gap-1.5" role="group" aria-label="Visible calendars">
           <MiChip v-for="c in calendars" :key="c.id" v-model="c.on" selectable size="small" tone="neutral">
-            <span class="wk__dot" :style="{ '--c': c.color }" aria-hidden="true" />{{ c.label }}
+            <span class="mi:inline-block mi:w-2 mi:h-2 mi:me-1.5 mi:rounded-[50%] mi:[background:var(--c)] mi:[vertical-align:1px]" :style="{ '--c': c.color }" aria-hidden="true" />{{ c.label }}
           </MiChip>
         </div>
-        <div class="wk__weekend">
+        <div class="mi:flex mi:items-center mi:gap-2">
           <MiSwitch v-model="showWeekend" size="compact" label="Show weekend" />
           <MiText as="span" variant="footnote" tone="label2" aria-hidden="true">Weekend</MiText>
         </div>
       </div>
     </header>
 
-    <div class="wk__body">
-      <div class="wk__scroll" tabindex="0" role="region" aria-label="Week grid">
-        <div class="wk__grid" :style="{ '--days': days.length, '--hours': hours.length }">
-          <div class="wk__corner" aria-hidden="true" />
-          <div v-for="d in days" :key="'h' + d.idx" class="wk__dayhead" :class="{ 'is-today': d.today }">
-            <div class="wk__dayname">
-              <span class="wk__dow">{{ d.dow }}</span>
-              <span class="wk__date">{{ d.date }}</span>
+    <div class="mi:grid mi:gap-3 mi:grid-cols-[minmax(0,_1fr)] mi:@[980px]:grid-cols-[minmax(0,_1fr)_248px] mi:@[980px]:items-start">
+      <div class="mi:overflow-x-auto mi:overscroll-x-contain mi:[scroll-snap-type:x_mandatory] mi:[scroll-padding-inline-start:52px] mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" tabindex="0" role="region" aria-label="Week grid">
+        <div class="mi:grid mi:grid-cols-[52px_repeat(var(--days),_minmax(136px,_1fr))] mi:@[720px]:grid-cols-[52px_repeat(var(--days),_minmax(0,_1fr))]" :style="{ '--days': days.length, '--hours': hours.length }">
+          <div class="mi:sticky mi:start-0 mi:z-3 mi:[background:var(--mi-card)] mi:border-b mi:border-b-sep" aria-hidden="true" />
+          <div v-for="d in days" :key="'h' + d.idx" class="mi:border-b mi:border-b-sep mi:grid mi:gap-1.5 mi:pt-3 mi:px-2.5 mi:pb-2.5 mi:snap-start mi:min-w-0">
+            <div class="mi:flex mi:items-baseline mi:gap-1.5">
+              <span class="mi:text-[12px] mi:font-semibold mi:text-label2 mi:uppercase mi:tracking-[.04em]">{{ d.dow }}</span>
+              <span class="mi:font-bold mi:tracking-[-.03em] mi:tabular-nums" :class="d.today ? 'mi:place-items-center mi:min-w-7.5 mi:rounded-[15px] mi:inline-grid mi:h-7.5 mi:bg-p mi:text-p-on mi:text-[16px]' : 'mi:text-[20px]'">{{ d.date }}</span>
             </div>
             <div
-              class="wk__load" role="meter" :aria-label="d.long + ' meeting load'" aria-valuemin="0" aria-valuemax="9"
+              class="mi:h-1 mi:rounded-[2px] mi:[background:var(--mi-fill3)] mi:overflow-hidden" role="meter" :aria-label="d.long + ' meeting load'" aria-valuemin="0" aria-valuemax="9"
               :aria-valuenow="d.load" :aria-valuetext="fmtDur(d.load) + ' of meetings'"
             >
-              <span :class="{ 'is-heavy': d.load >= 5 }" :style="{ transform: `scaleX(${Math.min(d.load / 9, 1)})` }" />
+              <span class="mi:block mi:h-full mi:origin-left mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring)]" :class="d.load >= 5 ? 'mi:bg-orange' : 'mi:bg-p'" :style="{ transform: `scaleX(${Math.min(d.load / 9, 1)})` }" />
             </div>
             <MiText variant="caption2" tone="label2">{{ d.load ? fmtDur(d.load) + ' booked' : 'Free day' }}</MiText>
           </div>
 
-          <div class="wk__gutter" aria-hidden="true">
-            <span v-for="h in hours" :key="h">{{ h }}:00</span>
+          <div class="mi:sticky mi:start-0 mi:z-3 mi:[background:var(--mi-card)] mi:grid mi:auto-rows-(--h) mi:pt-0" aria-hidden="true">
+            <span class="mi:text-[11px] mi:text-label3 mi:pe-2 mi:text-end mi:tabular-nums mi:transform-[translateY(-7px)] mi:first:transform-[translateY(3px)]" v-for="h in hours" :key="h">{{ h }}:00</span>
           </div>
           <div
-            v-for="d in days" :key="'c' + d.idx" class="wk__col" :class="{ 'is-weekend': d.idx > 4 }"
+            v-for="d in days" :key="'c' + d.idx" class="mi:relative mi:h-[calc(var(--hours)_*_var(--h))] mi:snap-start mi:[border-inline-start:1px_solid_var(--mi-sep)] mi:bg-[repeating-linear-gradient(to_bottom,_var(--mi-sep)_0_1px,_transparent_1px_var(--h))] " :class="d.idx > 4 ? 'mi:bg-fill4/70' : ''"
             role="group" :aria-label="d.long"
           >
             <button
-              v-if="d.gap" type="button" class="wk__gap" :style="place(d.gap.start, d.gap.end)"
+              v-if="d.gap" type="button" class="mi:[font:inherit] mi:text-[11px] mi:font-semibold mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:focus-visible:z-2 mi:absolute mi:inset-x-1 mi:flex mi:[align-items:flex-start] mi:justify-center mi:gap-1 mi:pt-2 mi:[border:1.5px_dashed_color-mix(in_srgb,_var(--mi-green)_50%,_transparent)] mi:rounded-[10px] mi:[background:transparent] mi:text-green-t mi:cursor-pointer mi:opacity-70 mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)] mi:hover:opacity-100 mi:hover:[background:color-mix(in_srgb,_var(--mi-green)_8%,_transparent)]" :style="place(d.gap.start, d.gap.end)"
               :aria-label="`Block focus time on ${d.long} from ${fmtT(d.gap.start)}`" @click="blockFocus(d.idx, d.gap)"
             >
               <MiIcon name="plus" :size="12" :weight="2.4" />
               <span>Focus · {{ fmtDur(Math.min(2, d.gap.end - d.gap.start)) }}</span>
             </button>
             <button
-              v-for="e in d.events" :key="e.id" type="button" class="wk__ev"
-              :class="{ 'is-sel': e.id === selectedId, 'is-short': e.end - e.start < 0.75 }"
+              v-for="e in d.events" :key="e.id" type="button" class="mi:absolute mi:flex mi:mt-px mi:px-[7px] mi:overflow-hidden mi:[border:0] mi:rounded-[9px] mi:text-start mi:[font:inherit] mi:text-label mi:cursor-pointer mi:[background:color-mix(in_srgb,_var(--c)_15%,_var(--mi-card))] mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease),_opacity_var(--mi-dur-2)_var(--mi-ease)] mi:hover:transform-[translateY(-1px)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:focus-visible:z-2"
+              :class="[e.id === selectedId ? 'mi:z-2 mi:shadow-[inset_3px_0_0_var(--c),_0_0_0_2px_var(--c),_var(--mi-sh2)]' : 'mi:z-1 mi:shadow-[inset_3px_0_0_var(--c)]', e.end - e.start < 0.75 ? 'mi:flex-row mi:items-center mi:gap-1.5 mi:py-0.5' : 'mi:flex-col mi:gap-0.5 mi:py-[5px]']"
               :style="{ ...place(e.start, e.end), left: `calc(${e.lane / e.lanes * 100}% + 2px)`, width: `calc(${100 / e.lanes}% - 4px)`, '--c': colorOf(e.cal) }"
               :aria-pressed="e.id === selectedId" @click="selectedId = e.id"
             >
-              <span class="wk__ev-title">{{ e.title }}</span>
-              <span class="wk__ev-time">{{ fmtT(e.start) }} – {{ fmtT(e.end) }}</span>
+              <span class="mi:text-[12px] mi:leading-[15px] mi:font-semibold mi:[display:-webkit-box] mi:[-webkit-box-orient:vertical] mi:overflow-hidden" :class="e.end - e.start < 0.75 ? 'mi:[-webkit-line-clamp:1] mi:flex-1 mi:min-w-0' : 'mi:[-webkit-line-clamp:2]'">{{ e.title }}</span>
+              <span class="mi:text-[11px] mi:leading-[13px] mi:text-label2 mi:tabular-nums mi:whitespace-nowrap">{{ fmtT(e.start) }} – {{ fmtT(e.end) }}</span>
             </button>
-            <div v-if="d.today" class="wk__now" :style="{ top: `calc(${now - first} * var(--h))` }" aria-hidden="true" />
+            <div v-if="d.today" class="mi:absolute mi:inset-x-0 mi:z-2 mi:h-0 mi:border-t-2 mi:border-t-red mi:pointer-events-none mi:before:content-[''] mi:before:absolute mi:before:start-[-5px] mi:before:-top-1.5 mi:before:w-2.5 mi:before:h-2.5 mi:before:rounded-[50%] mi:before:[background:var(--mi-red)]" :style="{ top: `calc(${now - first} * var(--h))` }" aria-hidden="true" />
           </div>
         </div>
       </div>
 
-      <aside class="wk__detail" aria-live="polite">
+      <aside class="mi:grid mi:gap-3 mi:p-4.5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1" aria-live="polite">
         <template v-if="selected">
-          <div class="wk__tag" :style="{ '--c': colorOf(selected.cal) }">
-            <span class="wk__dot" aria-hidden="true" />{{ selectedCal }}
+          <div class="mi:inline-flex mi:items-center mi:justify-self-start mi:py-[3px] mi:px-2.5 mi:rounded-[999px] mi:text-[12px] mi:font-semibold mi:[background:color-mix(in_srgb,_var(--c)_14%,_transparent)]" :style="{ '--c': colorOf(selected.cal) }">
+            <span class="mi:inline-block mi:w-2 mi:h-2 mi:me-1.5 mi:rounded-[50%] mi:[background:var(--c)] mi:[vertical-align:1px]" aria-hidden="true" />{{ selectedCal }}
           </div>
           <MiText variant="headline" as="h3">{{ selected.title }}</MiText>
-          <dl class="wk__facts">
-            <div><dt>When</dt><dd>{{ longDays[selected.day] }}, {{ fmtT(selected.start) }} – {{ fmtT(selected.end) }}</dd></div>
-            <div><dt>Where</dt><dd>{{ selected.where }}</dd></div>
+          <dl class="mi:grid mi:gap-2 mi:m-0">
+            <div class="mi:grid mi:gap-px"><dt class="mi:text-[11px] mi:text-label3 mi:font-semibold mi:uppercase mi:tracking-[.05em]">When</dt><dd class="mi:text-[14px] mi:m-0">{{ longDays[selected.day] }}, {{ fmtT(selected.start) }} – {{ fmtT(selected.end) }}</dd></div>
+            <div class="mi:grid mi:gap-px"><dt class="mi:text-[11px] mi:text-label3 mi:font-semibold mi:uppercase mi:tracking-[.05em]">Where</dt><dd class="mi:text-[14px] mi:m-0">{{ selected.where }}</dd></div>
           </dl>
-          <div v-if="selected.people.length" class="wk__people">
+          <div v-if="selected.people.length" class="mi:flex mi:items-center mi:gap-2.5">
             <MiAvatarGroup :items="selected.people.map(n => ({ name: n, tone: 'auto' }))" :max="4" :size="28" />
             <MiText variant="footnote" tone="label2">{{ selected.people.length }} guests</MiText>
           </div>
-          <MiButton v-if="selected.cal === 'focus'" class="wk__act" variant="gray" size="small" @click="removeEvent(selected.id)">Release this block</MiButton>
-          <MiButton v-else-if="selected.where.startsWith('Meet')" class="wk__act" variant="tinted" size="small">Join call</MiButton>
+          <MiButton v-if="selected.cal === 'focus'" class="mi:justify-self-start" variant="gray" size="small" @click="removeEvent(selected.id)">Release this block</MiButton>
+          <MiButton v-else-if="selected.where.startsWith('Meet')" class="mi:justify-self-start" variant="tinted" size="small">Join call</MiButton>
         </template>
         <MiText v-else variant="footnote" tone="label2">Pick an event to see its details.</MiText>
-        <p class="wk__sr" role="status">{{ announce }}</p>
+        <p class="mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap mi:m-0" role="status">{{ announce }}</p>
       </aside>
     </div>
   </section>
@@ -207,80 +207,3 @@ function removeEvent(id: number) {
   announce.value = 'Focus block released.'
 }
 </script>
-
-<style scoped>
-.wk { --h: 46px; container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
-.wk__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.wk__tools { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
-.wk__cals { display: flex; flex-wrap: wrap; gap: 6px; }
-.wk__weekend { display: flex; align-items: center; gap: 8px; }
-.wk__dot { display: inline-block; width: 8px; height: 8px; margin-inline-end: 6px; border-radius: 50%; background: var(--c); vertical-align: 1px; }
-
-.wk__body { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); }
-@container (min-width: 980px) { .wk__body { grid-template-columns: minmax(0, 1fr) 248px; align-items: start; } }
-
-.wk__scroll {
-  overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline-start: 52px;
-  border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1);
-}
-.wk__scroll:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-.wk__grid { display: grid; grid-template-columns: 52px repeat(var(--days), minmax(136px, 1fr)); }
-@container (min-width: 720px) { .wk__grid { grid-template-columns: 52px repeat(var(--days), minmax(0, 1fr)); } }
-
-.wk__corner, .wk__gutter { position: sticky; inset-inline-start: 0; z-index: 3; background: var(--mi-card); }
-.wk__corner, .wk__dayhead { border-bottom: 1px solid var(--mi-sep); }
-.wk__dayhead { display: grid; gap: 6px; padding: 12px 10px 10px; scroll-snap-align: start; min-width: 0; }
-.wk__dayname { display: flex; align-items: baseline; gap: 6px; }
-.wk__dow { font-size: 12px; font-weight: 600; color: var(--mi-label2); text-transform: uppercase; letter-spacing: .04em; }
-.wk__date { font-size: 20px; font-weight: 700; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
-.is-today .wk__date { display: inline-grid; place-items: center; min-width: 30px; height: 30px; border-radius: 15px; background: var(--mi-p); color: var(--mi-p-on); font-size: 16px; }
-.wk__load { height: 4px; border-radius: 2px; background: var(--mi-fill3); overflow: hidden; }
-.wk__load span { display: block; height: 100%; background: var(--mi-p); transform-origin: left; transition: transform var(--mi-dur-3) var(--mi-spring); }
-.wk__load span.is-heavy { background: var(--mi-orange); }
-
-.wk__gutter { display: grid; grid-auto-rows: var(--h); padding-top: 0; }
-.wk__gutter span { padding-inline-end: 8px; font-size: 11px; text-align: end; color: var(--mi-label3); font-variant-numeric: tabular-nums; transform: translateY(-7px); }
-.wk__gutter span:first-child { transform: translateY(3px); }
-
-.wk__col {
-  position: relative; height: calc(var(--hours) * var(--h)); scroll-snap-align: start; border-inline-start: 1px solid var(--mi-sep);
-  background-image: repeating-linear-gradient(to bottom, var(--mi-sep) 0 1px, transparent 1px var(--h));
-}
-.wk__col.is-weekend { background-color: color-mix(in srgb, var(--mi-fill4) 70%, transparent); }
-
-.wk__ev {
-  position: absolute; display: flex; flex-direction: column; gap: 2px; margin-top: 1px; padding: 5px 7px; overflow: hidden; z-index: 1;
-  border: 0; border-radius: 9px; text-align: start; font: inherit; color: var(--mi-label); cursor: pointer;
-  background: color-mix(in srgb, var(--c) 15%, var(--mi-card)); box-shadow: inset 3px 0 0 var(--c);
-  transition: transform var(--mi-dur-2) var(--mi-ease), opacity var(--mi-dur-2) var(--mi-ease);
-}
-.wk__ev:hover { transform: translateY(-1px); }
-.wk__ev.is-sel { z-index: 2; box-shadow: inset 3px 0 0 var(--c), 0 0 0 2px var(--c), var(--mi-sh2); }
-.wk__ev:focus-visible, .wk__gap:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; z-index: 2; }
-.wk__ev-title { font-size: 12px; line-height: 15px; font-weight: 600; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.wk__ev-time { font-size: 11px; line-height: 13px; color: var(--mi-label2); font-variant-numeric: tabular-nums; white-space: nowrap; }
-.wk__ev.is-short { flex-direction: row; align-items: center; gap: 6px; padding-block: 2px; }
-.wk__ev.is-short .wk__ev-title { -webkit-line-clamp: 1; flex: 1; min-width: 0; }
-
-.wk__gap {
-  position: absolute; inset-inline: 4px; display: flex; align-items: flex-start; justify-content: center; gap: 4px; padding-top: 8px;
-  border: 1.5px dashed color-mix(in srgb, var(--mi-green) 50%, transparent); border-radius: 10px; background: transparent;
-  font: inherit; font-size: 11px; font-weight: 600; color: var(--mi-green-t); cursor: pointer; opacity: .7;
-  transition: opacity var(--mi-dur-2) var(--mi-ease);
-}
-.wk__gap:hover { opacity: 1; background: color-mix(in srgb, var(--mi-green) 8%, transparent); }
-
-.wk__now { position: absolute; inset-inline: 0; z-index: 2; height: 0; border-top: 2px solid var(--mi-red); pointer-events: none; }
-.wk__now::before { content: ""; position: absolute; inset-inline-start: -5px; top: -6px; width: 10px; height: 10px; border-radius: 50%; background: var(--mi-red); }
-
-.wk__detail { display: grid; gap: 12px; padding: 18px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.wk__tag { display: inline-flex; align-items: center; justify-self: start; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; background: color-mix(in srgb, var(--c) 14%, transparent); }
-.wk__tag .wk__dot { background: var(--c); }
-.wk__facts { display: grid; gap: 8px; margin: 0; }
-.wk__facts div { display: grid; gap: 1px; }
-.wk__facts dt { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--mi-label3); }
-.wk__facts dd { margin: 0; font-size: 14px; }
-.wk__people { display: flex; align-items: center; gap: 10px; }
-.wk__act { justify-self: start; }
-.wk__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; margin: 0; }
-</style>

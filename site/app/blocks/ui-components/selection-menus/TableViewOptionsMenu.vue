@@ -1,6 +1,6 @@
 <template>
-  <section class="tvo" aria-labelledby="tvo-title">
-    <header class="tvo__head">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-4.5 mi:font-mi mi:text-label" aria-labelledby="tvo-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="tvo-title" variant="title3" as="h2" weight="semibold">Q4 renewals</MiText>
         <MiText variant="footnote" tone="label2">{{ rows.length }} accounts · {{ visible.length }} of {{ columns.length }} columns shown</MiText>
@@ -15,28 +15,28 @@
       </MiMenu>
     </header>
 
-    <div class="tvo__body">
+    <div class="mi:grid mi:gap-4 mi:grid-cols-[minmax(0,_1fr)] mi:items-start mi:@[820px]:grid-cols-[296px_minmax(0,_1fr)]">
       <!-- Display panel, open in place: every control re-renders the table on the right. -->
-      <MiPopover v-model="open" inline trigger="manual" :width="280" :arrow-offset="34" label="Display options" class="tvo__pop">
+      <MiPopover v-model="open" inline trigger="manual" :width="280" :arrow-offset="34" label="Display options">
         <template #trigger="{ attrs, toggle }">
           <MiButton v-bind="attrs" variant="bordered" size="small" @click="toggle">
             <template #leading><MiIcon name="sliders" :size="16" /></template>
             Display
           </MiButton>
         </template>
-        <div class="tvo__panel">
-          <div class="tvo__group">
+        <div class="mi:grid mi:gap-4">
+          <div class="mi:grid mi:gap-1.5">
             <MiText variant="caption" tone="label2" weight="semibold">Group by</MiText>
             <MiSegmented v-model="groupBy" label="Group by" :options="groupOptions" />
           </div>
-          <div class="tvo__group">
+          <div class="mi:grid mi:gap-1.5">
             <MiText variant="caption" tone="label2" weight="semibold">Density</MiText>
             <MiSegmented v-model="density" label="Row density" :options="densityOptions" />
           </div>
-          <fieldset class="tvo__cols">
-            <legend class="tvo__legend">
+          <fieldset class="mi:grid mi:gap-2.5 mi:m-0 mi:p-0 mi:[border:0] mi:min-w-0">
+            <legend class="mi:flex mi:w-full mi:justify-between mi:items-center mi:pt-3.5 mi:px-0 mi:pb-0 mi:mb-0.5 mi:[border-top:.5px_solid_var(--mi-sep)] mi:text-[12px] mi:font-semibold mi:text-label2">
               <span>Columns</span>
-              <button type="button" class="tvo__reset" :disabled="allShown" @click="showAll">Show all</button>
+              <button type="button" class="mi:[border:0] mi:[background:none] mi:py-0.5 mi:px-1 mi:rounded-[6px] mi:[font:inherit] mi:text-p-text mi:cursor-pointer mi:disabled:text-label3 mi:disabled:cursor-default mi:focus-visible:[outline:2px_solid_var(--mi-p)]" :disabled="allShown" @click="showAll">Show all</button>
             </legend>
             <MiCheckbox
               v-for="c in columns" :key="c.key" v-model="shown[c.key]" :label="c.label"
@@ -46,20 +46,20 @@
         </div>
       </MiPopover>
 
-      <div class="tvo__scroll" role="region" aria-label="Renewals table" tabindex="0">
-        <table class="tvo__table" :class="'is-' + density">
+      <div class="mi:overflow-x-auto mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:overscroll-x-contain mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" role="region" aria-label="Renewals table" tabindex="0">
+        <table class="mi:w-full mi:border-collapse mi:text-[14px] mi:tabular-nums mi:group" :data-density="density">
           <thead>
-            <tr><th v-for="c in visible" :key="c.key" scope="col" :class="{ 'is-num': c.num }">{{ c.label }}</th></tr>
+            <tr><th v-for="c in visible" :key="c.key" scope="col" class="mi:py-3 mi:px-4 mi:whitespace-nowrap mi:[border-bottom:.5px_solid_var(--mi-sep)] mi:group-data-[density=compact]:py-1.5 mi:group-data-[density=compact]:text-[13px] mi:text-[12px] mi:font-semibold mi:text-label2 mi:bg-fill4" :class="c.num ? 'mi:text-end' : 'mi:text-start'">{{ c.label }}</th></tr>
           </thead>
           <tbody v-for="g in groups" :key="g.name">
-            <tr v-if="groupBy !== 'none'" class="tvo__grow">
-              <th :colspan="visible.length" scope="colgroup">{{ g.name }} <span>{{ g.rows.length }}</span></th>
+            <tr v-if="groupBy !== 'none'">
+              <th class="mi:py-3 mi:px-4 mi:whitespace-nowrap mi:[border-bottom:.5px_solid_var(--mi-sep)] mi:group-data-[density=compact]:py-1.5 mi:group-data-[density=compact]:text-[13px] mi:text-start mi:pt-3.5 mi:font-semibold mi:text-p-text mi:text-[12px] mi:[background:var(--mi-p-tint)]" :colspan="visible.length" scope="colgroup">{{ g.name }} <span class="mi:text-label2 mi:font-medium mi:ms-1.5">{{ g.rows.length }}</span></th>
             </tr>
             <tr v-for="r in g.rows" :key="r.account">
-              <td v-for="c in visible" :key="c.key" :class="{ 'is-num': c.num }">
-                <template v-if="c.key === 'owner'"><span class="tvo__owner"><MiAvatar :name="r.owner" size="xs" tone="auto" decorative />{{ r.owner }}</span></template>
+              <td v-for="c in visible" :key="c.key" class="mi:py-3 mi:px-4 mi:whitespace-nowrap mi:[border-bottom:.5px_solid_var(--mi-sep)] mi:group-data-[density=compact]:py-1.5 mi:group-data-[density=compact]:text-[13px] mi:[tbody>tr:last-child>&]:[border-bottom:0]" :class="c.num ? 'mi:text-end' : 'mi:text-start'">
+                <template v-if="c.key === 'owner'"><span class="mi:inline-flex mi:items-center mi:gap-2"><MiAvatar :name="r.owner" size="xs" tone="auto" decorative />{{ r.owner }}</span></template>
                 <template v-else-if="c.key === 'health'"><MiBadge :tone="healthTone[r.health]" :label="r.health" dot /></template>
-                <template v-else-if="c.key === 'account'"><strong>{{ r.account }}</strong></template>
+                <template v-else-if="c.key === 'account'"><strong class="mi:font-semibold">{{ r.account }}</strong></template>
                 <template v-else>{{ r[c.key] }}</template>
               </td>
             </tr>
@@ -125,31 +125,3 @@ function onQuick(item: { value?: string | number }) {
   else if (item.value && item.value in shown) shown[item.value as Key] = !shown[item.value as Key]
 }
 </script>
-
-<style scoped>
-.tvo { container-type: inline-size; display: grid; align-content: start; gap: 18px; font-family: var(--mi-font); color: var(--mi-label); }
-.tvo__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.tvo__body { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); align-items: start; }
-@container (min-width: 820px) { .tvo__body { grid-template-columns: 296px minmax(0, 1fr); } }
-
-.tvo__panel { display: grid; gap: 16px; }
-.tvo__group { display: grid; gap: 6px; }
-.tvo__cols { display: grid; gap: 10px; margin: 0; padding: 0; border: 0; min-width: 0; }
-.tvo__legend { display: flex; width: 100%; justify-content: space-between; align-items: center; padding: 14px 0 0; margin-bottom: 2px; border-top: .5px solid var(--mi-sep); font-size: 12px; font-weight: 600; color: var(--mi-label2); }
-.tvo__reset { border: 0; background: none; padding: 2px 4px; border-radius: 6px; font: inherit; color: var(--mi-p-text); cursor: pointer; }
-.tvo__reset:disabled { color: var(--mi-label3); cursor: default; }
-.tvo__reset:focus-visible { outline: 2px solid var(--mi-p); }
-
-.tvo__scroll { overflow-x: auto; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); overscroll-behavior-x: contain; }
-.tvo__scroll:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-.tvo__table { width: 100%; border-collapse: collapse; font-size: 14px; font-variant-numeric: tabular-nums; }
-.tvo__table th, .tvo__table td { padding: 12px 16px; text-align: start; white-space: nowrap; border-bottom: .5px solid var(--mi-sep); }
-.tvo__table.is-compact th, .tvo__table.is-compact td { padding-block: 6px; font-size: 13px; }
-.tvo__table thead th { font-size: 12px; font-weight: 600; color: var(--mi-label2); background: var(--mi-fill4); }
-.tvo__table .is-num { text-align: end; }
-.tvo__table strong { font-weight: 600; }
-.tvo__table tbody tr:last-child td { border-bottom: 0; }
-.tvo__grow th { padding-top: 14px; font-size: 12px; font-weight: 600; color: var(--mi-p-text); background: var(--mi-p-tint); }
-.tvo__grow span { margin-inline-start: 6px; color: var(--mi-label2); font-weight: 500; }
-.tvo__owner { display: inline-flex; align-items: center; gap: 8px; }
-</style>

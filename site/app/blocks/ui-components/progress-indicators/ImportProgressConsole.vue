@@ -1,13 +1,13 @@
 <template>
-  <div class="ip-cq">
-    <section class="ip" aria-labelledby="ip-title">
-      <header class="ip__head">
-        <div class="ip__src" aria-hidden="true">
-          <span class="ip__logo ip__logo--from">S</span>
+  <div class="mi:@container">
+    <section class="mi:grid mi:gap-5 mi:p-5 mi:rounded-xl mi:font-mi mi:text-label mi:bg-card mi:shadow-1 mi:@[640px]:py-6 mi:@[640px]:px-6.5" aria-labelledby="ip-title">
+      <header class="mi:flex mi:items-center mi:gap-3.5">
+        <div class="mi:flex mi:items-center mi:gap-1.5 mi:flex-[none] mi:text-label3" aria-hidden="true">
+          <span class="mi:grid mi:place-items-center mi:w-8 mi:h-8 mi:rounded-[9px] mi:font-extrabold mi:text-[15px] mi:text-green-t mi:[background:color-mix(in_srgb,_var(--mi-green)_16%,_transparent)]">S</span>
           <MiIcon name="arrow-right" :size="14" />
-          <span class="ip__logo ip__logo--to"><MiLogo variant="short" :size="14" tone="on-primary" dot="inherit" decorative /></span>
+          <span class="mi:grid mi:place-items-center mi:w-8 mi:h-8 mi:rounded-[9px] mi:font-extrabold mi:text-[15px] mi:text-p-on mi:bg-p"><MiLogo variant="short" :size="14" tone="on-primary" dot="inherit" decorative /></span>
         </div>
-        <div class="ip__titles">
+        <div class="mi:grid mi:gap-0.5 mi:min-w-0">
           <MiText id="ip-title" variant="title3" as="h2" weight="semibold">Importing Northwind Coffee</MiText>
           <MiText variant="footnote" tone="label2">From Shopify · started 4 min ago by Priya Raman</MiText>
         </div>
@@ -15,14 +15,14 @@
 
       <MiSteps :model-value="step" :steps="steps" orientation="horizontal" :clickable="false" aria-label="Import stages" />
 
-      <div class="ip__grid">
+      <div class="mi:grid mi:gap-3.5 mi:@[640px]:grid-cols-2 mi:@[980px]:grid-cols-[280px_minmax(0,_1fr)_minmax(0,_1fr)]">
         <!-- Overall: a ring for the whole job, with a stop control beside it. -->
-        <div class="ip__overall">
+        <div class="mi:flex mi:items-center mi:gap-4.5 mi:p-4 mi:rounded-lg mi:bg-fill4 mi:@[640px]:col-span-full mi:@[980px]:col-[auto] mi:@[980px]:flex-col mi:@[980px]:[align-items:flex-start]">
           <MiProgressRing :value="overall" :size="88" :label="'Overall import progress'" />
-          <div class="ip__overall-text">
+          <div class="mi:grid mi:gap-0.5 mi:min-w-0">
             <MiText variant="headline" as="p" aria-live="polite">{{ headline }}</MiText>
             <MiText variant="footnote" tone="label2" tabular>{{ done.toLocaleString('en-US') }} of {{ total.toLocaleString('en-US') }} records</MiText>
-            <div class="ip__controls">
+            <div class="mi:mt-2">
               <MiButton v-if="phase !== 'done'" size="small" variant="gray" :disabled="phase === 'reindex'" @click="running = !running">
                 <template #leading>
                   <MiSpinner v-if="running && phase === 'import'" variant="ticks" size="sm" label="" />
@@ -36,20 +36,20 @@
         </div>
 
         <!-- Per entity: one linear bar each, with exact counts. -->
-        <div class="ip__entities">
+        <div class="mi:grid mi:gap-3.5 mi:content-start mi:p-4 mi:rounded-lg mi:shadow-[inset_0_0_0_1px_var(--mi-sep)]">
           <MiProgress
             v-for="e in entities" :key="e.id" :value="e.done" :max="e.total" size="sm" :label="e.label"
             :value-text="`${e.done.toLocaleString('en-US')} / ${e.total.toLocaleString('en-US')}`"
           />
         </div>
 
-        <div class="ip__side">
+        <div class="mi:grid mi:gap-4.5 mi:content-start mi:p-4 mi:rounded-lg mi:shadow-[inset_0_0_0_1px_var(--mi-sep)]">
           <MiProgress :segments="outcome" :label="'Outcome so far'" size="lg" />
           <MiMeter
             :value="budget" label="Shopify API budget" size="sm" :caption="budget + '% in use'"
             :hint="budget > 80 ? 'Throttling soon' : 'Healthy'" :color="budget > 80 ? 'var(--mi-orange)' : undefined"
           />
-          <div class="ip__reindex">
+          <div class="mi:pt-3.5 mi:border-t mi:border-t-sep">
             <MiProgress :value="phase === 'reindex' ? null : phase === 'done' ? 100 : 0" size="sm" label="Search index" :value-text="reindexText" />
           </div>
         </div>
@@ -121,35 +121,3 @@ watch(phase, p => { if (p === 'done') running.value = false })
 onMounted(() => { tick = setInterval(advance, 380) })
 onBeforeUnmount(() => { clearInterval(tick); clearTimeout(after) })
 </script>
-
-<style scoped>
-.ip-cq { container-type: inline-size; }
-.ip {
-  display: grid; gap: 20px; padding: 20px; border-radius: var(--mi-radius-xl);
-  font-family: var(--mi-font); color: var(--mi-label); background: var(--mi-card); box-shadow: var(--mi-sh1);
-}
-.ip__head { display: flex; align-items: center; gap: 14px; }
-.ip__src { display: flex; align-items: center; gap: 6px; flex: none; color: var(--mi-label3); }
-.ip__logo { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 9px; font-weight: 800; font-size: 15px; }
-.ip__logo--from { color: var(--mi-green-t); background: color-mix(in srgb, var(--mi-green) 16%, transparent); }
-.ip__logo--to { color: var(--mi-p-on); background: var(--mi-p); }
-.ip__titles { display: grid; gap: 2px; min-width: 0; }
-
-.ip__grid { display: grid; gap: 14px; }
-.ip__overall { display: flex; align-items: center; gap: 18px; padding: 16px; border-radius: var(--mi-radius-l); background: var(--mi-fill4); }
-.ip__overall-text { display: grid; gap: 2px; min-width: 0; }
-.ip__controls { margin-top: 8px; }
-.ip__entities { display: grid; gap: 14px; align-content: start; padding: 16px; border-radius: var(--mi-radius-l); box-shadow: inset 0 0 0 1px var(--mi-sep); }
-.ip__side { display: grid; gap: 18px; align-content: start; padding: 16px; border-radius: var(--mi-radius-l); box-shadow: inset 0 0 0 1px var(--mi-sep); }
-.ip__reindex { padding-top: 14px; border-top: 1px solid var(--mi-sep); }
-
-@container (min-width: 640px) {
-  .ip { padding: 24px 26px; }
-  .ip__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .ip__overall { grid-column: 1 / -1; }
-}
-@container (min-width: 980px) {
-  .ip__grid { grid-template-columns: 280px minmax(0, 1fr) minmax(0, 1fr); }
-  .ip__overall { grid-column: auto; flex-direction: column; align-items: flex-start; }
-}
-</style>

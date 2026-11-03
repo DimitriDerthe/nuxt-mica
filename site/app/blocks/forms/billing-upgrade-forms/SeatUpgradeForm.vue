@@ -1,8 +1,8 @@
 <template>
-  <div class="suf-cq">
-    <section class="suf" aria-labelledby="suf-title">
-      <form class="suf__form" novalidate @submit.prevent="confirm">
-        <header class="suf__head">
+  <div class="mi:@container">
+    <section class="mi:grid mi:gap-4 mi:grid-cols-[minmax(0,_1fr)] mi:font-mi mi:text-label mi:@[840px]:grid-cols-[minmax(0,_1fr)_320px] mi:@[840px]:items-start" aria-labelledby="suf-title">
+      <form class="mi:grid mi:gap-4.5 mi:p-5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:min-w-0" novalidate @submit.prevent="confirm">
+        <header class="mi:grid mi:gap-3 mi:@[560px]:flex mi:@[560px]:flex-wrap mi:@[560px]:[align-items:flex-end] mi:@[560px]:justify-between">
           <div>
             <MiText id="suf-title" variant="title3" as="h2" weight="semibold">Change plan</MiText>
             <MiText variant="footnote" tone="label2">Northwind Studio is on Team, monthly, with {{ CURRENT.seats }} seats</MiText>
@@ -10,23 +10,23 @@
           <MiSegmented v-model="cycle" label="Billing cycle" variant="tinted" :options="[{ value: 'month', label: 'Monthly' }, { value: 'year', label: 'Yearly · save 20%' }]" />
         </header>
 
-        <fieldset class="suf__plans">
-          <legend class="suf__sr">Plan</legend>
-          <label v-for="p in PLANS" :key="p.id" class="suf__plan" :class="{ 'is-on': plan === p.id }">
-            <input v-model="plan" type="radio" name="suf-plan" :value="p.id" class="suf__radio">
-            <span class="suf__plan-top">
+        <fieldset class="mi:grid mi:gap-2.5 mi:m-0 mi:p-0 mi:[border:0] mi:min-w-0 mi:grid-cols-[minmax(0,_1fr)] mi:@[520px]:grid-cols-2">
+          <legend class="mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)]">Plan</legend>
+          <label v-for="p in PLANS" :key="p.id" class="mi:relative mi:grid mi:gap-2 mi:content-start mi:p-4 mi:rounded-lg mi:cursor-pointer mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:hover:transform-[translateY(-1px)] mi:[&:has(:focus-visible)]:[outline:3px_solid_color-mix(in_srgb,_var(--mi-p)_45%,_transparent)] mi:[&:has(:focus-visible)]:outline-offset-[2px]" :class="plan === p.id ? 'mi:shadow-[0_0_0_2px_var(--mi-p)] mi:[background:color-mix(in_srgb,_var(--mi-p)_5%,_transparent)]' : 'mi:shadow-[0_0_0_1px_var(--mi-sep)]'">
+            <input v-model="plan" type="radio" name="suf-plan" :value="p.id" class="mi:absolute mi:opacity-0 mi:pointer-events-none">
+            <span class="mi:flex mi:items-center mi:justify-between mi:gap-2 mi:text-[16px]">
               <b>{{ p.name }}</b>
               <MiBadge v-if="p.id === CURRENT.plan" tone="neutral" label="Current" />
               <MiBadge v-else-if="p.popular" tone="primary" label="Most teams" />
             </span>
-            <span class="suf__price"><b>${{ seatPrice(p) }}</b> per seat / month</span>
-            <ul>
-              <li v-for="f in p.perks" :key="f"><MiIcon name="check" :size="14" :weight="2.4" />{{ f }}</li>
+            <span class="mi:text-[13px] mi:text-label2"><b class="mi:text-label mi:tabular-nums mi:text-[24px] mi:font-bold mi:tracking-[-.03em]">${{ seatPrice(p) }}</b> per seat / month</span>
+            <ul class="mi:grid mi:gap-1 mi:m-0 mi:p-0 mi:[list-style:none] mi:text-[13px] mi:text-label2">
+              <li v-for="f in p.perks" :key="f" class="mi:flex mi:items-center mi:gap-1.5"><MiIcon name="check" :size="14" :weight="2.4" class="mi:text-green mi:flex-[none]" />{{ f }}</li>
             </ul>
           </label>
         </fieldset>
 
-        <div class="suf__seats">
+        <div class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-3 mi:pt-3.5 mi:px-0 mi:pb-0 mi:border-t mi:border-t-sep">
           <div>
             <MiText id="suf-seats" variant="subheadline" weight="semibold">Seats</MiText>
             <MiText variant="caption" tone="label2">{{ CURRENT.members }} people already use a seat</MiText>
@@ -36,23 +36,23 @@
         <MiCheckbox v-model="storage" label="Extra storage, 1 TB" description="$20 per month, shared by the workspace" />
       </form>
 
-      <aside class="suf__sum" aria-labelledby="suf-sum-title">
+      <aside class="mi:grid mi:gap-3.5 mi:p-5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:@[840px]:sticky mi:@[840px]:top-4" aria-labelledby="suf-sum-title">
         <MiText id="suf-sum-title" variant="headline" as="h3">Summary</MiText>
 
         <!-- Where today sits in the current cycle: the unused part becomes a credit. -->
-        <div class="suf__cycle">
-          <div class="suf__cycle-bar" role="img" :aria-label="`${LEFT} of ${DAYS} days left in this billing cycle`">
-            <span :style="{ transform: `scaleX(${LEFT / DAYS})` }" />
+        <div class="mi:grid mi:gap-1.5">
+          <div class="mi:relative mi:h-2.5 mi:rounded-[5px] mi:[background:var(--mi-fill3)] mi:overflow-hidden" role="img" :aria-label="`${LEFT} of ${DAYS} days left in this billing cycle`">
+            <span class="mi:absolute mi:inset-0 mi:origin-right mi:rounded-[inherit] mi:[background:repeating-linear-gradient(135deg,_var(--mi-p)_0_6px,_color-mix(in_srgb,_var(--mi-p)_70%,_transparent)_6px_12px)]" :style="{ transform: `scaleX(${LEFT / DAYS})` }" />
           </div>
-          <div class="suf__cycle-legend"><span>14 Oct</span><span>Today · {{ LEFT }} days left</span><span>13 Nov</span></div>
+          <div class="mi:flex mi:justify-between mi:gap-1.5 mi:text-[11px] mi:text-label3"><span class="mi:[&:nth-child(2)]:font-semibold">14 Oct</span><span class="mi:text-p-text mi:[&:nth-child(2)]:font-semibold">Today · {{ LEFT }} days left</span><span class="mi:[&:nth-child(2)]:font-semibold">13 Nov</span></div>
         </div>
 
-        <dl class="suf__lines">
-          <div><dt>{{ planObj.name }} × {{ seats }} seats, {{ cycle === 'year' ? '12 months' : '1 month' }}</dt><dd>{{ money(base) }}</dd></div>
-          <div v-if="storage"><dt>Extra storage</dt><dd>{{ money(extra) }}</dd></div>
-          <div class="is-credit"><dt>Unused Team time ({{ LEFT }} days)</dt><dd>−{{ money(credit) }}</dd></div>
-          <div><dt>VAT 20%</dt><dd>{{ money(vat) }}</dd></div>
-          <div class="is-total"><dt>Due today</dt><dd>{{ money(due) }}</dd></div>
+        <dl class="mi:grid mi:gap-2 mi:m-0 mi:text-[13px]">
+          <div class="mi:flex mi:gap-3 mi:justify-between"><dt class="mi:text-label2">{{ planObj.name }} × {{ seats }} seats, {{ cycle === 'year' ? '12 months' : '1 month' }}</dt><dd class="mi:m-0 mi:tabular-nums mi:whitespace-nowrap">{{ money(base) }}</dd></div>
+          <div class="mi:flex mi:gap-3 mi:justify-between" v-if="storage"><dt class="mi:text-label2">Extra storage</dt><dd class="mi:m-0 mi:tabular-nums mi:whitespace-nowrap">{{ money(extra) }}</dd></div>
+          <div class="mi:flex mi:gap-3 mi:justify-between"><dt class="mi:text-label2">Unused Team time ({{ LEFT }} days)</dt><dd class="mi:m-0 mi:tabular-nums mi:text-green-t mi:whitespace-nowrap">−{{ money(credit) }}</dd></div>
+          <div class="mi:flex mi:gap-3 mi:justify-between"><dt class="mi:text-label2">VAT 20%</dt><dd class="mi:m-0 mi:tabular-nums mi:whitespace-nowrap">{{ money(vat) }}</dd></div>
+          <div class="mi:flex mi:gap-3 mi:justify-between mi:pt-2.5 mi:border-t mi:border-t-sep mi:text-[16px] mi:font-bold"><dt class="mi:text-label">Due today</dt><dd class="mi:m-0 mi:tabular-nums mi:whitespace-nowrap">{{ money(due) }}</dd></div>
         </dl>
         <MiText variant="caption" tone="label2">
           Then {{ money(recurring) }} every {{ cycle === 'year' ? 'year' : 'month' }} from 13 Nov{{ cycle === 'year' ? ', 2027' : '' }}, before VAT.
@@ -115,48 +115,3 @@ function confirm() {
 }
 const money = (n: number) => '$' + n.toLocaleString('en-US', { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 })
 </script>
-
-<style scoped>
-.suf-cq { container-type: inline-size; }
-.suf { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); font-family: var(--mi-font); color: var(--mi-label); }
-@container (min-width: 840px) { .suf { grid-template-columns: minmax(0, 1fr) 320px; align-items: start; } }
-.suf__form { display: grid; gap: 18px; padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); min-width: 0; }
-.suf__head { display: grid; gap: 12px; }
-@container (min-width: 560px) { .suf__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; } }
-.suf__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
-
-.suf__plans { display: grid; gap: 10px; margin: 0; padding: 0; border: 0; min-width: 0; grid-template-columns: minmax(0, 1fr); }
-@container (min-width: 520px) { .suf__plans { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-.suf__plan {
-  position: relative; display: grid; gap: 8px; align-content: start; padding: 16px; border-radius: var(--mi-radius-l); cursor: pointer;
-  box-shadow: 0 0 0 1px var(--mi-sep); transition: transform var(--mi-dur-2) var(--mi-ease);
-}
-.suf__plan:hover { transform: translateY(-1px); }
-.suf__plan.is-on { box-shadow: 0 0 0 2px var(--mi-p); background: color-mix(in srgb, var(--mi-p) 5%, transparent); }
-.suf__plan:has(:focus-visible) { outline: 3px solid color-mix(in srgb, var(--mi-p) 45%, transparent); outline-offset: 2px; }
-.suf__radio { position: absolute; opacity: 0; pointer-events: none; }
-.suf__plan-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 16px; }
-.suf__price { font-size: 13px; color: var(--mi-label2); }
-.suf__price b { font-size: 24px; font-weight: 700; letter-spacing: -.03em; color: var(--mi-label); font-variant-numeric: tabular-nums; }
-.suf__plan ul { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; font-size: 13px; color: var(--mi-label2); }
-.suf__plan li { display: flex; align-items: center; gap: 6px; }
-.suf__plan li :deep(svg) { color: var(--mi-green); flex: none; }
-
-.suf__seats { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 0 0; border-top: 1px solid var(--mi-sep); }
-
-.suf__sum { display: grid; gap: 14px; padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-@container (min-width: 840px) { .suf__sum { position: sticky; top: 16px; } }
-.suf__cycle { display: grid; gap: 6px; }
-.suf__cycle-bar { position: relative; height: 10px; border-radius: 5px; background: var(--mi-fill3); overflow: hidden; }
-.suf__cycle-bar span { position: absolute; inset: 0; transform-origin: right; border-radius: inherit; background: repeating-linear-gradient(135deg, var(--mi-p) 0 6px, color-mix(in srgb, var(--mi-p) 70%, transparent) 6px 12px); }
-.suf__cycle-legend { display: flex; justify-content: space-between; gap: 6px; font-size: 11px; color: var(--mi-label3); }
-.suf__cycle-legend span:nth-child(2) { color: var(--mi-p-text); font-weight: 600; }
-
-.suf__lines { display: grid; gap: 8px; margin: 0; font-size: 13px; }
-.suf__lines div { display: flex; justify-content: space-between; gap: 12px; }
-.suf__lines dt { color: var(--mi-label2); }
-.suf__lines dd { margin: 0; font-variant-numeric: tabular-nums; white-space: nowrap; }
-.suf__lines .is-credit dd { color: var(--mi-green-t); }
-.suf__lines .is-total { padding-top: 10px; border-top: 1px solid var(--mi-sep); font-size: 16px; font-weight: 700; }
-.suf__lines .is-total dt { color: var(--mi-label); }
-</style>

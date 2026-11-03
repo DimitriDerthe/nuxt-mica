@@ -28,22 +28,17 @@ function onKey(e: KeyboardEvent) {
 </script>
 
 <template>
-  <div ref="root" class="mi-pc" role="tablist" :aria-label="ariaLabel" :style="{ '--i': index }" @keydown="onKey">
-    <span class="mi-pc__thumb" aria-hidden="true" />
+  <div ref="root" class="mi-pc mi:[justify-content:flex-start]" role="tablist" :aria-label="ariaLabel" :style="{ '--i': index }" @keydown="onKey">
+    <span class="mi-pc__thumb mi:absolute mi:left-2 mi:top-2.5 mi:w-6 mi:h-2 mi:pointer-events-none mi:transform-[translate3d(calc(var(--i)_*_24px),0,0)] mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring)] mi:before:content-[''] mi:before:absolute mi:before:left-0.5 mi:before:right-0.5 mi:before:top-0 mi:before:bottom-0 mi:before:rounded-[999px] mi:before:bg-p" aria-hidden="true" />
     <button
-      v-for="n in count" :key="n" type="button" role="tab" class="mi-pc__dot"
+      v-for="n in count" :key="n" type="button" role="tab" class="mi-pc__dot mi:relative mi:w-6 mi:h-7 mi:[border:0] mi:p-0 mi:bg-transparent mi:flex mi:items-center mi:justify-center mi:rounded-[999px]"
       :data-i="n - 1" :aria-selected="index === n - 1" :aria-label="`${itemLabel} ${n}`" :tabindex="index === n - 1 ? 0 : -1"
       @click="set(n - 1)"
-    ><span class="mi-pc__pip" /></button>
+    ><span class="mi-pc__pip mi:w-2 mi:h-2 mi:rounded-[50%] mi:bg-fill mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)] mi:[.mi-pc__dot[aria-selected=true]_&]:opacity-0" /></button>
   </div>
 </template>
 
 <style scoped>
-.mi-pc{position:relative;display:inline-flex;justify-content:flex-start;width:fit-content;max-width:100%;padding:0 8px;border-radius:999px;background:var(--mi-fill4);font-family:var(--mi-font)}
-.mi-pc__dot{position:relative;width:24px;height:28px;border:0;padding:0;background:transparent;display:flex;align-items:center;justify-content:center;border-radius:999px}
-.mi-pc__pip{width:8px;height:8px;border-radius:50%;background:var(--mi-fill);transition:opacity var(--mi-dur-2) var(--mi-ease)}
-.mi-pc__dot[aria-selected=true] .mi-pc__pip{opacity:0}
-.mi-pc__thumb{position:absolute;left:8px;top:10px;width:24px;height:8px;pointer-events:none;transform:translate3d(calc(var(--i) * 24px),0,0);transition:transform var(--mi-dur-3) var(--mi-spring)}
-.mi-pc__thumb::before{content:"";position:absolute;left:2px;right:2px;top:0;bottom:0;border-radius:999px;background:var(--mi-p)}
+.mi-pc{position:relative;display:inline-flex;width:fit-content;max-width:100%;padding:0 8px;border-radius:999px;background:var(--mi-fill4);font-family:var(--mi-font)}
 .mi-pc :focus-visible{outline:3px solid color-mix(in srgb,var(--mi-p) 55%,transparent);outline-offset:-2px}
 </style>

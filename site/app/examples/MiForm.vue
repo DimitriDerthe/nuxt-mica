@@ -45,13 +45,9 @@ const countries = [
       <MiInput v-model="vat" />
     </MiFormRow>
     <template #actions>
-      <span v-if="saved" class="saved" role="status">Saved</span>
+      <span v-if="saved" class="saved mi:self-center mi:mr-auto mi:text-[14px] mi:text-green-t" role="status">Saved</span>
       <MiButton variant="gray" @click="saved = false">Cancel</MiButton>
       <MiButton type="submit">Save details</MiButton>
     </template>
   </MiForm>
 </template>
-
-<style scoped>
-.saved { align-self: center; margin-right: auto; font-size: 14px; color: var(--mi-green-t); }
-</style>

@@ -1,6 +1,6 @@
 <template>
-  <section class="ptt" aria-labelledby="ptt-title">
-    <header class="ptt__head">
+  <section class="mi:@container/ptt mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="ptt-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="ptt-title" as="h2" variant="title3" weight="semibold">Prompt template</MiText>
         <MiText variant="footnote" tone="label2">Support macro · “Refund follow-up” · variables use <code v-text="syntax" /></MiText>
@@ -8,43 +8,43 @@
       <MiBadge :tone="issues.length ? 'warning' : 'success'" :label="issues.length ? `${issues.length} to check` : 'Template valid'" dot />
     </header>
 
-    <div class="ptt__body">
-      <div class="ptt__edit">
+    <div class="mi:grid mi:gap-3.5 mi:@[820px]/ptt:grid-cols-[minmax(0,_1.2fr)_minmax(0,_1fr)] mi:@[820px]/ptt:items-start">
+      <div class="mi:grid mi:gap-3 mi:p-4.5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:min-w-0">
         <MiField label="Template" :hint="`${vars.length} variables detected`">
           <template #default="{ id, describedBy }">
-            <MiTextarea :id="id" v-model="template" class="ptt__mono" :rows="7" :max-rows="14" :aria-describedby="describedBy" />
+            <MiTextarea :id="id" v-model="template" class="mi:[&_textarea]:font-[ui-monospace,SFMono-Regular,Menlo,monospace]! mi:[&_textarea]:text-[13px]! mi:[&_textarea]:leading-[1.55]!" :rows="7" :max-rows="14" :aria-describedby="describedBy" />
           </template>
         </MiField>
-        <ul v-if="issues.length" class="ptt__issues" aria-label="Template issues">
-          <li v-for="i in issues" :key="i"><MiIcon name="warning" :size="14" />{{ i }}</li>
+        <ul v-if="issues.length" class="mi:grid mi:gap-1 mi:m-0 mi:p-0 mi:[list-style:none] mi:text-[13px] mi:text-orange-t" aria-label="Template issues">
+          <li class="mi:flex mi:[align-items:flex-start] mi:gap-1.5" v-for="i in issues" :key="i"><MiIcon class="mi:mt-0.5" name="warning" :size="14" />{{ i }}</li>
         </ul>
 
         <!-- One test field per detected variable, created and removed as the template changes. -->
-        <fieldset v-if="vars.length" class="ptt__vars">
-          <legend class="ptt__legend">Test values</legend>
+        <fieldset v-if="vars.length" class="mi:[border:0] mi:border-t mi:border-t-sep mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:gap-2.5 mi:m-0 mi:pt-3.5 mi:px-0 mi:pb-0 mi:min-w-0 mi:@[480px]/ptt:grid-cols-2">
+          <legend class="mi:float-left mi:w-full mi:mb-2.5 mi:p-0 mi:text-[13px] mi:font-semibold mi:text-label2">Test values</legend>
           <MiField v-for="v in vars" :key="v" :label="v">
             <MiInput :model-value="values[v] ?? ''" size="sm" :placeholder="`Value for ${v}`" @update:model-value="values[v] = $event" />
           </MiField>
         </fieldset>
       </div>
 
-      <div class="ptt__side">
-        <div class="ptt__side-head">
+      <div class="mi:grid mi:gap-3 mi:p-4.5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:min-w-0">
+        <div class="mi:flex mi:items-center mi:justify-between mi:gap-2">
           <MiText as="h3" variant="subheadline" weight="semibold">Preview</MiText>
           <MiCopyButton :value="filled" label="Copy" variant="ghost" />
         </div>
-        <p class="ptt__preview">
+        <p class="mi:m-0 mi:p-3.5 mi:rounded-lg mi:text-[14px] mi:leading-[1.6] mi:whitespace-pre-wrap mi:wrap-anywhere mi:bg-fill4">
           <template v-for="(p, i) in parts" :key="i">
-            <mark v-if="p.kind === 'var'" class="ptt__var" :class="{ 'is-empty': !p.filled }">{{ p.text }}</mark><template v-else>{{ p.text }}</template>
+            <mark v-if="p.kind === 'var'" class="mi:py-px mi:px-1 mi:rounded-[4px]" :class="p.filled ? 'mi:text-p-text mi:bg-p-tint' : 'mi:text-orange-t mi:[background:color-mix(in_srgb,_var(--mi-orange)_14%,_transparent)] mi:font-[ui-monospace,SFMono-Regular,Menlo,monospace] mi:text-[12.5px]'">{{ p.text }}</mark><template v-else>{{ p.text }}</template>
           </template>
         </p>
-        <div class="ptt__budget">
-          <div class="ptt__budget-line">
+        <div class="mi:grid mi:gap-1.5">
+          <div class="mi:flex mi:justify-between mi:gap-2">
             <MiText variant="caption" tone="label2">≈ {{ tokens }} tokens of {{ limit }}</MiText>
             <MiText variant="caption" :tone="tokens > limit ? 'red' : 'label3'" tabular>{{ Math.round(tokens / limit * 100) }}%</MiText>
           </div>
-          <div class="ptt__meter" role="meter" aria-label="Prompt size" :aria-valuenow="tokens" aria-valuemin="0" :aria-valuemax="limit">
-            <span :class="{ 'is-over': tokens > limit }" :style="{ transform: `scaleX(${Math.min(tokens / limit, 1)})` }" />
+          <div class="mi:h-1.5 mi:rounded-[3px] mi:bg-fill3 mi:overflow-hidden" role="meter" aria-label="Prompt size" :aria-valuenow="tokens" aria-valuemin="0" :aria-valuemax="limit">
+            <span class="mi:block mi:h-full mi:rounded-[inherit] mi:origin-left mi:[transition:transform_var(--mi-dur-3)_var(--mi-ease)]" :class="tokens > limit ? 'mi:bg-red' : 'mi:bg-p'" :style="{ transform: `scaleX(${Math.min(tokens / limit, 1)})` }" />
           </div>
         </div>
         <MiButton block :disabled="issues.length > 0">Save template</MiButton>
@@ -93,32 +93,3 @@ const filled = computed(() => parts.value.map(p => p.text).join(''))
 // Rough estimate: about four characters per token for English text.
 const tokens = computed(() => Math.ceil(filled.value.length / 4))
 </script>
-
-<style scoped>
-.ptt { container: ptt / inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
-.ptt__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-
-.ptt__body { display: grid; gap: 14px; }
-@container ptt (min-width: 820px) { .ptt__body { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); align-items: start; } }
-.ptt__edit, .ptt__side { display: grid; gap: 12px; padding: 18px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); min-width: 0; }
-.ptt__mono :deep(textarea) { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; line-height: 1.55; }
-
-.ptt__issues { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; font-size: 13px; color: var(--mi-orange-t); }
-.ptt__issues li { display: flex; align-items: flex-start; gap: 6px; }
-.ptt__issues :deep(svg) { flex: none; margin-top: 2px; }
-
-.ptt__vars { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; margin: 0; padding: 14px 0 0; border: 0; border-top: 1px solid var(--mi-sep); min-width: 0; }
-@container ptt (min-width: 480px) { .ptt__vars { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-.ptt__legend { float: left; width: 100%; margin-bottom: 10px; padding: 0; font-size: 13px; font-weight: 600; color: var(--mi-label2); }
-
-.ptt__side-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.ptt__preview { margin: 0; padding: 14px; border-radius: var(--mi-radius-l); font-size: 14px; line-height: 1.6; white-space: pre-wrap; overflow-wrap: anywhere; background: var(--mi-fill4); }
-.ptt__var { padding: 1px 4px; border-radius: 4px; color: var(--mi-p-text); background: var(--mi-p-tint); }
-.ptt__var.is-empty { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12.5px; color: var(--mi-orange-t); background: color-mix(in srgb, var(--mi-orange) 14%, transparent); }
-
-.ptt__budget { display: grid; gap: 6px; }
-.ptt__budget-line { display: flex; justify-content: space-between; gap: 8px; }
-.ptt__meter { height: 6px; border-radius: 3px; background: var(--mi-fill3); overflow: hidden; }
-.ptt__meter span { display: block; height: 100%; border-radius: inherit; background: var(--mi-p); transform-origin: left; transition: transform var(--mi-dur-3) var(--mi-ease); }
-.ptt__meter span.is-over { background: var(--mi-red); }
-</style>

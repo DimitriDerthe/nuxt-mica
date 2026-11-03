@@ -82,102 +82,66 @@ function onLink(l: MiSiteLink) {
 </script>
 
 <template>
-  <header ref="root" class="mi-sh" :class="{ 'is-sticky': sticky, 'is-open': open }" @keydown="onKey">
-    <div class="mi-sh__bar">
-      <div class="mi-sh__logo"><slot name="logo" /></div>
-      <nav class="mi-sh__nav" :aria-label="ariaLabel">
-        <ul class="mi-sh__list">
-          <li v-for="l in links" :key="l.label" class="mi-sh__li">
+  <header ref="root" class="mi-sh mi:@container/mi-sh mi:relative mi:z-20 mi:font-mi mi:text-label mi:bg-page mi:border-b mi:border-b-sep mi:[&.is-sticky]:sticky mi:[&.is-sticky]:top-0 mi:[&.is-sticky]:bg-mat mi:[&.is-sticky]:border-b-mat-b" :class="{ 'is-sticky': sticky, 'is-open': open }" @keydown="onKey">
+    <div class="mi-sh__bar mi:flex mi:items-center mi:gap-3 mi:min-h-16 mi:py-0 mi:px-4 mi:box-border mi:@[820px]/mi-sh:py-0 mi:@[820px]/mi-sh:px-6">
+      <div class="mi-sh__logo mi:flex mi:items-center mi:flex-[1_1_auto] mi:min-w-0 mi:@[820px]/mi-sh:flex-[none]"><slot name="logo" /></div>
+      <nav class="mi-sh__nav mi:hidden mi:@[820px]/mi-sh:block mi:@[820px]/mi-sh:flex-[1_1_auto] mi:@[820px]/mi-sh:ml-4" :aria-label="ariaLabel">
+        <ul class="mi-sh__list mi:[list-style:none] mi:m-0 mi:p-0 mi:flex mi:items-center mi:gap-0.5">
+          <li v-for="l in links" :key="l.label" class="mi-sh__li mi:flex">
             <MiMenu
               v-if="l.children?.length" :items="menuItems(l)" :label="l.label" :aria-label="l.label"
               @select="onSelect(l, $event)"
             >
               <template #trigger="{ props: tp, open: isOpen }">
-                <button v-bind="tp" type="button" class="mi-sh__link mi-sh__drop" :class="{ 'is-active': l.active || l.children.some(c => c.active), 'is-open': isOpen }">
+                <button v-bind="tp" type="button" class="mi-sh__link mi-sh__drop mi:relative mi:inline-flex mi:items-center mi:gap-[5px] mi:h-10 mi:py-0 mi:px-3 mi:[border:0] mi:bg-transparent mi:text-label2 mi:[text-decoration:none] mi:cursor-pointer mi:hover:bg-fill4 mi:after:content-[''] mi:after:absolute mi:after:left-3 mi:after:right-3 mi:after:bottom-1 mi:after:h-0.5 mi:after:bg-p mi:after:transform-[scaleX(0)] mi:after:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:[&.is-active]:after:transform-[scaleX(1)] mi:focus-visible:[outline:3px_solid_color-mix(in_srgb,var(--mi-p)_55%,transparent)] mi:focus-visible:outline-offset-[1px]" :class="{ 'is-active': l.active || l.children.some(c => c.active), 'is-open': isOpen }">
                   {{ l.label }}
-                  <svg class="mi-sh__chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
+                  <svg class="mi-sh__chev mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:[.mi-sh__drop.is-open_&]:transform-[rotate(180deg)]" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
                 </button>
               </template>
             </MiMenu>
             <slot v-else name="link" :link="l" class="mi-sh__link">
-              <a class="mi-sh__link" :class="{ 'is-active': l.active }" :href="dest(l)" :aria-current="l.active ? 'page' : undefined" @click="emit('navigate', l)">{{ l.label }}</a>
+              <a class="mi-sh__link mi:relative mi:inline-flex mi:items-center mi:gap-[5px] mi:h-10 mi:py-0 mi:px-3 mi:[border:0] mi:bg-transparent mi:text-label2 mi:[text-decoration:none] mi:cursor-pointer mi:hover:bg-fill4 mi:after:content-[''] mi:after:absolute mi:after:left-3 mi:after:right-3 mi:after:bottom-1 mi:after:h-0.5 mi:after:bg-p mi:after:transform-[scaleX(0)] mi:after:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:[&.is-active]:after:transform-[scaleX(1)] mi:focus-visible:[outline:3px_solid_color-mix(in_srgb,var(--mi-p)_55%,transparent)] mi:focus-visible:outline-offset-[1px]" :class="{ 'is-active': l.active }" :href="dest(l)" :aria-current="l.active ? 'page' : undefined" @click="emit('navigate', l)">{{ l.label }}</a>
             </slot>
           </li>
         </ul>
       </nav>
-      <div class="mi-sh__actions"><slot name="actions" /></div>
+      <div class="mi-sh__actions mi:hidden mi:items-center mi:gap-2 mi:@[820px]/mi-sh:flex"><slot name="actions" /></div>
       <button
-        ref="burger" type="button" class="mi-sh__burger" :aria-expanded="open" :aria-controls="`${uid}-panel`"
+        ref="burger" type="button" class="mi-sh__burger mi:focus-visible:[outline:3px_solid_color-mix(in_srgb,var(--mi-p)_55%,transparent)] mi:focus-visible:outline-offset-[1px] mi:flex-[none] mi:w-11 mi:h-11 mi:-mr-2 mi:[border:0] mi:rounded-[12px] mi:bg-transparent mi:text-label mi:flex mi:items-center mi:justify-center mi:cursor-pointer mi:hover:bg-fill4 mi:@[820px]/mi-sh:hidden" :aria-expanded="open" :aria-controls="`${uid}-panel`"
         :aria-label="open ? 'Close menu' : 'Open menu'" @click="open = !open"
       >
-        <span class="mi-sh__bars" aria-hidden="true"><span /><span /></span>
+        <span class="mi-sh__bars mi:relative mi:w-5 mi:h-3.5" aria-hidden="true"><span class="mi:[.mi-sh__bars_&]:absolute mi:[.mi-sh__bars_&]:left-0 mi:[.mi-sh__bars_&]:right-0 mi:[.mi-sh__bars_&]:top-1.5 mi:[.mi-sh__bars_&]:h-0.5 mi:[.mi-sh__bars_&]:rounded-[1px] mi:[.mi-sh__bars_&]:bg-current mi:[.mi-sh__bars_&]:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:[.mi-sh__bars_&:first-child]:transform-[translate3d(0,-4px,0)] mi:[.mi-sh__bars_&:last-child]:transform-[translate3d(0,4px,0)] mi:[.is-open_.mi-sh__bars_&:first-child]:transform-[rotate(45deg)] mi:[.is-open_.mi-sh__bars_&:last-child]:transform-[rotate(-45deg)]" /><span class="mi:[.mi-sh__bars_&]:absolute mi:[.mi-sh__bars_&]:left-0 mi:[.mi-sh__bars_&]:right-0 mi:[.mi-sh__bars_&]:top-1.5 mi:[.mi-sh__bars_&]:h-0.5 mi:[.mi-sh__bars_&]:rounded-[1px] mi:[.mi-sh__bars_&]:bg-current mi:[.mi-sh__bars_&]:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:[.mi-sh__bars_&:first-child]:transform-[translate3d(0,-4px,0)] mi:[.mi-sh__bars_&:last-child]:transform-[translate3d(0,4px,0)] mi:[.is-open_.mi-sh__bars_&:first-child]:transform-[rotate(45deg)] mi:[.is-open_.mi-sh__bars_&:last-child]:transform-[rotate(-45deg)]" /></span>
       </button>
     </div>
-    <div :id="`${uid}-panel`" ref="panel" class="mi-sh__panel" :inert="!open || undefined">
-      <div class="mi-sh__panel-in">
-        <nav :aria-label="`${ariaLabel} (mobile)`">
-          <ul class="mi-sh__mlist">
+    <div :id="`${uid}-panel`" ref="panel" class="mi-sh__panel mi:grid mi:grid-rows-[0fr] mi:invisible mi:[transition:visibility_0s_linear_var(--mi-dur-3)] mi:[.is-open_&]:grid-rows-[1fr] mi:[.is-open_&]:visible mi:[.is-open_&]:delay-[0s] mi:@[820px]/mi-sh:hidden" :inert="!open || undefined">
+      <div class="mi-sh__panel-in mi:min-h-0 mi:overflow-hidden">
+        <nav class="mi:[.mi-sh__panel-in>&]:pt-1 mi:[.mi-sh__panel-in>&]:px-4 mi:[.mi-sh__panel-in>&]:pb-0" :aria-label="`${ariaLabel} (mobile)`">
+          <ul class="mi-sh__mlist mi:[list-style:none] mi:m-0 mi:p-0 mi:flex mi:flex-col">
             <li v-for="l in links" :key="l.label">
               <template v-if="l.children?.length">
-                <p class="mi-sh__mgroup">{{ l.label }}</p>
-                <ul class="mi-sh__mlist mi-sh__mlist--sub">
+                <p class="mi-sh__mgroup mi:mt-2.5 mi:mx-0 mi:mb-0.5 mi:py-0 mi:px-3 mi:text-[12px] mi:font-semibold mi:tracking-[.06em] mi:uppercase mi:text-label2">{{ l.label }}</p>
+                <ul class="mi-sh__mlist mi-sh__mlist--sub mi:[list-style:none] mi:m-0 mi:p-0 mi:flex mi:flex-col mi:pl-3 mi:mb-1.5 mi:border-l-2 mi:border-l-sep2">
                   <li v-for="c in l.children" :key="c.label">
-                    <a class="mi-sh__mlink" :class="{ 'is-active': c.active }" :href="dest(c)" :aria-current="c.active ? 'page' : undefined" @click="onLink(c)">{{ c.label }}</a>
+                    <a class="mi-sh__mlink mi:focus-visible:[outline:3px_solid_color-mix(in_srgb,var(--mi-p)_55%,transparent)] mi:focus-visible:outline-offset-[1px] mi:flex mi:items-center mi:min-h-11 mi:py-0 mi:px-3 mi:rounded-[10px] mi:text-[16px] mi:font-medium mi:text-label mi:[text-decoration:none] mi:[&.is-active]:text-p-text" :class="{ 'is-active': c.active }" :href="dest(c)" :aria-current="c.active ? 'page' : undefined" @click="onLink(c)">{{ c.label }}</a>
                   </li>
                 </ul>
               </template>
-              <a v-else class="mi-sh__mlink" :class="{ 'is-active': l.active }" :href="dest(l)" :aria-current="l.active ? 'page' : undefined" @click="onLink(l)">{{ l.label }}</a>
+              <a v-else class="mi-sh__mlink mi:focus-visible:[outline:3px_solid_color-mix(in_srgb,var(--mi-p)_55%,transparent)] mi:focus-visible:outline-offset-[1px] mi:flex mi:items-center mi:min-h-11 mi:py-0 mi:px-3 mi:rounded-[10px] mi:text-[16px] mi:font-medium mi:text-label mi:[text-decoration:none] mi:[&.is-active]:text-p-text" :class="{ 'is-active': l.active }" :href="dest(l)" :aria-current="l.active ? 'page' : undefined" @click="onLink(l)">{{ l.label }}</a>
             </li>
           </ul>
         </nav>
-        <div class="mi-sh__mactions"><slot name="actions" /></div>
+        <div class="mi-sh__mactions mi:flex mi:flex-wrap mi:gap-2 mi:pt-3 mi:px-4 mi:pb-4 mi:empty:hidden"><slot name="actions" /></div>
       </div>
     </div>
   </header>
 </template>
 
 <style scoped>
-.mi-sh{container:mi-sh / inline-size;position:relative;z-index:20;font-family:var(--mi-font);color:var(--mi-label);background:var(--mi-page);border-bottom:1px solid var(--mi-sep)}
-.mi-sh.is-sticky{position:sticky;top:0;background:var(--mi-mat);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border-bottom-color:var(--mi-mat-b)}
-.mi-sh__bar{display:flex;align-items:center;gap:12px;min-height:64px;padding:0 16px;box-sizing:border-box}
-.mi-sh__logo{display:flex;align-items:center;flex:1 1 auto;min-width:0}
-.mi-sh__nav{display:none}
-.mi-sh__actions{display:none;align-items:center;gap:8px}
-.mi-sh__list{list-style:none;margin:0;padding:0;display:flex;align-items:center;gap:2px}
-.mi-sh__li{display:flex}
-.mi-sh__link{position:relative;display:inline-flex;align-items:center;gap:5px;height:40px;padding:0 12px;border:0;border-radius:10px;background:transparent;font:inherit;font-size:15px;font-weight:500;color:var(--mi-label2);text-decoration:none;cursor:pointer}
-.mi-sh__link:hover{color:var(--mi-label);background:var(--mi-fill4)}
-.mi-sh__link::after{content:'';position:absolute;left:12px;right:12px;bottom:4px;height:2px;border-radius:1px;background:var(--mi-p);transform:scaleX(0);transition:transform var(--mi-dur-2) var(--mi-ease)}
+.mi-sh.is-sticky{-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px)}
+.mi-sh__link{border-radius:10px;font:inherit;font-size:15px;font-weight:500}
+.mi-sh__link:hover{color:var(--mi-label)}
+.mi-sh__link::after{border-radius:1px}
 .mi-sh__link.is-active{color:var(--mi-label)}
-.mi-sh__link.is-active::after{transform:scaleX(1)}
-.mi-sh__chev{transition:transform var(--mi-dur-2) var(--mi-ease)}
-.mi-sh__drop.is-open .mi-sh__chev{transform:rotate(180deg)}
-.mi-sh__link:focus-visible,.mi-sh__burger:focus-visible,.mi-sh__mlink:focus-visible{outline:3px solid color-mix(in srgb,var(--mi-p) 55%,transparent);outline-offset:1px}
-.mi-sh__burger{flex:none;width:44px;height:44px;margin-right:-8px;border:0;border-radius:12px;background:transparent;color:var(--mi-label);display:flex;align-items:center;justify-content:center;cursor:pointer}
-.mi-sh__burger:hover{background:var(--mi-fill4)}
-.mi-sh__bars{position:relative;width:20px;height:14px}
-.mi-sh__bars span{position:absolute;left:0;right:0;top:6px;height:2px;border-radius:1px;background:currentColor;transition:transform var(--mi-dur-2) var(--mi-ease)}
-.mi-sh__bars span:first-child{transform:translate3d(0,-4px,0)}
-.mi-sh__bars span:last-child{transform:translate3d(0,4px,0)}
-.is-open .mi-sh__bars span:first-child{transform:rotate(45deg)}
-.is-open .mi-sh__bars span:last-child{transform:rotate(-45deg)}
-.mi-sh__panel{display:grid;grid-template-rows:0fr;visibility:hidden;transition:visibility 0s linear var(--mi-dur-3)}
-.is-open .mi-sh__panel{grid-template-rows:1fr;visibility:visible;transition-delay:0s}
-.mi-sh__panel-in{min-height:0;overflow:hidden}
-.mi-sh__panel-in > nav{padding:4px 16px 0}
-.mi-sh__mlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
-.mi-sh__mlist--sub{padding-left:12px;margin-bottom:6px;border-left:2px solid var(--mi-sep2)}
-.mi-sh__mgroup{margin:10px 0 2px;padding:0 12px;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--mi-label2)}
-.mi-sh__mlink{display:flex;align-items:center;min-height:44px;padding:0 12px;border-radius:10px;font-size:16px;font-weight:500;color:var(--mi-label);text-decoration:none}
 .mi-sh__mlink:hover{background:var(--mi-fill4)}
-.mi-sh__mlink.is-active{background:var(--mi-p-tint);color:var(--mi-p-text)}
-.mi-sh__mactions{display:flex;flex-wrap:wrap;gap:8px;padding:12px 16px 16px}
-.mi-sh__mactions:empty{display:none}
-@container mi-sh (min-width:820px){
-  .mi-sh__bar{padding:0 24px}
-  .mi-sh__logo{flex:none}
-  .mi-sh__nav{display:block;flex:1 1 auto;margin-left:16px}
-  .mi-sh__actions{display:flex}
-  .mi-sh__burger,.mi-sh__panel{display:none}
-}
+.mi-sh__mlink.is-active{background:var(--mi-p-tint)}
 </style>

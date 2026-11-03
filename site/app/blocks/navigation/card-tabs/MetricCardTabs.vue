@@ -1,27 +1,27 @@
 <template>
-  <section class="mt" aria-labelledby="mt-title">
-    <header class="mt__head">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="mt-title">
+    <header class="mi:grid mi:gap-0.5">
       <MiText id="mt-title" variant="title3" as="h2" weight="semibold">Storefront this week</MiText>
       <MiText variant="footnote" tone="label2">Mon 3 – Sun 9 March, compared with the week before</MiText>
     </header>
 
     <!-- The tabs are the metrics themselves: each card is a tab, the chart is its panel. -->
-    <div class="mt__tabs" role="tablist" aria-label="Metric" @keydown="onKey">
+    <div class="mi:grid mi:grid-cols-2 mi:gap-2 mi:@[720px]:grid-cols-4 mi:@[720px]:gap-2.5" role="tablist" aria-label="Metric" @keydown="onKey">
       <button
-        v-for="(m, i) in metrics" :id="'mt-tab-' + m.id" :key="m.id" :ref="setTab(i)" type="button" role="tab" class="mt__tab"
-        :aria-selected="current === m.id" :aria-controls="'mt-panel'" :tabindex="current === m.id ? 0 : -1" @click="current = m.id"
+        v-for="(m, i) in metrics" :id="'mt-tab-' + m.id" :key="m.id" :ref="setTab(i)" type="button" role="tab" class="mi:group mi:relative mi:grid mi:justify-items-start mi:gap-0.5 mi:pt-3.5 mi:px-3.5 mi:pb-3 mi:overflow-hidden mi:[border:0] mi:rounded-lg mi:[font:inherit] mi:text-inherit mi:text-start mi:[background:var(--mi-fill4)] mi:cursor-pointer mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:active:transform-[scale(.98)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:aria-selected:[background:var(--mi-card)] mi:@[720px]:pt-4 mi:@[720px]:px-4.5 mi:@[720px]:pb-3.5"
+        :class="current === m.id ? 'mi:shadow-1' : 'mi:shadow-[inset_0_0_0_1px_transparent] mi:hover:shadow-[inset_0_0_0_1px_var(--mi-sep)]'" :aria-selected="current === m.id" :aria-controls="'mt-panel'" :tabindex="current === m.id ? 0 : -1" @click="current = m.id"
       >
-        <span class="mt__bar" aria-hidden="true" />
+        <span class="mi:absolute mi:top-0 mi:left-0 mi:right-0 mi:h-[3px] mi:[background:linear-gradient(90deg,_var(--mi-p),_var(--mi-s))] mi:transform-[scaleX(0)] mi:origin-left mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring)] mi:group-aria-selected:transform-[scaleX(1)]" aria-hidden="true" />
         <MiText as="span" variant="caption" tone="label2" weight="medium">{{ m.label }}</MiText>
-        <span class="mt__value">{{ m.value }}</span>
+        <span class="mi:text-[24px] mi:font-bold mi:leading-[1.15] mi:tracking-[-.035em] mi:tabular-nums mi:@[720px]:text-[28px]">{{ m.value }}</span>
         <MiText as="span" variant="caption2" :tone="m.good ? 'green' : 'red'" weight="semibold">
           {{ m.up ? '↑' : '↓' }} {{ m.delta }}
         </MiText>
       </button>
     </div>
 
-    <div id="mt-panel" class="mt__panel" role="tabpanel" :aria-labelledby="'mt-tab-' + current" tabindex="0">
-      <div class="mt__panel-head">
+    <div id="mt-panel" class="mi:[&_.mi-lc-svg]:overflow-hidden! mi:grid mi:gap-2.5 mi:pt-4.5 mi:px-4 mi:pb-3 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:@[720px]:pt-5.5 mi:@[720px]:px-6 mi:@[720px]:pb-3.5" role="tabpanel" :aria-labelledby="'mt-tab-' + current" tabindex="0">
+      <div class="mi:grid mi:gap-0.5">
         <MiText as="h3" variant="headline">{{ metric.label }} by day</MiText>
         <MiText variant="footnote" tone="label2">{{ metric.note }}</MiText>
       </div>
@@ -83,38 +83,3 @@ function onKey(e: KeyboardEvent) {
   tabEls[n]?.focus()
 }
 </script>
-
-<style scoped>
-.mt { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
-.mt__head { display: grid; gap: 2px; }
-
-.mt__tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-.mt__tab {
-  position: relative; display: grid; justify-items: start; gap: 2px; padding: 14px 14px 12px; overflow: hidden; border: 0; border-radius: var(--mi-radius-l);
-  font: inherit; color: inherit; text-align: start; background: var(--mi-fill4); cursor: pointer; box-shadow: inset 0 0 0 1px transparent;
-  transition: transform var(--mi-dur-2) var(--mi-ease);
-}
-.mt__tab:hover { box-shadow: inset 0 0 0 1px var(--mi-sep); }
-.mt__tab:active { transform: scale(.98); }
-.mt__tab:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-.mt__tab[aria-selected="true"] { background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.mt__bar {
-  position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--mi-p), var(--mi-s));
-  transform: scaleX(0); transform-origin: left; transition: transform var(--mi-dur-3) var(--mi-spring);
-}
-.mt__tab[aria-selected="true"] .mt__bar { transform: scaleX(1); }
-.mt__value { font-size: 24px; font-weight: 700; line-height: 1.15; letter-spacing: -.035em; font-variant-numeric: tabular-nums; }
-
-.mt__panel { display: grid; gap: 10px; padding: 18px 16px 12px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.mt__panel:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-/* The last hover column of the chart reaches past the plot; keep it inside the card. */
-.mt__panel :deep(.mi-lc-svg) { overflow: hidden; }
-.mt__panel-head { display: grid; gap: 2px; }
-
-@container (min-width: 720px) {
-  .mt__tabs { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
-  .mt__tab { padding: 16px 18px 14px; }
-  .mt__value { font-size: 28px; }
-  .mt__panel { padding: 22px 24px 14px; }
-}
-</style>

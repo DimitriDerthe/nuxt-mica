@@ -1,11 +1,11 @@
 <template>
-  <div class="bc wrap">
-    <aside class="side" :aria-label="t('blocks.title')">
-      <nav class="side__nav">
+  <div class="bc wrap mi:max-w-370 mi:my-0 mi:mx-auto mi:py-0 mi:px-3 mi:box-border mi:grid mi:gap-10 mi:grid-cols-[minmax(0,_1fr)] mi:pt-8 mi:pb-24 mi:min-[1100px]:grid-cols-[232px_minmax(0,_1fr)]">
+    <aside class="side mi:hidden mi:min-[1100px]:sticky mi:min-[1100px]:top-21 mi:min-[1100px]:flex mi:min-[1100px]:flex-col mi:min-[1100px]:self-start mi:min-[1100px]:max-h-[calc(100dvh_-_104px)]" :aria-label="t('blocks.title')">
+      <nav class="side__nav mi:flex mi:flex-col mi:overflow-y-auto mi:overscroll-contain mi:pt-0 mi:pr-1 mi:pb-3 mi:pl-0 mi:[scrollbar-width:thin]">
         <template v-for="f in owned" :key="f.id">
-          <p class="side__group">{{ f.title[lang] }}</p>
+          <p class="side__group mi:mt-3.5 mi:mr-0 mi:mb-1 mi:ml-2.5 mi:text-[11px] mi:font-semibold mi:tracking-[.04em] mi:uppercase mi:text-label3">{{ f.title[lang] }}</p>
           <NuxtLink
-            v-for="x in f.categories" :key="x.id" :to="localePath(`/blocks/${f.id}/${x.id}`)" class="side__link"
+            v-for="x in f.categories" :key="x.id" :to="localePath(`/blocks/${f.id}/${x.id}`)" class="side__link mi:py-[5px] mi:px-2.5 mi:rounded-[8px] mi:text-[13.5px] mi:text-label2 mi:[text-decoration:none] mi:[transition:background-color_var(--mi-dur-1)_var(--mi-ease),_color_var(--mi-dur-1)_var(--mi-ease)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px]"
             :class="{ on: f.id === family.id && x.id === category.id }" :aria-current="f.id === family.id && x.id === category.id ? 'page' : undefined"
           >
             {{ x.title[lang] }}
@@ -14,29 +14,29 @@
       </nav>
     </aside>
 
-    <main class="main">
-      <nav class="crumbs" :aria-label="t('blocks.breadcrumb')">
-        <NuxtLink :to="localePath('/blocks')">{{ t('blocks.title') }}</NuxtLink>
-        <MiIcon name="chevron-right" :size="12" />
-        <NuxtLink :to="localePath('/blocks') + '#' + family.id">{{ family.title[lang] }}</NuxtLink>
+    <main class="main mi:grid mi:gap-12 mi:min-w-0 mi:content-start">
+      <nav class="crumbs mi:flex mi:items-center mi:gap-1.5 mi:text-[13px] mi:text-label3 mi:-mb-8" :aria-label="t('blocks.breadcrumb')">
+        <NuxtLink class="mi:[.crumbs_a&]:[text-decoration:none] mi:[.crumbs_a&:hover]:text-label" :to="localePath('/blocks')">{{ t('blocks.title') }}</NuxtLink>
+        <MiIcon class="mi:[.crumbs_a&]:[text-decoration:none] mi:[.crumbs_a&:hover]:text-label" name="chevron-right" :size="12" />
+        <NuxtLink class="mi:[.crumbs_a&]:[text-decoration:none] mi:[.crumbs_a&:hover]:text-label" :to="localePath('/blocks') + '#' + family.id">{{ family.title[lang] }}</NuxtLink>
       </nav>
 
-      <header class="head">
-        <h1 class="head__title">{{ category.title[lang] }}</h1>
-        <p class="head__lead">{{ family.summary[lang] }}</p>
-        <p class="head__count">{{ t('blocks.n', { n: list.length }, list.length) }}</p>
+      <header class="head mi:grid mi:gap-2.5">
+        <h1 class="head__title mi:m-0 mi:text-[clamp(34px,_5vw,_56px)] mi:leading-none mi:tracking-[-.045em] mi:font-bold">{{ category.title[lang] }}</h1>
+        <p class="head__lead mi:m-0 mi:max-w-[64ch] mi:text-[17px] mi:leading-[1.55] mi:text-label2">{{ family.summary[lang] }}</p>
+        <p class="head__count mi:m-0 mi:text-[13px] mi:text-label3">{{ t('blocks.n', { n: list.length }, list.length) }}</p>
       </header>
 
       <BlockFrame v-for="b in list" :key="b.file" :family="family.id" :category="category.id" :meta="b" />
       <MiEmptyState v-if="!list.length" icon="folder" :title="t('blocks.empty')" />
 
-      <nav class="pn" :aria-label="t('blocks.pager')">
-        <NuxtLink v-if="prev" :to="localePath(`/blocks/${prev.family}/${prev.id}`)" class="pn__link">
-          <small>{{ t('explorer.prev') }}</small><span>{{ prev.title[lang] }}</span>
+      <nav class="pn mi:grid mi:grid-cols-[1fr_1fr] mi:gap-3" :aria-label="t('blocks.pager')">
+        <NuxtLink v-if="prev" :to="localePath(`/blocks/${prev.family}/${prev.id}`)" class="pn__link mi:grid mi:gap-0.5 mi:py-3.5 mi:px-4.5 mi:rounded-[16px] mi:bg-card mi:shadow-[0_0_0_1px_var(--mi-sep)] mi:text-inherit mi:[text-decoration:none] mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:hover:transform-[translate3d(0,_-2px,_0)] mi:motion-reduce:hover:transform-none">
+          <small class="mi:[.pn__link_&]:text-[12px]">{{ t('explorer.prev') }}</small><span>{{ prev.title[lang] }}</span>
         </NuxtLink>
         <span v-else />
-        <NuxtLink v-if="next" :to="localePath(`/blocks/${next.family}/${next.id}`)" class="pn__link pn__link--next">
-          <small>{{ t('explorer.next') }}</small><span>{{ next.title[lang] }}</span>
+        <NuxtLink v-if="next" :to="localePath(`/blocks/${next.family}/${next.id}`)" class="pn__link pn__link--next mi:grid mi:gap-0.5 mi:py-3.5 mi:px-4.5 mi:rounded-[16px] mi:bg-card mi:shadow-[0_0_0_1px_var(--mi-sep)] mi:text-inherit mi:[text-decoration:none] mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:hover:transform-[translate3d(0,_-2px,_0)] mi:text-right mi:motion-reduce:hover:transform-none">
+          <small class="mi:[.pn__link_&]:text-[12px]">{{ t('explorer.next') }}</small><span>{{ next.title[lang] }}</span>
         </NuxtLink>
       </nav>
     </main>
@@ -71,36 +71,13 @@ useSiteSeo(
 </script>
 
 <style scoped>
-.wrap { max-width: 1480px; margin: 0 auto; padding: 0 12px; box-sizing: border-box; }
-.bc { display: grid; gap: 40px; grid-template-columns: minmax(0, 1fr); padding-top: 32px; padding-bottom: 96px; }
-@media (min-width: 1100px) { .bc { grid-template-columns: 232px minmax(0, 1fr); } }
-
-.side { display: none; }
-@media (min-width: 1100px) {
-  .side { position: sticky; top: 84px; display: flex; flex-direction: column; align-self: start; max-height: calc(100dvh - 104px); }
-}
-.side__nav { display: flex; flex-direction: column; overflow-y: auto; overscroll-behavior: contain; padding: 0 4px 12px 0; scrollbar-width: thin; }
-.side__group { margin: 14px 0 4px 10px; font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--mi-label3); }
-.side__link { padding: 5px 10px; border-radius: 8px; font-size: 13.5px; color: var(--mi-label2); text-decoration: none; transition: background-color var(--mi-dur-1) var(--mi-ease), color var(--mi-dur-1) var(--mi-ease); }
 .side__link:hover { color: var(--mi-label); background: var(--mi-fill4); }
 .side__link.on { color: var(--mi-p-text); background: var(--mi-p-tint); font-weight: 600; }
-.side__link:focus-visible { outline: 2px solid var(--mi-p); outline-offset: -2px; }
 
-.main { display: grid; gap: 48px; min-width: 0; align-content: start; animation: bc-in var(--mi-dur-3) var(--mi-ease) backwards; }
-.crumbs { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--mi-label3); margin-bottom: -32px; }
-.crumbs a { color: var(--mi-label2); text-decoration: none; }
-.crumbs a:hover { color: var(--mi-label); }
-.head { display: grid; gap: 10px; }
-.head__title { margin: 0; font-size: clamp(34px, 5vw, 56px); line-height: 1; letter-spacing: -.045em; font-weight: 700; }
-.head__lead { margin: 0; max-width: 64ch; font-size: 17px; line-height: 1.55; color: var(--mi-label2); }
-.head__count { margin: 0; font-size: 13px; color: var(--mi-label3); }
-
-.pn { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.pn__link { display: grid; gap: 2px; padding: 14px 18px; border-radius: 16px; background: var(--mi-card); box-shadow: 0 0 0 1px var(--mi-sep); color: inherit; text-decoration: none; transition: transform var(--mi-dur-2) var(--mi-ease); }
-.pn__link:hover { transform: translate3d(0, -2px, 0); }
-.pn__link--next { text-align: right; }
-.pn__link small { font-size: 12px; color: var(--mi-label3); }
+.main { animation: bc-in var(--mi-dur-3) var(--mi-ease) backwards; }
+.crumbs a { color: var(--mi-label2); }
+.pn__link small { color: var(--mi-label3); }
 .pn__link span { font-weight: 600; color: var(--mi-p-text); }
 @keyframes bc-in { from { opacity: 0; transform: translate3d(0, 10px, 0); } }
-@media (prefers-reduced-motion: reduce) { .main { animation: none; } .pn__link:hover { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .main { animation: none; } }
 </style>

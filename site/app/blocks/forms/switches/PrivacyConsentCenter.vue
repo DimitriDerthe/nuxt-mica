@@ -1,43 +1,43 @@
 <template>
-  <section class="pcc" aria-labelledby="pcc-title">
-    <div class="pcc__backdrop">
+  <section class="mi:@container/pcc mi:font-mi mi:text-label" aria-labelledby="pcc-title">
+    <div class="mi:grid mi:place-items-center mi:py-5 mi:px-3 mi:rounded-xl mi:[background:color-mix(in_srgb,_var(--mi-label)_22%,_transparent)] mi:@[640px]/pcc:p-9">
       <!-- Shown open in place: a consent panel as it appears over the site. -->
-      <div class="pcc__panel" role="dialog" aria-modal="false" aria-labelledby="pcc-title">
-        <header class="pcc__head">
+      <div class="mi:grid mi:gap-4 mi:w-full mi:max-w-150 mi:p-5.5 mi:rounded-xl mi:bg-elev mi:shadow-3" role="dialog" aria-modal="false" aria-labelledby="pcc-title">
+        <header class="mi:grid mi:gap-1.5">
           <MiText id="pcc-title" as="h2" variant="title3" weight="semibold">Privacy preferences</MiText>
           <MiText variant="footnote" tone="label2">Choose what Larkspur Books may store on this device. You can change this any time from the footer.</MiText>
         </header>
 
-        <ul class="pcc__list">
-          <li v-for="c in categories" :key="c.id" class="pcc__item">
-            <div class="pcc__row">
-              <div class="pcc__text">
+        <ul class="mi:m-0 mi:p-0 mi:[list-style:none] mi:rounded-lg mi:bg-fill4">
+          <li v-for="c in categories" :key="c.id" class="mi:grid mi:gap-1.5 mi:py-3.5 mi:px-4 mi:not-first:border-t mi:not-first:border-t-sep">
+            <div class="mi:flex mi:[align-items:flex-start] mi:justify-between mi:gap-3.5">
+              <div class="mi:grid mi:gap-0.5 mi:min-w-0">
                 <MiText :id="`pcc-${c.id}`" as="h3" variant="subheadline" weight="semibold">{{ c.label }}</MiText>
                 <MiText variant="caption" tone="label2">{{ c.desc }}</MiText>
               </div>
-              <MiText v-if="c.locked" variant="caption" tone="label3" weight="semibold" class="pcc__always">Always on</MiText>
+              <MiText v-if="c.locked" variant="caption" tone="label3" weight="semibold" class="mi:flex-[none] mi:pt-0.5">Always on</MiText>
               <MiSwitch v-else v-model="c.on" size="compact" :aria-labelledby="`pcc-${c.id}`" @update:model-value="savedAt = ''" />
             </div>
-            <MiCollapsible v-model:open="c.open" class="pcc__more">
+            <MiCollapsible v-model:open="c.open">
               <template #trigger="{ open }">
-                <span class="pcc__toggle">{{ open ? 'Hide' : 'Show' }} {{ c.vendors.length }} {{ c.vendors.length === 1 ? 'service' : 'services' }}</span>
+                <span class="mi:text-[12.5px] mi:font-semibold mi:text-p-text">{{ open ? 'Hide' : 'Show' }} {{ c.vendors.length }} {{ c.vendors.length === 1 ? 'service' : 'services' }}</span>
               </template>
-              <ul class="pcc__vendors">
-                <li v-for="v in c.vendors" :key="v.name">
-                  <span>{{ v.name }}</span>
-                  <span>{{ v.purpose }} · kept {{ v.retention }}</span>
+              <ul class="mi:grid mi:gap-1.5 mi:mt-1.5 mi:mx-0 mi:mb-0.5 mi:p-0 mi:[list-style:none]">
+                <li class="mi:grid mi:gap-px mi:py-2 mi:px-2.5 mi:rounded-sm mi:text-[13px] mi:bg-card" v-for="v in c.vendors" :key="v.name">
+                  <span class="mi:font-semibold">{{ v.name }}</span>
+                  <span class="mi:text-[12px] mi:text-label2">{{ v.purpose }} · kept {{ v.retention }}</span>
                 </li>
               </ul>
             </MiCollapsible>
           </li>
         </ul>
 
-        <footer class="pcc__foot">
-          <p class="pcc__status" role="status" aria-live="polite">{{ status }}</p>
-          <div class="pcc__actions">
+        <footer class="mi:grid mi:gap-3">
+          <p class="mi:m-0 mi:text-[13px] mi:text-label2" role="status" aria-live="polite">{{ status }}</p>
+          <div class="mi:grid mi:grid-cols-[1fr_1fr] mi:gap-2 mi:@[560px]/pcc:flex mi:@[560px]/pcc:[justify-content:flex-end]">
             <MiButton variant="gray" @click="setAll(false)">Reject all</MiButton>
             <MiButton variant="gray" @click="setAll(true)">Accept all</MiButton>
-            <MiButton @click="save">Save choices</MiButton>
+            <MiButton class="mi:col-span-full" @click="save">Save choices</MiButton>
           </div>
         </footer>
       </div>
@@ -84,28 +84,3 @@ function setAll(on: boolean) {
 function save() { savedAt.value = 'applies on your next page view' }
 </script>
 
-<style scoped>
-.pcc { container: pcc / inline-size; font-family: var(--mi-font); color: var(--mi-label); }
-.pcc__backdrop { display: grid; place-items: center; padding: 20px 12px; border-radius: var(--mi-radius-xl); background: color-mix(in srgb, var(--mi-label) 22%, transparent); }
-@container pcc (min-width: 640px) { .pcc__backdrop { padding: 36px; } }
-.pcc__panel { display: grid; gap: 16px; width: 100%; max-width: 600px; padding: 22px; border-radius: var(--mi-radius-xl); background: var(--mi-elev); box-shadow: var(--mi-sh3); }
-.pcc__head { display: grid; gap: 6px; }
-
-.pcc__list { margin: 0; padding: 0; list-style: none; border-radius: var(--mi-radius-l); background: var(--mi-fill4); }
-.pcc__item { display: grid; gap: 6px; padding: 14px 16px; }
-.pcc__item + .pcc__item { border-top: 1px solid var(--mi-sep); }
-.pcc__row { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; }
-.pcc__text { display: grid; gap: 2px; min-width: 0; }
-.pcc__always { flex: none; padding-top: 2px; }
-.pcc__toggle { font-size: 12.5px; font-weight: 600; color: var(--mi-p-text); }
-.pcc__vendors { display: grid; gap: 6px; margin: 6px 0 2px; padding: 0; list-style: none; }
-.pcc__vendors li { display: grid; gap: 1px; padding: 8px 10px; border-radius: var(--mi-radius-s); font-size: 13px; background: var(--mi-card); }
-.pcc__vendors li span:first-child { font-weight: 600; }
-.pcc__vendors li span:last-child { font-size: 12px; color: var(--mi-label2); }
-
-.pcc__foot { display: grid; gap: 12px; }
-.pcc__status { margin: 0; font-size: 13px; color: var(--mi-label2); }
-.pcc__actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.pcc__actions > :last-child { grid-column: 1 / -1; }
-@container pcc (min-width: 560px) { .pcc__actions { display: flex; justify-content: flex-end; } }
-</style>

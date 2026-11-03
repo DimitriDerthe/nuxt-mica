@@ -26,7 +26,7 @@ function onAction(id: string) { last.value = `${labels[id] ?? id} "Q4 roadmap re
 </script>
 
 <template>
-  <div class="ex-wrap">
+  <div class="ex-wrap mi:grid mi:gap-2.5 mi:w-[min(100%,_420px)]">
     <MiList label="Inbox" class="ex-list">
       <MiSwipeRow v-bind="p" v-model:open="open" @action="onAction">
         <MiListItem variant="rich" title="Nora Lindqvist" value="9:41" subtitle="Q4 roadmap review" description="Sharing the draft before Thursday. Could you check the timeline for the billing migration?" :dot="true" />
@@ -35,11 +35,6 @@ function onAction(id: string) { last.value = `${labels[id] ?? id} "Q4 roadmap re
         <MiListItem variant="rich" title="Build pipeline" value="Yesterday" subtitle="Deploy succeeded on main" description="Release 4.12.0 is live in production. 128 tests passed in 3 min 42 s." :dot="false" />
       </MiSwipeRow>
     </MiList>
-    <p class="ex-status" aria-live="polite">{{ last || 'Swipe a row left, or focus it and press the left arrow.' }}</p>
+    <p class="ex-status mi:m-0 mi:text-[13px] mi:text-label2 mi:text-center" aria-live="polite">{{ last || 'Swipe a row left, or focus it and press the left arrow.' }}</p>
   </div>
 </template>
-
-<style scoped>
-.ex-wrap { display: grid; gap: 10px; width: min(100%, 420px); }
-.ex-status { margin: 0; font-size: 13px; color: var(--mi-label2); text-align: center; }
-</style>

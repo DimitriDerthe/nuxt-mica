@@ -1,6 +1,6 @@
 <template>
-  <section class="kpi" aria-labelledby="kpi-title">
-    <header class="kpi__head">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-4.5 mi:font-mi mi:text-label" aria-labelledby="kpi-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="kpi-title" variant="title3" as="h2" weight="semibold">Revenue pulse</MiText>
         <MiText variant="footnote" tone="label2">Northwind Studio · updated 4 min ago</MiText>
@@ -8,19 +8,19 @@
       <MiSegmented v-model="range" label="Period" :options="ranges" />
     </header>
 
-    <div class="kpi__grid">
+    <div class="mi:grid mi:gap-3 mi:grid-cols-[minmax(0,_1fr)] mi:@[560px]:grid-cols-2 mi:@[900px]:grid-cols-[1.4fr_1fr_1fr]">
       <!-- Hero tile: the one number the page is about, with its target as a ring. -->
-      <article class="kpi__hero">
-        <div class="kpi__hero-top">
+      <article class="mi:@[560px]:col-[span_2] mi:@[900px]:col-[auto] mi:@[900px]:row-[span_2] mi:relative mi:grid mi:content-start mi:gap-1.5 mi:p-5 mi:rounded-xl mi:overflow-hidden mi:isolate mi:[background:var(--mi-card)] mi:shadow-1 mi:before:content-[''] mi:before:absolute mi:before:top-[-40%] mi:before:right-[-30%] mi:before:bottom-auto mi:before:left-auto mi:before:w-[70%] mi:before:aspect-[1] mi:before:-z-1 mi:before:rounded-[50%] mi:before:[background:radial-gradient(closest-side,_var(--mi-p-tint),_transparent)]">
+        <div class="mi:flex mi:items-center mi:justify-between mi:gap-2">
           <MiText variant="subheadline" weight="medium" tone="label2">Net revenue</MiText>
           <MiBadge tone="success" :label="'+' + data.growth + '%'" dot />
         </div>
-        <p class="kpi__big">{{ data.revenue }}</p>
+        <p class="mi:mt-1 mi:mx-0 mi:mb-0 mi:text-[clamp(40px,_9cqi,_64px)] mi:leading-none mi:font-bold mi:tracking-[-.045em] mi:tabular-nums">{{ data.revenue }}</p>
         <MiText variant="footnote" tone="label2">{{ data.target }}% of the {{ data.goal }} goal</MiText>
-        <div class="kpi__bar" role="meter" aria-label="Progress to goal" :aria-valuenow="data.target" aria-valuemin="0" aria-valuemax="100">
-          <span :style="{ transform: `scaleX(${data.target / 100})` }" />
+        <div class="mi:h-1.5 mi:mt-2.5 mi:rounded-[3px] mi:[background:var(--mi-fill3)] mi:overflow-hidden" role="meter" aria-label="Progress to goal" :aria-valuenow="data.target" aria-valuemin="0" aria-valuemax="100">
+          <span class="mi:block mi:h-full mi:rounded-[inherit] mi:[background:linear-gradient(90deg,_var(--mi-p),_var(--mi-s))] mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleX(${data.target / 100})` }" />
         </div>
-        <MiSparkline :values="data.trend" :width="320" :height="56" class="kpi__spark" label="Revenue trend" />
+        <MiSparkline :values="data.trend" :width="320" :height="56" class="mi:max-w-full mi:mt-auto mi:pt-3.5" label="Revenue trend" />
       </article>
 
       <MiStatTile
@@ -28,10 +28,10 @@
       />
 
       <!-- Split tile: two linked metrics with a shared baseline. -->
-      <article class="kpi__split">
-        <div v-for="s in data.split" :key="s.label" class="kpi__split-cell">
+      <article class="mi:@[900px]:col-[span_2] mi:grid mi:grid-cols-[1fr_1fr] mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1">
+        <div v-for="s in data.split" :key="s.label" class="mi:grid mi:gap-1 mi:py-4 mi:px-4.5 mi:not-first:border-l mi:not-first:border-l-sep">
           <MiText variant="caption" tone="label2" weight="medium">{{ s.label }}</MiText>
-          <p class="kpi__mid">{{ s.value }}</p>
+          <p class="mi:m-0 mi:text-[26px] mi:font-bold mi:tracking-[-.03em] mi:tabular-nums">{{ s.value }}</p>
           <MiText variant="caption2" :tone="s.good ? 'green' : 'red'" weight="semibold">{{ s.delta }}</MiText>
         </div>
       </article>
@@ -84,28 +84,3 @@ const periods: Record<'week' | 'month' | 'quarter', Period> = {
 
 const data = computed(() => periods[(range.value ?? 'month') as keyof typeof periods])
 </script>
-
-<style scoped>
-.kpi { container-type: inline-size; display: grid; align-content: start; gap: 18px; font-family: var(--mi-font); color: var(--mi-label); }
-.kpi__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.kpi__grid { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); }
-@container (min-width: 560px) { .kpi__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .kpi__hero { grid-column: span 2; } }
-@container (min-width: 900px) { .kpi__grid { grid-template-columns: 1.4fr 1fr 1fr; } .kpi__hero { grid-column: auto; grid-row: span 2; } .kpi__split { grid-column: span 2; } }
-
-.kpi__hero {
-  position: relative; display: grid; align-content: start; gap: 6px; padding: 20px; border-radius: var(--mi-radius-xl); overflow: hidden; isolation: isolate;
-  background: var(--mi-card); box-shadow: var(--mi-sh1);
-}
-/* Soft brand glow in the corner: a static gradient, nothing animated. */
-.kpi__hero::before { content: ""; position: absolute; inset: -40% -30% auto auto; width: 70%; aspect-ratio: 1; z-index: -1; border-radius: 50%; background: radial-gradient(closest-side, var(--mi-p-tint), transparent); }
-.kpi__hero-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.kpi__big { margin: 4px 0 0; font-size: clamp(40px, 9cqi, 64px); line-height: 1; font-weight: 700; letter-spacing: -.045em; font-variant-numeric: tabular-nums; }
-.kpi__bar { height: 6px; margin-top: 10px; border-radius: 3px; background: var(--mi-fill3); overflow: hidden; }
-.kpi__bar span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--mi-p), var(--mi-s)); transform-origin: left; transition: transform var(--mi-dur-4) var(--mi-spring); }
-.kpi__spark { max-width: 100%; margin-top: auto; padding-top: 14px; }
-
-.kpi__split { display: grid; grid-template-columns: 1fr 1fr; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.kpi__split-cell { display: grid; gap: 4px; padding: 16px 18px; }
-.kpi__split-cell + .kpi__split-cell { border-left: 1px solid var(--mi-sep); }
-.kpi__mid { margin: 0; font-size: 26px; font-weight: 700; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
-</style>

@@ -1,6 +1,6 @@
 <template>
-  <div ref="root" class="bt" aria-hidden="true" inert>
-    <div v-if="block" class="bt__scale" :style="{ width: CANVAS + 'px', transform: `scale(${scale})` }">
+  <div ref="root" class="bt mi:relative mi:aspect-[16_/_10] mi:overflow-hidden mi:rounded-[12px] mi:pointer-events-none mi:select-none mi:[contain:strict] mi:[background:radial-gradient(circle_at_1px_1px,_var(--mi-fill3)_1px,_transparent_0)_0_0_/_16px_16px,_var(--mi-page)] mi:shadow-[0_0_0_1px_var(--mi-sep)]" aria-hidden="true" inert>
+    <div v-if="block" class="bt__scale mi:absolute mi:top-0 mi:left-0 mi:p-7 mi:box-border mi:origin-[0_0]" :style="{ width: CANVAS + 'px', transform: `scale(${scale})` }">
       <component :is="block" />
     </div>
   </div>
@@ -44,7 +44,6 @@ onErrorCaptured(() => { block.value = null; return false })
 </script>
 
 <style scoped>
-.bt { position: relative; aspect-ratio: 16 / 10; overflow: hidden; border-radius: 12px; pointer-events: none; user-select: none; contain: strict; background: radial-gradient(circle at 1px 1px, var(--mi-fill3) 1px, transparent 0) 0 0 / 16px 16px, var(--mi-page); box-shadow: 0 0 0 1px var(--mi-sep); }
-.bt__scale { position: absolute; top: 0; left: 0; padding: 28px; box-sizing: border-box; transform-origin: 0 0; animation: bt-in var(--mi-dur-3) var(--mi-ease) backwards; }
+.bt__scale { animation: bt-in var(--mi-dur-3) var(--mi-ease) backwards; }
 @keyframes bt-in { from { opacity: 0; } }
 </style>

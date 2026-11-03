@@ -1,15 +1,15 @@
 <template>
-  <section class="ast" aria-labelledby="ast-title">
-    <div class="ast__in">
-    <MiText id="ast-title" as="h2" variant="headline" weight="semibold" class="ast__sr">Authentication snippets</MiText>
+  <section class="mi:@container mi:font-mi mi:text-label" aria-labelledby="ast-title">
+    <div class="mi:grid mi:gap-3.5 mi:@[640px]:grid-cols-2 mi:@[980px]:grid-cols-3">
+    <MiText id="ast-title" as="h2" variant="headline" weight="semibold" class="mi:absolute mi:w-px mi:h-px mi:[clip-path:inset(50%)] mi:overflow-hidden mi:whitespace-nowrap">Authentication snippets</MiText>
 
     <!-- 1. Magic link: the card turns into its own confirmation. -->
-    <article class="ast__card" aria-labelledby="ast-magic">
-      <header class="ast__head">
-        <span class="ast__tile" aria-hidden="true"><MiIcon :svg="sparkMail" :size="18" /></span>
+    <article class="mi:grid mi:content-start mi:gap-4 mi:p-5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1" aria-labelledby="ast-magic">
+      <header class="mi:flex mi:items-center mi:gap-2.5">
+        <span class="mi:grid mi:place-items-center mi:w-8.5 mi:h-8.5 mi:rounded-[11px] mi:bg-p-tint mi:text-p-text" aria-hidden="true"><MiIcon :svg="sparkMail" :size="18" /></span>
         <MiText id="ast-magic" as="h3" variant="headline" weight="semibold">Email me a sign-in link</MiText>
       </header>
-      <form v-if="!sent" class="ast__stack" novalidate @submit.prevent="sendLink">
+      <form v-if="!sent" class="mi:grid mi:gap-3" novalidate @submit.prevent="sendLink">
         <MiField label="Email" :error="mailError">
           <template #default="{ id, describedBy }">
             <MiInput :id="id" v-model="mail" type="email" placeholder="you@studio.com" :aria-describedby="describedBy" @update:model-value="mailError = ''" />
@@ -18,8 +18,8 @@
         <MiButton type="submit" block :loading="sending">Send link</MiButton>
         <MiText variant="caption" tone="label3">No password to remember. Links expire after 15 minutes.</MiText>
       </form>
-      <div v-else class="ast__sent" role="status">
-        <div class="ast__envelope" aria-hidden="true"><span /></div>
+      <div v-else class="mi:[--mi-in-s:.96] mi:animate-[in_var(--mi-dur-4)_var(--mi-spring)] mi:motion-reduce:animate-none mi:grid mi:justify-items-center mi:gap-1.5 mi:pt-2 mi:px-0 mi:pb-0" role="status">
+        <div class="mi:relative mi:w-16 mi:h-11.5 mi:mb-2 mi:rounded-[8px] mi:[background:linear-gradient(160deg,_var(--mi-p-tint2),_var(--mi-p-tint))] mi:shadow-[inset_0_0_0_1px_color-mix(in_srgb,_var(--mi-p)_30%,_transparent)] mi:overflow-hidden" aria-hidden="true"><span class="mi:absolute mi:left-1/2 mi:-top-6 mi:w-11 mi:h-11 mi:rounded-[6px] mi:shadow-[0_0_0_1px_color-mix(in_srgb,_var(--mi-p)_30%,_transparent)] mi:transform-[translateX(-50%)_rotate(45deg)] mi:bg-card" /></div>
         <MiText variant="subheadline" weight="semibold" align="center">Check {{ mail }}</MiText>
         <MiText variant="caption" tone="label2" align="center">Open the link on this device to continue. It works once.</MiText>
         <MiButton variant="plain" size="small" @click="sent = false">Use a different email</MiButton>
@@ -27,12 +27,12 @@
     </article>
 
     <!-- 2. Create a password: the strength meter and the match check run as you type. -->
-    <article class="ast__card" aria-labelledby="ast-pass">
-      <header class="ast__head">
-        <span class="ast__tile ast__tile--s" aria-hidden="true"><MiIcon name="lock" :size="18" /></span>
+    <article class="mi:grid mi:content-start mi:gap-4 mi:p-5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1" aria-labelledby="ast-pass">
+      <header class="mi:flex mi:items-center mi:gap-2.5">
+        <span class="mi:grid mi:place-items-center mi:w-8.5 mi:h-8.5 mi:rounded-[11px] mi:bg-s-tint mi:text-s-text" aria-hidden="true"><MiIcon name="lock" :size="18" /></span>
         <MiText id="ast-pass" as="h3" variant="headline" weight="semibold">Choose a password</MiText>
       </header>
-      <form class="ast__stack" novalidate @submit.prevent="savePass">
+      <form class="mi:grid mi:gap-3" novalidate @submit.prevent="savePass">
         <MiField label="New password">
           <template #default="{ id }">
             <MiInput :id="id" v-model="pass" type="password" autocomplete="new-password" />
@@ -49,24 +49,24 @@
     </article>
 
     <!-- 3. Returning user with a passkey: one tap, with a calm scanning state. -->
-    <article class="ast__card ast__card--passkey" aria-labelledby="ast-key">
-      <header class="ast__head">
-        <span class="ast__tile ast__tile--n" aria-hidden="true"><MiIcon :svg="fingerprint" :size="18" /></span>
+    <article class="mi:@[640px]:col-[span_2] mi:@[980px]:col-[auto] mi:grid mi:content-start mi:gap-4 mi:p-5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1" aria-labelledby="ast-key">
+      <header class="mi:flex mi:items-center mi:gap-2.5">
+        <span class="mi:grid mi:place-items-center mi:w-8.5 mi:h-8.5 mi:rounded-[11px] mi:bg-fill3 mi:text-label" aria-hidden="true"><MiIcon :svg="fingerprint" :size="18" /></span>
         <MiText id="ast-key" as="h3" variant="headline" weight="semibold">Welcome back</MiText>
       </header>
-      <div class="ast__who">
+      <div class="mi:flex mi:items-center mi:gap-3 mi:p-3 mi:rounded-lg mi:[background:var(--mi-fill4)] mi:min-w-0">
         <MiAvatar name="Théo Lambert" tone="auto" decorative />
-        <div>
+        <div class="mi:min-w-0">
           <MiText variant="subheadline" weight="semibold">Théo Lambert</MiText>
           <MiText variant="caption" tone="label2">theo@lambert.studio · last seen on MacBook Air</MiText>
         </div>
       </div>
-      <div class="ast__scan" :class="'is-' + keyState" aria-hidden="true">
+      <div class="mi:relative mi:grid mi:place-items-center mi:justify-self-center mi:w-21 mi:h-21 mi:rounded-[50%] mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring)]" :class="keyState === 'ok' ? 'mi:text-green-t mi:[background:color-mix(in_srgb,_var(--mi-green)_16%,_transparent)] mi:transform-[scale(1.04)]' : 'mi:text-p-text mi:[background:var(--mi-p-tint)]'" aria-hidden="true">
         <MiIcon :svg="keyState === 'ok' ? checkGlyph : fingerprint" :size="38" :weight="1.5" />
-        <span class="ast__pulse" />
+        <span class="mi:absolute mi:inset-0 mi:rounded-[50%] mi:shadow-[0_0_0_2px_var(--mi-p)]" :class="keyState === 'scanning' ? 'mi:opacity-70 mi:[--mi-out-s:1.35] mi:animate-[out_1.1s_var(--mi-ease)_infinite] mi:motion-reduce:animate-none mi:motion-reduce:opacity-0' : 'mi:opacity-0'" />
       </div>
       <MiText variant="caption" tone="label2" align="center" aria-live="polite">{{ keyCopy }}</MiText>
-      <div class="ast__stack">
+      <div class="mi:grid mi:gap-3">
         <MiButton block :loading="keyState === 'scanning'" :disabled="keyState === 'ok'" @click="usePasskey">Continue with passkey</MiButton>
         <MiButton variant="plain" size="small" @click="keyState = 'idle'">Not Théo? Switch account</MiButton>
       </div>
@@ -114,32 +114,3 @@ function usePasskey() {
   later(() => { keyState.value = 'ok' }, 1400)
 }
 </script>
-
-<style scoped>
-.ast { container-type: inline-size; font-family: var(--mi-font); color: var(--mi-label); }
-.ast__in { display: grid; gap: 14px; }
-@container (min-width: 640px) { .ast__in { grid-template-columns: repeat(2, minmax(0, 1fr)); } .ast__card--passkey { grid-column: span 2; } }
-@container (min-width: 980px) { .ast__in { grid-template-columns: repeat(3, minmax(0, 1fr)); } .ast__card--passkey { grid-column: auto; } }
-.ast__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-
-.ast__card { display: grid; align-content: start; gap: 16px; padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.ast__head { display: flex; align-items: center; gap: 10px; }
-.ast__tile { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 11px; background: var(--mi-p-tint); color: var(--mi-p-text); }
-.ast__tile--s { background: var(--mi-s-tint); color: var(--mi-s-text); }
-.ast__tile--n { background: var(--mi-fill3); color: var(--mi-label); }
-.ast__stack { display: grid; gap: 12px; }
-
-.ast__sent { display: grid; justify-items: center; gap: 6px; padding: 8px 0 0; animation: ast-in var(--mi-dur-4) var(--mi-spring); }
-@keyframes ast-in { from { opacity: 0; transform: scale(.96); } }
-.ast__envelope { position: relative; width: 64px; height: 46px; margin-bottom: 8px; border-radius: 8px; background: linear-gradient(160deg, var(--mi-p-tint2), var(--mi-p-tint)); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--mi-p) 30%, transparent); overflow: hidden; }
-.ast__envelope span { position: absolute; left: 50%; top: -24px; width: 44px; height: 44px; border-radius: 6px; background: var(--mi-card); box-shadow: 0 0 0 1px color-mix(in srgb, var(--mi-p) 30%, transparent); transform: translateX(-50%) rotate(45deg); }
-
-.ast__who { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: var(--mi-radius-l); background: var(--mi-fill4); min-width: 0; }
-.ast__who > div { min-width: 0; }
-.ast__scan { position: relative; display: grid; place-items: center; justify-self: center; width: 84px; height: 84px; border-radius: 50%; color: var(--mi-p-text); background: var(--mi-p-tint); transition: transform var(--mi-dur-3) var(--mi-spring); }
-.ast__scan.is-ok { color: var(--mi-green-t); background: color-mix(in srgb, var(--mi-green) 16%, transparent); transform: scale(1.04); }
-.ast__pulse { position: absolute; inset: 0; border-radius: 50%; box-shadow: 0 0 0 2px var(--mi-p); opacity: 0; }
-.ast__scan.is-scanning .ast__pulse { animation: ast-pulse 1.1s var(--mi-ease) infinite; }
-@keyframes ast-pulse { from { opacity: .7; transform: scale(1); } to { opacity: 0; transform: scale(1.35); } }
-@media (prefers-reduced-motion: reduce) { .ast__sent, .ast__scan.is-scanning .ast__pulse { animation: none; } }
-</style>

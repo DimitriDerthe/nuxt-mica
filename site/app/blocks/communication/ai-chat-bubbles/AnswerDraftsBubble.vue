@@ -1,35 +1,35 @@
 <template>
-  <section class="ad" aria-labelledby="ad-title">
-    <h2 id="ad-title" class="ad__sr">Assistant answer with drafts</h2>
-    <div class="ad__thread">
-      <MiMessage align="end" label="You" class="ad__user">
-        <MiBubble align="end" variant="secondary" class="ad__bub">Why does our orders query get slow after 9am every weekday? EXPLAIN output attached.</MiBubble>
+  <section class="mi:@container mi:font-mi mi:text-label" aria-labelledby="ad-title">
+    <h2 id="ad-title" class="mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">Assistant answer with drafts</h2>
+    <div class="mi:flex mi:flex-col mi:gap-4.5 mi:max-w-180 mi:mx-auto">
+      <MiMessage align="end" label="You" class="mi:ms-auto mi:max-w-[min(88%,_30rem)]!">
+        <MiBubble align="end" variant="secondary" class="mi:max-w-full!">Why does our orders query get slow after 9am every weekday? EXPLAIN output attached.</MiBubble>
         <template #footer>
-          <span class="ad__att"><MiIcon name="document" :size="14" />explain-orders.txt · 4 KB</span>
+          <span class="mi:inline-flex mi:items-center mi:gap-1"><MiIcon name="document" :size="14" />explain-orders.txt · 4 KB</span>
         </template>
       </MiMessage>
 
-      <article class="ad__answer" aria-labelledby="ad-answer-label" :aria-busy="loading ? 'true' : undefined">
-        <header class="ad__who">
-          <span class="ad__mark" aria-hidden="true"><MiIcon :svg="icons.spark" :size="16" /></span>
-          <MiText id="ad-answer-label" variant="subheadline" weight="semibold">Assistant</MiText>
+      <article class="mi:relative mi:grid mi:gap-3 mi:p-4 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:@[560px]:py-5 mi:@[560px]:px-5.5 mi:before:content-[''] mi:before:absolute mi:before:left-0 mi:before:top-5 mi:before:bottom-5 mi:before:w-[3px] mi:before:rounded-[0_3px_3px_0] mi:before:[background:linear-gradient(var(--mi-p),_var(--mi-s))]" aria-labelledby="ad-answer-label" :aria-busy="loading ? 'true' : undefined">
+        <header class="mi:flex mi:items-center mi:gap-2">
+          <span class="mi:grid mi:place-items-center mi:w-6.5 mi:h-6.5 mi:rounded-[8px] mi:[background:linear-gradient(140deg,_var(--mi-p),_var(--mi-s))] mi:text-p-on" aria-hidden="true"><MiIcon :svg="icons.spark" :size="16" /></span>
+          <MiText id="ad-answer-label" variant="subheadline" weight="semibold" class="mi:flex-1!">Assistant</MiText>
           <!-- Draft pager: regenerating keeps earlier drafts instead of replacing them. -->
-          <div class="ad__pager" role="group" aria-label="Drafts">
+          <div class="mi:flex mi:items-center mi:gap-0.5 mi:p-0.5 mi:rounded-[999px] mi:[background:var(--mi-fill4)]" role="group" aria-label="Drafts">
             <MiIconButton label="Previous draft" variant="plain" size="small" :disabled="index === 0 || loading" @click="index--"><MiIcon name="chevron-left" :size="14" /></MiIconButton>
-            <span class="ad__pager-n" aria-live="polite">{{ index + 1 }} / {{ drafts.length }}</span>
+            <span class="mi:min-w-9.5 mi:text-[12px] mi:font-semibold mi:text-center mi:text-label2 mi:tabular-nums" aria-live="polite">{{ index + 1 }} / {{ drafts.length }}</span>
             <MiIconButton label="Next draft" variant="plain" size="small" :disabled="index === drafts.length - 1 || loading" @click="index++"><MiIcon name="chevron-right" :size="14" /></MiIconButton>
           </div>
         </header>
 
-        <Transition name="ad-swap" mode="out-in">
-          <div v-if="loading" key="loading" class="ad__body">
+        <Transition mode="out-in" enter-active-class="mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),_transform_var(--mi-dur-2)_var(--mi-ease)]" leave-active-class="mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),_transform_var(--mi-dur-2)_var(--mi-ease)]" enter-from-class="mi:opacity-0 mi:transform-[translateY(6px)]" leave-to-class="mi:opacity-0 mi:transform-[translateY(-4px)]">
+          <div v-if="loading" key="loading" class="mi:grid mi:gap-3 mi:min-w-0">
             <MiTrace :steps="[{ title: 'Re-reading the EXPLAIN plan', status: 'running' }]" label="Progress" />
             <MiSkeleton variant="text" :lines="['92%', '84%', '60%']" label="Writing a new draft" />
           </div>
-          <div v-else :key="index" class="ad__body">
+          <div v-else :key="index" class="mi:grid mi:gap-3 mi:min-w-0">
             <MiTrace :steps="draft.trace" label="How this draft was made" />
-            <p v-for="(p, i) in draft.paras" :key="i" class="ad__p">{{ p }}</p>
-            <MiCodeBlock size="sm" class="ad__code">
+            <p v-for="(p, i) in draft.paras" :key="i" class="mi:text-[15px] mi:m-0 mi:leading-[1.6] mi:wrap-anywhere">{{ p }}</p>
+            <MiCodeBlock size="sm" class="mi:min-w-0">
               <MiCodeBlockHeader>
                 <MiCodeBlockTitle>{{ draft.file }}</MiCodeBlockTitle>
                 <MiCodeBlockActions><MiCodeBlockCopyButton :value="draft.lines.filter(l => l.v !== 'removed').map(l => l.t).join('\n')" /></MiCodeBlockActions>
@@ -38,11 +38,11 @@
                 <MiCodeBlockLine v-for="(l, i) in draft.lines" :key="i" :variant="l.v">{{ l.t }}</MiCodeBlockLine>
               </MiCodeBlockContent>
             </MiCodeBlock>
-            <p class="ad__p ad__p--muted">{{ draft.note }}</p>
+            <p class="mi:text-[13.5px] mi:m-0 mi:leading-[1.6] mi:wrap-anywhere mi:text-label2">{{ draft.note }}</p>
           </div>
         </Transition>
 
-        <footer class="ad__actions">
+        <footer class="mi:flex mi:flex-wrap mi:items-center mi:gap-1 mi:pt-2 mi:border-t mi:border-t-sep">
           <MiCopyButton :value="draft.paras.join('\n\n')" icon-only variant="ghost" label="Copy answer" />
           <MiToggle :pressed="vote === 'up'" size="sm" label="Good answer" @update:pressed="vote = $event ? 'up' : null">
             <MiIcon :svg="icons.up" :size="16" :filled="vote === 'up'" />
@@ -50,16 +50,16 @@
           <MiToggle :pressed="vote === 'down'" size="sm" label="Bad answer" @update:pressed="vote = $event ? 'down' : null">
             <MiIcon :svg="icons.down" :size="16" :filled="vote === 'down'" />
           </MiToggle>
-          <MiButton variant="plain" size="small" :disabled="loading || drafts.length >= pool.length" @click="regenerate">
+          <MiButton variant="plain" size="small" class="mi:ms-auto!" :disabled="loading || drafts.length >= pool.length" @click="regenerate">
             <template #leading><MiIcon :svg="icons.redo" :size="15" /></template>
             {{ drafts.length >= pool.length ? 'No more drafts' : 'Try another approach' }}
           </MiButton>
         </footer>
 
-        <Transition name="ad-swap">
-          <div v-if="vote === 'down'" class="ad__why" role="group" aria-label="What went wrong">
+        <Transition enter-active-class="mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),_transform_var(--mi-dur-2)_var(--mi-ease)]" leave-active-class="mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),_transform_var(--mi-dur-2)_var(--mi-ease)]" enter-from-class="mi:opacity-0 mi:transform-[translateY(6px)]" leave-to-class="mi:opacity-0 mi:transform-[translateY(-4px)]">
+          <div v-if="vote === 'down'" class="mi:grid mi:gap-2 mi:p-3 mi:rounded-md mi:[background:var(--mi-fill4)]" role="group" aria-label="What went wrong">
             <MiText variant="caption" tone="label2">What missed the mark?</MiText>
-            <div class="ad__chips">
+            <div class="mi:flex mi:flex-wrap mi:gap-1.5">
               <MiChip v-for="r in reasons" :key="r" v-model="why[r]" selectable size="small" tone="neutral" :label="r" />
             </div>
           </div>
@@ -156,36 +156,3 @@ function regenerate() {
 
 onBeforeUnmount(() => clearTimeout(timer))
 </script>
-
-<style scoped>
-.ad { container-type: inline-size; font-family: var(--mi-font); color: var(--mi-label); }
-.ad__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-.ad__thread { display: flex; flex-direction: column; gap: 18px; max-width: 720px; margin-inline: auto; }
-.ad__user { max-width: min(88%, 30rem); margin-inline-start: auto; }
-.ad .ad__bub { max-width: 100%; }
-.ad__att { display: inline-flex; align-items: center; gap: 4px; }
-
-.ad__answer { position: relative; display: grid; gap: 12px; padding: 16px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-@container (min-width: 560px) { .ad__answer { padding: 20px 22px; } }
-/* Brand hairline down the left edge marks the assistant voice. */
-.ad__answer::before { content: ""; position: absolute; left: 0; top: 20px; bottom: 20px; width: 3px; border-radius: 0 3px 3px 0; background: linear-gradient(var(--mi-p), var(--mi-s)); }
-.ad__who { display: flex; align-items: center; gap: 8px; }
-.ad__who > :nth-child(2) { flex: 1; }
-.ad__mark { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 8px; background: linear-gradient(140deg, var(--mi-p), var(--mi-s)); color: var(--mi-p-on); }
-.ad__pager { display: flex; align-items: center; gap: 2px; padding: 2px; border-radius: 999px; background: var(--mi-fill4); }
-.ad__pager-n { min-width: 38px; font-size: 12px; font-weight: 600; text-align: center; color: var(--mi-label2); font-variant-numeric: tabular-nums; }
-
-.ad__body { display: grid; gap: 12px; min-width: 0; }
-.ad__p { margin: 0; font-size: 15px; line-height: 1.6; overflow-wrap: anywhere; }
-.ad__p--muted { font-size: 13.5px; color: var(--mi-label2); }
-.ad__code { min-width: 0; }
-
-.ad__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; padding-top: 8px; border-top: 1px solid var(--mi-sep); }
-.ad__actions > :last-child { margin-inline-start: auto; }
-.ad__why { display: grid; gap: 8px; padding: 12px; border-radius: var(--mi-radius-m); background: var(--mi-fill4); }
-.ad__chips { display: flex; flex-wrap: wrap; gap: 6px; }
-
-.ad-swap-enter-active, .ad-swap-leave-active { transition: opacity var(--mi-dur-2) var(--mi-ease), transform var(--mi-dur-2) var(--mi-ease); }
-.ad-swap-enter-from { opacity: 0; transform: translateY(6px); }
-.ad-swap-leave-to { opacity: 0; transform: translateY(-4px); }
-</style>

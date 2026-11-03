@@ -142,12 +142,12 @@ defineSlots<{
 </script>
 
 <template>
-  <div class="mi-ms">
-    <div ref="vp" class="mi-ms__vp" tabindex="0" role="region" :aria-label="label" @scroll.passive="onScroll">
-      <div ref="content" class="mi-ms__c" role="log" aria-relevant="additions" :aria-busy="busy ? 'true' : undefined"><slot /></div>
+  <div class="mi-ms mi:relative mi:flex-col mi:font-mi">
+    <div ref="vp" class="mi-ms__vp mi:flex-1 mi:min-h-0 mi:overflow-y-auto mi:overscroll-contain mi:[overflow-anchor:none] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px]" tabindex="0" role="region" :aria-label="label" @scroll.passive="onScroll">
+      <div ref="content" class="mi-ms__c mi:flex mi:flex-col mi:gap-3 mi:p-4" role="log" aria-relevant="additions" :aria-busy="busy ? 'true' : undefined"><slot /></div>
     </div>
     <Transition name="mi-ms-jump">
-      <button v-if="!atEnd" type="button" class="mi-ms__jump" :aria-label="jumpLabel" @click="scrollToEnd()">
+      <button v-if="!atEnd" type="button" class="mi-ms__jump mi:absolute mi:inset-x-0 mi:[inset-block-end:12px] mi:mx-auto mi:grid mi:place-items-center mi:w-9 mi:h-9 mi:border mi:border-sep2 mi:rounded-[50%] mi:bg-card mi:text-label mi:shadow-1 mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" :aria-label="jumpLabel" @click="scrollToEnd()">
         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6" /></svg>
       </button>
     </Transition>
@@ -155,13 +155,8 @@ defineSlots<{
 </template>
 
 <style scoped>
-.mi-ms{position:relative;display:flex;flex-direction:column;height:100%;min-height:0;font-family:var(--mi-font)}
-.mi-ms__vp{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;overflow-anchor:none}
-.mi-ms__vp:focus-visible{outline:2px solid var(--mi-p);outline-offset:-2px}
-.mi-ms__c{display:flex;flex-direction:column;gap:12px;padding:16px}
+.mi-ms{display:flex;height:100%;min-height:0}
 .mi-ms__c > :deep(*){content-visibility:auto;contain-intrinsic-size:auto 56px}
-.mi-ms__jump{position:absolute;inset-inline:0;inset-block-end:12px;margin-inline:auto;display:grid;place-items:center;width:36px;height:36px;border:1px solid var(--mi-sep2);border-radius:50%;background:var(--mi-card);color:var(--mi-label);box-shadow:var(--mi-sh1);cursor:pointer}
-.mi-ms__jump:focus-visible{outline:2px solid var(--mi-p);outline-offset:2px}
 .mi-ms-jump-enter-active,.mi-ms-jump-leave-active{transition:opacity var(--mi-dur-2) var(--mi-ease),transform var(--mi-dur-2) var(--mi-ease)}
 .mi-ms-jump-enter-from,.mi-ms-jump-leave-to{opacity:0;transform:translateY(8px)}
 </style>

@@ -1,18 +1,18 @@
 <template>
-  <div class="aff-cq">
-    <section class="aff" aria-labelledby="aff-title">
-      <div class="aff__intro">
+  <div class="mi:@container">
+    <section class="mi:grid mi:gap-6 mi:p-5.5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:font-mi mi:text-label mi:@[800px]:grid-cols-[minmax(0,_.8fr)_minmax(0,_1.2fr)] mi:@[800px]:gap-9 mi:@[800px]:p-7" aria-labelledby="aff-title">
+      <div class="mi:grid mi:gap-2.5 mi:content-start">
         <MiText variant="caption" weight="semibold" tone="label2">Ledgerly · week one check-in</MiText>
         <MiText id="aff-title" variant="title2" as="h2" weight="bold" balance>How is your first week going, Maya?</MiText>
         <MiText variant="subheadline" tone="label2">Two minutes, and it goes straight to the people who build the product. We read every reply on Friday.</MiText>
-        <div class="aff__team">
+        <div class="mi:flex mi:flex-wrap mi:items-center mi:gap-2.5 mi:mt-1.5">
           <MiAvatarGroup :items="team" :max="4" size="sm" />
           <MiText variant="caption" tone="label2">Jonas, Priya, Kenji and Rosa read these</MiText>
         </div>
       </div>
 
-      <div v-if="sent" class="aff__done" role="status">
-        <MiIcon :svg="face(score)" :size="48" class="aff__done-face" />
+      <div v-if="sent" class="mi:grid mi:justify-items-center mi:content-center mi:gap-2 mi:py-6 mi:px-2 mi:text-center" role="status">
+        <MiIcon :svg="face(score)" :size="48" class="mi:text-p" />
         <MiText variant="title3" as="h3" weight="semibold">Thank you, Maya</MiText>
         <MiText variant="subheadline" tone="label2" align="center">
           Saved as FB-2291.{{ contact ? ' Rosa from support will write to ' + email + ' within one working day.' : '' }}
@@ -20,12 +20,12 @@
         <MiButton variant="gray" size="small" @click="restart">Send another note</MiButton>
       </div>
 
-      <form v-else class="aff__form" novalidate @submit.prevent="submit">
-        <fieldset class="aff__scale">
-          <legend>Overall, how does Ledgerly feel so far?</legend>
-          <div class="aff__faces">
-            <label v-for="n in 5" :key="n" class="aff__face" :class="{ 'is-on': score === n, 'is-dim': score && score !== n }">
-              <input v-model="score" type="radio" name="aff-score" :value="n" class="aff__radio">
+      <form v-else class="mi:grid mi:gap-4.5 mi:min-w-0" novalidate @submit.prevent="submit">
+        <fieldset class="mi:m-0 mi:p-0 mi:[border:0] mi:min-w-0 mi:grid mi:gap-2.5">
+          <legend class="mi:p-0 mi:mb-2.5 mi:text-[15px] mi:font-semibold">Overall, how does Ledgerly feel so far?</legend>
+          <div class="mi:grid mi:grid-cols-5 mi:gap-1.5">
+            <label v-for="n in 5" :key="n" class="mi:relative mi:grid mi:justify-items-center mi:gap-1 mi:pt-2.5 mi:px-0.5 mi:pb-2 mi:rounded-md mi:cursor-pointer mi:text-[11px] mi:text-center mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring),_opacity_var(--mi-dur-2)_var(--mi-ease)] mi:[&:has(:focus-visible)]:[outline:2px_solid_var(--mi-p)] mi:[&:has(:focus-visible)]:outline-offset-[2px]" :class="[score === n ? 'mi:text-p-text mi:bg-p-tint mi:transform-[scale(1.04)]' : 'mi:text-label2 mi:hover:transform-[translateY(-2px)]', score && score !== n ? 'mi:opacity-45' : '']">
+              <input v-model="score" type="radio" name="aff-score" :value="n" class="mi:absolute mi:opacity-0 mi:pointer-events-none">
               <MiIcon :svg="face(n)" :size="34" :weight="1.6" />
               <span>{{ WORDS[n - 1] }}</span>
             </label>
@@ -35,9 +35,9 @@
 
         <!-- The follow-up question and its suggestions change with the answer above. -->
         <template v-if="score">
-          <fieldset class="aff__topics">
-            <legend>{{ follow.q }}</legend>
-            <div class="aff__chips">
+          <fieldset class="mi:m-0 mi:p-0 mi:[border:0] mi:min-w-0 mi:grid mi:gap-2.5">
+            <legend class="mi:p-0 mi:mb-2.5 mi:text-[15px] mi:font-semibold">{{ follow.q }}</legend>
+            <div class="mi:flex mi:flex-wrap mi:gap-1.5">
               <MiChip
                 v-for="t in follow.topics" :key="t" selectable size="small" :label="t"
                 :model-value="topics.includes(t)" @update:model-value="on => (topics = on ? [...topics, t] : topics.filter(x => x !== t))"
@@ -51,8 +51,8 @@
 
           <MiFileInput v-model="shot" accept="image/*" :max-size="5 * 1024 * 1024" label="Screenshot" button-label="Attach screenshot" placeholder="Optional, PNG or JPG up to 5 MB" />
 
-          <div class="aff__contact">
-            <div class="aff__contact-row">
+          <div class="mi:grid mi:gap-3 mi:p-3.5 mi:rounded-lg mi:bg-fill4">
+            <div class="mi:flex mi:items-center mi:justify-between mi:gap-3">
               <div>
                 <MiText id="aff-contact" variant="subheadline" weight="medium">{{ score <= 2 ? 'Have someone from support reach out' : 'You can follow up with me' }}</MiText>
                 <MiText variant="caption" tone="label2">We reply within one working day</MiText>
@@ -64,7 +64,7 @@
             </MiField>
           </div>
 
-          <div class="aff__foot">
+          <div class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-3">
             <MiCheckbox v-if="score >= 4" v-model="quote" label="You may quote me on the website" />
             <span v-else />
             <MiButton type="submit">Send feedback</MiButton>
@@ -129,33 +129,3 @@ function restart() {
   sent.value = false
 }
 </script>
-
-<style scoped>
-.aff-cq { container-type: inline-size; }
-.aff { display: grid; gap: 24px; padding: 22px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); font-family: var(--mi-font); color: var(--mi-label); }
-@container (min-width: 800px) { .aff { grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 36px; padding: 28px; } }
-.aff__intro { display: grid; gap: 10px; align-content: start; }
-.aff__team { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 6px; }
-
-.aff__form { display: grid; gap: 18px; min-width: 0; }
-.aff__scale, .aff__topics { margin: 0; padding: 0; border: 0; min-width: 0; display: grid; gap: 10px; }
-.aff__scale legend, .aff__topics legend { padding: 0; margin-bottom: 10px; font-size: 15px; font-weight: 600; }
-.aff__faces { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
-.aff__face {
-  position: relative; display: grid; justify-items: center; gap: 4px; padding: 10px 2px 8px; border-radius: var(--mi-radius-m); cursor: pointer;
-  color: var(--mi-label2); font-size: 11px; text-align: center; transition: transform var(--mi-dur-2) var(--mi-spring), opacity var(--mi-dur-2) var(--mi-ease);
-}
-.aff__face:hover { transform: translateY(-2px); }
-.aff__face.is-dim { opacity: .45; }
-.aff__face.is-on { color: var(--mi-p-text); background: var(--mi-p-tint); transform: scale(1.04); }
-.aff__face:has(:focus-visible) { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-.aff__radio { position: absolute; opacity: 0; pointer-events: none; }
-.aff__chips { display: flex; flex-wrap: wrap; gap: 6px; }
-
-.aff__contact { display: grid; gap: 12px; padding: 14px; border-radius: var(--mi-radius-l); background: var(--mi-fill4); }
-.aff__contact-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.aff__foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
-
-.aff__done { display: grid; justify-items: center; align-content: center; gap: 8px; padding: 24px 8px; text-align: center; }
-.aff__done-face { color: var(--mi-p); }
-</style>

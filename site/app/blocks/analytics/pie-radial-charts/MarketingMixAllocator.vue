@@ -1,6 +1,6 @@
 <template>
-  <section class="mm" aria-labelledby="mm-title">
-    <header class="mm__head">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="mm-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="mm-title" variant="title3" as="h2" weight="semibold">Plan the marketing mix</MiText>
         <MiText variant="footnote" tone="label2">Q1 demand budget per month · drag a channel, the others rebalance</MiText>
@@ -8,41 +8,41 @@
       <MiSegmented v-model="budget" label="Monthly budget" :options="budgets" />
     </header>
 
-    <div class="mm__grid">
-      <div class="mm__chart">
-        <div class="mm__donut">
+    <div class="mi:grid mi:gap-3 mi:grid-cols-[minmax(0,_1fr)] mi:@[800px]:grid-cols-[minmax(0,_1fr)_minmax(0,_1.1fr)]">
+      <div class="mi:grid mi:gap-4 mi:items-center mi:min-w-0 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:[@container_(min-width:_520px)_and_(max-width:_799px)]:grid-cols-[220px_minmax(0,_1fr)]">
+        <div class="mi:w-full mi:max-w-55 mi:justify-self-center">
           <MiDonutChart
             :data="slices" :card="false" :legend="false" :toggle="false" :animate="false" :size="220" :thickness="30"
             :active="active" :format-value="(v) => money(v)" :aria-label="`Budget split across ${channels.length} channels, ${money(Number(budget))} a month`"
             @update:active="active = $event"
           >
             <template #center="{ active: a }">
-              <div class="mm__center">
-                <span class="mm__center-label">{{ a ? a.label : 'Per month' }}</span>
-                <span class="mm__center-value">{{ a ? a.text : money(Number(budget)) }}</span>
-                <span class="mm__center-sub">{{ a ? shares[a.index] + '% of budget' : channels.length + ' channels' }}</span>
+              <div class="mi:grid mi:justify-items-center mi:gap-0.5 mi:text-center">
+                <span class="mi:max-w-30 mi:text-[12px] mi:font-medium mi:text-label2">{{ a ? a.label : 'Per month' }}</span>
+                <span class="mi:text-[24px] mi:font-bold mi:tracking-[-.035em] mi:tabular-nums">{{ a ? a.text : money(Number(budget)) }}</span>
+                <span class="mi:text-[11px] mi:font-semibold mi:text-label2">{{ a ? shares[a.index] + '% of budget' : channels.length + ' channels' }}</span>
               </div>
             </template>
           </MiDonutChart>
         </div>
 
-        <article class="mm__forecast" aria-live="polite">
+        <article class="mi:grid mi:justify-items-start mi:gap-1.5 mi:p-4 mi:rounded-lg mi:bg-p-tint" aria-live="polite">
           <MiText variant="caption" tone="label2" weight="medium" as="h3">Projected pipeline</MiText>
-          <p class="mm__big">{{ money(pipeline) }}</p>
+          <p class="mi:m-0 mi:text-[clamp(28px,_6cqi,_36px)] mi:leading-none mi:font-bold mi:tracking-[-.04em] mi:tabular-nums">{{ money(pipeline) }}</p>
           <MiBadge :tone="lift >= 0 ? 'success' : 'warning'" :label="`${lift >= 0 ? '+' : '−'}${Math.abs(lift).toFixed(1)}% vs current plan`" dot />
           <MiText variant="footnote" tone="label2">Your next $5k returns most in <strong>{{ best }}</strong>.</MiText>
         </article>
       </div>
 
-      <div class="mm__controls">
-        <div v-for="(c, i) in channels" :key="c.name" class="mm__channel" @mouseenter="active = i" @mouseleave="active = -1">
-          <span class="mm__swatch" :style="{ background: c.color }" aria-hidden="true" />
+      <div class="mi:grid mi:gap-1 mi:content-start mi:min-w-0 mi:pt-3.5 mi:px-4.5 mi:pb-4.5 mi:rounded-xl mi:bg-card mi:shadow-1">
+        <div v-for="(c, i) in channels" :key="c.name" class="mi:grid mi:grid-cols-[10px_minmax(0,_1fr)] mi:items-center mi:gap-3 mi:py-2 mi:px-0 mi:not-first:border-t mi:not-first:border-t-sep" @mouseenter="active = i" @mouseleave="active = -1">
+          <span class="mi:w-2.5 mi:h-2.5 mi:rounded-[3px]" :style="{ background: c.color }" aria-hidden="true" />
           <MiSlider
             :model-value="shares[i]" :label="c.name" :min="0" :max="100" :format="(v) => `${v}% · ${money(spendOf(v))}`"
             @update:model-value="setShare(i, typeof $event === 'number' ? $event : $event[0])"
           />
         </div>
-        <MiButton variant="gray" size="small" :disabled="isPlan" @click="shares = [...plan]">Back to current plan</MiButton>
+        <MiButton class="mi:justify-self-start mi:mt-2" variant="gray" size="small" :disabled="isPlan" @click="shares = [...plan]">Back to current plan</MiButton>
       </div>
     </div>
   </section>
@@ -100,27 +100,3 @@ function setShare (i: number, value: number) {
 
 const money = (k: number) => (k >= 1000 ? `$${(k / 1000).toFixed(2)}M` : `$${Math.round(k * 10) / 10}k`)
 </script>
-
-<style scoped>
-.mm { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
-.mm__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.mm__grid { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); }
-@container (min-width: 800px) { .mm__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); } }
-
-.mm__chart { display: grid; gap: 16px; align-items: center; min-width: 0; padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-@container (min-width: 520px) and (max-width: 799px) { .mm__chart { grid-template-columns: 220px minmax(0, 1fr); } }
-.mm__donut { width: 100%; max-width: 220px; justify-self: center; }
-.mm__center { display: grid; justify-items: center; gap: 2px; text-align: center; }
-.mm__center-label { max-width: 120px; font-size: 12px; font-weight: 500; color: var(--mi-label2); }
-.mm__center-value { font-size: 24px; font-weight: 700; letter-spacing: -.035em; font-variant-numeric: tabular-nums; }
-.mm__center-sub { font-size: 11px; font-weight: 600; color: var(--mi-label2); }
-
-.mm__forecast { display: grid; justify-items: start; gap: 6px; padding: 16px; border-radius: var(--mi-radius-l); background: var(--mi-p-tint); }
-.mm__big { margin: 0; font-size: clamp(28px, 6cqi, 36px); line-height: 1; font-weight: 700; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
-
-.mm__controls { display: grid; gap: 4px; align-content: start; min-width: 0; padding: 14px 18px 18px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.mm__controls > :last-child { justify-self: start; margin-top: 8px; }
-.mm__channel { display: grid; grid-template-columns: 10px minmax(0, 1fr); align-items: center; gap: 12px; padding: 8px 0; }
-.mm__channel + .mm__channel { border-top: 1px solid var(--mi-sep); }
-.mm__swatch { width: 10px; height: 10px; border-radius: 3px; }
-</style>

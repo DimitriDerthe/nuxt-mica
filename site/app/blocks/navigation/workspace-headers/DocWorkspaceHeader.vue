@@ -1,36 +1,36 @@
 <template>
-  <div class="dw" :class="'dw--' + mode">
-    <header class="dw__header">
-      <div class="dw__bar">
+  <div class="mi:@container mi:grid mi:content-start mi:min-h-full mi:font-mi mi:text-label mi:[background:var(--mi-page)]" :class="[mode === 'suggest' ? 'mi:[--accent:var(--mi-s)]' : mode === 'view' ? 'mi:[--accent:var(--mi-label3)]' : 'mi:[--accent:var(--mi-p)]']">
+    <header class="mi:relative mi:grid mi:gap-2.5 mi:pt-2 mi:px-3 mi:pb-2.5 mi:[background:var(--mi-card)] mi:shadow-[0_1px_0_var(--mi-sep)] mi:after:content-[''] mi:after:absolute mi:after:left-0 mi:after:right-0 mi:after:-bottom-px mi:after:h-0.5 mi:after:[background:var(--accent)] mi:@[640px]:pt-2.5 mi:@[640px]:px-5 mi:@[640px]:pb-3">
+      <div class="mi:flex mi:items-center mi:gap-2 mi:min-w-0">
         <MiIconButton size="toolbar" variant="plain" label="Toggle sidebar"><MiIcon name="sidebar" /></MiIconButton>
 
-        <div class="dw__doc">
-          <MiText as="span" variant="caption" tone="label3" class="dw__path">Research / Customer interviews</MiText>
-          <label class="dw__title-wrap">
-            <span class="dw__sr">Document title</span>
-            <input v-model="title" class="dw__title" :readonly="mode === 'view'" spellcheck="false" @input="markDirty">
+        <div class="mi:grid mi:flex-[1_1_auto] mi:min-w-0">
+          <MiText as="span" variant="caption" tone="label3" class="mi:overflow-hidden mi:whitespace-nowrap mi:text-ellipsis">Research / Customer interviews</MiText>
+          <label class="mi:block mi:min-w-0">
+            <span class="mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip:rect(0_0_0_0)] mi:whitespace-nowrap">Document title</span>
+            <input v-model="title" class="mi:[font:inherit] mi:text-[15px] mi:font-semibold mi:@[900px]:text-[16px] mi:w-full mi:min-w-0 mi:mt-0 mi:mr-0 mi:mb-0 mi:-ml-1.5 mi:py-0.5 mi:px-1.5 mi:[border:0] mi:rounded-[6px] mi:[outline:none] mi:text-inherit mi:[background:transparent] mi:text-ellipsis mi:[&:hover:not([readonly])]:[background:var(--mi-fill4)] mi:focus-visible:shadow-[0_0_0_2px_var(--mi-p)]" :readonly="mode === 'view'" spellcheck="false" @input="markDirty">
           </label>
         </div>
 
-        <span class="dw__save" role="status">
+        <span class="mi:hidden mi:items-center mi:gap-1.5 mi:flex-[none] mi:text-[12px] mi:text-label3 mi:@[640px]:inline-flex" role="status">
           <MiSpinner v-if="saving" variant="arc" :size="12" label="" />
           <MiIcon v-else :svg="icons.cloud" :size="15" />
-          <span class="dw__save-text">{{ saving ? 'Saving…' : 'Saved' }}</span>
+          <span>{{ saving ? 'Saving…' : 'Saved' }}</span>
         </span>
 
-        <div class="dw__tools">
+        <div class="mi:flex mi:items-center mi:gap-1 mi:flex-[none]">
           <!-- Presence: who is here right now, ringed in their cursor color. -->
-          <div class="dw__presence">
+          <div class="mi:hidden mi:items-center mi:gap-2 mi:mr-1.5 mi:@[900px]:inline-flex">
             <MiAvatarGroup :items="people" :max="3" :size="28" label="3 people editing: Ingrid Holm, Daniel Osei, Meera Pillai" />
-            <MiText as="span" variant="caption" tone="label2" weight="medium" class="dw__live">3 editing</MiText>
+            <MiText as="span" variant="caption" tone="label2" weight="medium" class="mi:whitespace-nowrap">3 editing</MiText>
           </div>
           <MiBadge :count="comments" tone="primary" :offset="2" count-noun="open comments">
             <template #target>
               <MiIconButton size="toolbar" variant="plain" label="Comments"><MiIcon name="chat" /></MiIconButton>
             </template>
           </MiBadge>
-          <MiButton class="dw__share" variant="bordered" size="small">Share</MiButton>
-          <MiIconButton class="dw__share-icon" size="toolbar" variant="plain" label="Share"><MiIcon name="share" /></MiIconButton>
+          <MiButton class="mi:hidden! mi:@[640px]:inline-flex!" variant="bordered" size="small">Share</MiButton>
+          <MiIconButton class="mi:@[640px]:hidden!" size="toolbar" variant="plain" label="Share"><MiIcon name="share" /></MiIconButton>
           <MiButton size="small" :variant="published && !dirty ? 'gray' : 'filled'" @click="publish">
             {{ published ? (dirty ? 'Update' : 'Published') : 'Publish' }}
           </MiButton>
@@ -38,24 +38,24 @@
       </div>
 
       <!-- Mode strip: the header's accent line follows the editing mode. -->
-      <div class="dw__mode">
+      <div class="mi:flex mi:flex-wrap mi:items-center mi:gap-y-2 mi:gap-x-3.5">
         <MiSegmented v-model="mode" label="Editing mode" :options="modes" />
-        <MiText as="span" variant="caption" tone="label2" class="dw__mode-hint">
+        <MiText as="span" variant="caption" tone="label2" class="mi:inline-flex mi:items-center mi:gap-1.5">
           <MiIcon :svg="modeIcon" :size="14" /> {{ hint }}
         </MiText>
       </div>
     </header>
 
-    <main class="dw__page" aria-label="Document">
-      <article class="dw__sheet">
-        <h2 class="dw__h">{{ title || 'Untitled' }}</h2>
-        <p>Twelve dispatchers across four depots walked us through a normal Monday. The same pain came up in nine sessions: route changes arrive by phone, and nobody trusts the app to show the latest plan.</p>
-        <p>
+    <main class="mi:pt-4.5 mi:px-3 mi:pb-7 mi:@[640px]:pt-7 mi:@[640px]:px-5 mi:@[640px]:pb-10" aria-label="Document">
+      <article class="mi:max-w-170 mi:my-0 mi:mx-auto mi:py-6 mi:px-5 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-[0_0_0_1px_var(--mi-sep)] mi:text-[15px] mi:leading-[1.65] mi:text-label2 mi:@[640px]:py-8 mi:@[640px]:px-10">
+        <h2 class="mi:mt-0 mi:mx-0 mi:mb-2.5 mi:text-[22px] mi:leading-tight mi:tracking-[-.02em] mi:text-label">{{ title || 'Untitled' }}</h2>
+        <p class="mi:mt-0 mi:mx-0 mi:mb-3">Twelve dispatchers across four depots walked us through a normal Monday. The same pain came up in nine sessions: route changes arrive by phone, and nobody trusts the app to show the latest plan.</p>
+        <p class="mi:mt-0 mi:mx-0 mi:mb-3">
           Dispatchers keep a paper copy “just in case”
-          <ins v-if="mode === 'suggest'" class="dw__ins">and photograph it at shift change</ins>,
+          <ins v-if="mode === 'suggest'" class="mi:[text-decoration:none] mi:text-s-text mi:[background:var(--mi-s-tint)] mi:border-b-2 mi:border-b-s mi:rounded-[3px] mi:py-0 mi:px-0.5">and photograph it at shift change</ins>,
           which doubles the work when a driver calls in sick.
         </p>
-        <div class="dw__quote">“If I can't see who changed the route, I assume nobody did.” <span>Depot lead, Rotterdam</span></div>
+        <div class="mi:py-2.5 mi:px-3.5 mi:[border-left:3px_solid_var(--accent)] mi:rounded-[0_8px_8px_0] mi:text-label mi:[background:var(--mi-fill4)]">“If I can't see who changed the route, I assume nobody did.” <span class="mi:block mi:text-[12px] mi:text-label3">Depot lead, Rotterdam</span></div>
       </article>
     </main>
   </div>
@@ -104,58 +104,3 @@ function publish() {
 }
 onBeforeUnmount(() => clearTimeout(saveTimer))
 </script>
-
-<style scoped>
-.dw { container-type: inline-size; display: grid; align-content: start; min-height: 100%; font-family: var(--mi-font); color: var(--mi-label); background: var(--mi-page); --accent: var(--mi-p); }
-.dw--suggest { --accent: var(--mi-s); }
-.dw--view { --accent: var(--mi-label3); }
-
-.dw__header { position: relative; display: grid; gap: 10px; padding: 8px 12px 10px; background: var(--mi-card); box-shadow: 0 1px 0 var(--mi-sep); }
-/* Accent hairline under the header, recolored by mode (color swap only, no layout change). */
-.dw__header::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--accent); }
-
-.dw__bar { display: flex; align-items: center; gap: 8px; min-width: 0; }
-.dw__doc { display: grid; flex: 1 1 auto; min-width: 0; }
-.dw__path { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-.dw__title-wrap { display: block; min-width: 0; }
-.dw__title {
-  width: 100%; min-width: 0; margin: 0 0 0 -6px; padding: 2px 6px; border: 0; border-radius: 6px; outline: none;
-  font: inherit; font-size: 15px; font-weight: 600; color: inherit; background: transparent; text-overflow: ellipsis;
-}
-.dw__title:hover:not([readonly]) { background: var(--mi-fill4); }
-.dw__title:focus-visible { box-shadow: 0 0 0 2px var(--mi-p); }
-
-.dw__save { display: none; align-items: center; gap: 6px; flex: none; font-size: 12px; color: var(--mi-label3); }
-.dw__tools { display: flex; align-items: center; gap: 4px; flex: none; }
-.dw__presence { display: none; align-items: center; gap: 8px; margin-right: 6px; }
-.dw__live { white-space: nowrap; }
-.dw__share { display: none; }
-
-.dw__mode { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
-.dw__mode-hint { display: inline-flex; align-items: center; gap: 6px; }
-
-.dw__page { padding: 18px 12px 28px; }
-.dw__sheet {
-  max-width: 680px; margin: 0 auto; padding: 24px 20px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: 0 0 0 1px var(--mi-sep);
-  font-size: 15px; line-height: 1.65; color: var(--mi-label2);
-}
-.dw__h { margin: 0 0 10px; font-size: 22px; line-height: 1.25; letter-spacing: -.02em; color: var(--mi-label); }
-.dw__sheet p { margin: 0 0 12px; }
-.dw__ins { text-decoration: none; color: var(--mi-s-text); background: var(--mi-s-tint); border-bottom: 2px solid var(--mi-s); border-radius: 3px; padding: 0 2px; }
-.dw__quote { padding: 10px 14px; border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; color: var(--mi-label); background: var(--mi-fill4); }
-.dw__quote span { display: block; font-size: 12px; color: var(--mi-label3); }
-.dw__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-
-@container (min-width: 640px) {
-  .dw__header { padding: 10px 20px 12px; }
-  .dw__save { display: inline-flex; }
-  .dw__share { display: inline-flex; }
-  .dw__share-icon { display: none; }
-  .dw__page { padding: 28px 20px 40px; }
-  .dw__sheet { padding: 32px 40px; }
-}
-@container (min-width: 900px) {
-  .dw__presence { display: inline-flex; }
-  .dw__title { font-size: 16px; }
-}
-</style>

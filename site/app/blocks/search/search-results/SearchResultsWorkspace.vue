@@ -1,74 +1,74 @@
 <template>
-  <section class="srw" aria-labelledby="srw-title">
-    <header class="srw__head">
-      <div class="srw__title">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-5 mi:font-mi mi:text-label" aria-labelledby="srw-title">
+    <header class="mi:grid mi:gap-3.5 mi:@[760px]:grid-cols-[1fr_minmax(0,_420px)] mi:@[760px]:items-end">
+      <div class="mi:grid mi:gap-0.5">
         <MiText id="srw-title" variant="title3" as="h2" weight="semibold">Search Halyard</MiText>
         <MiText variant="footnote" tone="label2">Docs, issues, people and code in the Platform workspace</MiText>
       </div>
-      <MiSearch v-model="query" class="srw__search" placeholder="Search docs, issues, people, code" aria-label="Search the workspace" :cancelable="false" />
+      <MiSearch v-model="query" placeholder="Search docs, issues, people, code" aria-label="Search the workspace" :cancelable="false" />
     </header>
 
-    <div class="srw__layout">
+    <div class="mi:grid mi:gap-5 mi:min-w-0 mi:@[760px]:grid-cols-[220px_minmax(0,_1fr)] mi:@[760px]:gap-7">
       <!-- Facet rail: a scrolling pill row on phones, a ruled list with counts from tablet width. -->
-      <aside class="srw__rail" aria-label="Refine results">
-        <MiText variant="caption" tone="label3" weight="semibold" class="srw__rail-label">Type</MiText>
-        <div class="srw__facets" role="group" aria-label="Result type">
+      <aside class="mi:grid mi:gap-2.5 mi:content-start mi:min-w-0" aria-label="Refine results">
+        <MiText variant="caption" tone="label3" weight="semibold" class="mi:uppercase mi:tracking-[.06em]! mi:mt-1!">Type</MiText>
+        <div class="mi:flex mi:gap-1.5 mi:overflow-x-auto mi:pb-0.5 mi:[scrollbar-width:none] mi:@[760px]:grid mi:@[760px]:overflow-visible mi:@[760px]:gap-0.5" role="group" aria-label="Result type">
           <button
-            v-for="f in facets" :key="f.id" type="button" class="srw__facet"
+            v-for="f in facets" :key="f.id" type="button" class="mi:[font:inherit] mi:text-[13px] mi:font-medium mi:[&:hover:not([aria-pressed=true])]:text-label mi:aria-pressed:text-p-text mi:inline-flex mi:flex-[none] mi:items-center mi:justify-between mi:gap-2 mi:min-h-8 mi:py-0 mi:px-3 mi:border mi:border-sep mi:rounded-[999px] mi:[background:var(--mi-card)] mi:text-label2 mi:cursor-pointer mi:[transition:background-color_var(--mi-dur-2)_var(--mi-ease),_color_var(--mi-dur-2)_var(--mi-ease)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:aria-pressed:[background:var(--mi-p-tint)] mi:aria-pressed:border-transparent mi:@[760px]:[border:0] mi:@[760px]:rounded-md mi:@[760px]:[background:transparent] mi:@[760px]:min-h-8.5"
             :aria-pressed="kind === f.id" @click="kind = f.id"
           >
             <span>{{ f.label }}</span>
-            <span class="srw__count">{{ f.count }}</span>
+            <span class="mi:tabular-nums mi:text-[12px]" :class="kind === f.id ? 'mi:text-inherit' : 'mi:text-label3'">{{ f.count }}</span>
           </button>
         </div>
-        <MiText variant="caption" tone="label3" weight="semibold" class="srw__rail-label">Updated</MiText>
+        <MiText variant="caption" tone="label3" weight="semibold" class="mi:uppercase mi:tracking-[.06em]! mi:mt-1!">Updated</MiText>
         <MiSegmented v-model="since" label="Updated within" :options="windows" />
-        <MiText variant="caption" tone="label3" weight="semibold" class="srw__rail-label">Sort by</MiText>
+        <MiText variant="caption" tone="label3" weight="semibold" class="mi:uppercase mi:tracking-[.06em]! mi:mt-1!">Sort by</MiText>
         <MiSegmented v-model="sort" label="Sort results" :options="sorts" />
       </aside>
 
-      <div class="srw__main">
-        <p class="srw__status" role="status" aria-live="polite">
-          <strong>{{ visible.length }}</strong> {{ visible.length === 1 ? 'result' : 'results' }}
+      <div class="mi:grid mi:gap-4.5 mi:content-start mi:min-w-0">
+        <p class="mi:m-0 mi:text-[13px] mi:text-label2" role="status" aria-live="polite">
+          <strong class="mi:text-label mi:tabular-nums">{{ visible.length }}</strong> {{ visible.length === 1 ? 'result' : 'results' }}
           <template v-if="terms.length"> for “{{ query.trim() }}”</template>
-          <span class="srw__time">· {{ 18 + visible.length * 3 }} ms</span>
+          <span class="mi:text-label3">· {{ 18 + visible.length * 3 }} ms</span>
         </p>
 
         <!-- Best match: the top document, given room to answer the question on its own. -->
-        <article v-if="best" class="srw__best">
-          <div class="srw__best-top">
+        <article v-if="best" class="mi:relative mi:grid mi:gap-2 mi:py-4.5 mi:px-5 mi:rounded-xl mi:overflow-hidden mi:isolate mi:[background:var(--mi-card)] mi:shadow-1 mi:before:content-[''] mi:before:absolute mi:before:top-0 mi:before:right-auto mi:before:bottom-0 mi:before:left-0 mi:before:w-[3px] mi:before:[background:linear-gradient(var(--mi-p),_var(--mi-s))]">
+          <div class="mi:flex mi:flex-wrap mi:items-center mi:gap-y-2 mi:gap-x-3">
             <MiBadge tone="primary" label="Best match" dot />
             <MiText variant="caption" tone="label2">{{ best.path }}</MiText>
           </div>
           <MiText variant="headline" as="h3">
-            <template v-for="(part, i) in mark(best.title)" :key="i"><mark v-if="part.hit">{{ part.text }}</mark><template v-else>{{ part.text }}</template></template>
+            <template v-for="(part, i) in mark(best.title)" :key="i"><mark v-if="part.hit" class="mi:bg-p/16 mi:text-inherit mi:rounded-[3px] mi:py-0 mi:px-0.5 mi:[-webkit-box-decoration-break:clone] mi:[box-decoration-break:clone]">{{ part.text }}</mark><template v-else>{{ part.text }}</template></template>
           </MiText>
-          <p class="srw__best-text">
-            <template v-for="(part, i) in mark(best.snippet)" :key="i"><mark v-if="part.hit">{{ part.text }}</mark><template v-else>{{ part.text }}</template></template>
+          <p class="mi:m-0 mi:text-[15px] mi:leading-[1.55] mi:text-label2">
+            <template v-for="(part, i) in mark(best.snippet)" :key="i"><mark v-if="part.hit" class="mi:bg-p/16 mi:text-inherit mi:rounded-[3px] mi:py-0 mi:px-0.5 mi:[-webkit-box-decoration-break:clone] mi:[box-decoration-break:clone]">{{ part.text }}</mark><template v-else>{{ part.text }}</template></template>
           </p>
           <MiTextLink href="#">Open the page</MiTextLink>
         </article>
 
-        <div v-for="g in groups" :key="g.id" class="srw__group">
-          <MiText variant="subheadline" as="h3" weight="semibold" class="srw__group-title">
-            {{ g.label }} <span class="srw__group-n">{{ g.items.length }}</span>
+        <div v-for="g in groups" :key="g.id" class="mi:grid mi:gap-1.5">
+          <MiText variant="subheadline" as="h3" weight="semibold" class="mi:flex mi:items-center mi:gap-2">
+            {{ g.label }} <span class="mi:text-[12px] mi:font-medium mi:text-label3 mi:tabular-nums">{{ g.items.length }}</span>
           </MiText>
-          <ul class="srw__list">
-            <li v-for="r in g.items" :key="r.id" class="srw__row">
+          <ul class="mi:[list-style:none] mi:m-0 mi:p-0 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1">
+            <li v-for="r in g.items" :key="r.id" class="mi:relative mi:grid mi:grid-cols-[auto_minmax(0,_1fr)] mi:gap-y-1 mi:gap-x-3 mi:pt-3.5 mi:pr-4 mi:pb-3.5 mi:pl-4.5 mi:not-first:border-t mi:not-first:border-t-sep mi:@[560px]:grid-cols-[auto_minmax(0,_1fr)_auto]">
               <!-- Relevance spine: the bar height is the score, read alongside the row. -->
-              <span class="srw__spine" aria-hidden="true"><span :style="{ transform: `scaleY(${r.score})` }" /></span>
+              <span class="mi:absolute mi:left-1.5 mi:top-4 mi:bottom-4 mi:w-[3px] mi:rounded-[2px] mi:[background:var(--mi-fill4)] mi:overflow-hidden" aria-hidden="true"><span class="mi:block mi:bg-p mi:h-full mi:origin-bottom mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleY(${r.score})` }" /></span>
               <MiAvatar v-if="r.kind === 'person'" :name="r.title" size="sm" tone="auto" decorative />
-              <span v-else class="srw__glyph" :data-kind="r.kind"><MiIcon :svg="glyphs[r.kind]" :size="16" /></span>
-              <div class="srw__body">
-                <a href="#" class="srw__link">
-                  <template v-for="(part, i) in mark(r.title)" :key="i"><mark v-if="part.hit">{{ part.text }}</mark><template v-else>{{ part.text }}</template></template>
+              <span v-else class="mi:grid mi:place-items-center mi:w-8 mi:h-8 mi:rounded-md mi:[background:var(--mi-fill3)] mi:text-label2 mi:data-[kind=issue]:bg-green/14 mi:data-[kind=issue]:text-green-t mi:data-[kind=code]:bg-p-tint mi:data-[kind=code]:text-p-text" :data-kind="r.kind"><MiIcon :svg="glyphs[r.kind]" :size="16" /></span>
+              <div class="mi:grid mi:gap-0.5 mi:min-w-0">
+                <a href="#" class="mi:text-[15px] mi:font-semibold mi:text-label mi:[text-decoration:none] mi:wrap-anywhere mi:hover:text-p-text mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:focus-visible:rounded-[4px]">
+                  <template v-for="(part, i) in mark(r.title)" :key="i"><mark v-if="part.hit" class="mi:bg-p/16 mi:text-inherit mi:rounded-[3px] mi:py-0 mi:px-0.5 mi:[-webkit-box-decoration-break:clone] mi:[box-decoration-break:clone]">{{ part.text }}</mark><template v-else>{{ part.text }}</template></template>
                 </a>
                 <MiText variant="caption" tone="label3" :lines="1">{{ r.path }}</MiText>
-                <p class="srw__snippet">
-                  <template v-for="(part, i) in mark(r.snippet)" :key="i"><mark v-if="part.hit">{{ part.text }}</mark><template v-else>{{ part.text }}</template></template>
+                <p class="mi:mt-1 mi:mx-0 mi:mb-0 mi:text-[14px] mi:leading-normal mi:text-label2 mi:wrap-anywhere">
+                  <template v-for="(part, i) in mark(r.snippet)" :key="i"><mark v-if="part.hit" class="mi:bg-p/16 mi:text-inherit mi:rounded-[3px] mi:py-0 mi:px-0.5 mi:[-webkit-box-decoration-break:clone] mi:[box-decoration-break:clone]">{{ part.text }}</mark><template v-else>{{ part.text }}</template></template>
                 </p>
               </div>
-              <div class="srw__meta">
+              <div class="mi:col-[2] mi:flex mi:items-center mi:gap-2.5 mi:@[560px]:col-[auto] mi:@[560px]:flex-col mi:@[560px]:[align-items:flex-end] mi:@[560px]:gap-1.5">
                 <MiBadge v-if="r.state" :tone="r.state === 'Open' ? 'success' : 'neutral'" :label="r.state" variant="outline" />
                 <MiText variant="caption2" tone="label3">{{ ago(r.updated) }}</MiText>
               </div>
@@ -166,69 +166,3 @@ function reset() {
 }
 </script>
 
-<style scoped>
-.srw { container-type: inline-size; display: grid; align-content: start; gap: 20px; font-family: var(--mi-font); color: var(--mi-label); }
-.srw__head { display: grid; gap: 14px; }
-.srw__title { display: grid; gap: 2px; }
-@container (min-width: 760px) { .srw__head { grid-template-columns: 1fr minmax(0, 420px); align-items: end; } }
-
-.srw__layout { display: grid; gap: 20px; min-width: 0; }
-@container (min-width: 760px) { .srw__layout { grid-template-columns: 220px minmax(0, 1fr); gap: 28px; } }
-
-.srw__rail { display: grid; gap: 10px; align-content: start; min-width: 0; }
-.srw__rail-label { text-transform: uppercase; letter-spacing: .06em; margin-top: 4px; }
-.srw__facets { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; }
-.srw__facet {
-  display: inline-flex; flex: none; align-items: center; justify-content: space-between; gap: 8px; min-height: 32px; padding: 0 12px;
-  border: 1px solid var(--mi-sep); border-radius: 999px; background: var(--mi-card); color: var(--mi-label2);
-  font: inherit; font-size: 13px; font-weight: 500; cursor: pointer; transition: background-color var(--mi-dur-2) var(--mi-ease), color var(--mi-dur-2) var(--mi-ease);
-}
-.srw__facet:hover { color: var(--mi-label); }
-.srw__facet:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-.srw__facet[aria-pressed="true"] { background: var(--mi-p-tint); border-color: transparent; color: var(--mi-p-text); }
-.srw__count { font-variant-numeric: tabular-nums; font-size: 12px; color: var(--mi-label3); }
-.srw__facet[aria-pressed="true"] .srw__count { color: inherit; }
-@container (min-width: 760px) {
-  .srw__facets { display: grid; overflow: visible; gap: 2px; }
-  .srw__facet { border: 0; border-radius: var(--mi-radius-m); background: transparent; min-height: 34px; }
-}
-
-.srw__main { display: grid; gap: 18px; align-content: start; min-width: 0; }
-.srw__status { margin: 0; font-size: 13px; color: var(--mi-label2); }
-.srw__status strong { color: var(--mi-label); font-variant-numeric: tabular-nums; }
-.srw__time { color: var(--mi-label3); }
-
-mark { background: color-mix(in srgb, var(--mi-p) 16%, transparent); color: inherit; border-radius: 3px; padding: 0 2px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
-
-.srw__best {
-  position: relative; display: grid; gap: 8px; padding: 18px 20px; border-radius: var(--mi-radius-xl); overflow: hidden; isolation: isolate;
-  background: var(--mi-card); box-shadow: var(--mi-sh1);
-}
-.srw__best::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 3px; background: linear-gradient(var(--mi-p), var(--mi-s)); }
-.srw__best-top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
-.srw__best-text { margin: 0; font-size: 15px; line-height: 1.55; color: var(--mi-label2); }
-
-.srw__group { display: grid; gap: 6px; }
-.srw__group-title { display: flex; align-items: center; gap: 8px; }
-.srw__group-n { font-size: 12px; font-weight: 500; color: var(--mi-label3); font-variant-numeric: tabular-nums; }
-.srw__list { list-style: none; margin: 0; padding: 0; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.srw__row { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 12px; padding: 14px 16px 14px 18px; }
-.srw__row + .srw__row { border-top: 1px solid var(--mi-sep); }
-@container (min-width: 560px) { .srw__row { grid-template-columns: auto minmax(0, 1fr) auto; } }
-
-.srw__spine { position: absolute; left: 6px; top: 16px; bottom: 16px; width: 3px; border-radius: 2px; background: var(--mi-fill4); overflow: hidden; }
-.srw__spine span { display: block; height: 100%; background: var(--mi-p); transform-origin: bottom; transition: transform var(--mi-dur-4) var(--mi-spring); }
-
-.srw__glyph { display: grid; place-items: center; width: 32px; height: 32px; border-radius: var(--mi-radius-m); background: var(--mi-fill3); color: var(--mi-label2); }
-.srw__glyph[data-kind="issue"] { background: color-mix(in srgb, var(--mi-green) 14%, transparent); color: var(--mi-green-t); }
-.srw__glyph[data-kind="code"] { background: var(--mi-p-tint); color: var(--mi-p-text); }
-
-.srw__body { display: grid; gap: 2px; min-width: 0; }
-.srw__link { font-size: 15px; font-weight: 600; color: var(--mi-label); text-decoration: none; overflow-wrap: anywhere; }
-.srw__link:hover { color: var(--mi-p-text); }
-.srw__link:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; border-radius: 4px; }
-.srw__snippet { margin: 4px 0 0; font-size: 14px; line-height: 1.5; color: var(--mi-label2); overflow-wrap: anywhere; }
-
-.srw__meta { grid-column: 2; display: flex; align-items: center; gap: 10px; }
-@container (min-width: 560px) { .srw__meta { grid-column: auto; flex-direction: column; align-items: flex-end; gap: 6px; } }
-</style>

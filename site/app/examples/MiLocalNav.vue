@@ -26,11 +26,7 @@ const section = ref<string | undefined>('features')
 </script>
 
 <template>
-  <div class="wrap">
+  <div class="wrap mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:content-center mi:min-w-0">
     <MiLocalNav v-model="section" v-bind="p" />
   </div>
 </template>
-
-<style scoped>
-.wrap { display: grid; grid-template-columns: minmax(0, 1fr); align-content: center; min-width: 0; }
-</style>

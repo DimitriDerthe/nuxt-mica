@@ -23,11 +23,11 @@ defineProps<{ p: Record<string, unknown> }>()
 
 <template>
   <div class="ex-team">
-    <div class="ex-head">
-      <span class="ex-title">Design team</span>
-      <span class="ex-sub">8 members · 3 online</span>
+    <div class="ex-head mi:grid mi:gap-0.5">
+      <span class="ex-title mi:text-[17px] mi:font-semibold mi:text-label">Design team</span>
+      <span class="ex-sub mi:text-[13px] mi:text-label2">8 members · 3 online</span>
     </div>
-    <div class="ex-foot">
+    <div class="ex-foot mi:flex mi:items-center mi:justify-between mi:gap-3">
       <MiAvatarGroup v-bind="p" />
       <MiButton size="small" variant="gray">Invite</MiButton>
     </div>
@@ -36,8 +36,4 @@ defineProps<{ p: Record<string, unknown> }>()
 
 <style scoped>
 .ex-team { display: grid; gap: 14px; width: min(100%, 340px); padding: 16px; border-radius: 18px; background: var(--mi-card); box-shadow: var(--mi-sh1); box-sizing: border-box; }
-.ex-head { display: grid; gap: 2px; }
-.ex-title { font-size: 17px; font-weight: 600; color: var(--mi-label); }
-.ex-sub { font-size: 13px; color: var(--mi-label2); }
-.ex-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 </style>

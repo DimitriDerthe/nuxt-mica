@@ -1,36 +1,36 @@
 <template>
-  <section class="mt" aria-labelledby="mt-title">
-    <div class="mt__card">
+  <section class="mi:@container mi:font-mi mi:text-label" aria-labelledby="mt-title">
+    <div class="mi:max-w-190 mi:mx-auto mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-2 mi:overflow-hidden">
       <!-- One toolbar, three modes: it morphs instead of stacking extra bars. -->
-      <div class="mt__bar" :data-mode="mode">
-        <Transition name="mt-swap" mode="out-in">
-          <div v-if="mode === 'default'" key="default" class="mt__row" role="toolbar" aria-label="Conversation">
-            <MiAvatarGroup :items="members" :max="3" :size="32" class="mt__stack" />
-            <div class="mt__title">
+      <div class="mi:relative mi:min-h-16 mi:pt-0 mi:pr-2.5 mi:pb-0 mi:pl-3.5 mi:border-b mi:border-b-sep mi:grid mi:items-center mi:after:content-[''] mi:after:absolute mi:after:top-auto mi:after:right-0 mi:after:-bottom-px mi:after:left-0 mi:after:h-0.5 mi:after:[background:var(--mi-p)] mi:after:transform-[scaleX(0)] mi:after:origin-left mi:after:[transition:transform_var(--mi-dur-3)_var(--mi-ease)] mi:data-[mode=search]:after:transform-[scaleX(1)] mi:data-[mode=select]:after:transform-[scaleX(1)]" :data-mode="mode">
+        <Transition mode="out-in" enter-active-class="mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),transform_var(--mi-dur-2)_var(--mi-ease)]" leave-active-class="mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),transform_var(--mi-dur-2)_var(--mi-ease)]" enter-from-class="mi:opacity-0 mi:transform-[translateY(6px)]" leave-to-class="mi:opacity-0 mi:transform-[translateY(-6px)]">
+          <div v-if="mode === 'default'" key="default" class="mi:flex mi:items-center mi:gap-2.5 mi:min-w-0 mi:py-2.5" role="toolbar" aria-label="Conversation">
+            <MiAvatarGroup :items="members" :max="3" :size="32" class="mi:hidden! mi:@[420px]:flex! mi:flex-[none]" />
+            <div class="mi:flex-1 mi:min-w-0">
               <MiText id="mt-title" as="h2" variant="headline" weight="semibold" :lines="1">Q3 pricing review</MiText>
-              <MiText variant="caption" tone="label2" :lines="1"><span class="mt__live" aria-hidden="true" />3 of 5 online</MiText>
+              <MiText variant="caption" tone="label2" :lines="1"><span class="mi:inline-block mi:w-[7px] mi:h-[7px] mi:mr-1.5 mi:rounded-[50%] mi:[background:var(--mi-green)] mi:[vertical-align:1px]" aria-hidden="true" />3 of 5 online</MiText>
             </div>
-            <div class="mt__actions">
+            <div class="mi:flex mi:items-center mi:gap-0.5 mi:flex-[none]">
               <MiIconButton label="Search in conversation" variant="plain" size="toolbar" @click="enter('search')"><MiIcon name="search" /></MiIconButton>
-              <MiIconButton class="mt__wide" label="Start voice call" variant="plain" size="toolbar"><MiIcon :svg="icons.phone" /></MiIconButton>
+              <MiIconButton class="mi:hidden! mi:@[480px]:inline-flex!" label="Start voice call" variant="plain" size="toolbar"><MiIcon :svg="icons.phone" /></MiIconButton>
               <MiIconButton label="Start video call" variant="plain" size="toolbar"><MiIcon :svg="icons.video" /></MiIconButton>
-              <MiIconButton class="mt__wide" label="Pin conversation" variant="plain" size="toolbar" :pressed="pinned" @click="pinned = !pinned"><MiIcon :svg="icons.pin" :filled="pinned" /></MiIconButton>
+              <MiIconButton class="mi:hidden! mi:@[480px]:inline-flex!" label="Pin conversation" variant="plain" size="toolbar" :pressed="pinned" @click="pinned = !pinned"><MiIcon :svg="icons.pin" :filled="pinned" /></MiIconButton>
               <MiIconButton label="Select messages" variant="plain" size="toolbar" @click="enter('select')"><MiIcon name="check-circle" /></MiIconButton>
             </div>
           </div>
 
-          <div v-else-if="mode === 'search'" key="search" class="mt__row" role="toolbar" aria-label="Search in conversation">
-            <MiSearch v-model="query" size="compact" class="mt__search" placeholder="Search this chat" aria-label="Search this chat" :cancelable="false" />
-            <span class="mt__count" aria-live="polite">{{ total ? (current + 1) + ' of ' + total : 'No matches' }}</span>
+          <div v-else-if="mode === 'search'" key="search" class="mi:flex mi:items-center mi:gap-2.5 mi:min-w-0 mi:py-2.5" role="toolbar" aria-label="Search in conversation">
+            <MiSearch v-model="query" size="compact" class="mi:flex-1 mi:min-w-0" placeholder="Search this chat" aria-label="Search this chat" :cancelable="false" />
+            <span class="mi:flex-[none] mi:min-w-13 mi:text-[12px] mi:font-medium mi:text-label2 mi:text-end mi:tabular-nums" aria-live="polite">{{ total ? (current + 1) + ' of ' + total : 'No matches' }}</span>
             <MiIconButton label="Previous match" variant="gray" size="small" :disabled="!total" @click="step(-1)"><MiIcon name="chevron-up" :size="16" /></MiIconButton>
             <MiIconButton label="Next match" variant="gray" size="small" :disabled="!total" @click="step(1)"><MiIcon name="chevron-down" :size="16" /></MiIconButton>
             <MiButton variant="plain" size="small" @click="enter('default')">Done</MiButton>
           </div>
 
-          <div v-else key="select" class="mt__row mt__row--select" role="toolbar" aria-label="Selected messages">
+          <div v-else key="select" class="mi:flex mi:items-center mi:gap-2.5 mi:min-w-0 mi:py-2.5" role="toolbar" aria-label="Selected messages">
             <MiButton variant="plain" size="small" @click="enter('default')">Cancel</MiButton>
-            <MiText variant="headline" weight="semibold" class="mt__sel" aria-live="polite">{{ selected.length }} selected</MiText>
-            <div class="mt__actions">
+            <MiText variant="headline" weight="semibold" class="mi:flex-1 mi:min-w-0" aria-live="polite">{{ selected.length }} selected</MiText>
+            <div class="mi:flex mi:items-center mi:gap-0.5 mi:flex-[none] mi:gap-1.5">
               <MiIconButton label="Reply" variant="gray" size="small" :disabled="selected.length !== 1"><MiIcon :svg="icons.reply" :size="16" /></MiIconButton>
               <MiIconButton label="Forward" variant="gray" size="small" :disabled="!selected.length"><MiIcon :svg="icons.forward" :size="16" /></MiIconButton>
               <MiIconButton label="Copy" variant="gray" size="small" :disabled="!selected.length"><MiIcon name="copy" :size="16" /></MiIconButton>
@@ -40,17 +40,17 @@
         </Transition>
       </div>
 
-      <div class="mt__msgs" :class="{ 'is-selecting': mode === 'select' }">
+      <div class="mi:flex mi:flex-col mi:gap-2.5 mi:p-4 mi:[background:var(--mi-page)]">
         <MiMarker variant="separator">Today</MiMarker>
         <MiMessage
           v-for="m in rendered" :key="m.id" :align="m.me ? 'end' : 'start'" :label="m.who"
-          class="mt__msg" :class="{ 'is-end': m.me, 'is-picked': selected.includes(m.id) }"
+          class="mi:max-w-[min(86%,30rem)]! mi:relative mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:before:content-[''] mi:before:absolute mi:before:top-1/2 mi:before:w-4.5 mi:before:h-4.5 mi:before:mt-[-9px] mi:before:rounded-[50%] mi:before:border-2 mi:before:box-border mi:before:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)]" :class="[m.me ? 'mi:ms-auto mi:before:left-[-26px]' : 'mi:before:left-[-22px]', mode === 'select' && !m.me ? 'mi:transform-[translateX(28px)]' : '', mode === 'select' ? 'mi:before:opacity-100' : 'mi:before:opacity-0', selected.includes(m.id) ? 'mi:before:border-p mi:before:[background:radial-gradient(circle,_var(--mi-p)_0_4px,_transparent_5px)]' : 'mi:before:border-fill']"
         >
           <template #avatar><MiAvatar :name="m.who" size="xs" :tone="m.me ? 'primary' : 'auto'" decorative /></template>
           <MiBubble
-            as="button" :align="m.me ? 'end' : 'start'" :variant="m.me ? 'default' : 'secondary'" class="mt__bub"
+            as="button" :align="m.me ? 'end' : 'start'" :variant="m.me ? 'default' : 'secondary'" class="mi:max-w-full!"
             :aria-pressed="mode === 'select' ? selected.includes(m.id) : undefined" @click="pick(m.id)"
-          ><template v-for="(p, i) in m.parts" :key="i"><mark v-if="p.match >= 0" :class="{ 'is-current': p.match === current }">{{ p.text }}</mark><template v-else>{{ p.text }}</template></template></MiBubble>
+          ><template v-for="(p, i) in m.parts" :key="i"><mark class="mi:rounded-[4px] mi:py-0 mi:px-0.5 mi:text-inherit" v-if="p.match >= 0" :class="p.match === current ? 'mi:[background:color-mix(in_srgb,_var(--mi-yellow)_55%,_transparent)] mi:shadow-[0_0_0_1.5px_currentColor]' : 'mi:[background:color-mix(in_srgb,_var(--mi-yellow)_32%,_transparent)]'">{{ p.text }}</mark><template v-else>{{ p.text }}</template></template></MiBubble>
           <template v-if="!m.me" #header>{{ m.who }}</template>
         </MiMessage>
       </div>
@@ -130,44 +130,3 @@ function remove() {
   enter('default')
 }
 </script>
-
-<style scoped>
-.mt { container-type: inline-size; font-family: var(--mi-font); color: var(--mi-label); }
-.mt__card { max-width: 760px; margin-inline: auto; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh2); overflow: hidden; }
-
-.mt__bar { position: relative; min-height: 64px; padding: 0 10px 0 14px; border-bottom: 1px solid var(--mi-sep); display: grid; align-items: center; }
-/* Mode tint: a hairline under the bar that changes colour with the mode. */
-.mt__bar::after { content: ""; position: absolute; inset: auto 0 -1px 0; height: 2px; background: var(--mi-p); transform: scaleX(0); transform-origin: left; transition: transform var(--mi-dur-3) var(--mi-ease); }
-.mt__bar[data-mode="search"]::after, .mt__bar[data-mode="select"]::after { transform: scaleX(1); }
-.mt__row { display: flex; align-items: center; gap: 10px; min-width: 0; padding-block: 10px; }
-.mt__stack { flex: none; display: none; }
-@container (min-width: 420px) { .mt__stack { display: flex; } }
-.mt__title { flex: 1; min-width: 0; }
-.mt__live { display: inline-block; width: 7px; height: 7px; margin-right: 6px; border-radius: 50%; background: var(--mi-green); vertical-align: 1px; }
-.mt__actions { display: flex; align-items: center; gap: 2px; flex: none; }
-.mt__row--select .mt__actions { gap: 6px; }
-.mt__wide { display: none; }
-@container (min-width: 480px) { .mt__wide { display: inline-flex; } }
-.mt__search { flex: 1; min-width: 0; }
-.mt__count { flex: none; min-width: 52px; font-size: 12px; font-weight: 500; color: var(--mi-label2); text-align: end; font-variant-numeric: tabular-nums; }
-.mt__sel { flex: 1; min-width: 0; }
-
-.mt-swap-enter-active, .mt-swap-leave-active { transition: opacity var(--mi-dur-2) var(--mi-ease), transform var(--mi-dur-2) var(--mi-ease); }
-.mt-swap-enter-from { opacity: 0; transform: translateY(6px); }
-.mt-swap-leave-to { opacity: 0; transform: translateY(-6px); }
-
-.mt__msgs { display: flex; flex-direction: column; gap: 10px; padding: 16px; background: var(--mi-page); }
-.mt__msg { max-width: min(86%, 30rem); }
-.mt__msg.is-end { margin-inline-start: auto; }
-.mt .mt__bub { max-width: 100%; }
-.mt__bub mark { border-radius: 4px; padding: 0 2px; background: color-mix(in srgb, var(--mi-yellow) 32%, transparent); color: inherit; }
-.mt__bub mark.is-current { background: color-mix(in srgb, var(--mi-yellow) 55%, transparent); box-shadow: 0 0 0 1.5px currentColor; }
-/* Selection: a check ring slides in beside each bubble. */
-.mt__msg { position: relative; transition: transform var(--mi-dur-2) var(--mi-ease); }
-.mt__msgs.is-selecting .mt__msg:not(.is-end) { transform: translateX(28px); }
-.mt__msg::before { content: ""; position: absolute; top: 50%; width: 18px; height: 18px; margin-top: -9px; border-radius: 50%; border: 2px solid var(--mi-fill); box-sizing: border-box; opacity: 0; transition: opacity var(--mi-dur-2) var(--mi-ease); }
-.mt__msg:not(.is-end)::before { left: -22px; }
-.mt__msg.is-end::before { left: -26px; }
-.mt__msgs.is-selecting .mt__msg::before { opacity: 1; }
-.mt__msg.is-picked::before { border-color: var(--mi-p); background: radial-gradient(circle, var(--mi-p) 0 4px, transparent 5px); }
-</style>

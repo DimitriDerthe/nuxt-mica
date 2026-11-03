@@ -1,38 +1,38 @@
 <template>
-  <div class="osq">
-    <section class="osq__card" aria-labelledby="osq-title">
-      <header class="osq__head">
+  <div class="mi:@container mi:font-mi mi:text-label">
+    <section class="mi:grid mi:gap-4 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:@[720px]:py-6 mi:@[720px]:px-7" aria-labelledby="osq-title">
+      <header class="mi:grid mi:gap-0.5">
         <MiText id="osq-title" variant="title3" as="h2" weight="semibold">Orders to handle</MiText>
         <MiText variant="footnote" tone="label2">Fernwood Ceramics shop · today</MiText>
       </header>
 
       <!-- Filter rail: every status is a button carrying a live count badge. -->
-      <div class="osq__rail" role="group" aria-label="Filter by status">
+      <div class="mi:flex mi:gap-1.5 mi:overflow-x-auto mi:[scrollbar-width:none]" role="group" aria-label="Filter by status">
         <button
-          v-for="f in filters" :key="f.id" type="button" class="osq__filter" :aria-pressed="filter === f.id" @click="filter = f.id"
+          v-for="f in filters" :key="f.id" type="button" class="mi:[font:inherit] mi:text-[14px] mi:font-medium mi:inline-flex mi:flex-[none] mi:items-center mi:gap-2 mi:h-8.5 mi:pt-0 mi:pr-2.5 mi:pb-0 mi:pl-3.5 mi:[border:0] mi:rounded-[17px] mi:bg-fill4 mi:text-label2 mi:cursor-pointer mi:aria-pressed:bg-p-tint mi:aria-pressed:text-p-text mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" :aria-pressed="filter === f.id" @click="filter = f.id"
         >
           {{ f.label }}
           <MiBadge :count="counts[f.id]" show-zero :tone="f.id === 'failed' && counts.failed ? 'danger' : 'neutral'" :count-noun="`${f.label.toLowerCase()} orders`" />
         </button>
       </div>
 
-      <ul class="osq__list" aria-label="Orders">
-        <li v-for="o in shown" :key="o.id" class="osq__row">
-          <div class="osq__main">
+      <ul class="mi:grid mi:m-0 mi:p-0 mi:[list-style:none]" aria-label="Orders">
+        <li v-for="o in shown" :key="o.id" class="mi:grid mi:grid-cols-[minmax(0,_1fr)_auto] mi:[grid-template-areas:'main_total'_'badge_act'] mi:items-center mi:gap-y-2 mi:gap-x-3 mi:py-3.5 mi:px-0 mi:border-t mi:border-t-sep mi:@[720px]:grid-cols-[minmax(0,_1fr)_150px_90px_150px] mi:@[720px]:[grid-template-areas:'main_badge_total_act']">
+          <div class="mi:[grid-area:main] mi:min-w-0">
             <MiText variant="subheadline" weight="semibold">{{ o.customer }}</MiText>
             <MiText variant="caption" tone="label2">{{ o.id }} · {{ o.items }} · {{ o.placed }}</MiText>
           </div>
-          <MiBadge v-bind="look[o.status]" :label="label[o.status]" class="osq__badge" />
-          <MiText as="span" variant="subheadline" weight="medium" tabular class="osq__total">{{ o.total }}</MiText>
-          <div class="osq__act">
+          <MiBadge v-bind="look[o.status]" :label="label[o.status]" class="mi:[grid-area:badge] mi:justify-self-start" />
+          <MiText as="span" variant="subheadline" weight="medium" tabular class="mi:[grid-area:total] mi:text-end">{{ o.total }}</MiText>
+          <div class="mi:[grid-area:act] mi:justify-self-end">
             <MiButton v-if="next[o.status]" size="small" variant="tinted" @click="advance(o)">{{ next[o.status]?.label }}</MiButton>
           </div>
         </li>
-        <li v-if="!shown.length" class="osq__empty"><MiText variant="footnote" tone="label2">No orders in this state.</MiText></li>
+        <li v-if="!shown.length" class="mi:py-4.5 mi:px-0 mi:border-t mi:border-t-sep"><MiText variant="footnote" tone="label2">No orders in this state.</MiText></li>
       </ul>
 
-      <footer class="osq__legend" aria-label="Badge legend">
-        <span v-for="s in statuses" :key="s" class="osq__key">
+      <footer class="mi:flex mi:flex-wrap mi:gap-y-2.5 mi:gap-x-4 mi:pt-3.5 mi:border-t mi:border-t-sep" aria-label="Badge legend">
+        <span v-for="s in statuses" :key="s" class="mi:inline-flex mi:items-center mi:gap-1.5">
           <MiBadge v-bind="look[s]" :label="label[s]" />
           <MiText as="span" variant="caption2" tone="label3">{{ meaning[s] }}</MiText>
         </span>
@@ -91,35 +91,3 @@ function advance(o: Order): void {
 }
 </script>
 
-<style scoped>
-.osq { container-type: inline-size; font-family: var(--mi-font); color: var(--mi-label); }
-.osq__card { display: grid; gap: 16px; padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.osq__head { display: grid; gap: 2px; }
-
-.osq__rail { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
-.osq__filter {
-  display: inline-flex; flex: none; align-items: center; gap: 8px; height: 34px; padding: 0 10px 0 14px; border: 0; border-radius: 17px;
-  background: var(--mi-fill4); color: var(--mi-label2); font: inherit; font-size: 14px; font-weight: 500; cursor: pointer;
-}
-.osq__filter[aria-pressed="true"] { background: var(--mi-p-tint); color: var(--mi-p-text); }
-.osq__filter:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-
-.osq__list { display: grid; margin: 0; padding: 0; list-style: none; }
-.osq__row {
-  display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "main total" "badge act";
-  align-items: center; gap: 8px 12px; padding: 14px 0; border-top: 1px solid var(--mi-sep);
-}
-.osq__main { grid-area: main; min-width: 0; }
-.osq__badge { grid-area: badge; justify-self: start; }
-.osq__total { grid-area: total; text-align: end; }
-.osq__act { grid-area: act; justify-self: end; }
-.osq__empty { padding: 18px 0; border-top: 1px solid var(--mi-sep); }
-
-.osq__legend { display: flex; flex-wrap: wrap; gap: 10px 16px; padding-top: 14px; border-top: 1px solid var(--mi-sep); }
-.osq__key { display: inline-flex; align-items: center; gap: 6px; }
-
-@container (min-width: 720px) {
-  .osq__card { padding: 24px 28px; }
-  .osq__row { grid-template-columns: minmax(0, 1fr) 150px 90px 150px; grid-template-areas: "main badge total act"; }
-}
-</style>

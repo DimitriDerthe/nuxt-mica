@@ -20,11 +20,11 @@ defineSlots<{
 </script>
 
 <template>
-  <div ref="root" class="mi-tabs__list" role="tablist" :aria-label="ariaLabel" :aria-orientation="ctx?.orientation.value" @keydown="onKey">
+  <div ref="root" class="mi-tabs__list mi:font-mi mi:[align-self:flex-start]" role="tablist" :aria-label="ariaLabel" :aria-orientation="ctx?.orientation.value" @keydown="onKey">
     <slot />
   </div>
 </template>
 
 <style scoped>
-.mi-tabs__list{font-family:var(--mi-font);display:inline-flex;gap:2px;padding:3px;border-radius:10px;background:var(--mi-fill3);align-self:flex-start}
+.mi-tabs__list{display:inline-flex;gap:2px;padding:3px;border-radius:10px;background:var(--mi-fill3)}
 </style>

@@ -26,15 +26,13 @@ defineProps<{ p: Record<string, unknown> }>()
 </script>
 
 <template>
-  <section class="ex-box" aria-labelledby="ex-ct-h">
-    <h3 id="ex-ct-h" class="ex-h">Revenue by channel</h3>
-    <p class="ex-sub">Q3 2026, all regions</p>
+  <section class="ex-box mi:self-center mi:w-full mi:my-0 mi:mx-auto mi:shadow-1 mi:box-border mi:min-w-0 mi:overflow-x-auto" aria-labelledby="ex-ct-h">
+    <h3 id="ex-ct-h" class="ex-h mi:m-0 mi:text-[17px] mi:font-semibold mi:text-label">Revenue by channel</h3>
+    <p class="ex-sub mi:mt-0.5 mi:mx-0 mi:mb-3 mi:text-[13px] mi:text-label2">Q3 2026, all regions</p>
     <MiChartTable v-bind="p" />
   </section>
 </template>
 
 <style scoped>
-.ex-box { align-self: center; width: 100%; max-width: 620px; margin: 0 auto; padding: 16px 18px; border-radius: 18px; background: var(--mi-card); box-shadow: var(--mi-sh1); box-sizing: border-box; min-width: 0; overflow-x: auto; }
-.ex-h { margin: 0; font-size: 17px; font-weight: 600; color: var(--mi-label); }
-.ex-sub { margin: 2px 0 12px; font-size: 13px; color: var(--mi-label2); }
+.ex-box { max-width: 620px; padding: 16px 18px; border-radius: 18px; background: var(--mi-card); }
 </style>

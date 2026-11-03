@@ -1,74 +1,74 @@
 <template>
-  <section class="upc" aria-labelledby="upc-title">
-    <header class="upc__head">
-      <div class="upc__intro">
+  <section class="mi:@container/upc mi:grid mi:content-start mi:gap-5 mi:font-mi mi:text-label" aria-labelledby="upc-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-y-3.5 mi:gap-x-6">
+      <div class="mi:grid mi:gap-1.5 mi:max-w-135">
         <MiText id="upc-title" as="h2" variant="title2" weight="bold" balance>Pay for what you track</MiText>
         <MiText variant="subheadline" tone="label2">Signalbox bills events, editors and replay storage separately. Rates drop as volume grows.</MiText>
       </div>
-      <div class="upc__presets" role="group" aria-label="Start from a typical team">
-        <button v-for="p in presets" :key="p.label" type="button" class="upc__preset" :aria-pressed="isPreset(p)" @click="apply(p)">{{ p.label }}</button>
+      <div class="mi:flex mi:flex-wrap mi:gap-1 mi:p-[3px] mi:rounded-[12px] mi:[background:var(--mi-fill4)]" role="group" aria-label="Start from a typical team">
+        <button v-for="p in presets" :key="p.label" type="button" class="mi:[font:inherit] mi:text-[12px] mi:font-semibold mi:hover:text-label mi:aria-pressed:text-label mi:py-1.5 mi:px-[11px] mi:[border:0] mi:rounded-[9px] mi:text-label2 mi:[background:transparent] mi:cursor-pointer mi:aria-pressed:[background:var(--mi-card)] mi:aria-pressed:shadow-1 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" :aria-pressed="isPreset(p)" @click="apply(p)">{{ p.label }}</button>
       </div>
     </header>
 
-    <div class="upc__layout">
-      <div class="upc__inputs">
-        <div v-for="l in lines" :key="l.id" class="upc__input">
+    <div class="mi:grid mi:gap-4 mi:grid-cols-[minmax(0,_1fr)] mi:items-start mi:@[740px]/upc:grid-cols-[minmax(0,_1.15fr)_minmax(0,_1fr)] mi:@[740px]/upc:gap-5">
+      <div class="mi:grid mi:gap-1 mi:py-2 mi:px-5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1">
+        <div v-for="l in lines" :key="l.id" class="mi:grid mi:gap-1.5 mi:pt-4 mi:px-0 mi:pb-4.5 mi:not-first:border-t mi:not-first:border-t-sep">
           <MiSlider
             v-model="model[l.id]" :min="0" :max="l.max" :step="l.step" :label="l.label" :format="l.fmt"
             :tone="l.id === 'seats' ? 'secondary' : 'primary'"
           />
           <!-- Tier rail: bands and breakpoints where the rate changes, aligned with the slider track. -->
-          <div class="upc__rail" aria-hidden="true">
+          <div class="mi:relative mi:h-6.5 mi:mt-0.5 mi:mx-0 mi:mb-0" aria-hidden="true">
             <span
-              v-for="(t, i) in l.tiers" :key="t.text" class="upc__band" :class="{ 'is-current': tierIndex(l) === i }"
+              v-for="(t, i) in l.tiers" :key="t.text" class="mi:absolute mi:top-0 mi:h-1 mi:rounded-[2px] mi:not-first:ml-0.5" :class="tierIndex(l) === i ? 'mi:[background:color-mix(in_srgb,_var(--mi-p)_50%,_transparent)]' : 'mi:[background:var(--mi-fill3)]'"
               :style="{ left: pct(t.from, l.max), right: pct(l.max - (t.to ?? l.max), l.max) }"
             />
             <span
-              v-for="t in l.tiers.slice(1)" :key="t.from" class="upc__mark" :class="{ 'is-passed': val(l.id) >= t.from, 'is-edge': t.from / l.max < 0.08 }"
+              v-for="t in l.tiers.slice(1)" :key="t.from" class="mi:absolute mi:top-0 mi:bottom-0 mi:w-0 mi:before:content-[''] mi:before:absolute mi:before:top-[-3px] mi:before:-left-px mi:before:w-0.5 mi:before:h-2.5 mi:before:rounded-[1px]" :class="val(l.id) >= t.from ? 'mi:before:[background:var(--mi-p)]' : 'mi:before:[background:var(--mi-label3)]'"
               :style="{ left: pct(t.from, l.max) }"
-            ><span>{{ l.unit(t.from) }}</span></span>
+            ><span class="mi:font-semibold mi:absolute mi:top-3 mi:left-0 mi:whitespace-nowrap mi:text-[11px] mi:tabular-nums" :class="[val(l.id) >= t.from ? 'mi:text-label2' : 'mi:text-label3', t.from / l.max < 0.08 ? 'mi:transform-[translateX(-3px)]' : 'mi:transform-[translateX(-50%)]']">{{ l.unit(t.from) }}</span></span>
           </div>
-          <p class="upc__rates">
-            <span v-for="(t, i) in l.tiers" :key="t.text" :class="{ 'is-current': tierIndex(l) === i }">{{ t.text }}</span>
+          <p class="mi:flex mi:flex-wrap mi:gap-y-1 mi:gap-x-3.5 mi:m-0 mi:text-[12px] mi:text-label2 mi:tabular-nums">
+            <span v-for="(t, i) in l.tiers" :key="t.text" class="mi:inline-flex mi:items-center mi:gap-1.5 " :class="tierIndex(l) === i ? CURRENT_TIER : ''">{{ t.text }}</span>
           </p>
         </div>
       </div>
 
-      <aside class="upc__estimate" aria-labelledby="upc-est-title">
+      <aside class="mi:relative mi:grid mi:gap-4 mi:p-5 mi:rounded-xl mi:overflow-hidden mi:isolate mi:[background:var(--mi-card)] mi:shadow-2 mi:before:content-[''] mi:before:absolute mi:before:top-[-45%] mi:before:right-[-35%] mi:before:bottom-auto mi:before:left-auto mi:before:w-[75%] mi:before:aspect-[1] mi:before:-z-1 mi:before:rounded-[50%] mi:before:[background:radial-gradient(closest-side,_var(--mi-p-tint),_transparent)]" aria-labelledby="upc-est-title">
         <MiText id="upc-est-title" as="h3" variant="subheadline" weight="semibold" tone="label2">Estimated monthly bill</MiText>
-        <p class="upc__total" aria-live="polite"><span>{{ eur(total) }}</span><small>/ month, excl. VAT</small></p>
+        <p class="mi:flex mi:flex-wrap mi:items-baseline mi:gap-2 mi:-mt-1.5 mi:mx-0 mi:mb-0" aria-live="polite"><span class="mi:text-[clamp(40px,_8cqi,_56px)] mi:font-750 mi:leading-none mi:tracking-[-.045em] mi:tabular-nums">{{ eur(total) }}</span><small class="mi:text-[13px] mi:text-label2">/ month, excl. VAT</small></p>
 
-        <div class="upc__compare">
-          <div class="upc__bar-row">
-            <span class="upc__bar-label">Usage</span>
-            <span class="upc__track" role="img" :aria-label="`Usage pricing ${eur(total)}`">
+        <div class="mi:grid mi:gap-2">
+          <div class="mi:grid mi:grid-cols-[52px_minmax(0,_1fr)_44px] mi:items-center mi:gap-2.5">
+            <span class="mi:text-[12px] mi:font-semibold mi:text-label2">Usage</span>
+            <span class="mi:relative mi:h-3.5 mi:rounded-[7px] mi:[background:var(--mi-fill4)] mi:overflow-hidden" role="img" :aria-label="`Usage pricing ${eur(total)}`">
               <span
-                v-for="s in segments" :key="s.id" class="upc__seg" :style="{ '--upc-c': s.color, transform: `translateX(${s.offset * 100}%) scaleX(${s.share})` }"
+                v-for="s in segments" :key="s.id" class="mi:absolute mi:inset-0 mi:[background:var(--upc-c)] mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)] mi:motion-reduce:[transition:none]" :style="{ '--upc-c': s.color, transform: `translateX(${s.offset * 100}%) scaleX(${s.share})` }"
               />
             </span>
-            <span class="upc__bar-val">{{ eur(total) }}</span>
+            <span class="mi:text-[12px] mi:font-650 mi:text-end mi:tabular-nums">{{ eur(total) }}</span>
           </div>
-          <div class="upc__bar-row">
-            <span class="upc__bar-label">Growth</span>
-            <span class="upc__track" role="img" :aria-label="`Growth flat plan ${eur(flat.price)}`">
-              <span class="upc__seg is-flat" :class="{ 'is-over': overFlat.length }" :style="{ transform: `scaleX(${flat.price / scale})` }" />
+          <div class="mi:grid mi:grid-cols-[52px_minmax(0,_1fr)_44px] mi:items-center mi:gap-2.5">
+            <span class="mi:text-[12px] mi:font-semibold mi:text-label2">Growth</span>
+            <span class="mi:relative mi:h-3.5 mi:rounded-[7px] mi:[background:var(--mi-fill4)] mi:overflow-hidden" role="img" :aria-label="`Growth flat plan ${eur(flat.price)}`">
+              <span class="mi:absolute mi:inset-0 mi:[background:repeating-linear-gradient(135deg,_var(--mi-fill),_var(--mi-fill)_4px,_var(--mi-fill2)_4px,_var(--mi-fill2)_8px)] mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)] mi:motion-reduce:[transition:none]" :class="overFlat.length ? 'mi:opacity-45' : ''" :style="{ transform: `scaleX(${flat.price / scale})` }" />
             </span>
-            <span class="upc__bar-val is-muted">{{ eur(flat.price) }}</span>
+            <span class="mi:font-medium mi:text-label2 mi:text-[12px] mi:text-end mi:tabular-nums">{{ eur(flat.price) }}</span>
           </div>
         </div>
 
-        <ul class="upc__lines">
-          <li v-for="c in costs" :key="c.id">
-            <span class="upc__dot" :style="{ background: c.color }" aria-hidden="true" />
-            <span class="upc__line-main">
-              <span class="upc__line-name">{{ c.label }}</span>
-              <span class="upc__line-how">{{ c.how }}</span>
+        <ul class="mi:grid mi:m-0 mi:p-0 mi:[list-style:none]">
+          <li class="mi:grid mi:items-baseline mi:gap-2.5 mi:not-first:border-t mi:not-first:border-t-sep mi:grid-cols-[auto_minmax(0,_1fr)_auto] mi:py-[9px] mi:px-0" v-for="c in costs" :key="c.id">
+            <span class="mi:w-2 mi:h-2 mi:rounded-[3px] mi:transform-[translateY(-1px)]" :style="{ background: c.color }" aria-hidden="true" />
+            <span class="mi:grid mi:gap-px mi:min-w-0">
+              <span class="mi:text-[14px] mi:font-semibold mi:tabular-nums">{{ c.label }}</span>
+              <span class="mi:text-[12px] mi:text-label2 mi:tabular-nums">{{ c.how }}</span>
             </span>
-            <span class="upc__line-cost">{{ eur(c.cost) }}</span>
+            <span class="mi:text-[15px] mi:font-650 mi:tabular-nums">{{ eur(c.cost) }}</span>
           </li>
         </ul>
 
-        <div class="upc__verdict" :class="verdict.tone" aria-live="polite">
+        <div class="mi:[&_svg]:flex-none mi:[&_svg]:mt-px mi:flex mi:[align-items:flex-start] mi:gap-2.5 mi:py-3 mi:px-3.5 mi:rounded-md" :class="verdict.tone" aria-live="polite">
           <MiIcon :name="verdict.icon" :size="18" />
           <MiText as="span" variant="footnote">{{ verdict.text }}</MiText>
         </div>
@@ -80,6 +80,8 @@
 
 <script setup lang="ts">
 import { computed, reactive } from 'vue'
+
+const CURRENT_TIER = "mi:font-semibold mi:text-p-text mi:before:content-[''] mi:before:w-1.5 mi:before:h-1.5 mi:before:rounded-[50%] mi:before:[background:var(--mi-p)]"
 
 type LineId = 'events' | 'seats' | 'storage'
 interface Tier { from: number, to?: number, rate: number, label: string, text: string }
@@ -157,93 +159,14 @@ const overFlat = computed(() => lines.filter(l => val(l.id) > flat.limits[l.id])
 const verdict = computed(() => {
   if (overFlat.value.length) {
     const l = overFlat.value[0]!
-    return { tone: 'is-info', icon: 'info-circle' as const, text: `Growth caps ${l.label.toLowerCase()} at ${l.fmt(flat.limits[l.id])}, so usage pricing is the only fit here.` }
+    return { tone: 'mi:[background:var(--mi-fill4)] mi:[&_svg]:text-p-text', icon: 'info-circle' as const, text: `Growth caps ${l.label.toLowerCase()} at ${l.fmt(flat.limits[l.id])}, so usage pricing is the only fit here.` }
   }
   const diff = flat.price - total.value
-  if (diff >= 0) return { tone: 'is-good', icon: 'check-circle' as const, text: `${eur(diff)} a month less than the Growth flat plan (${eur(flat.price)}).` }
-  return { tone: 'is-warn', icon: 'warning' as const, text: `Growth flat is ${eur(-diff)} cheaper at this volume. We will suggest it on your first invoice.` }
+  if (diff >= 0) return { tone: 'mi:[background:color-mix(in_srgb,_var(--mi-green)_12%,_transparent)] mi:[&_svg]:text-green-t', icon: 'check-circle' as const, text: `${eur(diff)} a month less than the Growth flat plan (${eur(flat.price)}).` }
+  return { tone: 'mi:[background:color-mix(in_srgb,_var(--mi-orange)_12%,_transparent)] mi:[&_svg]:text-orange-t', icon: 'warning' as const, text: `Growth flat is ${eur(-diff)} cheaper at this volume. We will suggest it on your first invoice.` }
 })
 
 const fmt = new Intl.NumberFormat('en-IE', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 })
 const eur = (v: number) => fmt.format(Math.round(v))
 </script>
 
-<style scoped>
-.upc { container: upc / inline-size; display: grid; align-content: start; gap: 20px; font-family: var(--mi-font); color: var(--mi-label); }
-.upc__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 14px 24px; }
-.upc__intro { display: grid; gap: 6px; max-width: 540px; }
-.upc__presets { display: flex; flex-wrap: wrap; gap: 4px; padding: 3px; border-radius: 12px; background: var(--mi-fill4); }
-.upc__preset {
-  padding: 6px 11px; border: 0; border-radius: 9px; font: inherit; font-size: 12px; font-weight: 600; color: var(--mi-label2); background: transparent; cursor: pointer;
-}
-.upc__preset:hover { color: var(--mi-label); }
-.upc__preset[aria-pressed="true"] { color: var(--mi-label); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.upc__preset:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 1px; }
-
-.upc__layout { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); align-items: start; }
-@container upc (min-width: 740px) { .upc__layout { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 20px; } }
-
-.upc__inputs { display: grid; gap: 4px; padding: 8px 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.upc__input { display: grid; gap: 6px; padding: 16px 0 18px; }
-.upc__input + .upc__input { border-top: 1px solid var(--mi-sep); }
-.upc__rail { position: relative; height: 26px; margin: 2px 0 0; }
-.upc__band { position: absolute; top: 0; height: 4px; border-radius: 2px; background: var(--mi-fill3); }
-.upc__band + .upc__band { margin-left: 2px; }
-.upc__band.is-current { background: color-mix(in srgb, var(--mi-p) 50%, transparent); }
-.upc__mark { position: absolute; top: 0; bottom: 0; width: 0; }
-.upc__mark::before { content: ""; position: absolute; top: -3px; left: -1px; width: 2px; height: 10px; border-radius: 1px; background: var(--mi-label3); }
-.upc__mark.is-passed::before { background: var(--mi-p); }
-.upc__mark span {
-  position: absolute; top: 12px; left: 0; transform: translateX(-50%); white-space: nowrap;
-  font-size: 11px; font-weight: 600; color: var(--mi-label3); font-variant-numeric: tabular-nums;
-}
-.upc__mark.is-edge span { transform: translateX(-3px); }
-.upc__mark.is-passed span { color: var(--mi-label2); }
-.upc__rates { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 0; font-size: 12px; color: var(--mi-label2); font-variant-numeric: tabular-nums; }
-.upc__rates span { display: inline-flex; align-items: center; gap: 6px; }
-.upc__rates span.is-current { font-weight: 600; color: var(--mi-p-text); }
-.upc__rates span.is-current::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--mi-p); }
-
-.upc__estimate {
-  position: relative; display: grid; gap: 16px; padding: 20px; border-radius: var(--mi-radius-xl); overflow: hidden; isolation: isolate;
-  background: var(--mi-card); box-shadow: var(--mi-sh2);
-}
-.upc__estimate::before {
-  content: ""; position: absolute; inset: -45% -35% auto auto; width: 75%; aspect-ratio: 1; z-index: -1; border-radius: 50%;
-  background: radial-gradient(closest-side, var(--mi-p-tint), transparent);
-}
-.upc__total { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; margin: -6px 0 0; }
-.upc__total span { font-size: clamp(40px, 8cqi, 56px); font-weight: 750; line-height: 1; letter-spacing: -.045em; font-variant-numeric: tabular-nums; }
-.upc__total small { font-size: 13px; color: var(--mi-label2); }
-
-.upc__compare { display: grid; gap: 8px; }
-.upc__bar-row { display: grid; grid-template-columns: 52px minmax(0, 1fr) 44px; align-items: center; gap: 10px; }
-.upc__bar-val { font-size: 12px; font-weight: 650; text-align: end; font-variant-numeric: tabular-nums; }
-.upc__bar-val.is-muted { font-weight: 500; color: var(--mi-label2); }
-.upc__bar-label { font-size: 12px; font-weight: 600; color: var(--mi-label2); }
-.upc__track { position: relative; height: 14px; border-radius: 7px; background: var(--mi-fill4); overflow: hidden; }
-.upc__seg {
-  position: absolute; inset: 0; background: var(--upc-c); transform-origin: left;
-  transition: transform var(--mi-dur-4) var(--mi-spring);
-}
-.upc__seg.is-flat { background: repeating-linear-gradient(135deg, var(--mi-fill), var(--mi-fill) 4px, var(--mi-fill2) 4px, var(--mi-fill2) 8px); }
-.upc__seg.is-over { opacity: .45; }
-
-.upc__lines { display: grid; margin: 0; padding: 0; list-style: none; }
-.upc__lines li { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: baseline; gap: 10px; padding: 9px 0; }
-.upc__lines li + li { border-top: 1px solid var(--mi-sep); }
-.upc__dot { width: 8px; height: 8px; border-radius: 3px; transform: translateY(-1px); }
-.upc__line-main { display: grid; gap: 1px; min-width: 0; }
-.upc__line-name { font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
-.upc__line-how { font-size: 12px; color: var(--mi-label2); font-variant-numeric: tabular-nums; }
-.upc__line-cost { font-size: 15px; font-weight: 650; font-variant-numeric: tabular-nums; }
-
-.upc__verdict { display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; border-radius: var(--mi-radius-m); background: var(--mi-fill4); }
-.upc__verdict :deep(svg) { flex: none; margin-top: 1px; }
-.upc__verdict.is-good { background: color-mix(in srgb, var(--mi-green) 12%, transparent); }
-.upc__verdict.is-good :deep(svg) { color: var(--mi-green-t); }
-.upc__verdict.is-warn { background: color-mix(in srgb, var(--mi-orange) 12%, transparent); }
-.upc__verdict.is-warn :deep(svg) { color: var(--mi-orange-t); }
-.upc__verdict.is-info :deep(svg) { color: var(--mi-p-text); }
-@media (prefers-reduced-motion: reduce) { .upc__seg { transition: none; } }
-</style>

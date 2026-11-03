@@ -48,12 +48,12 @@ onBeforeUnmount(() => clearTimeout(timer))
 </script>
 
 <template>
-  <nav class="mi-ss" :aria-label="ariaLabel" :style="{ '--mi-ss-row': `${ROW}px` }">
-    <ul class="mi-ss__list">
-      <li v-if="index >= 0" class="mi-ss__ind" aria-hidden="true" :style="{ transform: `translate3d(0,${index * ROW}px,0)` }" />
-      <li v-for="it in items" :key="it.id" class="mi-ss__li">
+  <nav class="mi-ss mi:font-mi" :aria-label="ariaLabel" :style="{ '--mi-ss-row': `${ROW}px` }">
+    <ul class="mi-ss__list mi:relative mi:[list-style:none] mi:m-0 mi:pt-0 mi:pr-0 mi:pb-0 mi:pl-0.5 mi:shadow-[inset_2px_0_0_var(--mi-sep2)]">
+      <li v-if="index >= 0" class="mi-ss__ind mi:absolute mi:left-0 mi:top-0 mi:w-0.5 mi:h-(--mi-ss-row) mi:rounded-[1px] mi:bg-p mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring)]" aria-hidden="true" :style="{ transform: `translate3d(0,${index * ROW}px,0)` }" />
+      <li v-for="it in items" :key="it.id" class="mi-ss__li mi:[list-style:none] mi:h-(--mi-ss-row)">
         <a
-          class="mi-ss__link"
+          class="mi-ss__link mi:block mi:h-(--mi-ss-row) mi:leading-(--mi-ss-row) mi:pt-0 mi:pr-2 mi:pb-0 mi:pl-[calc(14px_+_var(--mi-ss-l)_*_14px)] mi:text-[14px] mi:text-label2 mi:[text-decoration:none] mi:whitespace-nowrap mi:overflow-hidden mi:text-ellipsis mi:rounded-[0_8px_8px_0] mi:[&.is-active]:font-semibold mi:focus-visible:[outline:3px_solid_color-mix(in_srgb,var(--mi-p)_55%,transparent)] mi:focus-visible:outline-offset-[-2px]"
           :class="{ 'is-active': model === it.id }"
           :href="`#${it.id}`"
           :aria-current="model === it.id ? 'location' : undefined"
@@ -66,12 +66,6 @@ onBeforeUnmount(() => clearTimeout(timer))
 </template>
 
 <style scoped>
-.mi-ss{font-family:var(--mi-font)}
-.mi-ss__list{position:relative;list-style:none;margin:0;padding:0 0 0 2px;box-shadow:inset 2px 0 0 var(--mi-sep2)}
-.mi-ss__ind{position:absolute;left:0;top:0;width:2px;height:var(--mi-ss-row);border-radius:1px;background:var(--mi-p);transition:transform var(--mi-dur-3) var(--mi-spring)}
-.mi-ss__li{list-style:none;height:var(--mi-ss-row)}
-.mi-ss__link{display:block;height:var(--mi-ss-row);line-height:var(--mi-ss-row);padding:0 8px 0 calc(14px + var(--mi-ss-l) * 14px);font-size:14px;color:var(--mi-label2);text-decoration:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border-radius:0 8px 8px 0}
 .mi-ss__link:hover{color:var(--mi-label)}
-.mi-ss__link.is-active{color:var(--mi-p-text);font-weight:600}
-.mi-ss__link:focus-visible{outline:3px solid color-mix(in srgb,var(--mi-p) 55%,transparent);outline-offset:-2px}
+.mi-ss__link.is-active{color:var(--mi-p-text)}
 </style>

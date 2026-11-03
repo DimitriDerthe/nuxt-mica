@@ -13,11 +13,7 @@ const files = ref<File[]>([])
 </script>
 
 <template>
-  <div class="wrap">
+  <div class="wrap mi:w-[min(100%,_420px)]">
     <MiFileUpload v-model="files" v-bind="p" :progress="Object.fromEntries(files.map((f, i) => [f.name, i === 0 ? 0.62 : 1]))" />
   </div>
 </template>
-
-<style scoped>
-.wrap { width: min(100%, 420px); }
-</style>

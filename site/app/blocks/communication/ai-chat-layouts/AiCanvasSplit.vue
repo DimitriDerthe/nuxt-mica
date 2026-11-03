@@ -1,26 +1,26 @@
 <template>
-  <section class="acs" aria-labelledby="acs-title">
-    <header class="acs__top">
+  <section class="mi:@container mi:flex mi:flex-col mi:h-170 mi:font-mi mi:text-label mi:[background:var(--mi-page)]" aria-labelledby="acs-title">
+    <header class="mi:flex mi:items-center mi:justify-between mi:gap-3 mi:py-3 mi:px-4 mi:border-b mi:border-b-sep">
       <MiText id="acs-title" as="h2" variant="headline" weight="semibold" :lines="1">Writing assistant</MiText>
-      <MiSegmented v-model="pane" label="Show pane" :options="panes" class="acs__switch" />
+      <MiSegmented v-model="pane" label="Show pane" :options="panes" class="mi:@[820px]:hidden!" />
     </header>
 
-    <div class="acs__shell" :class="'show-' + pane">
+    <div class="mi:flex-1 mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:min-h-0 mi:@[820px]:grid-cols-[minmax(300px,_2fr)_3fr]">
       <!-- Chat pane: requests on the left, the document they change on the right. -->
-      <div class="acs__chat">
-        <MiMessageScroller class="acs__log" label="Conversation about the draft">
+      <div class="mi:flex-col mi:min-w-0 mi:min-h-0 mi:@[820px]:flex" :class="pane === 'canvas' ? 'mi:hidden' : 'mi:flex'">
+        <MiMessageScroller class="mi:flex-1 mi:min-h-0" label="Conversation about the draft">
           <MiMessageScrollerItem v-for="m in messages" :key="m.id" :message-id="'acs-' + m.id" :scroll-anchor="m.role === 'user'">
             <MiMessage :align="m.role === 'user' ? 'end' : 'start'" :label="m.role === 'user' ? 'You' : 'Assistant'">
               <MiBubble :align="m.role === 'user' ? 'end' : 'start'" :variant="m.role === 'user' ? 'secondary' : 'muted'">{{ m.text }}</MiBubble>
               <template v-if="m.para !== undefined" #footer>
-                <button type="button" class="acs__jump" @click="jumpTo(m.para)">Edited paragraph {{ m.para + 1 }}</button>
+                <button type="button" class="mi:[font:inherit] mi:text-[12px] mi:p-0 mi:[border:0] mi:[background:none] mi:text-p-text mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:focus-visible:rounded-[4px]" @click="jumpTo(m.para)">Edited paragraph {{ m.para + 1 }}</button>
               </template>
             </MiMessage>
           </MiMessageScrollerItem>
         </MiMessageScroller>
 
-        <form class="acs__composer" @submit.prevent="send(draft)">
-          <div class="acs__quick" role="group" aria-label="Quick edits">
+        <form class="mi:grid mi:gap-2 mi:pt-3 mi:px-3.5 mi:pb-3.5 mi:border-t mi:border-t-sep mi:[background:var(--mi-card)]" @submit.prevent="send(draft)">
+          <div class="mi:flex mi:flex-wrap mi:gap-1.5" role="group" aria-label="Quick edits">
             <MiButton v-for="q in quick" :key="q" variant="gray" size="mini" :disabled="!next" @click="send(q)">{{ q }}</MiButton>
           </div>
           <MiInputGroup v-model="draft" aria-label="Ask for an edit" placeholder="Ask for an edit…">
@@ -33,17 +33,17 @@
         </form>
       </div>
 
-      <article class="acs__canvas" aria-labelledby="acs-doc">
-        <header class="acs__doc-head">
+      <article class="mi:@[820px]:flex mi:@[820px]:border-l mi:@[820px]:border-l-sep mi:flex-col mi:min-w-0 mi:min-h-0 mi:[background:var(--mi-card)]" :class="pane === 'chat' ? 'mi:hidden' : 'mi:flex'" aria-labelledby="acs-doc">
+        <header class="mi:flex mi:items-center mi:justify-between mi:gap-2 mi:pt-2 mi:pr-3 mi:pb-2 mi:pl-5 mi:border-b mi:border-b-sep">
           <MiText variant="caption" tone="label2" weight="medium">Draft · version {{ history.length }}</MiText>
           <MiButton variant="plain" size="small" :disabled="history.length === 1" @click="undo">
             <template #leading><MiIcon name="arrow-left" :size="14" /></template>Undo
           </MiButton>
         </header>
-        <div class="acs__page">
+        <div class="mi:flex-1 mi:overflow-y-auto mi:grid mi:content-start mi:gap-3.5 mi:pt-6 mi:px-5 mi:pb-8 mi:@[820px]:py-9 mi:@[820px]:px-11">
           <MiText id="acs-doc" as="h3" variant="title2" weight="bold">Ledgerline now closes your books in a day</MiText>
           <p
-            v-for="(p, i) in current.paras" :id="'acs-p' + i" :key="i" class="acs__para" :class="{ 'is-fresh': i === current.changed, 'is-focus': i === focus }"
+            v-for="(p, i) in current.paras" :id="'acs-p' + i" :key="i" class="mi:relative mi:m-0 mi:max-w-[62ch] mi:text-[15px] mi:leading-[1.65] mi:before:content-[''] mi:before:absolute mi:before:top-0.5 mi:before:right-auto mi:before:bottom-0.5 mi:before:-left-3 mi:before:w-[3px] mi:before:rounded-[2px] mi:before:[transition:opacity_var(--mi-dur-3)_var(--mi-ease),_transform_var(--mi-dur-3)_var(--mi-spring)]" :class="i === focus ? 'mi:before:opacity-100 mi:before:transform-none mi:before:[background:var(--mi-s)]' : i === current.changed ? 'mi:before:opacity-100 mi:before:transform-none mi:before:[background:var(--mi-p)]' : 'mi:before:opacity-0 mi:before:transform-[scaleY(.4)] mi:before:[background:var(--mi-p)]'"
           >
             {{ p }}
           </p>
@@ -112,34 +112,3 @@ async function jumpTo(i: number) {
   document.getElementById('acs-p' + i)?.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
 }
 </script>
-
-<style scoped>
-.acs { container-type: inline-size; display: flex; flex-direction: column; height: 680px; font-family: var(--mi-font); color: var(--mi-label); background: var(--mi-page); }
-.acs__top { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--mi-sep); }
-.acs__shell { flex: 1; display: grid; grid-template-columns: minmax(0, 1fr); min-height: 0; }
-/* Narrow: one pane at a time behind the switch. Wide: both side by side and the switch goes away. */
-.acs__shell.show-chat .acs__canvas, .acs__shell.show-canvas .acs__chat { display: none; }
-@container (min-width: 820px) {
-  .acs__switch { display: none; }
-  .acs__shell { grid-template-columns: minmax(300px, 2fr) 3fr; }
-  .acs__shell.show-chat .acs__canvas, .acs__shell.show-canvas .acs__chat { display: flex; }
-  .acs__canvas { border-left: 1px solid var(--mi-sep); }
-}
-
-.acs__chat { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
-.acs__log { flex: 1; min-height: 0; }
-.acs__jump { padding: 0; border: 0; background: none; font: inherit; font-size: 12px; color: var(--mi-p-text); cursor: pointer; }
-.acs__jump:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; border-radius: 4px; }
-.acs__composer { display: grid; gap: 8px; padding: 12px 14px 14px; border-top: 1px solid var(--mi-sep); background: var(--mi-card); }
-.acs__quick { display: flex; flex-wrap: wrap; gap: 6px; }
-
-.acs__canvas { display: flex; flex-direction: column; min-width: 0; min-height: 0; background: var(--mi-card); }
-.acs__doc-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 12px 8px 20px; border-bottom: 1px solid var(--mi-sep); }
-.acs__page { flex: 1; overflow-y: auto; display: grid; align-content: start; gap: 14px; padding: 24px 20px 32px; }
-@container (min-width: 820px) { .acs__page { padding: 36px 44px; } }
-.acs__para { position: relative; margin: 0; max-width: 62ch; font-size: 15px; line-height: 1.65; }
-/* The paragraph the assistant just changed carries a brand rule in the margin. */
-.acs__para::before { content: ""; position: absolute; inset: 2px auto 2px -12px; width: 3px; border-radius: 2px; background: var(--mi-p); opacity: 0; transform: scaleY(.4); transition: opacity var(--mi-dur-3) var(--mi-ease), transform var(--mi-dur-3) var(--mi-spring); }
-.acs__para.is-fresh::before, .acs__para.is-focus::before { opacity: 1; transform: none; }
-.acs__para.is-focus::before { background: var(--mi-s); }
-</style>

@@ -1,53 +1,53 @@
 <template>
-  <div class="ac-cq">
-    <section class="ac" aria-labelledby="ac-title">
-      <div class="ac__build">
+  <div class="mi:@container">
+    <section class="mi:grid mi:gap-3.5 mi:font-mi mi:text-label mi:@[760px]:grid-cols-[minmax(0,_1fr)_300px] mi:@[760px]:items-start mi:@[760px]:gap-4" aria-labelledby="ac-title">
+      <div class="mi:grid mi:gap-4.5 mi:p-5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:@[760px]:py-6 mi:@[760px]:px-6.5">
         <header>
           <MiText id="ac-title" variant="title3" as="h2" weight="semibold">Who gets the pricing notice?</MiText>
           <MiText variant="footnote" tone="label2">Pick chips to shape the audience; the estimate updates as you go.</MiText>
         </header>
 
-        <fieldset class="ac__group">
-          <legend class="ac__legend">Plan <span>any of</span></legend>
-          <div class="ac__chips">
+        <fieldset class="mi:grid mi:gap-2 mi:min-w-0 mi:m-0 mi:p-0 mi:[border:0]">
+          <legend class="mi:p-0 mi:mb-2 mi:text-[13px] mi:font-semibold">Plan <span class="mi:ml-1.5 mi:font-medium mi:text-label3">any of</span></legend>
+          <div class="mi:flex mi:flex-wrap mi:gap-1.5">
             <MiChip v-for="p in plans" :key="p.id" v-model="plan[p.id]" selectable :label="p.label" />
           </div>
         </fieldset>
 
-        <fieldset class="ac__group">
-          <legend class="ac__legend">Region <span>any of</span></legend>
-          <div class="ac__chips">
+        <fieldset class="mi:grid mi:gap-2 mi:min-w-0 mi:m-0 mi:p-0 mi:[border:0]">
+          <legend class="mi:p-0 mi:mb-2 mi:text-[13px] mi:font-semibold">Region <span class="mi:ml-1.5 mi:font-medium mi:text-label3">any of</span></legend>
+          <div class="mi:flex mi:flex-wrap mi:gap-1.5">
             <MiChip v-for="r in regions" :key="r.id" v-model="region[r.id]" selectable tone="secondary" :label="r.label" />
           </div>
         </fieldset>
 
-        <fieldset class="ac__group">
-          <legend class="ac__legend">Behaviour <span>all of</span></legend>
-          <TransitionGroup tag="div" name="ac" class="ac__chips">
+        <fieldset class="mi:grid mi:gap-2 mi:min-w-0 mi:m-0 mi:p-0 mi:[border:0]">
+          <legend class="mi:p-0 mi:mb-2 mi:text-[13px] mi:font-semibold">Behaviour <span class="mi:ml-1.5 mi:font-medium mi:text-label3">all of</span></legend>
+          <TransitionGroup tag="div" move-class="mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring)]" class="mi:flex mi:flex-wrap mi:gap-1.5">
             <MiChip
               v-for="s in signals" :key="s" :label="s" tone="neutral" removable :remove-label="'Remove ' + s" @remove="removeSignal(s)"
             />
-            <button v-for="s in suggestions" :key="'add-' + s" type="button" class="ac__suggest" @click="signals.push(s)">
+            <button v-for="s in suggestions" :key="'add-' + s" type="button" class="mi:[font:inherit] mi:text-[13px] mi:inline-flex mi:items-center mi:gap-1 mi:h-8 mi:py-0 mi:px-3 mi:[border:1px_dashed_var(--mi-sep)] mi:rounded-[999px] mi:text-label2 mi:[background:none] mi:cursor-pointer mi:hover:text-label mi:hover:border-label3 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" @click="signals.push(s)">
               <MiIcon name="plus" :size="13" :weight="2.4" /> {{ s }}
             </button>
           </TransitionGroup>
         </fieldset>
 
-        <fieldset class="ac__group">
-          <legend class="ac__legend">Exclude tags</legend>
+        <fieldset class="mi:grid mi:gap-2 mi:min-w-0 mi:m-0 mi:p-0 mi:[border:0]">
+          <legend class="mi:p-0 mi:mb-2 mi:text-[13px] mi:font-semibold">Exclude tags</legend>
           <MiTagInput v-model="excluded" placeholder="Type a tag, press Return" :max="6" remove-label="Stop excluding" />
         </fieldset>
       </div>
 
       <!-- Summary: the chips read back as one sentence, with the estimate. -->
-      <aside class="ac__sum" aria-labelledby="ac-sum-title">
+      <aside class="mi:relative mi:grid mi:content-start mi:gap-2 mi:p-5 mi:rounded-xl mi:overflow-hidden mi:isolate mi:[background:var(--mi-card)] mi:shadow-1 mi:before:content-[''] mi:before:absolute mi:before:top-[-50%] mi:before:right-[-40%] mi:before:bottom-auto mi:before:left-auto mi:before:w-[80%] mi:before:aspect-[1] mi:before:-z-1 mi:before:rounded-[50%] mi:before:[background:radial-gradient(closest-side,_var(--mi-s-tint),_transparent)]" aria-labelledby="ac-sum-title">
         <MiText id="ac-sum-title" variant="caption" tone="label2" weight="semibold" as="h3">Estimated audience</MiText>
-        <p class="ac__big" aria-live="polite">{{ estimate.toLocaleString('en-US') }}</p>
-        <div class="ac__bar" role="meter" aria-label="Share of all customers" :aria-valuenow="estimate" aria-valuemin="0" :aria-valuemax="TOTAL">
-          <span :style="{ transform: `scaleX(${estimate / TOTAL})` }" />
+        <p class="mi:m-0 mi:text-[44px] mi:font-bold mi:leading-none mi:tracking-[-.04em] mi:tabular-nums" aria-live="polite">{{ estimate.toLocaleString('en-US') }}</p>
+        <div class="mi:h-1.5 mi:rounded-[3px] mi:overflow-hidden mi:[background:var(--mi-fill3)]" role="meter" aria-label="Share of all customers" :aria-valuenow="estimate" aria-valuemin="0" :aria-valuemax="TOTAL">
+          <span class="mi:block mi:h-full mi:rounded-[inherit] mi:[background:linear-gradient(90deg,_var(--mi-p),_var(--mi-s))] mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleX(${estimate / TOTAL})` }" />
         </div>
         <MiText variant="caption" tone="label3" tabular>{{ share }}% of {{ TOTAL.toLocaleString('en-US') }} customers</MiText>
-        <p class="ac__sentence">{{ sentence }}</p>
+        <p class="mi:mt-1.5 mi:mx-0 mi:mb-2 mi:py-3 mi:px-3.5 mi:rounded-md mi:text-[14px] mi:leading-normal mi:text-label mi:[background:var(--mi-fill4)]">{{ sentence }}</p>
         <MiButton block :disabled="!estimate">Use this audience</MiButton>
       </aside>
     </section>
@@ -104,35 +104,3 @@ const sentence = computed(() => {
   return s + '.'
 })
 </script>
-
-<style scoped>
-.ac-cq { container-type: inline-size; }
-.ac { display: grid; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
-.ac__build { display: grid; gap: 18px; padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.ac__group { display: grid; gap: 8px; min-width: 0; margin: 0; padding: 0; border: 0; }
-.ac__legend { padding: 0; margin-bottom: 8px; font-size: 13px; font-weight: 600; }
-.ac__legend span { margin-left: 6px; font-weight: 500; color: var(--mi-label3); }
-.ac__chips { display: flex; flex-wrap: wrap; gap: 6px; }
-.ac__suggest {
-  display: inline-flex; align-items: center; gap: 4px; height: 32px; padding: 0 12px; border: 1px dashed var(--mi-sep); border-radius: 999px;
-  font: inherit; font-size: 13px; color: var(--mi-label2); background: none; cursor: pointer;
-}
-.ac__suggest:hover { color: var(--mi-label); border-color: var(--mi-label3); }
-.ac__suggest:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-.ac-move { transition: transform var(--mi-dur-3) var(--mi-spring); }
-
-.ac__sum {
-  position: relative; display: grid; align-content: start; gap: 8px; padding: 20px; border-radius: var(--mi-radius-xl); overflow: hidden; isolation: isolate;
-  background: var(--mi-card); box-shadow: var(--mi-sh1);
-}
-.ac__sum::before { content: ""; position: absolute; inset: -50% -40% auto auto; width: 80%; aspect-ratio: 1; z-index: -1; border-radius: 50%; background: radial-gradient(closest-side, var(--mi-s-tint), transparent); }
-.ac__big { margin: 0; font-size: 44px; font-weight: 700; line-height: 1; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
-.ac__bar { height: 6px; border-radius: 3px; overflow: hidden; background: var(--mi-fill3); }
-.ac__bar span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--mi-p), var(--mi-s)); transform-origin: left; transition: transform var(--mi-dur-4) var(--mi-spring); }
-.ac__sentence { margin: 6px 0 8px; padding: 12px 14px; border-radius: var(--mi-radius-m); font-size: 14px; line-height: 1.5; color: var(--mi-label); background: var(--mi-fill4); }
-
-@container (min-width: 760px) {
-  .ac { grid-template-columns: minmax(0, 1fr) 300px; align-items: start; gap: 16px; }
-  .ac__build { padding: 24px 26px; }
-}
-</style>

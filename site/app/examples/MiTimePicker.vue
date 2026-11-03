@@ -13,12 +13,8 @@ const time = ref<string | null>('09:30')
 </script>
 
 <template>
-  <div class="stack">
+  <div class="stack mi:grid mi:gap-2.5 mi:justify-items-start">
     <MiTimePicker v-model="time" v-bind="p" />
     <MiText variant="footnote" tone="label2">Value: {{ time ?? 'empty' }}</MiText>
   </div>
 </template>
-
-<style scoped>
-.stack { display: grid; gap: 10px; justify-items: start; }
-</style>

@@ -1,23 +1,23 @@
 <template>
-  <section class="arh" aria-labelledby="arh-title">
-    <div class="arh__in">
-    <MiBreadcrumb :items="crumbs" class="arh__crumbs" />
+  <section class="mi:@container mi:font-mi mi:text-label" aria-labelledby="arh-title">
+    <div class="mi:grid mi:gap-4.5 mi:p-5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:@[760px]:py-6 mi:@[760px]:px-7">
+    <MiBreadcrumb :items="crumbs" />
 
-    <header class="arh__top">
-      <div class="arh__mono" aria-hidden="true"><span>SS</span></div>
-      <div class="arh__ident">
-        <div class="arh__name-row">
+    <header class="mi:grid mi:grid-cols-[auto_minmax(0,_1fr)] mi:gap-y-3.5 mi:gap-x-4 mi:items-center mi:@[820px]:grid-cols-[auto_minmax(0,_1fr)_auto]">
+      <div class="mi:relative mi:grid mi:place-items-center mi:w-15 mi:h-15 mi:rounded-[18px] mi:overflow-hidden mi:[background:linear-gradient(150deg,_var(--mi-p),_color-mix(in_srgb,_var(--mi-p)_40%,_var(--mi-s)))] mi:text-p-on mi:font-extrabold mi:text-[20px] mi:tracking-[-.04em] mi:after:content-[''] mi:after:absolute mi:after:top-[55%] mi:after:right-[-10%] mi:after:bottom-[-10%] mi:after:left-[-10%] mi:after:rounded-[50%_50%_0_0] mi:after:[background:repeating-radial-gradient(circle_at_50%_0,_transparent_0_5px,_color-mix(in_srgb,_var(--mi-p-on)_22%,_transparent)_5px_6px)]" aria-hidden="true"><span class="mi:relative mi:z-1">SS</span></div>
+      <div class="mi:grid mi:gap-1 mi:min-w-0">
+        <div class="mi:flex mi:flex-wrap mi:items-center mi:gap-y-1.5 mi:gap-x-2.5">
           <MiText id="arh-title" as="h2" variant="title2" weight="bold">Saltmarsh Survey Co.</MiText>
           <MiBadge tone="secondary" label="Enterprise" />
           <MiBadge :tone="health >= 70 ? 'success' : 'warning'" :label="health >= 70 ? 'Healthy' : 'At risk'" dot />
         </div>
         <MiText variant="footnote" tone="label2">saltmarsh.co · Bristol, UK · Customer since March 2021</MiText>
-        <div class="arh__owner">
+        <div class="mi:flex mi:items-center mi:gap-1.5">
           <MiAvatar name="Malik Rahman" size="xs" tone="auto" decorative />
-          <MiText as="span" variant="caption" tone="label2">Owned by <strong>Malik Rahman</strong> · 3 open tasks</MiText>
+          <MiText as="span" variant="caption" tone="label2">Owned by <strong class="mi:text-label mi:font-semibold">Malik Rahman</strong> · 3 open tasks</MiText>
         </div>
       </div>
-      <div class="arh__actions">
+      <div class="mi:col-span-full mi:flex mi:flex-wrap mi:gap-2 mi:@[820px]:col-[auto] mi:@[820px]:[justify-content:flex-end]">
         <MiButton :variant="following ? 'tinted' : 'gray'" size="small" :pressed="following" @click="following = !following">
           <template #leading><MiIcon :name="following ? 'check' : 'bell'" :size="15" /></template>
           {{ following ? 'Following' : 'Follow' }}
@@ -28,58 +28,58 @@
       </div>
     </header>
 
-    <dl class="arh__facts">
-      <div class="arh__fact">
-        <dt>Annual revenue</dt>
-        <dd><span class="arh__num">€184,000</span><MiSparkline :values="[120, 128, 141, 141, 156, 168, 184]" :width="72" :height="24" label="ARR over 7 quarters" /></dd>
+    <dl class="mi:grid mi:grid-cols-2 mi:m-0 mi:rounded-lg mi:shadow-[inset_0_0_0_1px_var(--mi-sep)] mi:@[760px]:grid-cols-4">
+      <div class="mi:grid mi:content-start mi:gap-1.5 mi:p-3.5 mi:min-w-0 mi:@max-[759px]:odd:border-r mi:@max-[759px]:odd:border-r-sep mi:@max-[759px]:[&:nth-child(-n+2)]:border-b mi:@max-[759px]:[&:nth-child(-n+2)]:border-b-sep mi:@[760px]:not-first:border-l mi:@[760px]:not-first:border-l-sep">
+        <dt class="mi:text-[12px] mi:font-medium mi:text-label2">Annual revenue</dt>
+        <dd class="mi:flex mi:items-flex-end mi:justify-between mi:gap-2 mi:m-0 mi:min-h-7"><span class="mi:text-[22px] mi:font-bold mi:tracking-[-.03em] mi:leading-none mi:tabular-nums mi:whitespace-nowrap">€184,000</span><MiSparkline :values="[120, 128, 141, 141, 156, 168, 184]" :width="72" :height="24" label="ARR over 7 quarters" /></dd>
         <MiText as="span" variant="caption2" tone="green" weight="semibold">+17% year on year</MiText>
       </div>
-      <div class="arh__fact">
-        <dt>Seats</dt>
-        <dd><span class="arh__num">212</span><span class="arh__of">/ 250</span></dd>
+      <div class="mi:grid mi:content-start mi:gap-1.5 mi:p-3.5 mi:min-w-0 mi:@max-[759px]:odd:border-r mi:@max-[759px]:odd:border-r-sep mi:@max-[759px]:[&:nth-child(-n+2)]:border-b mi:@max-[759px]:[&:nth-child(-n+2)]:border-b-sep mi:@[760px]:not-first:border-l mi:@[760px]:not-first:border-l-sep">
+        <dt class="mi:text-[12px] mi:font-medium mi:text-label2">Seats</dt>
+        <dd class="mi:flex mi:items-flex-end mi:justify-between mi:gap-2 mi:m-0 mi:min-h-7"><span class="mi:text-[22px] mi:font-bold mi:tracking-[-.03em] mi:leading-none mi:tabular-nums mi:whitespace-nowrap">212</span><span class="mi:mr-auto mi:-ml-1 mi:text-[13px] mi:text-label2">/ 250</span></dd>
         <MiMeter :value="212" :max="250" size="sm" aria-label="Seats used" />
       </div>
-      <div class="arh__fact">
-        <dt>Health score</dt>
-        <dd>
-          <span class="arh__num">{{ health }}</span>
-          <span class="arh__bars" role="img" :aria-label="`Weekly health, last 8 weeks, now ${health}`">
-            <span v-for="(v, i) in healthWeeks" :key="i" :style="{ transform: `scaleY(${v / 100})` }" />
+      <div class="mi:grid mi:content-start mi:gap-1.5 mi:p-3.5 mi:min-w-0 mi:@max-[759px]:odd:border-r mi:@max-[759px]:odd:border-r-sep mi:@max-[759px]:[&:nth-child(-n+2)]:border-b mi:@max-[759px]:[&:nth-child(-n+2)]:border-b-sep mi:@[760px]:not-first:border-l mi:@[760px]:not-first:border-l-sep">
+        <dt class="mi:text-[12px] mi:font-medium mi:text-label2">Health score</dt>
+        <dd class="mi:flex mi:items-flex-end mi:justify-between mi:gap-2 mi:m-0 mi:min-h-7">
+          <span class="mi:text-[22px] mi:font-bold mi:tracking-[-.03em] mi:leading-none mi:tabular-nums mi:whitespace-nowrap">{{ health }}</span>
+          <span class="mi:flex mi:[align-items:flex-end] mi:gap-0.5 mi:h-6" role="img" :aria-label="`Weekly health, last 8 weeks, now ${health}`">
+            <span class="mi:bg-[color-mix(in_srgb,_var(--mi-green)_60%,_var(--mi-fill))] mi:last:bg-green mi:w-[5px] mi:h-full mi:rounded-[2px] mi:origin-bottom" v-for="(v, i) in healthWeeks" :key="i" :style="{ transform: `scaleY(${v / 100})` }" />
           </span>
         </dd>
         <MiText as="span" variant="caption2" tone="label2">Usage, support and sentiment</MiText>
       </div>
-      <div class="arh__fact arh__fact--renew">
-        <dt>Renewal</dt>
-        <dd><span class="arh__num">{{ daysLeft }} days</span></dd>
+      <div class="mi:grid mi:content-start mi:gap-1.5 mi:p-3.5 mi:min-w-0 mi:@max-[759px]:odd:border-r mi:@max-[759px]:odd:border-r-sep mi:@max-[759px]:[&:nth-child(-n+2)]:border-b mi:@max-[759px]:[&:nth-child(-n+2)]:border-b-sep mi:@[760px]:not-first:border-l mi:@[760px]:not-first:border-l-sep">
+        <dt class="mi:text-[12px] mi:font-medium mi:text-label2">Renewal</dt>
+        <dd class="mi:flex mi:items-flex-end mi:justify-between mi:gap-2 mi:m-0 mi:min-h-7"><span class="mi:text-[22px] mi:font-bold mi:tracking-[-.03em] mi:leading-none mi:tabular-nums mi:whitespace-nowrap mi:text-p-text">{{ daysLeft }} days</span></dd>
         <MiText as="span" variant="caption2" tone="label2">18 Dec 2026 · auto-renew off</MiText>
       </div>
     </dl>
 
     <!-- Contract runway: where today sits between signature and renewal, with the milestones on the way. -->
-    <div class="arh__runway" aria-labelledby="arh-runway">
-      <div class="arh__runway-head">
+    <div class="mi:grid mi:gap-3" aria-labelledby="arh-runway">
+      <div class="mi:flex mi:flex-wrap mi:justify-between mi:gap-1.5">
         <MiText id="arh-runway" as="h3" variant="subheadline" weight="semibold">Contract runway</MiText>
         <MiText variant="caption" tone="label2">{{ Math.round(elapsed * 100) }}% of the term used</MiText>
       </div>
-      <div class="arh__track" role="img" :aria-label="`Today is ${Math.round(elapsed * 100)}% through the contract term`">
-        <span class="arh__track-fill" :style="{ transform: `scaleX(${elapsed})` }" />
-        <span v-for="(m, i) in milestones" :key="m.label" class="arh__pin" :class="{ 'is-done': m.at <= elapsed }" :style="{ left: m.at * 100 + '%' }">{{ i + 1 }}</span>
-        <span class="arh__today" :style="{ left: elapsed * 100 + '%' }"><i>Today</i></span>
+      <div class="mi:relative mi:h-2 mi:mt-8.5 mi:mx-2.5 mi:mb-1 mi:rounded-[4px] mi:[background:var(--mi-fill3)]" role="img" :aria-label="`Today is ${Math.round(elapsed * 100)}% through the contract term`">
+        <span class="mi:absolute mi:inset-0 mi:rounded-[inherit] mi:[background:linear-gradient(90deg,_var(--mi-p-tint2),_var(--mi-p))] mi:origin-left" :style="{ transform: `scaleX(${elapsed})` }" />
+        <span v-for="(m, i) in milestones" :key="m.label" class="mi:absolute mi:top-1/2 mi:grid mi:place-items-center mi:w-5 mi:h-5 mi:-mt-2.5 mi:mr-0 mi:mb-0 mi:-ml-2.5 mi:rounded-[50%] mi:text-[10px] mi:font-bold" :class="m.at <= elapsed ? 'mi:text-p-on mi:bg-p mi:shadow-[0_0_0_2px_var(--mi-card)]' : 'mi:text-label2 mi:[background:var(--mi-card)] mi:shadow-[0_0_0_1.5px_var(--mi-fill)]'" :style="{ left: m.at * 100 + '%' }">{{ i + 1 }}</span>
+        <span class="mi:absolute mi:-top-4 mi:-bottom-1.5 mi:w-0.5 mi:-ml-px mi:rounded-[1px] mi:[background:var(--mi-label)]" :style="{ left: elapsed * 100 + '%' }"><i class="mi:text-[10px] mi:not-italic mi:font-semibold mi:text-label mi:absolute mi:bottom-full mi:left-1/2 mi:transform-[translateX(-50%)] mi:pb-0.5 mi:whitespace-nowrap">Today</i></span>
       </div>
-      <ol class="arh__miles">
-        <li v-for="(m, i) in milestones" :key="m.label" :class="{ 'is-done': m.at <= elapsed }">
-          <span class="arh__mi-n" aria-hidden="true">{{ i + 1 }}</span>
-          <span><b>{{ m.label }}</b> <em>{{ m.date }}</em></span>
+      <ol class="mi:grid mi:grid-cols-2 mi:gap-y-2 mi:gap-x-3.5 mi:m-0 mi:p-0 mi:[list-style:none] mi:@[760px]:grid-cols-4">
+        <li class="mi:flex mi:items-flex-start mi:gap-2 mi:text-[12px] mi:min-w-0" v-for="(m, i) in milestones" :key="m.label">
+          <span class="mi:grid mi:place-items-center mi:flex-[none] mi:w-4.5 mi:h-4.5 mi:rounded-[50%] mi:text-[10px] mi:font-bold" :class="m.at <= elapsed ? 'mi:bg-p mi:text-p-on' : 'mi:[background:var(--mi-fill3)] mi:text-label2'" aria-hidden="true">{{ i + 1 }}</span>
+          <span><b class="mi:font-semibold">{{ m.label }}</b> <em class="mi:block mi:not-italic mi:text-label2">{{ m.date }}</em></span>
         </li>
       </ol>
     </div>
 
-    <MiTabs v-model="tab" :items="tabs" aria-label="Account sections" class="arh__tabs">
-      <template #overview><MiText variant="footnote" tone="label2" class="arh__panel">Security review on 20 Nov is the last blocker before the renewal quote. Procurement asked for a 3-year option.</MiText></template>
-      <template #contacts><MiText variant="footnote" tone="label2" class="arh__panel">8 contacts · champion: Ines Okafor (Operations lead) · economic buyer: Tom Hale (CFO).</MiText></template>
-      <template #deals><MiText variant="footnote" tone="label2" class="arh__panel">2 open deals · Renewal 2027 (€184k) · Field app add-on, 40 seats (€22k).</MiText></template>
-      <template #activity><MiText variant="footnote" tone="label2" class="arh__panel">Last touch 2 days ago: call with Ines about seat growth in the Cardiff office.</MiText></template>
+    <MiTabs v-model="tab" :items="tabs" aria-label="Account sections">
+      <template #overview><MiText variant="footnote" tone="label2" class="mi:pt-3">Security review on 20 Nov is the last blocker before the renewal quote. Procurement asked for a 3-year option.</MiText></template>
+      <template #contacts><MiText variant="footnote" tone="label2" class="mi:pt-3">8 contacts · champion: Ines Okafor (Operations lead) · economic buyer: Tom Hale (CFO).</MiText></template>
+      <template #deals><MiText variant="footnote" tone="label2" class="mi:pt-3">2 open deals · Renewal 2027 (€184k) · Field app add-on, 40 seats (€22k).</MiText></template>
+      <template #activity><MiText variant="footnote" tone="label2" class="mi:pt-3">Last touch 2 days ago: call with Ines about seat growth in the Cardiff office.</MiText></template>
     </MiTabs>
     </div>
   </section>
@@ -107,58 +107,3 @@ const milestones = [
   { label: 'Renewal', date: '18 Dec', at: 1 }
 ]
 </script>
-
-<style scoped>
-.arh { container-type: inline-size; font-family: var(--mi-font); color: var(--mi-label); }
-.arh__in { display: grid; gap: 18px; padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-@container (min-width: 760px) { .arh__in { padding: 24px 28px; } }
-
-.arh__top { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 14px 16px; align-items: center; }
-.arh__mono {
-  position: relative; display: grid; place-items: center; width: 60px; height: 60px; border-radius: 18px; overflow: hidden;
-  background: linear-gradient(150deg, var(--mi-p), color-mix(in srgb, var(--mi-p) 40%, var(--mi-s)));
-  color: var(--mi-p-on); font-weight: 800; font-size: 20px; letter-spacing: -.04em;
-}
-/* Tide lines across the monogram. */
-.arh__mono::after { content: ""; position: absolute; inset: 55% -10% -10%; border-radius: 50% 50% 0 0; background: repeating-radial-gradient(circle at 50% 0, transparent 0 5px, color-mix(in srgb, var(--mi-p-on) 22%, transparent) 5px 6px); }
-.arh__mono span { position: relative; z-index: 1; }
-.arh__ident { display: grid; gap: 4px; min-width: 0; }
-.arh__name-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
-.arh__owner { display: flex; align-items: center; gap: 6px; }
-.arh__owner strong { color: var(--mi-label); font-weight: 600; }
-.arh__actions { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px; }
-@container (min-width: 820px) { .arh__top { grid-template-columns: auto minmax(0, 1fr) auto; } .arh__actions { grid-column: auto; justify-content: flex-end; } }
-
-.arh__facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 0; border-radius: var(--mi-radius-l); box-shadow: inset 0 0 0 1px var(--mi-sep); }
-.arh__fact { display: grid; align-content: start; gap: 6px; padding: 14px; min-width: 0; }
-@container (max-width: 759px) { .arh__fact:nth-child(odd) { border-right: 1px solid var(--mi-sep); } .arh__fact:nth-child(-n+2) { border-bottom: 1px solid var(--mi-sep); } }
-@container (min-width: 760px) { .arh__facts { grid-template-columns: repeat(4, minmax(0, 1fr)); } .arh__fact + .arh__fact { border-left: 1px solid var(--mi-sep); } }
-.arh__fact dt { font-size: 12px; font-weight: 500; color: var(--mi-label2); }
-.arh__fact dd { display: flex; align-items: flex-end; justify-content: space-between; gap: 8px; margin: 0; min-height: 28px; }
-.arh__num { font-size: 22px; font-weight: 700; letter-spacing: -.03em; line-height: 1; font-variant-numeric: tabular-nums; white-space: nowrap; }
-.arh__of { margin-right: auto; margin-left: -4px; font-size: 13px; color: var(--mi-label2); }
-.arh__fact--renew .arh__num { color: var(--mi-p-text); }
-.arh__bars { display: flex; align-items: flex-end; gap: 2px; height: 24px; }
-.arh__bars span { width: 5px; height: 100%; border-radius: 2px; background: color-mix(in srgb, var(--mi-green) 60%, var(--mi-fill)); transform-origin: bottom; }
-.arh__bars span:last-child { background: var(--mi-green); }
-
-.arh__runway { display: grid; gap: 12px; }
-.arh__runway-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px; }
-.arh__track { position: relative; height: 8px; margin: 34px 10px 4px; border-radius: 4px; background: var(--mi-fill3); }
-.arh__track-fill { position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(90deg, var(--mi-p-tint2), var(--mi-p)); transform-origin: left; }
-.arh__pin {
-  position: absolute; top: 50%; display: grid; place-items: center; width: 20px; height: 20px; margin: -10px 0 0 -10px; border-radius: 50%;
-  font-size: 10px; font-weight: 700; color: var(--mi-label2); background: var(--mi-card); box-shadow: 0 0 0 1.5px var(--mi-fill);
-}
-.arh__pin.is-done { color: var(--mi-p-on); background: var(--mi-p); box-shadow: 0 0 0 2px var(--mi-card); }
-.arh__today { position: absolute; top: -16px; bottom: -6px; width: 2px; margin-left: -1px; border-radius: 1px; background: var(--mi-label); }
-.arh__today i { position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); padding-bottom: 2px; font-size: 10px; font-style: normal; font-weight: 600; white-space: nowrap; color: var(--mi-label); }
-.arh__miles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 14px; margin: 0; padding: 0; list-style: none; }
-@container (min-width: 760px) { .arh__miles { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-.arh__miles li { display: flex; align-items: flex-start; gap: 8px; font-size: 12px; min-width: 0; }
-.arh__miles b { font-weight: 600; }
-.arh__miles em { display: block; font-style: normal; color: var(--mi-label2); }
-.arh__mi-n { display: grid; place-items: center; flex: none; width: 18px; height: 18px; border-radius: 50%; font-size: 10px; font-weight: 700; background: var(--mi-fill3); color: var(--mi-label2); }
-.arh__miles li.is-done .arh__mi-n { background: var(--mi-p); color: var(--mi-p-on); }
-.arh__panel { padding-top: 12px; }
-</style>

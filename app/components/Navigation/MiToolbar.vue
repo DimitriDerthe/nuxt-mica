@@ -63,82 +63,62 @@ defineSlots<{
 </script>
 
 <template>
-  <nav class="mi-tl" :aria-label="ariaLabel">
+  <nav class="mi-tl mi:font-mi mi:h-14 mi:flex mi:items-center mi:gap-2.5 mi:py-0 mi:px-3 mi:bg-mat mi:[border-bottom:.5px_solid_var(--mi-sep)] mi:text-label mi:min-w-0 mi:max-[640px]:gap-1.5 mi:max-[640px]:py-0 mi:max-[640px]:px-2" :aria-label="ariaLabel">
     <slot name="leading">
-      <button v-if="sidebarToggle" type="button" class="mi-tl__btn mi-tl__btn--wide" aria-label="Toggle sidebar" @click="emit('toggle-sidebar')">
+      <button v-if="sidebarToggle" type="button" class="mi-tl__btn mi-tl__btn--wide mi:relative mi:w-8 mi:h-8 mi:flex-[none] mi:[border:0] mi:rounded-[8px] mi:bg-transparent mi:flex mi:items-center mi:justify-center mi:isolate mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease)] mi:w-9 mi:before:content-[''] mi:before:absolute mi:before:inset-0 mi:before:rounded-[inherit] mi:before:bg-fill4 mi:before:opacity-0 mi:before:-z-1 mi:before:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)] mi:[&:hover:not(:disabled)]:before:opacity-100 mi:[&:active:not(:disabled)]:transform-[scale(.92)]" aria-label="Toggle sidebar" @click="emit('toggle-sidebar')">
         <MiNavGlyph name="sidebar" :size="20" :stroke="1.8" />
       </button>
-      <span v-if="history" class="mi-tl__hist">
-        <button type="button" class="mi-tl__btn mi-tl__btn--ink" aria-label="Back" :disabled="!canGoBack" @click="emit('back')">
+      <span v-if="history" class="mi-tl__hist mi:inline-flex mi:max-[640px]:hidden">
+        <button type="button" class="mi-tl__btn mi-tl__btn--ink mi:relative mi:w-8 mi:h-8 mi:flex-[none] mi:[border:0] mi:rounded-[8px] mi:bg-transparent mi:flex mi:items-center mi:justify-center mi:isolate mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease)] mi:before:content-[''] mi:before:absolute mi:before:inset-0 mi:before:rounded-[inherit] mi:before:bg-fill4 mi:before:opacity-0 mi:before:-z-1 mi:before:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)] mi:[&:hover:not(:disabled)]:before:opacity-100 mi:[&:active:not(:disabled)]:transform-[scale(.92)]" aria-label="Back" :disabled="!canGoBack" @click="emit('back')">
           <MiNavGlyph name="back" :size="18" :stroke="2.2" />
         </button>
-        <button type="button" class="mi-tl__btn mi-tl__btn--ink" aria-label="Forward" :disabled="!canGoForward" @click="emit('forward')">
+        <button type="button" class="mi-tl__btn mi-tl__btn--ink mi:relative mi:w-8 mi:h-8 mi:flex-[none] mi:[border:0] mi:rounded-[8px] mi:bg-transparent mi:flex mi:items-center mi:justify-center mi:isolate mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease)] mi:before:content-[''] mi:before:absolute mi:before:inset-0 mi:before:rounded-[inherit] mi:before:bg-fill4 mi:before:opacity-0 mi:before:-z-1 mi:before:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)] mi:[&:hover:not(:disabled)]:before:opacity-100 mi:[&:active:not(:disabled)]:transform-[scale(.92)]" aria-label="Forward" :disabled="!canGoForward" @click="emit('forward')">
           <MiNavGlyph name="forward" :size="18" :stroke="2.2" />
         </button>
       </span>
     </slot>
     <slot name="title">
-      <span v-if="title" class="mi-tl__title">
-        <span class="mi-tl__name">{{ title }}</span>
-        <span v-if="subtitle" class="mi-tl__sub">{{ subtitle }}</span>
+      <span v-if="title" class="mi-tl__title mi:flex mi:flex-col mi:leading-[1.15] mi:min-w-0 mi:max-[640px]:flex-[0_1_auto]">
+        <span class="mi-tl__name mi:text-[15px] mi:font-bold mi:whitespace-nowrap mi:overflow-hidden mi:text-ellipsis">{{ title }}</span>
+        <span v-if="subtitle" class="mi-tl__sub mi:text-[12px] mi:text-label2 mi:whitespace-nowrap">{{ subtitle }}</span>
       </span>
     </slot>
-    <span class="mi-tl__flex" />
+    <span class="mi-tl__flex mi:flex-1" />
     <span
-      v-if="views?.length" ref="seg" class="mi-tl__seg" role="radiogroup" aria-label="View"
+      v-if="views?.length" ref="seg" class="mi-tl__seg mi:relative mi:inline-flex mi:gap-0.5 mi:p-0.5 mi:rounded-[8px] mi:bg-fill3 mi:max-[640px]:hidden" role="radiogroup" aria-label="View"
       :style="{ '--i': viewIndex(), '--n': views.length }" @keydown="onSegKey"
     >
-      <span class="mi-tl__thumb" aria-hidden="true" />
+      <span class="mi-tl__thumb mi:absolute mi:left-0.5 mi:top-0.5 mi:w-8 mi:h-6.5 mi:rounded-[6px] mi:bg-seg mi:shadow-[0_1px_3px_rgba(0,0,0,.12)] mi:transform-[translate3d(calc(var(--i)_*_34px),0,0)] mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring)] mi:pointer-events-none" aria-hidden="true" />
       <button
-        v-for="v in views" :key="v.id" type="button" role="radio" class="mi-tl__radio" :data-id="v.id"
+        v-for="v in views" :key="v.id" type="button" role="radio" class="mi-tl__radio mi:relative mi:w-8 mi:h-6.5 mi:[border:0] mi:rounded-[6px] mi:bg-transparent mi:text-label2 mi:flex mi:items-center mi:justify-center mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)] mi:[&[aria-checked=true]]:text-label" :data-id="v.id"
         :aria-checked="view === v.id" :aria-label="v.label" :tabindex="view === v.id ? 0 : -1" @click="setView(v.id)"
       ><MiNavGlyph :name="v.icon" :size="15" :stroke="v.icon === 'list' ? 2.2 : 2" /></button>
     </span>
-    <label v-if="searchable" class="mi-tl__search">
+    <label v-if="searchable" class="mi-tl__search mi:h-8 mi:w-55 mi:flex-[0_1_220px] mi:min-w-0 mi:flex mi:items-center mi:gap-1.5 mi:py-0 mi:px-2.5 mi:rounded-[8px] mi:bg-fill3 mi:text-label2 mi:focus-within:[outline:3px_solid_color-mix(in_srgb,var(--mi-p)_55%,transparent)] mi:focus-within:outline-offset-[2px] mi:max-[640px]:hidden">
       <MiNavGlyph name="search" :size="15" :stroke="2.2" />
       <input
-        v-model="search" type="search" class="mi-tl__input" :placeholder="searchPlaceholder" aria-label="Search"
+        v-model="search" type="search" class="mi-tl__input mi:flex-1 mi:min-w-0 mi:[border:0] mi:bg-transparent mi:text-label mi:[outline:none] mi:placeholder:text-label2" :placeholder="searchPlaceholder" aria-label="Search"
         @keydown.enter="emit('search', search)"
       >
     </label>
     <slot>
-      <button v-if="share" type="button" class="mi-tl__btn mi-tl__btn--wide" aria-label="Share" @click="emit('share')">
+      <button v-if="share" type="button" class="mi-tl__btn mi-tl__btn--wide mi:relative mi:w-8 mi:h-8 mi:flex-[none] mi:[border:0] mi:rounded-[8px] mi:bg-transparent mi:flex mi:items-center mi:justify-center mi:isolate mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease)] mi:w-9 mi:before:content-[''] mi:before:absolute mi:before:inset-0 mi:before:rounded-[inherit] mi:before:bg-fill4 mi:before:opacity-0 mi:before:-z-1 mi:before:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)] mi:[&:hover:not(:disabled)]:before:opacity-100 mi:[&:active:not(:disabled)]:transform-[scale(.92)]" aria-label="Share" @click="emit('share')">
         <MiNavGlyph name="share" :size="19" :stroke="1.8" />
       </button>
-      <button v-if="primaryLabel" type="button" class="mi-tl__primary" @click="emit('primary')">
+      <button v-if="primaryLabel" type="button" class="mi-tl__primary mi:h-8 mi:pt-0 mi:pr-3 mi:pb-0 mi:pl-2 mi:[border:0] mi:rounded-[8px] mi:bg-p mi:text-p-on mi:text-[13px] mi:font-semibold mi:inline-flex mi:items-center mi:gap-1 mi:whitespace-nowrap mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease)] mi:active:transform-[scale(.95)] mi:max-[640px]:pt-0 mi:max-[640px]:pr-2.5 mi:max-[640px]:pb-0 mi:max-[640px]:pl-1.5" @click="emit('primary')">
         <MiNavGlyph name="plus" :size="16" :stroke="2.4" />{{ primaryLabel }}
       </button>
-      <span v-if="avatar" class="mi-tl__avatar" aria-hidden="true">{{ avatar }}</span>
+      <span v-if="avatar" class="mi-tl__avatar mi:w-7.5 mi:h-7.5 mi:flex-[none] mi:rounded-[50%] mi:bg-s mi:text-s-on mi:text-[12px] mi:font-bold mi:flex mi:items-center mi:justify-center" aria-hidden="true">{{ avatar }}</span>
     </slot>
   </nav>
 </template>
 
 <style scoped>
-.mi-tl{font-family:var(--mi-font);height:56px;display:flex;align-items:center;gap:10px;padding:0 12px;background:var(--mi-mat);-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%);border-bottom:.5px solid var(--mi-sep);color:var(--mi-label);min-width:0}
-.mi-tl__btn{position:relative;width:32px;height:32px;flex:none;border:0;border-radius:8px;background:transparent;color:var(--mi-label2);display:flex;align-items:center;justify-content:center;isolation:isolate;transition:transform var(--mi-dur-1) var(--mi-ease)}
-.mi-tl__btn--wide{width:36px}
+.mi-tl{-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%)}
+.mi-tl__btn{color:var(--mi-label2)}
 .mi-tl__btn--ink{color:var(--mi-label)}
-.mi-tl__btn::before{content:"";position:absolute;inset:0;border-radius:inherit;background:var(--mi-fill4);opacity:0;z-index:-1;transition:opacity var(--mi-dur-2) var(--mi-ease)}
-.mi-tl__btn:hover:not(:disabled)::before{opacity:1}
-.mi-tl__btn:active:not(:disabled){transform:scale(.92)}
 .mi-tl__btn:disabled{color:var(--mi-label3)}
-.mi-tl__hist{display:inline-flex}
-.mi-tl__title{display:flex;flex-direction:column;line-height:1.15;min-width:0}
-.mi-tl__name{font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.mi-tl__sub{font-size:12px;color:var(--mi-label2);white-space:nowrap}
-.mi-tl__flex{flex:1}
-.mi-tl__seg{position:relative;display:inline-flex;gap:2px;padding:2px;border-radius:8px;background:var(--mi-fill3)}
-.mi-tl__thumb{position:absolute;left:2px;top:2px;width:32px;height:26px;border-radius:6px;background:var(--mi-seg);box-shadow:0 1px 3px rgba(0,0,0,.12);transform:translate3d(calc(var(--i) * 34px),0,0);transition:transform var(--mi-dur-3) var(--mi-spring);pointer-events:none}
-.mi-tl__radio{position:relative;width:32px;height:26px;border:0;border-radius:6px;background:transparent;color:var(--mi-label2);display:flex;align-items:center;justify-content:center;transition:opacity var(--mi-dur-2) var(--mi-ease)}
-.mi-tl__radio[aria-checked=true]{color:var(--mi-label)}
-.mi-tl__search{height:32px;width:220px;flex:0 1 220px;min-width:0;display:flex;align-items:center;gap:6px;padding:0 10px;border-radius:8px;background:var(--mi-fill3);color:var(--mi-label2)}
-.mi-tl__input{flex:1;min-width:0;border:0;background:transparent;font:inherit;font-size:13px;color:var(--mi-label);outline:none}
-.mi-tl__input::placeholder{color:var(--mi-label2)}
-.mi-tl__search:focus-within{outline:3px solid color-mix(in srgb,var(--mi-p) 55%,transparent);outline-offset:2px}
-.mi-tl__primary{height:32px;padding:0 12px 0 8px;border:0;border-radius:8px;background:var(--mi-p);color:var(--mi-p-on);font-size:13px;font-weight:600;display:inline-flex;align-items:center;gap:4px;white-space:nowrap;transition:transform var(--mi-dur-1) var(--mi-ease)}
-.mi-tl__primary:active{transform:scale(.95)}
-.mi-tl__avatar{width:30px;height:30px;flex:none;border-radius:50%;background:var(--mi-s);color:var(--mi-s-on);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.mi-tl__input{font:inherit;font-size:13px}
 .mi-tl :focus-visible{outline:3px solid color-mix(in srgb,var(--mi-p) 55%,transparent);outline-offset:2px}
 .mi-tl__input:focus-visible{outline:none}
-@media (max-width:640px){.mi-tl{gap:6px;padding:0 8px}.mi-tl__search,.mi-tl__hist,.mi-tl__seg{display:none}.mi-tl__primary{padding:0 10px 0 6px}.mi-tl__title{flex:0 1 auto}}
 </style>

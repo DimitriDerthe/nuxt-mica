@@ -1,68 +1,68 @@
 <template>
-  <section class="kb" aria-labelledby="release-board-title">
-    <header class="kb__bar">
-      <div class="kb__title">
-        <span class="kb__logo" aria-hidden="true">4.2</span>
+  <section class="mi:@container mi:flex mi:flex-col mi:min-h-full mi:font-mi mi:text-label mi:[background:var(--mi-page)]" aria-labelledby="release-board-title">
+    <header class="mi:grid mi:gap-3.5 mi:p-4 mi:border-b mi:border-b-sep mi:[background:var(--mi-card)] mi:@[900px]:grid-cols-[auto_minmax(180px,_1fr)_auto] mi:@[900px]:items-center mi:@[900px]:gap-6 mi:@[900px]:py-4 mi:@[900px]:px-5.5">
+      <div class="mi:flex mi:items-center mi:gap-3 mi:min-w-0">
+        <span class="mi:grid mi:place-items-center mi:flex-[none] mi:w-10 mi:h-10 mi:rounded-[12px] mi:text-[13px] mi:font-extrabold mi:tracking-[-.02em] mi:[background:linear-gradient(135deg,_var(--mi-p),_var(--mi-s))] mi:text-p-on" aria-hidden="true">4.2</span>
         <div>
           <MiText id="release-board-title" variant="headline" as="h2">Mobile app · Release 4.2</MiText>
           <MiText variant="caption" tone="label2">Ships Thursday, November 19</MiText>
         </div>
       </div>
-      <div class="kb__burn">
-        <div class="kb__burn-top">
+      <div class="mi:grid mi:gap-1.5">
+        <div class="mi:flex mi:justify-between mi:gap-2">
           <MiText variant="caption" weight="semibold">{{ donePts }} of {{ totalPts }} points done</MiText>
           <MiText variant="caption" tone="label2">{{ Math.round(donePts / totalPts * 100) }}%</MiText>
         </div>
-        <div class="kb__burn-bar" role="meter" aria-label="Release progress" aria-valuemin="0" :aria-valuemax="totalPts" :aria-valuenow="donePts">
-          <span :style="{ transform: `scaleX(${donePts / totalPts})` }" />
+        <div class="mi:h-1.5 mi:rounded-[3px] mi:[background:var(--mi-fill3)] mi:overflow-hidden" role="meter" aria-label="Release progress" aria-valuemin="0" :aria-valuemax="totalPts" :aria-valuenow="donePts">
+          <span class="mi:block mi:h-full mi:bg-green mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleX(${donePts / totalPts})` }" />
         </div>
       </div>
-      <div class="kb__tools">
-        <MiSearch v-model="query" size="compact" placeholder="Filter cards" aria-label="Filter cards" class="kb__search" />
+      <div class="mi:flex mi:flex-wrap mi:items-center mi:gap-2.5">
+        <MiSearch v-model="query" size="compact" placeholder="Filter cards" aria-label="Filter cards" class="mi:flex-[1_1_160px] mi:min-w-0" />
         <MiChip v-model="mine" selectable size="small" tone="neutral" label="Assigned to me" />
         <MiAvatarGroup :items="team" :max="4" :size="28" />
       </div>
     </header>
 
-    <div class="kb__scroll" tabindex="0" role="region" aria-label="Board columns">
-      <div class="kb__cols">
-        <section v-for="(col, ci) in columns" :key="col.id" class="kb__col" :class="{ 'is-over': col.limit && col.items.length > col.limit }" :aria-labelledby="'release-board-col-' + col.id">
-          <header class="kb__col-head">
-            <span class="kb__col-dot" :style="{ '--c': col.color }" aria-hidden="true" />
-            <MiText :id="'release-board-col-' + col.id" variant="subheadline" weight="semibold" as="h3">{{ col.name }}</MiText>
-            <span class="kb__count" :title="col.limit ? 'Work-in-progress limit' : undefined">
+    <div class="mi:flex-1 mi:overflow-x-auto mi:overscroll-x-contain mi:[scroll-snap-type:x_mandatory] mi:[scroll-padding-inline:16px] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px]" tabindex="0" role="region" aria-label="Board columns">
+      <div class="mi:grid mi:grid-flow-col mi:auto-cols-[minmax(260px,_86%)] mi:gap-3 mi:items-start mi:p-4 mi:@[600px]:auto-cols-[290px] mi:@[1160px]:auto-cols-[minmax(0,_1fr)] mi:@[1160px]:py-5 mi:@[1160px]:px-5.5">
+        <section v-for="(col, ci) in columns" :key="col.id" class="mi:grid mi:gap-2.5 mi:p-3 mi:rounded-xl mi:snap-start mi:min-w-0" :class="isOver(col) ? 'mi:[background:color-mix(in_srgb,_var(--mi-orange)_10%,_var(--mi-fill4))] mi:shadow-[inset_0_0_0_1px_color-mix(in_srgb,_var(--mi-orange)_45%,_transparent)]' : 'mi:[background:var(--mi-fill4)]'" :aria-labelledby="'release-board-col-' + col.id">
+          <header class="mi:flex mi:items-center mi:gap-2 mi:min-w-0 mi:px-0.5">
+            <span class="mi:w-2 mi:h-2 mi:flex-[none] mi:rounded-[50%] mi:[background:var(--c)]" :style="{ '--c': col.color }" aria-hidden="true" />
+            <MiText :id="'release-board-col-' + col.id" variant="subheadline" weight="semibold" as="h3" class="mi:m-0 mi:whitespace-nowrap">{{ col.name }}</MiText>
+            <span class="mi:py-px mi:px-[7px] mi:rounded-[999px] mi:text-[12px] mi:font-semibold mi:tabular-nums" :class="isOver(col) ? 'mi:text-p-on mi:bg-orange' : 'mi:[background:var(--mi-fill3)] mi:text-label2'" :title="col.limit ? 'Work-in-progress limit' : undefined">
               {{ col.items.length }}<template v-if="col.limit">/{{ col.limit }}</template>
             </span>
-            <span class="kb__pts">{{ col.items.reduce((s, c) => s + c.points, 0) }} pts</span>
-            <MiIconButton :label="'Add card to ' + col.name" variant="plain" size="small" class="kb__add" @click="composing = composing === col.id ? null : col.id">
+            <span class="mi:text-[12px] mi:text-label3 mi:whitespace-nowrap">{{ col.items.reduce((s, c) => s + c.points, 0) }} pts</span>
+            <MiIconButton :label="'Add card to ' + col.name" variant="plain" size="small" class="mi:ms-auto" @click="composing = composing === col.id ? null : col.id">
               <MiIcon name="plus" :size="16" />
             </MiIconButton>
           </header>
-          <p v-if="col.limit && col.items.length > col.limit" class="kb__warn" role="status">
+          <p v-if="col.limit && col.items.length > col.limit" class="mi:m-0 mi:text-[12px] mi:leading-[1.35] mi:text-orange-t" role="status">
             Over the limit by {{ col.items.length - col.limit }}. Finish something before pulling more.
           </p>
-          <form v-if="composing === col.id" class="kb__compose" @submit.prevent="addCard(col)">
+          <form v-if="composing === col.id" class="mi:grid mi:grid-cols-[minmax(0,_1fr)_auto] mi:gap-1.5" @submit.prevent="addCard(col)">
             <MiInput v-model="draft" size="sm" placeholder="What needs doing?" aria-label="New card title" />
             <MiButton type="submit" size="small" :disabled="!draft.trim()">Add</MiButton>
           </form>
 
           <MiSortable
-            handle :model-value="col.items" :gap="8" :aria-label="col.name + ' cards'" :item-label="(c) => c.key + ' ' + c.title" class="kb__list" @update:model-value="setItems(col, $event)"
+            handle :model-value="col.items" :gap="8" :aria-label="col.name + ' cards'" :item-label="(c) => c.key + ' ' + c.title" class="mi:min-w-0" @update:model-value="setItems(col, $event)"
           >
             <template #default="{ item }">
-              <article class="kb__card" :class="{ 'is-dim': !matches(item) }">
-                <div class="kb__card-top">
-                  <span class="kb__type" :class="'is-' + item.type">{{ item.type }}</span>
-                  <span class="kb__key">{{ item.key }}</span>
-                  <span v-if="item.age >= 4 && col.id !== 'done'" class="kb__stale" :title="'In this column for ' + item.age + ' days'">
+              <article class="mi:grid mi:gap-2 mi:py-0.5 mi:px-0 mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)] mi:min-w-0" :class="matches(item) ? '' : 'mi:opacity-35'">
+                <div class="mi:flex mi:items-center mi:gap-2">
+                  <span class="mi:py-px mi:px-[7px] mi:rounded-[6px] mi:text-[11px] mi:font-semibold mi:capitalize" :class="TYPE[item.type]">{{ item.type }}</span>
+                  <span class="mi:text-[11px] mi:font-semibold mi:text-label3 mi:tabular-nums">{{ item.key }}</span>
+                  <span v-if="item.age >= 4 && col.id !== 'done'" class="mi:inline-flex mi:items-center mi:gap-[3px] mi:ms-auto mi:text-[11px] mi:font-semibold mi:text-orange-t" :title="'In this column for ' + item.age + ' days'">
                     <MiIcon :svg="clock" :size="12" />{{ item.age }}d
                   </span>
                 </div>
-                <p class="kb__card-title">{{ item.title }}</p>
-                <div class="kb__card-foot">
+                <p class="mi:m-0 mi:text-[14px] mi:leading-[1.35] mi:font-medium">{{ item.title }}</p>
+                <div class="mi:flex mi:items-center mi:gap-2">
                   <MiAvatar :name="item.owner" tone="auto" :size="22" />
-                  <span class="kb__card-pts">{{ item.points }} pts</span>
-                  <span class="kb__moves">
+                  <span class="mi:text-[12px] mi:font-semibold mi:text-label2 mi:tabular-nums">{{ item.points }} pts</span>
+                  <span class="mi:inline-flex mi:gap-1 mi:ms-auto">
                     <MiIconButton :label="'Move ' + item.key + ' to ' + (columns[ci - 1]?.name ?? '')" variant="gray" size="small" :disabled="ci === 0" @click="move(ci, item.id, -1)">
                       <MiIcon name="chevron-left" :size="14" />
                     </MiIconButton>
@@ -74,17 +74,23 @@
               </article>
             </template>
           </MiSortable>
-          <p v-if="!col.items.length" class="kb__empty">Nothing here yet.</p>
+          <p v-if="!col.items.length" class="mi:m-0 mi:py-4.5 mi:px-0 mi:text-center mi:text-[13px] mi:text-label3 mi:[border:1.5px_dashed_var(--mi-sep)] mi:rounded-lg">Nothing here yet.</p>
         </section>
       </div>
     </div>
-    <p class="kb__sr" role="status">{{ announce }}</p>
+    <p class="mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap mi:m-0" role="status">{{ announce }}</p>
   </section>
 </template>
 
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
 
+const TYPE = {
+  feature: 'mi:bg-p-tint mi:text-p-text',
+  bug: 'mi:bg-red/14 mi:text-red-t',
+  chore: 'mi:bg-fill3 mi:text-label2'
+} as const
+const isOver = (col: { limit?: number, items: unknown[] }) => !!col.limit && col.items.length > col.limit
 type Card = { id: string, key: string, title: string, type: 'bug' | 'feature' | 'chore', points: number, owner: string, age: number }
 interface Column { id: string, name: string, color: string, limit?: number, items: Card[] }
 
@@ -164,57 +170,3 @@ function addCard(col: Column) {
   announce.value = `Card added to ${col.name}.`
 }
 </script>
-
-<style scoped>
-.kb { container-type: inline-size; display: flex; flex-direction: column; min-height: 100%; font-family: var(--mi-font); color: var(--mi-label); background: var(--mi-page); }
-
-.kb__bar { display: grid; gap: 14px; padding: 16px; border-bottom: 1px solid var(--mi-sep); background: var(--mi-card); }
-@container (min-width: 900px) { .kb__bar { grid-template-columns: auto minmax(180px, 1fr) auto; align-items: center; gap: 24px; padding: 16px 22px; } }
-.kb__title { display: flex; align-items: center; gap: 12px; min-width: 0; }
-.kb__logo {
-  display: grid; place-items: center; flex: none; width: 40px; height: 40px; border-radius: 12px; font-size: 13px; font-weight: 800; letter-spacing: -.02em;
-  background: linear-gradient(135deg, var(--mi-p), var(--mi-s)); color: var(--mi-p-on);
-}
-.kb__burn { display: grid; gap: 6px; }
-.kb__burn-top { display: flex; justify-content: space-between; gap: 8px; }
-.kb__burn-bar { height: 6px; border-radius: 3px; background: var(--mi-fill3); overflow: hidden; }
-.kb__burn-bar span { display: block; height: 100%; background: var(--mi-green); transform-origin: left; transition: transform var(--mi-dur-4) var(--mi-spring); }
-.kb__tools { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
-.kb__search { flex: 1 1 160px; min-width: 0; }
-
-.kb__scroll { flex: 1; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: 16px; }
-.kb__scroll:focus-visible { outline: 2px solid var(--mi-p); outline-offset: -2px; }
-.kb__cols { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(260px, 86%); gap: 12px; align-items: start; padding: 16px; }
-@container (min-width: 600px) { .kb__cols { grid-auto-columns: 290px; } }
-@container (min-width: 1160px) { .kb__cols { grid-auto-columns: minmax(0, 1fr); padding: 20px 22px; } }
-
-.kb__col { display: grid; gap: 10px; padding: 12px; border-radius: var(--mi-radius-xl); background: var(--mi-fill4); scroll-snap-align: start; min-width: 0; }
-.kb__col.is-over { background: color-mix(in srgb, var(--mi-orange) 10%, var(--mi-fill4)); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--mi-orange) 45%, transparent); }
-.kb__col-head { display: flex; align-items: center; gap: 8px; min-width: 0; padding-inline: 2px; }
-.kb__col-head h3 { margin: 0; white-space: nowrap; }
-.kb__col-dot { width: 8px; height: 8px; flex: none; border-radius: 50%; background: var(--c); }
-.kb__count { padding: 1px 7px; border-radius: 999px; font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; background: var(--mi-fill3); color: var(--mi-label2); }
-.is-over .kb__count { background: var(--mi-orange); color: var(--mi-p-on); }
-.kb__pts { font-size: 12px; color: var(--mi-label3); white-space: nowrap; }
-.kb__add { margin-inline-start: auto; }
-.kb__warn { margin: 0; font-size: 12px; line-height: 1.35; color: var(--mi-orange-t); }
-.kb__compose { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px; }
-.kb__list { min-width: 0; }
-.kb__empty { margin: 0; padding: 18px 0; text-align: center; font-size: 13px; color: var(--mi-label3); border: 1.5px dashed var(--mi-sep); border-radius: var(--mi-radius-l); }
-
-/* The sortable row is already the card shell; the card only lays out its content. */
-.kb__card { display: grid; gap: 8px; padding: 2px 0; transition: opacity var(--mi-dur-2) var(--mi-ease); min-width: 0; }
-.kb__card.is-dim { opacity: .35; }
-.kb__card-top { display: flex; align-items: center; gap: 8px; }
-.kb__type { padding: 1px 7px; border-radius: 6px; font-size: 11px; font-weight: 600; text-transform: capitalize; }
-.kb__type.is-feature { background: var(--mi-p-tint); color: var(--mi-p-text); }
-.kb__type.is-bug { background: color-mix(in srgb, var(--mi-red) 14%, transparent); color: var(--mi-red-t); }
-.kb__type.is-chore { background: var(--mi-fill3); color: var(--mi-label2); }
-.kb__key { font-size: 11px; font-weight: 600; color: var(--mi-label3); font-variant-numeric: tabular-nums; }
-.kb__stale { display: inline-flex; align-items: center; gap: 3px; margin-inline-start: auto; font-size: 11px; font-weight: 600; color: var(--mi-orange-t); }
-.kb__card-title { margin: 0; font-size: 14px; line-height: 1.35; font-weight: 500; }
-.kb__card-foot { display: flex; align-items: center; gap: 8px; }
-.kb__card-pts { font-size: 12px; font-weight: 600; color: var(--mi-label2); font-variant-numeric: tabular-nums; }
-.kb__moves { display: inline-flex; gap: 4px; margin-inline-start: auto; }
-.kb__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; margin: 0; }
-</style>

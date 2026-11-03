@@ -1,14 +1,14 @@
 <template>
-  <section class="dep" aria-labelledby="dep-title">
-    <header class="dep__head">
-      <div class="dep__id">
+  <section class="mi:@container mi:flex mi:flex-col mi:gap-5 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:font-mi mi:text-label" aria-labelledby="dep-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3.5">
+      <div class="mi:grid mi:gap-0.5 mi:min-w-0">
         <MiText variant="caption" tone="label2" weight="medium">Dispute dp_7Hq2 · charge of 12 October · Mastercard •••• 8810</MiText>
         <MiText id="dep-title" as="h2" variant="title3" weight="bold">Product not received</MiText>
         <MiText variant="footnote" tone="label2">Customer: Elodie Varga · order #31877 · 2× Walnut desk shelf</MiText>
       </div>
-      <div class="dep__amount">
+      <div class="mi:grid mi:justify-items-start mi:gap-1 mi:@[620px]:justify-items-end">
         <MiBadge :tone="status.tone" :label="status.label" dot />
-        <p class="dep__big">$1,240.00</p>
+        <p class="mi:m-0 mi:text-[clamp(28px,_6cqi,_38px)] mi:font-bold mi:tracking-[-.035em] mi:tabular-nums">$1,240.00</p>
         <MiText variant="caption" tone="label2">+ $15.00 dispute fee</MiText>
       </div>
     </header>
@@ -18,18 +18,18 @@
       :color="submitted ? 'var(--mi-green)' : 'var(--mi-orange)'" value-text="15 of 21 days used"
     />
 
-    <div class="dep__grid">
+    <div class="mi:grid mi:gap-5 mi:@[760px]:grid-cols-[minmax(0,_1fr)_minmax(0,_1fr)] mi:@[760px]:gap-7">
       <!-- Evidence checklist: the bank weighs these, so required items gate the submission. -->
-      <div class="dep__col">
-        <div class="dep__col-head">
+      <div class="mi:grid mi:content-start mi:gap-3 mi:min-w-0">
+        <div class="mi:flex mi:items-baseline mi:justify-between mi:gap-2.5">
           <MiText as="h3" variant="headline">Evidence</MiText>
           <MiText variant="caption" tone="label2">{{ attachedCount }} of {{ evidence.length }} attached</MiText>
         </div>
-        <ul class="dep__list">
-          <li v-for="e in evidence" :key="e.id" class="dep__item">
-            <MiIcon :name="e.file ? 'check-circle-fill' : 'document'" :size="20" class="dep__icon" :class="{ 'is-on': e.file }" />
-            <div class="dep__text">
-              <MiText variant="subheadline" weight="medium">{{ e.label }} <span v-if="e.required" class="dep__req">Required</span></MiText>
+        <ul class="mi:grid mi:m-0 mi:p-0 mi:[list-style:none] mi:border mi:border-sep mi:rounded-lg">
+          <li v-for="e in evidence" :key="e.id" class="mi:grid mi:grid-cols-[auto_minmax(0,_1fr)_auto] mi:items-center mi:gap-3 mi:py-3 mi:px-3.5 mi:not-first:border-t mi:not-first:border-t-sep">
+            <MiIcon :name="e.file ? 'check-circle-fill' : 'document'" :size="20" " :class="e.file ? 'mi:text-green' : 'mi:text-label3'" />
+            <div class="mi:min-w-0">
+              <MiText variant="subheadline" weight="medium">{{ e.label }} <span v-if="e.required" class="mi:ml-1 mi:text-[11px] mi:font-semibold mi:text-orange-t">Required</span></MiText>
               <MiText variant="caption" tone="label2" :lines="1">{{ e.file || e.hint }}</MiText>
             </div>
             <MiButton v-if="!e.file" variant="tinted" size="small" :disabled="submitted" @click="e.file = e.sample">Attach</MiButton>
@@ -40,14 +40,14 @@
         </ul>
       </div>
 
-      <div class="dep__col">
+      <div class="mi:grid mi:content-start mi:gap-3 mi:min-w-0">
         <MiText as="h3" variant="headline">Your response</MiText>
         <MiField label="Summary for the bank" :hint="rebuttal.trim().length < 80 ? `At least 80 characters (${rebuttal.trim().length} so far).` : 'Clear and factual reads best.'">
           <MiTextarea v-model="rebuttal" :rows="5" :maxlength="1000" counter :disabled="submitted" />
         </MiField>
         <MiAlert v-if="submitted" tone="success" title="Evidence submitted" message="The issuing bank usually decides within 60 to 75 days. We'll email you either way." />
         <MiAlert v-else-if="missing.length" tone="warning" :message="'Still needed: ' + missing.join(', ') + '.'" />
-        <div class="dep__actions">
+        <div class="mi:flex mi:flex-wrap mi:[justify-content:flex-end] mi:gap-2">
           <MiButton variant="destructive" soft :disabled="submitted">Accept dispute</MiButton>
           <MiButton :disabled="!canSubmit" @click="submitted = true">Submit evidence</MiButton>
         </div>
@@ -76,27 +76,3 @@ const canSubmit = computed(() => !submitted.value && !missing.value.length && re
 const status = computed<{ tone: 'warning' | 'primary', label: string }>(() =>
   submitted.value ? { tone: 'primary', label: 'Under review' } : { tone: 'warning', label: 'Needs response' })
 </script>
-
-<style scoped>
-.dep { container-type: inline-size; display: flex; flex-direction: column; gap: 20px; padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); font-family: var(--mi-font); color: var(--mi-label); }
-.dep__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 14px; }
-.dep__id { display: grid; gap: 2px; min-width: 0; }
-.dep__amount { display: grid; justify-items: start; gap: 4px; }
-@container (min-width: 620px) { .dep__amount { justify-items: end; } }
-.dep__big { margin: 0; font-size: clamp(28px, 6cqi, 38px); font-weight: 700; letter-spacing: -.035em; font-variant-numeric: tabular-nums; }
-
-.dep__grid { display: grid; gap: 20px; }
-@container (min-width: 760px) { .dep__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px; } }
-.dep__col { display: grid; align-content: start; gap: 12px; min-width: 0; }
-.dep__col-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
-
-.dep__list { display: grid; margin: 0; padding: 0; list-style: none; border: 1px solid var(--mi-sep); border-radius: var(--mi-radius-l); }
-.dep__item { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 12px 14px; }
-.dep__item + .dep__item { border-top: 1px solid var(--mi-sep); }
-.dep__icon { color: var(--mi-label3); }
-.dep__icon.is-on { color: var(--mi-green); }
-.dep__text { min-width: 0; }
-.dep__req { margin-left: 4px; font-size: 11px; font-weight: 600; color: var(--mi-orange-t); }
-
-.dep__actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
-</style>

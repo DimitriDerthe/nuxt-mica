@@ -16,10 +16,9 @@ defineSlots<{
 </script>
 
 <template>
-  <div class="mi-aspect" :style="style"><slot /></div>
+  <div class="mi-aspect mi:relative mi:w-full mi:overflow-hidden" :style="style"><slot /></div>
 </template>
 
 <style scoped>
-.mi-aspect{position:relative;width:100%;overflow:hidden}
 .mi-aspect > :deep(img),.mi-aspect > :deep(video){width:100%;height:100%;object-fit:cover;display:block}
 </style>

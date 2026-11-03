@@ -148,7 +148,7 @@ onBeforeUnmount(() => { if (raf) cancelAnimationFrame(raf); ro?.disconnect() })
   <MiChartCard :title="title" :subtitle="subtitle" :surface="card">
     <div
       ref="plotEl"
-      class="mi-bc"
+      class="mi-bc mi:rounded-[10px] mi:touch-pan-y mi:font-mi mi:text-label"
       tabindex="0"
       role="group"
       :aria-label="`${description} Use the left and right arrow keys to read each column.`"
@@ -158,38 +158,29 @@ onBeforeUnmount(() => { if (raf) cancelAnimationFrame(raf); ro?.disconnect() })
       @keydown="onKey"
       @blur="commit(-1, false)"
     >
-      <svg class="mi-bc-svg" :viewBox="`0 0 ${W} ${height}`" width="100%" role="img" :aria-label="description">
+      <svg class="mi-bc-svg mi:block mi:overflow-visible mi:h-auto" :viewBox="`0 0 ${W} ${height}`" width="100%" role="img" :aria-label="description">
         <template v-for="(t, i) in tickRows" :key="i">
-          <line :x1="LEFT" :x2="RIGHT" :y1="t.y" :y2="t.y" stroke-width="1" class="mi-bc-gridline" />
-          <text :x="LEFT - 8" :y="t.ty" text-anchor="end" font-size="11" class="mi-bc-axis">{{ t.label }}</text>
+          <line :x1="LEFT" :x2="RIGHT" :y1="t.y" :y2="t.y" stroke-width="1" class="mi-bc-gridline mi:stroke-sep" />
+          <text :x="LEFT - 8" :y="t.ty" text-anchor="end" font-size="11" class="mi-bc-axis mi:fill-label2">{{ t.label }}</text>
         </template>
         <g v-for="b in bars" :key="b.i">
           <path
-            class="mi-bc-bar"
+            class="mi-bc-bar mi:[transition:opacity_var(--mi-dur-1)_ease] mi:[&.is-dim]:opacity-45 mi:[&.is-anim]:[transform-box:fill-box] mi:[&.is-anim]:origin-[50%_100%]"
             :class="{ 'is-anim': animate, 'is-dim': hl >= 0 && hl !== b.i }"
             :d="b.path"
             :style="{ fill: b.color, '--mi-bc-i': b.i }"
           />
-          <text :x="b.cx" :y="height - 6" text-anchor="middle" font-size="11" class="mi-bc-axis">{{ b.label }}</text>
-          <text :x="b.cx" :y="b.y - 8" text-anchor="middle" font-size="12" font-weight="600" class="mi-bc-val" :class="{ 'is-on': showLabel(b.i) }">{{ b.text }}</text>
+          <text :x="b.cx" :y="height - 6" text-anchor="middle" font-size="11" class="mi-bc-axis mi:fill-label2">{{ b.label }}</text>
+          <text :x="b.cx" :y="b.y - 8" text-anchor="middle" font-size="12" font-weight="600" class="mi-bc-val mi:fill-label mi:opacity-0 mi:[transition:opacity_var(--mi-dur-1)_ease] mi:pointer-events-none mi:[&.is-on]:opacity-100" :class="{ 'is-on': showLabel(b.i) }">{{ b.text }}</text>
         </g>
         <rect v-for="b in bars" :key="`h${b.i}`" :data-i="b.i" :x="b.hx" y="0" :width="b.hw" :height="base + 6" fill="transparent" />
       </svg>
-      <span class="mi-bc-sr" role="status" aria-live="polite">{{ live }}</span>
+      <span class="mi-bc-sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap" role="status" aria-live="polite">{{ live }}</span>
     </div>
   </MiChartCard>
 </template>
 
 <style scoped>
-.mi-bc{border-radius:10px;touch-action:pan-y;font-family:var(--mi-font);color:var(--mi-label)}
-.mi-bc-svg{display:block;overflow:visible;height:auto}
-.mi-bc-gridline{stroke:var(--mi-sep)}
-.mi-bc-axis{fill:var(--mi-label2)}
-.mi-bc-val{fill:var(--mi-label);opacity:0;transition:opacity var(--mi-dur-1) ease;pointer-events:none}
-.mi-bc-val.is-on{opacity:1}
-.mi-bc-bar{transition:opacity var(--mi-dur-1) ease}
-.mi-bc-bar.is-dim{opacity:.45}
-.mi-bc-bar.is-anim{transform-box:fill-box;transform-origin:50% 100%;animation:mi-bc-grow var(--mi-dur-4) var(--mi-ease) calc(var(--mi-bc-i) * 30ms) both}
-.mi-bc-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.mi-bc-bar.is-anim{animation:mi-bc-grow var(--mi-dur-4) var(--mi-ease) calc(var(--mi-bc-i) * 30ms) both}
 @keyframes mi-bc-grow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
 </style>

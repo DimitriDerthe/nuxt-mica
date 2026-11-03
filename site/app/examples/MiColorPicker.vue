@@ -12,12 +12,12 @@ defineProps<{ p: Record<string, unknown> }>()
 
 <template>
   <div class="card">
-    <div class="head">
+    <div class="head mi:grid mi:gap-0.5">
       <MiText variant="headline" as="h3">Brand</MiText>
       <MiText variant="footnote" tone="label2">Changes apply to the whole site instantly.</MiText>
     </div>
     <MiColorPicker v-bind="p" />
-    <div class="preview">
+    <div class="preview mi:flex mi:flex-wrap mi:gap-2 mi:pt-3.5 mi:border-t mi:border-t-sep">
       <MiButton size="small" :brand="p.target === 'secondary' ? 'secondary' : 'primary'">Save changes</MiButton>
       <MiButton size="small" variant="tinted" :brand="p.target === 'secondary' ? 'secondary' : 'primary'">Preview</MiButton>
     </div>
@@ -26,6 +26,4 @@ defineProps<{ p: Record<string, unknown> }>()
 
 <style scoped>
 .card { display: grid; gap: 16px; width: min(100%, 340px); padding: 18px; border-radius: 18px; background: var(--mi-card); box-shadow: var(--mi-sh1); box-sizing: border-box; }
-.head { display: grid; gap: 2px; }
-.preview { display: flex; flex-wrap: wrap; gap: 8px; padding-top: 14px; border-top: 1px solid var(--mi-sep); }
 </style>

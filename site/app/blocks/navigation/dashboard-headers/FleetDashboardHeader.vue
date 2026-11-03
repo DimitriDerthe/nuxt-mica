@@ -1,27 +1,27 @@
 <template>
-  <div class="dh">
-    <header class="dh__header">
+  <div class="mi:@container mi:grid mi:content-start mi:min-h-full mi:font-mi mi:text-label mi:[background:var(--mi-page)]">
+    <header class="mi:grid mi:gap-3.5 mi:pt-2.5 mi:px-3.5 mi:pb-4 mi:[background:var(--mi-card)] mi:shadow-[0_1px_0_var(--mi-sep)] mi:@[560px]:pt-3 mi:@[560px]:px-5 mi:@[560px]:pb-4.5">
       <!-- Row 1: workspace, trail, global tools. -->
-      <div class="dh__bar">
-        <MiIconButton class="dh__burger" size="toolbar" variant="plain" :label="menuOpen ? 'Close navigation' : 'Open navigation'" :pressed="menuOpen" aria-controls="dh-menu" :aria-expanded="menuOpen" @click="menuOpen = !menuOpen">
+      <div class="mi:flex mi:items-center mi:gap-2 mi:min-w-0">
+        <MiIconButton class="mi:@[900px]:hidden!" size="toolbar" variant="plain" :label="menuOpen ? 'Close navigation' : 'Open navigation'" :pressed="menuOpen" aria-controls="dh-menu" :aria-expanded="menuOpen" @click="menuOpen = !menuOpen">
           <MiIcon :svg="menuOpen ? icons.close : icons.burger" />
         </MiIconButton>
 
         <MiMenu v-model="workspace" variant="popup" :items="workspaces" aria-label="Switch workspace">
           <template #trigger="{ props }">
-            <button v-bind="props" type="button" class="dh__ws">
-              <span class="dh__ws-tile" aria-hidden="true">{{ currentWs.initials }}</span>
-              <span class="dh__ws-name">{{ currentWs.label }}</span>
+            <button v-bind="props" type="button" class="mi:[font:inherit] mi:text-[14px] mi:font-semibold mi:inline-flex mi:items-center mi:gap-2 mi:min-w-0 mi:h-9 mi:pt-0 mi:pr-2 mi:pb-0 mi:pl-1 mi:[border:0] mi:rounded-[10px] mi:text-inherit mi:[background:none] mi:cursor-pointer mi:hover:[background:var(--mi-fill4)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]">
+              <span class="mi:grid mi:place-items-center mi:flex-[none] mi:w-7 mi:h-7 mi:rounded-[8px] mi:text-[11px] mi:font-extrabold mi:tracking-[.02em] mi:text-p-on mi:[background:linear-gradient(140deg,_var(--mi-p),_var(--mi-s))]" aria-hidden="true">{{ currentWs.initials }}</span>
+              <span class="mi:overflow-hidden mi:whitespace-nowrap mi:text-ellipsis mi:max-w-[9ch] mi:@[560px]:max-w-[18ch]">{{ currentWs.label }}</span>
               <MiIcon name="chevron-up-down" :size="14" />
             </button>
           </template>
         </MiMenu>
 
-        <MiBreadcrumb class="dh__crumbs" :items="crumbs" />
+        <MiBreadcrumb class="mi:hidden mi:min-w-0 mi:pl-3 mi:border-l mi:border-l-sep mi:@[900px]:block" :items="crumbs" />
 
-        <div class="dh__tools">
-          <MiSearch v-model="query" class="dh__search" size="compact" placeholder="Search shipments, drivers…" shortcut="⌘K" aria-label="Search the workspace" />
-          <MiIconButton class="dh__search-btn" size="toolbar" variant="plain" label="Search">
+        <div class="mi:flex mi:flex-[none] mi:items-center mi:gap-1 mi:ml-auto">
+          <MiSearch v-model="query" class="mi:hidden! mi:w-65! mi:@[560px]:inline-flex! mi:@[560px]:w-50! mi:@[900px]:w-65!" size="compact" placeholder="Search shipments, drivers…" shortcut="⌘K" aria-label="Search the workspace" />
+          <MiIconButton class="mi:@[560px]:hidden!" size="toolbar" variant="plain" label="Search">
             <MiIcon name="search" />
           </MiIconButton>
           <MiBadge :count="alerts" placement="top-right" :offset="2" count-noun="unread alerts">
@@ -33,22 +33,22 @@
         </div>
       </div>
 
-      <nav v-show="menuOpen" id="dh-menu" class="dh__menu" aria-label="Sections">
-        <a v-for="s in sections" :key="s" href="#" class="dh__menu-link" :aria-current="s === 'Fleet' ? 'page' : undefined" @click.prevent="menuOpen = false">{{ s }}</a>
+      <nav v-show="menuOpen" id="dh-menu" class="mi:grid mi:gap-0.5 mi:p-1.5 mi:rounded-lg mi:[background:var(--mi-fill4)] mi:@[900px]:hidden" aria-label="Sections">
+        <a v-for="s in sections" :key="s" href="#" class="mi:py-2.5 mi:px-3 mi:rounded-md mi:text-[15px] mi:font-medium mi:text-label2 mi:[text-decoration:none] mi:[&[aria-current='page']]:text-p-text mi:[&[aria-current='page']]:[background:var(--mi-p-tint)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px]" :aria-current="s === 'Fleet' ? 'page' : undefined" @click.prevent="menuOpen = false">{{ s }}</a>
       </nav>
 
       <!-- Row 2: page title, freshness and the page's own actions. -->
-      <div class="dh__title-row">
-        <div class="dh__title">
+      <div class="mi:grid mi:gap-3 mi:@[900px]:grid-cols-[minmax(0,_1fr)_auto] mi:@[900px]:items-center">
+        <div class="mi:flex mi:flex-wrap mi:items-center mi:gap-y-2 mi:gap-x-3">
           <MiText id="dh-title" variant="title2" as="h2" weight="bold">Fleet overview</MiText>
-          <button type="button" class="dh__sync" :aria-label="'Last synced ' + syncedText + '. Refresh now'" @click="refresh">
-            <span class="dh__sync-dot" aria-hidden="true" />
+          <button type="button" class="mi:[font:inherit] mi:text-[12px] mi:font-medium mi:tabular-nums mi:inline-flex mi:items-center mi:gap-1.5 mi:h-6.5 mi:py-0 mi:px-2.5 mi:[border:0] mi:rounded-[999px] mi:text-label2 mi:[background:var(--mi-fill4)] mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" :aria-label="'Last synced ' + syncedText + '. Refresh now'" @click="refresh">
+            <span class="mi:w-[7px] mi:h-[7px] mi:rounded-[50%] mi:[background:var(--mi-green)] mi:shadow-[0_0_0_3px_color-mix(in_srgb,_var(--mi-green)_20%,_transparent)]" aria-hidden="true" />
             <span>Synced {{ syncedText }}</span>
-            <MiIcon :svg="icons.refresh" :size="13" :class="{ 'is-spinning': spinning }" />
+            <MiIcon :svg="icons.refresh" :size="13" :class="spinning ? 'mi:animate-[spin_700ms_var(--mi-ease)]' : ''" />
           </button>
         </div>
-        <div class="dh__actions">
-          <MiSegmented v-model="range" label="Time range" :options="ranges" />
+        <div class="mi:flex mi:flex-wrap mi:items-center mi:gap-2">
+          <MiSegmented v-model="range" label="Time range" :options="ranges" class="mi:mr-auto mi:@[900px]:mr-1" />
           <MiButton variant="bordered" size="small">
             <template #leading><MiIcon :svg="icons.download" :size="16" /></template>
             Export
@@ -61,11 +61,11 @@
       </div>
 
       <!-- Row 3: the pulse rail, four figures that follow the time range. -->
-      <ul class="dh__rail" aria-label="Key figures">
-        <li v-for="k in kpis" :key="k.label" class="dh__kpi">
+      <ul class="mi:grid mi:grid-flow-col mi:auto-cols-[minmax(172px,_1fr)] mi:gap-0 mi:mt-0.5 mi:-mx-3.5 mi:mb-0 mi:py-0 mi:px-3.5 mi:[scroll-padding-inline:14px] mi:[list-style:none] mi:overflow-x-auto mi:[scroll-snap-type:x_mandatory] mi:[scrollbar-width:none] mi:@[560px]:-mx-5 mi:@[560px]:px-5 mi:@[560px]:[scroll-padding-inline:20px] mi:@[900px]:grid-flow-row mi:@[900px]:grid-cols-4 mi:@[900px]:overflow-visible" aria-label="Key figures">
+        <li v-for="k in kpis" :key="k.label" class="mi:grid mi:gap-1 mi:pt-2.5 mi:pr-4 mi:pb-1 mi:pl-0 mi:snap-start mi:not-first:pl-4 mi:not-first:[border-left:1px_dashed_var(--mi-sep)]">
           <MiText as="span" variant="caption" tone="label2" weight="medium">{{ k.label }}</MiText>
-          <span class="dh__kpi-row">
-            <span class="dh__kpi-val">{{ k.value }}</span>
+          <span class="mi:flex mi:items-baseline mi:gap-2">
+            <span class="mi:text-[22px] mi:font-bold mi:tracking-[-.03em] mi:tabular-nums">{{ k.value }}</span>
             <MiText as="span" variant="caption2" :tone="k.good ? 'green' : 'red'" weight="semibold">{{ k.delta }}</MiText>
           </span>
           <MiSparkline :values="k.spark" :width="96" :height="22" :animate="false" />
@@ -74,10 +74,10 @@
     </header>
 
     <!-- Faux page body so the header reads in context. -->
-    <main class="dh__body" aria-labelledby="dh-title">
-      <div class="dh__panel dh__panel--wide"><MiSkeleton :animated="false" :height="148" :radius="10" /></div>
-      <div class="dh__panel"><MiSkeleton variant="text" :lines="['70%', '90%', '55%', '80%']" :animated="false" /></div>
-      <div class="dh__panel"><MiSkeleton variant="text" :lines="['60%', '85%', '40%']" :animated="false" /></div>
+    <main class="mi:grid mi:gap-3 mi:py-4 mi:px-3.5 mi:@[560px]:grid-cols-[1fr_1fr] mi:@[560px]:p-5 mi:@[900px]:grid-cols-[2fr_1fr_1fr]" aria-labelledby="dh-title">
+      <div class="mi:min-h-30 mi:p-4 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-[0_0_0_1px_var(--mi-sep)] mi:grid mi:min-h-45 mi:@[560px]:col-span-full mi:@[900px]:col-[auto]"><MiSkeleton :animated="false" :height="148" :radius="10" /></div>
+      <div class="mi:min-h-30 mi:p-4 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-[0_0_0_1px_var(--mi-sep)]"><MiSkeleton variant="text" :lines="['70%', '90%', '55%', '80%']" :animated="false" /></div>
+      <div class="mi:min-h-30 mi:p-4 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-[0_0_0_1px_var(--mi-sep)]"><MiSkeleton variant="text" :lines="['60%', '85%', '40%']" :animated="false" /></div>
     </main>
   </div>
 </template>
@@ -143,74 +143,3 @@ function refresh() {
 onMounted(() => { clock = setInterval(() => { synced.value++ }, 1000) })
 onBeforeUnmount(() => { clearInterval(clock); clearTimeout(spinStop) })
 </script>
-
-<style scoped>
-.dh { container-type: inline-size; display: grid; align-content: start; min-height: 100%; font-family: var(--mi-font); color: var(--mi-label); background: var(--mi-page); }
-.dh__header { display: grid; gap: 14px; padding: 10px 14px 16px; background: var(--mi-card); box-shadow: 0 1px 0 var(--mi-sep); }
-
-.dh__bar { display: flex; align-items: center; gap: 8px; min-width: 0; }
-.dh__ws {
-  display: inline-flex; align-items: center; gap: 8px; min-width: 0; height: 36px; padding: 0 8px 0 4px; border: 0; border-radius: 10px;
-  font: inherit; font-size: 14px; font-weight: 600; color: inherit; background: none; cursor: pointer;
-}
-.dh__ws:hover { background: var(--mi-fill4); }
-.dh__ws:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 1px; }
-.dh__ws-tile { display: grid; place-items: center; flex: none; width: 28px; height: 28px; border-radius: 8px; font-size: 11px; font-weight: 800; letter-spacing: .02em; color: var(--mi-p-on); background: linear-gradient(140deg, var(--mi-p), var(--mi-s)); }
-.dh__ws-name { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 9ch; }
-.dh__crumbs { display: none; min-width: 0; padding-left: 12px; border-left: 1px solid var(--mi-sep); }
-.dh__tools { display: flex; flex: none; align-items: center; gap: 4px; margin-left: auto; }
-/* Doubled class so it beats the display set by MiSearch itself. */
-.dh__tools .dh__search { display: none; width: 260px; }
-
-.dh__menu { display: grid; gap: 2px; padding: 6px; border-radius: var(--mi-radius-l); background: var(--mi-fill4); }
-.dh__menu-link { padding: 10px 12px; border-radius: var(--mi-radius-m); font-size: 15px; font-weight: 500; color: var(--mi-label2); text-decoration: none; }
-.dh__menu-link[aria-current="page"] { color: var(--mi-p-text); background: var(--mi-p-tint); }
-.dh__menu-link:focus-visible { outline: 2px solid var(--mi-p); outline-offset: -2px; }
-
-.dh__title-row { display: grid; gap: 12px; }
-.dh__title { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
-.dh__sync {
-  display: inline-flex; align-items: center; gap: 6px; height: 26px; padding: 0 10px; border: 0; border-radius: 999px;
-  font: inherit; font-size: 12px; font-weight: 500; color: var(--mi-label2); background: var(--mi-fill4); cursor: pointer; font-variant-numeric: tabular-nums;
-}
-.dh__sync:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-.dh__sync-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--mi-green); box-shadow: 0 0 0 3px color-mix(in srgb, var(--mi-green) 20%, transparent); }
-.dh__sync .is-spinning { animation: dh-spin 700ms var(--mi-ease); }
-@keyframes dh-spin { to { transform: rotate(360deg); } }
-.dh__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
-.dh__actions > :first-child { margin-right: auto; }
-
-.dh__rail {
-  display: grid; grid-auto-flow: column; grid-auto-columns: minmax(172px, 1fr); gap: 0; margin: 2px -14px 0; padding: 0 14px; scroll-padding-inline: 14px; list-style: none;
-  overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
-}
-.dh__kpi { display: grid; gap: 4px; padding: 10px 16px 4px 0; scroll-snap-align: start; }
-.dh__kpi + .dh__kpi { padding-left: 16px; border-left: 1px dashed var(--mi-sep); }
-.dh__kpi-row { display: flex; align-items: baseline; gap: 8px; }
-.dh__kpi-val { font-size: 22px; font-weight: 700; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
-
-.dh__body { display: grid; gap: 12px; padding: 16px 14px; }
-.dh__panel { min-height: 120px; padding: 16px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: 0 0 0 1px var(--mi-sep); }
-.dh__panel--wide { display: grid; min-height: 180px; }
-
-@container (min-width: 560px) {
-  .dh__header { padding: 12px 20px 18px; }
-  .dh__tools .dh__search { display: inline-flex; width: 200px; }
-  .dh__ws-name { max-width: 18ch; }
-  .dh__tools .dh__search-btn { display: none; }
-  .dh__rail { margin-inline: -20px; padding-inline: 20px; scroll-padding-inline: 20px; }
-  .dh__body { grid-template-columns: 1fr 1fr; padding: 20px; }
-  .dh__panel--wide { grid-column: 1 / -1; }
-}
-@container (min-width: 900px) {
-  .dh__burger { display: none; }
-  .dh__menu { display: none; }
-  .dh__crumbs { display: block; }
-  .dh__tools .dh__search { width: 260px; }
-  .dh__title-row { grid-template-columns: minmax(0, 1fr) auto; align-items: center; }
-  .dh__actions > :first-child { margin-right: 4px; }
-  .dh__rail { grid-auto-flow: row; grid-template-columns: repeat(4, minmax(0, 1fr)); overflow: visible; }
-  .dh__body { grid-template-columns: 2fr 1fr 1fr; }
-  .dh__panel--wide { grid-column: auto; }
-}
-</style>

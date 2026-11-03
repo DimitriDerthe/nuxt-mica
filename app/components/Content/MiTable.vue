@@ -157,20 +157,20 @@ const colCount = computed(() => props.columns.length + (props.selectable === 'mu
 
 <template>
   <div
-    class="mi-tbl"
+    class="mi-tbl mi:overflow-auto mi:overscroll-contain"
     :class="{ 'mi-tbl--zebra': zebra, 'mi-tbl--cv': cv, 'mi-tbl--sticky': stickyHeader && maxHeight }"
     :style="{ '--mi-tbl-rh': rowH + 'px', maxHeight: maxHeight }"
     :tabindex="selectable ? undefined : 0"
     role="region"
     :aria-label="caption ?? 'Table'"
   >
-    <table class="mi-tbl__t" :role="selectable ? 'grid' : undefined" :aria-multiselectable="selectable === 'multiple' ? 'true' : undefined">
-      <caption v-if="caption" class="mi-tbl__cap">{{ caption }}</caption>
+    <table class="mi-tbl__t mi:w-full mi:border-separate mi:[border-spacing:0]" :role="selectable ? 'grid' : undefined" :aria-multiselectable="selectable === 'multiple' ? 'true' : undefined">
+      <caption v-if="caption" class="mi-tbl__cap mi:absolute mi:w-px mi:h-px mi:-m-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">{{ caption }}</caption>
       <thead>
         <tr>
-          <th v-if="selectable === 'multiple'" scope="col" class="mi-tbl__th mi-tbl__selcol">
+          <th v-if="selectable === 'multiple'" scope="col" class="mi-tbl__th mi-tbl__selcol mi:h-9 mi:font-semibold mi:text-label2 mi:[background:var(--mi-card)] mi:shadow-[inset_0_-.5px_0_var(--mi-sep)] mi:whitespace-nowrap mi:[.mi-tbl--sticky_&]:sticky mi:[.mi-tbl--sticky_&]:top-0 mi:[.mi-tbl--sticky_&]:z-2 mi:w-11">
             <input
-              class="mi-tbl__chk"
+              class="mi-tbl__chk mi:w-4 mi:h-4 mi:m-0 mi:align-middle mi:accent-p mi:cursor-pointer"
               type="checkbox"
               :checked="allSelected"
               :indeterminate="someSelected"
@@ -182,7 +182,7 @@ const colCount = computed(() => props.columns.length + (props.selectable === 'mu
             v-for="c in columns"
             :key="c.key"
             scope="col"
-            class="mi-tbl__th"
+            class="mi-tbl__th mi:h-9 mi:font-semibold mi:text-label2 mi:[background:var(--mi-card)] mi:shadow-[inset_0_-.5px_0_var(--mi-sep)] mi:whitespace-nowrap mi:[.mi-tbl--sticky_&]:sticky mi:[.mi-tbl--sticky_&]:top-0 mi:[.mi-tbl--sticky_&]:z-2"
             :class="[`mi-tbl__a-${c.align ?? 'start'}`, { 'mi-tbl__th--s': c.sortable }]"
             :style="c.width ? { width: c.width } : undefined"
             :aria-sort="ariaSort(c)"
@@ -190,14 +190,14 @@ const colCount = computed(() => props.columns.length + (props.selectable === 'mu
             <button
               v-if="c.sortable"
               type="button"
-              class="mi-tbl__sort"
+              class="mi-tbl__sort mi:flex mi:items-center mi:gap-1.5 mi:w-full mi:h-9 mi:py-0 mi:px-4 mi:[border:0] mi:[background:transparent] mi:text-label mi:[text-align:inherit] mi:cursor-pointer mi:whitespace-nowrap mi:focus-visible:outline-offset-[-3px]"
               :class="{ 'mi-tbl__sort--on': sort?.key === c.key }"
               @click="toggleSort(c)"
             >
               {{ c.label }}
               <svg
-                class="mi-tbl__car"
-                :class="{ 'mi-tbl__car--desc': sort?.key === c.key && sort.dir === 'desc' }"
+                class="mi-tbl__car mi:flex-[none] mi:opacity-35 mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease),opacity_var(--mi-dur-2)_linear] mi:[.mi-tbl__sort--on_&]:opacity-100"
+                :class="{ 'mi-tbl__car--desc mi:transform-[rotate(180deg)]': sort?.key === c.key && sort.dir === 'desc' }"
                 width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
               ><path d="M6 9l6 6 6-6" /></svg>
             </button>
@@ -207,7 +207,7 @@ const colCount = computed(() => props.columns.length + (props.selectable === 'mu
       </thead>
       <tbody ref="body">
         <tr v-if="!view.length">
-          <td class="mi-tbl__empty" :colspan="colCount">
+          <td class="mi-tbl__empty mi:py-7 mi:px-4 mi:text-center mi:text-label2" :colspan="colCount">
             <slot name="empty">{{ emptyText }}</slot>
           </td>
         </tr>
@@ -216,16 +216,16 @@ const colCount = computed(() => props.columns.length + (props.selectable === 'mu
           :key="rowId(r)"
           data-row
           class="mi-tbl__tr"
-          :class="{ 'mi-tbl__tr--sel': selSet.has(rowId(r)), 'mi-tbl__tr--int': selectable, 'mi-tbl__tr--odd': i % 2 === 1 }"
+          :class="{ 'mi-tbl__tr--sel': selSet.has(rowId(r)), 'mi-tbl__tr--int mi:cursor-pointer mi:[-webkit-tap-highlight-color:transparent] mi:focus-visible:outline-offset-[-3px]': selectable, 'mi-tbl__tr--odd': i % 2 === 1 }"
           :aria-selected="selectable ? selSet.has(rowId(r)) : undefined"
           :tabindex="selectable ? (i === focusIdx ? 0 : -1) : undefined"
           @click="onRowClick(r, i, $event)"
           @keydown="onRowKey(r, i, $event)"
           @focus="focusIdx = i"
         >
-          <td v-if="selectable === 'multiple'" class="mi-tbl__td mi-tbl__selcol">
+          <td v-if="selectable === 'multiple'" class="mi-tbl__td mi-tbl__selcol mi:w-11 mi:h-(--mi-tbl-rh) mi:align-middle mi:whitespace-nowrap">
             <input
-              class="mi-tbl__chk"
+              class="mi-tbl__chk mi:w-4 mi:h-4 mi:m-0 mi:align-middle mi:accent-p mi:cursor-pointer"
               type="checkbox"
               tabindex="-1"
               :checked="selSet.has(rowId(r))"
@@ -236,10 +236,10 @@ const colCount = computed(() => props.columns.length + (props.selectable === 'mu
           <td
             v-for="(c, ci) in columns"
             :key="c.key"
-            class="mi-tbl__td"
-            :class="[`mi-tbl__a-${c.align ?? 'start'}`, { 'mi-tbl__td--dim': c.muted, 'mi-tbl__td--num': c.numeric }]"
+            class="mi-tbl__td mi:h-(--mi-tbl-rh) mi:align-middle mi:whitespace-nowrap"
+            :class="[`mi-tbl__a-${c.align ?? 'start'}`, { 'mi-tbl__td--dim mi:text-label2': c.muted, 'mi-tbl__td--num mi:tabular-nums': c.numeric }]"
           >
-            <span :id="ci === 0 ? `${uid}-r${i}` : undefined" class="mi-tbl__c">
+            <span :id="ci === 0 ? `${uid}-r${i}` : undefined" class="mi-tbl__c mi:block mi:[.mi-tbl--cv_&]:[content-visibility:auto] mi:[.mi-tbl--cv_&]:[contain-intrinsic-size:auto_var(--mi-tbl-rh)] mi:[.mi-tbl--cv_&]:h-(--mi-tbl-rh) mi:[.mi-tbl--cv_&]:leading-(--mi-tbl-rh)">
               <slot :name="`cell-${c.key}`" :row="r" :value="r[c.key]" :selected="selSet.has(rowId(r))" :index="i">
                 <slot name="cell" :row="r" :column="c" :value="r[c.key]" :selected="selSet.has(rowId(r))" :index="i">{{ r[c.key] }}</slot>
               </slot>
@@ -252,33 +252,18 @@ const colCount = computed(() => props.columns.length + (props.selectable === 'mu
 </template>
 
 <style scoped>
-.mi-tbl{overflow:auto;border-radius:14px;background:var(--mi-card);box-shadow:var(--mi-sh1);color:var(--mi-label);font-family:var(--mi-font);font-size:13px;overscroll-behavior:contain}
-.mi-tbl__t{width:100%;border-collapse:separate;border-spacing:0}
-.mi-tbl__cap{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
-.mi-tbl__th{height:36px;padding:0 16px;font-weight:600;text-align:left;color:var(--mi-label2);background:var(--mi-card);box-shadow:inset 0 -.5px 0 var(--mi-sep);white-space:nowrap}
+.mi-tbl{border-radius:14px;background:var(--mi-card);box-shadow:var(--mi-sh1);color:var(--mi-label);font-family:var(--mi-font);font-size:13px}
+.mi-tbl__th{padding:0 16px;text-align:left}
 .mi-tbl__th--s{padding:0}
-.mi-tbl--sticky .mi-tbl__th{position:sticky;top:0;z-index:2}
-.mi-tbl__selcol{width:44px;padding:0 0 0 16px;text-align:left}
+.mi-tbl__selcol{padding:0 0 0 16px;text-align:left}
 .mi-tbl__a-center{text-align:center}
 .mi-tbl__a-end{text-align:right}
-.mi-tbl__sort{display:flex;align-items:center;gap:6px;width:100%;height:36px;padding:0 16px;border:0;background:transparent;color:var(--mi-label);font:inherit;font-weight:600;text-align:inherit;cursor:pointer;white-space:nowrap}
+.mi-tbl__sort{font:inherit;font-weight:600}
 .mi-tbl__a-end .mi-tbl__sort{justify-content:flex-end}
 .mi-tbl__a-center .mi-tbl__sort{justify-content:center}
-.mi-tbl__sort:focus-visible{outline-offset:-3px}
-.mi-tbl__car{flex:none;opacity:.35;transition:transform var(--mi-dur-2) var(--mi-ease),opacity var(--mi-dur-2) linear}
-.mi-tbl__sort--on .mi-tbl__car{opacity:1}
-.mi-tbl__car--desc{transform:rotate(180deg)}
 .mi-tbl--zebra .mi-tbl__tr--odd{background:var(--mi-zebra,var(--mi-fill4))}
-.mi-tbl__td{height:var(--mi-tbl-rh);padding:0 16px;vertical-align:middle;white-space:nowrap}
-.mi-tbl__td--dim{color:var(--mi-label2)}
-.mi-tbl__td--num{font-variant-numeric:tabular-nums}
-.mi-tbl__c{display:block}
-.mi-tbl--cv .mi-tbl__c{content-visibility:auto;contain-intrinsic-size:auto var(--mi-tbl-rh);height:var(--mi-tbl-rh);line-height:var(--mi-tbl-rh)}
-.mi-tbl__tr--int{cursor:pointer;-webkit-tap-highlight-color:transparent}
-.mi-tbl__tr--int:focus-visible{outline-offset:-3px}
+.mi-tbl__td{padding:0 16px}
 @media (hover:hover){.mi-tbl__tr--int:not(.mi-tbl__tr--sel):hover{background:var(--mi-fill3)}}
 /* Selected rows use the soft brand tint so badges, links and dim text inside cells stay readable. */
 .mi-tbl__tr.mi-tbl__tr--sel{background:var(--mi-p-tint)}
-.mi-tbl__chk{width:16px;height:16px;margin:0;vertical-align:middle;accent-color:var(--mi-p);cursor:pointer}
-.mi-tbl__empty{padding:28px 16px;text-align:center;color:var(--mi-label2)}
 </style>

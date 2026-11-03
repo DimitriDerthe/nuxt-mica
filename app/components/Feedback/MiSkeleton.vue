@@ -50,20 +50,20 @@ defineSlots<{
 </script>
 
 <template>
-  <div v-if="$slots.default" class="mi-skel-group" role="group" aria-busy="true" :aria-label="label">
+  <div v-if="$slots.default" class="mi-skel-group mi:flex-col mi:gap-3.5" role="group" aria-busy="true" :aria-label="label">
     <slot />
   </div>
-  <span v-else-if="rows.length" class="mi-skel-lines" aria-hidden="true">
-    <span v-for="(w, i) in rows" :key="i" class="mi-skel" :class="{ 'is-still': !animated }" :style="{ ...box, width: w ?? box.width }" />
+  <span v-else-if="rows.length" class="mi-skel-lines mi:flex-col mi:gap-2.5" aria-hidden="true">
+    <span v-for="(w, i) in rows" :key="i" class="mi-skel mi:relative mi:max-w-full mi:[contain:paint] mi:after:content-[''] mi:after:absolute mi:after:inset-0 mi:after:transform-[translate3d(-100%,0,0)] mi:after:will-change-transform" :class="{ 'is-still': !animated }" :style="{ ...box, width: w ?? box.width }" />
   </span>
-  <span v-else class="mi-skel" :class="{ 'is-still': !animated }" :style="box" aria-hidden="true" />
+  <span v-else class="mi-skel mi:relative mi:max-w-full mi:[contain:paint] mi:after:content-[''] mi:after:absolute mi:after:inset-0 mi:after:transform-[translate3d(-100%,0,0)] mi:after:will-change-transform" :class="{ 'is-still': !animated }" :style="box" aria-hidden="true" />
 </template>
 
 <style scoped>
-.mi-skel-group{display:flex;flex-direction:column;gap:14px}
-.mi-skel-lines{display:flex;flex-direction:column;gap:10px;width:100%}
-.mi-skel{position:relative;display:block;flex:none;max-width:100%;overflow:hidden;background:var(--mi-fill3);contain:paint}
-.mi-skel::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 0%,color-mix(in srgb,var(--mi-card) 60%,transparent) 50%,transparent 100%);transform:translate3d(-100%,0,0);animation:mi-skel-sweep 1.6s ease-in-out infinite;will-change:transform}
+.mi-skel-group{display:flex}
+.mi-skel-lines{display:flex;width:100%}
+.mi-skel{display:block;flex:none;overflow:hidden;background:var(--mi-fill3)}
+.mi-skel::after{background:linear-gradient(90deg,transparent 0%,color-mix(in srgb,var(--mi-card) 60%,transparent) 50%,transparent 100%);animation:mi-skel-sweep 1.6s ease-in-out infinite}
 .mi-skel.is-still::after{display:none}
 @keyframes mi-skel-sweep{to{transform:translate3d(100%,0,0)}}
 </style>

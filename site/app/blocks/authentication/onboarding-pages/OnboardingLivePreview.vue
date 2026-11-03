@@ -1,41 +1,41 @@
 <template>
-  <section class="olp" aria-labelledby="olp-title">
-    <div class="olp__in">
-    <div class="olp__ask">
-      <div class="olp__intro">
-        <MiText variant="caption" weight="semibold" tone="primary" class="olp__kicker">Step 2 of 3 · Shape your space</MiText>
+  <section class="mi:@container mi:font-mi mi:text-label" aria-labelledby="olp-title">
+    <div class="mi:grid mi:gap-5 mi:@[880px]:grid-cols-[minmax(0,_1fr)_minmax(0,_1fr)] mi:@[880px]:gap-8 mi:@[880px]:items-center">
+    <div class="mi:grid mi:gap-5.5">
+      <div class="mi:grid mi:gap-2">
+        <MiText variant="caption" weight="semibold" tone="primary" class="mi:tracking-[.02em]!">Step 2 of 3 · Shape your space</MiText>
         <MiText id="olp-title" as="h2" variant="title1" weight="bold" balance>Hi Amara, what will you plan in Loomline?</MiText>
         <MiText variant="subheadline" tone="label2">Pick a few things. The preview builds itself as you go, and you can change all of it later.</MiText>
       </div>
 
-      <fieldset class="olp__set">
-        <legend><MiText as="span" variant="subheadline" weight="semibold">Your role</MiText></legend>
-        <div class="olp__roles">
+      <fieldset class="mi:grid mi:gap-2.5 mi:min-w-0 mi:m-0 mi:p-0 mi:[border:0]">
+        <legend class="mi:p-0 mi:mb-2.5"><MiText as="span" variant="subheadline" weight="semibold">Your role</MiText></legend>
+        <div class="mi:grid mi:grid-cols-2 mi:gap-2 mi:[@container_(min-width:_560px)_and_(max-width:_879px)]:grid-cols-4">
           <button
-            v-for="r in roles" :key="r.id" type="button" class="olp__role" :class="{ 'is-on': role === r.id }"
+            v-for="r in roles" :key="r.id" type="button" class="mi:grid mi:justify-items-start mi:gap-0.5 mi:p-3 mi:[border:0] mi:rounded-lg mi:text-start mi:cursor-pointer mi:[font:inherit] mi:text-label mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:active:transform-[scale(.98)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] " :class="role === r.id ? 'mi:[background:var(--mi-p-tint)] mi:shadow-[inset_0_0_0_1.5px_var(--mi-p)]' : 'mi:[background:var(--mi-card)] mi:shadow-[inset_0_0_0_1px_var(--mi-sep)]'"
             :aria-pressed="role === r.id" @click="role = r.id"
           >
-            <MiIcon :svg="r.svg" :size="20" />
-            <span class="olp__role-name">{{ r.label }}</span>
-            <span class="olp__role-sub">{{ r.sub }}</span>
+            <MiIcon :svg="r.svg" :size="20" class="mi:mb-1.5" :class="role === r.id ? 'mi:text-p-text' : 'mi:text-label2'" />
+            <span class="mi:text-[14px] mi:font-semibold">{{ r.label }}</span>
+            <span class="mi:text-[12px] mi:text-label2">{{ r.sub }}</span>
           </button>
         </div>
       </fieldset>
 
-      <fieldset class="olp__set">
-        <legend><MiText as="span" variant="subheadline" weight="semibold">Start with these spaces</MiText></legend>
-        <div class="olp__chips">
+      <fieldset class="mi:grid mi:gap-2.5 mi:min-w-0 mi:m-0 mi:p-0 mi:[border:0]">
+        <legend class="mi:p-0 mi:mb-2.5"><MiText as="span" variant="subheadline" weight="semibold">Start with these spaces</MiText></legend>
+        <div class="mi:flex mi:flex-wrap mi:gap-2">
           <MiChip
             v-for="s in spaces" :key="s.id" v-model="picked[s.id]" selectable :label="s.label" />
         </div>
       </fieldset>
 
-      <div class="olp__set">
+      <div class="mi:grid mi:gap-2.5 mi:min-w-0 mi:m-0 mi:p-0 mi:[border:0]">
         <MiText as="span" variant="subheadline" weight="semibold">Team size</MiText>
-        <MiSegmented v-model="size" label="Team size" :options="sizes" class="olp__seg" />
+        <MiSegmented v-model="size" label="Team size" :options="sizes" class="mi:justify-self-start mi:max-w-full" />
       </div>
 
-      <div class="olp__actions">
+      <div class="mi:flex mi:flex-wrap mi:[justify-content:flex-end] mi:gap-2.5 mi:border-t mi:border-t-sep mi:pt-4">
         <MiButton variant="plain">Skip for now</MiButton>
         <MiButton size="large" :disabled="!canCreate" @click="created = true">
           {{ created ? 'Workspace ready' : 'Create workspace' }}
@@ -46,31 +46,31 @@
     </div>
 
     <!-- Live preview: a miniature of the workspace, assembled from the answers. -->
-    <div class="olp__preview" aria-label="Workspace preview" role="img">
-      <div class="olp__window" :class="{ 'is-created': created }">
-        <div class="olp__bar"><i /><i /><i /><span>{{ slug }}.loomline.app</span></div>
-        <div class="olp__app">
-          <aside class="olp__side">
-            <div class="olp__ws"><span class="olp__ws-mark" />{{ teamName }}</div>
-            <p class="olp__side-label">Spaces</p>
-            <TransitionGroup name="olp-item" tag="ul" class="olp__side-list">
-              <li v-for="s in chosen" :key="s.id"><span class="olp__swatch" :style="{ background: s.color }" />{{ s.label }}</li>
+    <div class="mi:p-4.5 mi:rounded-[24px] mi:[background:radial-gradient(120%_90%_at_0%_0%,_var(--mi-p-tint),_transparent_60%),_radial-gradient(100%_90%_at_100%_100%,_var(--mi-s-tint),_transparent_60%),_var(--mi-fill4)]" aria-label="Workspace preview" role="img">
+      <div class="mi:rounded-[14px] mi:[background:var(--mi-page)] mi:shadow-[0_0_0_1px_var(--mi-sep),_var(--mi-sh3)] mi:overflow-hidden mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)] " :class="created ? 'mi:transform-[translateY(-4px)_scale(1.01)]' : ''">
+        <div class="mi:flex mi:items-center mi:gap-[5px] mi:py-2 mi:px-2.5 mi:border-b mi:border-b-sep mi:[background:var(--mi-card)]"><i class="mi:w-[7px] mi:h-[7px] mi:rounded-[50%] mi:[background:var(--mi-fill)]" /><i class="mi:w-[7px] mi:h-[7px] mi:rounded-[50%] mi:[background:var(--mi-fill)]" /><i class="mi:w-[7px] mi:h-[7px] mi:rounded-[50%] mi:[background:var(--mi-fill)]" /><span class="mi:text-label2 mi:flex-1 mi:min-w-0 mi:ml-1.5 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:text-[10px] mi:text-center">{{ slug }}.loomline.app</span></div>
+        <div class="mi:grid mi:grid-cols-[108px_minmax(0,_1fr)] mi:min-h-65 mi:text-[11px]">
+          <aside class="mi:py-2.5 mi:px-2 mi:border-r mi:border-r-sep mi:[background:var(--mi-card)]">
+            <div class="mi:flex mi:items-center mi:gap-1.5 mi:font-bold mi:text-[11px]"><span class="mi:w-3.5 mi:h-3.5 mi:rounded-[4px] mi:[background:linear-gradient(135deg,_var(--mi-p),_var(--mi-s))] mi:flex-[none]" />{{ teamName }}</div>
+            <p class="mi:mt-3.5 mi:mx-0 mi:mb-1.5 mi:text-[9px] mi:font-semibold mi:tracking-[.06em] mi:uppercase mi:text-label3">Spaces</p>
+            <TransitionGroup tag="ul" enter-active-class="mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease),_transform_var(--mi-dur-3)_var(--mi-spring)]" enter-from-class="mi:opacity-0 mi:transform-[translateY(6px)_scale(.97)]" leave-active-class="mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease),_transform_var(--mi-dur-3)_var(--mi-spring)] mi:absolute" leave-to-class="mi:opacity-0 mi:transform-[translateY(6px)_scale(.97)]" move-class="mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring)]" class="mi:grid mi:gap-0.5 mi:m-0 mi:p-0 mi:[list-style:none]">
+              <li class="mi:py-1 mi:px-1.5 mi:whitespace-nowrap mi:overflow-hidden mi:text-ellipsis mi:flex mi:items-center mi:gap-1.5 mi:rounded-[6px] mi:[&:first-child]:[background:var(--mi-fill3)] mi:[&:first-child]:font-semibold" v-for="s in chosen" :key="s.id"><span class="mi:w-1.5 mi:h-1.5 mi:rounded-[2px] mi:flex-[none]" :style="{ background: s.color }" />{{ s.label }}</li>
             </TransitionGroup>
-            <p v-if="!chosen.length" class="olp__empty">No spaces yet</p>
+            <p v-if="!chosen.length" class="mi:m-0 mi:text-label3">No spaces yet</p>
           </aside>
-          <div class="olp__main">
-            <p class="olp__greet">Good morning, Amara</p>
-            <p class="olp__sub">{{ roleCopy }}</p>
-            <TransitionGroup name="olp-item" tag="div" class="olp__cards">
-              <div v-for="s in chosen.slice(0, 4)" :key="s.id" class="olp__card">
-                <span class="olp__card-top" :style="{ background: s.color }" />
-                <b>{{ s.label }}</b>
-                <span>{{ s.hint }}</span>
+          <div class="mi:grid mi:content-start mi:gap-1 mi:p-3 mi:min-w-0">
+            <p class="mi:m-0 mi:text-[14px] mi:font-bold mi:tracking-[-.01em]">Good morning, Amara</p>
+            <p class="mi:mt-0 mi:mx-0 mi:mb-2 mi:text-label2">{{ roleCopy }}</p>
+            <TransitionGroup tag="div" enter-active-class="mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease),_transform_var(--mi-dur-3)_var(--mi-spring)]" enter-from-class="mi:opacity-0 mi:transform-[translateY(6px)_scale(.97)]" leave-active-class="mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease),_transform_var(--mi-dur-3)_var(--mi-spring)] mi:absolute" leave-to-class="mi:opacity-0 mi:transform-[translateY(6px)_scale(.97)]" move-class="mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring)]" class="mi:grid mi:grid-cols-2 mi:gap-1.5">
+              <div v-for="s in chosen.slice(0, 4)" :key="s.id" class="mi:grid mi:gap-0.5 mi:p-2 mi:rounded-[8px] mi:[background:var(--mi-card)] mi:shadow-[0_0_0_1px_var(--mi-sep)] mi:min-w-0">
+                <span class="mi:h-[3px] mi:w-5.5 mi:rounded-[2px] mi:mb-1 mi:[&:last-child]:text-[10px]" :style="{ background: s.color }" />
+                <b class="mi:font-semibold mi:whitespace-nowrap mi:overflow-hidden mi:text-ellipsis">{{ s.label }}</b>
+                <span class="mi:[&:last-child]:text-[10px] mi:text-label2">{{ s.hint }}</span>
               </div>
             </TransitionGroup>
-            <div class="olp__seats">
-              <span v-for="n in seatDots" :key="n" class="olp__seat" />
-              <em>{{ sizeCopy }}</em>
+            <div class="mi:flex mi:items-center mi:gap-[3px] mi:mt-2.5">
+              <span v-for="n in seatDots" :key="n" class="mi:w-3 mi:h-3 mi:rounded-[50%] mi:[background:color-mix(in_srgb,_var(--mi-p)_55%,_var(--mi-card))] mi:shadow-[0_0_0_2px_var(--mi-page)] mi:not-first:-ml-1.5" />
+              <em class="mi:ml-2 mi:not-italic mi:text-label2">{{ sizeCopy }}</em>
             </div>
           </div>
         </div>
@@ -118,67 +118,3 @@ const roleCopy = computed(() => ({
 const seatDots = computed(() => Math.min(8, Math.max(1, Math.round(Number(size.value) / 4) || 1)))
 const sizeCopy = computed(() => (Number(size.value) === 1 ? 'Solo workspace' : `Room for ${sizes.find(s => s.value === size.value)?.label ?? ''} people`))
 </script>
-
-<style scoped>
-.olp { container-type: inline-size; font-family: var(--mi-font); color: var(--mi-label); }
-.olp__in { display: grid; gap: 20px; }
-@container (min-width: 880px) { .olp__in { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; align-items: center; } }
-
-.olp__ask { display: grid; gap: 22px; }
-.olp__intro { display: grid; gap: 8px; }
-.olp__kicker { letter-spacing: .02em; }
-.olp__set { display: grid; gap: 10px; min-width: 0; margin: 0; padding: 0; border: 0; }
-.olp__set legend { padding: 0; margin-bottom: 10px; }
-.olp__roles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-@container (min-width: 560px) and (max-width: 879px) { .olp__roles { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-.olp__role {
-  display: grid; justify-items: start; gap: 2px; padding: 12px; border: 0; border-radius: var(--mi-radius-l); text-align: start; cursor: pointer;
-  font: inherit; color: var(--mi-label); background: var(--mi-card); box-shadow: inset 0 0 0 1px var(--mi-sep);
-  transition: transform var(--mi-dur-2) var(--mi-ease);
-}
-.olp__role svg, .olp__role :deep(svg) { color: var(--mi-label2); margin-bottom: 6px; }
-.olp__role:active { transform: scale(.98); }
-.olp__role:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-.olp__role.is-on { background: var(--mi-p-tint); box-shadow: inset 0 0 0 1.5px var(--mi-p); }
-.olp__role.is-on :deep(svg) { color: var(--mi-p-text); }
-.olp__role-name { font-size: 14px; font-weight: 600; }
-.olp__role-sub { font-size: 12px; color: var(--mi-label2); }
-.olp__chips { display: flex; flex-wrap: wrap; gap: 8px; }
-.olp__seg { justify-self: start; max-width: 100%; }
-.olp__actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px; border-top: 1px solid var(--mi-sep); padding-top: 16px; }
-
-/* Preview window */
-.olp__preview { padding: 18px; border-radius: 24px; background: radial-gradient(120% 90% at 0% 0%, var(--mi-p-tint), transparent 60%), radial-gradient(100% 90% at 100% 100%, var(--mi-s-tint), transparent 60%), var(--mi-fill4); }
-.olp__window { border-radius: 14px; background: var(--mi-page); box-shadow: 0 0 0 1px var(--mi-sep), var(--mi-sh3); overflow: hidden; transition: transform var(--mi-dur-4) var(--mi-spring); }
-.olp__window.is-created { transform: translateY(-4px) scale(1.01); }
-.olp__bar { display: flex; align-items: center; gap: 5px; padding: 8px 10px; border-bottom: 1px solid var(--mi-sep); background: var(--mi-card); }
-.olp__bar i { width: 7px; height: 7px; border-radius: 50%; background: var(--mi-fill); }
-.olp__bar span { flex: 1; min-width: 0; margin-left: 6px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 10px; color: var(--mi-label2); text-align: center; }
-.olp__app { display: grid; grid-template-columns: 108px minmax(0, 1fr); min-height: 260px; font-size: 11px; }
-.olp__side { padding: 10px 8px; border-right: 1px solid var(--mi-sep); background: var(--mi-card); }
-.olp__ws { display: flex; align-items: center; gap: 6px; font-weight: 700; font-size: 11px; }
-.olp__ws-mark { width: 14px; height: 14px; border-radius: 4px; background: linear-gradient(135deg, var(--mi-p), var(--mi-s)); flex: none; }
-.olp__side-label { margin: 14px 0 6px; font-size: 9px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--mi-label3); }
-.olp__side-list { display: grid; gap: 2px; margin: 0; padding: 0; list-style: none; }
-.olp__side-list li { display: flex; align-items: center; gap: 6px; padding: 4px 6px; border-radius: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.olp__side-list li:first-child { background: var(--mi-fill3); font-weight: 600; }
-.olp__swatch { width: 6px; height: 6px; border-radius: 2px; flex: none; }
-.olp__empty { margin: 0; color: var(--mi-label3); }
-.olp__main { display: grid; align-content: start; gap: 4px; padding: 12px; min-width: 0; }
-.olp__greet { margin: 0; font-size: 14px; font-weight: 700; letter-spacing: -.01em; }
-.olp__sub { margin: 0 0 8px; color: var(--mi-label2); }
-.olp__cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
-.olp__card { display: grid; gap: 2px; padding: 8px; border-radius: 8px; background: var(--mi-card); box-shadow: 0 0 0 1px var(--mi-sep); min-width: 0; }
-.olp__card-top { height: 3px; width: 22px; border-radius: 2px; margin-bottom: 4px; }
-.olp__card b { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.olp__card span:last-child { color: var(--mi-label2); font-size: 10px; }
-.olp__seats { display: flex; align-items: center; gap: 3px; margin-top: 10px; }
-.olp__seat { width: 12px; height: 12px; border-radius: 50%; background: color-mix(in srgb, var(--mi-p) 55%, var(--mi-card)); box-shadow: 0 0 0 2px var(--mi-page); }
-.olp__seat + .olp__seat { margin-left: -6px; }
-.olp__seats em { margin-left: 8px; font-style: normal; color: var(--mi-label2); }
-
-.olp-item-enter-active, .olp-item-leave-active { transition: opacity var(--mi-dur-3) var(--mi-ease), transform var(--mi-dur-3) var(--mi-spring); }
-.olp-item-enter-from, .olp-item-leave-to { opacity: 0; transform: translateY(6px) scale(.97); }
-.olp-item-leave-active { position: absolute; }
-.olp-item-move { transition: transform var(--mi-dur-3) var(--mi-spring); }
-</style>

@@ -88,41 +88,33 @@ const _slots = defineSlots<{
 <template>
   <button
     type="button"
-    class="mi-copy"
+    class="mi-copy mi:cursor-pointer mi:[-webkit-tap-highlight-color:transparent] mi:disabled:cursor-not-allowed"
     :class="[`mi-copy--${variant}`, { 'is-copied': copied, 'is-icon': !showText }]"
     :disabled="disabled ? true : undefined"
     :aria-label="showText ? undefined : name"
     @click="copy"
   >
-    <span class="mi-copy__icons" aria-hidden="true">
-      <span class="mi-copy__ico mi-copy__ico--idle"><slot name="icon"><MiIcon name="copy" :size="16" /></slot></span>
-      <span class="mi-copy__ico mi-copy__ico--done"><MiIcon name="check" :size="16" :weight="2.4" /></span>
+    <span class="mi-copy__icons mi:relative mi:inline-grid mi:w-4 mi:h-4 mi:flex-[none]" aria-hidden="true">
+      <span class="mi-copy__ico mi-copy__ico--idle mi:[grid-area:1_/_1] mi:grid mi:place-items-center mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring),_opacity_var(--mi-dur-2)_var(--mi-ease)] mi:[.mi-copy.is-copied_&]:opacity-0 mi:[.mi-copy.is-copied_&]:transform-[scale3d(.4,_.4,_1)_rotate(30deg)]"><slot name="icon"><MiIcon name="copy" :size="16" /></slot></span>
+      <span class="mi-copy__ico mi-copy__ico--done mi:[grid-area:1_/_1] mi:grid mi:place-items-center mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring),_opacity_var(--mi-dur-2)_var(--mi-ease)] mi:opacity-0 mi:transform-[scale3d(.4,_.4,_1)_rotate(-30deg)] mi:[.mi-copy.is-copied_&]:opacity-100 mi:[.mi-copy.is-copied_&]:transform-none"><MiIcon name="check" :size="16" :weight="2.4" /></span>
     </span>
-    <span v-if="showText" class="mi-copy__text">{{ name }}</span>
-    <span class="mi-copy__live" role="status" aria-live="polite">{{ announce }}</span>
+    <span v-if="showText" class="mi-copy__text mi:whitespace-nowrap">{{ name }}</span>
+    <span class="mi-copy__live mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap" role="status" aria-live="polite">{{ announce }}</span>
   </button>
 </template>
 
 <style scoped>
 .mi-copy {
   position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  height: 36px; padding: 0 14px 0 12px; border: 0; border-radius: 10px; cursor: pointer;
+  height: 36px; padding: 0 14px 0 12px; border: 0; border-radius: 10px;
   font: 600 14px/1 var(--mi-font); letter-spacing: -.01em; color: var(--mi-p-text); background: var(--mi-p-tint);
   transition: transform var(--mi-dur-2) var(--mi-spring), opacity var(--mi-dur-2) var(--mi-ease);
-  -webkit-tap-highlight-color: transparent;
 }
 .mi-copy.is-icon { width: 36px; padding: 0; }
 .mi-copy--outline { background: transparent; color: var(--mi-label); box-shadow: inset 0 0 0 1px var(--mi-sep2); }
 .mi-copy--ghost { background: transparent; color: var(--mi-label2); }
 .mi-copy:active:not(:disabled) { transform: scale3d(.96, .96, 1); }
 .mi-copy:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-.mi-copy:disabled { opacity: .4; cursor: not-allowed; }
+.mi-copy:disabled { opacity: .4; }
 .mi-copy.is-copied { color: var(--mi-green); }
-.mi-copy__icons { position: relative; display: inline-grid; width: 16px; height: 16px; flex: none; }
-.mi-copy__ico { grid-area: 1 / 1; display: grid; place-items: center; transition: transform var(--mi-dur-3) var(--mi-spring), opacity var(--mi-dur-2) var(--mi-ease); }
-.mi-copy__ico--done { opacity: 0; transform: scale3d(.4, .4, 1) rotate(-30deg); }
-.mi-copy.is-copied .mi-copy__ico--idle { opacity: 0; transform: scale3d(.4, .4, 1) rotate(30deg); }
-.mi-copy.is-copied .mi-copy__ico--done { opacity: 1; transform: none; }
-.mi-copy__text { white-space: nowrap; }
-.mi-copy__live { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 </style>

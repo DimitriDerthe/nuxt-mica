@@ -43,13 +43,13 @@ function onKeydown(e: KeyboardEvent) {
 </script>
 
 <template>
-  <div class="mi-swatch" :class="{ 'is-disabled': disabled }">
-    <span v-if="label" :id="labelId" class="mi-swatch__label">
-      {{ label }}<template v-if="showName && selected"> · <span class="mi-swatch__name">{{ selected.name }}</span></template>
+  <div class="mi-swatch mi:flex-col mi:gap-3 mi:font-mi" :class="{ 'is-disabled': disabled }">
+    <span v-if="label" :id="labelId" class="mi-swatch__label mi:text-[15px] mi:font-medium">
+      {{ label }}<template v-if="showName && selected"> · <span class="mi-swatch__name mi:text-label2 mi:font-normal">{{ selected.name }}</span></template>
     </span>
     <div
       ref="root"
-      class="mi-swatch__group"
+      class="mi-swatch__group mi:flex mi:flex-wrap mi:gap-1.5"
       role="radiogroup"
       :aria-label="label ? undefined : ariaLabel"
       :aria-labelledby="label ? labelId : undefined"
@@ -60,7 +60,7 @@ function onKeydown(e: KeyboardEvent) {
         :key="o.value"
         type="button"
         role="radio"
-        class="mi-swatch__item"
+        class="mi-swatch__item mi:relative mi:flex mi:items-center mi:justify-center mi:w-11 mi:h-11 mi:p-0 mi:[border:0] mi:rounded-[50%] mi:[background:transparent] mi:[-webkit-tap-highlight-color:transparent] mi:disabled:cursor-default"
         :class="{ 'is-on': i === index }"
         :style="{ '--_c': o.color }"
         :aria-checked="i === index"
@@ -69,56 +69,14 @@ function onKeydown(e: KeyboardEvent) {
         :disabled="disabled"
         @click="pick(o)"
       >
-        <span class="mi-swatch__dot" />
-        <span class="mi-swatch__ring" />
+        <span class="mi-swatch__dot mi:w-7 mi:h-7 mi:rounded-[50%] mi:[background:var(--\_c)] mi:shadow-[inset_0_0_0_.5px_rgba(0,_0,_0,_.12)] mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring)] mi:[.mi-swatch__item:active:not(:disabled)_&]:transform-[scale(.88)]" />
+        <span class="mi-swatch__ring mi:absolute mi:top-1 mi:left-1 mi:w-9 mi:h-9 mi:rounded-[50%] mi:[border:2px_solid_var(--\_c)] mi:opacity-0 mi:transform-[scale(.78)] mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring),_opacity_var(--mi-dur-1)_ease] mi:pointer-events-none mi:[.is-on_&]:opacity-100 mi:[.is-on_&]:transform-[scale(1)]" />
       </button>
     </div>
   </div>
 </template>
 
 <style scoped>
-.mi-swatch { display: flex; flex-direction: column; gap: 12px; font-family: var(--mi-font); color: var(--mi-label); }
+.mi-swatch { display: flex; color: var(--mi-label); }
 .mi-swatch.is-disabled { opacity: .4; }
-.mi-swatch__label { font-size: 15px; font-weight: 500; }
-.mi-swatch__name { color: var(--mi-label2); font-weight: 400; }
-.mi-swatch__group { display: flex; flex-wrap: wrap; gap: 6px; }
-
-.mi-swatch__item {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  padding: 0;
-  border: 0;
-  border-radius: 50%;
-  background: transparent;
-  -webkit-tap-highlight-color: transparent;
-}
-.mi-swatch__item:disabled { cursor: default; }
-.mi-swatch__dot {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: var(--_c);
-  box-shadow: inset 0 0 0 .5px rgba(0, 0, 0, .12);
-  transition: transform var(--mi-dur-2) var(--mi-spring);
-}
-.mi-swatch__item:active:not(:disabled) .mi-swatch__dot { transform: scale(.88); }
-/* Selection ring: a 36px outline scaled and faded in, leaving a 2px gap around the dot. */
-.mi-swatch__ring {
-  position: absolute;
-  top: 4px;
-  left: 4px;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: 2px solid var(--_c);
-  opacity: 0;
-  transform: scale(.78);
-  transition: transform var(--mi-dur-3) var(--mi-spring), opacity var(--mi-dur-1) ease;
-  pointer-events: none;
-}
-.is-on .mi-swatch__ring { opacity: 1; transform: scale(1); }
 </style>

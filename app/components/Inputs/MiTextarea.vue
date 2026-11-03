@@ -69,13 +69,13 @@ defineExpose({ focus: () => el.value?.focus(), textarea: el })
 </script>
 
 <template>
-  <div class="mi-ta" v-bind="rootAttrs">
+  <div class="mi-ta mi:flex-col" v-bind="rootAttrs">
     <MiFieldBox :size="size" :invalid="isInvalid" :success="isSuccess" :disabled="isDisabled">
       <textarea
         v-bind="textAttrs"
         :id="id"
         ref="el"
-        class="mi-ta__field"
+        class="mi-ta__field mi:resize-none mi:[outline:none] mi:[&.is-fixed]:resize-y"
         :class="{ 'is-sm': size === 'sm', 'is-fixed': !autoGrow }"
         :rows="rows"
         :maxlength="maxlength"
@@ -87,20 +87,18 @@ defineExpose({ focus: () => el.value?.focus(), textarea: el })
         @input="model = ($event.target as HTMLTextAreaElement).value; fit()"
       />
     </MiFieldBox>
-    <span v-if="counter && maxlength" class="mi-ta__count" :class="{ 'is-full': length >= maxlength }">{{ length }} / {{ maxlength }}</span>
+    <span v-if="counter && maxlength" class="mi-ta__count mi:[align-self:flex-end] mi:font-mi mi:text-[13px] mi:tabular-nums mi:text-label2 mi:[&.is-full]:text-orange-t" :class="{ 'is-full': length >= maxlength }">{{ length }} / {{ maxlength }}</span>
   </div>
 </template>
 
 <style scoped>
-.mi-ta { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.mi-ta { display: flex; gap: 6px; min-width: 0; }
 .mi-ta__field {
   display: block; width: 100%; margin: 0; padding: 12px 14px; border: 0; border-radius: inherit; background: transparent; color: inherit;
-  font: inherit; letter-spacing: inherit; line-height: 22px; resize: none; outline: none; overflow-y: hidden;
+  font: inherit; letter-spacing: inherit; line-height: 22px; overflow-y: hidden;
 }
 .mi-ta__field.is-sm { padding: 8px 12px; line-height: 20px; }
-.mi-ta__field.is-fixed { resize: vertical; overflow-y: auto; }
+.mi-ta__field.is-fixed { overflow-y: auto; }
 .mi-ta__field::placeholder { color: var(--mi-label2); opacity: 1; }
 .mi-ta__field:disabled { cursor: not-allowed; }
-.mi-ta__count { align-self: flex-end; font-family: var(--mi-font); font-size: 13px; font-variant-numeric: tabular-nums; color: var(--mi-label2); }
-.mi-ta__count.is-full { color: var(--mi-orange-t); }
 </style>

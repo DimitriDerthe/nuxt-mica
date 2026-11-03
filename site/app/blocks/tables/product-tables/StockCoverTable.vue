@@ -1,46 +1,46 @@
 <template>
-  <section class="stk" aria-labelledby="stk-title">
-    <header class="stk__head">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="stk-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="stk-title" variant="title3" as="h2" weight="semibold">Products</MiText>
         <MiText variant="footnote" tone="label2">Halden Outdoor store · {{ atRisk }} products will sell out before a restock lands</MiText>
       </div>
-      <MiSearch v-model="query" size="compact" placeholder="Product or SKU" aria-label="Search products" class="stk__search" />
+      <MiSearch v-model="query" size="compact" placeholder="Product or SKU" aria-label="Search products" class="mi:flex-[0_1_260px]! mi:min-w-0!" />
     </header>
 
-    <div class="stk__toolbar">
+    <div class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-2.5 mi:gap-x-4">
       <MiSegmented v-model="view" label="Show" :options="views" />
-      <p class="stk__legend">
-        <span class="stk__legend-bar" aria-hidden="true"><i /></span><MiText as="span" variant="caption" tone="label2">Days of stock</MiText>
-        <span class="stk__legend-tick" aria-hidden="true" /><MiText as="span" variant="caption" tone="label2">Supplier lead time</MiText>
+      <p class="mi:flex mi:flex-wrap mi:items-center mi:gap-1.5 mi:m-0">
+        <span class="mi:w-5.5 mi:h-1.5 mi:rounded-[3px] mi:[background:var(--mi-fill3)] mi:overflow-hidden" aria-hidden="true"><i class="mi:w-[60%] mi:h-full mi:block mi:[background:var(--mi-green)]" /></span><MiText as="span" variant="caption" tone="label2">Days of stock</MiText>
+        <span class="mi:w-0.5 mi:h-3 mi:ms-1.5 mi:rounded-[1px] mi:[background:var(--mi-label)]" aria-hidden="true" /><MiText as="span" variant="caption" tone="label2">Supplier lead time</MiText>
       </p>
     </div>
 
-    <div class="stk__table">
+    <div class="mi:hidden mi:min-w-0 mi:overflow-x-auto mi:@[760px]:block">
       <MiTable :columns="columns" :rows="rows" caption="Products" density="relaxed" :zebra="false" empty-text="No product matches.">
         <template #cell-name="{ row }">
-          <span class="stk__prod">
-            <span class="stk__thumb" :style="{ '--a': p(row).colors[0], '--b': p(row).colors[1] ?? p(row).colors[0] }" aria-hidden="true" />
-            <span class="stk__prod-text">
-              <span class="stk__name">{{ p(row).name }}</span>
-              <span class="stk__sku">{{ p(row).sku }}</span>
+          <span class="mi:flex mi:items-center mi:gap-2.5 mi:min-w-0">
+            <span class="mi:w-9 mi:h-9 mi:flex-[none] mi:rounded-[10px] mi:[background:linear-gradient(135deg,_color-mix(in_srgb,_var(--a)_85%,_var(--mi-card))_0_50%,_color-mix(in_srgb,_var(--b)_75%,_var(--mi-card))_50%_100%)] mi:shadow-[inset_0_0_0_1px_color-mix(in_srgb,_var(--mi-label)_10%,_transparent)]" :style="{ '--a': p(row).colors[0], '--b': p(row).colors[1] ?? p(row).colors[0] }" aria-hidden="true" />
+            <span class="mi:grid mi:min-w-0">
+              <span class="mi:font-semibold mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ p(row).name }}</span>
+              <span class="mi:font-[ui-monospace,_SFMono-Regular,_Menlo,_monospace] mi:text-[11.5px] mi:text-label2">{{ p(row).sku }}</span>
             </span>
           </span>
         </template>
         <template #cell-colors="{ row }">
-          <span class="stk__dots" role="img" :aria-label="p(row).colors.length + ' colors'">
-            <i v-for="c in p(row).colors" :key="c" :style="{ background: c }" />
+          <span class="mi:inline-flex mi:gap-1" role="img" :aria-label="p(row).colors.length + ' colors'">
+            <i class="mi:w-3 mi:h-3 mi:rounded-[50%] mi:shadow-[0_0_0_1.5px_var(--mi-card),_0_0_0_2.5px_var(--mi-sep)]" v-for="c in p(row).colors" :key="c" :style="{ background: c }" />
           </span>
         </template>
-        <template #cell-price="{ row }"><span class="stk__num">${{ p(row).price }}</span></template>
-        <template #cell-stock="{ row }"><span class="stk__num" :class="{ 'is-zero': !p(row).stock }">{{ p(row).stock }}</span></template>
+        <template #cell-price="{ row }"><span class="mi:tabular-nums mi:font-medium">${{ p(row).price }}</span></template>
+        <template #cell-stock="{ row }"><span class="mi:tabular-nums" :class="p(row).stock ? 'mi:font-medium' : 'mi:text-red-t mi:font-650'">{{ p(row).stock }}</span></template>
         <template #cell-cover="{ row }">
-          <span class="stk__cover">
-            <span class="stk__track" role="meter" :aria-label="p(row).name + ' days of stock'" aria-valuemin="0" :aria-valuemax="CAP" :aria-valuenow="Math.min(CAP, p(row).cover)">
-              <i :class="'is-' + p(row).risk" :style="{ transform: `scaleX(${Math.min(1, p(row).cover / CAP)})` }" />
-              <b :style="{ insetInlineStart: (p(row).lead / CAP) * 100 + '%' }" />
+          <span class="mi:grid mi:gap-1">
+            <span class="mi:relative mi:block mi:h-1.5 mi:rounded-[3px] mi:[background:var(--mi-fill3)]" role="meter" :aria-label="p(row).name + ' days of stock'" aria-valuemin="0" :aria-valuemax="CAP" :aria-valuenow="Math.min(CAP, p(row).cover)">
+              <i class="mi:absolute mi:rounded-[inherit] mi:inset-0 mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :class="p(row).risk === 'ok' ? 'mi:bg-green' : p(row).risk === 'risk' ? 'mi:bg-orange' : 'mi:bg-red'" :style="{ transform: `scaleX(${Math.min(1, p(row).cover / CAP)})` }" />
+              <b class="mi:absolute mi:w-0.5 mi:rounded-[1px] mi:-top-1 mi:-bottom-1 mi:-ms-px mi:[background:var(--mi-label)] mi:shadow-[0_0_0_2px_var(--mi-card)]" :style="{ insetInlineStart: (p(row).lead / CAP) * 100 + '%' }" />
             </span>
-            <span class="stk__cover-text" :class="'is-' + p(row).risk">{{ coverLabel(p(row)) }}</span>
+            <span class="mi:text-[12px] mi:tabular-nums" :class="p(row).risk === 'ok' ? 'mi:text-label2' : p(row).risk === 'risk' ? 'mi:text-orange-t mi:font-semibold' : 'mi:text-red-t mi:font-semibold'">{{ coverLabel(p(row)) }}</span>
           </span>
         </template>
         <template #cell-action="{ row }">
@@ -56,20 +56,20 @@
       </MiTable>
     </div>
 
-    <ul class="stk__cards">
-      <li v-for="x in rows" :key="x.id" class="stk__card">
-        <span class="stk__thumb stk__thumb--lg" :style="{ '--a': x.colors[0], '--b': x.colors[1] ?? x.colors[0] }" aria-hidden="true" />
-        <div class="stk__card-body">
-          <div class="stk__card-top">
-            <span class="stk__prod-text"><span class="stk__name">{{ x.name }}</span><span class="stk__sku">{{ x.sku }} · ${{ x.price }}</span></span>
+    <ul class="mi:grid mi:gap-2 mi:m-0 mi:p-0 mi:[list-style:none] mi:@[760px]:hidden">
+      <li v-for="x in rows" :key="x.id" class="mi:grid mi:grid-cols-[auto_minmax(0,_1fr)] mi:gap-3 mi:py-3 mi:px-3.5 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1">
+        <span class="mi:w-12 mi:h-12 mi:flex-[none] mi:rounded-[10px] mi:[background:linear-gradient(135deg,_color-mix(in_srgb,_var(--a)_85%,_var(--mi-card))_0_50%,_color-mix(in_srgb,_var(--b)_75%,_var(--mi-card))_50%_100%)] mi:shadow-[inset_0_0_0_1px_color-mix(in_srgb,_var(--mi-label)_10%,_transparent)] mi:rounded-[12px]" :style="{ '--a': x.colors[0], '--b': x.colors[1] ?? x.colors[0] }" aria-hidden="true" />
+        <div class="mi:grid mi:gap-2.5 mi:min-w-0">
+          <div class="mi:flex mi:[align-items:flex-start] mi:justify-between mi:gap-2">
+            <span class="mi:grid mi:min-w-0"><span class="mi:font-semibold mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ x.name }}</span><span class="mi:font-[ui-monospace,_SFMono-Regular,_Menlo,_monospace] mi:text-[11.5px] mi:text-label2">{{ x.sku }} · ${{ x.price }}</span></span>
             <MiBadge v-if="x.status === 'draft'" tone="neutral" label="Draft" />
           </div>
-          <span class="stk__track" aria-hidden="true">
-            <i :class="'is-' + x.risk" :style="{ transform: `scaleX(${Math.min(1, x.cover / CAP)})` }" />
-            <b :style="{ insetInlineStart: (x.lead / CAP) * 100 + '%' }" />
+          <span class="mi:relative mi:block mi:h-1.5 mi:rounded-[3px] mi:[background:var(--mi-fill3)]" aria-hidden="true">
+            <i class="mi:absolute mi:rounded-[inherit] mi:inset-0 mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :class="x.risk === 'ok' ? 'mi:bg-green' : x.risk === 'risk' ? 'mi:bg-orange' : 'mi:bg-red'" :style="{ transform: `scaleX(${Math.min(1, x.cover / CAP)})` }" />
+            <b class="mi:absolute mi:w-0.5 mi:rounded-[1px] mi:-top-1 mi:-bottom-1 mi:-ms-px mi:[background:var(--mi-label)] mi:shadow-[0_0_0_2px_var(--mi-card)]" :style="{ insetInlineStart: (x.lead / CAP) * 100 + '%' }" />
           </span>
-          <div class="stk__card-foot">
-            <span class="stk__cover-text" :class="'is-' + x.risk">{{ x.stock }} in stock · {{ coverLabel(x) }}</span>
+          <div class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-1.5 mi:gap-x-2.5">
+            <span class="mi:text-[12px] mi:tabular-nums" :class="x.risk === 'ok' ? 'mi:text-label2' : x.risk === 'risk' ? 'mi:text-orange-t mi:font-semibold' : 'mi:text-red-t mi:font-semibold'">{{ x.stock }} in stock · {{ coverLabel(x) }}</span>
             <MiButton
               v-if="x.risk !== 'ok' && x.status === 'active'" size="mini" :variant="ordered.has(x.id) ? 'plain' : 'tinted'"
               :disabled="ordered.has(x.id)" @click="reorder(x.id)"
@@ -77,7 +77,7 @@
           </div>
         </div>
       </li>
-      <li v-if="!rows.length" class="stk__none"><MiText variant="footnote" tone="label2">No product matches.</MiText></li>
+      <li v-if="!rows.length" class="mi:p-5 mi:text-center"><MiText variant="footnote" tone="label2">No product matches.</MiText></li>
     </ul>
   </section>
 </template>
@@ -142,51 +142,3 @@ const setListed = (id: string, on: boolean) => {
   if (x) x.status = on ? 'active' : 'draft'
 }
 </script>
-
-<style scoped>
-.stk { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
-.stk__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.stk__search { flex: 0 1 260px; min-width: 0; }
-.stk__toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; }
-.stk__legend { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 0; }
-.stk__legend-bar { width: 22px; height: 6px; border-radius: 3px; background: var(--mi-fill3); overflow: hidden; }
-.stk__legend-bar i { display: block; width: 60%; height: 100%; background: var(--mi-green); }
-.stk__legend-tick { width: 2px; height: 12px; margin-inline-start: 6px; border-radius: 1px; background: var(--mi-label); }
-
-.stk__table { display: none; min-width: 0; overflow-x: auto; }
-.stk__cards { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
-@container (min-width: 760px) { .stk__table { display: block; } .stk__cards { display: none; } }
-
-.stk__prod { display: flex; align-items: center; gap: 10px; min-width: 0; }
-/* Product art: a two-tone fabric swatch from the product's own colors. */
-.stk__thumb {
-  flex: none; width: 36px; height: 36px; border-radius: 10px;
-  background: linear-gradient(135deg, color-mix(in srgb, var(--a) 85%, var(--mi-card)) 0 50%, color-mix(in srgb, var(--b) 75%, var(--mi-card)) 50% 100%);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--mi-label) 10%, transparent);
-}
-.stk__thumb--lg { width: 48px; height: 48px; border-radius: 12px; }
-.stk__prod-text { display: grid; min-width: 0; }
-.stk__name { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.stk__sku { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11.5px; color: var(--mi-label2); }
-.stk__dots { display: inline-flex; gap: 4px; }
-.stk__dots i { width: 12px; height: 12px; border-radius: 50%; box-shadow: 0 0 0 1.5px var(--mi-card), 0 0 0 2.5px var(--mi-sep); }
-.stk__num { font-variant-numeric: tabular-nums; font-weight: 500; }
-.stk__num.is-zero { color: var(--mi-red-t); font-weight: 650; }
-
-.stk__cover { display: grid; gap: 4px; }
-.stk__track { position: relative; display: block; height: 6px; border-radius: 3px; background: var(--mi-fill3); }
-.stk__track i { position: absolute; inset: 0; border-radius: inherit; transform-origin: left; transition: transform var(--mi-dur-4) var(--mi-spring); }
-.stk__track i.is-ok { background: var(--mi-green); }
-.stk__track i.is-risk { background: var(--mi-orange); }
-.stk__track i.is-out { background: var(--mi-red); }
-.stk__track b { position: absolute; top: -4px; bottom: -4px; width: 2px; margin-inline-start: -1px; border-radius: 1px; background: var(--mi-label); box-shadow: 0 0 0 2px var(--mi-card); }
-.stk__cover-text { font-size: 12px; color: var(--mi-label2); font-variant-numeric: tabular-nums; }
-.stk__cover-text.is-risk { color: var(--mi-orange-t); font-weight: 600; }
-.stk__cover-text.is-out { color: var(--mi-red-t); font-weight: 600; }
-
-.stk__card { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; padding: 12px 14px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.stk__card-body { display: grid; gap: 10px; min-width: 0; }
-.stk__card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
-.stk__card-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 10px; }
-.stk__none { padding: 20px; text-align: center; }
-</style>

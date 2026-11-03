@@ -76,46 +76,44 @@ function onClick(e: MouseEvent) {
 
 <template>
   <div
-    class="mi-li"
-    :class="[`mi-li--${variant}`, { 'mi-li--int': interactive, 'mi-li--dis': disabled, 'mi-li--danger': destructive, 'mi-li--center': align === 'center' }]"
+    class="mi-li mi:font-mi"
+    :class="[`mi-li--${variant}`, { 'mi-li--int': interactive, 'mi-li--dis mi:opacity-50': disabled, 'mi-li--danger': destructive, 'mi-li--center': align === 'center' }]"
     role="listitem"
   >
     <component :is="tag" v-bind="bind" class="mi-li__main" @click="onClick">
-      <span v-if="dot !== undefined && variant === 'rich'" class="mi-li__dotcol" aria-hidden="true"><span class="mi-li__dot" :class="{ 'mi-li__dot--on': dot }" /></span>
-      <span v-if="hasLeading" class="mi-li__lead" :class="tile && `mi-li__tile mi-li__tile--${tile}`"><slot name="leading" /></span>
-      <span class="mi-li__body">
+      <span v-if="dot !== undefined && variant === 'rich'" class="mi-li__dotcol mi:w-2.5 mi:flex-[none] mi:pt-[7px]" aria-hidden="true"><span class="mi-li__dot mi:block mi:w-2.5 mi:h-2.5 mi:rounded-[50%]" :class="{ 'mi-li__dot--on': dot }" /></span>
+      <span v-if="hasLeading" class="mi-li__lead mi:flex mi:flex-[none] mi:items-center mi:justify-center" :class="tile && `mi-li__tile mi-li__tile--${tile}`"><slot name="leading" /></span>
+      <span class="mi-li__body mi:flex mi:flex-1 mi:items-center mi:gap-2.5 mi:min-w-0 mi:[.mi-li--row_&]:min-h-12 mi:[.mi-li--center_&]:justify-center mi:[.mi-li--rich_&]:items-center">
         <slot>
           <template v-if="hasText">
-            <span class="mi-li__text">
-              <span class="mi-li__line">
-                <span class="mi-li__title"><slot name="title">{{ title }}</slot></span>
-                <span v-if="value && variant === 'rich'" class="mi-li__time">{{ value }}</span>
+            <span class="mi-li__text mi:flex mi:flex-1 mi:flex-col mi:gap-0.5 mi:min-w-0 mi:[.mi-li--row_&]:gap-px mi:[.mi-li--center_&]:flex-[none] mi:[.mi-li--center_&]:items-center">
+              <span class="mi-li__line mi:flex mi:justify-between mi:gap-2 mi:min-w-0">
+                <span class="mi-li__title mi:min-w-0"><slot name="title">{{ title }}</slot></span>
+                <span v-if="value && variant === 'rich'" class="mi-li__time mi:[.mi-li--rich_&]:text-[15px] mi:[.mi-li--rich_&]:text-label2 mi:[.mi-li--rich_&]:whitespace-nowrap">{{ value }}</span>
               </span>
               <span v-if="subtitle || slots.subtitle" class="mi-li__sub"><slot name="subtitle">{{ subtitle }}</slot></span>
-              <span v-if="description" class="mi-li__desc">{{ description }}</span>
+              <span v-if="description" class="mi-li__desc mi:[.mi-li--rich_&]:text-[15px] mi:[.mi-li--rich_&]:leading-5 mi:[.mi-li--rich_&]:text-label2 mi:[.mi-li--rich_&]:[display:-webkit-box] mi:[.mi-li--rich_&]:[-webkit-line-clamp:2] mi:[.mi-li--rich_&]:[-webkit-box-orient:vertical] mi:[.mi-li--rich_&]:overflow-hidden">{{ description }}</span>
             </span>
           </template>
-          <span v-else-if="title" class="mi-li__title mi-li__title--solo">{{ title }}</span>
+          <span v-else-if="title" class="mi-li__title mi-li__title--solo mi:min-w-0 mi:flex-1 mi:[.mi-li--center_&]:flex-[none]">{{ title }}</span>
         </slot>
-        <span v-if="value && variant !== 'rich'" class="mi-li__value">{{ value }}</span>
+        <span v-if="value && variant !== 'rich'" class="mi-li__value mi:text-label2">{{ value }}</span>
         <slot name="trailing" />
-        <svg v-if="chevron" class="mi-li__chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg>
+        <svg v-if="chevron" class="mi-li__chev mi:flex-[none] mi:text-label3" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg>
       </span>
     </component>
   </div>
 </template>
 
 <style scoped>
-.mi-li{position:relative;font-family:var(--mi-font);color:var(--mi-label);min-width:0}
+.mi-li{position:relative;color:var(--mi-label);min-width:0}
 .mi-li__main{position:relative;display:flex;align-items:center;width:100%;margin:0;border:0;background:transparent;color:inherit;font:inherit;text-align:left;text-decoration:none;-webkit-tap-highlight-color:transparent;isolation:isolate}
 .mi-li__main::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--mi-fill4);opacity:0;transition:opacity var(--mi-dur-1) linear;pointer-events:none}
 .mi-li--int .mi-li__main{cursor:pointer}
 .mi-li--int .mi-li__main:hover::before{opacity:1}
 .mi-li--int .mi-li__main:active::before{opacity:1}
 .mi-li--int .mi-li__main:focus-visible{outline-offset:-3px}
-.mi-li--dis{opacity:.5}
 .mi-li--dis .mi-li__main{cursor:default;pointer-events:none}
-.mi-li__lead{display:flex;flex:none;align-items:center;justify-content:center}
 .mi-li__tile{width:30px;height:30px;border-radius:8px;color:#fff;background:var(--mi-fill)}
 .mi-li__tile :deep(svg){width:18px;height:18px}
 .mi-li__tile--primary{background:var(--mi-p);color:var(--mi-p-on)}
@@ -130,36 +128,21 @@ function onClick(e: MouseEvent) {
 .mi-li__tile--indigo{background:var(--mi-indigo)}
 .mi-li__tile--purple{background:var(--mi-purple)}
 .mi-li__tile--pink{background:var(--mi-pink)}
-.mi-li__body{display:flex;flex:1;align-items:center;gap:10px;min-width:0}
-.mi-li__text{display:flex;flex:1;flex-direction:column;gap:2px;min-width:0}
-.mi-li__line{display:flex;justify-content:space-between;gap:8px;min-width:0}
-.mi-li__title{min-width:0}
-.mi-li__title--solo{flex:1}
-.mi-li__chev{flex:none;color:var(--mi-label3)}
-.mi-li__value{color:var(--mi-label2)}
 
 /* row */
 .mi-li--row .mi-li__main{gap:14px;padding-left:16px;font-size:17px}
-.mi-li--row .mi-li__body{min-height:48px;padding-right:16px}
-.mi-li--row .mi-li__text{gap:1px}
+.mi-li--row .mi-li__body{padding-right:16px}
 .mi-li--row .mi-li__sub{font-size:13px;color:var(--mi-label2)}
-.mi-li--center .mi-li__body{justify-content:center}
 .mi-li--center .mi-li__main{padding-left:0}
 .mi-li--center .mi-li__body{padding-right:0}
-.mi-li--center .mi-li__text{flex:none;align-items:center}
-.mi-li--center .mi-li__title--solo{flex:none}
 .mi-li--danger .mi-li__main{color:var(--mi-red-t)}
 
 /* rich */
 .mi-li--rich .mi-li__main{align-items:flex-start;gap:10px;padding:12px 16px}
 .mi-li--rich .mi-li__main:has(.mi-li__dotcol){padding-left:10px}
-.mi-li--rich .mi-li__body{align-items:center}
 .mi-li--rich .mi-li__title{font-size:17px;font-weight:600}
-.mi-li--rich .mi-li__time{font-size:15px;color:var(--mi-label2);white-space:nowrap}
 .mi-li--rich .mi-li__sub{font-size:15px}
-.mi-li--rich .mi-li__desc{font-size:15px;line-height:20px;color:var(--mi-label2);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.mi-li__dotcol{width:10px;flex:none;padding-top:7px}
-.mi-li__dot{display:block;width:10px;height:10px;border-radius:50%;background:transparent}
+.mi-li__dot{background:transparent}
 .mi-li__dot--on{background:var(--mi-p)}
 
 /* profile */

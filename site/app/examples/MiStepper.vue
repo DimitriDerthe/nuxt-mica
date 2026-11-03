@@ -13,8 +13,8 @@ const guests = ref(2)
 </script>
 
 <template>
-  <div class="row">
-    <div class="text">
+  <div class="row mi:shadow-1 mi:box-border">
+    <div class="text mi:grid mi:gap-0.5 mi:min-w-0">
       <MiText variant="body" weight="medium" id="ex-stepper">Guests</MiText>
       <MiText variant="footnote" tone="label2">Ages 13 or above</MiText>
     </div>
@@ -23,6 +23,5 @@ const guests = ref(2)
 </template>
 
 <style scoped>
-.row { display: flex; align-items: center; justify-content: space-between; gap: 16px; width: min(100%, 340px); padding: 14px 16px; border-radius: 16px; background: var(--mi-card); box-shadow: var(--mi-sh1); box-sizing: border-box; }
-.text { display: grid; gap: 2px; min-width: 0; }
+.row { display: flex; align-items: center; justify-content: space-between; gap: 16px; width: min(100%, 340px); padding: 14px 16px; border-radius: 16px; background: var(--mi-card); }
 </style>

@@ -1,31 +1,31 @@
 <template>
-  <section class="rtb" aria-labelledby="rtb-title">
-    <header class="rtb__bar">
+  <section class="mi:@container mi:font-mi mi:text-label" aria-labelledby="rtb-title">
+    <header class="mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:gap-3.5 mi:pt-4.5 mi:px-4.5 mi:pb-0 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:@[620px]:pt-5.5 mi:@[620px]:px-6 mi:@[620px]:pb-0">
       <MiBreadcrumb :items="[{ label: 'Projects', href: '#' }, { label: 'Civic', href: '#' }, { label: 'Brick Lane Library' }]" />
 
-      <div class="rtb__row">
-        <div class="rtb__name">
-          <span class="rtb__tile" aria-hidden="true"><MiIcon :svg="glyph.building" :size="22" /></span>
-          <form v-if="editing" class="rtb__edit" @submit.prevent="save">
+      <div class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-3 mi:gap-x-4">
+        <div class="mi:flex mi:flex-wrap mi:items-center mi:gap-y-2 mi:gap-x-2.5 mi:min-w-0 mi:flex-[1_1_min(320px,_100%)]">
+          <span class="mi:flex-[none] mi:grid mi:place-items-center mi:w-10.5 mi:h-10.5 mi:rounded-[12px] mi:text-p-text mi:[background:var(--mi-p-tint)]" aria-hidden="true"><MiIcon :svg="glyph.building" :size="22" /></span>
+          <form v-if="editing" class="mi:flex-[1_1_240px] mi:min-w-0" @submit.prevent="save">
             <MiInput ref="field" v-model="draft" aria-label="Project name" size="sm" @keydown.esc="editing = false" @blur="save" />
           </form>
           <template v-else>
-            <MiText id="rtb-title" variant="title2" as="h2" weight="bold" class="rtb__title">{{ name }}</MiText>
+            <MiText id="rtb-title" variant="title2" as="h2" weight="bold" class="mi:tracking-[-.02em]! mi:min-w-0">{{ name }}</MiText>
             <MiIconButton label="Rename project" variant="plain" size="small" @click="startEdit"><MiIcon name="pencil" :size="15" /></MiIconButton>
           </template>
           <MiMenu v-model="status" variant="popup" :items="statusItems" aria-label="Project status">
             <template #trigger="{ props: t }">
-              <button type="button" class="rtb__status" :class="'is-' + status" v-bind="t">
-                <i aria-hidden="true" />{{ statusLabel }}<MiIcon name="chevron-down" :size="12" />
+              <button type="button" class="mi:inline-flex mi:items-center mi:gap-1.5 mi:h-7 mi:py-0 mi:px-2.5 mi:[border:0] mi:rounded-[99px] mi:[background:var(--mi-fill4)] mi:[font:600_12px/1_var(--mi-font)] mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" :class="[({ track: 'mi:bg-green/14 mi:text-green-t', risk: 'mi:bg-orange/16 mi:text-orange-t', blocked: 'mi:bg-red/14 mi:text-red-t' } as Record<string, string>)[String(status)] ?? 'mi:text-label']" v-bind="t">
+                <i class="mi:w-2 mi:h-2 mi:rounded-[50%]" :class="({ track: 'mi:bg-green', risk: 'mi:bg-orange', blocked: 'mi:bg-red' } as Record<string, string>)[String(status)] ?? 'mi:bg-ctl'" aria-hidden="true" />{{ statusLabel }}<MiIcon name="chevron-down" :size="12" />
               </button>
             </template>
           </MiMenu>
         </div>
 
-        <div class="rtb__actions">
+        <div class="mi:flex mi:flex-wrap mi:items-center mi:gap-2">
           <MiButton variant="gray" size="small" :pressed="following" @click="following = !following">
             <template #leading><MiIcon name="bell" :size="15" :filled="following" /></template>
-            {{ following ? 'Following' : 'Follow' }}<span class="rtb__count">{{ followers }}</span>
+            {{ following ? 'Following' : 'Follow' }}<span class="mi:ml-1.5 mi:py-px mi:px-1.5 mi:rounded-[99px] mi:[background:var(--mi-fill3)] mi:text-[11px] mi:tabular-nums">{{ followers }}</span>
           </MiButton>
           <MiButton size="small">
             <template #leading><MiIcon name="share" :size="15" /></template>
@@ -39,32 +39,32 @@
         </div>
       </div>
 
-      <dl class="rtb__meta">
-        <div><dt>Team</dt><dd class="rtb__team"><MiAvatarGroup :items="team" :max="4" size="xs" /></dd></div>
-        <div><dt>Client</dt><dd>Tower Hamlets Council</dd></div>
-        <div><dt>Budget</dt><dd>€1.82M · <span :class="{ 'is-warn': spent > 60 }">{{ spent }}% spent</span></dd></div>
-        <div><dt>Handover</dt><dd>14 Mar 2027</dd></div>
+      <dl class="mi:grid mi:grid-cols-2 mi:gap-y-3 mi:gap-x-5 mi:m-0 mi:@[620px]:grid-cols-[repeat(4,_minmax(0,_auto))] mi:@[620px]:justify-start mi:@[620px]:gap-y-3 mi:@[620px]:gap-x-9">
+        <div class="mi:grid mi:gap-1 mi:min-w-0"><dt class="mi:text-[11px] mi:font-semibold mi:text-label2 mi:tracking-[.06em] mi:uppercase">Team</dt><dd class="mi:m-0 mi:text-[14px] mi:font-medium mi:overflow-visible mi:whitespace-nowrap mi:text-ellipsis"><MiAvatarGroup class="" :items="team" :max="4" size="xs" /></dd></div>
+        <div class="mi:grid mi:gap-1 mi:min-w-0"><dt class="mi:text-[11px] mi:font-semibold mi:text-label2 mi:tracking-[.06em] mi:uppercase">Client</dt><dd class="mi:m-0 mi:text-[14px] mi:font-medium mi:overflow-hidden mi:whitespace-nowrap mi:text-ellipsis">Tower Hamlets Council</dd></div>
+        <div class="mi:grid mi:gap-1 mi:min-w-0"><dt class="mi:text-[11px] mi:font-semibold mi:text-label2 mi:tracking-[.06em] mi:uppercase">Budget</dt><dd class="mi:m-0 mi:text-[14px] mi:font-medium mi:overflow-hidden mi:whitespace-nowrap mi:text-ellipsis">€1.82M · <span :class="spent > 60 ? 'mi:text-orange-t' : ''">{{ spent }}% spent</span></dd></div>
+        <div class="mi:grid mi:gap-1 mi:min-w-0"><dt class="mi:text-[11px] mi:font-semibold mi:text-label2 mi:tracking-[.06em] mi:uppercase">Handover</dt><dd class="mi:m-0 mi:text-[14px] mi:font-medium mi:overflow-hidden mi:whitespace-nowrap mi:text-ellipsis">14 Mar 2027</dd></div>
       </dl>
 
       <!-- Phase ribbon: the project's whole timeline in one line, with today marked. -->
-      <div class="rtb__ribbon" role="img" :aria-label="`Timeline: ${done} of ${phases.length} phases done, currently in ${phases[done]?.label}`">
-        <div class="rtb__track"><span class="rtb__fill" :style="{ transform: `scaleX(${today})` }" /></div>
-        <span class="rtb__today" :style="{ left: today * 100 + '%' }"><b>Today</b></span>
-        <ol class="rtb__phases">
-          <li v-for="(p, i) in phases" :key="p.label" :class="{ 'is-done': i < done, 'is-now': i === done }" :style="{ left: p.at * 100 + '%' }">
-            <i aria-hidden="true" /><span>{{ p.label }}</span>
+      <div class="mi:relative mi:h-13.5 mi:mt-0.5 mi:mx-2.5 mi:mb-0" role="img" :aria-label="`Timeline: ${done} of ${phases.length} phases done, currently in ${phases[done]?.label}`">
+        <div class="mi:absolute mi:left-0 mi:right-0 mi:top-5.5 mi:h-1 mi:rounded-[2px] mi:[background:var(--mi-fill3)] mi:overflow-hidden"><span class="mi:block mi:h-full mi:[background:linear-gradient(90deg,_var(--mi-p),_var(--mi-s))] mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleX(${today})` }" /></div>
+        <span class="mi:absolute mi:top-0 mi:transform-[translateX(-50%)] mi:grid mi:justify-items-center mi:after:content-[''] mi:after:w-0.5 mi:after:h-3.5 mi:after:[background:var(--mi-label)]" :style="{ left: today * 100 + '%' }"><b class="mi:py-px mi:px-1.5 mi:rounded-[4px] mi:bg-label mi:text-card mi:text-[10px] mi:font-bold">Today</b></span>
+        <ol class="mi:m-0 mi:p-0 mi:[list-style:none]">
+          <li class="mi:text-[11px] mi:whitespace-nowrap mi:absolute mi:top-4.5 mi:grid mi:justify-items-center mi:gap-1.5 mi:transform-[translateX(-50%)] mi:[&:first-child]:justify-items-start mi:[&:first-child]:transform-[translateX(-6px)] mi:[&:last-child]:justify-items-end mi:[&:last-child]:transform-[translateX(calc(-100%_+_6px))]" v-for="(p, i) in phases" :key="p.label" :class="i === done ? 'mi:text-label mi:font-semibold' : i < done ? 'mi:text-label2' : 'mi:text-label2'" :style="{ left: p.at * 100 + '%' }">
+            <i class="mi:w-3 mi:h-3 mi:rounded-[50%] mi:border-2 mi:box-border" :class="i < done ? 'mi:bg-p mi:border-p' : i === done ? 'mi:bg-card mi:border-p' : 'mi:bg-card mi:border-fill'" aria-hidden="true" /><span :class="i > 0 && i < phases.length - 1 && i !== done ? 'mi:opacity-0 mi:@[620px]:opacity-100' : ''">{{ p.label }}</span>
           </li>
         </ol>
       </div>
 
-      <MiTabs v-model="tab" class="rtb__tabs">
+      <MiTabs v-model="tab" class="mi:py-0 mi:px-4.5 mi:border-t mi:border-t-sep mi:[&_.mi-tabs__list]:max-w-full mi:[&_.mi-tabs__list]:overflow-x-auto mi:[&_.mi-tabs__list]:[scrollbar-width:none] mi:[&_.mi-tabs__tab]:flex-[none] mi:my-0 mi:-mx-4.5 mi:@[620px]:my-0 mi:@[620px]:-mx-6 mi:@[620px]:px-6">
         <MiTabsList aria-label="Project sections">
           <MiTabsTrigger v-for="t in tabs" :key="t.value" :value="t.value">
-            {{ t.label }}<span v-if="t.count" class="rtb__tab-count">{{ t.count }}</span>
+            {{ t.label }}<span v-if="t.count" class="mi:ml-1.5 mi:text-[11px] mi:text-label2 mi:tabular-nums">{{ t.count }}</span>
           </MiTabsTrigger>
         </MiTabsList>
         <MiTabsContent v-for="t in tabs" :key="t.value" :value="t.value">
-          <MiText variant="footnote" tone="label2" class="rtb__panel">{{ t.note }}</MiText>
+          <MiText variant="footnote" tone="label2" class="mi:pt-3 mi:px-0 mi:pb-4">{{ t.note }}</MiText>
         </MiTabsContent>
       </MiTabs>
     </header>
@@ -132,66 +132,3 @@ const tabs = [
 ]
 const tab = ref<string | undefined>('overview')
 </script>
-
-<style scoped>
-.rtb { container-type: inline-size; font-family: var(--mi-font); color: var(--mi-label); }
-.rtb__bar { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; padding: 18px 18px 0; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-
-.rtb__row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 16px; }
-.rtb__name { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; min-width: 0; flex: 1 1 min(320px, 100%); }
-.rtb__tile { flex: none; display: grid; place-items: center; width: 42px; height: 42px; border-radius: 12px; color: var(--mi-p-text); background: var(--mi-p-tint); }
-.rtb__title { min-width: 0; letter-spacing: -.02em; }
-.rtb__edit { flex: 1 1 240px; min-width: 0; }
-
-.rtb__status { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 10px; border: 0; border-radius: 99px; background: var(--mi-fill4); color: var(--mi-label); font: 600 12px/1 var(--mi-font); cursor: pointer; }
-.rtb__status:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-.rtb__status i { width: 8px; height: 8px; border-radius: 50%; background: var(--mi-ctl); }
-.rtb__status.is-track { background: color-mix(in srgb, var(--mi-green) 14%, transparent); color: var(--mi-green-t); }
-.rtb__status.is-track i { background: var(--mi-green); }
-.rtb__status.is-risk { background: color-mix(in srgb, var(--mi-orange) 16%, transparent); color: var(--mi-orange-t); }
-.rtb__status.is-risk i { background: var(--mi-orange); }
-.rtb__status.is-blocked { background: color-mix(in srgb, var(--mi-red) 14%, transparent); color: var(--mi-red-t); }
-.rtb__status.is-blocked i { background: var(--mi-red); }
-
-.rtb__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
-.rtb__count { margin-left: 6px; padding: 1px 6px; border-radius: 99px; background: var(--mi-fill3); font-size: 11px; font-variant-numeric: tabular-nums; }
-
-.rtb__meta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 20px; margin: 0; }
-.rtb__meta > div { display: grid; gap: 4px; min-width: 0; }
-.rtb__meta dt { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--mi-label2); }
-.rtb__meta dd { margin: 0; font-size: 14px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-/* The avatar rings sit outside the avatars: clipping this cell would cut them. */
-.rtb__meta .rtb__team { overflow: visible; }
-.rtb__meta .is-warn { color: var(--mi-orange-t); }
-
-.rtb__ribbon { position: relative; height: 54px; margin: 2px 10px 0; }
-.rtb__track { position: absolute; left: 0; right: 0; top: 22px; height: 4px; border-radius: 2px; background: var(--mi-fill3); overflow: hidden; }
-.rtb__fill { display: block; height: 100%; background: linear-gradient(90deg, var(--mi-p), var(--mi-s)); transform-origin: left; transition: transform var(--mi-dur-4) var(--mi-spring); }
-.rtb__today { position: absolute; top: 0; transform: translateX(-50%); display: grid; justify-items: center; }
-.rtb__today b { padding: 1px 6px; border-radius: 4px; background: var(--mi-label); color: var(--mi-card); font-size: 10px; font-weight: 700; }
-.rtb__today::after { content: ""; width: 2px; height: 14px; background: var(--mi-label); }
-.rtb__phases { margin: 0; padding: 0; list-style: none; }
-.rtb__phases li { position: absolute; top: 18px; display: grid; justify-items: center; gap: 6px; transform: translateX(-50%); font-size: 11px; color: var(--mi-label2); white-space: nowrap; }
-.rtb__phases li:first-child { justify-items: start; transform: translateX(-6px); }
-.rtb__phases li:last-child { justify-items: end; transform: translateX(calc(-100% + 6px)); }
-.rtb__phases i { width: 12px; height: 12px; box-sizing: border-box; border-radius: 50%; border: 2px solid var(--mi-fill); background: var(--mi-card); }
-.rtb__phases .is-done i { border-color: var(--mi-p); background: var(--mi-p); }
-.rtb__phases .is-now { color: var(--mi-label); font-weight: 600; }
-.rtb__phases .is-now i { border-color: var(--mi-p); }
-/* Middle labels hide on small widths; the dots and the aria-label still tell the story. */
-.rtb__phases li:not(:first-child):not(:last-child):not(.is-now) span { opacity: 0; }
-
-.rtb__tabs { margin: 0 -18px; padding: 0 18px; border-top: 1px solid var(--mi-sep); }
-/* On narrow widths the tab list scrolls sideways instead of pushing the bar wider. */
-.rtb__tabs :deep(.mi-tabs__list) { max-width: 100%; overflow-x: auto; scrollbar-width: none; }
-.rtb__tabs :deep(.mi-tabs__tab) { flex: none; }
-.rtb__tab-count { margin-left: 6px; font-size: 11px; color: var(--mi-label2); font-variant-numeric: tabular-nums; }
-.rtb__panel { padding: 12px 0 16px; }
-
-@container (min-width: 620px) {
-  .rtb__bar { padding: 22px 24px 0; }
-  .rtb__tabs { margin: 0 -24px; padding: 0 24px; }
-  .rtb__meta { grid-template-columns: repeat(4, minmax(0, auto)); justify-content: start; gap: 12px 36px; }
-  .rtb__phases li span { opacity: 1 !important; }
-}
-</style>

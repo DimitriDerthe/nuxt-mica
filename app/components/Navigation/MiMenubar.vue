@@ -27,14 +27,14 @@ function onKey(e: KeyboardEvent) { miNavRoving(e, root.value, '[data-mi-menu-tri
 </script>
 
 <template>
-  <div ref="root" class="mi-menubar" role="menubar" :aria-label="ariaLabel" @keydown="onKey">
+  <div ref="root" class="mi-menubar mi:font-mi mi:inline-flex mi:gap-0.5 mi:p-[3px] mi:rounded-[10px] mi:border mi:border-sep2 mi:bg-card" role="menubar" :aria-label="ariaLabel" @keydown="onKey">
     <MiMenu
       v-for="m in menus" :key="m.id" :open="active === m.id" :items="m.items" :aria-label="m.label" :disabled="m.disabled" :global-shortcuts="globalShortcuts"
       @update:open="setOpen(m.id, $event)" @select="emit('select', m.id, $event)"
     >
       <template #trigger="{ props: tp, open }">
         <button
-          v-bind="tp" type="button" role="menuitem" class="mi-menubar__trigger" :class="{ 'is-open': open }" @pointerenter="hover(m.id)"
+          v-bind="tp" type="button" role="menuitem" class="mi-menubar__trigger mi:[border:0] mi:rounded-[7px] mi:h-7 mi:py-0 mi:px-2.5 mi:bg-transparent mi:text-label mi:cursor-pointer mi:[&:hover:not(:disabled)]:bg-fill3 mi:[&.is-open]:bg-fill3 mi:disabled:text-label3 mi:disabled:cursor-default mi:focus-visible:[outline:3px_solid_color-mix(in_srgb,var(--mi-p)_55%,transparent)] mi:focus-visible:outline-offset-[1px]" :class="{ 'is-open': open }" @pointerenter="hover(m.id)"
           :disabled="m.disabled || undefined"
         >
           {{ m.label }}
@@ -45,9 +45,5 @@ function onKey(e: KeyboardEvent) { miNavRoving(e, root.value, '[data-mi-menu-tri
 </template>
 
 <style scoped>
-.mi-menubar{font-family:var(--mi-font);display:inline-flex;gap:2px;padding:3px;border-radius:10px;border:1px solid var(--mi-sep2);background:var(--mi-card)}
-.mi-menubar__trigger{border:0;border-radius:7px;height:28px;padding:0 10px;background:transparent;color:var(--mi-label);font:inherit;font-size:14px;font-weight:500;cursor:pointer}
-.mi-menubar__trigger:hover:not(:disabled),.mi-menubar__trigger.is-open{background:var(--mi-fill3)}
-.mi-menubar__trigger:disabled{color:var(--mi-label3);cursor:default}
-.mi-menubar__trigger:focus-visible{outline:3px solid color-mix(in srgb,var(--mi-p) 55%,transparent);outline-offset:1px}
+.mi-menubar__trigger{font:inherit;font-size:14px;font-weight:500}
 </style>

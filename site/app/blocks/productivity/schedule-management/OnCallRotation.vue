@@ -1,6 +1,6 @@
 <template>
-  <section class="ocr" aria-labelledby="ocr-title">
-    <header class="ocr__head">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="ocr-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="ocr-title" variant="title3" as="h2" weight="semibold">Payments on-call</MiText>
         <MiText variant="footnote" tone="label2">Weekly rotation · hand-off Mondays at 9:00 CET</MiText>
@@ -8,38 +8,38 @@
       <MiBadge :tone="overrides ? 'warning' : 'neutral'" :label="overrides + ' override' + (overrides === 1 ? '' : 's')" />
     </header>
 
-    <div class="ocr__layout">
+    <div class="mi:grid mi:gap-4 mi:@[820px]:grid-cols-[minmax(0,_1.4fr)_minmax(280px,_1fr)] mi:@[820px]:items-start">
       <!-- Rotation: one row per week, primary and secondary side by side. Pick a slot to swap it. -->
-      <div class="ocr__table" role="table" aria-label="Rotation">
-        <div class="ocr__tr ocr__th" role="row">
-          <span role="columnheader">Week</span><span role="columnheader">Primary</span><span role="columnheader">Secondary</span>
+      <div class="mi:grid mi:p-1.5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1" role="table" aria-label="Rotation">
+        <div class="mi:grid mi:grid-cols-[minmax(72px,_.8fr)_minmax(0,_1fr)_minmax(0,_1fr)] mi:items-center mi:gap-1.5 mi:p-1.5 mi:rounded-lg" role="row">
+          <span class="mi:py-1 mi:px-1.5 mi:text-[11px] mi:font-semibold mi:uppercase mi:tracking-[.05em] mi:text-label3" role="columnheader">Week</span><span class="mi:py-1 mi:px-1.5 mi:text-[11px] mi:font-semibold mi:uppercase mi:tracking-[.05em] mi:text-label3" role="columnheader">Primary</span><span class="mi:py-1 mi:px-1.5 mi:text-[11px] mi:font-semibold mi:uppercase mi:tracking-[.05em] mi:text-label3" role="columnheader">Secondary</span>
         </div>
-        <div v-for="w in weeks" :key="w.id" class="ocr__tr" :class="{ 'is-now': w.id === NOW }" role="row">
-          <span class="ocr__week" role="rowheader">
-            <strong>{{ w.label }}</strong>
-            <small>{{ w.id === NOW ? 'This week' : w.range }}</small>
+        <div v-for="w in weeks" :key="w.id" class="mi:grid mi:grid-cols-[minmax(72px,_.8fr)_minmax(0,_1fr)_minmax(0,_1fr)] mi:items-center mi:gap-1.5 mi:p-1.5 mi:rounded-lg " :class="w.id === NOW ? 'mi:[background:var(--mi-p-tint)]' : ''" role="row">
+          <span class="mi:grid mi:pl-1.5" role="rowheader">
+            <strong class="mi:text-[14px] mi:tabular-nums">{{ w.label }}</strong>
+            <small class="mi:text-[12px] mi:text-label2 mi:whitespace-nowrap">{{ w.id === NOW ? 'This week' : w.range }}</small>
           </span>
           <span v-for="layer in layers" :key="layer" role="cell">
             <button
-              type="button" class="ocr__slot" :class="{ 'is-on': isPicked(w.id, layer), 'is-override': !!w.override[layer] }"
+              type="button" class="mi:flex mi:items-center mi:gap-2 mi:w-full mi:min-w-0 mi:p-2 mi:border mi:rounded-md mi:[font:inherit] mi:text-inherit mi:cursor-pointer mi:text-start mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" :class="[isPicked(w.id, layer) ? 'mi:border-p' : 'mi:border-transparent', w.override[layer] ? 'mi:[background:repeating-linear-gradient(135deg,_color-mix(in_srgb,_var(--mi-orange)_14%,_transparent)_0_6px,_transparent_6px_12px)]' : isPicked(w.id, layer) ? 'mi:[background:var(--mi-card)]' : 'mi:[background:var(--mi-fill4)] mi:hover:[background:var(--mi-fill3)]']"
               :aria-pressed="isPicked(w.id, layer)" :aria-label="`${w.label}, ${layer}: ${personOf(w, layer)}`" @click="pick(w.id, layer)"
             >
               <MiAvatar :name="personOf(w, layer)" tone="auto" size="xs" decorative />
-              <span class="ocr__name">{{ personOf(w, layer).split(' ')[0] }}</span>
-              <MiIcon v-if="w.override[layer]" name="arrow-right" :size="12" class="ocr__swap-icon" />
+              <span class="mi:min-w-0 mi:text-[13px] mi:font-semibold mi:whitespace-nowrap mi:overflow-hidden mi:text-ellipsis">{{ personOf(w, layer).split(' ')[0] }}</span>
+              <MiIcon v-if="w.override[layer]" name="arrow-right" :size="12" class="mi:ml-auto mi:text-orange-t" />
             </button>
           </span>
         </div>
       </div>
 
-      <div class="ocr__side">
+      <div class="mi:grid mi:content-start mi:gap-3">
         <!-- Swap panel for the picked slot. -->
-        <div class="ocr__panel" aria-live="polite">
+        <div class="mi:grid mi:gap-2.5 mi:p-4 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1" aria-live="polite">
           <template v-if="picked && pickedWeek">
-            <MiText variant="footnote" weight="semibold" tone="label2" as="h3">Swap {{ picked.layer }} · {{ pickedWeek.label }}</MiText>
+            <MiText variant="footnote" weight="semibold" tone="label2" as="h3" class="mi:m-0 mi:uppercase mi:tracking-[.05em]! mi:text-[11px]!">Swap {{ picked.layer }} · {{ pickedWeek.label }}</MiText>
             <MiText variant="subheadline">Scheduled: <strong>{{ pickedWeek[picked.layer] }}</strong></MiText>
             <MiSelect v-model="cover" :options="coverOptions" placeholder="Who covers?" size="sm" />
-            <div class="ocr__actions">
+            <div class="mi:flex mi:flex-wrap mi:gap-2">
               <MiButton size="small" :disabled="!cover" @click="applySwap">Create override</MiButton>
               <MiButton v-if="pickedWeek.override[picked.layer]" size="small" variant="gray" @click="clearSwap">Undo override</MiButton>
             </div>
@@ -48,15 +48,15 @@
         </div>
 
         <!-- Load across the quarter, so swaps stay fair. -->
-        <div class="ocr__panel">
-          <MiText variant="footnote" weight="semibold" tone="label2" as="h3">Primary weeks this quarter</MiText>
-          <ul class="ocr__load">
-            <li v-for="p in load" :key="p.name">
-              <span class="ocr__load-name">{{ p.name }}</span>
-              <span class="ocr__load-bar" role="meter" :aria-label="p.name + ' primary weeks'" :aria-valuenow="p.weeks" aria-valuemin="0" :aria-valuemax="maxLoad">
-                <i :class="{ 'is-high': p.weeks >= maxLoad }" :style="{ transform: `scaleX(${p.weeks / maxLoad})` }" />
+        <div class="mi:grid mi:gap-2.5 mi:p-4 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1">
+          <MiText variant="footnote" weight="semibold" tone="label2" as="h3" class="mi:m-0 mi:uppercase mi:tracking-[.05em]! mi:text-[11px]!">Primary weeks this quarter</MiText>
+          <ul class="mi:grid mi:gap-2 mi:m-0 mi:p-0 mi:[list-style:none]">
+            <li class="mi:grid mi:grid-cols-[112px_minmax(0,_1fr)_20px] mi:items-center mi:gap-2.5 mi:text-[13px]" v-for="p in load" :key="p.name">
+              <span class="mi:whitespace-nowrap mi:overflow-hidden mi:text-ellipsis">{{ p.name }}</span>
+              <span class="mi:h-1.5 mi:rounded-[3px] mi:[background:var(--mi-fill3)] mi:overflow-hidden" role="meter" :aria-label="p.name + ' primary weeks'" :aria-valuenow="p.weeks" aria-valuemin="0" :aria-valuemax="maxLoad">
+                <i class="mi:block mi:h-full mi:rounded-[inherit] mi:origin-left mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring)]" :class="p.weeks >= maxLoad ? 'mi:bg-orange' : 'mi:bg-p'" :style="{ transform: `scaleX(${p.weeks / maxLoad})` }" />
               </span>
-              <span class="ocr__load-num">{{ p.weeks }}</span>
+              <span class="mi:text-end mi:font-semibold mi:tabular-nums">{{ p.weeks }}</span>
             </li>
           </ul>
         </div>
@@ -124,42 +124,3 @@ function clearSwap() {
   w.override = rest
 }
 </script>
-
-<style scoped>
-.ocr { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
-.ocr__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.ocr__layout { display: grid; gap: 16px; }
-
-.ocr__table { display: grid; padding: 6px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.ocr__tr { display: grid; grid-template-columns: minmax(72px, .8fr) minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: 6px; padding: 6px; border-radius: var(--mi-radius-l); }
-.ocr__tr.is-now { background: var(--mi-p-tint); }
-.ocr__th span { padding: 4px 6px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--mi-label3); }
-.ocr__week { display: grid; padding-left: 6px; }
-.ocr__week strong { font-size: 14px; font-variant-numeric: tabular-nums; }
-.ocr__week small { font-size: 12px; color: var(--mi-label2); white-space: nowrap; }
-
-.ocr__slot {
-  display: flex; align-items: center; gap: 8px; width: 100%; min-width: 0; padding: 8px; border: 1px solid transparent; border-radius: var(--mi-radius-m);
-  background: var(--mi-fill4); font: inherit; color: inherit; cursor: pointer; text-align: start;
-}
-.ocr__slot:hover { background: var(--mi-fill3); }
-.ocr__slot:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-.ocr__slot.is-on { border-color: var(--mi-p); background: var(--mi-card); }
-.ocr__slot.is-override { background: repeating-linear-gradient(135deg, color-mix(in srgb, var(--mi-orange) 14%, transparent) 0 6px, transparent 6px 12px); }
-.ocr__name { min-width: 0; font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.ocr__swap-icon { margin-left: auto; flex: none; color: var(--mi-orange-t); }
-
-.ocr__side { display: grid; align-content: start; gap: 12px; }
-.ocr__panel { display: grid; gap: 10px; padding: 16px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.ocr__panel h3 { margin: 0; text-transform: uppercase; letter-spacing: .05em; font-size: 11px; }
-.ocr__actions { display: flex; flex-wrap: wrap; gap: 8px; }
-.ocr__load { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
-.ocr__load li { display: grid; grid-template-columns: 112px minmax(0, 1fr) 20px; align-items: center; gap: 10px; font-size: 13px; }
-.ocr__load-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.ocr__load-bar { height: 6px; border-radius: 3px; background: var(--mi-fill3); overflow: hidden; }
-.ocr__load-bar i { display: block; height: 100%; border-radius: inherit; background: var(--mi-p); transform-origin: left; transition: transform var(--mi-dur-3) var(--mi-spring); }
-.ocr__load-bar i.is-high { background: var(--mi-orange); }
-.ocr__load-num { text-align: end; font-weight: 600; font-variant-numeric: tabular-nums; }
-
-@container (min-width: 820px) { .ocr__layout { grid-template-columns: minmax(0, 1.4fr) minmax(280px, 1fr); align-items: start; } }
-</style>

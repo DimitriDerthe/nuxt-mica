@@ -1,21 +1,21 @@
 <template>
-  <section class="sum" aria-labelledby="sum-title">
-    <header class="sum__head">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-4.5 mi:font-mi mi:text-label" aria-labelledby="sum-title">
+    <header class="mi:grid mi:gap-0.5">
       <MiText id="sum-title" variant="title3" as="h2" weight="semibold">Sidebar utility modules</MiText>
       <MiText variant="footnote" tone="label2">Four small modules that sit between the nav and the account row; each slice is sidebar width.</MiText>
     </header>
 
-    <div class="sum__rack">
+    <div class="mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:gap-3.5 mi:@[560px]:grid-cols-2 mi:@[1040px]:grid-cols-4">
       <!-- Pinned views: reorder with the arrow button, unpin with the cross. -->
-      <article class="sum__slice" aria-labelledby="sum-pins">
-        <div class="sum__slice-head">
+      <article class="mi:[background:var(--mi-side,_var(--mi-card))] mi:grid mi:content-start mi:gap-2.5 mi:p-3.5 mi:rounded-lg mi:shadow-[var(--mi-sh1),_inset_0_0_0_1px_var(--mi-sep)]" aria-labelledby="sum-pins">
+        <div class="mi:flex mi:items-center mi:justify-between mi:gap-2">
           <MiText id="sum-pins" variant="caption" tone="label2" weight="semibold" as="h3">Pinned</MiText>
           <MiText as="span" variant="caption2" tone="label3" tabular>{{ pins.length }}/5</MiText>
         </div>
-        <TransitionGroup tag="ul" name="sum-move" class="sum__pins">
-          <li v-for="(p, i) in pins" :key="p.id" class="sum__pin">
-            <span class="sum__dot" :style="{ background: `var(--mi-${p.color})` }" aria-hidden="true" />
-            <a href="#" class="sum__pin-link" @click.prevent>{{ p.label }}</a>
+        <TransitionGroup tag="ul" move-class="mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring)]" leave-active-class="mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)] mi:absolute" leave-to-class="mi:opacity-0" class="mi:relative mi:grid mi:gap-0.5 mi:m-0 mi:p-0 mi:[list-style:none]">
+          <li v-for="(p, i) in pins" :key="p.id" class="mi:flex mi:items-center mi:gap-2 mi:min-h-8 mi:ps-1.5 mi:rounded-[8px] mi:hover:[background:var(--mi-fill4)]">
+            <span class="mi:w-2 mi:h-2 mi:flex-[none] mi:rounded-[3px]" :style="{ background: `var(--mi-${p.color})` }" aria-hidden="true" />
+            <a href="#" class="mi:flex-1 mi:min-w-0 mi:overflow-hidden mi:text-[13px] mi:font-medium mi:text-inherit mi:[text-decoration:none] mi:whitespace-nowrap mi:text-ellipsis mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:focus-visible:rounded-[4px]" @click.prevent>{{ p.label }}</a>
             <MiIconButton :label="`Move ${p.label} up`" variant="plain" size="small" :disabled="i === 0" @click="up(i)"><MiIcon name="arrow-up" :size="13" /></MiIconButton>
             <MiIconButton :label="`Unpin ${p.label}`" variant="plain" size="small" @click="unpin(p.id)"><MiIcon name="close" :size="13" /></MiIconButton>
           </li>
@@ -24,12 +24,12 @@
       </article>
 
       <!-- Up next: the coming meeting, with a join button that only lights up close to the start. -->
-      <article class="sum__slice" aria-labelledby="sum-next">
+      <article class="mi:[background:var(--mi-side,_var(--mi-card))] mi:grid mi:content-start mi:gap-2.5 mi:p-3.5 mi:rounded-lg mi:shadow-[var(--mi-sh1),_inset_0_0_0_1px_var(--mi-sep)]" aria-labelledby="sum-next">
         <MiText id="sum-next" variant="caption" tone="label2" weight="semibold" as="h3">Up next</MiText>
-        <ol class="sum__agenda">
-          <li v-for="m in meetings" :key="m.id" class="sum__meet" :class="{ 'is-soon': m.soon }">
-            <span class="sum__when"><b>{{ m.time }}</b><small>{{ m.length }}</small></span>
-            <span class="sum__what">
+        <ol class="mi:grid mi:gap-2 mi:m-0 mi:p-0 mi:[list-style:none]">
+          <li v-for="m in meetings" :key="m.id" class="mi:flex mi:items-center mi:gap-2.5 mi:py-2 mi:px-2.5 mi:rounded-[10px]" :class="m.soon ? 'mi:[background:var(--mi-p-tint)] mi:shadow-[inset_3px_0_0_var(--mi-p)]' : 'mi:[background:var(--mi-fill4)]'">
+            <span class="mi:grid mi:flex-[none] mi:tabular-nums mi:leading-[1.2]"><b class="mi:text-[13px]">{{ m.time }}</b><small class="mi:text-[11px] mi:text-label2">{{ m.length }}</small></span>
+            <span class="mi:grid mi:gap-1 mi:flex-1 mi:min-w-0">
               <MiText as="span" variant="footnote" weight="semibold" :lines="1">{{ m.title }}</MiText>
               <MiAvatarGroup :items="m.people" :max="3" size="xs" :label="`${m.people.length} attendees`" />
             </span>
@@ -39,26 +39,26 @@
       </article>
 
       <!-- Quick capture: a note goes to the inbox without leaving the page. -->
-      <article class="sum__slice" aria-labelledby="sum-cap">
+      <article class="mi:[background:var(--mi-side,_var(--mi-card))] mi:grid mi:content-start mi:gap-2.5 mi:p-3.5 mi:rounded-lg mi:shadow-[var(--mi-sh1),_inset_0_0_0_1px_var(--mi-sep)]" aria-labelledby="sum-cap">
         <MiText id="sum-cap" variant="caption" tone="label2" weight="semibold" as="h3">Quick capture</MiText>
-        <form class="sum__cap" @submit.prevent="capture">
-          <MiInput v-model="note" size="sm" placeholder="Jot something down" aria-label="Note" />
+        <form class="mi:flex mi:items-center mi:gap-1.5" @submit.prevent="capture">
+          <MiInput v-model="note" size="sm" placeholder="Jot something down" aria-label="Note" class="mi:flex-1! mi:min-w-0!" />
           <MiIconButton label="Save to inbox" variant="tinted" size="small" type="submit" :disabled="!note.trim()"><MiIcon name="plus" :size="14" /></MiIconButton>
         </form>
-        <p class="sum__saved" aria-live="polite">
+        <p class="mi:flex mi:items-center mi:gap-1.5 mi:m-0 mi:text-[12px] mi:text-label2" aria-live="polite">
           <MiIcon name="tray" :size="14" />
-          <span>{{ inbox }} in inbox<template v-if="last"> · added “{{ last }}”</template></span>
+          <span class="mi:overflow-hidden mi:min-w-0 mi:whitespace-nowrap mi:text-ellipsis">{{ inbox }} in inbox<template v-if="last"> · added “{{ last }}”</template></span>
         </p>
       </article>
 
       <!-- Trial: days left as a meter, the seats in use, one upgrade action. -->
-      <article class="sum__slice sum__trial" aria-labelledby="sum-trial">
-        <div class="sum__slice-head">
+      <article class="mi:[background:linear-gradient(160deg,_var(--mi-p-tint),_var(--mi-card)_70%)] mi:grid mi:content-start mi:gap-2.5 mi:p-3.5 mi:rounded-lg mi:shadow-[var(--mi-sh1),_inset_0_0_0_1px_var(--mi-sep)]" aria-labelledby="sum-trial">
+        <div class="mi:flex mi:items-center mi:justify-between mi:gap-2">
           <MiText id="sum-trial" variant="caption" weight="semibold" as="h3">Team trial</MiText>
           <MiBadge :label="`${daysLeft} days left`" tone="primary" variant="solid" />
         </div>
-        <div class="sum__days" role="meter" aria-label="Trial days used" :aria-valuenow="trialDays - daysLeft" aria-valuemin="0" :aria-valuemax="trialDays">
-          <span v-for="d in trialDays" :key="d" :class="{ 'is-used': d <= trialDays - daysLeft }" />
+        <div class="mi:grid mi:grid-cols-[repeat(14,_1fr)] mi:gap-[3px]" role="meter" aria-label="Trial days used" :aria-valuenow="trialDays - daysLeft" aria-valuemin="0" :aria-valuemax="trialDays">
+          <span class="mi:h-3.5 mi:rounded-[3px]" v-for="d in trialDays" :key="d" :class="d <= trialDays - daysLeft ? 'mi:[background:var(--mi-p)]' : 'mi:[background:var(--mi-fill3)]'" />
         </div>
         <MiText variant="caption" tone="label2">7 of 10 seats used · ends Friday 19 November</MiText>
         <MiButton size="small" block>Choose a plan</MiButton>
@@ -107,41 +107,3 @@ function capture() {
 }
 </script>
 
-<style scoped>
-.sum { container-type: inline-size; display: grid; align-content: start; gap: 18px; font-family: var(--mi-font); color: var(--mi-label); }
-.sum__head { display: grid; gap: 2px; }
-.sum__rack { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
-.sum__slice { display: grid; align-content: start; gap: 10px; padding: 14px; border-radius: var(--mi-radius-l); background: var(--mi-side, var(--mi-card)); box-shadow: var(--mi-sh1), inset 0 0 0 1px var(--mi-sep); }
-.sum__slice-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-
-.sum__pins { position: relative; display: grid; gap: 2px; margin: 0; padding: 0; list-style: none; }
-.sum__pin { display: flex; align-items: center; gap: 8px; min-height: 32px; padding-inline-start: 6px; border-radius: 8px; }
-.sum__pin:hover { background: var(--mi-fill4); }
-.sum__dot { width: 8px; height: 8px; flex: none; border-radius: 3px; }
-.sum__pin-link { flex: 1; min-width: 0; overflow: hidden; font-size: 13px; font-weight: 500; color: inherit; text-decoration: none; white-space: nowrap; text-overflow: ellipsis; }
-.sum__pin-link:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; border-radius: 4px; }
-.sum-move-move { transition: transform var(--mi-dur-3) var(--mi-spring); }
-.sum-move-leave-active { transition: opacity var(--mi-dur-2) var(--mi-ease); position: absolute; }
-.sum-move-leave-to { opacity: 0; }
-
-.sum__agenda { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
-.sum__meet { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 10px; background: var(--mi-fill4); }
-.sum__meet.is-soon { background: var(--mi-p-tint); box-shadow: inset 3px 0 0 var(--mi-p); }
-.sum__when { display: grid; flex: none; font-variant-numeric: tabular-nums; line-height: 1.2; }
-.sum__when b { font-size: 13px; }
-.sum__when small { font-size: 11px; color: var(--mi-label2); }
-.sum__what { display: grid; gap: 4px; flex: 1; min-width: 0; }
-
-.sum__cap { display: flex; align-items: center; gap: 6px; }
-.sum__cap > :first-child { flex: 1; min-width: 0; }
-.sum__saved { display: flex; align-items: center; gap: 6px; margin: 0; font-size: 12px; color: var(--mi-label2); }
-.sum__saved span { min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-
-.sum__trial { background: linear-gradient(160deg, var(--mi-p-tint), var(--mi-card) 70%); }
-.sum__days { display: grid; grid-template-columns: repeat(14, 1fr); gap: 3px; }
-.sum__days span { height: 14px; border-radius: 3px; background: var(--mi-fill3); }
-.sum__days span.is-used { background: var(--mi-p); }
-
-@container (min-width: 560px) { .sum__rack { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@container (min-width: 1040px) { .sum__rack { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-</style>

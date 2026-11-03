@@ -51,7 +51,7 @@ const shapes = computed(() => ICONS[props.name] ?? [])
 
 <template>
   <svg
-    class="mi-fbi"
+    class="mi-fbi mi:flex-[none] mi:block"
     :width="size"
     :height="size"
     viewBox="0 0 24 24"
@@ -66,7 +66,3 @@ const shapes = computed(() => ICONS[props.name] ?? [])
     <component :is="s[0]" v-for="(s, i) in shapes" :key="i" v-bind="s[1]" />
   </svg>
 </template>
-
-<style scoped>
-.mi-fbi{flex:none;display:block}
-</style>

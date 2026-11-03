@@ -10,13 +10,13 @@ defineProps<{ p: Record<string, unknown> }>()
 </script>
 
 <template>
-  <div class="ex-box">
+  <div class="ex-box mi:justify-items-start mi:box-border">
     <MiMeter v-bind="p" />
     <MiButton size="small" variant="tinted">Upgrade to 1 TB</MiButton>
   </div>
 </template>
 
 <style scoped>
-.ex-box { display: grid; gap: 16px; justify-items: start; width: min(100%, 380px); padding: 18px; border-radius: 18px; background: var(--mi-card); box-shadow: var(--mi-sh1); box-sizing: border-box; }
+.ex-box { display: grid; gap: 16px; width: min(100%, 380px); padding: 18px; border-radius: 18px; background: var(--mi-card); box-shadow: var(--mi-sh1); }
 .ex-box > :first-child { justify-self: stretch; }
 </style>

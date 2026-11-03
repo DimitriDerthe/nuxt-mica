@@ -23,9 +23,9 @@ defineSlots<{
 </script>
 
 <template>
-  <div ref="el" class="mi-msi" :data-message-id="messageId" :data-scroll-anchor="scrollAnchor ? '' : undefined"><slot /></div>
+  <div ref="el" class="mi-msi mi:[content-visibility:auto] mi:[contain-intrinsic-size:auto_56px]" :data-message-id="messageId" :data-scroll-anchor="scrollAnchor ? '' : undefined"><slot /></div>
 </template>
 
 <style scoped>
-.mi-msi{min-width:0;content-visibility:auto;contain-intrinsic-size:auto 56px}
+.mi-msi{min-width:0}
 </style>

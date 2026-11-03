@@ -1,36 +1,36 @@
 <template>
-  <section class="inc" aria-labelledby="inc-title" :style="{ '--inc-sev': sev.color }">
-    <header class="inc__head">
+  <section class="mi:@container/inc mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="inc-title" :style="{ '--inc-sev': sev.color }">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-y-2.5 mi:gap-x-4">
       <div>
         <MiText id="inc-title" as="h2" variant="title3" weight="semibold">Declare an incident</MiText>
         <MiText variant="footnote" tone="label2">Ledgerline · Core API on-call rotation</MiText>
       </div>
-      <span class="inc__sev-pill"><i aria-hidden="true" />{{ sev.short }} · {{ sev.name }}</span>
+      <span class="mi:inline-flex mi:items-center mi:gap-2 mi:py-1.5 mi:px-3 mi:rounded-[999px] mi:text-[13px] mi:font-semibold mi:[background:color-mix(in_srgb,_var(--inc-sev)_14%,_transparent)] mi:text-label"><i class="mi:w-2 mi:h-2 mi:rounded-[50%] mi:bg-(--inc-sev)" aria-hidden="true" />{{ sev.short }} · {{ sev.name }}</span>
     </header>
 
     <!-- Success state replaces the form in place. -->
-    <div v-if="declared" class="inc__done" role="status" aria-live="polite">
-      <span class="inc__done-mark"><MiIcon name="check" :size="26" :weight="2.4" /></span>
+    <div v-if="declared" class="mi:grid mi:justify-items-center mi:gap-2.5 mi:py-10 mi:px-5 mi:text-center mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1" role="status" aria-live="polite">
+      <span class="mi:grid mi:place-items-center mi:w-14 mi:h-14 mi:rounded-[50%] mi:text-p-on mi:[background:var(--mi-p)] mi:mb-1.5"><MiIcon name="check" :size="26" :weight="2.4" /></span>
       <MiText as="h3" variant="title2" weight="bold">{{ declared.id }} declared</MiText>
       <MiText variant="subheadline" tone="label2" align="center">
         {{ declared.commander }} is incident commander. {{ declared.actions }}
       </MiText>
-      <div class="inc__done-actions">
+      <div class="mi:flex mi:flex-wrap mi:justify-center mi:gap-2.5 mi:mt-2">
         <MiButton variant="gray" @click="reset">Declare another</MiButton>
         <MiButton>Open war room</MiButton>
       </div>
     </div>
 
-    <div v-else class="inc__grid">
-      <form class="inc__form" novalidate @submit.prevent="submit">
+    <div v-else class="mi:grid mi:gap-3.5 mi:grid-cols-[minmax(0,_1fr)] mi:items-start mi:@[820px]/inc:grid-cols-[minmax(0,_1.55fr)_minmax(0,_1fr)]">
+      <form class="mi:@container/incform mi:relative mi:grid mi:gap-4.5 mi:pt-5.5 mi:px-5 mi:pb-5 mi:overflow-hidden mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:before:content-[''] mi:before:absolute mi:before:top-0 mi:before:right-0 mi:before:bottom-auto mi:before:left-0 mi:before:h-[3px] mi:before:[background:var(--inc-sev)]" novalidate @submit.prevent="submit">
         <MiField label="What is happening?" required :error="err('title')" hint="One line, written so a customer understands it.">
           <MiInput v-model="form.title" placeholder="Card payments failing for EU merchants" clearable />
         </MiField>
 
-        <fieldset class="inc__set">
-          <legend class="inc__legend">Severity</legend>
+        <fieldset class="mi:grid mi:gap-2.5 mi:m-0 mi:p-0 mi:[border:0] mi:min-w-0">
+          <legend class="mi:p-0 mi:mb-2 mi:text-[13px] mi:font-semibold mi:text-label">Severity</legend>
           <MiSegmented v-model="form.severity" label="Severity" :options="sevOptions" />
-          <p class="inc__note"><i aria-hidden="true" />{{ sev.note }}</p>
+          <p class="mi:flex mi:gap-2 mi:items-baseline mi:m-0 mi:text-[13px] mi:leading-[1.45] mi:text-label2"><i class="mi:w-1.5 mi:h-1.5 mi:rounded-[50%] mi:bg-(--inc-sev) mi:flex-[none] mi:transform-[translateY(-1px)]" aria-hidden="true" />{{ sev.note }}</p>
         </fieldset>
 
         <MiField label="Affected services" required :error="err('services')">
@@ -40,7 +40,7 @@
           />
         </MiField>
 
-        <div class="inc__pair">
+        <div class="mi:grid mi:gap-4.5 mi:grid-cols-[minmax(0,_1fr)] mi:@[520px]/incform:grid-cols-2">
           <MiField label="Started at" required :error="err('started')">
             <MiDatePicker v-model="form.started" time :minute-step="1" date-style="medium" />
           </MiField>
@@ -49,13 +49,13 @@
           </MiField>
         </div>
 
-        <fieldset class="inc__set">
-          <legend class="inc__legend">On declare</legend>
+        <fieldset class="mi:grid mi:gap-2.5 mi:m-0 mi:p-0 mi:[border:0] mi:min-w-0">
+          <legend class="mi:p-0 mi:mb-2 mi:text-[13px] mi:font-semibold mi:text-label">On declare</legend>
           <MiCheckboxGroup v-model="form.escalate" label="Escalation steps" :options="escalations" />
         </fieldset>
 
-        <div class="inc__public">
-          <div class="inc__public-row">
+        <div class="mi:grid mi:gap-3.5 mi:p-3.5 mi:rounded-lg mi:[background:var(--mi-fill4)]">
+          <div class="mi:flex mi:items-center mi:justify-between mi:gap-3.5">
             <div>
               <MiText id="inc-public-l" variant="subheadline" weight="semibold">Post to the public status page</MiText>
               <MiText variant="caption" tone="label2">Customers subscribed to these services get an email.</MiText>
@@ -70,7 +70,7 @@
           </MiField>
         </div>
 
-        <div class="inc__actions">
+        <div class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2.5 mi:pt-4 mi:border-t mi:border-t-sep">
           <MiText variant="caption" tone="label2" aria-live="polite">
             {{ missing ? missing + ' required ' + (missing === 1 ? 'field' : 'fields') + ' left' : 'Ready to declare' }}
           </MiText>
@@ -79,20 +79,20 @@
       </form>
 
       <!-- Live preview of what customers will see, plus a readiness list. -->
-      <aside class="inc__side" aria-label="Preview">
-        <div class="inc__status" :class="{ 'is-muted': !form.isPublic }">
-          <div class="inc__status-top">
-            <span class="inc__brand"><i aria-hidden="true" />status.ledgerline.io</span>
+      <aside class="mi:@[820px]/inc:sticky mi:@[820px]/inc:top-3 mi:grid mi:gap-3" aria-label="Preview">
+        <div class="mi:grid mi:gap-2 mi:p-4.5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)]" :class="form.isPublic ? 'mi:[border-left:3px_solid_var(--inc-sev)]' : 'mi:[border-left:3px_solid_var(--mi-sep)]'">
+          <div class="mi:flex mi:justify-between mi:items-center mi:gap-2 mi:mb-1">
+            <span class="mi:inline-flex mi:items-center mi:gap-1.5 mi:text-[12px] mi:font-semibold mi:text-label2"><i class="mi:w-2.5 mi:h-2.5 mi:rounded-[3px] mi:bg-[linear-gradient(135deg,_var(--mi-p),_var(--mi-s))]" aria-hidden="true" />status.ledgerline.io</span>
             <MiText variant="caption2" tone="label3">Preview</MiText>
           </div>
           <template v-if="form.isPublic">
-            <span class="inc__state">Investigating</span>
+            <span class="mi:justify-self-start mi:py-0.5 mi:px-2 mi:rounded-[6px] mi:text-[11px] mi:font-bold mi:tracking-[.04em] mi:uppercase mi:text-label mi:[background:color-mix(in_srgb,_var(--inc-sev)_18%,_transparent)]">Investigating</span>
             <MiText as="h3" variant="headline" :lines="2">{{ form.title || 'Your one-line summary appears here' }}</MiText>
             <MiText variant="footnote" tone="label2" :lines="4">
               {{ form.message || 'Write the public message to see how it reads on the status page.' }}
             </MiText>
-            <ul v-if="pickedServices.length" class="inc__chips" aria-label="Affected components">
-              <li v-for="s in pickedServices" :key="s">{{ s }}</li>
+            <ul v-if="pickedServices.length" class="mi:flex mi:flex-wrap mi:gap-1.5 mi:my-0.5 mi:mx-0 mi:p-0 mi:[list-style:none]" aria-label="Affected components">
+              <li class="mi:rounded-[999px] mi:bg-fill3 mi:text-label mi:py-[3px] mi:px-[9px] mi:text-[12px]" v-for="s in pickedServices" :key="s">{{ s }}</li>
             </ul>
             <MiText variant="caption2" tone="label3">Posted on declare · next update in 30 min</MiText>
           </template>
@@ -102,18 +102,18 @@
           </template>
         </div>
 
-        <div class="inc__ready">
-          <div class="inc__ready-head">
+        <div class="mi:grid mi:gap-2.5 mi:py-4 mi:px-4.5 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1">
+          <div class="mi:flex mi:justify-between mi:items-baseline">
             <MiText as="h3" variant="subheadline" weight="semibold">Readiness</MiText>
             <MiText variant="caption" tone="label2" tabular>{{ done }}/{{ checks.length }}</MiText>
           </div>
-          <div class="inc__bar" role="meter" aria-label="Required fields complete" :aria-valuenow="done" aria-valuemin="0" :aria-valuemax="checks.length">
-            <span :style="{ transform: `scaleX(${done / checks.length})` }" />
+          <div class="mi:h-1 mi:rounded-[2px] mi:[background:var(--mi-fill3)] mi:overflow-hidden" role="meter" aria-label="Required fields complete" :aria-valuenow="done" aria-valuemin="0" :aria-valuemax="checks.length">
+            <span class="mi:h-full mi:bg-p mi:block mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleX(${done / checks.length})` }" />
           </div>
-          <ul class="inc__checks">
-            <li v-for="c in checks" :key="c.label" :class="{ 'is-ok': c.ok }">
-              <span class="inc__tick" aria-hidden="true"><MiIcon v-if="c.ok" name="check" :size="12" :weight="3" /></span>
-              {{ c.label }}<span class="inc__sr">{{ c.ok ? ', done' : ', missing' }}</span>
+          <ul class="mi:grid mi:gap-2 mi:m-0 mi:p-0 mi:[list-style:none] mi:text-[13px] mi:text-label2">
+            <li class="mi:flex mi:items-center mi:gap-2.5 mi:group" v-for="c in checks" :key="c.label" :class="c.ok ? 'mi:text-label' : ''" :data-ok="c.ok || undefined">
+              <span class="mi:grid mi:place-items-center mi:w-4.5 mi:h-4.5 mi:rounded-[50%] mi:border-[1.5px] mi:border-sep mi:text-p-on mi:group-data-[ok]:border-p mi:group-data-[ok]:bg-p" aria-hidden="true"><MiIcon v-if="c.ok" name="check" :size="12" :weight="3" /></span>
+              {{ c.label }}<span class="mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">{{ c.ok ? ', done' : ', missing' }}</span>
             </li>
           </ul>
         </div>
@@ -234,61 +234,3 @@ function reset() {
   declared.value = null
 }
 </script>
-
-<style scoped>
-.inc { container: inc / inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
-.inc__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 10px 16px; }
-.inc__sev-pill {
-  display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; font-size: 13px; font-weight: 600;
-  background: color-mix(in srgb, var(--inc-sev) 14%, transparent); color: var(--mi-label);
-}
-.inc__sev-pill i { width: 8px; height: 8px; border-radius: 50%; background: var(--inc-sev); }
-
-.inc__grid { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); align-items: start; }
-@container inc (min-width: 820px) { .inc__grid { grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); } .inc__side { position: sticky; top: 12px; } }
-
-.inc__form {
-  container: incform / inline-size; position: relative; display: grid; gap: 18px; padding: 22px 20px 20px; overflow: hidden;
-  border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1);
-}
-/* Severity edge: the form wears the current severity on its top border. */
-.inc__form::before { content: ""; position: absolute; inset: 0 0 auto; height: 3px; background: var(--inc-sev); }
-.inc__set { display: grid; gap: 10px; margin: 0; padding: 0; border: 0; min-width: 0; }
-.inc__legend { padding: 0; margin-bottom: 8px; font-size: 13px; font-weight: 600; color: var(--mi-label); }
-.inc__note { display: flex; gap: 8px; align-items: baseline; margin: 0; font-size: 13px; line-height: 1.45; color: var(--mi-label2); }
-.inc__note i { flex: none; width: 6px; height: 6px; border-radius: 50%; background: var(--inc-sev); transform: translateY(-1px); }
-.inc__pair { display: grid; gap: 18px; grid-template-columns: minmax(0, 1fr); }
-@container incform (min-width: 520px) { .inc__pair { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-
-.inc__public { display: grid; gap: 14px; padding: 14px; border-radius: var(--mi-radius-l); background: var(--mi-fill4); }
-.inc__public-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
-.inc__actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; padding-top: 16px; border-top: 1px solid var(--mi-sep); }
-
-.inc__side { display: grid; gap: 12px; }
-.inc__status {
-  display: grid; gap: 8px; padding: 18px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1);
-  border-left: 3px solid var(--inc-sev); transition: opacity var(--mi-dur-3) var(--mi-ease);
-}
-.inc__status.is-muted { border-left-color: var(--mi-sep); }
-.inc__status-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 4px; }
-.inc__brand { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--mi-label2); }
-.inc__brand i { width: 10px; height: 10px; border-radius: 3px; background: linear-gradient(135deg, var(--mi-p), var(--mi-s)); }
-.inc__state { justify-self: start; padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--mi-label); background: color-mix(in srgb, var(--inc-sev) 18%, transparent); }
-.inc__chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 2px 0; padding: 0; list-style: none; }
-.inc__chips li { padding: 3px 9px; border-radius: 999px; font-size: 12px; background: var(--mi-fill3); color: var(--mi-label); }
-
-.inc__ready { display: grid; gap: 10px; padding: 16px 18px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.inc__ready-head { display: flex; justify-content: space-between; align-items: baseline; }
-.inc__bar { height: 4px; border-radius: 2px; background: var(--mi-fill3); overflow: hidden; }
-.inc__bar span { display: block; height: 100%; background: var(--mi-p); transform-origin: left; transition: transform var(--mi-dur-4) var(--mi-spring); }
-.inc__checks { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; font-size: 13px; color: var(--mi-label2); }
-.inc__checks li { display: flex; align-items: center; gap: 10px; }
-.inc__checks li.is-ok { color: var(--mi-label); }
-.inc__tick { display: grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--mi-sep); color: var(--mi-p-on); }
-.is-ok .inc__tick { border-color: var(--mi-p); background: var(--mi-p); }
-.inc__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-
-.inc__done { display: grid; justify-items: center; gap: 10px; padding: 40px 20px; text-align: center; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.inc__done-mark { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; color: var(--mi-p-on); background: var(--mi-p); margin-bottom: 6px; }
-.inc__done-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 8px; }
-</style>

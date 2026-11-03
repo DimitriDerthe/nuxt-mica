@@ -23,9 +23,9 @@ const count = computed(() => ((props.p.steps ?? []) as unknown[]).length)
 </script>
 
 <template>
-  <div class="card" :class="{ wide: p.orientation === 'horizontal' }">
+  <div class="card mi:rounded-[20px] mi:shadow-1 mi:box-border" :class="{ wide: p.orientation === 'horizontal' }">
     <MiSteps v-model="step" v-bind="p" aria-label="Checkout" />
-    <div class="actions">
+    <div class="actions mi:flex mi:[justify-content:flex-end] mi:gap-2 mi:pt-3.5 mi:border-t mi:border-t-sep">
       <MiButton variant="gray" :disabled="step === 0" @click="step--">Back</MiButton>
       <MiButton :disabled="step >= count - 1" @click="step++">{{ step >= count - 2 ? 'Review order' : 'Continue' }}</MiButton>
     </div>
@@ -33,7 +33,6 @@ const count = computed(() => ((props.p.steps ?? []) as unknown[]).length)
 </template>
 
 <style scoped>
-.card { width: min(100%, 340px); padding: 20px; border-radius: 20px; background: var(--mi-card); box-shadow: var(--mi-sh1); display: grid; gap: 18px; box-sizing: border-box; }
+.card { width: min(100%, 340px); padding: 20px; background: var(--mi-card); display: grid; gap: 18px; }
 .card.wide { width: min(100%, 640px); }
-.actions { display: flex; justify-content: flex-end; gap: 8px; padding-top: 14px; border-top: 1px solid var(--mi-sep); }
 </style>

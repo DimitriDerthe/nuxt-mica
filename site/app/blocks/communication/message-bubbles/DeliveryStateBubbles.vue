@@ -1,53 +1,53 @@
 <template>
-  <section class="ds" aria-labelledby="ds-title">
-    <div class="ds__card">
-      <header class="ds__head">
+  <section class="mi:@container mi:relative mi:font-mi mi:text-label" aria-labelledby="ds-title">
+    <div class="mi:flex mi:flex-col mi:max-w-155 mi:mx-auto mi:rounded-xl mi:bg-card mi:shadow-2 mi:overflow-hidden">
+      <header class="mi:flex mi:items-center mi:gap-3 mi:py-3.5 mi:px-4 mi:border-b mi:border-b-sep">
         <MiAvatar name="Marta Silva" size="sm" tone="green" decorative />
-        <div class="ds__head-text">
+        <div class="mi:flex-1 mi:min-w-0">
           <MiText id="ds-title" as="h2" variant="headline" weight="semibold">Marta Silva</MiText>
           <MiText variant="caption" tone="label2">Moving day · Saturday</MiText>
         </div>
-        <div class="ds__net">
+        <div class="mi:inline-flex mi:items-center mi:gap-2 mi:text-[12.5px] mi:text-label2">
           <MiSwitch v-model="online" size="compact" tone="success" aria-labelledby="ds-net-label" />
           <span id="ds-net-label">{{ online ? 'Online' : 'Offline' }}</span>
         </div>
       </header>
 
-      <div class="ds__log" role="log" aria-label="Conversation with Marta Silva">
+      <div class="mi:grid mi:gap-2.5 mi:min-h-80 mi:content-end mi:py-4 mi:px-3.5 mi:bg-page" role="log" aria-label="Conversation with Marta Silva">
         <template v-for="m in msgs" :key="m.id">
-          <MiMarker v-if="m.unsent" class="ds__unsent">You unsent a message</MiMarker>
-          <MiMessage v-else :align="m.me ? 'end' : 'start'" :label="m.me ? 'You' : 'Marta Silva'" class="ds__row" :class="{ 'is-end': m.me }">
-            <form v-if="editing === m.id" class="ds__edit" @submit.prevent="saveEdit(m)">
-              <MiInput v-model="editDraft" size="sm" aria-label="Edit message" />
+          <MiMarker v-if="m.unsent" class="mi:italic! mi:justify-self-end">You unsent a message</MiMarker>
+          <MiMessage v-else :align="m.me ? 'end' : 'start'" :label="m.me ? 'You' : 'Marta Silva'" class="mi:max-w-[min(88%,_28rem)]! " :class="m.me ? 'mi:ms-auto' : ''">
+            <form v-if="editing === m.id" class="mi:flex mi:flex-wrap mi:items-center mi:[justify-content:flex-end] mi:gap-1.5" @submit.prevent="saveEdit(m)">
+              <MiInput v-model="editDraft" size="sm" class="mi:flex-[1_1_200px]" aria-label="Edit message" />
               <MiButton type="submit" size="small" :disabled="!editDraft.trim()">Save</MiButton>
               <MiButton variant="plain" size="small" @click="editing = null">Cancel</MiButton>
             </form>
-            <MiBubble v-else :align="m.me ? 'end' : 'start'" :variant="m.status === 'failed' ? 'outline' : m.me ? 'default' : 'secondary'" :class="{ 'is-failed': m.status === 'failed', 'is-sending': m.status === 'sending' }">
+            <MiBubble v-else :align="m.me ? 'end' : 'start'" :variant="m.status === 'failed' ? 'outline' : m.me ? 'default' : 'secondary'" :class="{ 'mi:text-red-t!': m.status === 'failed', 'mi:opacity-60! mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)]!': m.status === 'sending' }">
               {{ m.text }}
             </MiBubble>
             <template #footer>
               <span>{{ m.time }}<template v-if="m.edited"> · edited</template></span>
               <template v-if="m.me">
-                <span v-if="m.status === 'sending'" class="ds__state"><MiSpinner size="sm" label="" />Sending</span>
-                <span v-else-if="m.status === 'failed'" class="ds__state is-failed">
+                <span v-if="m.status === 'sending'" class="mi:inline-flex mi:items-center mi:gap-1"><MiSpinner size="sm" label="" />Sending</span>
+                <span v-else-if="m.status === 'failed'" class="mi:text-red-t! mi:inline-flex mi:items-center mi:gap-1">
                   <MiIcon name="exclamation-circle" :size="14" />Not delivered
-                  <button type="button" class="ds__link" @click="deliver(m)">Retry</button>
+                  <button type="button" class="mi:[font:inherit] mi:font-semibold mi:py-0 mi:px-1 mi:[border:0] mi:rounded-[4px] mi:bg-transparent mi:text-p-text mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" @click="deliver(m)">Retry</button>
                 </span>
-                <span v-else class="ds__state" :class="{ 'is-read': m.status === 'read' }">
+                <span v-else class="mi:inline-flex mi:items-center mi:gap-1" :class="m.status === 'read' ? 'mi:text-p-text' : ''">
                   <MiIcon name="check" :size="14" />{{ labels[m.status] }}
                 </span>
-                <span v-if="m.id === lastMine?.id && m.status !== 'sending' && editing !== m.id" class="ds__tools">
-                  <button type="button" class="ds__link" @click="startEdit(m)">Edit</button>
-                  <button type="button" class="ds__link" @click="m.unsent = true">Unsend</button>
+                <span v-if="m.id === lastMine?.id && m.status !== 'sending' && editing !== m.id" class="mi:inline-flex mi:gap-0.5">
+                  <button type="button" class="mi:[font:inherit] mi:font-semibold mi:py-0 mi:px-1 mi:[border:0] mi:rounded-[4px] mi:bg-transparent mi:text-p-text mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" @click="startEdit(m)">Edit</button>
+                  <button type="button" class="mi:[font:inherit] mi:font-semibold mi:py-0 mi:px-1 mi:[border:0] mi:rounded-[4px] mi:bg-transparent mi:text-p-text mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" @click="m.unsent = true">Unsend</button>
                 </span>
               </template>
             </template>
           </MiMessage>
         </template>
       </div>
-      <p class="ds__sr" role="status">{{ announce }}</p>
+      <p class="mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap" role="status">{{ announce }}</p>
 
-      <form class="ds__composer" @submit.prevent="send">
+      <form class="mi:pt-3 mi:px-3.5 mi:pb-3.5 mi:border-t mi:border-t-sep" @submit.prevent="send">
         <MiInputGroup v-model="draft" aria-label="Message Marta" :placeholder="online ? 'Message Marta' : 'Offline: messages will fail until you reconnect'">
           <template #trailing>
             <MiIconButton type="submit" label="Send" size="small" :disabled="!draft.trim()"><MiIcon name="arrow-up" :size="16" /></MiIconButton>
@@ -121,28 +121,3 @@ function saveEdit(m: Msg) {
 onBeforeUnmount(() => { timers.forEach(clearTimeout); timers.clear() })
 </script>
 
-<style scoped>
-.ds { container-type: inline-size; position: relative; font-family: var(--mi-font); color: var(--mi-label); }
-.ds__card { display: flex; flex-direction: column; max-width: 620px; margin-inline: auto; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh2); overflow: hidden; }
-.ds__head { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-bottom: 1px solid var(--mi-sep); }
-.ds__head-text { flex: 1; min-width: 0; }
-.ds__net { display: inline-flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--mi-label2); }
-
-.ds__log { display: grid; gap: 10px; min-height: 320px; align-content: end; padding: 16px 14px; background: var(--mi-page); }
-.ds__row { max-width: min(88%, 28rem); }
-.ds__row.is-end { margin-inline-start: auto; }
-.is-sending { opacity: .6; transition: opacity var(--mi-dur-3) var(--mi-ease); }
-.ds .is-failed { color: var(--mi-red-t); }
-.ds__unsent { justify-self: end; font-style: italic; }
-
-.ds__state { display: inline-flex; align-items: center; gap: 4px; }
-.ds__state.is-read { color: var(--mi-p-text); }
-.ds__tools { display: inline-flex; gap: 2px; }
-.ds__link { padding: 0 4px; border: 0; border-radius: 4px; background: transparent; color: var(--mi-p-text); font: inherit; font-weight: 600; cursor: pointer; }
-.ds__link:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 1px; }
-.ds__edit { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 6px; }
-.ds__edit > :first-child { flex: 1 1 200px; }
-
-.ds__composer { padding: 12px 14px 14px; border-top: 1px solid var(--mi-sep); }
-.ds__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-</style>

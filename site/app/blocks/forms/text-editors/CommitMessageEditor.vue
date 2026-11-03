@@ -1,6 +1,6 @@
 <template>
-  <section class="cme" aria-labelledby="cme-title">
-    <header class="cme__head">
+  <section class="mi:@container/cme mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="cme-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="cme-title" as="h2" variant="title3" weight="semibold">Commit message</MiText>
         <MiText variant="footnote" tone="label2">quayside/web · 4 files staged on fix/invoice-rounding</MiText>
@@ -8,30 +8,30 @@
       <MiBadge :tone="errors.length ? 'danger' : warnings.length ? 'warning' : 'success'" :label="verdict" dot />
     </header>
 
-    <div class="cme__body">
-      <div class="cme__form">
-        <div class="cme__prefix">
+    <div class="mi:grid mi:gap-3.5 mi:@[860px]/cme:grid-cols-[minmax(0,_1fr)_minmax(0,_1fr)] mi:@[860px]/cme:items-start">
+      <div class="mi:grid mi:gap-3 mi:p-4.5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:min-w-0">
+        <div class="mi:grid mi:grid-cols-[minmax(0,_1fr)_minmax(0,_1fr)] mi:gap-2.5">
           <MiField label="Type"><MiSelect v-model="type" :options="types" size="sm" /></MiField>
           <MiField label="Scope" hint="Optional"><MiInput v-model="scope" size="sm" placeholder="billing" /></MiField>
         </div>
 
         <MiField label="Summary" :error="subjectError">
           <template #default="{ id, describedBy }">
-            <MiInput :id="id" v-model="subject" class="cme__mono" :aria-describedby="describedBy" placeholder="round invoice totals per line" />
+            <MiInput :id="id" v-model="subject" class="mi:[&_input]:font-[ui-monospace,_SFMono-Regular,_Menlo,_monospace]! mi:[&_input]:text-[13.5px]!" :aria-describedby="describedBy" placeholder="round invoice totals per line" />
           </template>
           <template #label-end>
             <MiText variant="caption" tabular :tone="header.length > 72 ? 'red' : header.length > 50 ? 'orange' : 'label3'">{{ header.length }} / 72</MiText>
           </template>
         </MiField>
         <!-- 50/72 ruler: soft target at 50 characters, hard limit at 72. -->
-        <div class="cme__ruler" aria-hidden="true">
-          <span class="cme__fill" :class="{ 'is-long': header.length > 50 }" :style="{ transform: `scaleX(${Math.min(header.length, 72) / 72})` }" />
-          <span class="cme__tick" />
+        <div class="mi:relative mi:h-1 mi:-mt-1 mi:rounded-[2px] mi:bg-fill3 mi:overflow-hidden" aria-hidden="true">
+          <span class="mi:absolute mi:inset-0 mi:rounded-[inherit] mi:origin-left mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)]" :class="header.length > 50 ? 'mi:bg-orange' : 'mi:bg-green'" :style="{ transform: `scaleX(${Math.min(header.length, 72) / 72})` }" />
+          <span class="mi:absolute mi:top-0 mi:right-auto mi:bottom-0 mi:left-[calc(50_/_72_*_100%)] mi:w-0.5 mi:bg-card" />
         </div>
 
         <MiField label="Body" hint="Why the change, not how. Wrap at 72 columns.">
           <template #default="{ id, describedBy }">
-            <MiTextarea :id="id" v-model="body" class="cme__mono" :rows="4" :max-rows="9" :aria-describedby="describedBy" />
+            <MiTextarea :id="id" v-model="body" class="mi:[&_textarea]:font-[ui-monospace,_SFMono-Regular,_Menlo,_monospace]! mi:[&_textarea]:text-[13.5px]!" :rows="4" :max-rows="9" :aria-describedby="describedBy" />
           </template>
         </MiField>
 
@@ -41,15 +41,15 @@
         </MiField>
       </div>
 
-      <div class="cme__side">
+      <div class="mi:grid mi:gap-3 mi:p-4.5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:min-w-0">
         <MiCodeBlock :code="message" filename="COMMIT_EDITMSG" size="sm" />
-        <ul class="cme__lint" aria-label="Message checks">
-          <li v-for="l in lints" :key="l.text" :class="`is-${l.level}`">
-            <MiIcon :name="l.level === 'ok' ? 'check-circle' : l.level === 'error' ? 'x-circle-fill' : 'warning'" :size="15" />{{ l.text }}
+        <ul class="mi:grid mi:gap-1.5 mi:m-0 mi:p-0 mi:[list-style:none] mi:text-[13px]" aria-label="Message checks">
+          <li class="mi:flex mi:[align-items:flex-start] mi:gap-2" v-for="l in lints" :key="l.text" :class="l.level === 'error' ? 'mi:text-red-t' : 'mi:text-label2'">
+            <MiIcon class="mi:flex-none mi:mt-px" :class="l.level === 'ok' ? 'mi:text-green' : l.level === 'warn' ? 'mi:text-orange' : ''" :name="l.level === 'ok' ? 'check-circle' : l.level === 'error' ? 'x-circle-fill' : 'warning'" :size="15" />{{ l.text }}
           </li>
         </ul>
         <MiButton block :disabled="errors.length > 0" @click="committed = true">Commit 4 files</MiButton>
-        <p class="cme__status" role="status" aria-live="polite">{{ committed ? `Committed as 3f9c2e1: ${header}` : '' }}</p>
+        <p class="mi:min-h-4.5 mi:m-0 mi:text-[13px] mi:text-label2 mi:wrap-anywhere" role="status" aria-live="polite">{{ committed ? `Committed as 3f9c2e1: ${header}` : '' }}</p>
       </div>
     </div>
   </section>
@@ -103,27 +103,3 @@ const warnings = computed(() => lints.value.filter(l => l.level === 'warn'))
 const verdict = computed(() => errors.value.length ? `${errors.value.length} to fix` : warnings.value.length ? `${warnings.value.length} suggestion${warnings.value.length > 1 ? 's' : ''}` : 'Ready')
 const subjectError = computed(() => errors.value.find(l => l.subject)?.text)
 </script>
-
-<style scoped>
-.cme { container: cme / inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
-.cme__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-
-.cme__body { display: grid; gap: 14px; }
-@container cme (min-width: 860px) { .cme__body { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; } }
-.cme__form, .cme__side { display: grid; gap: 12px; padding: 18px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); min-width: 0; }
-.cme__prefix { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
-.cme__mono :deep(input), .cme__mono :deep(textarea) { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13.5px; }
-
-.cme__ruler { position: relative; height: 4px; margin-top: -4px; border-radius: 2px; background: var(--mi-fill3); overflow: hidden; }
-.cme__fill { position: absolute; inset: 0; border-radius: inherit; background: var(--mi-green); transform-origin: left; transition: transform var(--mi-dur-2) var(--mi-ease); }
-.cme__fill.is-long { background: var(--mi-orange); }
-.cme__tick { position: absolute; inset: 0 auto 0 calc(50 / 72 * 100%); width: 2px; background: var(--mi-card); }
-
-.cme__lint { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; font-size: 13px; }
-.cme__lint li { display: flex; align-items: flex-start; gap: 8px; color: var(--mi-label2); }
-.cme__lint li :deep(svg) { flex: none; margin-top: 1px; }
-.cme__lint .is-ok :deep(svg) { color: var(--mi-green); }
-.cme__lint .is-warn :deep(svg) { color: var(--mi-orange); }
-.cme__lint .is-error { color: var(--mi-red-t); }
-.cme__status { min-height: 18px; margin: 0; font-size: 13px; color: var(--mi-label2); overflow-wrap: anywhere; }
-</style>

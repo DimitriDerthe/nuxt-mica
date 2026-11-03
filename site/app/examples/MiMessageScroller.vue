@@ -21,7 +21,7 @@ const rows = [
 </script>
 
 <template>
-  <div class="ex-box">
+  <div class="ex-box mi:overflow-hidden">
     <MiMessageScroller v-bind="p">
       <MiMessageScrollerItem v-for="r in rows" :key="r.id" :message-id="r.id" :scroll-anchor="r.me">
         <MiMessage :align="r.me ? 'end' : 'start'">
@@ -33,5 +33,5 @@ const rows = [
 </template>
 
 <style scoped>
-.ex-box { height: 300px; width: min(100%, 420px); margin-inline: auto; border-radius: 16px; background: var(--mi-card); box-shadow: var(--mi-sh1); overflow: hidden; }
+.ex-box { height: 300px; width: min(100%, 420px); margin-inline: auto; border-radius: 16px; background: var(--mi-card); box-shadow: var(--mi-sh1); }
 </style>

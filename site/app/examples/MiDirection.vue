@@ -12,7 +12,7 @@ defineProps<{ p: Record<string, unknown> }>()
 
 <template>
   <MiDirection v-bind="p">
-    <div class="card" :dir="p.direction === 'rtl' ? 'rtl' : 'ltr'">
+    <div class="card mi:grid mi:gap-2 mi:justify-items-start mi:w-[min(100%,_320px)] mi:p-4 mi:rounded-[14px] mi:bg-card mi:shadow-1 mi:text-[15px]" :dir="p.direction === 'rtl' ? 'rtl' : 'ltr'">
       <strong>Notifications</strong>
       <span>Choose how you want to be reached.</span>
       <MiButton variant="filled" size="small">Save changes</MiButton>
@@ -21,6 +21,5 @@ defineProps<{ p: Record<string, unknown> }>()
 </template>
 
 <style scoped>
-.card { display: grid; gap: 8px; justify-items: start; width: min(100%, 320px); padding: 16px; border-radius: 14px; background: var(--mi-card); box-shadow: var(--mi-sh1); font-size: 15px; }
 span { color: var(--mi-label2); }
 </style>

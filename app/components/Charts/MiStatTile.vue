@@ -33,16 +33,16 @@ const _slots = defineSlots<{
 </script>
 
 <template>
-  <div class="mi-st" role="group" :aria-label="`${label}: ${value}`">
-    <span class="mi-st-label">{{ label }}</span>
-    <span class="mi-st-value">{{ value }}</span>
+  <div class="mi-st mi:flex-col" role="group" :aria-label="`${label}: ${value}`">
+    <span class="mi-st-label mi:text-[13px] mi:font-semibold mi:text-label2">{{ label }}</span>
+    <span class="mi-st-value mi:text-[30px] mi:leading-[34px] mi:font-semibold mi:tracking-[-.025em] mi:tabular-nums">{{ value }}</span>
     <slot />
-    <span v-if="delta || spark?.length" class="mi-st-foot">
-      <span v-if="delta" class="mi-st-delta" :class="`is-${tone}`">
-        <svg class="mi-st-arrow" :class="{ 'is-down': trend === 'down' }" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6" /></svg>
+    <span v-if="delta || spark?.length" class="mi-st-foot mi:flex mi:items-center mi:justify-between mi:gap-2">
+      <span v-if="delta" class="mi-st-delta mi:inline-flex mi:items-center mi:flex-wrap mi:gap-1 mi:min-w-0 mi:text-[13px] mi:font-semibold" :class="`is-${tone}`">
+        <svg class="mi-st-arrow mi:[&.is-down]:transform-[rotate(180deg)]" :class="{ 'is-down': trend === 'down' }" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6" /></svg>
         <span aria-hidden="true">{{ delta }}</span>
-        <span class="mi-st-cmp" aria-hidden="true">{{ comparison }}</span>
-        <span class="mi-st-sr">{{ a11y }}</span>
+        <span class="mi-st-cmp mi:font-normal mi:text-label2" aria-hidden="true">{{ comparison }}</span>
+        <span class="mi-st-sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">{{ a11y }}</span>
       </span>
       <MiSparkline v-if="spark?.length" :values="spark" :color="color" />
     </span>
@@ -50,15 +50,8 @@ const _slots = defineSlots<{
 </template>
 
 <style scoped>
-.mi-st{background:var(--mi-card);border-radius:18px;box-shadow:var(--mi-sh1);padding:18px;display:flex;flex-direction:column;gap:8px;min-width:0;font-family:var(--mi-font);color:var(--mi-label)}
-.mi-st-label{font-size:13px;font-weight:600;color:var(--mi-label2)}
-.mi-st-value{font-size:30px;line-height:34px;font-weight:600;letter-spacing:-.025em;font-variant-numeric:tabular-nums}
-.mi-st-foot{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.mi-st-delta{display:inline-flex;align-items:center;flex-wrap:wrap;gap:4px;min-width:0;font-size:13px;font-weight:600}
+.mi-st{background:var(--mi-card);border-radius:18px;box-shadow:var(--mi-sh1);padding:18px;display:flex;gap:8px;min-width:0;font-family:var(--mi-font);color:var(--mi-label)}
 .mi-st-delta.is-good{color:var(--mi-green-t)}
 .mi-st-delta.is-bad{color:var(--mi-red-t)}
 .mi-st-delta.is-neutral{color:var(--mi-label2)}
-.mi-st-arrow.is-down{transform:rotate(180deg)}
-.mi-st-cmp{font-weight:400;color:var(--mi-label2)}
-.mi-st-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 </style>

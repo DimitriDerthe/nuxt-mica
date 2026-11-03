@@ -22,18 +22,15 @@ const active = ref(-1)
 </script>
 
 <template>
-  <section class="ex-box" aria-labelledby="ex-sb-h">
-    <div class="ex-head">
-      <h3 id="ex-sb-h" class="ex-h">Storage by type</h3>
-      <span class="ex-total">865 GB of 1 TB</span>
+  <section class="ex-box mi:self-center mi:max-w-140 mi:shadow-1 mi:box-border" aria-labelledby="ex-sb-h">
+    <div class="ex-head mi:flex mi:items-baseline mi:justify-between mi:gap-3 mi:mb-3.5">
+      <h3 id="ex-sb-h" class="ex-h mi:m-0 mi:text-[17px] mi:font-semibold mi:text-label">Storage by type</h3>
+      <span class="ex-total mi:text-[13px] mi:text-label2 mi:whitespace-nowrap">865 GB of 1 TB</span>
     </div>
     <MiStackedBar v-bind="p" v-model:active="active" aria-label="Storage by file type" />
   </section>
 </template>
 
 <style scoped>
-.ex-box { align-self: center; width: 100%; max-width: 560px; margin: 0 auto; padding: 16px 18px; border-radius: 18px; background: var(--mi-card); box-shadow: var(--mi-sh1); box-sizing: border-box; }
-.ex-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
-.ex-h { margin: 0; font-size: 17px; font-weight: 600; color: var(--mi-label); }
-.ex-total { font-size: 13px; color: var(--mi-label2); white-space: nowrap; }
+.ex-box { width: 100%; margin: 0 auto; padding: 16px 18px; border-radius: 18px; background: var(--mi-card); }
 </style>

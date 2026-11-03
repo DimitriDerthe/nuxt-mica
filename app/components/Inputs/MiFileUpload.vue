@@ -162,9 +162,9 @@ const pct = (f: File) => {
 </script>
 
 <template>
-  <div class="mi-fu" :class="{ 'is-disabled': disabled }">
+  <div class="mi-fu mi:content-start mi:font-mi mi:[&.is-disabled]:opacity-45" :class="{ 'is-disabled': disabled }">
     <div
-      class="mi-fu__zone"
+      class="mi-fu__zone mi:relative mi:isolate mi:grid mi:justify-items-center mi:gap-1 mi:py-6.5 mi:px-5 mi:[border:1.5px_dashed_var(--mi-field-b)] mi:rounded-[16px] mi:bg-field mi:text-center mi:cursor-pointer mi:touch-manipulation mi:[.is-disabled_&]:cursor-not-allowed mi:[&.is-drag]:border-p mi:[&.is-drag]:[border-style:solid] mi:[&.is-invalid]:border-red mi:focus-visible:[outline:3px_solid_color-mix(in_srgb,_var(--mi-p)_55%,_transparent)] mi:focus-visible:outline-offset-[2px]"
       :class="{ 'is-drag': dragging, 'is-invalid': errors.length }"
       role="button"
       :tabindex="disabled ? -1 : 0"
@@ -178,28 +178,28 @@ const pct = (f: File) => {
       @dragleave="onLeave"
       @drop="onDrop"
     >
-      <span class="mi-fu__glow" aria-hidden="true" />
-      <span class="mi-fu__icon" aria-hidden="true"><MiIcon name="arrow-up" :size="22" :weight="2" /></span>
-      <span class="mi-fu__label">{{ label }}</span>
-      <span :id="`${id}-hint`" class="mi-fu__hint">{{ hint }}<template v-if="full"> · Maximum of {{ maxFiles }} files reached</template></span>
-      <input ref="input" class="mi-fu__input" type="file" tabindex="-1" aria-hidden="true" :accept="accept" :multiple="multiple" :disabled="disabled" @change="onChange" @click.stop>
+      <span class="mi-fu__glow mi:absolute mi:inset-0 mi:-z-1 mi:rounded-[inherit] mi:bg-p-tint mi:opacity-0 mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)]" aria-hidden="true" />
+      <span class="mi-fu__icon mi:inline-flex mi:items-center mi:justify-center mi:w-11 mi:h-11 mi:mb-1.5 mi:rounded-[14px] mi:bg-fill3 mi:text-[color:var(--mi-p-text,_var(--mi-p))] mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring)] mi:[.mi-fu__zone.is-drag_&]:transform-[translate3d(0,_-4px,_0)_scale(1.08)]" aria-hidden="true"><MiIcon name="arrow-up" :size="22" :weight="2" /></span>
+      <span class="mi-fu__label mi:text-[15px] mi:font-semibold">{{ label }}</span>
+      <span :id="`${id}-hint`" class="mi-fu__hint mi:text-[13px] mi:text-label2">{{ hint }}<template v-if="full"> · Maximum of {{ maxFiles }} files reached</template></span>
+      <input ref="input" class="mi-fu__input mi:absolute mi:w-px mi:h-px mi:opacity-0 mi:pointer-events-none" type="file" tabindex="-1" aria-hidden="true" :accept="accept" :multiple="multiple" :disabled="disabled" @change="onChange" @click.stop>
     </div>
 
-    <ul v-if="errors.length" :id="`${id}-err`" class="mi-fu__errors" role="alert">
+    <ul v-if="errors.length" :id="`${id}-err`" class="mi-fu__errors mi:grid mi:gap-0.5 mi:m-0 mi:p-0 mi:[list-style:none] mi:text-[13px] mi:text-red-t" role="alert">
       <li v-for="(m, i) in errors" :key="i">{{ m }}</li>
     </ul>
 
-    <ul v-if="model.length" class="mi-fu__list" :aria-label="`${label} files`">
-      <li v-for="(f, i) in model" :key="`${f.name}-${f.size}-${f.lastModified}`" class="mi-fu__file">
-        <span class="mi-fu__ficon" aria-hidden="true"><MiIcon name="document" :size="18" /></span>
-        <span class="mi-fu__meta">
-          <span class="mi-fu__name">{{ f.name }}</span>
-          <span class="mi-fu__size">{{ miFormatBytes(f.size) }}<template v-if="pct(f) !== null"> · {{ pct(f) }} %</template></span>
-          <span v-if="pct(f) !== null" class="mi-fu__track" role="progressbar" :aria-label="`Upload progress of ${f.name}`" aria-valuemin="0" aria-valuemax="100" :aria-valuenow="pct(f)!">
-            <span class="mi-fu__fill" :style="{ transform: `translate3d(${pct(f)! - 100}%,0,0)` }" />
+    <ul v-if="model.length" class="mi-fu__list mi:grid mi:gap-2 mi:m-0 mi:p-0 mi:[list-style:none]" :aria-label="`${label} files`">
+      <li v-for="(f, i) in model" :key="`${f.name}-${f.size}-${f.lastModified}`" class="mi-fu__file mi:flex mi:items-center mi:gap-3 mi:pt-2.5 mi:pr-2.5 mi:pb-2.5 mi:pl-3 mi:rounded-[12px] mi:bg-card mi:shadow-1">
+        <span class="mi-fu__ficon mi:inline-flex mi:items-center mi:justify-center mi:flex-[none] mi:w-8.5 mi:h-8.5 mi:rounded-[10px] mi:bg-p-tint mi:text-[color:var(--mi-p-text,_var(--mi-p))]" aria-hidden="true"><MiIcon name="document" :size="18" /></span>
+        <span class="mi-fu__meta mi:grid mi:gap-0.5 mi:flex-1 mi:min-w-0">
+          <span class="mi-fu__name mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:text-[14px] mi:font-medium">{{ f.name }}</span>
+          <span class="mi-fu__size mi:text-[12px] mi:text-label2 mi:tabular-nums">{{ miFormatBytes(f.size) }}<template v-if="pct(f) !== null"> · {{ pct(f) }} %</template></span>
+          <span v-if="pct(f) !== null" class="mi-fu__track mi:block mi:h-1 mi:mt-1 mi:rounded-[99px] mi:bg-fill3 mi:overflow-hidden" role="progressbar" :aria-label="`Upload progress of ${f.name}`" aria-valuemin="0" aria-valuemax="100" :aria-valuenow="pct(f)!">
+            <span class="mi-fu__fill mi:block mi:w-full mi:h-full mi:rounded-[inherit] mi:bg-p mi:[transition:transform_var(--mi-dur-3)_var(--mi-ease)]" :style="{ transform: `translate3d(${pct(f)! - 100}%,0,0)` }" />
           </span>
         </span>
-        <button type="button" class="mi-fu__rm" :aria-label="`${removeLabel} ${f.name}`" :disabled="disabled" @click="remove(i)">
+        <button type="button" class="mi-fu__rm mi:inline-flex mi:items-center mi:justify-center mi:flex-[none] mi:w-8 mi:h-8 mi:p-0 mi:[border:0] mi:rounded-[99px] mi:bg-transparent mi:text-label2 mi:cursor-pointer mi:[-webkit-tap-highlight-color:transparent] mi:[&:hover:not(:disabled)]:bg-fill3 mi:[&:hover:not(:disabled)]:text-label mi:focus-visible:[outline:3px_solid_color-mix(in_srgb,_var(--mi-p)_55%,_transparent)] mi:focus-visible:outline-offset-[1px]" :aria-label="`${removeLabel} ${f.name}`" :disabled="disabled" @click="remove(i)">
           <MiIcon name="close" :size="14" :weight="2.4" />
         </button>
       </li>
@@ -208,72 +208,7 @@ const pct = (f: File) => {
 </template>
 
 <style scoped>
-.mi-fu { display: grid; align-content: start; gap: 10px; font-family: var(--mi-font); color: var(--mi-label); }
-.mi-fu.is-disabled { opacity: .45; }
-
-.mi-fu__zone {
-  position: relative;
-  isolation: isolate;
-  display: grid;
-  justify-items: center;
-  gap: 4px;
-  padding: 26px 20px;
-  border: 1.5px dashed var(--mi-field-b);
-  border-radius: 16px;
-  background: var(--mi-field);
-  text-align: center;
-  cursor: pointer;
-  touch-action: manipulation;
-}
-.is-disabled .mi-fu__zone { cursor: not-allowed; }
-.mi-fu__zone.is-drag { border-color: var(--mi-p); border-style: solid; }
-.mi-fu__zone.is-invalid { border-color: var(--mi-red); }
-.mi-fu__zone:focus-visible { outline: 3px solid color-mix(in srgb, var(--mi-p) 55%, transparent); outline-offset: 2px; }
-
-.mi-fu__glow {
-  position: absolute; inset: 0; z-index: -1; border-radius: inherit;
-  background: var(--mi-p-tint); opacity: 0;
-  transition: opacity var(--mi-dur-2) var(--mi-ease);
-}
+.mi-fu { display: grid; gap: 10px; color: var(--mi-label); }
 .mi-fu__zone:hover .mi-fu__glow { opacity: .5; }
 .mi-fu__zone.is-drag .mi-fu__glow { opacity: 1; }
-
-.mi-fu__icon {
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 44px; height: 44px; margin-bottom: 6px; border-radius: 14px;
-  background: var(--mi-fill3); color: var(--mi-p-text, var(--mi-p));
-  transition: transform var(--mi-dur-3) var(--mi-spring);
-}
-.mi-fu__zone.is-drag .mi-fu__icon { transform: translate3d(0, -4px, 0) scale(1.08); }
-.mi-fu__label { font-size: 15px; font-weight: 600; }
-.mi-fu__hint { font-size: 13px; color: var(--mi-label2); }
-.mi-fu__input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
-
-.mi-fu__errors { display: grid; gap: 2px; margin: 0; padding: 0; list-style: none; font-size: 13px; color: var(--mi-red-t); }
-
-.mi-fu__list { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
-.mi-fu__file {
-  display: flex; align-items: center; gap: 12px; padding: 10px 10px 10px 12px;
-  border-radius: 12px; background: var(--mi-card); box-shadow: var(--mi-sh1);
-}
-.mi-fu__ficon {
-  display: inline-flex; align-items: center; justify-content: center; flex: none;
-  width: 34px; height: 34px; border-radius: 10px; background: var(--mi-p-tint); color: var(--mi-p-text, var(--mi-p));
-}
-.mi-fu__meta { display: grid; gap: 2px; flex: 1; min-width: 0; }
-.mi-fu__name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; font-weight: 500; }
-.mi-fu__size { font-size: 12px; color: var(--mi-label2); font-variant-numeric: tabular-nums; }
-.mi-fu__track { display: block; height: 4px; margin-top: 4px; border-radius: 99px; background: var(--mi-fill3); overflow: hidden; }
-.mi-fu__fill {
-  display: block; width: 100%; height: 100%; border-radius: inherit; background: var(--mi-p);
-  transition: transform var(--mi-dur-3) var(--mi-ease);
-}
-.mi-fu__rm {
-  display: inline-flex; align-items: center; justify-content: center; flex: none;
-  width: 32px; height: 32px; padding: 0; border: 0; border-radius: 99px;
-  background: transparent; color: var(--mi-label2); cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-}
-.mi-fu__rm:hover:not(:disabled) { background: var(--mi-fill3); color: var(--mi-label); }
-.mi-fu__rm:focus-visible { outline: 3px solid color-mix(in srgb, var(--mi-p) 55%, transparent); outline-offset: 1px; }
 </style>

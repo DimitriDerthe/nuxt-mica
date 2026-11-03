@@ -32,7 +32,7 @@ defineSlots<{
 </script>
 
 <template>
-  <figure class="mi-cb" :class="[`is-${size}`, `is-${variant}`]">
+  <figure class="mi-cb mi:[--mi-cb-tint:var(--mi-p-tint)] mi:[--mi-cb-fg:var(--mi-p-text)] mi:relative mi:overflow-hidden mi:[&.is-destructive]:[--mi-cb-tint:var(--mi-s-tint)] mi:[&.is-destructive]:[--mi-cb-fg:var(--mi-s-text)]" :class="[`is-${size}`, `is-${variant}`]">
     <slot>
       <MiCodeBlockHeader v-if="filename || language || copyable">
         <MiCodeBlockTitle>{{ filename || language }}</MiCodeBlockTitle>
@@ -46,8 +46,7 @@ defineSlots<{
 </template>
 
 <style scoped>
-.mi-cb { --mi-cb-tint: var(--mi-p-tint); --mi-cb-fg: var(--mi-p-text); position: relative; margin: 0; border-radius: 12px; overflow: hidden; background: var(--mi-card); box-shadow: var(--mi-sh2); font-family: var(--mi-font); color: var(--mi-label); }
-.mi-cb.is-destructive { --mi-cb-tint: var(--mi-s-tint); --mi-cb-fg: var(--mi-s-text); }
+.mi-cb { margin: 0; border-radius: 12px; background: var(--mi-card); box-shadow: var(--mi-sh2); font-family: var(--mi-font); color: var(--mi-label); }
 .mi-cb.is-sm { font-size: 12px; }
 .mi-cb :deep(.mi-cb__head) { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 8px 6px 14px; background: var(--mi-cb-tint); font-size: 12px; }
 .mi-cb :deep(.mi-cb__name) { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

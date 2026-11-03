@@ -20,20 +20,12 @@ const shown = ref(true)
 </script>
 
 <template>
-  <div class="page">
+  <div class="page mi:overflow-hidden mi:rounded-[18px] mi:bg-card mi:shadow-1">
     <MiBanner v-if="shown" v-bind="p" @dismiss="shown = false" />
-    <div class="body">
-      <div class="h">Projects</div>
-      <div class="line" /><div class="line short" />
+    <div class="body mi:grid mi:gap-2.5 mi:justify-items-start mi:p-4.5">
+      <div class="h mi:text-[20px] mi:font-bold mi:text-label">Projects</div>
+      <div class="line mi:w-full mi:h-2.5 mi:rounded-[5px] mi:bg-fill3 mi:[&.short]:w-[60%]" /><div class="line short mi:w-full mi:h-2.5 mi:rounded-[5px] mi:bg-fill3 mi:[&.short]:w-[60%]" />
       <MiButton v-if="!shown" variant="gray" size="small" @click="shown = true">Show the banner again</MiButton>
     </div>
   </div>
 </template>
-
-<style scoped>
-.page { overflow: hidden; border-radius: 18px; background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.body { display: grid; gap: 10px; justify-items: start; padding: 18px; }
-.h { font-size: 20px; font-weight: 700; color: var(--mi-label); }
-.line { width: 100%; height: 10px; border-radius: 5px; background: var(--mi-fill3); }
-.line.short { width: 60%; }
-</style>

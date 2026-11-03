@@ -1,43 +1,43 @@
 <template>
-  <section class="sod" aria-labelledby="sod-title">
-    <div class="sod__in">
-    <div class="sod__side" :class="{ 'is-open': navOpen }">
-      <div class="sod__brand">
-        <span class="sod__mark" aria-hidden="true" />
+  <section class="mi:@container mi:grid mi:min-h-full mi:font-mi mi:text-label mi:[background:var(--mi-page)]" aria-labelledby="sod-title">
+    <div class="mi:relative mi:grid mi:min-w-0 mi:@[900px]:grid-cols-[244px_minmax(0,_1fr)]">
+    <div class="mi:grid-rows-[auto_minmax(0,_1fr)] mi:gap-2 mi:py-3.5 mi:px-2.5 mi:border-b mi:border-b-sep mi:[background:var(--mi-page)] mi:@[900px]:grid mi:@[900px]:content-start mi:@[900px]:[border-bottom:0] mi:@[900px]:border-r mi:@[900px]:border-r-sep" :class="navOpen ? 'mi:grid' : 'mi:hidden'">
+      <div class="mi:flex mi:items-center mi:gap-2.5 mi:pt-1 mi:px-2 mi:pb-2">
+        <span class="mi:w-7 mi:h-7 mi:rounded-[9px] mi:flex-[none] mi:[background:radial-gradient(circle_at_35%_30%,_var(--mi-s)_0_22%,_transparent_23%),_linear-gradient(140deg,_var(--mi-p),_color-mix(in_srgb,_var(--mi-p)_50%,_var(--mi-s)))]" aria-hidden="true" />
         <div>
           <MiText as="span" variant="subheadline" weight="bold">Fernhouse</MiText>
           <MiText variant="caption2" tone="label2">Studio back office</MiText>
         </div>
       </div>
-      <MiSidebar v-model="page" :groups="nav" aria-label="Back office" footer-label="Help and shortcuts" class="sod__nav" @select="navOpen = false" />
+      <MiSidebar v-model="page" :groups="nav" aria-label="Back office" footer-label="Help and shortcuts" class="mi:w-auto! mi:min-h-0!" @select="navOpen = false" />
     </div>
 
-    <div class="sod__main">
-      <header class="sod__top">
-        <MiIconButton class="sod__menu" label="Toggle navigation" variant="gray" size="regular" :pressed="navOpen" @click="navOpen = !navOpen">
+    <div class="mi:grid mi:content-start mi:min-w-0">
+      <header class="mi:flex mi:flex-wrap mi:items-center mi:gap-y-2.5 mi:gap-x-3 mi:py-3.5 mi:px-4 mi:border-b mi:border-b-sep mi:[background:var(--mi-card)]">
+        <MiIconButton class="mi:@[900px]:hidden!" label="Toggle navigation" variant="gray" size="regular" :pressed="navOpen" @click="navOpen = !navOpen">
           <MiIcon name="sidebar" :size="18" />
         </MiIconButton>
-        <div class="sod__title">
+        <div class="mi:flex-[1_1_180px] mi:min-w-0">
           <MiText id="sod-title" as="h2" variant="title3" weight="bold">Good afternoon, Odile</MiText>
           <MiText variant="caption" tone="label2">Kiln 2 firing ends 17:40 · 9 orders to pack today</MiText>
         </div>
-        <MiSearch v-model="query" size="compact" placeholder="Search orders" shortcut="⌘K" hotkey="k" class="sod__search" :cancelable="false" />
+        <MiSearch v-model="query" size="compact" placeholder="Search orders" shortcut="⌘K" hotkey="k" class="mi:flex-[1_1_100%]! mi:order-5! mi:@[640px]:flex-[0_1_220px]! mi:@[640px]:order-0!" :cancelable="false" />
         <MiBadge :count="3" count-noun="new alerts">
           <template #target>
             <MiIconButton label="Notifications" variant="gray" size="regular"><MiIcon name="bell" :size="18" /></MiIconButton>
           </template>
         </MiBadge>
-        <MiAvatar name="Odile Ferrand" size="sm" tone="auto" class="sod__me" />
+        <MiAvatar name="Odile Ferrand" size="sm" tone="auto" class="mi:flex-none!" />
       </header>
 
-      <div class="sod__content">
-        <div class="sod__kpis">
+      <div class="mi:grid mi:gap-3.5 mi:p-4 mi:@[760px]:p-5 mi:@[760px]:gap-4">
+        <div class="mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:gap-2.5 mi:@[440px]:grid-cols-2 mi:@[760px]:grid-cols-4 mi:@[900px]:grid-cols-2 mi:@[1140px]:grid-cols-4">
           <MiStatTile v-for="k in kpis" :key="k.label" v-bind="k" :comparison="range === '7d' ? 'vs last week' : 'vs last month'" />
         </div>
 
-        <div class="sod__row">
-          <div class="sod__chart">
-            <div class="sod__chart-head">
+        <div class="mi:grid mi:gap-3.5 mi:@[900px]:grid-cols-[minmax(0,_1.8fr)_minmax(0,_1fr)]">
+          <div class="mi:[&_.mi-lc-svg]:overflow-hidden! mi:grid mi:content-start mi:gap-3 mi:p-4 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:min-w-0">
+            <div class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2">
               <div>
                 <MiText as="h3" variant="headline" weight="semibold">Net sales</MiText>
                 <MiText variant="caption" tone="label2">Online shop and studio counter, in € thousands</MiText>
@@ -47,12 +47,12 @@
             <MiLineChart :key="String(range)" :categories="series.categories" :series="series.lines" unit="k" :height="200" :card="false" :end-labels="false" />
           </div>
 
-          <aside class="sod__stock" aria-labelledby="sod-stock">
-            <div class="sod__stock-head">
+          <aside class="mi:grid mi:content-start mi:gap-3 mi:p-4 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:min-w-0" aria-labelledby="sod-stock">
+            <div class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2">
               <MiText id="sod-stock" as="h3" variant="headline" weight="semibold">Running low</MiText>
               <MiTextLink href="#">Restock</MiTextLink>
             </div>
-            <ul>
+            <ul class="mi:grid mi:gap-3.5 mi:m-0 mi:p-0 mi:[list-style:none]">
               <li v-for="s in stock" :key="s.name">
                 <MiMeter :value="s.left" :max="s.par" :label="s.name" :caption="`${s.left} left`" :hint="s.note" size="sm" :color="s.left / s.par < 0.25 ? 'var(--mi-red)' : 'var(--mi-orange)'" />
               </li>
@@ -60,12 +60,12 @@
           </aside>
         </div>
 
-        <div class="sod__orders">
-          <div class="sod__orders-head">
+        <div class="mi:grid mi:content-start mi:gap-3 mi:p-4 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:min-w-0">
+          <div class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2">
             <MiText as="h3" variant="headline" weight="semibold">Latest orders</MiText>
             <MiText variant="caption" tone="label2">{{ filtered.length }} of {{ orders.length }}</MiText>
           </div>
-          <div class="sod__table">
+          <div class="mi:min-w-0 mi:[&_table]:min-w-140!">
             <MiTable :columns="columns" :rows="filtered" density="regular" caption="Latest orders" empty-text="No order matches that search">
               <template #cell="{ column, value }">
                 <MiBadge v-if="column.key === 'status'" :tone="statusTone[String(value)] ?? 'neutral'" :label="String(value)" />
@@ -154,52 +154,3 @@ const filtered = computed(() => {
   return q ? orders.filter(o => Object.values(o).some(v => v.toLowerCase().includes(q))) : orders
 })
 </script>
-
-<style scoped>
-.sod { container-type: inline-size; display: grid; min-height: 100%; font-family: var(--mi-font); color: var(--mi-label); background: var(--mi-page); }
-.sod__in { position: relative; display: grid; min-width: 0; }
-
-/* Narrow: the sidebar is an in-flow panel toggled from the header, so nothing overlaps. */
-.sod__side { display: none; grid-template-rows: auto minmax(0, 1fr); gap: 8px; padding: 14px 10px; border-bottom: 1px solid var(--mi-sep); background: var(--mi-page); }
-.sod__side.is-open { display: grid; }
-.sod__brand { display: flex; align-items: center; gap: 10px; padding: 4px 8px 8px; }
-.sod__mark { width: 28px; height: 28px; border-radius: 9px; flex: none; background: radial-gradient(circle at 35% 30%, var(--mi-s) 0 22%, transparent 23%), linear-gradient(140deg, var(--mi-p), color-mix(in srgb, var(--mi-p) 50%, var(--mi-s))); }
-.sod__nav { width: auto; min-height: 0; }
-
-.sod__main { display: grid; align-content: start; min-width: 0; }
-.sod__top { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; padding: 14px 16px; border-bottom: 1px solid var(--mi-sep); background: var(--mi-card); }
-.sod__title { flex: 1 1 180px; min-width: 0; }
-.sod__search { flex: 1 1 100%; order: 5; }
-.sod__me { flex: none; }
-.sod__content { display: grid; gap: 14px; padding: 16px; }
-
-.sod__kpis { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; }
-.sod__row { display: grid; gap: 14px; }
-.sod__chart, .sod__stock, .sod__orders { display: grid; align-content: start; gap: 12px; padding: 16px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); min-width: 0; }
-/* The last hover column of the chart reaches past the plot; keep it inside the card. */
-.sod__chart :deep(.mi-lc-svg) { overflow: hidden; }
-.sod__chart-head, .sod__stock-head, .sod__orders-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
-.sod__stock ul { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; }
-.sod__table { min-width: 0; }
-/* MiTable scrolls on its own; forcing it wider than this wrapper would cut its rounded edge. */
-.sod__table :deep(table) { min-width: 560px; }
-
-@container (min-width: 440px) {
-  .sod__kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-@container (min-width: 640px) {
-  .sod__search { flex: 0 1 220px; order: 0; }
-}
-@container (min-width: 760px) {
-  .sod__kpis { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  .sod__content { padding: 20px; gap: 16px; }
-}
-@container (min-width: 900px) {
-  .sod__kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .sod__in { grid-template-columns: 244px minmax(0, 1fr); }
-  .sod__side, .sod__side.is-open { display: grid; align-content: start; border-bottom: 0; border-right: 1px solid var(--mi-sep); }
-  .sod__menu { display: none; }
-  .sod__row { grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr); }
-}
-@container (min-width: 1140px) { .sod__kpis { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-</style>

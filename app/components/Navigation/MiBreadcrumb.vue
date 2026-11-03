@@ -24,23 +24,23 @@ const isLast = (i: number) => i === props.items.length - 1
 </script>
 
 <template>
-  <nav v-if="variant === 'breadcrumb'" class="mi-bc" :aria-label="ariaLabel">
-    <ol class="mi-bc__list">
-      <li v-for="(it, i) in items" :key="i" class="mi-bc__item">
-        <span v-if="isLast(i)" class="mi-bc__current" aria-current="page">{{ it.label }}</span>
+  <nav v-if="variant === 'breadcrumb'" class="mi-bc mi:font-mi" :aria-label="ariaLabel">
+    <ol class="mi-bc__list mi:[list-style:none] mi:m-0 mi:p-0 mi:flex mi:flex-wrap mi:items-center mi:gap-1 mi:text-[14px]">
+      <li v-for="(it, i) in items" :key="i" class="mi-bc__item mi:inline-flex mi:items-center mi:gap-1">
+        <span v-if="isLast(i)" class="mi-bc__current mi:font-semibold mi:text-label" aria-current="page">{{ it.label }}</span>
         <template v-else>
-          <a class="mi-bc__link" :href="miSafeHref(it.href) ?? '#'" @click="go($event, it, i)">{{ it.label }}</a>
-          <MiNavGlyph name="chevron-right" :size="12" :stroke="2.6" class="mi-bc__sep" />
+          <a class="mi-bc__link mi:text-p-text mi:[text-decoration:none] mi:rounded-[4px] mi:hover:[text-decoration:underline] mi:hover:underline-offset-[3px]" :href="miSafeHref(it.href) ?? '#'" @click="go($event, it, i)">{{ it.label }}</a>
+          <MiNavGlyph name="chevron-right" :size="12" :stroke="2.6" class="mi-bc__sep mi:text-label3" />
         </template>
       </li>
     </ol>
   </nav>
-  <nav v-else class="mi-path" :aria-label="ariaLabel">
-    <ol class="mi-path__list">
-      <li v-for="(it, i) in items" :key="i" class="mi-path__item">
-        <span v-if="isLast(i)" class="mi-path__current" aria-current="page">{{ it.label }}</span>
-        <a v-else class="mi-path__link" :href="miSafeHref(it.href) ?? '#'" @click="go($event, it, i)">
-          <MiNavGlyph v-if="it.icon !== false" name="folder" :size="14" :stroke="2" class="mi-path__ic" />{{ it.label }}
+  <nav v-else class="mi-path mi:font-mi" :aria-label="ariaLabel">
+    <ol class="mi-path__list mi:[list-style:none] mi:m-0 mi:py-1 mi:px-2 mi:flex mi:flex-wrap mi:items-center mi:gap-0.5 mi:rounded-[8px] mi:bg-fill4 mi:text-[13px] mi:text-label2">
+      <li v-for="(it, i) in items" :key="i" class="mi-path__item mi:inline-flex mi:items-center mi:gap-0.5">
+        <span v-if="isLast(i)" class="mi-path__current mi:text-label mi:font-medium" aria-current="page">{{ it.label }}</span>
+        <a v-else class="mi-path__link mi:inline-flex mi:items-center mi:gap-1 mi:text-inherit mi:[text-decoration:none] mi:rounded-[4px] mi:hover:text-label" :href="miSafeHref(it.href) ?? '#'" @click="go($event, it, i)">
+          <MiNavGlyph v-if="it.icon !== false" name="folder" :size="14" :stroke="2" class="mi-path__ic mi:text-blue" />{{ it.label }}
         </a>
         <span v-if="!isLast(i)" class="mi-path__sep" aria-hidden="true">›</span>
       </li>
@@ -49,18 +49,5 @@ const isLast = (i: number) => i === props.items.length - 1
 </template>
 
 <style scoped>
-.mi-bc,.mi-path{font-family:var(--mi-font)}
-.mi-bc__list{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;align-items:center;gap:4px;font-size:14px}
-.mi-bc__item{display:inline-flex;align-items:center;gap:4px}
-.mi-bc__link{color:var(--mi-p-text);text-decoration:none;border-radius:4px}
-.mi-bc__link:hover{text-decoration:underline;text-underline-offset:3px}
-.mi-bc__sep{color:var(--mi-label3)}
-.mi-bc__current{font-weight:600;color:var(--mi-label)}
-.mi-path__list{list-style:none;margin:0;padding:4px 8px;display:flex;flex-wrap:wrap;align-items:center;gap:2px;border-radius:8px;background:var(--mi-fill4);font-size:13px;color:var(--mi-label2)}
-.mi-path__item{display:inline-flex;align-items:center;gap:2px}
-.mi-path__link{display:inline-flex;align-items:center;gap:4px;color:inherit;text-decoration:none;border-radius:4px}
-.mi-path__link:hover{color:var(--mi-label)}
-.mi-path__ic{color:var(--mi-blue)}
-.mi-path__current{color:var(--mi-label);font-weight:500}
 .mi-bc a:focus-visible,.mi-path a:focus-visible{outline:3px solid color-mix(in srgb,var(--mi-p) 55%,transparent);outline-offset:2px}
 </style>

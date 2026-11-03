@@ -41,10 +41,10 @@ const tones: Record<string, string> = { 'Active': 'success', 'Trial': 'primary',
 </script>
 
 <template>
-  <div class="ex-table">
-    <div class="ex-bar">
-      <span class="ex-title">Accounts</span>
-      <span class="ex-count">{{ selected.length ? `${selected.length} selected` : '7 accounts' }}</span>
+  <div class="ex-table mi:content-start">
+    <div class="ex-bar mi:flex mi:items-baseline mi:justify-between mi:gap-3 mi:py-0 mi:px-1">
+      <span class="ex-title mi:text-[17px] mi:font-semibold mi:text-label">Accounts</span>
+      <span class="ex-count mi:text-[13px] mi:text-label2">{{ selected.length ? `${selected.length} selected` : '7 accounts' }}</span>
     </div>
     <MiTable v-bind="p" v-model:selected="selected" v-model:sort="sort">
       <template #cell="{ column, value, selected: isSelected }">
@@ -56,8 +56,5 @@ const tones: Record<string, string> = { 'Active': 'success', 'Trial': 'primary',
 </template>
 
 <style scoped>
-.ex-table { display: grid; gap: 10px; min-width: 0; align-content: start; }
-.ex-bar { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 0 4px; }
-.ex-title { font-size: 17px; font-weight: 600; color: var(--mi-label); }
-.ex-count { font-size: 13px; color: var(--mi-label2); }
+.ex-table { display: grid; gap: 10px; min-width: 0; }
 </style>

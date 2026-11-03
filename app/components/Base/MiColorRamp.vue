@@ -19,16 +19,10 @@ const stops = computed(() => miRamp(miHex(props.color, '#0071E3')))
 </script>
 
 <template>
-  <ul class="mi-ramp" :aria-label="label" :style="{ height: `${height}px` }">
-    <li v-for="s in stops" :key="s.label" class="mi-ramp__cell" :style="{ background: s.color, color: s.on }" :title="`${s.label} · ${s.color}`">
+  <ul class="mi-ramp mi:grid mi:grid-cols-9 mi:m-0 mi:p-0 mi:[list-style:none] mi:font-mi mi:overflow-hidden" :aria-label="label" :style="{ height: `${height}px` }">
+    <li v-for="s in stops" :key="s.label" class="mi-ramp__cell mi:relative mi:flex mi:items-center mi:justify-center mi:min-w-0 mi:text-[11px] mi:font-semibold mi:tabular-nums" :style="{ background: s.color, color: s.on }" :title="`${s.label} · ${s.color}`">
       <span v-if="labels" class="mi-ramp__label">{{ s.label }}</span>
-      <span class="mi-ramp__sr">{{ s.label }} {{ s.color }}</span>
+      <span class="mi-ramp__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">{{ s.label }} {{ s.color }}</span>
     </li>
   </ul>
 </template>
-
-<style scoped>
-.mi-ramp{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));margin:0;padding:0;list-style:none;font-family:var(--mi-font);overflow:hidden}
-.mi-ramp__cell{position:relative;display:flex;align-items:center;justify-content:center;min-width:0;font-size:11px;font-weight:600;font-variant-numeric:tabular-nums}
-.mi-ramp__sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
-</style>

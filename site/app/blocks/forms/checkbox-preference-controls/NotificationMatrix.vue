@@ -1,6 +1,6 @@
 <template>
-  <section class="ntm" aria-labelledby="ntm-title">
-    <header class="ntm__head">
+  <section class="mi:@container/ntm mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="ntm-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="ntm-title" as="h2" variant="title3" weight="semibold">Notifications</MiText>
         <MiText variant="footnote" tone="label2">Paperline · how each kind of update reaches you</MiText>
@@ -8,36 +8,36 @@
       <MiSegmented v-model="preset" label="Preset" :options="presetOptions" />
     </header>
 
-    <form class="ntm__card" novalidate @submit.prevent="save">
-      <div class="ntm__scroll">
-        <table class="ntm__table">
-          <caption class="ntm__sr">Notification channels per event</caption>
+    <form class="mi:grid mi:gap-4.5 mi:pt-2 mi:px-0 mi:pb-4 mi:rounded-xl mi:bg-card mi:shadow-1 mi:overflow-hidden" novalidate @submit.prevent="save">
+      <div class="mi:overflow-x-auto">
+        <table class="mi:w-full mi:min-w-80 mi:border-collapse">
+          <caption class="mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">Notification channels per event</caption>
           <thead>
             <tr>
-              <th scope="col" class="ntm__event-h">Event</th>
-              <th v-for="c in channels" :key="c.id" scope="col">
-                <div class="ntm__col">
+              <th scope="col" class="mi:py-3 mi:ps-4.5 mi:pe-2 mi:text-start mi:relative mi:text-[12px] mi:font-semibold mi:text-label2 mi:border-b mi:border-b-sep mi:align-bottom!">Event</th>
+              <th v-for="c in channels" :key="c.id" scope="col" class="mi:py-3 mi:px-2 mi:last:pe-4 mi:text-center mi:align-middle mi:relative mi:text-[12px] mi:font-semibold mi:text-label2 mi:border-b mi:border-b-sep">
+                <div class="mi:[&_label]:justify-center mi:grid mi:justify-items-center mi:gap-1.5">
                   <MiIcon :svg="c.svg" :size="18" />
                   <span>{{ c.label }}</span>
                   <MiCheckbox
                     :model-value="colState(c.id) === 'all'" :indeterminate="colState(c.id) === 'some'"
                     @update:model-value="setColumn(c.id, $event)"
                   >
-                    <span class="ntm__sr">All {{ c.label }}</span>
+                    <span class="mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">All {{ c.label }}</span>
                   </MiCheckbox>
                 </div>
               </th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="r in rows" :key="r.id" :class="{ 'is-err': err(r.id) }">
-              <th scope="row">
-                <span class="ntm__ev">{{ r.label }}</span>
-                <span class="ntm__desc">{{ err(r.id) || r.desc }}</span>
+            <tr v-for="r in rows" :key="r.id" class="mi:not-first:border-t mi:not-first:border-t-sep">
+              <th scope="row" class="mi:py-3 mi:ps-4.5 mi:pe-2 mi:text-start mi:align-middle mi:font-normal" :class="err(r.id) ? 'mi:shadow-[inset_3px_0_0_var(--mi-red)]' : ''">
+                <span class="mi:block mi:text-[14px] mi:font-semibold mi:text-label">{{ r.label }}</span>
+                <span class="mi:block mi:mt-0.5 mi:text-[12.5px] mi:leading-[1.35]" :class="err(r.id) ? 'mi:text-red-t' : 'mi:text-label2'">{{ err(r.id) || r.desc }}</span>
               </th>
-              <td v-for="c in channels" :key="c.id">
+              <td v-for="c in channels" :key="c.id" class="mi:py-3 mi:px-2 mi:last:pe-4 mi:w-16 mi:text-center mi:align-middle mi:[&_label]:justify-center">
                 <MiCheckbox v-model="prefs[r.id][c.id]" :disabled="isLocked(r.id, c.id)">
-                  <span class="ntm__sr">{{ r.label }} by {{ c.label }}{{ isLocked(r.id, c.id) ? ' (required)' : '' }}</span>
+                  <span class="mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">{{ r.label }} by {{ c.label }}{{ isLocked(r.id, c.id) ? ' (required)' : '' }}</span>
                 </MiCheckbox>
               </td>
             </tr>
@@ -46,22 +46,22 @@
       </div>
 
       <!-- Weekly volume estimate: what these choices mean for your inbox. -->
-      <div class="ntm__volume" aria-live="polite">
+      <div class="mi:grid mi:gap-2.5 mi:mx-4 mi:py-3.5 mi:px-4 mi:rounded-lg mi:bg-fill4" aria-live="polite">
         <MiText as="h3" variant="subheadline" weight="semibold">About {{ total }} notifications a week</MiText>
-        <div class="ntm__bars">
-          <div v-for="c in channels" :key="c.id" class="ntm__bar">
-            <span class="ntm__bar-l">{{ c.label }}</span>
-            <span class="ntm__track"><i :style="{ transform: `scaleX(${volume[c.id] / maxVolume})` }" /></span>
-            <span class="ntm__bar-v">{{ volume[c.id] }}</span>
+        <div class="mi:grid mi:gap-2 mi:@[640px]/ntm:grid-cols-3 mi:@[640px]/ntm:gap-4">
+          <div v-for="c in channels" :key="c.id" class="mi:grid mi:grid-cols-[44px_minmax(0,_1fr)_24px] mi:items-center mi:gap-2.5 mi:text-[12.5px]">
+            <span class="mi:text-label2">{{ c.label }}</span>
+            <span class="mi:h-1.5 mi:rounded-[3px] mi:bg-fill3 mi:overflow-hidden"><i class="mi:block mi:h-full mi:rounded-[inherit] mi:bg-p mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleX(${volume[c.id] / maxVolume})` }" /></span>
+            <span class="mi:text-end mi:font-semibold mi:tabular-nums">{{ volume[c.id] }}</span>
           </div>
         </div>
       </div>
 
-      <div class="ntm__foot">
+      <div class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2.5 mi:px-4">
         <MiText variant="footnote" :tone="saved ? 'green' : 'label2'" aria-live="polite">
           {{ saved ? 'Preferences saved' : dirty ? 'You have unsaved changes' : 'Up to date' }}
         </MiText>
-        <div class="ntm__actions">
+        <div class="mi:flex mi:gap-2">
           <MiButton variant="gray" :disabled="!dirty" @click="reset">Reset</MiButton>
           <MiButton type="submit" :disabled="!dirty">Save preferences</MiButton>
         </div>
@@ -152,38 +152,3 @@ function reset() {
   submitted.value = false
 }
 </script>
-
-<style scoped>
-.ntm { container: ntm / inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
-.ntm__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.ntm__card { display: grid; gap: 18px; padding: 8px 0 16px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); overflow: hidden; }
-.ntm__scroll { overflow-x: auto; }
-.ntm__table { width: 100%; min-width: 320px; border-collapse: collapse; }
-.ntm__table th, .ntm__table td { padding: 12px 8px; text-align: center; vertical-align: middle; }
-.ntm__table th:first-child { padding-inline-start: 18px; text-align: start; }
-.ntm__table td:last-child, .ntm__table th:last-child { padding-inline-end: 16px; }
-.ntm__table thead th { position: relative; font-size: 12px; font-weight: 600; color: var(--mi-label2); border-bottom: 1px solid var(--mi-sep); }
-.ntm__event-h { vertical-align: bottom !important; }
-.ntm__col { display: grid; justify-items: center; gap: 6px; }
-.ntm__table tbody tr + tr { border-top: 1px solid var(--mi-sep); }
-.ntm__table tbody th { font-weight: 400; }
-.ntm__table td { width: 64px; }
-.ntm__table td :deep(label), .ntm__col :deep(label) { justify-content: center; }
-.ntm__ev { display: block; font-size: 14px; font-weight: 600; color: var(--mi-label); }
-.ntm__desc { display: block; margin-top: 2px; font-size: 12.5px; line-height: 1.35; color: var(--mi-label2); }
-tr.is-err .ntm__desc { color: var(--mi-red-t); }
-tr.is-err th { box-shadow: inset 3px 0 0 var(--mi-red); }
-
-.ntm__volume { display: grid; gap: 10px; margin-inline: 16px; padding: 14px 16px; border-radius: var(--mi-radius-l); background: var(--mi-fill4); }
-.ntm__bars { display: grid; gap: 8px; }
-@container ntm (min-width: 640px) { .ntm__bars { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; } }
-.ntm__bar { display: grid; grid-template-columns: 44px minmax(0, 1fr) 24px; align-items: center; gap: 10px; font-size: 12.5px; }
-.ntm__bar-l { color: var(--mi-label2); }
-.ntm__bar-v { text-align: end; font-weight: 600; font-variant-numeric: tabular-nums; }
-.ntm__track { height: 6px; border-radius: 3px; background: var(--mi-fill3); overflow: hidden; }
-.ntm__track i { display: block; height: 100%; border-radius: inherit; background: var(--mi-p); transform-origin: left; transition: transform var(--mi-dur-4) var(--mi-spring); }
-
-.ntm__foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; padding-inline: 16px; }
-.ntm__actions { display: flex; gap: 8px; }
-.ntm__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-</style>

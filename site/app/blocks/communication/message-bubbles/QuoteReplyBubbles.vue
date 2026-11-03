@@ -1,61 +1,61 @@
 <template>
-  <section class="qr" aria-labelledby="qr-title">
-    <div class="qr__card">
-      <header class="qr__head">
+  <section class="mi:@container mi:font-mi mi:text-label" aria-labelledby="qr-title">
+    <div class="mi:flex mi:flex-col mi:h-135 mi:max-w-160 mi:mx-auto mi:rounded-xl mi:bg-card mi:shadow-2 mi:overflow-hidden">
+      <header class="mi:flex mi:items-center mi:gap-3 mi:py-3.5 mi:px-4 mi:border-b mi:border-b-sep">
         <MiBadge dot-only tone="success" placement="bottom-right" :dot-size="10">
           <template #target><MiAvatar name="Noor Haddad" size="sm" tone="orange" decorative /></template>
         </MiBadge>
-        <div class="qr__head-text">
+        <div class="mi:min-w-0">
           <MiText id="qr-title" as="h2" variant="headline" weight="semibold">Noor Haddad</MiText>
           <MiText variant="caption" tone="label2">Porto weekend · active now</MiText>
         </div>
       </header>
 
-      <MiMessageScroller ref="scroller" class="qr__log" label="Conversation with Noor Haddad">
+      <MiMessageScroller ref="scroller" class="mi:flex-1! mi:min-h-0! mi:bg-page!" label="Conversation with Noor Haddad">
         <MiMarker variant="separator">Friday</MiMarker>
         <template v-for="g in groups" :key="g.id">
-          <MiMarker v-if="g.unreadBefore" variant="separator" class="qr__unread">2 new messages</MiMarker>
+          <MiMarker v-if="g.unreadBefore" variant="separator" class="mi:text-p-text!">2 new messages</MiMarker>
           <MiMessageScrollerItem :message-id="'qr-' + g.id">
-            <MiMessage :align="g.me ? 'end' : 'start'" :label="g.me ? 'You' : 'Noor Haddad'" class="qr__msg" :class="{ 'is-end': g.me }">
+            <MiMessage :align="g.me ? 'end' : 'start'" :label="g.me ? 'You' : 'Noor Haddad'" class="mi:max-w-[min(88%,_30rem)]! " :class="g.me ? 'mi:ms-auto' : ''">
               <template #avatar><MiAvatar v-if="!g.me" name="Noor Haddad" size="xs" tone="orange" decorative /></template>
               <MiBubbleGroup>
-                <div v-for="m in g.items" :key="m.id" class="qr__line" :class="{ 'is-end': g.me }">
-                  <span v-if="m.emoji" class="qr__emoji" :class="{ 'is-flash': flash === m.id }" role="img" :aria-label="m.alt">{{ m.text }}</span>
+                <div v-for="m in g.items" :key="m.id" class="mi:group mi:flex mi:items-center mi:gap-1.5 mi:min-w-0" :class="g.me ? 'mi:flex-row-reverse' : ''">
+                  <span v-if="m.emoji" class="mi:text-[44px] mi:leading-[1.1] mi:py-0.5 mi:px-1" :class="{ 'mi:[--mi-beat:1.04] mi:[--mi-beat-o:.55] mi:animate-[beat_1.1s_var(--mi-ease)] mi:motion-reduce:animate-none': flash === m.id }" role="img" :aria-label="m.alt">{{ m.text }}</span>
                   <MiBubble
                     v-else :align="g.me ? 'end' : 'start'" :variant="g.me ? 'default' : 'secondary'"
-                    class="qr__bub" :class="{ 'is-flash': flash === m.id }"
+                    class="mi:max-w-full! mi:min-w-0!" :class="{ 'mi:[--mi-beat:1.04] mi:[--mi-beat-o:.55] mi:animate-[beat_1.1s_var(--mi-ease)] mi:motion-reduce:animate-none': flash === m.id }"
                   >
-                    <button v-if="m.quote && byId[m.quote]" type="button" class="qr__quote" @click="goTo(m.quote)">
-                      <span class="qr__quote-who">{{ byId[m.quote]?.me ? 'You' : 'Noor' }}</span>
-                      <span class="qr__quote-text">{{ byId[m.quote]?.text }}</span>
+                    <button v-if="m.quote && byId[m.quote]" type="button" class="mi:[border:0] mi:[border-left:3px_solid_currentColor] mi:grid mi:gap-px mi:w-full mi:mt-0.5 mi:mx-0 mi:mb-1.5 mi:py-1.5 mi:px-2.5 mi:rounded-[8px] mi:[background:color-mix(in_srgb,_currentColor_12%,_transparent)] mi:text-inherit mi:[font:inherit] mi:text-start mi:whitespace-normal mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" @click="goTo(m.quote)">
+                      <span class="mi:text-[12px] mi:font-bold">{{ byId[m.quote]?.me ? 'You' : 'Noor' }}</span>
+                      <span class="mi:text-[13px] mi:opacity-80 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ byId[m.quote]?.text }}</span>
                     </button>
-                    <span class="qr__text">{{ m.text }}</span>
+                    <span class="mi:block">{{ m.text }}</span>
                     <template v-if="m.reactions?.length" #reactions>
                       <button
-                        v-for="r in m.reactions" :key="r.e" type="button" class="qr__rx" :class="{ 'is-mine': r.mine }"
+                        v-for="r in m.reactions" :key="r.e" type="button" class="mi:[font:inherit] mi:text-[13px] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:inline-flex mi:items-center mi:gap-[3px] mi:py-0 mi:px-1 mi:[border:0] mi:rounded-[999px] mi:cursor-pointer" :class="r.mine ? 'mi:bg-p-tint mi:text-p-text' : 'mi:bg-transparent mi:text-label2'"
                         :aria-pressed="r.mine" :aria-label="r.e + ' ' + r.n" @click="toggle(m, r.e)"
-                      >{{ r.e }}<span v-if="r.n > 1">{{ r.n }}</span></button>
+                      >{{ r.e }}<span class="mi:text-[11px] mi:font-semibold" v-if="r.n > 1">{{ r.n }}</span></button>
                     </template>
                   </MiBubble>
-                  <span class="qr__acts">
-                    <button type="button" class="qr__act" :aria-label="'Reply to: ' + m.text" @click="replyTo = m.id"><MiIcon :svg="icons.reply" :size="15" /></button>
-                    <button type="button" class="qr__act" aria-label="React with thumbs up" @click="toggle(m, '👍')">👍</button>
+                  <span class="mi:flex mi:gap-0.5 mi:flex-[none] mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)] mi:can-hover:opacity-0 mi:can-hover:group-hover:opacity-100 mi:can-hover:focus-within:opacity-100">
+                    <button type="button" class="mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:grid mi:place-items-center mi:w-7 mi:h-7 mi:p-0 mi:[border:0] mi:rounded-[50%] mi:bg-fill4 mi:text-label2 mi:text-[13px] mi:cursor-pointer mi:hover:bg-fill3" :aria-label="'Reply to: ' + m.text" @click="replyTo = m.id"><MiIcon :svg="icons.reply" :size="15" /></button>
+                    <button type="button" class="mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:grid mi:place-items-center mi:w-7 mi:h-7 mi:p-0 mi:[border:0] mi:rounded-[50%] mi:bg-fill4 mi:text-label2 mi:text-[13px] mi:cursor-pointer mi:hover:bg-fill3" aria-label="React with thumbs up" @click="toggle(m, '👍')">👍</button>
                   </span>
                 </div>
               </MiBubbleGroup>
               <template #footer>
                 <span>{{ g.time }}<template v-if="g.edited"> · edited</template></span>
-                <span v-if="g.me && g.id === lastMine" class="qr__read"><MiIcon :svg="icons.ticks" :size="14" />{{ g.status }}</span>
+                <span v-if="g.me && g.id === lastMine" class="mi:inline-flex mi:items-center mi:gap-[3px] mi:text-p-text"><MiIcon :svg="icons.ticks" :size="14" />{{ g.status }}</span>
               </template>
             </MiMessage>
           </MiMessageScrollerItem>
         </template>
       </MiMessageScroller>
 
-      <form class="qr__composer" @submit.prevent="send">
-        <div v-if="replyTo && byId[replyTo]" class="qr__ctx">
+      <form class="mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:gap-2 mi:pt-3 mi:px-3.5 mi:pb-3.5 mi:border-t mi:border-t-sep" @submit.prevent="send">
+        <div v-if="replyTo && byId[replyTo]" class="mi:flex mi:items-center mi:gap-2 mi:pt-1.5 mi:pr-1.5 mi:pb-1.5 mi:pl-3 mi:rounded-md mi:bg-p-tint mi:text-p-text">
           <MiIcon :svg="icons.reply" :size="15" />
-          <span class="qr__ctx-text"><strong>Replying to {{ byId[replyTo]?.me ? 'yourself' : 'Noor' }}</strong> {{ byId[replyTo]?.text }}</span>
+          <span class="mi:flex-1 mi:min-w-0 mi:text-[13px] mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap"><strong class="mi:mr-1">Replying to {{ byId[replyTo]?.me ? 'yourself' : 'Noor' }}</strong> {{ byId[replyTo]?.text }}</span>
           <MiIconButton label="Cancel reply" variant="plain" size="small" @click="replyTo = null"><MiIcon name="close" :size="14" /></MiIconButton>
         </div>
         <MiInputGroup v-model="draft" aria-label="Message Noor" placeholder="Message Noor">
@@ -143,47 +143,3 @@ function send() {
 onBeforeUnmount(() => clearTimeout(flashTimer))
 </script>
 
-<style scoped>
-.qr { container-type: inline-size; font-family: var(--mi-font); color: var(--mi-label); }
-.qr__card { display: flex; flex-direction: column; height: 540px; max-width: 640px; margin-inline: auto; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh2); overflow: hidden; }
-.qr__head { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-bottom: 1px solid var(--mi-sep); }
-.qr__head-text { min-width: 0; }
-.qr__log { flex: 1; min-height: 0; background: var(--mi-page); }
-.qr__unread { color: var(--mi-p-text); }
-
-.qr__msg { max-width: min(88%, 30rem); }
-.qr__msg.is-end { margin-inline-start: auto; }
-.qr__line { display: flex; align-items: center; gap: 6px; min-width: 0; }
-.qr__line.is-end { flex-direction: row-reverse; }
-.qr .qr__bub { max-width: 100%; min-width: 0; }
-.qr__text { display: block; }
-
-/* Quoted reply: a compact card inside the bubble that jumps to the original. */
-.qr__quote { display: grid; gap: 1px; width: 100%; margin: 2px 0 6px; padding: 6px 10px; border: 0; border-left: 3px solid currentColor; border-radius: 8px; background: color-mix(in srgb, currentColor 12%, transparent); color: inherit; font: inherit; text-align: start; white-space: normal; cursor: pointer; }
-.qr__quote:focus-visible, .qr__rx:focus-visible, .qr__act:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-.qr__quote-who { font-size: 12px; font-weight: 700; }
-.qr__quote-text { font-size: 13px; opacity: .8; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-
-.qr__rx { display: inline-flex; align-items: center; gap: 3px; padding: 0 4px; border: 0; border-radius: 999px; background: transparent; color: var(--mi-label2); font: inherit; font-size: 13px; cursor: pointer; }
-.qr__rx.is-mine { background: var(--mi-p-tint); color: var(--mi-p-text); }
-.qr__rx span { font-size: 11px; font-weight: 600; }
-
-.qr__emoji { font-size: 44px; line-height: 1.1; padding: 2px 4px; }
-.qr__acts { display: flex; gap: 2px; flex: none; transition: opacity var(--mi-dur-2) var(--mi-ease); }
-.qr__act { display: grid; place-items: center; width: 28px; height: 28px; padding: 0; border: 0; border-radius: 50%; background: var(--mi-fill4); color: var(--mi-label2); font-size: 13px; cursor: pointer; }
-.qr__act:hover { background: var(--mi-fill3); }
-@media (hover: hover) {
-  .qr__acts { opacity: 0; }
-  .qr__line:hover .qr__acts, .qr__acts:focus-within { opacity: 1; }
-}
-.qr__read { display: inline-flex; align-items: center; gap: 3px; color: var(--mi-p-text); }
-
-.is-flash { animation: qr-flash 1.1s var(--mi-ease); }
-@keyframes qr-flash { 0%, 100% { transform: scale(1); opacity: 1; } 20% { transform: scale(1.04); opacity: .55; } 45% { opacity: 1; } }
-
-.qr__composer { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; padding: 12px 14px 14px; border-top: 1px solid var(--mi-sep); }
-.qr__ctx { display: flex; align-items: center; gap: 8px; padding: 6px 6px 6px 12px; border-radius: var(--mi-radius-m); background: var(--mi-p-tint); color: var(--mi-p-text); }
-.qr__ctx-text { flex: 1; min-width: 0; font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.qr__ctx-text strong { margin-right: 4px; }
-@media (prefers-reduced-motion: reduce) { .is-flash { animation: none; } }
-</style>

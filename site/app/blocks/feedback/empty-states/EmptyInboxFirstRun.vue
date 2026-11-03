@@ -1,8 +1,8 @@
 <template>
-  <div class="eif-cq">
-    <section class="eif" aria-labelledby="eif-title">
-      <header class="eif__bar">
-        <div class="eif__bar-title">
+  <div class="mi:@container">
+    <section class="mi:grid mi:gap-5 mi:max-w-220 mi:mx-auto mi:p-4.5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:font-mi mi:text-label mi:@[640px]:py-6 mi:@[640px]:px-7" aria-labelledby="eif-title">
+      <header class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2 mi:pb-3.5 mi:border-b mi:border-b-sep">
+        <div class="mi:flex mi:items-center mi:gap-2">
           <MiText id="eif-title" variant="headline" as="h2">Support inbox</MiText>
           <MiBadge :count="conversations.length" show-zero tone="neutral" count-noun="conversations" />
         </div>
@@ -10,11 +10,11 @@
       </header>
 
       <!-- Once a channel delivers, the empty state steps aside for the real list. -->
-      <ul v-if="conversations.length" class="eif__list" aria-label="Conversations">
-        <li v-for="c in conversations" :key="c.id" class="eif__row">
+      <ul v-if="conversations.length" class="mi:[list-style:none] mi:m-0 mi:p-0 mi:grid" aria-label="Conversations">
+        <li v-for="c in conversations" :key="c.id" class="mi:grid mi:grid-cols-[auto_minmax(0,_1fr)_auto] mi:items-center mi:gap-3 mi:py-3 mi:px-1 mi:[--mi-in-y:8px] mi:animate-[in_var(--mi-dur-4)_var(--mi-spring)_both] mi:not-first:border-t mi:not-first:border-t-sep">
           <MiAvatar :name="c.from" size="sm" tone="auto" decorative />
-          <div class="eif__row-body">
-            <div class="eif__row-top">
+          <div class="mi:grid mi:min-w-0">
+            <div class="mi:flex mi:justify-between mi:gap-2">
               <MiText variant="subheadline" weight="semibold" :lines="1">{{ c.from }}</MiText>
               <MiText variant="caption2" tone="label3">{{ c.time }}</MiText>
             </div>
@@ -24,51 +24,51 @@
         </li>
       </ul>
 
-      <div v-else class="eif__empty">
+      <div v-else class="mi:grid mi:justify-items-center mi:gap-2 mi:py-2 mi:px-0">
         <!-- Token-drawn artwork: three fanned envelopes waiting on a soft halo. -->
-        <div class="eif__art" aria-hidden="true">
-          <span class="eif__halo" />
-          <span class="eif__env eif__env--l" />
-          <span class="eif__env eif__env--r" />
-          <span class="eif__env eif__env--c"><i /><i /></span>
-          <span class="eif__ping" />
+        <div class="mi:relative mi:w-45 mi:h-30 mi:mb-2" aria-hidden="true">
+          <span class="mi:absolute mi:inset-y-[-10%] mi:inset-x-[5%] mi:rounded-[50%] mi:[background:radial-gradient(closest-side,_var(--mi-p-tint),_transparent)]" />
+          <span class="mi:absolute mi:left-1/2 mi:top-5.5 mi:w-26 mi:h-18 mi:-ml-13 mi:rounded-[12px] mi:[background:var(--mi-elev)] mi:shadow-2 mi:border mi:border-sep mi:transform-[translate(-34px,_10px)_rotate(-12deg)] mi:[background:var(--mi-fill3)] mi:shadow-none" />
+          <span class="mi:absolute mi:left-1/2 mi:top-5.5 mi:w-26 mi:h-18 mi:-ml-13 mi:rounded-[12px] mi:[background:var(--mi-elev)] mi:shadow-2 mi:border mi:border-sep mi:transform-[translate(34px,_10px)_rotate(12deg)] mi:[background:var(--mi-fill3)] mi:shadow-none" />
+          <span class="mi:absolute mi:left-1/2 mi:top-5.5 mi:w-26 mi:h-18 mi:-ml-13 mi:rounded-[12px] mi:[background:var(--mi-elev)] mi:shadow-2 mi:border mi:border-sep mi:grid mi:content-center mi:gap-[7px] mi:py-0 mi:px-4.5 mi:[--mi-float:-6px] mi:animate-[float_4.8s_var(--mi-ease-in-out)_infinite] mi:motion-reduce:animate-none"><i class="mi:block mi:h-[7px] mi:rounded-[4px] mi:[background:var(--mi-fill2)] mi:first:w-[70%] mi:first:[background:var(--mi-p)] mi:first:opacity-70" /><i class="mi:block mi:h-[7px] mi:rounded-[4px] mi:[background:var(--mi-fill2)] mi:first:w-[70%] mi:first:[background:var(--mi-p)] mi:first:opacity-70" /></span>
+          <span class="mi:absolute mi:right-7.5 mi:top-3.5 mi:w-3.5 mi:h-3.5 mi:rounded-[50%] mi:[background:var(--mi-s)] mi:shadow-[0_0_0_3px_var(--mi-card)]" />
         </div>
         <MiText variant="title3" as="h3" weight="semibold" align="center" balance>
           Your inbox is ready for its first conversation
         </MiText>
-        <MiText variant="footnote" tone="label2" align="center" class="eif__lead">
+        <MiText variant="footnote" tone="label2" align="center" class="mi:max-w-[46ch]">
           Connect one channel to start. Customers will never see this screen; they just write to you.
         </MiText>
       </div>
 
-      <div class="eif__paths" role="group" aria-label="Ways to start">
+      <div class="mi:grid mi:gap-2 mi:@[620px]:grid-cols-3" role="group" aria-label="Ways to start">
         <button
-          v-for="p in paths" :key="p.id" type="button" class="eif__path"
-          :aria-pressed="path === p.id" @click="path = p.id"
+          v-for="p in paths" :key="p.id" type="button" class="mi:relative mi:flex mi:[align-items:flex-start] mi:gap-3 mi:p-3.5 mi:text-start mi:border mi:border-sep mi:rounded-lg mi:[background:transparent] mi:text-inherit mi:[font:inherit] mi:cursor-pointer mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:active:transform-[scale(.985)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:aria-pressed:border-p"
+          :class="path === p.id ? 'mi:bg-p/6' : 'mi:hover:bg-fill4'" :aria-pressed="path === p.id" @click="path = p.id"
         >
-          <span class="eif__path-icon"><MiIcon :svg="p.glyph" :size="18" /></span>
-          <span class="eif__path-text">
-            <strong>{{ p.title }}</strong>
+          <span class="mi:grid mi:place-items-center mi:flex-[none] mi:w-8.5 mi:h-8.5 mi:rounded-md mi:[background:var(--mi-p-tint)] mi:text-p-text"><MiIcon :svg="p.glyph" :size="18" /></span>
+          <span class="mi:grid mi:gap-0.5 mi:min-w-0 mi:text-[13px] mi:text-label2">
+            <strong class="mi:text-[15px] mi:font-semibold mi:text-label">{{ p.title }}</strong>
             <span>{{ p.blurb }}</span>
           </span>
-          <MiIcon v-if="connected.includes(p.id)" name="check-circle-fill" :size="18" class="eif__done" label="Connected" />
+          <MiIcon v-if="connected.includes(p.id)" name="check-circle-fill" :size="18" class="mi:absolute mi:top-2.5 mi:right-2.5 mi:text-green" label="Connected" />
         </button>
       </div>
 
-      <div class="eif__step" aria-live="polite">
+      <div class="mi:grid mi:gap-2 mi:p-4 mi:rounded-lg mi:[background:var(--mi-fill4)]" aria-live="polite">
         <template v-if="path === 'email'">
           <MiText variant="subheadline" weight="semibold" as="h4">Forward your support address</MiText>
           <MiText variant="footnote" tone="label2">Add a forwarding rule from help@northwind.studio to this address, then send a test.</MiText>
-          <div class="eif__code">
-            <code>northwind-7f3k@in.relaymail.io</code>
+          <div class="mi:flex mi:items-center mi:gap-2 mi:min-w-0 mi:pt-1.5 mi:pr-1.5 mi:pb-1.5 mi:pl-3 mi:rounded-md mi:[background:var(--mi-card)] mi:border mi:border-sep">
+            <code class="mi:flex-1 mi:overflow-x-auto mi:whitespace-nowrap mi:text-[13px] mi:min-w-0 mi:[scrollbar-width:none]">northwind-7f3k@in.relaymail.io</code>
             <MiCopyButton value="northwind-7f3k@in.relaymail.io" variant="ghost" icon-only label="Copy forwarding address" />
           </div>
         </template>
         <template v-else-if="path === 'widget'">
           <MiText variant="subheadline" weight="semibold" as="h4">Add the chat widget</MiText>
           <MiText variant="footnote" tone="label2">Paste this before the closing body tag. It loads in 9 kB and waits for the page to be idle.</MiText>
-          <div class="eif__code">
-            <code>&lt;script src="https://cdn.relaymail.io/w.js" data-inbox="7f3k" defer&gt;&lt;/script&gt;</code>
+          <div class="mi:flex mi:items-center mi:gap-2 mi:min-w-0 mi:pt-1.5 mi:pr-1.5 mi:pb-1.5 mi:pl-3 mi:rounded-md mi:[background:var(--mi-card)] mi:border mi:border-sep">
+            <code class="mi:flex-1 mi:overflow-x-auto mi:whitespace-nowrap mi:text-[13px] mi:min-w-0 mi:[scrollbar-width:none]">&lt;script src="https://cdn.relaymail.io/w.js" data-inbox="7f3k" defer&gt;&lt;/script&gt;</code>
             <MiCopyButton :value="snippet" variant="ghost" icon-only label="Copy snippet" />
           </div>
         </template>
@@ -77,7 +77,7 @@
           <MiText variant="footnote" tone="label2">Import a CSV export of past tickets. Threads, tags and customer names are kept; up to 50,000 rows.</MiText>
         </template>
 
-        <div class="eif__actions">
+        <div class="mi:flex mi:flex-wrap mi:items-center mi:gap-y-2.5 mi:gap-x-3.5 mi:mt-1.5">
           <MiButton :loading="waiting" :disabled="connected.includes(path)" @click="connect">
             {{ connected.includes(path) ? 'Connected' : current.action }}
           </MiButton>
@@ -139,54 +139,3 @@ function reset() {
 
 onBeforeUnmount(() => clearTimeout(timer))
 </script>
-
-<style scoped>
-.eif-cq { container-type: inline-size; }
-.eif { display: grid; gap: 20px; max-width: 880px; margin-inline: auto; padding: 18px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); font-family: var(--mi-font); color: var(--mi-label); }
-@container (min-width: 640px) { .eif { padding: 24px 28px; } }
-.eif__bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; padding-bottom: 14px; border-bottom: 1px solid var(--mi-sep); }
-.eif__bar-title { display: flex; align-items: center; gap: 8px; }
-
-.eif__empty { display: grid; justify-items: center; gap: 8px; padding: 8px 0; }
-.eif__lead { max-width: 46ch; }
-
-.eif__art { position: relative; width: 180px; height: 120px; margin-bottom: 8px; }
-.eif__halo { position: absolute; inset: -10% 5%; border-radius: 50%; background: radial-gradient(closest-side, var(--mi-p-tint), transparent); }
-.eif__env { position: absolute; left: 50%; top: 22px; width: 104px; height: 72px; margin-left: -52px; border-radius: 12px; background: var(--mi-elev); box-shadow: var(--mi-sh2); border: 1px solid var(--mi-sep); }
-.eif__env--l { transform: translate(-34px, 10px) rotate(-12deg); background: var(--mi-fill3); box-shadow: none; }
-.eif__env--r { transform: translate(34px, 10px) rotate(12deg); background: var(--mi-fill3); box-shadow: none; }
-.eif__env--c { display: grid; align-content: center; gap: 7px; padding: 0 18px; animation: eif-bob 4.8s var(--mi-ease-in-out) infinite; }
-.eif__env--c i { display: block; height: 7px; border-radius: 4px; background: var(--mi-fill2); }
-.eif__env--c i:first-child { width: 70%; background: var(--mi-p); opacity: .7; }
-.eif__ping { position: absolute; right: 30px; top: 14px; width: 14px; height: 14px; border-radius: 50%; background: var(--mi-s); box-shadow: 0 0 0 3px var(--mi-card); }
-@keyframes eif-bob { 50% { transform: translateY(-6px); } }
-@media (prefers-reduced-motion: reduce) { .eif__env--c { animation: none; } }
-
-.eif__list { list-style: none; margin: 0; padding: 0; display: grid; }
-.eif__row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 12px 4px; animation: eif-in var(--mi-dur-4) var(--mi-spring) both; }
-.eif__row + .eif__row { border-top: 1px solid var(--mi-sep); }
-.eif__row-body { display: grid; min-width: 0; }
-.eif__row-top { display: flex; justify-content: space-between; gap: 8px; }
-@keyframes eif-in { from { opacity: 0; transform: translateY(8px); } }
-
-.eif__paths { display: grid; gap: 8px; }
-@container (min-width: 620px) { .eif__paths { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-.eif__path {
-  position: relative; display: flex; align-items: flex-start; gap: 12px; padding: 14px; text-align: start;
-  border: 1px solid var(--mi-sep); border-radius: var(--mi-radius-l); background: transparent; color: inherit; font: inherit; cursor: pointer;
-  transition: transform var(--mi-dur-2) var(--mi-ease);
-}
-.eif__path:hover { background: var(--mi-fill4); }
-.eif__path:active { transform: scale(.985); }
-.eif__path:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-.eif__path[aria-pressed="true"] { border-color: var(--mi-p); background: color-mix(in srgb, var(--mi-p) 6%, transparent); }
-.eif__path-icon { display: grid; place-items: center; flex: none; width: 34px; height: 34px; border-radius: var(--mi-radius-m); background: var(--mi-p-tint); color: var(--mi-p-text); }
-.eif__path-text { display: grid; gap: 2px; min-width: 0; font-size: 13px; color: var(--mi-label2); }
-.eif__path-text strong { font-size: 15px; font-weight: 600; color: var(--mi-label); }
-.eif__done { position: absolute; top: 10px; right: 10px; color: var(--mi-green); }
-
-.eif__step { display: grid; gap: 8px; padding: 16px; border-radius: var(--mi-radius-l); background: var(--mi-fill4); }
-.eif__code { display: flex; align-items: center; gap: 8px; min-width: 0; padding: 6px 6px 6px 12px; border-radius: var(--mi-radius-m); background: var(--mi-card); border: 1px solid var(--mi-sep); }
-.eif__code code { flex: 1; min-width: 0; overflow-x: auto; white-space: nowrap; font-size: 13px; scrollbar-width: none; }
-.eif__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-top: 6px; }
-</style>

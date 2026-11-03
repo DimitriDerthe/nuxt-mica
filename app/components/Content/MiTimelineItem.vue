@@ -52,52 +52,34 @@ const stamp = computed(() => {
 </script>
 
 <template>
-  <li class="mi-tli" :class="`is-${status}`" :style="{ '--mi-tl-c': COLORS[tone] }" :aria-current="status === 'current' ? 'step' : undefined">
-    <span class="mi-tli__rail" aria-hidden="true">
-      <span class="mi-tli__marker">
+  <li class="mi-tli mi:relative mi:[list-style:none] mi:grid-cols-[32px_minmax(0,1fr)] mi:font-mi mi:@[640px]/mi-tl:[.is-alternate>&]:grid-cols-[minmax(0,1fr)_32px_minmax(0,1fr)]" :class="`is-${status}`" :style="{ '--mi-tl-c': COLORS[tone] }" :aria-current="status === 'current' ? 'step' : undefined">
+    <span class="mi-tli__rail mi:relative mi:col-[1] mi:flex mi:justify-center mi:after:content-[''] mi:after:absolute mi:after:top-9 mi:after:bottom-1 mi:after:left-[calc(50%_-_1px)] mi:after:w-0.5 mi:after:rounded-[1px] mi:after:[background:var(--mi-sep2)] mi:[.mi-tli:last-child_&]:after:hidden mi:@[640px]/mi-tl:[.is-alternate>.mi-tli_&]:col-[2] mi:@[640px]/mi-tl:[.is-alternate>.mi-tli_&]:row-[1]" aria-hidden="true">
+      <span class="mi-tli__marker mi:relative mi:z-1 mi:w-8 mi:h-8 mi:rounded-[50%] mi:flex mi:items-center mi:justify-center mi:text-(--mi-tl-c) mi:[background:color-mix(in_srgb,var(--mi-tl-c)_16%,var(--mi-card))] mi:shadow-[inset_0_0_0_1.5px_color-mix(in_srgb,var(--mi-tl-c)_45%,transparent)] mi:[.is-done_&]:[background:var(--mi-tl-c)] mi:[.is-done_&]:text-card mi:[.is-done_&]:shadow-none mi:[.is-upcoming_&]:[background:var(--mi-card)] mi:[.is-upcoming_&]:shadow-[inset_0_0_0_1.5px_var(--mi-sep2)] mi:[.is-upcoming_&]:text-label3 mi:[.is-current_&]:before:content-[''] mi:[.is-current_&]:before:absolute mi:[.is-current_&]:before:inset-0 mi:[.is-current_&]:before:rounded-[50%] mi:[.is-current_&]:before:shadow-[0_0_0_4px_color-mix(in_srgb,var(--mi-tl-c)_22%,transparent)]">
         <slot name="marker">
           <MiIcon v-if="icon" :name="icon" :size="16" :weight="2.2" />
-          <span v-else class="mi-tli__dot" />
+          <span v-else class="mi-tli__dot mi:w-2.5 mi:h-2.5 mi:rounded-[50%] mi:[background:var(--mi-tl-c)] mi:[.is-done_&]:[background:var(--mi-card)] mi:[.is-upcoming_&]:[background:var(--mi-label3)]" />
         </slot>
       </span>
     </span>
-    <div class="mi-tli__body">
+    <div class="mi-tli__body mi:col-[2] mi:min-w-0 mi:pt-1 mi:px-0 mi:pb-6.5 mi:[.mi-tli:last-child_&]:pb-1 mi:@[640px]/mi-tl:[.is-alternate>.mi-tli_&]:col-[3] mi:@[640px]/mi-tl:[.is-alternate>.mi-tli_&]:row-[1] mi:@[640px]/mi-tl:[.is-alternate>.mi-tli:nth-child(even)_&]:col-[1] mi:@[640px]/mi-tl:[.is-alternate>.mi-tli:nth-child(even)_&]:text-right">
       <component :is="stamp ? 'time' : 'span'" v-if="text || $slots.time" class="mi-tli__time" :datetime="stamp">
         <slot name="time">{{ text }}</slot>
       </component>
-      <p v-if="title || $slots.title" class="mi-tli__title"><slot name="title">{{ title }}</slot></p>
-      <p v-if="description" class="mi-tli__desc">{{ description }}</p>
-      <div v-if="$slots.default" class="mi-tli__extra"><slot /></div>
+      <p v-if="title || $slots.title" class="mi-tli__title mi:m-0 mi:text-[15px] mi:leading-[22px] mi:font-semibold mi:text-label mi:[.is-upcoming_&]:text-label2"><slot name="title">{{ title }}</slot></p>
+      <p v-if="description" class="mi-tli__desc mi:mt-0.5 mi:mx-0 mi:mb-0 mi:text-[14px] mi:leading-[21px] mi:text-label2">{{ description }}</p>
+      <div v-if="$slots.default" class="mi-tli__extra mi:mt-2.5 mi:text-[14px] mi:text-label"><slot /></div>
     </div>
   </li>
 </template>
 
 <style scoped>
-.mi-tli{position:relative;list-style:none;display:grid;grid-template-columns:32px minmax(0,1fr);column-gap:14px;font-family:var(--mi-font)}
-.mi-tli__rail{position:relative;grid-column:1;display:flex;justify-content:center}
-.mi-tli__rail::after{content:'';position:absolute;top:36px;bottom:4px;left:calc(50% - 1px);width:2px;border-radius:1px;background:var(--mi-sep2)}
-.mi-tli:last-child .mi-tli__rail::after{display:none}
-.mi-tli__marker{position:relative;z-index:1;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--mi-tl-c);background:color-mix(in srgb,var(--mi-tl-c) 16%,var(--mi-card));box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--mi-tl-c) 45%,transparent)}
-.mi-tli__dot{width:10px;height:10px;border-radius:50%;background:var(--mi-tl-c)}
-.is-done .mi-tli__marker{background:var(--mi-tl-c);color:var(--mi-card);box-shadow:none}
-.is-done .mi-tli__dot{background:var(--mi-card)}
-.is-upcoming .mi-tli__marker{background:var(--mi-card);box-shadow:inset 0 0 0 1.5px var(--mi-sep2);color:var(--mi-label3)}
-.is-upcoming .mi-tli__dot{background:var(--mi-label3)}
-.is-current .mi-tli__marker::before{content:'';position:absolute;inset:0;border-radius:50%;box-shadow:0 0 0 4px color-mix(in srgb,var(--mi-tl-c) 22%,transparent);animation:mi-tli-pulse 2.2s var(--mi-ease) infinite}
+.mi-tli{display:grid;column-gap:14px}
+.is-current .mi-tli__marker::before{animation:mi-tli-pulse 2.2s var(--mi-ease) infinite}
 @keyframes mi-tli-pulse{0%{opacity:1;transform:scale(1)}70%,100%{opacity:0;transform:scale(1.35)}}
 @media (prefers-reduced-motion:reduce){.is-current .mi-tli__marker::before{animation:none}}
-.mi-tli__body{grid-column:2;min-width:0;padding:4px 0 26px}
-.mi-tli:last-child .mi-tli__body{padding-bottom:4px}
 .mi-tli__time{display:block;font-size:12px;font-weight:600;letter-spacing:.02em;color:var(--mi-label2);font-variant-numeric:tabular-nums;margin-bottom:2px}
-.mi-tli__title{margin:0;font-size:15px;line-height:22px;font-weight:600;color:var(--mi-label)}
-.is-upcoming .mi-tli__title{color:var(--mi-label2)}
-.mi-tli__desc{margin:2px 0 0;font-size:14px;line-height:21px;color:var(--mi-label2)}
-.mi-tli__extra{margin-top:10px;font-size:14px;color:var(--mi-label)}
 /* Alternating layout: the owning MiTimeline sets .is-alternate and, at wide container widths, the rail moves to the center. */
 @container mi-tl (min-width:640px){
-  .is-alternate > .mi-tli{grid-template-columns:minmax(0,1fr) 32px minmax(0,1fr);column-gap:20px}
-  .is-alternate > .mi-tli .mi-tli__rail{grid-column:2;grid-row:1}
-  .is-alternate > .mi-tli .mi-tli__body{grid-column:3;grid-row:1}
-  .is-alternate > .mi-tli:nth-child(even) .mi-tli__body{grid-column:1;text-align:right}
+  .is-alternate > .mi-tli{column-gap:20px}
 }
 </style>

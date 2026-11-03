@@ -1,24 +1,24 @@
 <template>
-  <section class="vcr" aria-labelledby="vcr-title">
-    <div class="vcr__card">
-      <div class="vcr__glyph" :class="{ 'is-ok': verified }" aria-hidden="true">
+  <section class="mi:@container mi:grid mi:content-start mi:grid-cols-[minmax(0,_1fr)] mi:place-items-center mi:font-mi mi:text-label" aria-labelledby="vcr-title">
+    <div class="mi:bg-card mi:[background-image:radial-gradient(80%_50%_at_50%_0%,_var(--mi-p-tint),_transparent_70%)] mi:grid mi:justify-items-center mi:gap-4.5 mi:w-full mi:max-w-115 mi:pt-7 mi:px-4.5 mi:pb-5.5 mi:box-border mi:rounded-xl mi:shadow-2 mi:@[480px]:pt-9 mi:@[480px]:px-9 mi:@[480px]:pb-6.5">
+      <div class="mi:grid mi:place-items-center mi:w-15 mi:h-15 mi:rounded-[20px] mi:[background:var(--mi-card)] mi:shadow-[0_0_0_1px_var(--mi-sep),_0_8px_24px_-10px_color-mix(in_srgb,_var(--mi-p)_60%,_transparent)] mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :class="verified ? 'mi:text-green-t mi:transform-[scale(1.08)]' : 'mi:text-p-text'" aria-hidden="true">
         <MiIcon :svg="verified ? shieldOk : (mode === 'code' ? envelope : keyGlyph)" :size="26" />
       </div>
 
       <template v-if="!verified">
-        <div class="vcr__head">
+        <div class="mi:grid mi:gap-1.5">
           <MiText id="vcr-title" as="h2" variant="title2" weight="bold" align="center" balance>
             {{ mode === 'code' ? 'Enter your verification code' : 'Use a recovery code' }}
           </MiText>
           <MiText variant="subheadline" tone="label2" align="center" balance>
-            <template v-if="mode === 'code'">We sent a 6-digit code to <strong class="vcr__dest">{{ channelInfo.dest }}</strong>.</template>
+            <template v-if="mode === 'code'">We sent a 6-digit code to <strong class="mi:text-label mi:font-semibold">{{ channelInfo.dest }}</strong>.</template>
             <template v-else>Each of the 10 codes you saved at setup works once. Dashes are optional.</template>
           </MiText>
         </div>
 
-        <MiSegmented v-if="mode === 'code'" v-model="channel" label="Delivery channel" :options="channels" class="vcr__seg" />
+        <MiSegmented v-if="mode === 'code'" v-model="channel" label="Delivery channel" :options="channels" />
 
-        <div class="vcr__input" :class="{ 'is-shaking': shake, 'is-long': mode === 'recovery' }" @animationend="shake = false">
+        <div class="mi:max-w-full mi:@max-[479px]:[&_.mi-code]:gap-1.5! mi:@max-[479px]:[&_.mi-code__slot]:w-11! mi:@max-[479px]:[&_.mi-code__cell]:w-11!" :class="{ 'mi:animate-[shake_.38s_var(--mi-ease)] mi:motion-reduce:animate-none': shake, 'mi:[&_.mi-code]:gap-1.5! mi:[&_.mi-code__slot]:w-10! mi:[&_.mi-code__cell]:w-10! mi:@max-[479px]:[&_.mi-code]:gap-1! mi:@max-[479px]:[&_.mi-code__slot]:w-[33px]! mi:@max-[479px]:[&_.mi-code__cell]:w-[33px]!': mode === 'recovery' }" @animationend="shake = false">
           <MiCodeInput
             v-if="mode === 'code'" :key="'c-' + channel" v-model="code" :length="6" :invalid="!!error" :disabled="attempts === 0" :label="'Code sent by ' + channelInfo.label" @complete="check"
           />
@@ -27,19 +27,19 @@
           />
         </div>
 
-        <div class="vcr__status" aria-live="polite">
+        <div class="mi:min-h-5" aria-live="polite">
           <MiText v-if="error" variant="footnote" tone="red" weight="medium" align="center">{{ error }}</MiText>
           <MiText v-else variant="footnote" tone="label3" align="center">
-            Sample code: <span class="vcr__sample">{{ mode === 'code' ? '482 913' : 'K7PD-Q2XM' }}</span>
+            Sample code: <span class="mi:py-px mi:px-1.5 mi:rounded-[6px] mi:[background:var(--mi-fill3)] mi:text-label2 mi:tabular-nums mi:tracking-[.06em]">{{ mode === 'code' ? '482 913' : 'K7PD-Q2XM' }}</span>
           </MiText>
         </div>
 
-        <div class="vcr__attempts" role="img" :aria-label="`${attempts} of 3 attempts left`">
-          <span v-for="n in 3" :key="n" :class="{ 'is-used': n > attempts }" />
-          <MiText as="span" variant="caption" tone="label2">{{ attempts }} {{ attempts === 1 ? 'attempt' : 'attempts' }} left</MiText>
+        <div class="mi:flex mi:items-center mi:gap-1.5" role="img" :aria-label="`${attempts} of 3 attempts left`">
+          <span class="mi:not-last:w-4.5 mi:not-last:h-1 mi:not-last:rounded-[2px] mi:not-last:[background:var(--mi-p)] mi:not-last:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)]" v-for="n in 3" :key="n" :class="{ 'mi:opacity-20': n > attempts }" />
+          <MiText class="mi:ml-1.5! mi:not-last:w-4.5 mi:not-last:h-1 mi:not-last:rounded-[2px] mi:not-last:[background:var(--mi-p)] mi:not-last:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)]" as="span" variant="caption" tone="label2">{{ attempts }} {{ attempts === 1 ? 'attempt' : 'attempts' }} left</MiText>
         </div>
 
-        <div class="vcr__links">
+        <div class="mi:flex mi:flex-wrap mi:justify-center mi:gap-y-1 mi:gap-x-3 mi:pt-2.5 mi:border-t mi:border-t-sep mi:w-full">
           <MiButton v-if="mode === 'code'" variant="plain" size="small" :disabled="cooldown > 0" @click="resend">
             {{ cooldown > 0 ? `Resend in 0:${String(cooldown).padStart(2, '0')}` : 'Resend code' }}
           </MiButton>
@@ -49,7 +49,7 @@
         </div>
       </template>
 
-      <div v-else class="vcr__done">
+      <div v-else class="mi:grid mi:justify-items-center mi:gap-3 mi:w-full">
         <MiText id="vcr-title" as="h2" variant="title2" weight="bold" align="center">You're verified</MiText>
         <MiText variant="subheadline" tone="label2" align="center" balance>
           {{ mode === 'code' ? 'This device is now trusted for 30 days.' : 'Recovery code used. 9 codes remain; generate a fresh set from Security settings.' }}
@@ -113,42 +113,3 @@ watch(code, (v) => { if (v && error.value && attempts.value) error.value = '' })
 onMounted(() => startCooldown(24))
 onBeforeUnmount(() => clearInterval(timer))
 </script>
-
-<style scoped>
-.vcr { container-type: inline-size; display: grid; align-content: start; grid-template-columns: minmax(0, 1fr); place-items: center; font-family: var(--mi-font); color: var(--mi-label); }
-.vcr__card {
-  display: grid; justify-items: center; gap: 18px; width: 100%; max-width: 460px; padding: 28px 18px 22px; box-sizing: border-box;
-  border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh2);
-  background-image: radial-gradient(80% 50% at 50% 0%, var(--mi-p-tint), transparent 70%);
-}
-@container (min-width: 480px) { .vcr__card { padding: 36px 36px 26px; } }
-.vcr__glyph {
-  display: grid; place-items: center; width: 60px; height: 60px; border-radius: 20px; color: var(--mi-p-text);
-  background: var(--mi-card); box-shadow: 0 0 0 1px var(--mi-sep), 0 8px 24px -10px color-mix(in srgb, var(--mi-p) 60%, transparent);
-  transition: transform var(--mi-dur-4) var(--mi-spring);
-}
-.vcr__glyph.is-ok { color: var(--mi-green-t); transform: scale(1.08); }
-.vcr__head { display: grid; gap: 6px; }
-.vcr__dest { color: var(--mi-label); font-weight: 600; }
-.vcr__input { max-width: 100%; }
-/* MiCodeInput cells are 52px; tighten them on narrow cards so 6 or 8 cells always fit. */
-.vcr__input.is-long :deep(.mi-code) { gap: 6px; }
-.vcr__input.is-long :deep(.mi-code__slot), .vcr__input.is-long :deep(.mi-code__cell) { width: 40px; }
-@container (max-width: 479px) {
-  .vcr__input :deep(.mi-code) { gap: 6px; }
-  .vcr__input :deep(.mi-code__slot), .vcr__input :deep(.mi-code__cell) { width: 44px; }
-  .vcr__input.is-long :deep(.mi-code) { gap: 4px; }
-  .vcr__input.is-long :deep(.mi-code__slot), .vcr__input.is-long :deep(.mi-code__cell) { width: 33px; }
-}
-.vcr__input.is-shaking { animation: vcr-shake .38s var(--mi-ease); }
-@keyframes vcr-shake { 20%, 60% { transform: translateX(-6px); } 40%, 80% { transform: translateX(6px); } }
-@media (prefers-reduced-motion: reduce) { .vcr__input.is-shaking { animation: none; } }
-.vcr__status { min-height: 20px; }
-.vcr__sample { padding: 1px 6px; border-radius: 6px; background: var(--mi-fill3); color: var(--mi-label2); font-variant-numeric: tabular-nums; letter-spacing: .06em; }
-.vcr__attempts { display: flex; align-items: center; gap: 6px; }
-.vcr__attempts > span:not(:last-child) { width: 18px; height: 4px; border-radius: 2px; background: var(--mi-p); transition: opacity var(--mi-dur-3) var(--mi-ease); }
-.vcr__attempts > span.is-used { opacity: .2; }
-.vcr__attempts > :last-child { margin-left: 6px; }
-.vcr__links { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 12px; padding-top: 10px; border-top: 1px solid var(--mi-sep); width: 100%; }
-.vcr__done { display: grid; justify-items: center; gap: 12px; width: 100%; }
-</style>

@@ -1,6 +1,6 @@
 <template>
-  <section class="cpt" aria-labelledby="cpt-title">
-    <header class="cpt__head">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="cpt-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="cpt-title" variant="title3" as="h2" weight="semibold">Acquisition channels</MiText>
         <MiText variant="footnote" tone="label2">Halden Outdoor store · compared with the previous {{ periodName }}</MiText>
@@ -8,34 +8,34 @@
       <MiSegmented v-model="period" label="Period" :options="periods" />
     </header>
 
-    <dl class="cpt__totals">
-      <div><dt>Sessions</dt><dd>{{ num(totals.sessions) }}</dd><MiText as="span" variant="caption" :tone="totals.sessions >= totals.prevSessions ? 'green' : 'red'" tabular>{{ delta(totals.sessions, totals.prevSessions) }}</MiText></div>
-      <div><dt>Conversion</dt><dd>{{ pct(totals.orders / totals.sessions) }}</dd><MiText as="span" variant="caption" tone="label2">store average</MiText></div>
-      <div><dt>Revenue</dt><dd>{{ money(totals.revenue) }}</dd><MiText as="span" variant="caption" :tone="totals.revenue >= totals.prevRevenue ? 'green' : 'red'" tabular>{{ delta(totals.revenue, totals.prevRevenue) }}</MiText></div>
+    <dl class="mi:grid mi:grid-cols-3 mi:gap-px mi:m-0 mi:rounded-lg mi:overflow-hidden mi:bg-sep mi:shadow-1">
+      <div class="mi:grid mi:bg-card mi:gap-0.5 mi:py-3 mi:px-3.5 mi:min-w-0"><dt class="mi:text-[11px] mi:text-label2">Sessions</dt><dd class="mi:m-0 mi:text-[clamp(17px,_4.6cqi,_24px)] mi:font-bold mi:tracking-[-.03em] mi:tabular-nums">{{ num(totals.sessions) }}</dd><MiText as="span" variant="caption" :tone="totals.sessions >= totals.prevSessions ? 'green' : 'red'" tabular>{{ delta(totals.sessions, totals.prevSessions) }}</MiText></div>
+      <div class="mi:grid mi:bg-card mi:gap-0.5 mi:py-3 mi:px-3.5 mi:min-w-0"><dt class="mi:text-[11px] mi:text-label2">Conversion</dt><dd class="mi:m-0 mi:text-[clamp(17px,_4.6cqi,_24px)] mi:font-bold mi:tracking-[-.03em] mi:tabular-nums">{{ pct(totals.orders / totals.sessions) }}</dd><MiText as="span" variant="caption" tone="label2">store average</MiText></div>
+      <div class="mi:grid mi:bg-card mi:gap-0.5 mi:py-3 mi:px-3.5 mi:min-w-0"><dt class="mi:text-[11px] mi:text-label2">Revenue</dt><dd class="mi:m-0 mi:text-[clamp(17px,_4.6cqi,_24px)] mi:font-bold mi:tracking-[-.03em] mi:tabular-nums">{{ money(totals.revenue) }}</dd><MiText as="span" variant="caption" :tone="totals.revenue >= totals.prevRevenue ? 'green' : 'red'" tabular>{{ delta(totals.revenue, totals.prevRevenue) }}</MiText></div>
     </dl>
 
-    <div class="cpt__table">
+    <div class="mi:hidden mi:min-w-0 mi:overflow-x-auto mi:@[720px]:block">
       <MiTable :columns="columns" :rows="rows" caption="Channel performance" density="relaxed" :zebra="false">
         <template #cell-name="{ row }">
-          <span class="cpt__chan"><span class="cpt__glyph" :style="{ '--tint': c(row).tint }" aria-hidden="true"><MiIcon :svg="c(row).icon" :size="15" /></span>{{ c(row).name }}</span>
+          <span class="mi:inline-flex mi:items-center mi:gap-2.5 mi:font-semibold mi:whitespace-nowrap"><span class="mi:grid mi:place-items-center mi:w-7 mi:h-7 mi:rounded-[8px] mi:text-(--tint) mi:[background:color-mix(in_srgb,_var(--tint)_14%,_transparent)]" :style="{ '--tint': c(row).tint }" aria-hidden="true"><MiIcon :svg="c(row).icon" :size="15" /></span>{{ c(row).name }}</span>
         </template>
         <template #cell-sessions="{ row }">
           <!-- Data bar with a ghost tick at last period's value: growth reads as the gap between them. -->
-          <span class="cpt__bar-cell">
-            <span class="cpt__num">{{ num(c(row).sessions) }}</span>
-            <span class="cpt__bar">
-              <i :style="{ transform: `scaleX(${c(row).sessions / maxSessions})` }" />
-              <b :style="{ insetInlineStart: (c(row).prevSessions / maxSessions) * 100 + '%' }" />
+          <span class="mi:grid mi:gap-1">
+            <span class="mi:font-semibold mi:tabular-nums">{{ num(c(row).sessions) }}</span>
+            <span class="mi:relative mi:block mi:h-1.5 mi:rounded-[3px] mi:bg-fill2">
+              <i class="mi:absolute mi:rounded-[inherit] mi:bg-p/75 mi:inset-0 mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleX(${c(row).sessions / maxSessions})` }" />
+              <b class="mi:absolute mi:-ms-px mi:rounded-[1px] mi:bg-label mi:top-[-3px] mi:bottom-[-3px] mi:w-0.5 mi:opacity-55" :style="{ insetInlineStart: (c(row).prevSessions / maxSessions) * 100 + '%' }" />
             </span>
           </span>
         </template>
         <template #cell-conv="{ row }">
-          <span class="cpt__heat" :style="{ '--heat': Math.round(Math.min(1, c(row).conv / 0.05) * 60) + '%' }">{{ pct(c(row).conv) }}</span>
+          <span class="mi:inline-block mi:py-[3px] mi:px-2 mi:rounded-[7px] mi:text-[13px] mi:font-semibold mi:tabular-nums mi:[background:color-mix(in_srgb,_var(--mi-green)_var(--heat),_transparent)] mi:text-label" :style="{ '--heat': Math.round(Math.min(1, c(row).conv / 0.05) * 60) + '%' }">{{ pct(c(row).conv) }}</span>
         </template>
         <template #cell-revenue="{ row }">
-          <span class="cpt__rev">
-            <span class="cpt__num">{{ money(c(row).revenue) }}</span>
-            <span class="cpt__delta" :class="c(row).revenue >= c(row).prevRevenue ? 'is-up' : 'is-down'">{{ delta(c(row).revenue, c(row).prevRevenue) }}</span>
+          <span class="mi:grid mi:justify-items-end mi:leading-tight">
+            <span class="mi:font-semibold mi:tabular-nums">{{ money(c(row).revenue) }}</span>
+            <span class="mi:text-[12px] mi:font-semibold mi:tabular-nums" :class="c(row).revenue >= c(row).prevRevenue ? 'mi:text-green-t' : 'mi:text-red-t'">{{ delta(c(row).revenue, c(row).prevRevenue) }}</span>
           </span>
         </template>
         <template #cell-trend="{ row }">
@@ -44,19 +44,19 @@
       </MiTable>
     </div>
 
-    <ul class="cpt__cards">
-      <li v-for="ch in rows" :key="ch.id" class="cpt__card">
-        <div class="cpt__card-top">
-          <span class="cpt__chan"><span class="cpt__glyph" :style="{ '--tint': ch.tint }" aria-hidden="true"><MiIcon :svg="ch.icon" :size="15" /></span>{{ ch.name }}</span>
-          <span class="cpt__rev cpt__rev--end">
-            <span class="cpt__num">{{ money(ch.revenue) }}</span>
-            <span class="cpt__delta" :class="ch.revenue >= ch.prevRevenue ? 'is-up' : 'is-down'">{{ delta(ch.revenue, ch.prevRevenue) }}</span>
+    <ul class="mi:grid mi:gap-2 mi:m-0 mi:p-0 mi:[list-style:none] mi:@[720px]:hidden">
+      <li v-for="ch in rows" :key="ch.id" class="mi:grid mi:gap-2.5 mi:py-3 mi:px-3.5 mi:rounded-lg mi:bg-card mi:shadow-1">
+        <div class="mi:flex mi:items-center mi:justify-between mi:gap-2.5">
+          <span class="mi:inline-flex mi:items-center mi:gap-2.5 mi:font-semibold mi:whitespace-nowrap"><span class="mi:grid mi:place-items-center mi:w-7 mi:h-7 mi:rounded-[8px] mi:text-(--tint) mi:[background:color-mix(in_srgb,_var(--tint)_14%,_transparent)]" :style="{ '--tint': ch.tint }" aria-hidden="true"><MiIcon :svg="ch.icon" :size="15" /></span>{{ ch.name }}</span>
+          <span class="mi:grid mi:justify-items-end mi:leading-tight">
+            <span class="mi:font-semibold mi:tabular-nums">{{ money(ch.revenue) }}</span>
+            <span class="mi:text-[12px] mi:font-semibold mi:tabular-nums" :class="ch.revenue >= ch.prevRevenue ? 'mi:text-green-t' : 'mi:text-red-t'">{{ delta(ch.revenue, ch.prevRevenue) }}</span>
           </span>
         </div>
-        <span class="cpt__bar"><i :style="{ transform: `scaleX(${ch.sessions / maxSessions})` }" /><b :style="{ insetInlineStart: (ch.prevSessions / maxSessions) * 100 + '%' }" /></span>
-        <div class="cpt__card-foot">
+        <span class="mi:relative mi:block mi:h-1.5 mi:rounded-[3px] mi:bg-fill2"><i class="mi:absolute mi:rounded-[inherit] mi:bg-p/75 mi:inset-0 mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleX(${ch.sessions / maxSessions})` }" /><b class="mi:absolute mi:-ms-px mi:rounded-[1px] mi:bg-label mi:top-[-3px] mi:bottom-[-3px] mi:w-0.5 mi:opacity-55" :style="{ insetInlineStart: (ch.prevSessions / maxSessions) * 100 + '%' }" /></span>
+        <div class="mi:flex mi:items-center mi:justify-between mi:gap-2">
           <MiText as="span" variant="caption" tone="label2" tabular>{{ num(ch.sessions) }} sessions</MiText>
-          <span class="cpt__heat" :style="{ '--heat': Math.round(Math.min(1, ch.conv / 0.05) * 60) + '%' }">{{ pct(ch.conv) }} conv.</span>
+          <span class="mi:inline-block mi:py-[3px] mi:px-2 mi:rounded-[7px] mi:text-[13px] mi:font-semibold mi:tabular-nums mi:[background:color-mix(in_srgb,_var(--mi-green)_var(--heat),_transparent)] mi:text-label" :style="{ '--heat': Math.round(Math.min(1, ch.conv / 0.05) * 60) + '%' }">{{ pct(ch.conv) }} conv.</span>
         </div>
       </li>
     </ul>
@@ -118,37 +118,3 @@ const pct = (x: number) => (x * 100).toFixed(1) + '%'
 const delta = (a: number, b: number) => { const d = ((a - b) / b) * 100; return (d >= 0 ? '+' : '−') + Math.abs(d).toFixed(1) + '%' }
 </script>
 
-<style scoped>
-.cpt { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
-.cpt__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-
-.cpt__totals { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; margin: 0; border-radius: var(--mi-radius-l); overflow: hidden; background: var(--mi-sep); box-shadow: var(--mi-sh1); }
-.cpt__totals div { display: grid; gap: 2px; padding: 12px 14px; background: var(--mi-card); min-width: 0; }
-.cpt__totals dt { font-size: 11px; color: var(--mi-label2); }
-.cpt__totals dd { margin: 0; font-size: clamp(17px, 4.6cqi, 24px); font-weight: 700; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
-
-.cpt__table { display: none; min-width: 0; overflow-x: auto; }
-.cpt__cards { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
-@container (min-width: 720px) { .cpt__table { display: block; } .cpt__cards { display: none; } }
-
-.cpt__chan { display: inline-flex; align-items: center; gap: 10px; font-weight: 600; white-space: nowrap; }
-.cpt__glyph { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 8px; color: var(--tint); background: color-mix(in srgb, var(--tint) 14%, transparent); }
-.cpt__num { font-weight: 600; font-variant-numeric: tabular-nums; }
-.cpt__bar-cell { display: grid; gap: 4px; }
-.cpt__bar { position: relative; display: block; height: 6px; border-radius: 3px; background: var(--mi-fill2); }
-.cpt__bar i { position: absolute; inset: 0; border-radius: inherit; background: color-mix(in srgb, var(--mi-p) 75%, transparent); transform-origin: left; transition: transform var(--mi-dur-4) var(--mi-spring); }
-.cpt__bar b { position: absolute; top: -3px; bottom: -3px; width: 2px; margin-inline-start: -1px; border-radius: 1px; background: var(--mi-label); opacity: .55; }
-/* Heat chip: tint strength follows the conversion rate (5% and above is full). */
-.cpt__heat {
-  display: inline-block; padding: 3px 8px; border-radius: 7px; font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums;
-  background: color-mix(in srgb, var(--mi-green) var(--heat), transparent); color: var(--mi-label);
-}
-.cpt__rev { display: grid; justify-items: end; line-height: 1.25; }
-.cpt__delta { font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; }
-.cpt__delta.is-up { color: var(--mi-green-t); }
-.cpt__delta.is-down { color: var(--mi-red-t); }
-
-.cpt__card { display: grid; gap: 10px; padding: 12px 14px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.cpt__card-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-.cpt__card-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-</style>

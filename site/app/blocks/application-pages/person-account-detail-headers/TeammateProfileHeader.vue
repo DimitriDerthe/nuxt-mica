@@ -1,17 +1,17 @@
 <template>
-  <section class="tph" aria-labelledby="tph-title">
-    <div class="tph__card">
-      <div class="tph__top">
-        <MiAvatar :name="person.name" size="lg" tone="primary" decorative class="tph__avatar" />
-        <div class="tph__id">
-          <div class="tph__name-row">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="tph-title">
+    <div class="mi:grid mi:gap-4 mi:p-5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:overflow-hidden mi:isolate mi:relative mi:before:content-[''] mi:before:absolute mi:before:top-0 mi:before:right-0 mi:before:bottom-auto mi:before:left-0 mi:before:h-30 mi:before:-z-1 mi:before:[background:linear-gradient(120deg,_var(--mi-p-tint),_color-mix(in_srgb,_var(--mi-s)_14%,_transparent)_70%,_transparent)]">
+      <div class="mi:grid mi:grid-cols-[auto_minmax(0,_1fr)] mi:gap-y-3.5 mi:gap-x-4 mi:items-center mi:@[760px]:grid-cols-[auto_minmax(0,_1fr)_auto]">
+        <MiAvatar :name="person.name" size="lg" tone="primary" decorative class="mi:rounded-[50%]! mi:shadow-[0_0_0_3px_var(--mi-card)]" />
+        <div class="mi:grid mi:gap-0.5 mi:justify-items-start mi:min-w-0">
+          <div class="mi:flex mi:flex-wrap mi:items-baseline mi:gap-y-1 mi:gap-x-2.5">
             <MiText id="tph-title" as="h2" variant="title2" weight="bold">{{ person.name }}</MiText>
             <MiText variant="footnote" tone="label3">{{ person.pronouns }}</MiText>
           </div>
           <MiText variant="subheadline" tone="label2">{{ person.role }} · {{ person.team }}</MiText>
-          <MiBadge tone="secondary" :label="person.status" dot class="tph__status" />
+          <MiBadge tone="secondary" :label="person.status" dot class="mi:mt-1.5" />
         </div>
-        <div class="tph__actions">
+        <div class="mi:col-span-full mi:flex mi:flex-wrap mi:gap-2 mi:@[760px]:col-[auto]">
           <MiButton size="small">
             <template #leading><MiIcon name="chat" :size="16" /></template>
             Message
@@ -27,62 +27,62 @@
       </div>
 
       <!-- Reporting line: the chain up to the CEO, and who reports to this person. -->
-      <nav class="tph__line" aria-label="Reporting line">
-        <ol>
-          <li v-for="m in chain" :key="m.name">
+      <nav class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-2.5 mi:gap-x-4 mi:py-2.5 mi:px-3 mi:rounded-md mi:[background:var(--mi-fill4)]" aria-label="Reporting line">
+        <ol class="mi:flex mi:items-center mi:gap-1.5 mi:m-0 mi:p-0 mi:text-[13px] mi:text-label2 mi:flex-wrap mi:[list-style:none]">
+          <li v-for="m in chain" :key="m.name" class="mi:inline-flex mi:items-center mi:gap-1.5">
             <MiAvatar :name="m.name" size="xs" tone="auto" decorative />
-            <span><strong>{{ m.name }}</strong> {{ m.role }}</span>
-            <MiIcon name="chevron-right" :size="14" class="tph__chev" />
+            <span><strong class="mi:text-label mi:font-semibold">{{ m.name }}</strong> {{ m.role }}</span>
+            <MiIcon name="chevron-right" :size="14" class="mi:text-label3" />
           </li>
-          <li aria-current="true"><strong>{{ person.name }}</strong></li>
+          <li aria-current="true" class="mi:inline-flex mi:items-center mi:gap-1.5"><strong class="mi:text-label mi:font-semibold">{{ person.name }}</strong></li>
         </ol>
-        <div class="tph__reports">
+        <div class="mi:flex mi:items-center mi:gap-2">
           <MiAvatarGroup :items="reports" :max="3" size="xs" :label="`${reports.length} direct reports`" />
           <MiText variant="caption" tone="label2">{{ reports.length }} direct reports</MiText>
         </div>
       </nav>
 
-      <dl class="tph__facts">
-        <div>
-          <dt>Local time</dt>
-          <dd>{{ person.localTime }}</dd>
+      <dl class="mi:grid mi:grid-cols-2 mi:gap-px mi:m-0 mi:rounded-md mi:[background:var(--mi-sep)] mi:overflow-hidden mi:@[760px]:grid-cols-4">
+        <div class="mi:grid mi:gap-0.5 mi:py-3 mi:px-3.5 mi:content-start mi:justify-items-start mi:min-w-0 mi:[background:var(--mi-card)]">
+          <dt class="mi:text-[12px] mi:font-medium mi:text-label2">Local time</dt>
+          <dd class="mi:m-0 mi:text-[17px] mi:font-650 mi:tracking-[-.02em] mi:tabular-nums">{{ person.localTime }}</dd>
           <MiText variant="caption2" tone="label3" as="span">{{ person.city }} · {{ person.offset }}</MiText>
         </div>
-        <div>
-          <dt>Working hours</dt>
-          <dd>{{ person.hours }}</dd>
+        <div class="mi:grid mi:gap-0.5 mi:py-3 mi:px-3.5 mi:content-start mi:justify-items-start mi:min-w-0 mi:[background:var(--mi-card)]">
+          <dt class="mi:text-[12px] mi:font-medium mi:text-label2">Working hours</dt>
+          <dd class="mi:m-0 mi:text-[17px] mi:font-650 mi:tracking-[-.02em] mi:tabular-nums">{{ person.hours }}</dd>
           <MiText variant="caption2" tone="label3" as="span">Mon to Thu, Fri mornings</MiText>
         </div>
-        <div>
-          <dt>Joined</dt>
-          <dd>{{ person.joined }}</dd>
+        <div class="mi:grid mi:gap-0.5 mi:py-3 mi:px-3.5 mi:content-start mi:justify-items-start mi:min-w-0 mi:[background:var(--mi-card)]">
+          <dt class="mi:text-[12px] mi:font-medium mi:text-label2">Joined</dt>
+          <dd class="mi:m-0 mi:text-[17px] mi:font-650 mi:tracking-[-.02em] mi:tabular-nums">{{ person.joined }}</dd>
           <MiText variant="caption2" tone="label3" as="span">{{ person.tenure }}</MiText>
         </div>
-        <div>
-          <dt>Email</dt>
-          <dd class="tph__email">{{ person.email }}</dd>
+        <div class="mi:grid mi:gap-0.5 mi:py-3 mi:px-3.5 mi:content-start mi:justify-items-start mi:min-w-0 mi:[background:var(--mi-card)]">
+          <dt class="mi:text-[12px] mi:font-medium mi:text-label2">Email</dt>
+          <dd class="mi:m-0 mi:text-[14px] mi:font-650 mi:tracking-[-.02em] mi:tabular-nums mi:max-w-full mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ person.email }}</dd>
           <MiCopyButton :value="person.email" label="Copy" variant="ghost" />
         </div>
       </dl>
     </div>
 
-    <div class="tph__tabs">
+    <div class="mi:flex">
       <MiSegmented v-model="view" label="Profile section" :options="views" />
     </div>
-    <div class="tph__panel" aria-live="polite">
+    <div class="mi:grid mi:gap-2.5 mi:@[640px]:grid-cols-2" aria-live="polite">
       <template v-if="view === 'focus'">
-        <article v-for="f in focus" :key="f.title" class="tph__item">
+        <article v-for="f in focus" :key="f.title" class="mi:grid mi:gap-1 mi:min-w-0 mi:p-4 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1">
           <MiText variant="subheadline" weight="semibold" as="h3">{{ f.title }}</MiText>
           <MiText variant="footnote" tone="label2">{{ f.body }}</MiText>
         </article>
       </template>
       <template v-else-if="view === 'skills'">
-        <div class="tph__chips">
+        <div class="mi:col-span-full mi:flex mi:flex-wrap mi:gap-2 mi:p-4 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1">
           <MiChip v-for="s in skills" :key="s" :label="s" tone="neutral" size="small" />
         </div>
       </template>
       <template v-else>
-        <article v-for="t in timeOff" :key="t.when" class="tph__item tph__item--row">
+        <article v-for="t in timeOff" :key="t.when" class="mi:grid mi:gap-1 mi:min-w-0 mi:p-4 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1 mi:grid-cols-[minmax(0,_1fr)_auto] mi:items-center mi:gap-3">
           <div>
             <MiText variant="subheadline" weight="semibold" as="h3">{{ t.when }}</MiText>
             <MiText variant="footnote" tone="label2">{{ t.what }}</MiText>
@@ -124,40 +124,3 @@ const timeOff = [
   { when: 'Dec 22 – Jan 2', what: 'End-of-year leave', approved: false }
 ]
 </script>
-
-<style scoped>
-.tph { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
-.tph__card { display: grid; gap: 16px; padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); overflow: hidden; isolation: isolate; position: relative; }
-/* Soft brand wash behind the identity row: a static gradient. */
-.tph__card::before { content: ""; position: absolute; inset: 0 0 auto; height: 120px; z-index: -1; background: linear-gradient(120deg, var(--mi-p-tint), color-mix(in srgb, var(--mi-s) 14%, transparent) 70%, transparent); }
-
-.tph__top { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 14px 16px; align-items: center; }
-@container (min-width: 760px) { .tph__top { grid-template-columns: auto minmax(0, 1fr) auto; } }
-.tph__avatar { box-shadow: 0 0 0 3px var(--mi-card); border-radius: 50%; }
-.tph__id { display: grid; gap: 2px; justify-items: start; min-width: 0; }
-.tph__name-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
-.tph__status { margin-top: 6px; }
-.tph__actions { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px; }
-@container (min-width: 760px) { .tph__actions { grid-column: auto; } }
-
-.tph__line { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; padding: 10px 12px; border-radius: var(--mi-radius-m); background: var(--mi-fill4); }
-.tph__line ol { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 0; padding: 0; list-style: none; font-size: 13px; color: var(--mi-label2); }
-.tph__line li { display: inline-flex; align-items: center; gap: 6px; }
-.tph__line li strong { color: var(--mi-label); font-weight: 600; }
-.tph__chev { color: var(--mi-label3); }
-.tph__reports { display: flex; align-items: center; gap: 8px; }
-
-.tph__facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; margin: 0; border-radius: var(--mi-radius-m); background: var(--mi-sep); overflow: hidden; }
-@container (min-width: 760px) { .tph__facts { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-.tph__facts > div { display: grid; gap: 2px; align-content: start; justify-items: start; min-width: 0; padding: 12px 14px; background: var(--mi-card); }
-.tph__facts dt { font-size: 12px; font-weight: 500; color: var(--mi-label2); }
-.tph__facts dd { margin: 0; font-size: 17px; font-weight: 650; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
-.tph__facts dd.tph__email { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; }
-
-.tph__tabs { display: flex; }
-.tph__panel { display: grid; gap: 10px; }
-@container (min-width: 640px) { .tph__panel { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-.tph__item { display: grid; gap: 4px; min-width: 0; padding: 16px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-.tph__item--row { grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px; }
-.tph__chips { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px; padding: 16px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh1); }
-</style>

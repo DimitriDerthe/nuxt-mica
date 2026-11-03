@@ -11,7 +11,7 @@ defineProps<{ p: Record<string, unknown> }>()
 </script>
 
 <template>
-  <div class="ex-box">
+  <div class="ex-box mi:w-[min(100%,_460px)] mi:mx-auto">
     <MiItem v-bind="p">
       <template #header><MiBadge>Billing</MiBadge></template>
       <template #media><MiIcon name="document" :size="22" /></template>
@@ -20,7 +20,3 @@ defineProps<{ p: Record<string, unknown> }>()
     </MiItem>
   </div>
 </template>
-
-<style scoped>
-.ex-box { width: min(100%, 460px); margin-inline: auto; }
-</style>

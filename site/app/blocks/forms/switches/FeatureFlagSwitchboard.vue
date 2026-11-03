@@ -1,63 +1,63 @@
 <template>
-  <section class="ffs" aria-labelledby="ffs-title">
-    <header class="ffs__head">
+  <section class="mi:@container/ffs mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="ffs-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="ffs-title" as="h2" variant="title3" weight="semibold">Feature flags</MiText>
         <MiText variant="footnote" tone="label2">Ridgeway iOS and Android · {{ onInProd }} of {{ flags.length }} live in production</MiText>
       </div>
-      <MiSearch v-model="query" size="compact" placeholder="Filter flags" aria-label="Filter flags" />
+      <MiSearch v-model="query" size="compact" placeholder="Filter flags" aria-label="Filter flags" class="mi:flex-[0_1_240px]" />
     </header>
 
-    <div class="ffs__card">
-      <div class="ffs__cols" aria-hidden="true">
+    <div class="mi:rounded-xl mi:bg-card mi:shadow-1 mi:overflow-hidden">
+      <div class="mi:hidden mi:@[700px]/ffs:grid mi:@[700px]/ffs:grid-cols-[minmax(0,_1fr)_repeat(3,_96px)] mi:@[700px]/ffs:gap-4 mi:@[700px]/ffs:items-center mi:@[700px]/ffs:py-3 mi:@[700px]/ffs:px-4.5 mi:@[700px]/ffs:text-[12px] mi:@[700px]/ffs:font-semibold mi:@[700px]/ffs:text-label2 mi:@[700px]/ffs:border-b mi:@[700px]/ffs:border-b-sep" aria-hidden="true">
         <span>Flag</span><span v-for="e in envs" :key="e.id">{{ e.label }}</span>
       </div>
 
-      <ul class="ffs__list">
-        <li v-for="f in shown" :key="f.key" class="ffs__flag" :class="{ 'is-arming': arming?.key === f.key }">
-          <div class="ffs__row">
-            <div class="ffs__info">
-              <div class="ffs__name">
-                <code :id="`ffs-${f.key}-name`">{{ f.key }}</code>
-                <span v-if="f.stale" class="ffs__stale">Unused {{ f.stale }} days</span>
+      <ul class="mi:m-0 mi:p-0 mi:[list-style:none]">
+        <li v-for="f in shown" :key="f.key" class="mi:not-first:border-t mi:not-first:border-t-sep" :class="arming?.key === f.key ? 'mi:[background:color-mix(in_srgb,_var(--mi-green)_6%,_transparent)]' : ''">
+          <div class="mi:grid mi:grid-cols-3 mi:gap-y-3.5 mi:gap-x-2 mi:py-4 mi:px-4.5 mi:@[700px]/ffs:grid mi:@[700px]/ffs:grid-cols-[minmax(0,_1fr)_repeat(3,_96px)] mi:@[700px]/ffs:gap-4 mi:@[700px]/ffs:items-center">
+            <div class="mi:col-span-full mi:grid mi:gap-1 mi:min-w-0 mi:@[700px]/ffs:col-[auto]">
+              <div class="mi:flex mi:flex-wrap mi:items-center mi:gap-y-1.5 mi:gap-x-2.5">
+                <code class="mi:[font:600_13.5px_ui-monospace,_SFMono-Regular,_Menlo,_monospace] mi:wrap-anywhere" :id="`ffs-${f.key}-name`">{{ f.key }}</code>
+                <span v-if="f.stale" class="mi:py-px mi:px-[7px] mi:rounded-[999px] mi:text-[11px] mi:font-semibold mi:text-orange-t mi:[background:color-mix(in_srgb,_var(--mi-orange)_14%,_transparent)]">Unused {{ f.stale }} days</span>
               </div>
               <MiText variant="footnote" tone="label2">{{ f.desc }}</MiText>
-              <div class="ffs__owner">
+              <div class="mi:flex mi:items-center mi:gap-1.5 mi:mt-0.5">
                 <MiAvatar :name="f.owner" size="xs" tone="auto" decorative />
                 <MiText variant="caption" tone="label3">{{ f.owner }} · {{ f.changed }}</MiText>
               </div>
             </div>
-            <div v-for="e in envs" :key="e.id" class="ffs__env">
-              <span :id="`ffs-${f.key}-${e.id}`" class="ffs__env-l">{{ e.label }}</span>
+            <div v-for="e in envs" :key="e.id" class="mi:flex mi:flex-col mi:[align-items:flex-start] mi:gap-1.5 mi:@[700px]/ffs:flex-row mi:@[700px]/ffs:items-center mi:@[700px]/ffs:gap-2">
+              <span :id="`ffs-${f.key}-${e.id}`" class="mi:text-[11.5px] mi:font-semibold mi:text-label2 mi:@[700px]/ffs:absolute mi:@[700px]/ffs:w-px mi:@[700px]/ffs:h-px mi:@[700px]/ffs:overflow-hidden mi:@[700px]/ffs:[clip-path:inset(50%)] mi:@[700px]/ffs:whitespace-nowrap">{{ e.label }}</span>
               <MiSwitch
                 :model-value="f.on[e.id] || (e.id === 'prod' && arming?.key === f.key)" size="compact"
                 :tone="e.id === 'prod' ? 'success' : 'primary'" :aria-labelledby="`ffs-${f.key}-name ffs-${f.key}-${e.id}`"
                 @update:model-value="flip(f, e.id, $event)"
               />
-              <span v-if="e.id === 'prod' && f.on.prod && f.rollout < 100" class="ffs__pct">{{ f.rollout }}%</span>
+              <span v-if="e.id === 'prod' && f.on.prod && f.rollout < 100" class="mi:text-[11px] mi:font-semibold mi:text-green-t mi:tabular-nums">{{ f.rollout }}%</span>
             </div>
           </div>
 
           <!-- Turning a flag on in production asks for a rollout and a reason; turning it off is instant (kill switch). -->
-          <form v-if="arming?.key === f.key" class="ffs__arm" novalidate @submit.prevent="confirm(f)">
+          <form v-if="arming?.key === f.key" class="mi:[--mi-in-y:-6px] mi:animate-[in_var(--mi-dur-3)_var(--mi-ease)] mi:motion-reduce:animate-none mi:grid mi:gap-3 mi:mt-0 mi:mx-4.5 mi:mb-4.5 mi:p-4 mi:rounded-lg mi:bg-card mi:shadow-2 mi:@[700px]/ffs:ms-auto mi:@[700px]/ffs:max-w-115" novalidate @submit.prevent="confirm(f)">
             <MiText as="h3" variant="subheadline" weight="semibold">Enable in production</MiText>
             <MiSlider v-model="arming.rollout" :min="5" :max="100" :step="5" label="Rollout" unit="%" />
             <MiText variant="caption" tone="label2">≈ {{ users }} of 312,400 monthly users will see it.</MiText>
             <MiField label="Reason for the audit log" required :error="armError">
               <MiInput v-model="arming.reason" placeholder="QA signed off on 4.18 build 2207" />
             </MiField>
-            <div class="ffs__arm-actions">
+            <div class="mi:flex mi:[justify-content:flex-end] mi:gap-2">
               <MiButton variant="gray" size="small" @click="cancel">Cancel</MiButton>
               <MiButton type="submit" size="small">Turn on for {{ rolloutPct }}%</MiButton>
             </div>
           </form>
         </li>
       </ul>
-      <MiText v-if="!shown.length" variant="footnote" tone="label3" class="ffs__empty">No flag matches “{{ query }}”.</MiText>
+      <MiText v-if="!shown.length" variant="footnote" tone="label3" class="mi:py-5 mi:px-4.5">No flag matches “{{ query }}”.</MiText>
     </div>
 
-    <p class="ffs__log" role="status" aria-live="polite">
-      <MiIcon v-if="log" name="check-circle-fill" :size="16" />{{ log }}
+    <p class="mi:flex mi:items-center mi:gap-2 mi:min-h-5 mi:m-0 mi:text-[13px] mi:text-label2" role="status" aria-live="polite">
+      <MiIcon v-if="log" name="check-circle-fill" :size="16" class="mi:flex-none mi:text-green" />{{ log }}
     </p>
   </section>
 </template>
@@ -114,40 +114,3 @@ function confirm(f: Flag) {
 }
 </script>
 
-<style scoped>
-.ffs { container: ffs / inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
-.ffs__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.ffs__head > :last-child { flex: 0 1 240px; }
-.ffs__card { border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); overflow: hidden; }
-
-.ffs__cols { display: none; }
-.ffs__list { margin: 0; padding: 0; list-style: none; }
-.ffs__flag + .ffs__flag { border-top: 1px solid var(--mi-sep); }
-.ffs__flag.is-arming { background: color-mix(in srgb, var(--mi-green) 6%, transparent); }
-.ffs__row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px 8px; padding: 16px 18px; }
-.ffs__info { grid-column: 1 / -1; display: grid; gap: 4px; min-width: 0; }
-.ffs__name { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
-.ffs__name code { font: 600 13.5px ui-monospace, SFMono-Regular, Menlo, monospace; overflow-wrap: anywhere; }
-.ffs__stale { padding: 1px 7px; border-radius: 999px; font-size: 11px; font-weight: 600; color: var(--mi-orange-t); background: color-mix(in srgb, var(--mi-orange) 14%, transparent); }
-.ffs__owner { display: flex; align-items: center; gap: 6px; margin-top: 2px; }
-.ffs__env { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
-.ffs__env-l { font-size: 11.5px; font-weight: 600; color: var(--mi-label2); }
-.ffs__pct { font-size: 11px; font-weight: 600; color: var(--mi-green-t); font-variant-numeric: tabular-nums; }
-
-@container ffs (min-width: 700px) {
-  .ffs__cols, .ffs__row { display: grid; grid-template-columns: minmax(0, 1fr) repeat(3, 96px); gap: 16px; align-items: center; }
-  .ffs__cols { padding: 12px 18px; font-size: 12px; font-weight: 600; color: var(--mi-label2); border-bottom: 1px solid var(--mi-sep); }
-  .ffs__info { grid-column: auto; }
-  .ffs__env { flex-direction: row; align-items: center; gap: 8px; }
-  .ffs__env-l { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-}
-
-.ffs__arm { display: grid; gap: 12px; margin: 0 18px 18px; padding: 16px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh2); animation: ffs-in var(--mi-dur-3) var(--mi-ease); }
-@container ffs (min-width: 700px) { .ffs__arm { margin-inline-start: auto; max-width: 460px; } }
-.ffs__arm-actions { display: flex; justify-content: flex-end; gap: 8px; }
-.ffs__empty { padding: 20px 18px; }
-.ffs__log { display: flex; align-items: center; gap: 8px; min-height: 20px; margin: 0; font-size: 13px; color: var(--mi-label2); }
-.ffs__log :deep(svg) { flex: none; color: var(--mi-green); }
-@keyframes ffs-in { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) { .ffs__arm { animation: none; } }
-</style>

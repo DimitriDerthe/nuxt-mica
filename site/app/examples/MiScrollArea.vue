@@ -13,16 +13,15 @@ const tags = ['v2.4.0', 'v2.3.2', 'v2.3.1', 'v2.3.0', 'v2.2.5', 'v2.2.4', 'v2.2.
 </script>
 
 <template>
-  <div class="ex-box">
+  <div class="ex-box mi:w-[min(100%,_280px)] mi:py-3 mi:px-4 mi:rounded-[16px] mi:bg-card mi:shadow-1 mi:box-border">
     <h4>Releases</h4>
     <MiScrollArea v-bind="p">
-      <div v-for="t in tags" :key="t" class="ex-row">{{ t }}</div>
+      <div v-for="t in tags" :key="t" class="ex-row mi:py-2 mi:px-0 mi:text-[15px] mi:text-label mi:whitespace-nowrap">{{ t }}</div>
     </MiScrollArea>
   </div>
 </template>
 
 <style scoped>
-.ex-box { width: min(100%, 280px); padding: 12px 16px; border-radius: 16px; background: var(--mi-card); box-shadow: var(--mi-sh1); box-sizing: border-box; }
 h4 { margin: 0 0 8px; font-size: 15px; color: var(--mi-label); }
-.ex-row { padding: 8px 0; font-size: 15px; color: var(--mi-label); border-bottom: 1px solid var(--mi-separator, currentColor); border-bottom-color: color-mix(in srgb, var(--mi-label2) 20%, transparent); white-space: nowrap; }
+.ex-row { border-bottom: 1px solid var(--mi-separator, currentColor); border-bottom-color: color-mix(in srgb, var(--mi-label2) 20%, transparent); }
 </style>

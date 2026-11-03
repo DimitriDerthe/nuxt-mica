@@ -35,36 +35,24 @@ defineSlots<{
 </script>
 
 <template>
-  <header class="mi-ln" :class="{ 'is-sticky': sticky }">
-    <slot name="title"><span v-if="title" class="mi-ln__title">{{ title }}</span></slot>
-    <span class="mi-ln__spacer" />
-    <nav ref="root" class="mi-ln__nav" :aria-label="ariaLabel" @keydown="onKey">
+  <header class="mi-ln mi:font-mi mi:rounded-[14px] mi:bg-mat mi:shadow-1 mi:py-0 mi:px-5 mi:h-14 mi:flex mi:items-center mi:gap-6 mi:text-label mi:z-10 mi:[&.is-sticky]:sticky mi:[&.is-sticky]:top-3 mi:max-[640px]:py-0 mi:max-[640px]:px-3 mi:max-[640px]:gap-2.5" :class="{ 'is-sticky': sticky }">
+    <slot name="title"><span v-if="title" class="mi-ln__title mi:flex-[none] mi:text-[21px] mi:font-semibold mi:tracking-[-.02em] mi:whitespace-nowrap mi:max-[640px]:text-[17px]">{{ title }}</span></slot>
+    <span class="mi-ln__spacer mi:flex-1 mi:min-w-0" />
+    <nav ref="root" class="mi-ln__nav mi:flex mi:items-center mi:gap-1 mi:min-w-0 mi:overflow-x-auto mi:[scrollbar-width:none] mi:max-[640px]:gap-0" :aria-label="ariaLabel" @keydown="onKey">
       <button
-        v-for="it in items" :key="it.id" type="button" class="mi-ln__item" :class="{ 'is-on': active(it.id) }"
+        v-for="it in items" :key="it.id" type="button" class="mi-ln__item mi:relative mi:h-11 mi:py-0 mi:px-2.5 mi:[border:0] mi:bg-transparent mi:text-label2 mi:text-[13px] mi:whitespace-nowrap mi:after:content-[''] mi:after:absolute mi:after:left-2.5 mi:after:right-2.5 mi:after:bottom-0 mi:after:h-0.5 mi:after:rounded-[2px_2px_0_0] mi:after:bg-p mi:after:opacity-0 mi:after:transform-[scaleX(.4)] mi:after:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),transform_var(--mi-dur-3)_var(--mi-spring)] mi:[&.is-on]:font-semibold mi:[&.is-on]:after:opacity-100 mi:[&.is-on]:after:transform-[scaleX(1)] mi:max-[640px]:py-0 mi:max-[640px]:px-[7px] mi:max-[640px]:after:left-[7px] mi:max-[640px]:after:right-[7px]" :class="{ 'is-on': active(it.id) }"
         :disabled="it.disabled" :aria-current="active(it.id) ? 'page' : undefined" @click="pick(it)"
-      ><span class="mi-ln__label">{{ it.label }}</span></button>
+      ><span class="mi-ln__label mi:inline-block mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)] mi:[.mi-ln__item:hover:not(:disabled):not(.is-on)_&]:opacity-70">{{ it.label }}</span></button>
     </nav>
     <slot name="action">
-      <button v-if="actionLabel" type="button" class="mi-ln__cta" @click="emit('action')">{{ actionLabel }}</button>
+      <button v-if="actionLabel" type="button" class="mi-ln__cta mi:flex-[none] mi:h-7 mi:py-0 mi:px-3.5 mi:[border:0] mi:rounded-[999px] mi:bg-p mi:text-p-on mi:text-[12px] mi:font-semibold mi:whitespace-nowrap mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease)] mi:active:transform-[scale(.95)]" @click="emit('action')">{{ actionLabel }}</button>
     </slot>
   </header>
 </template>
 
 <style scoped>
-.mi-ln{font-family:var(--mi-font);border-radius:14px;background:var(--mi-mat);-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%);box-shadow:var(--mi-sh1);padding:0 20px;height:56px;display:flex;align-items:center;gap:24px;color:var(--mi-label);z-index:10}
-.mi-ln.is-sticky{position:sticky;top:12px}
-.mi-ln__title{flex:none;font-size:21px;font-weight:600;letter-spacing:-.02em;white-space:nowrap}
-.mi-ln__spacer{flex:1;min-width:0}
-.mi-ln__nav{display:flex;align-items:center;gap:4px;min-width:0;overflow-x:auto;scrollbar-width:none}
-.mi-ln__item{position:relative;height:44px;padding:0 10px;border:0;background:transparent;color:var(--mi-label2);font-size:13px;white-space:nowrap}
+.mi-ln{-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%)}
 .mi-ln__item:disabled{color:var(--mi-label3)}
-.mi-ln__label{display:inline-block;transition:opacity var(--mi-dur-2) var(--mi-ease)}
-.mi-ln__item:hover:not(:disabled):not(.is-on) .mi-ln__label{opacity:.7}
-.mi-ln__item::after{content:"";position:absolute;left:10px;right:10px;bottom:0;height:2px;border-radius:2px 2px 0 0;background:var(--mi-p);opacity:0;transform:scaleX(.4);transition:opacity var(--mi-dur-2) var(--mi-ease),transform var(--mi-dur-3) var(--mi-spring)}
-.mi-ln__item.is-on{color:var(--mi-label);font-weight:600}
-.mi-ln__item.is-on::after{opacity:1;transform:scaleX(1)}
-.mi-ln__cta{flex:none;height:28px;padding:0 14px;border:0;border-radius:999px;background:var(--mi-p);color:var(--mi-p-on);font-size:12px;font-weight:600;white-space:nowrap;transition:transform var(--mi-dur-1) var(--mi-ease)}
-.mi-ln__cta:active{transform:scale(.95)}
+.mi-ln__item.is-on{color:var(--mi-label)}
 .mi-ln :focus-visible{outline:3px solid color-mix(in srgb,var(--mi-p) 55%,transparent);outline-offset:2px}
-@media (max-width:640px){.mi-ln{padding:0 12px;gap:10px}.mi-ln__title{font-size:17px}.mi-ln__item{padding:0 7px}.mi-ln__item::after{left:7px;right:7px}.mi-ln__nav{gap:0}}
 </style>

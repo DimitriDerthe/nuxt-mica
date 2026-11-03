@@ -28,13 +28,13 @@ withDefaults(defineProps<{
 </script>
 
 <template>
-  <dl class="mi-dl" :style="{ '--mi-dl-w': labelWidth }">
-    <div v-for="it in items" :key="it.key" class="mi-dl__row">
-      <dt class="mi-dl__t"><slot :name="`label-${it.key}`" :item="it">{{ it.label }}</slot></dt>
-      <dd class="mi-dl__d">
+  <dl class="mi-dl mi:@container" :style="{ '--mi-dl-w': labelWidth }">
+    <div v-for="it in items" :key="it.key" class="mi-dl__row mi:grid mi:grid-cols-[var(--mi-dl-w)_minmax(0,1fr)] mi:items-center mi:[.mi-dl__row+&]:[border-top:.5px_solid_var(--mi-sep)] mi:@max-[320px]:grid-cols-[minmax(0,1fr)]">
+      <dt class="mi-dl__t mi:py-2.5 mi:px-0 mi:text-label2 mi:@max-[320px]:pb-0"><slot :name="`label-${it.key}`" :item="it">{{ it.label }}</slot></dt>
+      <dd class="mi-dl__d mi:m-0 mi:py-2.5 mi:px-0 mi:font-medium mi:min-w-0 mi:wrap-anywhere mi:[&:has(>:where(span,button,div))]:py-2 mi:[&:has(>:where(span,button,div))]:px-0">
         <slot :name="`value-${it.key}`" :item="it">
           <slot name="value" :item="it">
-            <a v-if="it.href" class="mi-dl__a" :href="miSafeHref(it.href)">{{ it.value }}</a>
+            <a v-if="it.href" class="mi-dl__a mi:text-p-text mi:[text-decoration:none] mi:font-normal mi:hover:opacity-80" :href="miSafeHref(it.href)">{{ it.value }}</a>
             <template v-else>{{ it.value }}</template>
           </slot>
         </slot>
@@ -44,16 +44,5 @@ withDefaults(defineProps<{
 </template>
 
 <style scoped>
-.mi-dl{margin:0;container-type:inline-size;font-family:var(--mi-font);font-size:15px;color:var(--mi-label)}
-.mi-dl__row{display:grid;grid-template-columns:var(--mi-dl-w) minmax(0,1fr);align-items:center}
-.mi-dl__row + .mi-dl__row{border-top:.5px solid var(--mi-sep)}
-.mi-dl__t{padding:10px 0;color:var(--mi-label2)}
-.mi-dl__d{margin:0;padding:10px 0;font-weight:500;min-width:0;overflow-wrap:anywhere}
-.mi-dl__d:has(> :where(span,button,div)){padding:8px 0}
-.mi-dl__a{color:var(--mi-p-text);text-decoration:none;font-weight:400}
-.mi-dl__a:hover{opacity:.8}
-@container (max-width:320px){
-  .mi-dl__row{grid-template-columns:minmax(0,1fr)}
-  .mi-dl__t{padding-bottom:0}
-}
+.mi-dl{margin:0;font-family:var(--mi-font);font-size:15px;color:var(--mi-label)}
 </style>

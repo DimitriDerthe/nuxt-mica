@@ -14,7 +14,7 @@ const tags = ref(['design-systems', 'nuxt', 'accessibility'])
 </script>
 
 <template>
-  <div class="card">
+  <div class="card mi:shadow-1">
     <MiField label="Topics" hint="Help people find your talk. Up to six topics.">
       <MiTagInput v-model="tags" v-bind="p" />
     </MiField>
@@ -22,5 +22,5 @@ const tags = ref(['design-systems', 'nuxt', 'accessibility'])
 </template>
 
 <style scoped>
-.card { width: min(100%, 380px); padding: 18px; border-radius: 20px; background: var(--mi-card); box-shadow: var(--mi-sh1); }
+.card { width: min(100%, 380px); padding: 18px; border-radius: 20px; background: var(--mi-card); }
 </style>
