@@ -92,7 +92,7 @@ const fmtSeats = (v: number) => v + (v === 1 ? ' seat' : ' seats')
 </script>
 
 <style scoped>
-.spp { container-type: inline-size; display: grid; gap: 20px; font-family: var(--mi-font); color: var(--mi-label); }
+.spp { container-type: inline-size; display: grid; align-content: start; gap: 20px; font-family: var(--mi-font); color: var(--mi-label); }
 .spp__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 14px; }
 .spp__intro { display: grid; gap: 6px; max-width: 520px; }
 .spp__controls { display: grid; justify-items: start; gap: 6px; }

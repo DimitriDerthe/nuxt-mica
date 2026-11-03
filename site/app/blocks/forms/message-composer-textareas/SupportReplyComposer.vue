@@ -135,7 +135,7 @@ function send(force: boolean) {
 </script>
 
 <style scoped>
-.src { container: src / inline-size; display: grid; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
+.src { container: src / inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
 .src__head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
 .src__who { display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1 1 240px; }
 .src__who > div { min-width: 0; }

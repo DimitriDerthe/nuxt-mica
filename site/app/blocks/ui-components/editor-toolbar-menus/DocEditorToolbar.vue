@@ -111,7 +111,7 @@ function insert(id: string) {
 </script>
 
 <style scoped>
-.det { container-type: inline-size; display: grid; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
+.det { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
 
 .det__toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 8px; border-radius: var(--mi-radius-l); background: var(--mi-card); box-shadow: var(--mi-sh2); }
 .det__marks { display: flex; gap: 2px; }

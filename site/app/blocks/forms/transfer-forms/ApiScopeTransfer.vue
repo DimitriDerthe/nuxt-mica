@@ -89,7 +89,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
+import { computed, reactive, ref, onBeforeUnmount } from 'vue'
+
+const timers = new Set<ReturnType<typeof setTimeout>>()
+function later(fn: () => void, ms: number) {
+  const t = setTimeout(() => { timers.delete(t); fn() }, ms)
+  timers.add(t)
+}
+onBeforeUnmount(() => { timers.forEach(clearTimeout); timers.clear() })
 
 type Val = string | number
 type Side = 'avail' | 'granted'
@@ -181,7 +188,7 @@ function submit() {
   submitted.value = true
   if (Object.keys(errors.value).length) return
   saving.value = true
-  setTimeout(() => {
+  later(() => {
     const tail = Math.random().toString(36).slice(2, 14)
     created.value = {
       name: name.value.trim(),
@@ -207,7 +214,7 @@ function reset() {
 </script>
 
 <style scoped>
-.ask { container: ask / inline-size; display: grid; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
+.ask { container: ask / inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
 .ask__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .ask__form, .ask__done { display: grid; gap: 16px; padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
 .ask__meta { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); }

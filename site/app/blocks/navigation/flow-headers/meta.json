@@ -8,5 +8,15 @@
     },
     "height": 560,
     "stage": "bleed"
+  },
+  {
+    "file": "CheckoutFlowHeader",
+    "title": { "en": "Checkout flow header", "fr": "En-tête de parcours de paiement" },
+    "summary": {
+      "en": "A checkout header with back to shop, a secure badge and a step trail that only links back; narrow widths fold the order summary under the header behind a total that follows the shipping choice.",
+      "fr": "Un en-tête de commande avec retour à la boutique, mention de sécurité et fil d'étapes qui ne renvoie qu'en arrière ; en largeur réduite, le récapitulatif se replie sous l'en-tête derrière un total qui suit le mode de livraison."
+    },
+    "height": 600,
+    "stage": "bleed"
   }
 ]

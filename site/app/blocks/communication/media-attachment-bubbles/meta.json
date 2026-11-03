@@ -10,5 +10,17 @@
       "fr": "Mosaïque de photos avec visionneuse intégrée, cartes de fichiers, épingle de lieu dessinée et pièces jointes avec progression en direct."
     },
     "height": 620
+  },
+  {
+    "file": "RichCardBubbles",
+    "title": {
+      "en": "Link, event and contact bubbles",
+      "fr": "Bulles lien, événement et contact"
+    },
+    "summary": {
+      "en": "A drawn link preview, an event invite with RSVP that updates attendees, a file card and a shared contact you can save.",
+      "fr": "Aperçu de lien dessiné, invitation avec réponse qui met à jour les participants, carte de fichier et contact partagé à enregistrer."
+    },
+    "height": 640
   }
 ]

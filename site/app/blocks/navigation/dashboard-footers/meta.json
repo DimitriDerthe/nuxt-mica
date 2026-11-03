@@ -7,5 +7,14 @@
       "fr": "Un pied d'application qui sert aussi de page de statut : bande de disponibilité sur 60 jours parcourable aux flèches, identifiant de build copiable, choix de région avec latence, liens et raccourci clavier."
     },
     "height": 380
+  },
+  {
+    "file": "PreferencesFooter",
+    "title": { "en": "Footer with preferences and feedback", "fr": "Pied de page avec préférences et avis" },
+    "summary": {
+      "en": "An app footer that asks if the page helped, folds its link columns into disclosures when narrow, and sets language, currency and appearance with a live sample of how amounts will read.",
+      "fr": "Un pied d'application qui demande si la page a aidé, replie ses colonnes de liens en sections dépliables en étroit, et règle langue, devise et apparence avec un exemple en direct du format des montants."
+    },
+    "height": 460
   }
 ]

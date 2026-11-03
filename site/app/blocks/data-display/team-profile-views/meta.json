@@ -7,5 +7,14 @@
       "fr": "Un annuaire d'équipe distribuée avec un ruban de chevauchement : chaque barre est une heure UTC dimensionnée par le nombre de personnes au travail, et en choisir une met à jour l'heure locale, la bande horaire et la disponibilité de chaque carte ; un bouton trouve le meilleur créneau."
     },
     "height": 620
+  },
+  {
+    "file": "OrgProfileCard",
+    "title": { "en": "Profile with reporting line", "fr": "Profil avec ligne hiérarchique" },
+    "summary": {
+      "en": "One teammate's profile card with availability, about, project allocation and reporting line tabs; the manager and direct reports are buttons that open their own profile in place.",
+      "fr": "La fiche profil d'un collègue avec disponibilité et onglets présentation, répartition sur les projets et ligne hiérarchique ; le responsable et les collaborateurs directs sont des boutons qui ouvrent leur propre profil sur place."
+    },
+    "height": 600
   }
 ]

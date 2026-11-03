@@ -7,5 +7,14 @@
       "fr": "Les canaux d'acquisition avec des barres de données gardant un repère fantôme des sessions de la période précédente, des pastilles de conversion teintées selon le taux, les écarts de revenu et des micro-courbes ; le sélecteur de période recalcule tout, totaux compris."
     },
     "height": 520
+  },
+  {
+    "file": "CohortRetentionTable",
+    "title": { "en": "Cohort retention table", "fr": "Tableau de rétention par cohorte" },
+    "summary": {
+      "en": "A retention triangle of weekly signup cohorts shaded by how many stay, with a weighted average row; switch plan or show people instead of percentages, and point at any cell to read it against the average.",
+      "fr": "Un triangle de rétention des cohortes d'inscription hebdomadaires, teinté selon la part qui reste, avec une ligne de moyenne pondérée ; changez d'offre ou affichez des personnes plutôt que des pourcentages, et survolez une cellule pour la comparer à la moyenne."
+    },
+    "height": 480
   }
 ]

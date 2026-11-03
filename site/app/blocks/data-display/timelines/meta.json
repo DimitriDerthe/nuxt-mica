@@ -7,5 +7,14 @@
       "fr": "Une vue de postmortem où un ruban proportionnel à la durée réelle des phases (détection, tri, atténuation, surveillance) filtre la chronologie, avec le pic d'erreurs de l'alerte et la décision clé citée sur place."
     },
     "height": 640
+  },
+  {
+    "file": "ShipmentTracker",
+    "title": { "en": "Shipment tracker", "fr": "Suivi de colis" },
+    "summary": {
+      "en": "An order split into parcels, each with a delivery estimate, a milestone track from ordered to delivered and a scan history that switches between key milestones and every carrier scan.",
+      "fr": "Une commande répartie en colis, chacun avec une estimation de livraison, une piste d'étapes de la commande à la livraison et un historique qui bascule entre les étapes clés et tous les scans du transporteur."
+    },
+    "height": 640
   }
 ]

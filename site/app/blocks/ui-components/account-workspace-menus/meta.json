@@ -7,5 +7,14 @@
       "fr": "Un sélecteur d'espace ouvert avec offres, nombre de membres et badges non lus, à côté d'un vrai menu de compte ; changer d'espace repeint la carte avec sa teinte, ses sièges et son équipe."
     },
     "height": 480
+  },
+  {
+    "file": "AccountStatusMenu",
+    "title": { "en": "Account and presence menu", "fr": "Menu de compte et de présence" },
+    "summary": {
+      "en": "An account menu open under its avatar: presence switch, status message, clear-after menu and notification pause, then account switching and sign out; the avatar dot follows your presence.",
+      "fr": "Un menu de compte ouvert sous son avatar : présence, message de statut, menu d'effacement et pause des notifications, puis changement de compte et déconnexion ; le point de l'avatar suit votre présence."
+    },
+    "height": 620
   }
 ]

@@ -112,7 +112,7 @@ const board = computed(() => (['To do', 'In progress', 'In review', 'Done'] as S
 </script>
 
 <style scoped>
-.vm { container-type: inline-size; display: grid; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); --pad: 14px; }
+.vm { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); --pad: 14px; }
 .vm--compact { --pad: 9px; }
 
 .vm__controls {

@@ -1,11 +1,26 @@
 [
   {
     "file": "TeamPresencePanel",
-    "title": { "en": "Team presence with time-zone overlap", "fr": "Présence d'équipe et chevauchement horaire" },
+    "title": {
+      "en": "Team presence with time-zone overlap",
+      "fr": "Présence d'équipe et chevauchement horaire"
+    },
     "summary": {
       "en": "Set your presence and status with a live preview, next to teammate cards whose 24-hour strips show exactly when your working days overlap.",
       "fr": "Définissez présence et statut avec aperçu en direct, à côté de cartes coéquipiers dont la bande de 24 heures montre quand vos journées se recouvrent."
     },
     "height": 480
+  },
+  {
+    "file": "OnCallStatusCard",
+    "title": {
+      "en": "On-call status panel",
+      "fr": "Panneau d’astreinte"
+    },
+    "summary": {
+      "en": "Who is on call now with presence and shift progress, a live page to acknowledge or escalate, the escalation chain that follows, and the next person in the rota.",
+      "fr": "Qui est d’astreinte avec sa présence et l’avancement du service, une alerte en cours à acquitter ou escalader, la chaîne d’escalade qui suit et la prochaine personne du planning."
+    },
+    "height": 520
   }
 ]

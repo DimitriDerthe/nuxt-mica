@@ -73,7 +73,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
+import { computed, reactive, ref, onBeforeUnmount } from 'vue'
+
+const timers = new Set<ReturnType<typeof setTimeout>>()
+function later(fn: () => void, ms: number) {
+  const t = setTimeout(() => { timers.delete(t); fn() }, ms)
+  timers.add(t)
+}
+onBeforeUnmount(() => { timers.forEach(clearTimeout); timers.clear() })
 
 const fingerprint = '<path d="M12 11v3a8 8 0 0 1-1.2 4.2"/><path d="M8.5 13.5a3.5 3.5 0 0 1 7 0V15a12 12 0 0 1-.6 3.8"/><path d="M5.6 16A9 9 0 0 1 5 13a7 7 0 0 1 12.6-4.2"/><path d="M19 12.5V14a15 15 0 0 1-.4 3.4"/><path d="M8 4.3A9.5 9.5 0 0 1 20.5 9"/>'
 
@@ -139,17 +146,17 @@ function submit() {
   busy.value = true
   done.value = false
   // UI demo only: nothing is sent anywhere.
-  setTimeout(() => { busy.value = false; done.value = true }, 900)
+  later(() => { busy.value = false; done.value = true }, 900)
 }
 function passkey() {
   busy.value = true
-  setTimeout(() => { busy.value = false; done.value = true }, 700)
+  later(() => { busy.value = false; done.value = true }, 700)
 }
 </script>
 
 <style scoped>
 .sic { container-type: inline-size; display: grid; min-height: 100%; font-family: var(--mi-font); color: var(--mi-label); background: var(--mi-page); }
-.sic__in { display: grid; }
+.sic__in { display: grid; grid-template-rows: auto 1fr; }
 .sic__form-side { display: grid; grid-template-rows: auto 1fr auto; gap: 28px; padding: 24px 20px; order: 2; }
 .sic__brand { display: flex; align-items: center; gap: 10px; }
 .sic__mark { width: 22px; height: 22px; border-radius: 7px; background: conic-gradient(from 210deg, var(--mi-p), var(--mi-s), var(--mi-p)); box-shadow: inset 0 0 0 5px color-mix(in srgb, var(--mi-page) 70%, transparent); }
@@ -178,7 +185,7 @@ function passkey() {
 .sic__quote { display: none; }
 
 @container (min-width: 760px) {
-  .sic__in { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); }
+  .sic__in { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); grid-template-rows: none; }
   .sic__form-side { order: 1; padding: 32px 44px; }
   .sic__art { order: 2; min-height: 0; margin: 12px; border-radius: 22px; box-shadow: inset 0 0 0 1px var(--mi-sep); }
   .sic__quote {

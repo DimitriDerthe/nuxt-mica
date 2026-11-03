@@ -7,5 +7,14 @@
       "fr": "Envoyez un CSV (ou l'exemple), associez ses colonnes aux champs avec des suggestions automatiques, puis vérifiez la jauge des lignes prêtes, invalides et en double avant d'importer."
     },
     "height": 460
+  },
+  {
+    "file": "InvoiceExtractReview",
+    "title": { "en": "Invoice extraction review", "fr": "Vérification d'une facture extraite" },
+    "summary": {
+      "en": "Drop a supplier invoice and review the extracted fields beside a faux page: each field shows its confidence, focusing it lights its region, and unsure ones need a confirmation before posting.",
+      "fr": "Déposez une facture fournisseur et vérifiez les champs extraits à côté d'une fausse page : chaque champ affiche sa confiance, le focus éclaire sa zone, et les champs incertains demandent une confirmation avant comptabilisation."
+    },
+    "height": 600
   }
 ]

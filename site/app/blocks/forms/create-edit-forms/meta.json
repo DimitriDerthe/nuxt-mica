@@ -7,5 +7,14 @@
       "fr": "Une fiche qui s'affiche en détails, se modifie sur place ou démarre vide pour un nouveau membre ; les prestataires font apparaître une date de fin, et l'enregistrement passe par une revue des différences avec annulation possible."
     },
     "height": 560
+  },
+  {
+    "file": "ProductVariantEditor",
+    "title": { "en": "Product with variants", "fr": "Produit avec déclinaisons" },
+    "summary": {
+      "en": "Create a product whose size and color tags generate the variant table; each line gets its own SKU, price, stock and on-sale toggle, and the footer flags lines on sale with no stock.",
+      "fr": "Créez un produit dont les étiquettes de taille et de couleur génèrent le tableau des déclinaisons ; chaque ligne a sa référence, son prix, son stock et sa mise en vente, et le pied signale les lignes en vente sans stock."
+    },
+    "height": 640
   }
 ]

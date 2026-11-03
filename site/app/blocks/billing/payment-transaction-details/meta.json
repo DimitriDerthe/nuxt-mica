@@ -7,5 +7,14 @@
       "fr": "Un paiement par carte de bout en bout : montant et statut, barre répartissant brut, net, frais et remboursements, détails, chronologie et remboursement partiel validé qui met tout à jour."
     },
     "height": 640
+  },
+  {
+    "file": "DisputeEvidencePanel",
+    "title": { "en": "Chargeback dispute with evidence", "fr": "Litige de paiement avec justificatifs" },
+    "summary": {
+      "en": "A disputed charge with its response window, an evidence checklist where required items gate submission, a written summary for the bank and an under-review state.",
+      "fr": "Un paiement contesté avec son délai de réponse, une liste de justificatifs dont les pièces obligatoires conditionnent l’envoi, un résumé pour la banque et un état en cours d’examen."
+    },
+    "height": 600
   }
 ]

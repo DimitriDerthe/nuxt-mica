@@ -7,5 +7,14 @@
       "fr": "Un formulaire de carte dans un dialogue sur la page de facturation : le numéro se met en forme et détecte le réseau, une mini carte le reflète, et date, CVC et somme de contrôle sont validés."
     },
     "height": 660
+  },
+  {
+    "file": "SepaMandateDialog",
+    "title": { "en": "Bank account and SEPA mandate dialog", "fr": "Dialogue compte bancaire et mandat SEPA" },
+    "summary": {
+      "en": "A two-step dialog over the billing page: the IBAN formats, detects its country and passes a mod-97 checksum, then the customer reviews and signs the direct debit mandate.",
+      "fr": "Un dialogue en deux étapes sur la page de facturation : l’IBAN se met en forme, détecte son pays et passe la clé mod-97, puis le client relit et signe le mandat de prélèvement."
+    },
+    "height": 620
   }
 ]

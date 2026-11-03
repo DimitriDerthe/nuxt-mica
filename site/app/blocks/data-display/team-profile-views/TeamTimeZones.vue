@@ -110,7 +110,7 @@ const workingNow = computed(() => shown.value.filter(p => p.state === 'work').le
 </script>
 
 <style scoped>
-.tz { container-type: inline-size; display: grid; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
+.tz { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
 .tz__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .tz__chips { display: flex; flex-wrap: wrap; gap: 6px; }
 

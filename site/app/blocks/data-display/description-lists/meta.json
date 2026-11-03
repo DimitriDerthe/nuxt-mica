@@ -7,5 +7,14 @@
       "fr": "Deux listes de description pour un contrat client, avec identifiants copiables et édition en place ; les modifications sont surlignées avec l'ancienne valeur, les montants dérivés se recalculent et un plateau les regroupe jusqu'à l'enregistrement ou l'abandon."
     },
     "height": 560
+  },
+  {
+    "file": "InstanceSpecSheet",
+    "title": { "en": "Searchable instance spec sheet", "fr": "Fiche technique d'instance consultable" },
+    "summary": {
+      "en": "A cloud server's specs in three description lists (compute, network, storage) with a search that narrows every list at once, copy buttons on IDs and IPs, and the whole sheet copyable as YAML.",
+      "fr": "Les caractéristiques d'un serveur cloud en trois listes de description (calcul, réseau, stockage), avec une recherche qui filtre toutes les listes à la fois, des boutons de copie sur les identifiants et IP, et toute la fiche copiable en YAML."
+    },
+    "height": 560
   }
 ]

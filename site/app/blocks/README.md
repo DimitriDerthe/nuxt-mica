@@ -1,7 +1,7 @@
 # Application UI blocks
 
 Ready-made application sections built only with Mica components, shown at `/blocks` on the site.
-Families and categories are listed in `catalog.ts`; each category folder holds its blocks and a `meta.json`.
+Families and categories are listed in `catalog.ts`; each category folder holds two to four blocks (distinct proposals, not restyles) and a `meta.json`.
 
 ```
 site/app/blocks/<family>/<category>/<BlockName>.vue

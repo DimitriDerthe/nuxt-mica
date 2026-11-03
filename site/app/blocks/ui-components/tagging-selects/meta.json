@@ -7,5 +7,14 @@
       "fr": "Un combobox multiple et un sélecteur d'étiquettes ouvert partagent les mêmes étiquettes colorées, avec des groupes exclusifs qui remplacent l'étiquette sœur, plus un champ de mots-clés validé."
     },
     "height": 500
+  },
+  {
+    "file": "BulkAssetTagger",
+    "title": { "en": "Bulk photo tagger", "fr": "Étiquetage groupé de photos" },
+    "summary": {
+      "en": "Select several photos and tag them at once: each tag shows checked, mixed or empty for the selection, and typing a new name creates and applies it.",
+      "fr": "Sélectionnez plusieurs photos et étiquetez-les d'un coup : chaque étiquette est cochée, mixte ou vide selon la sélection, et un nouveau nom saisi est créé puis appliqué."
+    },
+    "height": 560
   }
 ]

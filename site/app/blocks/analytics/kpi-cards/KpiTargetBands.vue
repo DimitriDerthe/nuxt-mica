@@ -198,7 +198,7 @@ const view = computed(() => metrics.map((m) => {
 </script>
 
 <style scoped>
-.ktb { container-type: inline-size; display: grid; gap: 18px; font-family: var(--mi-font); color: var(--mi-label); }
+.ktb { container-type: inline-size; display: grid; align-content: start; gap: 18px; font-family: var(--mi-font); color: var(--mi-label); }
 .ktb__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 10px 20px; }
 .ktb__intro { display: grid; gap: 2px; }
 .ktb__key { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12px; color: var(--mi-label2); }

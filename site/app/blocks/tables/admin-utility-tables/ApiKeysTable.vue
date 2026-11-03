@@ -135,7 +135,7 @@ const rotate = (id: string) => {
 </script>
 
 <style scoped>
-.aky { container-type: inline-size; display: grid; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
+.aky { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
 .aky__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .aky__tools { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 

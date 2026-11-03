@@ -8,5 +8,15 @@
     },
     "height": 520,
     "stage": "bleed"
+  },
+  {
+    "file": "RepoSecondaryNav",
+    "title": { "en": "Repository tab nav", "fr": "Navigation à onglets de dépôt" },
+    "summary": {
+      "en": "A code repository header with watch and star toggles and underline tabs carrying counts and a failing-build dot; narrow widths swap the tabs for a single select.",
+      "fr": "Un en-tête de dépôt de code avec boutons suivre et étoile, et des onglets soulignés portant compteurs et point de build en échec ; en largeur réduite, une seule liste déroulante remplace les onglets."
+    },
+    "height": 520,
+    "stage": "bleed"
   }
 ]

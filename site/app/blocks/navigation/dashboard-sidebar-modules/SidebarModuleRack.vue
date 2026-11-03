@@ -174,7 +174,7 @@ const presence = computed(() => {
 </script>
 
 <style scoped>
-.smr { container-type: inline-size; display: grid; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
+.smr { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
 .smr__head { display: grid; gap: 2px; }
 .smr__grid { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); align-items: stretch; }
 @container (min-width: 620px) { .smr__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }

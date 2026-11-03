@@ -57,7 +57,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onBeforeUnmount, ref } from 'vue'
 
 const fingerprint = '<path d="M12 11v3a8 8 0 0 1-1.2 4.2"/><path d="M8.5 13.5a3.5 3.5 0 0 1 7 0V15a12 12 0 0 1-.6 3.8"/><path d="M5.6 16A9 9 0 0 1 5 13a7 7 0 0 1 12.6-4.2"/><path d="M19 12.5V14a15 15 0 0 1-.4 3.4"/><path d="M8 4.3A9.5 9.5 0 0 1 20.5 9"/>'
 
@@ -74,21 +74,24 @@ const error = ref('')
 const busy = ref(false)
 const elevated = ref(false)
 
+let timer: ReturnType<typeof setTimeout> | undefined
+onBeforeUnmount(() => clearTimeout(timer))
+
 function finish() { busy.value = false; elevated.value = true; open.value = false }
 function confirm() {
   if (!password.value) { error.value = 'Enter your password to continue.'; return }
   busy.value = true
-  setTimeout(() => {
+  timer = setTimeout(() => {
     if (password.value !== 'tidewater') { busy.value = false; error.value = 'Incorrect password. 4 attempts left before a 15-minute lock.'; return }
     finish()
   }, 650)
 }
-function usePasskey() { busy.value = true; setTimeout(finish, 900) }
+function usePasskey() { busy.value = true; timer = setTimeout(finish, 900) }
 function reset() { elevated.value = false; password.value = ''; error.value = ''; open.value = true }
 </script>
 
 <style scoped>
-.sua { container-type: inline-size; position: relative; display: grid; min-height: 100%; font-family: var(--mi-font); color: var(--mi-label); }
+.sua { container-type: inline-size; position: relative; display: grid; align-content: start; min-height: 100%; font-family: var(--mi-font); color: var(--mi-label); }
 .sua__page { display: grid; align-content: start; gap: 14px; padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
 .sua__page-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
 .sua__keys { display: grid; margin: 0; padding: 0; list-style: none; }

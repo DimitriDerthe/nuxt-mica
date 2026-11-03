@@ -9,9 +9,10 @@ const read = (b: typeof all[number]) => readFileSync(join(process.cwd(), 'site/a
 const style = (src: string) => src.match(/<style[^>]*>([\s\S]*?)<\/style>/)?.[1] ?? ''
 
 describe('application UI blocks', () => {
-  it('gives every category at least one block', () => {
-    const empty = owned.filter(o => !blocksOf(o.family, o.category.id).length).map(o => `${o.family}/${o.category.id}`)
-    expect(empty).toEqual([])
+  it('gives every category two to four blocks', () => {
+    const off = owned.map(o => ({ at: `${o.family}/${o.category.id}`, n: blocksOf(o.family, o.category.id).length }))
+      .filter(o => o.n < 2 || o.n > 4).map(o => `${o.at}: ${o.n}`)
+    expect(off).toEqual([])
   })
 
   it('keeps category ids unique within each family', () => {
@@ -45,6 +46,37 @@ describe('application UI blocks', () => {
       expect(css, `${at} uses a viewport media query for layout`).not.toMatch(/@media\s*\((min|max)-width/)
       expect(css, `${at} must be a size container`).toMatch(/container(-type)?:\s*([\w-]+\s*\/\s*)?inline-size/)
     }
+  })
+
+  it('never injects raw HTML or evaluates strings', () => {
+    const bad = all.flatMap((b) => {
+      const src = read(b)
+      const at = `${b.family}/${b.category.id}/${b.meta.file}`
+      const hits = [/\bv-html\b/, /\.(inner|outer)HTML\b/, /\beval\s*\(/, /\bnew Function\b/, /document\.write/].filter(r => r.test(src)).map(r => `${at}: ${r}`)
+      const blank = (src.match(/<a\b[^>]*target="_blank"[^>]*>/g) ?? []).filter(a => !/rel="[^"]*noopener/.test(a)).map(() => `${at}: target=_blank without rel=noopener`)
+      return [...hits, ...blank]
+    })
+    expect(bad).toEqual([])
+  })
+
+  it('clears every timer it starts', () => {
+    const bad = all.filter((b) => {
+      const src = read(b)
+      return /\bset(Timeout|Interval)\s*\(/.test(src) && !/\bclear(Timeout|Interval)\b/.test(src)
+    }).map(b => `${b.family}/${b.category.id}/${b.meta.file}`)
+    expect(bad).toEqual([])
+  })
+
+  it('keeps padded root grids from stretching their rows', () => {
+    // The preview frame (and many app layouts) give a block more height than it needs: a root grid
+    // without align-content spreads that space between its rows, opening gaps when content shrinks.
+    const bad = all.filter(b => b.meta.stage !== 'bleed').flatMap((b) => {
+      const src = read(b)
+      const root = src.match(/<template>\s*(?:<!--[\s\S]*?-->\s*)*<[a-zA-Z-]+[^>]*?\sclass="([\w-]+)/)?.[1]
+      const rule = style(src).match(new RegExp(`(^|\\n)\\.${root}\\s*\\{([^}]*)\\}`))?.[2] ?? ''
+      return /display:\s*grid/.test(rule) && !/align-content|place-content|grid-template(-rows)?:/.test(rule) ? [`${b.family}/${b.category.id}/${b.meta.file}`] : []
+    })
+    expect(bad).toEqual([])
   })
 
   it('animates only compositor-friendly properties', () => {

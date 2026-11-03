@@ -1,11 +1,26 @@
 [
   {
     "file": "EdgeLatencyWatch",
-    "title": { "en": "Edge latency watch", "fr": "Veille de latence edge" },
+    "title": {
+      "en": "Edge latency watch",
+      "fr": "Veille de latence edge"
+    },
     "summary": {
       "en": "A region watchlist with a sparkline per row, p95 change and an SLO headroom bar; sort, filter to degraded regions and switch the window, with rows sliding into their new order.",
       "fr": "Une liste de régions à surveiller avec un micro-graphique par ligne, l'évolution du p95 et une barre de marge sur le SLO ; triez, filtrez les régions dégradées et changez la fenêtre, les lignes glissant à leur nouvelle place."
     },
     "height": 560
+  },
+  {
+    "file": "SubscriptionSmallMultiples",
+    "title": {
+      "en": "Subscription small multiples",
+      "fr": "Multiples de l’abonnement"
+    },
+    "summary": {
+      "en": "Six daily sparkline tiles share one cursor: point at any chart or drag the scrubber and every tile reads its value and change on that same day.",
+      "fr": "Six tuiles de micro-graphiques quotidiens partagent un même curseur : pointez un graphique ou faites glisser la réglette et chaque tuile affiche sa valeur et son évolution ce jour-là."
+    },
+    "height": 480
   }
 ]

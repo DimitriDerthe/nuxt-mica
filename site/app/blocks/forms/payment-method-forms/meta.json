@@ -7,5 +7,14 @@
       "fr": "Une carte en direct qui prend la couleur de la marque détectée et se retourne pour le code de sécurité, un masque de numéro groupé par marque avec contrôle de Luhn, et un onglet SEPA qui vérifie la longueur et la clé de l'IBAN. Interface seule, avec numéros de test."
     },
     "height": 520
+  },
+  {
+    "file": "CheckoutMethodPicker",
+    "title": { "en": "Checkout payment method picker", "fr": "Choix du moyen de paiement au paiement" },
+    "summary": {
+      "en": "Radio cards for phone wallet, saved card, pay in 4 and bank transfer, each revealing only what it needs: a security code, an installment schedule or copyable transfer details, with a pay button that adapts.",
+      "fr": "Des cartes radio pour portefeuille mobile, carte enregistrée, paiement en 4 fois et virement, chacune n'affichant que l'essentiel : code de sécurité, échéancier ou coordonnées de virement à copier, avec un bouton de paiement qui s'adapte."
+    },
+    "height": 620
   }
 ]

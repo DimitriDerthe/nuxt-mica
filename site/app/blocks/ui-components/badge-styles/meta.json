@@ -7,5 +7,14 @@
       "fr": "Badges pleins, teintés, contour, à point, compteurs et ancrés dans un journal de versions où chaque style a un sens ; les compteurs pilotent les filtres et les points non lus s'effacent."
     },
     "height": 560
+  },
+  {
+    "file": "InboxCountBadges",
+    "title": { "en": "Inbox count and label badges", "fr": "Badges de compteur et d'étiquette d'une boîte de réception" },
+    "summary": {
+      "en": "A support inbox where folder counts cap at 9+ or 99+, presence dots sit on agent avatars and label badges mark VIP, urgent or external mail; reading a message brings every count down.",
+      "fr": "Une boîte de support où les compteurs de dossiers plafonnent à 9+ ou 99+, des points de présence ornent les avatars et des badges marquent les mails VIP, urgents ou externes ; lire un message fait baisser chaque compteur."
+    },
+    "height": 520
   }
 ]

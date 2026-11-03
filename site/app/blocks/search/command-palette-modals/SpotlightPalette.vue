@@ -241,7 +241,7 @@ function onKey(e: KeyboardEvent) {
 </script>
 
 <style scoped>
-.spot { container-type: inline-size; display: grid; font-family: var(--mi-font); color: var(--mi-label); }
+.spot { container-type: inline-size; display: grid; align-content: start; font-family: var(--mi-font); color: var(--mi-label); }
 .spot__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
 .spot__stage { position: relative; display: grid; place-items: start center; min-height: 520px; padding: 40px 12px 96px; border-radius: var(--mi-radius-xl); overflow: hidden; isolation: isolate; background: var(--mi-page); }

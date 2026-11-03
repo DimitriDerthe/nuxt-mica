@@ -59,7 +59,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, onBeforeUnmount } from 'vue'
+
+const timers = new Set<ReturnType<typeof setTimeout>>()
+function later(fn: () => void, ms: number) {
+  const t = setTimeout(() => { timers.delete(t); fn() }, ms)
+  timers.add(t)
+}
+onBeforeUnmount(() => { timers.forEach(clearTimeout); timers.clear() })
 
 const gross = 1248
 const cardFee = Math.round((gross * 0.015 + 0.25) * 100) / 100
@@ -107,7 +114,7 @@ function refund() {
   if (!Number.isFinite(v) || v <= 0) { error.value = 'Enter an amount above €0.'; return }
   if (v > refundable.value) { error.value = `You can refund up to ${eur(refundable.value)}.`; return }
   busy.value = true
-  setTimeout(() => {
+  later(() => {
     busy.value = false
     refunded.value = Math.round((refunded.value + v) * 100) / 100
     refunds.value.push({ amount: v, reason: reasons.find(r => r.value === reason.value)?.label ?? '' })
@@ -117,7 +124,7 @@ function refund() {
 </script>
 
 <style scoped>
-.tmt { container-type: inline-size; display: grid; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
+.tmt { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
 .tmt__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 14px; padding: 20px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
 .tmt__amount-block { display: grid; gap: 4px; }
 .tmt__status-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }

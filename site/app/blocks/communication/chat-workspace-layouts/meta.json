@@ -11,5 +11,18 @@
     },
     "height": 660,
     "stage": "bleed"
+  },
+  {
+    "file": "TopicThreadsWorkspace",
+    "title": {
+      "en": "Stream with topic threads",
+      "fr": "Flux avec fils par sujet"
+    },
+    "summary": {
+      "en": "A channel split into named topics: filter open or resolved, read one topic at a time and resolve it when settled; replying reopens it.",
+      "fr": "Un canal découpé en sujets nommés : filtrez ouverts ou résolus, lisez un sujet à la fois et résolvez-le une fois réglé ; répondre le rouvre."
+    },
+    "height": 640,
+    "stage": "bleed"
   }
 ]

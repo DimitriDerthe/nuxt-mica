@@ -7,5 +7,14 @@
       "fr": "Un menu de boutique ouvert avec rayons et coffret mis en avant, et un mini panier ouvert dont quantités, jauge de livraison offerte et totaux suivent le menu de devise."
     },
     "height": 520
+  },
+  {
+    "file": "CatalogFilterMenus",
+    "title": { "en": "Catalog sort and filter menus", "fr": "Menus de tri et de filtre de catalogue" },
+    "summary": {
+      "en": "A category page with a sort menu and a filter popover open in place: price range, sizes and colour narrow the product grid live, and the trigger counts the active filters.",
+      "fr": "Une page de catégorie avec un menu de tri et un popover de filtres ouvert : fourchette de prix, tailles et couleur affinent la grille de produits en direct, et le déclencheur compte les filtres actifs."
+    },
+    "height": 600
   }
 ]

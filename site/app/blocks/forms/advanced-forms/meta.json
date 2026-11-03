@@ -7,5 +7,14 @@
       "fr": "Un formulaire d'incident conditionnel : la sévérité pilote l'accent et verrouille l'astreinte, le message public n'apparaît que s'il est publié, et un aperçu en direct avec une liste de préparation suit ce qui manque."
     },
     "height": 640
+  },
+  {
+    "file": "AutomationRuleBuilder",
+    "title": { "en": "When, if, then rule builder", "fr": "Constructeur de règles quand, si, alors" },
+    "summary": {
+      "en": "A routing rule built from a trigger, repeatable conditions joined by all or any, and an action; the rule reads back as a plain sentence and a dry run marks which recent deals it would catch.",
+      "fr": "Une règle de routage composée d'un déclencheur, de conditions répétables reliées par « toutes » ou « au moins une », et d'une action ; la règle se relit en phrase simple et un test à blanc montre les affaires récentes qu'elle capterait."
+    },
+    "height": 620
   }
 ]

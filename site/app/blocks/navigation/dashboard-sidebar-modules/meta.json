@@ -7,5 +7,14 @@
       "fr": "Sélecteur d'espace, liste de démarrage avec anneau de progression, jauges d'usage du forfait, carte de nouveautés masquable et sélecteur de présence, chacun dans la tranche de barre latérale où il vit."
     },
     "height": 560
+  },
+  {
+    "file": "SidebarUtilityModules",
+    "title": { "en": "Sidebar utility modules", "fr": "Modules utilitaires de barre latérale" },
+    "summary": {
+      "en": "Pinned views you can reorder and unpin, the next meetings with a join button, a quick-capture note that lands in the inbox, and a trial card that counts days as cells.",
+      "fr": "Vues épinglées à réordonner ou retirer, prochaines réunions avec bouton pour rejoindre, prise de note rapide envoyée dans la boîte de réception, et carte d'essai qui compte les jours en cases."
+    },
+    "height": 460
   }
 ]

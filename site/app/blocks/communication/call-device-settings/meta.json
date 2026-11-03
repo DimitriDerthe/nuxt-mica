@@ -10,5 +10,17 @@
       "fr": "Aperçu caméra avec miroir et flou, niveau micro selon l’appareil et le volume, test des haut-parleurs et effets audio."
     },
     "height": 640
+  },
+  {
+    "file": "CallQualityPanel",
+    "title": {
+      "en": "In-call quality and bandwidth",
+      "fr": "Qualité et bande passante en appel"
+    },
+    "summary": {
+      "en": "Latency, loss and jitter against their thresholds, a measured upload that disables resolutions it cannot carry, incoming video choices and a live data-per-hour estimate.",
+      "fr": "Latence, perte et gigue face à leurs seuils, un débit montant mesuré qui désactive les résolutions trop lourdes, le choix de la vidéo reçue et une estimation des données par heure."
+    },
+    "height": 560
   }
 ]

@@ -7,5 +7,14 @@
       "fr": "Un éditeur de ticket qui bascule entre réponse client et note interne (le champ devient un post-it), insère des réponses enregistrées, joint des fichiers et repère une pièce jointe annoncée mais absente avant l'envoi."
     },
     "height": 600
+  },
+  {
+    "file": "ChannelMentionComposer",
+    "title": { "en": "Channel composer with mentions", "fr": "Éditeur de canal avec mentions" },
+    "summary": {
+      "en": "A team channel composer: typing @ opens a keyboard-driven member list, Enter sends and highlights mentions in the feed, and a calendar menu schedules the message for later.",
+      "fr": "Un éditeur de canal d'équipe : taper @ ouvre une liste de membres pilotable au clavier, Entrée envoie et surligne les mentions dans le fil, et un menu calendrier programme le message pour plus tard."
+    },
+    "height": 520
   }
 ]

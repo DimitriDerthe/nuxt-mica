@@ -149,7 +149,7 @@ function publish() {
 </script>
 
 <style scoped>
-.rne { container: rne / inline-size; display: grid; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
+.rne { container: rne / inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
 .rne__head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; }
 .rne__crumbs { display: grid; gap: 2px; }
 .rne__status { display: flex; align-items: center; gap: 10px; }

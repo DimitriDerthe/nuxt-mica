@@ -10,5 +10,17 @@
       "fr": "Cartes de contact avec heure locale, disponibilité et chevauchement de la journée de travail ; tri par chevauchement ou par nom."
     },
     "height": 460
+  },
+  {
+    "file": "KeepInTouchCards",
+    "title": {
+      "en": "Keep-in-touch cards",
+      "fr": "Cartes de suivi relationnel"
+    },
+    "summary": {
+      "en": "Contacts sorted by how overdue a catch-up is against each cadence, with a time-since meter and a one-tap log.",
+      "fr": "Contacts triés selon le retard de prise de nouvelles par rapport à leur rythme, avec jauge du temps écoulé et suivi en un geste."
+    },
+    "height": 520
   }
 ]

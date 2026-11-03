@@ -11,5 +11,18 @@
     },
     "height": 680,
     "stage": "bleed"
+  },
+  {
+    "file": "CustomerOrdersDetail",
+    "title": {
+      "en": "Customer with order history",
+      "fr": "Client avec historique de commandes"
+    },
+    "summary": {
+      "en": "Customer header with lifetime stats over an order list; each order shows items, shipping facts and history, with refund and resend actions.",
+      "fr": "En-tête client avec statistiques au-dessus de la liste des commandes ; chaque commande montre articles, livraison et historique, avec remboursement et renvoi."
+    },
+    "height": 680,
+    "stage": "bleed"
   }
 ]

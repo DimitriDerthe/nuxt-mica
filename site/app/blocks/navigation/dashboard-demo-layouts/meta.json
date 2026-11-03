@@ -8,5 +8,15 @@
     },
     "height": 700,
     "stage": "bleed"
+  },
+  {
+    "file": "BistroServiceDashboard",
+    "title": { "en": "Restaurant service dashboard", "fr": "Tableau de bord de service en salle" },
+    "summary": {
+      "en": "A top-navigation dashboard for a restaurant: a venue switch that swaps every figure, covers by hour, arriving bookings you can seat, a filtered bookings list and a floor plan whose tables cycle state.",
+      "fr": "Un tableau de bord à navigation supérieure pour un restaurant : choix d'établissement qui change chaque chiffre, couverts par heure, réservations à installer, liste filtrable et plan de salle dont les tables changent d'état."
+    },
+    "height": 700,
+    "stage": "bleed"
   }
 ]

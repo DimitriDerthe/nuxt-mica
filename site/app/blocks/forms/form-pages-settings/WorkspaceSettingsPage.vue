@@ -94,7 +94,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
+import { computed, reactive, ref, onBeforeUnmount } from 'vue'
+
+const timers = new Set<ReturnType<typeof setTimeout>>()
+function later(fn: () => void, ms: number) {
+  const t = setTimeout(() => { timers.delete(t); fn() }, ms)
+  timers.add(t)
+}
+onBeforeUnmount(() => { timers.forEach(clearTimeout); timers.clear() })
 
 type Val = string | number
 type SectionId = 'general' | 'region' | 'security'
@@ -197,12 +204,12 @@ function save() {
   if (bad) { active.value = fields[bad]!.section; return }
   if (!dirtyKeys.value.length) return
   saving.value = true
-  setTimeout(() => {
+  later(() => {
     saved.value = JSON.parse(JSON.stringify(draft)) as Settings
     saving.value = false
     submitted.value = false
     justSaved.value = true
-    setTimeout(() => { justSaved.value = false }, 2600)
+    later(() => { justSaved.value = false }, 2600)
   }, 600)
 }
 
@@ -213,7 +220,7 @@ function discard() {
 </script>
 
 <style scoped>
-.wss { container: wss / inline-size; display: grid; gap: 18px; font-family: var(--mi-font); color: var(--mi-label); }
+.wss { container: wss / inline-size; display: grid; align-content: start; gap: 18px; font-family: var(--mi-font); color: var(--mi-label); }
 .wss__head { display: grid; gap: 2px; }
 .wss__layout { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); align-items: start; }
 @container wss (min-width: 760px) { .wss__layout { grid-template-columns: 200px minmax(0, 1fr); gap: 24px; } }
@@ -231,7 +238,7 @@ function discard() {
 .wss__flag { width: 7px; height: 7px; border-radius: 50%; background: var(--mi-p); }
 .wss__flag.is-err { background: var(--mi-red); }
 
-.wss__main { display: grid; gap: 14px; min-width: 0; }
+.wss__main { display: grid; align-content: start; gap: 14px; min-width: 0; }
 .wss__switch { display: flex; align-items: center; gap: 12px; }
 
 .wss__bar {

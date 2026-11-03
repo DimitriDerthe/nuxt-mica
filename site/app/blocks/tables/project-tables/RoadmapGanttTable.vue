@@ -132,7 +132,7 @@ const columns = [
 </script>
 
 <style scoped>
-.rgt { container-type: inline-size; display: grid; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
+.rgt { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
 .rgt__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .rgt__tools { display: flex; flex-wrap: wrap; gap: 8px; }
 

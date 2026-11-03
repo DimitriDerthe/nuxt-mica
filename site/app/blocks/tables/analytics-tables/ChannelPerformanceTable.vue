@@ -119,7 +119,7 @@ const delta = (a: number, b: number) => { const d = ((a - b) / b) * 100; return 
 </script>
 
 <style scoped>
-.cpt { container-type: inline-size; display: grid; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
+.cpt { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
 .cpt__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 
 .cpt__totals { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; margin: 0; border-radius: var(--mi-radius-l); overflow: hidden; background: var(--mi-sep); box-shadow: var(--mi-sh1); }

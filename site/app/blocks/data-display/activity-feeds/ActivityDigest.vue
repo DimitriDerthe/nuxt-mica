@@ -111,7 +111,7 @@ const toggle = (id: string) => {
 </script>
 
 <style scoped>
-.act { container-type: inline-size; display: grid; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
+.act { container-type: inline-size; display: grid; align-content: start; gap: 14px; font-family: var(--mi-font); color: var(--mi-label); }
 .act__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 20px; }
 .act__week { display: flex; flex-direction: row-reverse; gap: 4px; }
 .act__day { display: grid; justify-items: center; gap: 4px; width: 34px; padding: 4px 0; border: 0; border-radius: 8px; background: none; font: inherit; color: var(--mi-label2); cursor: pointer; }

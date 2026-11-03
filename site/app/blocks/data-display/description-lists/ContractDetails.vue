@@ -111,7 +111,7 @@ const save = () => { const n = pending.value.length; Object.assign(base, values)
 </script>
 
 <style scoped>
-.ctr { container-type: inline-size; position: relative; display: grid; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
+.ctr { container-type: inline-size; position: relative; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
 .ctr__head { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 12px; }
 .ctr__title { min-width: 0; }
 .ctr__cols { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }

@@ -7,5 +7,14 @@
       "fr": "Six cartes d'action avec des raccourcis à une touche actifs quand le panneau a le focus, une liste épinglable d'endroits où reprendre, et l'historique de ce que vous venez d'utiliser."
     },
     "height": 460
+  },
+  {
+    "file": "SuggestedActionsFeed",
+    "title": { "en": "Suggested actions feed", "fr": "Fil d'actions suggérées" },
+    "summary": {
+      "en": "Action cards raised by what changed in the account, each with its impact, a one-click fix, a snooze and an undo, filtered by area while a meter counts what is handled.",
+      "fr": "Des cartes d'action issues de ce qui a changé dans le compte, chacune avec son impact, une correction en un clic, un report et une annulation, filtrées par domaine pendant qu'une jauge compte ce qui est traité."
+    },
+    "height": 520
   }
 ]

@@ -11,5 +11,18 @@
     },
     "height": 660,
     "stage": "bleed"
+  },
+  {
+    "file": "TriageDeckInbox",
+    "title": {
+      "en": "One-at-a-time triage inbox",
+      "fr": "Boîte de tri un e-mail à la fois"
+    },
+    "summary": {
+      "en": "Unread mail as a deck: archive, keep for later or reply with a click or a key, with progress, an up-next queue and undo.",
+      "fr": "Les e-mails non lus en pile : archivez, gardez pour plus tard ou répondez d’un clic ou d’une touche, avec progression, file suivante et annulation."
+    },
+    "height": 600,
+    "stage": "bleed"
   }
 ]

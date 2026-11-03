@@ -1,11 +1,26 @@
 [
   {
     "file": "SupportLoadBars",
-    "title": { "en": "Support load by hour", "fr": "Charge du support par heure" },
+    "title": {
+      "en": "Support load by hour",
+      "fr": "Charge du support par heure"
+    },
     "summary": {
       "en": "Tickets per 2-hour window against staffed capacity: windows over capacity turn to the accent color and the panel suggests the rota move that closes the worst gap.",
       "fr": "Tickets par créneau de 2 heures face à la capacité staffée : les créneaux en dépassement passent en couleur d'accent et le panneau propose le changement de planning qui comble le pire écart."
     },
     "height": 440
+  },
+  {
+    "file": "BudgetVarianceBars",
+    "title": {
+      "en": "Budget variance bars",
+      "fr": "Écarts au budget en barres"
+    },
+    "summary": {
+      "en": "Diverging bars show each department over or under plan for the quarter; sort by variance or budget, and pick a row to see its meter and the reason behind the gap.",
+      "fr": "Des barres divergentes montrent chaque service au-dessus ou en dessous du plan pour le trimestre ; triez par écart ou par budget, et choisissez une ligne pour voir sa jauge et la raison de l’écart."
+    },
+    "height": 480
   }
 ]

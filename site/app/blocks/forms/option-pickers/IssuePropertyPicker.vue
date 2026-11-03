@@ -141,7 +141,7 @@ function createLabel() {
 </script>
 
 <style scoped>
-.ipp { container: ipp / inline-size; display: grid; justify-items: center; font-family: var(--mi-font); color: var(--mi-label); }
+.ipp { container: ipp / inline-size; display: grid; align-content: start; justify-items: center; font-family: var(--mi-font); color: var(--mi-label); }
 .ipp__card { display: grid; gap: 14px; width: 100%; max-width: 440px; padding: 18px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
 .ipp__head { display: grid; gap: 2px; padding-bottom: 12px; border-bottom: 1px solid var(--mi-sep); }
 .ipp__props { display: grid; gap: 4px; margin: 0; }

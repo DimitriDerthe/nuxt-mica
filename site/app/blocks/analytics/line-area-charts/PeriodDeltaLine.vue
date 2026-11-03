@@ -190,7 +190,7 @@ const onKey = (e: KeyboardEvent) => {
 </script>
 
 <style scoped>
-.pdl { container-type: inline-size; display: grid; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
+.pdl { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
 .pdl__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .pdl__intro { display: grid; gap: 2px; }
 .pdl__card { display: grid; gap: 18px; padding: 20px 20px 16px; border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }

@@ -100,7 +100,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, onBeforeUnmount } from 'vue'
+
+const timers = new Set<ReturnType<typeof setTimeout>>()
+function later(fn: () => void, ms: number) {
+  const t = setTimeout(() => { timers.delete(t); fn() }, ms)
+  timers.add(t)
+}
+onBeforeUnmount(() => { timers.forEach(clearTimeout); timers.clear() })
 
 type PlanId = 'starter' | 'team' | 'business'
 type QuotaId = 'seats' | 'projects' | 'storage'
@@ -173,7 +180,7 @@ const doneNote = ref('')
 function confirm() {
   if (blockers.value.length) return
   busy.value = true
-  setTimeout(() => {
+  later(() => {
     busy.value = false
     if (timing.value === 'now') {
       doneNote.value = `${next.value.name} is active. A receipt for ${eur(due.value, 2)} is on its way to billing@kestrel.studio.`

@@ -1,10 +1,25 @@
 [
   {
     "file": "FlowColumnHeadings",
-    "title": { "en": "Stage headings with capacity slots", "fr": "En-têtes d'étape avec cases de capacité" },
+    "title": {
+      "en": "Stage headings with capacity slots",
+      "fr": "En-têtes d'étape avec cases de capacité"
+    },
     "summary": {
       "en": "Kanban column headings that show work in progress as slots, overflow striped past the limit, with cycle time and its trend, owners and a working actions menu; columns collapse into slim vertical spines.",
       "fr": "Des en-têtes de colonne kanban qui montrent l'encours sous forme de cases, le dépassement hachuré au-delà de la limite, avec temps de cycle et tendance, responsables et menu d'actions fonctionnel ; les colonnes se replient en fines tranches verticales."
+    },
+    "height": 440
+  },
+  {
+    "file": "EpicLaneHeadings",
+    "title": {
+      "en": "Epic lane headings with forecast",
+      "fr": "En-têtes de couloir par épopée avec prévision"
+    },
+    "summary": {
+      "en": "Horizontal group headings per epic: progress split by status, a velocity forecast that flags epics due too soon, owners and an add button; lanes expand into their tasks.",
+      "fr": "Des en-têtes de groupe horizontaux par épopée : avancement par statut, prévision selon la vélocité qui signale les échéances trop proches, responsables et bouton d'ajout ; les couloirs s'ouvrent sur leurs tâches."
     },
     "height": 440
   }

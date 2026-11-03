@@ -7,5 +7,14 @@
       "fr": "Des interrupteurs par environnement pour chaque drapeau, avec repérage des drapeaux inutilisés et un filtre ; l'activation en production ouvre un curseur de déploiement et une raison obligatoire, la désactivation agit aussitôt."
     },
     "height": 560
+  },
+  {
+    "file": "PrivacyConsentCenter",
+    "title": { "en": "Privacy preference center", "fr": "Centre de préférences de confidentialité" },
+    "summary": {
+      "en": "A consent panel shown open over the site: one switch per cookie category, the necessary one locked on, expandable lists of services with retention, and reject all, accept all or save.",
+      "fr": "Un panneau de consentement ouvert au-dessus du site : un interrupteur par catégorie de cookies, la catégorie nécessaire verrouillée, la liste dépliable des services avec leur durée de conservation, et tout refuser, tout accepter ou enregistrer."
+    },
+    "height": 620
   }
 ]

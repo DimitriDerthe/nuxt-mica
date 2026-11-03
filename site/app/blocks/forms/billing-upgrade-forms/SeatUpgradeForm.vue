@@ -69,7 +69,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, ref, watch, onBeforeUnmount } from 'vue'
+
+const timers = new Set<ReturnType<typeof setTimeout>>()
+function later(fn: () => void, ms: number) {
+  const t = setTimeout(() => { timers.delete(t); fn() }, ms)
+  timers.add(t)
+}
+onBeforeUnmount(() => { timers.forEach(clearTimeout); timers.clear() })
 
 const DAYS = 30
 const LEFT = 12
@@ -104,7 +111,7 @@ watch([plan, cycle, seats, storage], () => { state.value = 'idle' })
 function confirm() {
   if (!changed.value || state.value !== 'idle') return
   state.value = 'busy'
-  setTimeout(() => { state.value = 'done' }, 900)
+  later(() => { state.value = 'done' }, 900)
 }
 const money = (n: number) => '$' + n.toLocaleString('en-US', { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 })
 </script>

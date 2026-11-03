@@ -116,7 +116,7 @@ function run(item: { value: string, label: string }) {
 </script>
 
 <style scoped>
-.cps { container-type: inline-size; display: grid; gap: 12px; font-family: var(--mi-font); color: var(--mi-label); }
+.cps { container-type: inline-size; display: grid; align-content: start; gap: 12px; font-family: var(--mi-font); color: var(--mi-label); }
 .cps__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
 .cps__stage { position: relative; display: grid; place-items: start center; padding: 28px 12px; border-radius: var(--mi-radius-xl); overflow: hidden; isolation: isolate; background: var(--mi-page); }

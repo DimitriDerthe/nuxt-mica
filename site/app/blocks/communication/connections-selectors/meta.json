@@ -10,5 +10,17 @@
       "fr": "Choisissez des personnes en puces parmi suggestions, équipe et externes ; le groupe se forme avec un nom suggéré et un avis invité."
     },
     "height": 620
+  },
+  {
+    "file": "ForwardMessagePicker",
+    "title": {
+      "en": "Forward to conversations",
+      "fr": "Transférer vers des conversations"
+    },
+    "summary": {
+      "en": "Forward a quoted message to up to five recent people and channels, with search, removable chips and an optional note.",
+      "fr": "Transférez un message cité à cinq personnes ou canaux récents maximum, avec recherche, puces amovibles et note facultative."
+    },
+    "height": 640
   }
 ]

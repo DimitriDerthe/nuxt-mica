@@ -8,5 +8,15 @@
     },
     "height": 660,
     "stage": "bleed"
+  },
+  {
+    "file": "SuiteSwitcherSidebar",
+    "title": { "en": "Icon rail with contextual panel", "fr": "Rail d'icônes avec panneau contextuel" },
+    "summary": {
+      "en": "A CRM suite sidebar in two layers: an app rail on the edge and a panel that swaps its sections per app and remembers each selection; when narrow the panel slides over the page.",
+      "fr": "Une barre latérale de suite CRM en deux niveaux : un rail d'applications au bord et un panneau qui change de sections selon l'application et garde chaque sélection ; en étroit, le panneau glisse par-dessus la page."
+    },
+    "height": 620,
+    "stage": "bleed"
   }
 ]

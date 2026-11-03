@@ -7,5 +7,14 @@
       "fr": "Quatre étapes validées avec retour et suite : nom et adresse, enregistrements DNS à copier et vérifier, invitations en étiquettes, puis revue avant lancement."
     },
     "height": 560
+  },
+  {
+    "file": "SecurityChecklistSetup",
+    "title": { "en": "Account security checklist", "fr": "Liste de sécurisation du compte" },
+    "summary": {
+      "en": "A non-linear setup checklist with a progress ring: each task opens in place, from linking an authenticator with a code to storing recovery codes and adding a backup phone.",
+      "fr": "Une liste de configuration sans ordre imposé avec anneau de progression : chaque tâche s’ouvre sur place, de l’application d’authentification aux codes de secours et au téléphone de repli."
+    },
+    "height": 560
   }
 ]

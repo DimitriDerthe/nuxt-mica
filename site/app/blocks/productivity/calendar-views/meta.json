@@ -1,11 +1,26 @@
 [
   {
     "file": "WeekFocusCalendar",
-    "title": { "en": "Week view with focus windows", "fr": "Vue semaine avec créneaux de concentration" },
+    "title": {
+      "en": "Week view with focus windows",
+      "fr": "Vue semaine avec créneaux de concentration"
+    },
     "summary": {
       "en": "A week grid with positioned, side-by-side events, a now line and a meeting-load meter per day; each day's longest free stretch becomes a one-click focus block.",
       "fr": "Une grille semaine avec événements positionnés côte à côte, ligne de l'heure et jauge de charge par jour ; le plus long créneau libre devient un bloc de concentration en un clic."
     },
     "height": 680
+  },
+  {
+    "file": "RoomResourceTimeline",
+    "title": {
+      "en": "Room timeline by resource",
+      "fr": "Chronologie des salles par ressource"
+    },
+    "summary": {
+      "en": "Meeting rooms as rows on a day timeline with a now line and seat filter; tap a free half hour to hold it, then extend or release your own bookings.",
+      "fr": "Les salles en lignes sur une chronologie du jour avec ligne de l'heure et filtre de places ; touchez une demi-heure libre pour la réserver, puis prolongez ou libérez vos réservations."
+    },
+    "height": 560
   }
 ]

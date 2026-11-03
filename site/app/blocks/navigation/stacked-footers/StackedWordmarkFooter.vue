@@ -96,7 +96,7 @@ const lang = ref<string | number | null>('en')
 </script>
 
 <style scoped>
-.swf { container-type: inline-size; position: relative; display: grid; gap: 0; overflow: hidden; font-family: var(--mi-font); color: var(--mi-label); border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
+.swf { container-type: inline-size; position: relative; display: grid; align-content: start; gap: 0; overflow: hidden; font-family: var(--mi-font); color: var(--mi-label); border-radius: var(--mi-radius-xl); background: var(--mi-card); box-shadow: var(--mi-sh1); }
 .swf__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
 .swf__news { display: grid; gap: 14px; padding: 22px 20px; background: linear-gradient(120deg, var(--mi-p-tint), transparent 70%); border-bottom: 1px solid var(--mi-sep); }

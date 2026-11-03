@@ -156,7 +156,7 @@ const ago = (min: number) => (min < 60 ? `${min} min` : min < 1440 ? `${Math.rou
 </script>
 
 <style scoped>
-.dsi { container-type: inline-size; display: grid; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
+.dsi { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
 .dsi__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .dsi__mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12.5px; font-weight: 600; overflow-wrap: anywhere; }
 .dsi__mono--lg { font-size: 15px; }

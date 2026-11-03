@@ -7,5 +7,14 @@
       "fr": "L'e-mail, la fréquence et les sujets choisis pilotent l'aperçu du prochain numéro : date d'envoi, objet, articles et temps de lecture changent à chaque choix."
     },
     "height": 500
+  },
+  {
+    "file": "ArchiveTypoSignup",
+    "title": { "en": "Newsletter signup with archive", "fr": "Inscription newsletter avec archives" },
+    "summary": {
+      "en": "A pitch with reader proof beside the latest issues, an email field that spots a mistyped domain and offers a one-tap fix, then a confirm-your-inbox state.",
+      "fr": "Une accroche avec la preuve sociale des lecteurs à côté des derniers numéros, un champ e-mail qui repère un domaine mal saisi et propose la correction en un geste, puis un état de confirmation par e-mail."
+    },
+    "height": 480
   }
 ]

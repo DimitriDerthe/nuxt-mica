@@ -7,5 +7,14 @@
       "fr": "Liens retour, en ligne, à chevron, externes, de téléchargement, de copie, de raccourci et de pied de page sur une page de clés d'API ; chaque glyphe glisse vers la destination."
     },
     "height": 440
+  },
+  {
+    "file": "OrderConfirmationLinks",
+    "title": { "en": "Order confirmation links", "fr": "Liens de confirmation de commande" },
+    "summary": {
+      "en": "Back, inline, copy, next-step and policy links on an order confirmation; tracking, invoice, calendar, returns and support links each nudge their glyph toward where they lead.",
+      "fr": "Liens retour, en ligne, de copie, d'étapes suivantes et de politiques sur une confirmation de commande ; suivi, facture, calendrier, retours et support font glisser leur glyphe vers la destination."
+    },
+    "height": 620
   }
 ]

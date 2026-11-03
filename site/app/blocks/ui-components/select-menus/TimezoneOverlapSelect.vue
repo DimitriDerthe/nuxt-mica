@@ -115,7 +115,7 @@ const verdict = computed(() => {
 </script>
 
 <style scoped>
-.tzo { container-type: inline-size; display: grid; gap: 18px; font-family: var(--mi-font); color: var(--mi-label); }
+.tzo { container-type: inline-size; display: grid; align-content: start; gap: 18px; font-family: var(--mi-font); color: var(--mi-label); }
 .tzo__head { display: grid; gap: 2px; }
 .tzo__fields { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); }
 @container (min-width: 520px) { .tzo__fields { grid-template-columns: 1fr 1fr; } }

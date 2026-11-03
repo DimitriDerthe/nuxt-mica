@@ -7,5 +7,14 @@
       "fr": "Un groupe de libellés de métadonnées et un vote d'utilité sur un guide : le vote met à jour le score, puis ouvre sur place des puces de raisons et une note facultative."
     },
     "height": 380
+  },
+  {
+    "file": "SearchRelevanceJudge",
+    "title": { "en": "Search relevance review", "fr": "Revue de pertinence de recherche" },
+    "summary": {
+      "en": "Search results for one query, each with a source and freshness label group and a Relevant, Partly or Off-topic vote that moves a live precision meter.",
+      "fr": "Les résultats d'une requête, chacun avec un groupe de libellés source et fraîcheur et un vote Pertinent, Partiel ou Hors sujet qui fait bouger une jauge de précision en direct."
+    },
+    "height": 560
   }
 ]

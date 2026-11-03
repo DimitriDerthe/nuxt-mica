@@ -1,11 +1,26 @@
 [
   {
     "file": "AccountRenewalHeader",
-    "title": { "en": "Account header with contract runway", "fr": "En-tête de compte avec échéancier de contrat" },
+    "title": {
+      "en": "Account header with contract runway",
+      "fr": "En-tête de compte avec échéancier de contrat"
+    },
     "summary": {
       "en": "A CRM account header: identity, owner and actions, a facts strip for revenue, seats, health and renewal, and a runway placing today between signature and renewal.",
       "fr": "Un en-tête de compte CRM : identité, responsable et actions, bandeau de chiffres (revenu, licences, santé, renouvellement) et un échéancier situant aujourd'hui dans le contrat."
     },
     "height": 520
+  },
+  {
+    "file": "TeammateProfileHeader",
+    "title": {
+      "en": "Teammate profile header",
+      "fr": "En-tête de profil de collègue"
+    },
+    "summary": {
+      "en": "A directory profile header: identity, focus status and actions, the reporting line up to the CEO with direct reports, a facts strip with local time and hours, and switchable focus, skills and time-off panels.",
+      "fr": "Un en-tête de profil d’annuaire : identité, statut de concentration et actions, ligne hiérarchique jusqu’au PDG avec rapports directs, bandeau avec heure locale et horaires, et panneaux focus, compétences et congés."
+    },
+    "height": 560
   }
 ]
