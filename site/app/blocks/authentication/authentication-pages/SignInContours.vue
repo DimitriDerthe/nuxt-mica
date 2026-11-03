@@ -1,24 +1,24 @@
 <template>
-  <section class="sic mi:@container mi:grid mi:min-h-full mi:font-mi mi:text-label mi:[background:var(--mi-page)]" aria-labelledby="sic-title">
-    <div class="sic__in mi:grid mi:grid-rows-[auto_1fr] mi:@[760px]:grid-cols-[minmax(0,_1fr)_minmax(0,_1.05fr)] mi:@[760px]:grid-rows-[none]">
-    <div class="sic__form-side mi:grid mi:grid-rows-[auto_1fr_auto] mi:gap-7 mi:py-6 mi:px-5 mi:order-2 mi:@[760px]:order-1 mi:@[760px]:py-8 mi:@[760px]:px-11 mi:@[1040px]:px-18">
-      <div class="sic__brand mi:flex mi:items-center mi:gap-2.5">
-        <span class="sic__mark mi:w-5.5 mi:h-5.5 mi:rounded-[7px] mi:[background:conic-gradient(from_210deg,_var(--mi-p),_var(--mi-s),_var(--mi-p))] mi:shadow-[inset_0_0_0_5px_color-mix(in_srgb,_var(--mi-page)_70%,_transparent)]" aria-hidden="true" />
+  <section class="mi:@container mi:grid mi:min-h-full mi:font-mi mi:text-label mi:[background:var(--mi-page)]" aria-labelledby="sic-title">
+    <div class="mi:grid mi:grid-rows-[auto_1fr] mi:@[760px]:grid-cols-[minmax(0,_1fr)_minmax(0,_1.05fr)] mi:@[760px]:grid-rows-[none]">
+    <div class="mi:grid mi:grid-rows-[auto_1fr_auto] mi:gap-7 mi:py-6 mi:px-5 mi:order-2 mi:@[760px]:order-1 mi:@[760px]:py-8 mi:@[760px]:px-11 mi:@[1040px]:px-18">
+      <div class="mi:flex mi:items-center mi:gap-2.5">
+        <span class="mi:w-5.5 mi:h-5.5 mi:rounded-[7px] mi:[background:conic-gradient(from_210deg,_var(--mi-p),_var(--mi-s),_var(--mi-p))] mi:shadow-[inset_0_0_0_5px_color-mix(in_srgb,_var(--mi-page)_70%,_transparent)]" aria-hidden="true" />
         <MiText as="span" variant="headline" weight="semibold">Northlight</MiText>
       </div>
 
-      <div class="sic__form-wrap mi:grid mi:content-center mi:gap-2.5 mi:w-full mi:max-w-95 mi:justify-self-center">
+      <div class="mi:grid mi:content-center mi:gap-2.5 mi:w-full mi:max-w-95 mi:justify-self-center">
         <MiText id="sic-title" as="h2" variant="title1" weight="bold" balance>Welcome back</MiText>
         <MiText variant="subheadline" tone="label2">Sign in to the survey workspace your crew shares.</MiText>
 
-        <MiButton variant="bordered" size="large" block class="sic__passkey mi:mt-3.5" @click="passkey">
+        <MiButton variant="bordered" size="large" block class="mi:mt-3.5" @click="passkey">
           <template #leading><MiIcon :svg="fingerprint" :size="18" /></template>
           Sign in with a passkey
         </MiButton>
 
-        <div class="sic__or mi:flex mi:items-center mi:gap-3 mi:my-1.5 mi:mx-0 mi:text-label3 mi:text-[12px] mi:before:content-[''] mi:before:flex-1 mi:before:h-px mi:before:[background:var(--mi-sep)] mi:after:content-[''] mi:after:flex-1 mi:after:h-px mi:after:[background:var(--mi-sep)]"><span>or use your email</span></div>
+        <div class="mi:flex mi:items-center mi:gap-3 mi:my-1.5 mi:mx-0 mi:text-label3 mi:text-[12px] mi:before:content-[''] mi:before:flex-1 mi:before:h-px mi:before:[background:var(--mi-sep)] mi:after:content-[''] mi:after:flex-1 mi:after:h-px mi:after:[background:var(--mi-sep)]"><span>or use your email</span></div>
 
-        <form class="sic__form mi:grid mi:gap-3.5" novalidate @submit.prevent="submit">
+        <form class="mi:grid mi:gap-3.5" novalidate @submit.prevent="submit">
           <MiField label="Work email" :error="errors.email">
             <template #default="{ id, describedBy }">
               <MiInput :id="id" v-model="email" type="email" autocomplete="username" :aria-describedby="describedBy" placeholder="you@company.com" />
@@ -34,37 +34,37 @@
           <MiButton type="submit" size="large" block :loading="busy">Sign in</MiButton>
         </form>
 
-        <div class="sic__live mi:mt-1 mi:mx-0 mi:mb-0 mi:min-h-px" aria-live="polite">
+        <div class="mi:mt-1 mi:mx-0 mi:mb-0 mi:min-h-px" aria-live="polite">
           <MiAlert v-if="done" tone="success" :title="`Signed in to ${workspace}`" message="Opening your field boards…" />
         </div>
       </div>
 
-      <MiText variant="footnote" tone="label2" class="sic__foot mi:justify-self-center mi:text-center">
+      <MiText variant="footnote" tone="label2" class="mi:justify-self-center mi:text-center">
         New crew member? <MiTextLink href="#">Ask your admin for an invite</MiTextLink>
       </MiText>
     </div>
 
     <!-- Generative contour map: seeded by the email domain, so every workspace gets its own terrain. -->
-    <aside class="sic__art mi:relative mi:order-1 mi:min-h-42 mi:overflow-hidden mi:isolate mi:[background:radial-gradient(120%_80%_at_10%_0%,_color-mix(in_srgb,_var(--mi-p)_26%,_transparent),_transparent_60%),_radial-gradient(90%_70%_at_100%_100%,_color-mix(in_srgb,_var(--mi-s)_24%,_transparent),_transparent_65%),_color-mix(in_srgb,_var(--mi-p)_6%,_var(--mi-card))] mi:@[760px]:order-2 mi:@[760px]:min-h-0 mi:@[760px]:m-3 mi:@[760px]:rounded-[22px] mi:@[760px]:shadow-[inset_0_0_0_1px_var(--mi-sep)]" aria-label="Workspace pattern">
-      <svg class="sic__svg mi:absolute mi:inset-0 mi:w-full mi:h-full mi:-z-1" viewBox="0 0 400 520" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <aside class="mi:relative mi:order-1 mi:min-h-42 mi:overflow-hidden mi:isolate mi:[background:radial-gradient(120%_80%_at_10%_0%,_color-mix(in_srgb,_var(--mi-p)_26%,_transparent),_transparent_60%),_radial-gradient(90%_70%_at_100%_100%,_color-mix(in_srgb,_var(--mi-s)_24%,_transparent),_transparent_65%),_color-mix(in_srgb,_var(--mi-p)_6%,_var(--mi-card))] mi:@[760px]:order-2 mi:@[760px]:min-h-0 mi:@[760px]:m-3 mi:@[760px]:rounded-[22px] mi:@[760px]:shadow-[inset_0_0_0_1px_var(--mi-sep)]" aria-label="Workspace pattern">
+      <svg class="mi:absolute mi:inset-0 mi:w-full mi:h-full mi:-z-1" viewBox="0 0 400 520" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
         <g v-for="(peak, pi) in terrain.peaks" :key="seed + '-' + pi">
           <path
-            v-for="(ring, ri) in peak.rings" :key="ri" :d="ring" class="sic__ring mi:fill-[color:none] mi:stroke-[color:color-mix(in_srgb,_var(--mi-p)_70%,_var(--mi-label2))] mi:[stroke-width:.8]"
-            :class="ri % 3 === 0 ? 'sic__ring--major mi:stroke-s mi:[stroke-width:1.4]' : ''" :style="{ opacity: 0.9 - ri * 0.07 }"
+            v-for="(ring, ri) in peak.rings" :key="ri" :d="ring" class="mi:fill-[color:none]"
+            :class="ri % 3 === 0 ? 'mi:stroke-s mi:[stroke-width:1.4]' : 'mi:stroke-[color:color-mix(in_srgb,_var(--mi-p)_70%,_var(--mi-label2))] mi:[stroke-width:.8]'" :style="{ opacity: 0.9 - ri * 0.07 }"
           />
-          <circle :cx="peak.x" :cy="peak.y" r="3.5" class="sic__peak mi:fill-p mi:stroke-card mi:[stroke-width:2]" />
-          <text :x="peak.x + 8" :y="peak.y - 8" class="sic__elev mi:[font:600_10px/1_var(--mi-font)] mi:fill-label2 mi:tracking-[.04em]">{{ peak.elev }} m</text>
+          <circle :cx="peak.x" :cy="peak.y" r="3.5" class="mi:fill-p mi:stroke-card mi:[stroke-width:2]" />
+          <text :x="peak.x + 8" :y="peak.y - 8" class="mi:[font:600_10px/1_var(--mi-font)] mi:fill-label2 mi:tracking-[.04em]">{{ peak.elev }} m</text>
         </g>
       </svg>
-      <div class="sic__art-meta mi:absolute mi:top-3.5 mi:right-3.5 mi:grid mi:justify-items-end mi:gap-1">
-        <MiText as="span" variant="caption" weight="semibold" class="sic__chip mi:py-1 mi:px-2.5 mi:rounded-[999px] mi:[background:var(--mi-mat)] mi:shadow-[0_0_0_1px_var(--mi-sep)]">{{ workspace }}</MiText>
+      <div class="mi:absolute mi:top-3.5 mi:right-3.5 mi:grid mi:justify-items-end mi:gap-1">
+        <MiText as="span" variant="caption" weight="semibold" class="mi:[-webkit-backdrop-filter:blur(12px)] mi:[backdrop-filter:blur(12px)] mi:py-1 mi:px-2.5 mi:rounded-[999px] mi:[background:var(--mi-mat)] mi:shadow-[0_0_0_1px_var(--mi-sep)]">{{ workspace }}</MiText>
         <MiText as="span" variant="caption2" tone="label2">Pattern {{ seed.toString(16).slice(0, 6).toUpperCase() }}</MiText>
       </div>
-      <figure class="sic__quote mi:hidden mi:@[760px]:absolute mi:@[760px]:left-5 mi:@[760px]:right-5 mi:@[760px]:bottom-5 mi:@[760px]:grid mi:@[760px]:gap-3.5 mi:@[760px]:m-0 mi:@[760px]:py-4.5 mi:@[760px]:px-5 mi:@[760px]:rounded-[18px] mi:@[760px]:[background:var(--mi-mat)] mi:@[760px]:shadow-[0_0_0_1px_var(--mi-sep),_var(--mi-sh2)]">
-        <blockquote class="mi:@[760px]:[.sic__quote_blockquote&]:m-0 mi:@[760px]:[.sic__quote_blockquote&]:text-balance">We moved forty field crews off shared spreadsheets in a single week.</blockquote>
-        <figcaption class="mi:@[760px]:[.sic__quote_figcaption&]:gap-2.5">
-          <MiAvatar class="mi:@[760px]:[.sic__quote_blockquote&]:m-0 mi:@[760px]:[.sic__quote_blockquote&]:text-balance mi:@[760px]:[.sic__quote_figcaption&]:gap-2.5" name="Ines Okafor" size="sm" tone="auto" decorative />
-          <span><strong>Ines Okafor</strong><br>Operations lead, Saltmarsh Survey</span>
+      <figure class="mi:hidden mi:@[760px]:absolute mi:@[760px]:left-5 mi:@[760px]:right-5 mi:@[760px]:bottom-5 mi:@[760px]:grid mi:@[760px]:gap-3.5 mi:@[760px]:m-0 mi:@[760px]:py-4.5 mi:@[760px]:px-5 mi:@[760px]:rounded-[18px] mi:@[760px]:[background:var(--mi-mat)] mi:@[760px]:shadow-[0_0_0_1px_var(--mi-sep),_var(--mi-sh2)] mi:@[760px]:[-webkit-backdrop-filter:blur(18px)_saturate(160%)] mi:@[760px]:[backdrop-filter:blur(18px)_saturate(160%)]">
+        <blockquote class="mi:@[760px]:text-[17px] mi:@[760px]:leading-[1.4] mi:@[760px]:font-semibold mi:@[760px]:tracking-[-.015em] mi:@[760px]:m-0 mi:@[760px]:text-balance">We moved forty field crews off shared spreadsheets in a single week.</blockquote>
+        <figcaption class="mi:@[760px]:flex mi:@[760px]:items-center mi:@[760px]:text-[12px] mi:@[760px]:leading-[1.35] mi:@[760px]:text-label2 mi:@[760px]:gap-2.5">
+          <MiAvatar name="Ines Okafor" size="sm" tone="auto" decorative />
+          <span><strong class="mi:@[760px]:text-label mi:@[760px]:font-semibold">Ines Okafor</strong><br>Operations lead, Saltmarsh Survey</span>
         </figcaption>
       </figure>
     </aside>
@@ -154,15 +154,3 @@ function passkey() {
 }
 </script>
 
-<style scoped>
-.sic__chip { -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
-
-@container (min-width: 760px) {
-  .sic__quote {
-    -webkit-backdrop-filter: blur(18px) saturate(160%); backdrop-filter: blur(18px) saturate(160%);
-  }
-  .sic__quote blockquote { font-size: 17px; line-height: 1.4; font-weight: 600; letter-spacing: -.015em; }
-  .sic__quote figcaption { display: flex; align-items: center; font-size: 12px; line-height: 1.35; color: var(--mi-label2); }
-  .sic__quote strong { color: var(--mi-label); font-weight: 600; }
-}
-</style>

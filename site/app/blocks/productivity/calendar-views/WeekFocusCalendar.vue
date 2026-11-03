@@ -1,88 +1,88 @@
 <template>
-  <section class="wk mi:[--h:46px] mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="week-focus-title">
-    <header class="wk__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
+  <section class="mi:[--h:46px] mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="week-focus-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="week-focus-title" variant="title3" as="h2" weight="semibold">Week 45</MiText>
         <MiText variant="footnote" tone="label2">November 2 – {{ showWeekend ? 8 : 6 }}, 2026 · Paris time</MiText>
       </div>
-      <div class="wk__tools mi:flex mi:flex-wrap mi:items-center mi:gap-3">
-        <div class="wk__cals mi:flex mi:flex-wrap mi:gap-1.5" role="group" aria-label="Visible calendars">
+      <div class="mi:flex mi:flex-wrap mi:items-center mi:gap-3">
+        <div class="mi:flex mi:flex-wrap mi:gap-1.5" role="group" aria-label="Visible calendars">
           <MiChip v-for="c in calendars" :key="c.id" v-model="c.on" selectable size="small" tone="neutral">
-            <span class="wk__dot mi:inline-block mi:w-2 mi:h-2 mi:me-1.5 mi:rounded-[50%] mi:[background:var(--c)] mi:[vertical-align:1px]" :style="{ '--c': c.color }" aria-hidden="true" />{{ c.label }}
+            <span class="mi:inline-block mi:w-2 mi:h-2 mi:me-1.5 mi:rounded-[50%] mi:[background:var(--c)] mi:[vertical-align:1px]" :style="{ '--c': c.color }" aria-hidden="true" />{{ c.label }}
           </MiChip>
         </div>
-        <div class="wk__weekend mi:flex mi:items-center mi:gap-2">
+        <div class="mi:flex mi:items-center mi:gap-2">
           <MiSwitch v-model="showWeekend" size="compact" label="Show weekend" />
           <MiText as="span" variant="footnote" tone="label2" aria-hidden="true">Weekend</MiText>
         </div>
       </div>
     </header>
 
-    <div class="wk__body mi:grid mi:gap-3 mi:grid-cols-[minmax(0,_1fr)] mi:@[980px]:grid-cols-[minmax(0,_1fr)_248px] mi:@[980px]:items-start">
-      <div class="wk__scroll mi:overflow-x-auto mi:overscroll-x-contain mi:[scroll-snap-type:x_mandatory] mi:[scroll-padding-inline-start:52px] mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" tabindex="0" role="region" aria-label="Week grid">
-        <div class="wk__grid mi:grid mi:grid-cols-[52px_repeat(var(--days),_minmax(136px,_1fr))] mi:@[720px]:grid-cols-[52px_repeat(var(--days),_minmax(0,_1fr))]" :style="{ '--days': days.length, '--hours': hours.length }">
-          <div class="wk__corner mi:sticky mi:start-0 mi:z-3 mi:[background:var(--mi-card)] mi:border-b mi:border-b-sep" aria-hidden="true" />
-          <div v-for="d in days" :key="'h' + d.idx" class="wk__dayhead mi:border-b mi:border-b-sep mi:grid mi:gap-1.5 mi:pt-3 mi:px-2.5 mi:pb-2.5 mi:snap-start mi:min-w-0" :class="{ 'is-today': d.today }">
-            <div class="wk__dayname mi:flex mi:items-baseline mi:gap-1.5">
-              <span class="wk__dow mi:text-[12px] mi:font-semibold mi:text-label2 mi:uppercase mi:tracking-[.04em]">{{ d.dow }}</span>
-              <span class="wk__date mi:text-[20px] mi:font-bold mi:tracking-[-.03em] mi:tabular-nums mi:[.is-today_&]:place-items-center mi:[.is-today_&]:min-w-7.5 mi:[.is-today_&]:rounded-[15px]">{{ d.date }}</span>
+    <div class="mi:grid mi:gap-3 mi:grid-cols-[minmax(0,_1fr)] mi:@[980px]:grid-cols-[minmax(0,_1fr)_248px] mi:@[980px]:items-start">
+      <div class="mi:overflow-x-auto mi:overscroll-x-contain mi:[scroll-snap-type:x_mandatory] mi:[scroll-padding-inline-start:52px] mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" tabindex="0" role="region" aria-label="Week grid">
+        <div class="mi:grid mi:grid-cols-[52px_repeat(var(--days),_minmax(136px,_1fr))] mi:@[720px]:grid-cols-[52px_repeat(var(--days),_minmax(0,_1fr))]" :style="{ '--days': days.length, '--hours': hours.length }">
+          <div class="mi:sticky mi:start-0 mi:z-3 mi:[background:var(--mi-card)] mi:border-b mi:border-b-sep" aria-hidden="true" />
+          <div v-for="d in days" :key="'h' + d.idx" class="mi:border-b mi:border-b-sep mi:grid mi:gap-1.5 mi:pt-3 mi:px-2.5 mi:pb-2.5 mi:snap-start mi:min-w-0">
+            <div class="mi:flex mi:items-baseline mi:gap-1.5">
+              <span class="mi:text-[12px] mi:font-semibold mi:text-label2 mi:uppercase mi:tracking-[.04em]">{{ d.dow }}</span>
+              <span class="mi:font-bold mi:tracking-[-.03em] mi:tabular-nums" :class="d.today ? 'mi:place-items-center mi:min-w-7.5 mi:rounded-[15px] mi:inline-grid mi:h-7.5 mi:bg-p mi:text-p-on mi:text-[16px]' : 'mi:text-[20px]'">{{ d.date }}</span>
             </div>
             <div
-              class="wk__load mi:h-1 mi:rounded-[2px] mi:[background:var(--mi-fill3)] mi:overflow-hidden" role="meter" :aria-label="d.long + ' meeting load'" aria-valuemin="0" aria-valuemax="9"
+              class="mi:h-1 mi:rounded-[2px] mi:[background:var(--mi-fill3)] mi:overflow-hidden" role="meter" :aria-label="d.long + ' meeting load'" aria-valuemin="0" aria-valuemax="9"
               :aria-valuenow="d.load" :aria-valuetext="fmtDur(d.load) + ' of meetings'"
             >
-              <span class="mi:[.wk__load_&]:origin-left mi:[.wk__load_&]:[transition:transform_var(--mi-dur-3)_var(--mi-spring)]" :class="{ 'is-heavy': d.load >= 5 }" :style="{ transform: `scaleX(${Math.min(d.load / 9, 1)})` }" />
+              <span class="mi:block mi:h-full mi:origin-left mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring)]" :class="d.load >= 5 ? 'mi:bg-orange' : 'mi:bg-p'" :style="{ transform: `scaleX(${Math.min(d.load / 9, 1)})` }" />
             </div>
             <MiText variant="caption2" tone="label2">{{ d.load ? fmtDur(d.load) + ' booked' : 'Free day' }}</MiText>
           </div>
 
-          <div class="wk__gutter mi:sticky mi:start-0 mi:z-3 mi:[background:var(--mi-card)] mi:grid mi:auto-rows-(--h) mi:pt-0" aria-hidden="true">
-            <span class="mi:[.wk__gutter_&]:pe-2 mi:[.wk__gutter_&]:text-end mi:[.wk__gutter_&]:tabular-nums mi:[.wk__gutter_&]:transform-[translateY(-7px)] mi:[.wk__gutter_&:first-child]:transform-[translateY(3px)]" v-for="h in hours" :key="h">{{ h }}:00</span>
+          <div class="mi:sticky mi:start-0 mi:z-3 mi:[background:var(--mi-card)] mi:grid mi:auto-rows-(--h) mi:pt-0" aria-hidden="true">
+            <span class="mi:text-[11px] mi:text-label3 mi:pe-2 mi:text-end mi:tabular-nums mi:transform-[translateY(-7px)] mi:first:transform-[translateY(3px)]" v-for="h in hours" :key="h">{{ h }}:00</span>
           </div>
           <div
-            v-for="d in days" :key="'c' + d.idx" class="wk__col mi:relative mi:h-[calc(var(--hours)_*_var(--h))] mi:snap-start mi:[border-inline-start:1px_solid_var(--mi-sep)] mi:bg-[repeating-linear-gradient(to_bottom,_var(--mi-sep)_0_1px,_transparent_1px_var(--h))] mi:[&.is-weekend]:bg-fill4/70" :class="{ 'is-weekend': d.idx > 4 }"
+            v-for="d in days" :key="'c' + d.idx" class="mi:relative mi:h-[calc(var(--hours)_*_var(--h))] mi:snap-start mi:[border-inline-start:1px_solid_var(--mi-sep)] mi:bg-[repeating-linear-gradient(to_bottom,_var(--mi-sep)_0_1px,_transparent_1px_var(--h))] " :class="d.idx > 4 ? 'mi:bg-fill4/70' : ''"
             role="group" :aria-label="d.long"
           >
             <button
-              v-if="d.gap" type="button" class="wk__gap mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:focus-visible:z-2 mi:absolute mi:inset-x-1 mi:flex mi:[align-items:flex-start] mi:justify-center mi:gap-1 mi:pt-2 mi:[border:1.5px_dashed_color-mix(in_srgb,_var(--mi-green)_50%,_transparent)] mi:rounded-[10px] mi:[background:transparent] mi:text-green-t mi:cursor-pointer mi:opacity-70 mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)] mi:hover:opacity-100 mi:hover:[background:color-mix(in_srgb,_var(--mi-green)_8%,_transparent)]" :style="place(d.gap.start, d.gap.end)"
+              v-if="d.gap" type="button" class="mi:[font:inherit] mi:text-[11px] mi:font-semibold mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:focus-visible:z-2 mi:absolute mi:inset-x-1 mi:flex mi:[align-items:flex-start] mi:justify-center mi:gap-1 mi:pt-2 mi:[border:1.5px_dashed_color-mix(in_srgb,_var(--mi-green)_50%,_transparent)] mi:rounded-[10px] mi:[background:transparent] mi:text-green-t mi:cursor-pointer mi:opacity-70 mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)] mi:hover:opacity-100 mi:hover:[background:color-mix(in_srgb,_var(--mi-green)_8%,_transparent)]" :style="place(d.gap.start, d.gap.end)"
               :aria-label="`Block focus time on ${d.long} from ${fmtT(d.gap.start)}`" @click="blockFocus(d.idx, d.gap)"
             >
               <MiIcon name="plus" :size="12" :weight="2.4" />
               <span>Focus · {{ fmtDur(Math.min(2, d.gap.end - d.gap.start)) }}</span>
             </button>
             <button
-              v-for="e in d.events" :key="e.id" type="button" class="wk__ev mi:absolute mi:flex mi:flex-col mi:gap-0.5 mi:mt-px mi:py-[5px] mi:px-[7px] mi:overflow-hidden mi:z-1 mi:[border:0] mi:rounded-[9px] mi:text-start mi:[font:inherit] mi:text-label mi:cursor-pointer mi:[background:color-mix(in_srgb,_var(--c)_15%,_var(--mi-card))] mi:shadow-[inset_3px_0_0_var(--c)] mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease),_opacity_var(--mi-dur-2)_var(--mi-ease)] mi:hover:transform-[translateY(-1px)] mi:[&.is-sel]:z-2 mi:[&.is-sel]:shadow-[inset_3px_0_0_var(--c),_0_0_0_2px_var(--c),_var(--mi-sh2)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:focus-visible:z-2 mi:[&.is-short]:flex-row mi:[&.is-short]:items-center mi:[&.is-short]:gap-1.5 mi:[&.is-short]:py-0.5"
-              :class="{ 'is-sel': e.id === selectedId, 'is-short': e.end - e.start < 0.75 }"
+              v-for="e in d.events" :key="e.id" type="button" class="mi:absolute mi:flex mi:mt-px mi:px-[7px] mi:overflow-hidden mi:[border:0] mi:rounded-[9px] mi:text-start mi:[font:inherit] mi:text-label mi:cursor-pointer mi:[background:color-mix(in_srgb,_var(--c)_15%,_var(--mi-card))] mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease),_opacity_var(--mi-dur-2)_var(--mi-ease)] mi:hover:transform-[translateY(-1px)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:focus-visible:z-2"
+              :class="[e.id === selectedId ? 'mi:z-2 mi:shadow-[inset_3px_0_0_var(--c),_0_0_0_2px_var(--c),_var(--mi-sh2)]' : 'mi:z-1 mi:shadow-[inset_3px_0_0_var(--c)]', e.end - e.start < 0.75 ? 'mi:flex-row mi:items-center mi:gap-1.5 mi:py-0.5' : 'mi:flex-col mi:gap-0.5 mi:py-[5px]']"
               :style="{ ...place(e.start, e.end), left: `calc(${e.lane / e.lanes * 100}% + 2px)`, width: `calc(${100 / e.lanes}% - 4px)`, '--c': colorOf(e.cal) }"
               :aria-pressed="e.id === selectedId" @click="selectedId = e.id"
             >
-              <span class="wk__ev-title mi:text-[12px] mi:leading-[15px] mi:font-semibold mi:[display:-webkit-box] mi:[-webkit-line-clamp:2] mi:[-webkit-box-orient:vertical] mi:overflow-hidden mi:[.wk__ev.is-short_&]:[-webkit-line-clamp:1] mi:[.wk__ev.is-short_&]:flex-1 mi:[.wk__ev.is-short_&]:min-w-0">{{ e.title }}</span>
-              <span class="wk__ev-time mi:text-[11px] mi:leading-[13px] mi:text-label2 mi:tabular-nums mi:whitespace-nowrap">{{ fmtT(e.start) }} – {{ fmtT(e.end) }}</span>
+              <span class="mi:text-[12px] mi:leading-[15px] mi:font-semibold mi:[display:-webkit-box] mi:[-webkit-box-orient:vertical] mi:overflow-hidden" :class="e.end - e.start < 0.75 ? 'mi:[-webkit-line-clamp:1] mi:flex-1 mi:min-w-0' : 'mi:[-webkit-line-clamp:2]'">{{ e.title }}</span>
+              <span class="mi:text-[11px] mi:leading-[13px] mi:text-label2 mi:tabular-nums mi:whitespace-nowrap">{{ fmtT(e.start) }} – {{ fmtT(e.end) }}</span>
             </button>
-            <div v-if="d.today" class="wk__now mi:absolute mi:inset-x-0 mi:z-2 mi:h-0 mi:border-t-2 mi:border-t-red mi:pointer-events-none mi:before:content-[''] mi:before:absolute mi:before:start-[-5px] mi:before:-top-1.5 mi:before:w-2.5 mi:before:h-2.5 mi:before:rounded-[50%] mi:before:[background:var(--mi-red)]" :style="{ top: `calc(${now - first} * var(--h))` }" aria-hidden="true" />
+            <div v-if="d.today" class="mi:absolute mi:inset-x-0 mi:z-2 mi:h-0 mi:border-t-2 mi:border-t-red mi:pointer-events-none mi:before:content-[''] mi:before:absolute mi:before:start-[-5px] mi:before:-top-1.5 mi:before:w-2.5 mi:before:h-2.5 mi:before:rounded-[50%] mi:before:[background:var(--mi-red)]" :style="{ top: `calc(${now - first} * var(--h))` }" aria-hidden="true" />
           </div>
         </div>
       </div>
 
-      <aside class="wk__detail mi:grid mi:gap-3 mi:p-4.5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1" aria-live="polite">
+      <aside class="mi:grid mi:gap-3 mi:p-4.5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1" aria-live="polite">
         <template v-if="selected">
-          <div class="wk__tag mi:inline-flex mi:items-center mi:justify-self-start mi:py-[3px] mi:px-2.5 mi:rounded-[999px] mi:text-[12px] mi:font-semibold mi:[background:color-mix(in_srgb,_var(--c)_14%,_transparent)]" :style="{ '--c': colorOf(selected.cal) }">
-            <span class="wk__dot mi:inline-block mi:w-2 mi:h-2 mi:me-1.5 mi:rounded-[50%] mi:[background:var(--c)] mi:[vertical-align:1px]" aria-hidden="true" />{{ selectedCal }}
+          <div class="mi:inline-flex mi:items-center mi:justify-self-start mi:py-[3px] mi:px-2.5 mi:rounded-[999px] mi:text-[12px] mi:font-semibold mi:[background:color-mix(in_srgb,_var(--c)_14%,_transparent)]" :style="{ '--c': colorOf(selected.cal) }">
+            <span class="mi:inline-block mi:w-2 mi:h-2 mi:me-1.5 mi:rounded-[50%] mi:[background:var(--c)] mi:[vertical-align:1px]" aria-hidden="true" />{{ selectedCal }}
           </div>
           <MiText variant="headline" as="h3">{{ selected.title }}</MiText>
-          <dl class="wk__facts mi:grid mi:gap-2 mi:m-0">
-            <div class="mi:[.wk__facts_&]:gap-px"><dt class="mi:[.wk__facts_&]:font-semibold mi:[.wk__facts_&]:uppercase mi:[.wk__facts_&]:tracking-[.05em]">When</dt><dd class="mi:[.wk__facts_&]:m-0">{{ longDays[selected.day] }}, {{ fmtT(selected.start) }} – {{ fmtT(selected.end) }}</dd></div>
-            <div class="mi:[.wk__facts_&]:gap-px"><dt class="mi:[.wk__facts_&]:font-semibold mi:[.wk__facts_&]:uppercase mi:[.wk__facts_&]:tracking-[.05em]">Where</dt><dd class="mi:[.wk__facts_&]:m-0">{{ selected.where }}</dd></div>
+          <dl class="mi:grid mi:gap-2 mi:m-0">
+            <div class="mi:grid mi:gap-px"><dt class="mi:text-[11px] mi:text-label3 mi:font-semibold mi:uppercase mi:tracking-[.05em]">When</dt><dd class="mi:text-[14px] mi:m-0">{{ longDays[selected.day] }}, {{ fmtT(selected.start) }} – {{ fmtT(selected.end) }}</dd></div>
+            <div class="mi:grid mi:gap-px"><dt class="mi:text-[11px] mi:text-label3 mi:font-semibold mi:uppercase mi:tracking-[.05em]">Where</dt><dd class="mi:text-[14px] mi:m-0">{{ selected.where }}</dd></div>
           </dl>
-          <div v-if="selected.people.length" class="wk__people mi:flex mi:items-center mi:gap-2.5">
+          <div v-if="selected.people.length" class="mi:flex mi:items-center mi:gap-2.5">
             <MiAvatarGroup :items="selected.people.map(n => ({ name: n, tone: 'auto' }))" :max="4" :size="28" />
             <MiText variant="footnote" tone="label2">{{ selected.people.length }} guests</MiText>
           </div>
-          <MiButton v-if="selected.cal === 'focus'" class="wk__act mi:justify-self-start" variant="gray" size="small" @click="removeEvent(selected.id)">Release this block</MiButton>
-          <MiButton v-else-if="selected.where.startsWith('Meet')" class="wk__act mi:justify-self-start" variant="tinted" size="small">Join call</MiButton>
+          <MiButton v-if="selected.cal === 'focus'" class="mi:justify-self-start" variant="gray" size="small" @click="removeEvent(selected.id)">Release this block</MiButton>
+          <MiButton v-else-if="selected.where.startsWith('Meet')" class="mi:justify-self-start" variant="tinted" size="small">Join call</MiButton>
         </template>
         <MiText v-else variant="footnote" tone="label2">Pick an event to see its details.</MiText>
-        <p class="wk__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap mi:m-0" role="status">{{ announce }}</p>
+        <p class="mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap mi:m-0" role="status">{{ announce }}</p>
       </aside>
     </div>
   </section>
@@ -207,18 +207,3 @@ function removeEvent(id: number) {
   announce.value = 'Focus block released.'
 }
 </script>
-
-<style scoped>
-.is-today .wk__date { display: inline-grid; height: 30px; background: var(--mi-p); color: var(--mi-p-on); font-size: 16px; }
-.wk__load span { display: block; height: 100%; background: var(--mi-p); }
-.wk__load span.is-heavy { background: var(--mi-orange); }
-.wk__gutter span { font-size: 11px; color: var(--mi-label3); }
-
-.wk__gap {
-  font: inherit; font-size: 11px; font-weight: 600;
-}
-.wk__tag .wk__dot { background: var(--c); }
-.wk__facts div { display: grid; }
-.wk__facts dt { font-size: 11px; color: var(--mi-label3); }
-.wk__facts dd { font-size: 14px; }
-</style>

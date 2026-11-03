@@ -1,31 +1,31 @@
 <template>
-  <section class="scl mi:@container mi:font-mi mi:text-label" aria-labelledby="scl-title">
-    <div v-if="paused" class="scl__paused mi:grid mi:place-items-center mi:min-h-full mi:py-6 mi:px-0">
-      <div class="scl__paused-card mi:grid mi:grid-cols-[auto_minmax(0,_1fr)] mi:items-center mi:gap-y-3.5 mi:gap-x-4 mi:w-full mi:max-w-130 mi:py-4.5 mi:px-5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-[0_0_0_1px_var(--mi-sep),_var(--mi-sh2)] mi:@[560px]:grid-cols-[auto_minmax(0,_1fr)_auto]">
-        <MiProgressRing :value="pct" :size="52" :stroke="5" label="Setup progress"><span class="scl__mini-count mi:text-[12px] mi:font-bold mi:tabular-nums">{{ doneCount }}/{{ tasks.length }}</span></MiProgressRing>
-        <div class="scl__paused-copy mi:grid mi:gap-0.5">
+  <section class="mi:@container mi:font-mi mi:text-label" aria-labelledby="scl-title">
+    <div v-if="paused" class="mi:grid mi:place-items-center mi:min-h-full mi:py-6 mi:px-0">
+      <div class="mi:grid mi:grid-cols-[auto_minmax(0,_1fr)] mi:items-center mi:gap-y-3.5 mi:gap-x-4 mi:w-full mi:max-w-130 mi:py-4.5 mi:px-5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-[0_0_0_1px_var(--mi-sep),_var(--mi-sh2)] mi:@[560px]:grid-cols-[auto_minmax(0,_1fr)_auto]">
+        <MiProgressRing :value="pct" :size="52" :stroke="5" label="Setup progress"><span class="mi:text-[12px] mi:font-bold mi:tabular-nums">{{ doneCount }}/{{ tasks.length }}</span></MiProgressRing>
+        <div class="mi:grid mi:gap-0.5">
           <MiText id="scl-title" as="h2" variant="headline" weight="semibold">Setup paused</MiText>
           <MiText variant="footnote" tone="label2">
-            <span class="scl__num">{{ doneCount }} of {{ tasks.length }}</span> done. Pick it up any time from the Help menu.
+            <span class="mi:tabular-nums">{{ doneCount }} of {{ tasks.length }}</span> done. Pick it up any time from the Help menu.
           </MiText>
         </div>
-        <MiButton variant="tinted" @click="paused = false">Resume setup</MiButton>
+        <MiButton variant="tinted" class="mi:col-span-full mi:justify-self-start mi:@[560px]:[grid-column:auto]" @click="paused = false">Resume setup</MiButton>
       </div>
     </div>
 
-    <div v-else class="scl__in mi:grid mi:gap-6 mi:@[900px]:grid-cols-[300px_minmax(0,_1fr)] mi:@[900px]:gap-8 mi:@[900px]:items-start mi:@[1100px]:grid-cols-[340px_minmax(0,_1fr)] mi:@[1100px]:gap-12">
+    <div v-else class="mi:grid mi:gap-6 mi:@[900px]:grid-cols-[300px_minmax(0,_1fr)] mi:@[900px]:gap-8 mi:@[900px]:items-start mi:@[1100px]:grid-cols-[340px_minmax(0,_1fr)] mi:@[1100px]:gap-12">
       <!-- Summary: time left, not a percentage, is what people decide on. -->
-      <div class="scl__summary mi:relative mi:grid mi:gap-4.5 mi:content-start mi:p-5.5 mi:overflow-hidden mi:isolate mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-[0_0_0_1px_var(--mi-sep),_var(--mi-sh1)] mi:before:content-[''] mi:before:absolute mi:before:top-[-30%] mi:before:right-[-20%] mi:before:bottom-auto mi:before:left-auto mi:before:w-[80%] mi:before:aspect-[1] mi:before:-z-1 mi:before:rounded-[50%] mi:before:[background:radial-gradient(closest-side,_var(--mi-p-tint),_transparent)] mi:@[560px]:grid-cols-[auto_minmax(0,_1fr)] mi:@[560px]:items-center mi:@[560px]:gap-x-6 mi:@[560px]:py-6 mi:@[560px]:px-7 mi:@[900px]:grid-cols-[minmax(0,_1fr)] mi:@[900px]:p-7 mi:@[900px]:gap-5.5">
-        <div class="scl__ring mi:flex">
+      <div class="mi:relative mi:grid mi:gap-4.5 mi:content-start mi:p-5.5 mi:overflow-hidden mi:isolate mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-[0_0_0_1px_var(--mi-sep),_var(--mi-sh1)] mi:before:content-[''] mi:before:absolute mi:before:top-[-30%] mi:before:right-[-20%] mi:before:bottom-auto mi:before:left-auto mi:before:w-[80%] mi:before:aspect-[1] mi:before:-z-1 mi:before:rounded-[50%] mi:before:[background:radial-gradient(closest-side,_var(--mi-p-tint),_transparent)] mi:@[560px]:grid-cols-[auto_minmax(0,_1fr)] mi:@[560px]:items-center mi:@[560px]:gap-x-6 mi:@[560px]:py-6 mi:@[560px]:px-7 mi:@[900px]:grid-cols-[minmax(0,_1fr)] mi:@[900px]:p-7 mi:@[900px]:gap-5.5">
+        <div class="mi:flex">
           <MiProgressRing :value="pct" :size="128" :stroke="9" label="Setup progress">
-            <span class="scl__ring-copy mi:grid mi:justify-items-center mi:leading-none">
-              <span class="scl__ring-big mi:text-[22px] mi:font-bold mi:tracking-[-.03em] mi:tabular-nums">{{ allDone ? 'Done' : minutesLeft + ' min' }}</span>
-              <span class="scl__ring-sub mi:mt-1 mi:text-[11px] mi:font-medium mi:text-label2">{{ allDone ? 'all set' : 'left' }}</span>
+            <span class="mi:grid mi:justify-items-center mi:leading-none">
+              <span class="mi:text-[22px] mi:font-bold mi:tracking-[-.03em] mi:tabular-nums">{{ allDone ? 'Done' : minutesLeft + ' min' }}</span>
+              <span class="mi:mt-1 mi:text-[11px] mi:font-medium mi:text-label2">{{ allDone ? 'all set' : 'left' }}</span>
             </span>
           </MiProgressRing>
         </div>
-        <div class="scl__intro mi:grid mi:gap-1.5">
-          <MiText variant="caption" weight="semibold" tone="primary" class="scl__kicker">Oakridge Labs · first run</MiText>
+        <div class="mi:grid mi:gap-1.5">
+          <MiText variant="caption" weight="semibold" tone="primary" class="mi:tracking-[.02em]!">Oakridge Labs · first run</MiText>
           <MiText id="scl-title" as="h2" variant="title2" weight="bold" balance>
             {{ allDone ? 'Kiln is ready for your team' : 'Get Kiln ready for your team' }}
           </MiText>
@@ -33,7 +33,7 @@
             {{ allDone ? 'Your first preview deploy will start on the next push to main.' : 'A few short tasks. Each one runs right here, and all of it can change later in Settings.' }}
           </MiText>
         </div>
-        <div class="scl__cta mi:flex mi:flex-wrap mi:gap-2 mi:@[560px]:col-span-full mi:@[900px]:grid mi:@[900px]:justify-items-start">
+        <div class="mi:flex mi:flex-wrap mi:gap-2 mi:@[560px]:col-span-full mi:@[900px]:grid mi:@[900px]:justify-items-start">
           <MiButton v-if="next" @click="toggle(next.id, true)">
             {{ next.id === openId ? 'Finish' : 'Next' }}: {{ next.short }}
             <template #trailing><MiIcon name="arrow-right" :size="15" /></template>
@@ -43,61 +43,61 @@
         </div>
       </div>
 
-      <div class="scl__list mi:grid mi:content-start mi:gap-3">
-        <div class="scl__list-head mi:flex mi:items-baseline mi:justify-between mi:gap-3 mi:py-0 mi:px-1">
+      <div class="mi:grid mi:content-start mi:gap-3">
+        <div class="mi:flex mi:items-baseline mi:justify-between mi:gap-3 mi:py-0 mi:px-1">
           <MiText as="h3" variant="headline" weight="semibold">Setup checklist</MiText>
-          <MiText as="span" variant="footnote" tone="label2" class="scl__num" aria-live="polite">{{ doneCount }} of {{ tasks.length }} done</MiText>
+          <MiText as="span" variant="footnote" tone="label2" class="mi:tabular-nums" aria-live="polite">{{ doneCount }} of {{ tasks.length }} done</MiText>
         </div>
 
-        <TransitionGroup name="scl-row" tag="ol" class="scl__tasks mi:relative mi:grid mi:gap-2 mi:m-0 mi:p-0 mi:[list-style:none]">
-          <li v-for="t in openTasks" :key="t.id" class="scl__task mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-[0_0_0_1px_var(--mi-sep)] mi:[&.is-open]:shadow-[0_0_0_1px_var(--mi-sep),_var(--mi-sh2)]" :class="{ 'is-open': openId === t.id, 'is-finishing': finishing === t.id }">
+        <TransitionGroup tag="ol" enter-active-class="mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease),_transform_var(--mi-dur-3)_var(--mi-spring)]" enter-from-class="mi:opacity-0 mi:transform-[translateY(-6px)]" leave-active-class="mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease),_transform_var(--mi-dur-3)_var(--mi-spring)] mi:absolute mi:left-0 mi:right-0" leave-to-class="mi:opacity-0 mi:transform-[translateY(10px)_scale(.98)]" move-class="mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring)]" class="mi:relative mi:grid mi:gap-2 mi:m-0 mi:p-0 mi:[list-style:none]">
+          <li v-for="t in openTasks" :key="t.id" class="mi:rounded-lg mi:[background:var(--mi-card)] " :class="openId === t.id ? 'mi:shadow-[0_0_0_1px_var(--mi-sep),_var(--mi-sh2)]' : 'mi:shadow-[0_0_0_1px_var(--mi-sep)]'">
             <button
-              :id="'scl-h-' + t.id" type="button" class="scl__task-head mi:grid mi:grid-cols-[auto_minmax(0,_1fr)_auto_auto] mi:items-center mi:gap-3 mi:w-full mi:py-3.5 mi:px-4 mi:[border:0] mi:rounded-[inherit] mi:text-start mi:cursor-pointer mi:[font:inherit] mi:text-inherit mi:[background:none] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px]" :aria-expanded="openId === t.id" :aria-controls="'scl-p-' + t.id"
+              :id="'scl-h-' + t.id" type="button" class="mi:grid mi:grid-cols-[auto_minmax(0,_1fr)_auto_auto] mi:items-center mi:gap-3 mi:w-full mi:py-3.5 mi:px-4 mi:[border:0] mi:rounded-[inherit] mi:text-start mi:cursor-pointer mi:[font:inherit] mi:text-inherit mi:[background:none] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px]" :aria-expanded="openId === t.id" :aria-controls="'scl-p-' + t.id"
               @click="toggle(t.id)"
             >
-              <span class="scl__state mi:relative mi:grid mi:place-items-center mi:w-5.5 mi:h-5.5 mi:flex-[none] mi:rounded-[50%] mi:text-[color:var(--mi-p-on,_var(--mi-card))] mi:shadow-[inset_0_0_0_1.5px_var(--mi-fill)] mi:before:content-[''] mi:before:absolute mi:before:inset-0 mi:before:rounded-[50%] mi:before:[background:var(--mi-p)] mi:before:opacity-0 mi:before:transform-[scale(.3)] mi:before:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),_transform_420ms_var(--mi-spring)] mi:[.scl__task.is-finishing_&]:before:opacity-100 mi:[.scl__task.is-finishing_&]:before:transform-[scale(1)] mi:[&.is-done]:before:opacity-100 mi:[&.is-done]:before:transform-[scale(1)] mi:[.scl__done-row_&]:w-4.5 mi:[.scl__done-row_&]:h-4.5" aria-hidden="true"><MiIcon name="check" :size="13" :weight="3" /></span>
-              <span class="scl__task-copy mi:grid mi:gap-0.5 mi:min-w-0">
-                <span class="scl__task-title mi:text-[15px] mi:font-semibold mi:tracking-[-.01em] mi:[.scl__task.is-finishing_&]:text-label2">{{ t.title }}</span>
-                <span class="scl__task-sub mi:text-[13px] mi:leading-[1.35] mi:text-label2">{{ t.sub }}</span>
+              <span class="mi:relative mi:grid mi:place-items-center mi:w-5.5 mi:h-5.5 mi:flex-[none] mi:rounded-[50%] mi:text-[color:var(--mi-p-on,_var(--mi-card))] mi:shadow-[inset_0_0_0_1.5px_var(--mi-fill)] mi:before:content-[''] mi:before:absolute mi:before:inset-0 mi:before:rounded-[50%] mi:before:[background:var(--mi-p)] mi:before:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),_transform_420ms_var(--mi-spring)]" :class="finishing === t.id ? 'mi:before:opacity-100 mi:before:transform-[scale(1)]' : 'mi:before:opacity-0 mi:before:transform-[scale(.3)]'" aria-hidden="true"><MiIcon name="check" :size="13" :weight="3" class="mi:relative mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)_80ms,_transform_460ms_var(--mi-spring)_80ms]" :class="finishing === t.id ? 'mi:opacity-100 mi:[transform:none]' : 'mi:opacity-0 mi:transform-[scale(.4)_rotate(-20deg)]'" /></span>
+              <span class="mi:grid mi:gap-0.5 mi:min-w-0">
+                <span class="mi:text-[15px] mi:font-semibold mi:tracking-[-.01em]" :class="finishing === t.id ? 'mi:text-label2' : ''">{{ t.title }}</span>
+                <span class="mi:text-[13px] mi:leading-[1.35] mi:text-label2">{{ t.sub }}</span>
               </span>
-              <span class="scl__mins mi:py-[3px] mi:px-2 mi:rounded-[999px] mi:text-[12px] mi:font-medium mi:text-label2 mi:[background:var(--mi-fill4)] mi:tabular-nums mi:whitespace-nowrap mi:@max-[459px]:hidden">{{ t.mins }} min</span>
-              <MiIcon name="chevron-down" :size="16" class="scl__chev mi:text-label3 mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring)]" />
+              <span class="mi:py-[3px] mi:px-2 mi:rounded-[999px] mi:text-[12px] mi:font-medium mi:text-label2 mi:[background:var(--mi-fill4)] mi:tabular-nums mi:whitespace-nowrap mi:@max-[459px]:hidden">{{ t.mins }} min</span>
+              <MiIcon name="chevron-down" :size="16" class="mi:text-label3 mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring)]" :class="openId === t.id ? 'mi:transform-[rotate(180deg)]' : ''" />
             </button>
 
-            <Transition name="scl-panel">
-              <div v-if="openId === t.id" :id="'scl-p-' + t.id" class="scl__panel mi:pt-0.5 mi:pr-4 mi:pb-4.5 mi:pl-12.5 mi:@max-[459px]:pl-4" role="region" :aria-labelledby="'scl-h-' + t.id">
+            <Transition enter-active-class="mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease),_transform_var(--mi-dur-3)_var(--mi-ease)]" enter-from-class="mi:opacity-0 mi:transform-[translateY(-6px)]" leave-active-class="mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease),_transform_var(--mi-dur-3)_var(--mi-ease)]" leave-to-class="mi:opacity-0 mi:transform-[translateY(-6px)]">
+              <div v-if="openId === t.id" :id="'scl-p-' + t.id" class="mi:pt-0.5 mi:pr-4 mi:pb-4.5 mi:pl-12.5 mi:@max-[459px]:pl-4" role="region" :aria-labelledby="'scl-h-' + t.id">
                 <!-- Invite -->
-                <form v-if="t.id === 'invite'" class="scl__action mi:grid mi:gap-3.5" novalidate @submit.prevent="complete('invite')">
+                <form v-if="t.id === 'invite'" class="mi:grid mi:gap-3.5" novalidate @submit.prevent="complete('invite')">
                   <MiField label="Teammates' emails" hint="Press Return or comma after each address." :error="inviteError">
                     <template #default="{ id, describedBy }">
                       <MiTagInput :id="id" v-model="invites" :aria-describedby="describedBy" placeholder="name@oakridge.dev" :validate="isEmail" @reject="inviteError = 'That does not look like an email address.'" @add="inviteError = ''" />
                     </template>
                   </MiField>
-                  <div class="scl__row mi:flex mi:flex-wrap mi:items-center mi:gap-2.5">
+                  <div class="mi:justify-between mi:flex mi:flex-wrap mi:items-center mi:gap-2.5">
                     <MiSegmented v-model="inviteRole" label="Role for invitees" :options="roles" />
                     <MiButton type="submit" :disabled="!invites.length">Send {{ invites.length || '' }} {{ invites.length === 1 ? 'invite' : 'invites' }}</MiButton>
                   </div>
                 </form>
 
                 <!-- Repository -->
-                <div v-else-if="t.id === 'repo'" class="scl__action mi:grid mi:gap-3.5">
+                <div v-else-if="t.id === 'repo'" class="mi:grid mi:gap-3.5">
                   <MiRadioGroup v-model="repo" label="Repository to connect" :options="repos" />
-                  <div class="scl__row scl__row--end mi:flex mi:flex-wrap mi:items-center mi:gap-2.5">
+                  <div class="mi:[justify-content:flex-end] mi:flex mi:flex-wrap mi:items-center mi:gap-2.5">
                     <MiButton :loading="connecting" @click="connectRepo">Connect {{ repo }}</MiButton>
                   </div>
                 </div>
 
                 <!-- Theme -->
-                <div v-else-if="t.id === 'theme'" class="scl__action scl__theme mi:grid mi:gap-3.5 mi:@[560px]:grid-cols-[minmax(0,_1fr)_200px] mi:@[560px]:items-start">
-                  <div class="scl__theme-controls mi:grid mi:gap-3.5">
+                <div v-else-if="t.id === 'theme'" class="mi:grid mi:gap-3.5 mi:@[560px]:grid-cols-[minmax(0,_1fr)_200px] mi:@[560px]:items-start">
+                  <div class="mi:grid mi:gap-3.5">
                     <MiSegmented v-model="appearance" label="Appearance" :options="appearances" />
                     <MiSwatch v-model="accent" label="Accent" :options="accents" />
                   </div>
-                  <div class="scl__mini mi:[--bg:var(--mi-page)] mi:[--fg:var(--mi-card)] mi:[--ln:var(--mi-fill3)] mi:grid mi:grid-cols-[44px_minmax(0,_1fr)] mi:gap-2 mi:h-21 mi:p-2 mi:rounded-[12px] mi:[background:var(--bg)] mi:shadow-[inset_0_0_0_1px_var(--mi-sep)] mi:[&.is-inverse]:[--bg:var(--mi-label)] mi:[&.is-inverse]:[--fg:color-mix(in_srgb,_var(--mi-label)_86%,_var(--mi-page))] mi:[&.is-inverse]:[--ln:color-mix(in_srgb,_var(--mi-page)_22%,_transparent)]" :class="{ 'is-inverse': inversePreview }" :style="{ '--scl-accent': accent ?? 'var(--mi-p)' }" aria-hidden="true">
-                    <span class="scl__mini-side mi:grid mi:content-start mi:gap-1.5 mi:p-2 mi:rounded-[7px] mi:[background:var(--fg)]"><i class="mi:[.scl__mini-side_&:first-child]:[background:var(--scl-accent)]" /><i class="mi:[.scl__mini-side_&:first-child]:[background:var(--scl-accent)]" /><i class="mi:[.scl__mini-side_&:first-child]:[background:var(--scl-accent)]" /></span>
-                    <span class="scl__mini-main mi:grid mi:content-start mi:gap-1.5 mi:p-2 mi:rounded-[7px] mi:[background:var(--fg)]"><b /><i class="mi:[.scl__mini-main_&:nth-of-type(2)]:w-[70%]" /><i class="mi:[.scl__mini-main_&:nth-of-type(2)]:w-[70%]" /><em class="mi:[.scl__mini_&]:justify-self-start" /></span>
+                  <div class="mi:grid mi:grid-cols-[44px_minmax(0,_1fr)] mi:gap-2 mi:h-21 mi:p-2 mi:rounded-[12px] mi:[background:var(--bg)] mi:shadow-[inset_0_0_0_1px_var(--mi-sep)] " :class="inversePreview ? 'mi:[--bg:var(--mi-label)] mi:[--fg:color-mix(in_srgb,_var(--mi-label)_86%,_var(--mi-page))] mi:[--ln:color-mix(in_srgb,_var(--mi-page)_22%,_transparent)]' : 'mi:[--bg:var(--mi-page)] mi:[--fg:var(--mi-card)] mi:[--ln:var(--mi-fill3)]'" :style="{ '--scl-accent': accent ?? 'var(--mi-p)' }" aria-hidden="true">
+                    <span class="mi:grid mi:content-start mi:gap-1.5 mi:p-2 mi:rounded-[7px] mi:[background:var(--fg)]"><i class="mi:block mi:h-[5px] mi:rounded-[3px] mi:[background:var(--ln)] mi:[&:first-child]:[background:var(--scl-accent)]" /><i class="mi:block mi:h-[5px] mi:rounded-[3px] mi:[background:var(--ln)] mi:[&:first-child]:[background:var(--scl-accent)]" /><i class="mi:block mi:h-[5px] mi:rounded-[3px] mi:[background:var(--ln)] mi:[&:first-child]:[background:var(--scl-accent)]" /></span>
+                    <span class="mi:grid mi:content-start mi:gap-1.5 mi:p-2 mi:rounded-[7px] mi:[background:var(--fg)]"><b class="mi:block mi:w-[46%] mi:h-[7px] mi:rounded-[3px] mi:[background:var(--ln)]" /><i class="mi:block mi:h-[5px] mi:rounded-[3px] mi:[background:var(--ln)] mi:[&:nth-of-type(2)]:w-[70%]" /><i class="mi:block mi:h-[5px] mi:rounded-[3px] mi:[background:var(--ln)] mi:[&:nth-of-type(2)]:w-[70%]" /><em class="mi:justify-self-start mi:w-13 mi:h-3.5 mi:mt-0.5 mi:rounded-[5px] mi:[background:var(--scl-accent)]" /></span>
                   </div>
-                  <div class="scl__row scl__row--end mi:flex mi:flex-wrap mi:items-center mi:gap-2.5">
+                  <div class="mi:[justify-content:flex-end] mi:@[560px]:col-span-full mi:flex mi:flex-wrap mi:items-center mi:gap-2.5">
                     <MiButton @click="complete('theme')">Save theme</MiButton>
                   </div>
                 </div>
@@ -106,13 +106,13 @@
           </li>
         </TransitionGroup>
 
-        <div v-if="doneTasks.length" class="scl__done mi:grid mi:gap-1.5 mi:mt-1.5 mi:py-3 mi:px-4 mi:rounded-lg mi:[background:var(--mi-fill4)]">
-          <MiText as="h4" variant="caption" weight="semibold" tone="label2" class="scl__done-title">Completed</MiText>
-          <TransitionGroup name="scl-row" tag="ul" class="scl__done-list mi:relative mi:grid mi:gap-0.5 mi:m-0 mi:p-0 mi:[list-style:none]">
-            <li v-for="t in doneTasks" :key="t.id" class="scl__done-row mi:grid mi:grid-cols-[auto_minmax(0,_1fr)_auto] mi:items-center mi:gap-2.5 mi:py-[5px] mi:px-0 mi:text-[14px]">
-              <span class="scl__state is-done mi:relative mi:grid mi:place-items-center mi:w-5.5 mi:h-5.5 mi:flex-[none] mi:rounded-[50%] mi:text-[color:var(--mi-p-on,_var(--mi-card))] mi:shadow-[inset_0_0_0_1.5px_var(--mi-fill)] mi:before:content-[''] mi:before:absolute mi:before:inset-0 mi:before:rounded-[50%] mi:before:[background:var(--mi-p)] mi:before:opacity-0 mi:before:transform-[scale(.3)] mi:before:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),_transform_420ms_var(--mi-spring)] mi:[.scl__task.is-finishing_&]:before:opacity-100 mi:[.scl__task.is-finishing_&]:before:transform-[scale(1)] mi:[&.is-done]:before:opacity-100 mi:[&.is-done]:before:transform-[scale(1)] mi:[.scl__done-row_&]:w-4.5 mi:[.scl__done-row_&]:h-4.5" aria-hidden="true"><MiIcon name="check" :size="11" :weight="3" /></span>
-              <span class="scl__done-name mi:text-label2">{{ t.title }}</span>
-              <span class="scl__done-note mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:text-[12px] mi:text-label3 mi:max-w-40">{{ t.doneNote }}</span>
+        <div v-if="doneTasks.length" class="mi:grid mi:gap-1.5 mi:mt-1.5 mi:py-3 mi:px-4 mi:rounded-lg mi:[background:var(--mi-fill4)]">
+          <MiText as="h4" variant="caption" weight="semibold" tone="label2" class="mi:m-0 mi:uppercase mi:tracking-[.06em]! mi:text-[11px]!">Completed</MiText>
+          <TransitionGroup tag="ul" enter-active-class="mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease),_transform_var(--mi-dur-3)_var(--mi-spring)]" enter-from-class="mi:opacity-0 mi:transform-[translateY(-6px)]" leave-active-class="mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease),_transform_var(--mi-dur-3)_var(--mi-spring)] mi:absolute mi:left-0 mi:right-0" leave-to-class="mi:opacity-0 mi:transform-[translateY(10px)_scale(.98)]" move-class="mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring)]" class="mi:relative mi:grid mi:gap-0.5 mi:m-0 mi:p-0 mi:[list-style:none]">
+            <li v-for="t in doneTasks" :key="t.id" class="mi:grid mi:grid-cols-[auto_minmax(0,_1fr)_auto] mi:items-center mi:gap-2.5 mi:py-[5px] mi:px-0 mi:text-[14px]">
+              <span class="mi:relative mi:grid mi:place-items-center mi:w-4.5 mi:h-4.5 mi:flex-[none] mi:rounded-[50%] mi:text-[color:var(--mi-p-on,_var(--mi-card))] mi:shadow-[inset_0_0_0_1.5px_var(--mi-fill)] mi:before:content-[''] mi:before:absolute mi:before:inset-0 mi:before:rounded-[50%] mi:before:[background:var(--mi-p)] mi:before:opacity-100 mi:before:transform-[scale(1)] mi:before:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),_transform_420ms_var(--mi-spring)]" aria-hidden="true"><MiIcon name="check" :size="11" :weight="3" class="mi:relative mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)_80ms,_transform_460ms_var(--mi-spring)_80ms] mi:opacity-100 mi:[transform:none]" /></span>
+              <span class="mi:text-label2">{{ t.title }}</span>
+              <span class="mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:text-[12px] mi:text-label3 mi:max-w-40">{{ t.doneNote }}</span>
             </li>
           </TransitionGroup>
         </div>
@@ -205,31 +205,3 @@ function connectRepo() {
   later(() => { connecting.value = false; complete('repo') }, 800)
 }
 </script>
-
-<style scoped>
-.scl__num { font-variant-numeric: tabular-nums; }
-.scl__kicker { letter-spacing: .02em; }
-.scl__task.is-open .scl__chev { transform: rotate(180deg); }
-.scl__state :deep(svg) { position: relative; opacity: 0; transform: scale(.4) rotate(-20deg); transition: opacity var(--mi-dur-2) var(--mi-ease) 80ms, transform 460ms var(--mi-spring) 80ms; }
-.scl__task.is-finishing .scl__state :deep(svg), .scl__state.is-done :deep(svg) { opacity: 1; transform: none; }
-.scl__row { justify-content: space-between; }
-.scl__row--end { justify-content: flex-end; }
-.scl__mini i { display: block; height: 5px; border-radius: 3px; background: var(--ln); }
-.scl__mini b { display: block; width: 46%; height: 7px; border-radius: 3px; background: var(--ln); }
-.scl__mini em { width: 52px; height: 14px; margin-top: 2px; border-radius: 5px; background: var(--scl-accent); }
-.scl__done-title { margin: 0; text-transform: uppercase; letter-spacing: .06em; font-size: 11px; }
-.scl__paused-card > :last-child { grid-column: 1 / -1; justify-self: start; }
-
-/* Motion */
-.scl-panel-enter-active, .scl-panel-leave-active { transition: opacity var(--mi-dur-3) var(--mi-ease), transform var(--mi-dur-3) var(--mi-ease); }
-.scl-panel-enter-from, .scl-panel-leave-to { opacity: 0; transform: translateY(-6px); }
-.scl-row-enter-active, .scl-row-leave-active { transition: opacity var(--mi-dur-3) var(--mi-ease), transform var(--mi-dur-3) var(--mi-spring); }
-.scl-row-enter-from { opacity: 0; transform: translateY(-6px); }
-.scl-row-leave-to { opacity: 0; transform: translateY(10px) scale(.98); }
-.scl-row-leave-active { position: absolute; left: 0; right: 0; }
-.scl-row-move { transition: transform var(--mi-dur-3) var(--mi-spring); }
-@container (min-width: 560px) {
-  .scl__theme .scl__row--end { grid-column: 1 / -1; }
-  .scl__paused-card > :last-child { grid-column: auto; }
-}
-</style>

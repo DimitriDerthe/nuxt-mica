@@ -1,65 +1,65 @@
 <template>
-  <div class="sn mi:@container mi:grid mi:content-start mi:min-h-full mi:font-mi mi:text-label mi:[background:var(--mi-page)]">
-    <header class="sn__head mi:grid mi:gap-1.5 mi:pt-4.5 mi:px-3.5 mi:pb-1.5 mi:@[720px]:pt-6 mi:@[720px]:px-6 mi:@[720px]:pb-3">
+  <div class="mi:@container mi:grid mi:content-start mi:min-h-full mi:font-mi mi:text-label mi:[background:var(--mi-page)]">
+    <header class="mi:grid mi:gap-1.5 mi:pt-4.5 mi:px-3.5 mi:pb-1.5 mi:@[720px]:pt-6 mi:@[720px]:px-6 mi:@[720px]:pb-3">
       <MiBreadcrumb :items="crumbs" />
       <MiText variant="title2" as="h2" weight="bold">Settings</MiText>
     </header>
 
-    <div class="sn__layout mi:grid mi:min-w-0 mi:@[720px]:grid-cols-[220px_minmax(0,_1fr)] mi:@[720px]:gap-2 mi:@[720px]:pt-0 mi:@[720px]:pr-6 mi:@[720px]:pb-6 mi:@[720px]:pl-4 mi:@[720px]:items-start">
+    <div class="mi:grid mi:min-w-0 mi:@[720px]:grid-cols-[220px_minmax(0,_1fr)] mi:@[720px]:gap-2 mi:@[720px]:pt-0 mi:@[720px]:pr-6 mi:@[720px]:pb-6 mi:@[720px]:pl-4 mi:@[720px]:items-start">
       <!-- One nav, two shapes: grouped column when wide, scrolling strip when narrow. -->
-      <nav class="sn__nav mi:flex mi:gap-1 mi:py-2 mi:px-3.5 mi:overflow-x-auto mi:[scrollbar-width:none] mi:border-b mi:border-b-sep mi:@[720px]:grid mi:@[720px]:gap-3.5 mi:@[720px]:py-1.5 mi:@[720px]:px-0 mi:@[720px]:overflow-visible mi:@[720px]:[border:0]" aria-label="Settings sections">
-        <div v-for="g in groups" :key="g.label" class="sn__group mi:contents mi:@[720px]:grid mi:@[720px]:gap-0.5">
-          <MiText as="span" variant="caption" tone="label3" weight="semibold" class="sn__group-label mi:@[720px]:pt-0 mi:@[720px]:px-3 mi:@[720px]:pb-1">{{ g.label }}</MiText>
+      <nav class="mi:flex mi:gap-1 mi:py-2 mi:px-3.5 mi:overflow-x-auto mi:[scrollbar-width:none] mi:border-b mi:border-b-sep mi:@[720px]:grid mi:@[720px]:gap-3.5 mi:@[720px]:py-1.5 mi:@[720px]:px-0 mi:@[720px]:overflow-visible mi:@[720px]:[border:0]" aria-label="Settings sections">
+        <div v-for="g in groups" :key="g.label" class="mi:contents mi:@[720px]:grid mi:@[720px]:gap-0.5">
+          <MiText as="span" variant="caption" tone="label3" weight="semibold" class="mi:hidden! mi:@[720px]:block! mi:@[720px]:uppercase! mi:@[720px]:tracking-[.05em]! mi:@[720px]:text-[11px]! mi:@[720px]:pt-0 mi:@[720px]:px-3 mi:@[720px]:pb-1">{{ g.label }}</MiText>
           <button
-            v-for="it in g.items" :key="it.id" type="button" class="sn__item mi:relative mi:inline-flex mi:flex-[none] mi:items-center mi:gap-2 mi:h-9 mi:py-0 mi:px-3 mi:[border:0] mi:rounded-[10px] mi:text-label2 mi:[background:none] mi:cursor-pointer mi:whitespace-nowrap mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px] mi:@[720px]:flex mi:@[720px]:w-full" :aria-current="current === it.id ? 'page' : undefined"
+            v-for="it in g.items" :key="it.id" type="button" class="mi:relative mi:inline-flex mi:flex-[none] mi:items-center mi:gap-2 mi:h-9 mi:py-0 mi:px-3 mi:[border:0] mi:rounded-[10px] mi:[background:none] mi:[font:inherit] mi:text-[14px] mi:font-medium mi:cursor-pointer mi:whitespace-nowrap mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px] mi:@[720px]:flex mi:@[720px]:w-full" :class="current === it.id ? 'mi:text-p-text mi:bg-p-tint' : 'mi:text-label2 mi:hover:text-label mi:hover:bg-fill4'" :aria-current="current === it.id ? 'page' : undefined"
             @click="current = it.id"
           >
             <MiIcon :name="it.icon" :size="17" />
-            <span class="sn__item-label mi:flex-1 mi:text-start">{{ it.label }}</span>
-            <span v-if="it.id === 'notifications' && dirty" class="sn__dirty mi:w-2 mi:h-2 mi:rounded-[50%] mi:[background:var(--mi-orange)] mi:shadow-[0_0_0_3px_color-mix(in_srgb,_var(--mi-orange)_22%,_transparent)]" aria-label="Unsaved changes" role="img" />
+            <span class="mi:flex-1 mi:text-start">{{ it.label }}</span>
+            <span v-if="it.id === 'notifications' && dirty" class="mi:w-2 mi:h-2 mi:rounded-[50%] mi:[background:var(--mi-orange)] mi:shadow-[0_0_0_3px_color-mix(in_srgb,_var(--mi-orange)_22%,_transparent)]" aria-label="Unsaved changes" role="img" />
             <MiBadge v-else-if="it.count" :count="it.count" tone="neutral" variant="tint" :count-noun="it.label.toLowerCase()" />
             <MiBadge v-else-if="it.isNew" label="New" tone="primary" variant="tint" shape="pill" />
           </button>
         </div>
       </nav>
 
-      <section class="sn__panel mi:grid mi:content-start mi:gap-1 mi:min-w-0 mi:m-3.5 mi:p-5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:@[720px]:m-0 mi:@[720px]:py-6 mi:@[720px]:px-7" :aria-labelledby="'sn-h-' + current">
+      <section class="mi:grid mi:content-start mi:gap-1 mi:min-w-0 mi:m-3.5 mi:p-5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:@[720px]:m-0 mi:@[720px]:py-6 mi:@[720px]:px-7" :aria-labelledby="'sn-h-' + current">
         <MiText :id="'sn-h-' + current" variant="title3" as="h3" weight="semibold">{{ active.label }}</MiText>
         <MiText variant="footnote" tone="label2">{{ active.desc }}</MiText>
 
-        <div v-if="current === 'general'" class="sn__stack mi:grid mi:gap-4 mi:mt-4">
+        <div v-if="current === 'general'" class="mi:grid mi:gap-4 mi:mt-4">
           <MiField label="Workspace name"><MiInput v-model="name" /></MiField>
           <MiField label="Default time zone"><MiInput model-value="Europe/Lisbon (UTC+0)" disabled /></MiField>
         </div>
 
-        <ul v-else-if="current === 'members'" class="sn__rows mi:grid mi:mt-3 mi:mx-0 mi:mb-0 mi:p-0 mi:[list-style:none]">
-          <li v-for="m in members" :key="m.name" class="sn__row mi:grid mi:grid-cols-[auto_minmax(0,_1fr)_auto] mi:items-center mi:gap-3 mi:py-2.5 mi:px-0 mi:[.sn__row+&]:border-t mi:[.sn__row+&]:border-t-sep">
+        <ul v-else-if="current === 'members'" class="mi:grid mi:mt-3 mi:mx-0 mi:mb-0 mi:p-0 mi:[list-style:none]">
+          <li v-for="m in members" :key="m.name" class="mi:grid mi:grid-cols-[auto_minmax(0,_1fr)_auto] mi:items-center mi:gap-3 mi:py-2.5 mi:px-0 mi:not-first:border-t mi:not-first:border-t-sep">
             <MiAvatar :name="m.name" size="sm" tone="auto" decorative />
-            <span class="sn__row-text mi:grid mi:min-w-0 mi:text-[14px]"><strong class="mi:[.sn__row-text_&]:font-semibold">{{ m.name }}</strong><span class="mi:[.sn__row-text_&]:overflow-hidden mi:[.sn__row-text_&]:text-label3 mi:[.sn__row-text_&]:whitespace-nowrap mi:[.sn__row-text_&]:text-ellipsis">{{ m.email }}</span></span>
+            <span class="mi:grid mi:min-w-0 mi:text-[14px]"><strong class="mi:font-semibold">{{ m.name }}</strong><span class="mi:text-[12px] mi:overflow-hidden mi:text-label3 mi:whitespace-nowrap mi:text-ellipsis">{{ m.email }}</span></span>
             <MiBadge :label="m.role" :tone="m.role === 'Owner' ? 'primary' : 'neutral'" variant="outline" />
           </li>
         </ul>
 
-        <div v-else-if="current === 'notifications'" class="sn__stack mi:grid mi:gap-4 mi:mt-4">
-          <div v-for="n in notices" :key="n.id" class="sn__switch mi:flex mi:items-center mi:justify-between mi:gap-3">
-            <span class="sn__row-text mi:grid mi:min-w-0 mi:text-[14px]"><strong class="mi:[.sn__row-text_&]:font-semibold">{{ n.label }}</strong><span class="mi:[.sn__row-text_&]:overflow-hidden mi:[.sn__row-text_&]:text-label3 mi:[.sn__row-text_&]:whitespace-nowrap mi:[.sn__row-text_&]:text-ellipsis">{{ n.hint }}</span></span>
+        <div v-else-if="current === 'notifications'" class="mi:grid mi:gap-4 mi:mt-4">
+          <div v-for="n in notices" :key="n.id" class="mi:flex mi:items-center mi:justify-between mi:gap-3">
+            <span class="mi:grid mi:min-w-0 mi:text-[14px]"><strong class="mi:font-semibold">{{ n.label }}</strong><span class="mi:text-[12px] mi:overflow-hidden mi:text-label3 mi:whitespace-nowrap mi:text-ellipsis">{{ n.hint }}</span></span>
             <MiSwitch v-model="prefs[n.id]" size="compact" :label="n.label" />
           </div>
-          <div v-if="dirty" class="sn__save mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2 mi:pt-2.5 mi:pr-2.5 mi:pb-2.5 mi:pl-3.5 mi:rounded-md mi:[background:color-mix(in_srgb,_var(--mi-orange)_10%,_transparent)] mi:shadow-[inset_0_0_0_1px_color-mix(in_srgb,_var(--mi-orange)_30%,_transparent)]" role="status">
+          <div v-if="dirty" class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2 mi:pt-2.5 mi:pr-2.5 mi:pb-2.5 mi:pl-3.5 mi:rounded-md mi:[background:color-mix(in_srgb,_var(--mi-orange)_10%,_transparent)] mi:shadow-[inset_0_0_0_1px_color-mix(in_srgb,_var(--mi-orange)_30%,_transparent)]" role="status">
             <MiText as="span" variant="footnote" weight="medium">You have unsaved changes</MiText>
-            <span class="sn__save-actions mi:flex mi:gap-1.5">
+            <span class="mi:flex mi:gap-1.5">
               <MiButton variant="plain" size="small" @click="discard">Discard</MiButton>
               <MiButton size="small" @click="save">Save</MiButton>
             </span>
           </div>
         </div>
 
-        <div v-else-if="current === 'billing'" class="sn__stack mi:grid mi:gap-4 mi:mt-4">
+        <div v-else-if="current === 'billing'" class="mi:grid mi:gap-4 mi:mt-4">
           <MiMeter :value="38" :max="50" label="Seats" caption="38 of 50 used" hint="Renews Apr 1" />
           <MiMeter :value="212" :max="250" label="Automation runs" caption="212k of 250k" hint="85% used" color="var(--mi-orange)" />
         </div>
 
-        <MiSkeleton v-else variant="text" :lines="['80%', '64%', '90%', '45%']" :animated="false" class="sn__skel" />
+        <MiSkeleton v-else variant="text" :lines="['80%', '64%', '90%', '45%']" :animated="false" class="mi:mt-4!" />
       </section>
     </div>
   </div>
@@ -116,18 +116,3 @@ const dirty = computed(() => (Object.keys(saved) as (keyof typeof saved)[]).some
 function discard() { Object.assign(prefs, saved) }
 function save() { Object.assign(saved, { ...prefs }) }
 </script>
-
-<style scoped>
-.sn__group-label { display: none; }
-.sn__item {
-  font: inherit; font-size: 14px; font-weight: 500;
-}
-.sn__item:hover { color: var(--mi-label); background: var(--mi-fill4); }
-.sn__item[aria-current="page"] { color: var(--mi-p-text); background: var(--mi-p-tint); }
-.sn__row-text span { font-size: 12px; }
-.sn__skel { margin-top: 16px; }
-
-@container (min-width: 720px) {
-  .sn__group-label { display: block; text-transform: uppercase; letter-spacing: .05em; font-size: 11px; }
-}
-</style>

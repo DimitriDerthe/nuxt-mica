@@ -1,53 +1,53 @@
 <template>
-  <section class="ix mi:@container mi:h-165 mi:font-mi mi:text-label mi:bg-page" aria-labelledby="ix-title">
-    <div class="ix__shell mi:grid mi:h-full mi:grid-cols-[minmax(0,_1fr)] mi:@[720px]:grid-cols-[minmax(260px,_340px)_minmax(0,_1fr)] mi:@[1040px]:grid-cols-[220px_340px_minmax(0,_1fr)]" :class="{ 'is-reading': reading }">
+  <section class="mi:@container mi:h-165 mi:font-mi mi:text-label mi:bg-page" aria-labelledby="ix-title">
+    <div class="mi:grid mi:h-full mi:grid-cols-[minmax(0,_1fr)] mi:@[720px]:grid-cols-[minmax(260px,_340px)_minmax(0,_1fr)] mi:@[1040px]:grid-cols-[220px_340px_minmax(0,_1fr)]">
       <!-- Lanes rail (wide only): the inbox is sorted by who owes the next move, not by folder. -->
-      <nav class="ix__rail mi:hidden mi:@[1040px]:flex mi:flex-col mi:gap-0.5 mi:py-4.5 mi:px-3 mi:border-r mi:border-r-sep mi:bg-card mi:min-h-0" aria-label="Lanes">
-        <div class="ix__me mi:flex mi:items-center mi:gap-2.5 mi:pt-1 mi:px-2 mi:pb-4 mi:min-w-0">
+      <nav class="mi:hidden mi:@[1040px]:flex mi:flex-col mi:gap-0.5 mi:py-4.5 mi:px-3 mi:border-r mi:border-r-sep mi:bg-card mi:min-h-0" aria-label="Lanes">
+        <div class="mi:flex mi:items-center mi:gap-2.5 mi:pt-1 mi:px-2 mi:pb-4 mi:min-w-0">
           <MiAvatar name="Inès Moreau" size="sm" tone="primary" decorative />
-          <div class="ix__me-text mi:min-w-0">
+          <div class="mi:min-w-0">
             <MiText variant="subheadline" weight="semibold" :lines="1">Inès Moreau</MiText>
             <MiText variant="caption" tone="label2" :lines="1">Partnerships · Halden</MiText>
           </div>
         </div>
         <button
-          v-for="l in lanes" :key="l.id" type="button" class="ix__lane mi:flex mi:items-center mi:gap-2.5 mi:w-full mi:py-[9px] mi:px-2.5 mi:[border:0] mi:rounded-md mi:bg-transparent mi:text-label2 mi:text-start mi:cursor-pointer mi:[transition:opacity_var(--mi-dur-1)_var(--mi-ease)] mi:[&.is-on]:text-p-text mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px]" :class="{ 'is-on': lane === l.id }"
+          v-for="l in lanes" :key="l.id" type="button" class="mi:[font:inherit] mi:text-[14px] mi:flex mi:items-center mi:gap-2.5 mi:w-full mi:py-[9px] mi:px-2.5 mi:[border:0] mi:rounded-md mi:text-start mi:cursor-pointer mi:[transition:opacity_var(--mi-dur-1)_var(--mi-ease)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px]" :class="lane === l.id ? 'mi:bg-p-tint mi:font-semibold mi:text-p-text' : 'mi:bg-transparent mi:hover:bg-fill4 mi:text-label2'"
           :aria-pressed="lane === l.id" @click="lane = l.id"
         >
-          <span class="ix__lane-dot mi:flex-[none] mi:w-2 mi:h-2 mi:rounded-[50%] mi:bg-fill" :data-lane="l.id" />
-          <span class="ix__lane-name mi:flex-1 mi:min-w-0">{{ l.label }}</span>
-          <span class="ix__lane-n mi:text-[12px] mi:tabular-nums mi:text-label3">{{ countOf(l.id) }}</span>
+          <span class="mi:data-[lane=reply]:bg-red mi:data-[lane=waiting]:bg-p mi:data-[lane=fyi]:bg-label3 mi:flex-[none] mi:w-2 mi:h-2 mi:rounded-[50%] mi:bg-fill" :data-lane="l.id" />
+          <span class="mi:flex-1 mi:min-w-0">{{ l.label }}</span>
+          <span class="mi:text-[12px] mi:tabular-nums mi:text-label3">{{ countOf(l.id) }}</span>
         </button>
-        <p class="ix__rail-note mi:mt-auto mi:mx-2 mi:mb-0 mi:text-[12px] mi:leading-[1.45] mi:text-label3">Replying moves a thread to <strong>Waiting</strong>. The bar under each sender shows how long they have waited.</p>
+        <p class="mi:mt-auto mi:mx-2 mi:mb-0 mi:text-[12px] mi:leading-[1.45] mi:text-label3">Replying moves a thread to <strong>Waiting</strong>. The bar under each sender shows how long they have waited.</p>
       </nav>
 
-      <div class="ix__list mi:[.ix__shell.is-reading_&]:hidden mi:@[720px]:[.ix__shell_&]:flex mi:@[720px]:[.ix__shell_&]:border-r mi:@[720px]:[.ix__shell_&]:border-r-sep mi:@[720px]:[.ix__shell.is-reading_&]:flex mi:@[720px]:[.ix__shell.is-reading_&]:border-r mi:@[720px]:[.ix__shell.is-reading_&]:border-r-sep mi:flex mi:flex-col mi:min-h-0 mi:min-w-0 mi:bg-card">
-        <header class="ix__list-head mi:grid mi:gap-3 mi:pt-4.5 mi:px-4 mi:pb-3 mi:border-b mi:border-b-sep">
+      <div class="mi:@[720px]:flex mi:@[720px]:border-r mi:@[720px]:border-r-sep mi:flex-col mi:min-h-0 mi:min-w-0 mi:bg-card" :class="reading ? 'mi:hidden' : 'mi:flex'">
+        <header class="mi:grid mi:gap-3 mi:pt-4.5 mi:px-4 mi:pb-3 mi:border-b mi:border-b-sep">
           <div>
             <MiText id="ix-title" as="h2" variant="title3" weight="bold">Inbox</MiText>
             <MiText variant="footnote" tone="label2" aria-live="polite">{{ owed }} {{ owed === 1 ? 'person is' : 'people are' }} waiting on you</MiText>
           </div>
-          <MiSegmented v-model="lane" class="ix__seg" label="Lane" :options="laneOptions" />
+          <MiSegmented v-model="lane" class="mi:@[1040px]:hidden!" label="Lane" :options="laneOptions" />
         </header>
-        <div class="ix__scroll mi:flex-1 mi:min-h-0 mi:overflow-y-auto mi:pt-1 mi:px-2 mi:pb-4">
+        <div class="mi:flex-1 mi:min-h-0 mi:overflow-y-auto mi:pt-1 mi:px-2 mi:pb-4">
           <section v-for="g in groups" :key="g.id" :aria-labelledby="'ix-g-' + g.id">
-            <h3 :id="'ix-g-' + g.id" class="ix__group mi:flex mi:items-center mi:gap-2 mi:mt-3.5 mi:mx-2 mi:mb-1.5 mi:text-[11px] mi:font-semibold mi:tracking-[.06em] mi:uppercase mi:text-label2"><span class="ix__lane-dot mi:flex-[none] mi:w-2 mi:h-2 mi:rounded-[50%] mi:bg-fill" :data-lane="g.id" />{{ g.label }}</h3>
-            <ul class="ix__rows mi:[list-style:none] mi:m-0 mi:p-0 mi:grid mi:gap-0.5">
+            <h3 :id="'ix-g-' + g.id" class="mi:flex mi:items-center mi:gap-2 mi:mt-3.5 mi:mx-2 mi:mb-1.5 mi:text-[11px] mi:font-semibold mi:tracking-[.06em] mi:uppercase mi:text-label2"><span class="mi:data-[lane=reply]:bg-red mi:data-[lane=waiting]:bg-p mi:data-[lane=fyi]:bg-label3 mi:flex-[none] mi:w-2 mi:h-2 mi:rounded-[50%] mi:bg-fill" :data-lane="g.id" />{{ g.label }}</h3>
+            <ul class="mi:[list-style:none] mi:m-0 mi:p-0 mi:grid mi:gap-0.5">
               <li v-for="t in g.items" :key="t.id">
                 <button
-                  type="button" class="ix__row mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px] mi:flex mi:gap-3 mi:w-full mi:py-3 mi:px-2.5 mi:[border:0] mi:rounded-lg mi:bg-transparent mi:text-inherit mi:[font:inherit] mi:text-start mi:cursor-pointer" :class="{ 'is-on': t.id === activeId, 'is-unread': t.unread }"
+                  type="button" class="mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px] mi:flex mi:gap-3 mi:w-full mi:py-3 mi:px-2.5 mi:[border:0] mi:rounded-lg mi:text-inherit mi:[font:inherit] mi:text-start mi:cursor-pointer" :class="[t.id === activeId ? 'mi:bg-fill3' : 'mi:bg-transparent mi:hover:bg-fill4']"
                   :aria-current="t.id === activeId ? 'true' : undefined" @click="open(t.id)"
                 >
                   <MiAvatar :name="t.from" size="sm" tone="auto" decorative />
-                  <span class="ix__row-main mi:grid mi:gap-0.5 mi:flex-1 mi:min-w-0">
-                    <span class="ix__row-top mi:flex mi:items-baseline mi:justify-between mi:gap-2">
-                      <span class="ix__from mi:text-[14px] mi:font-medium mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:[.ix__row.is-unread_&]:font-bold">{{ t.from }}</span>
-                      <span class="ix__time mi:flex-[none] mi:text-[12px] mi:text-label3 mi:tabular-nums">{{ t.time }}</span>
+                  <span class="mi:grid mi:gap-0.5 mi:flex-1 mi:min-w-0">
+                    <span class="mi:flex mi:items-baseline mi:justify-between mi:gap-2">
+                      <span class="mi:text-[14px] mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap" :class="t.unread ? 'mi:font-bold' : 'mi:font-medium'">{{ t.from }}</span>
+                      <span class="mi:flex-[none] mi:text-[12px] mi:text-label3 mi:tabular-nums">{{ t.time }}</span>
                     </span>
-                    <span class="ix__subj mi:[.ix__row.is-unread_&]:font-bold mi:text-[13.5px] mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ t.subject }}</span>
-                    <span class="ix__prev mi:text-[13px] mi:leading-[1.4] mi:text-label2 mi:[display:-webkit-box] mi:[-webkit-line-clamp:2] mi:[-webkit-box-orient:vertical] mi:overflow-hidden">{{ t.preview }}</span>
-                    <span v-if="t.lane === 'reply'" class="ix__age mi:flex mi:items-center mi:gap-2 mi:mt-1.5 mi:text-[11.5px] mi:font-medium mi:text-orange-t mi:tabular-nums mi:[&.is-hot]:text-red-t" :class="{ 'is-hot': t.waited >= 24 }">
-                      <span class="ix__age-track mi:w-16 mi:h-1 mi:rounded-[2px] mi:bg-fill3 mi:overflow-hidden"><span class="mi:[.ix__age-track_&]:h-full mi:[.ix__age-track_&]:rounded-[inherit] mi:[.ix__age-track_&]:origin-left mi:[.ix__age-track_&]:[transition:transform_var(--mi-dur-3)_var(--mi-ease)]" :style="{ transform: `scaleX(${Math.min(t.waited / 48, 1)})` }" /></span>
+                    <span class="mi:text-[13.5px] mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap" :class="t.unread ? 'mi:font-bold' : ''">{{ t.subject }}</span>
+                    <span class="mi:text-[13px] mi:leading-[1.4] mi:text-label2 mi:[display:-webkit-box] mi:[-webkit-line-clamp:2] mi:[-webkit-box-orient:vertical] mi:overflow-hidden">{{ t.preview }}</span>
+                    <span v-if="t.lane === 'reply'" class="mi:flex mi:items-center mi:gap-2 mi:mt-1.5 mi:text-[11.5px] mi:font-medium mi:tabular-nums" :class="t.waited >= 24 ? 'mi:text-red-t' : 'mi:text-orange-t'">
+                      <span class="mi:w-16 mi:h-1 mi:rounded-[2px] mi:bg-fill3 mi:overflow-hidden"><span class="mi:block mi:bg-current mi:h-full mi:rounded-[inherit] mi:origin-left mi:[transition:transform_var(--mi-dur-3)_var(--mi-ease)]" :style="{ transform: `scaleX(${Math.min(t.waited / 48, 1)})` }" /></span>
                       waiting {{ t.waited }}h
                     </span>
                   </span>
@@ -59,36 +59,36 @@
         </div>
       </div>
 
-      <article class="ix__read mi:hidden mi:[.ix__shell.is-reading_&]:flex mi:@[720px]:[.ix__shell_&]:flex mi:flex-col mi:min-h-0 mi:min-w-0" aria-labelledby="ix-subject">
-        <header class="ix__read-head mi:flex mi:items-center mi:gap-3 mi:py-3.5 mi:px-5 mi:border-b mi:border-b-sep mi:bg-card">
-          <MiIconButton class="ix__back" label="Back to inbox" variant="gray" size="regular" @click="reading = false">
+      <article class="mi:@[720px]:flex mi:flex-col mi:min-h-0 mi:min-w-0" :class="reading ? 'mi:flex' : 'mi:hidden'" aria-labelledby="ix-subject">
+        <header class="mi:flex mi:items-center mi:gap-3 mi:py-3.5 mi:px-5 mi:border-b mi:border-b-sep mi:bg-card">
+          <MiIconButton class="mi:@[720px]:hidden!" label="Back to inbox" variant="gray" size="regular" @click="reading = false">
             <MiIcon name="chevron-left" />
           </MiIconButton>
-          <div class="ix__read-title mi:flex-1 mi:min-w-0">
+          <div class="mi:flex-1 mi:min-w-0">
             <MiText id="ix-subject" as="h3" variant="headline" weight="semibold" :lines="2">{{ active.subject }}</MiText>
             <MiText variant="footnote" tone="label2">{{ active.company }} · {{ active.messages.length }} {{ active.messages.length === 1 ? 'message' : 'messages' }}</MiText>
           </div>
           <MiBadge :tone="laneMeta[active.lane].tone" :label="laneMeta[active.lane].short" dot />
         </header>
 
-        <div class="ix__mails mi:flex-1 mi:min-h-0 mi:overflow-y-auto mi:grid mi:content-start mi:gap-3.5 mi:p-5">
-          <article v-for="(m, i) in active.messages" :key="i" class="ix__mail mi:max-w-[64ch] mi:py-4 mi:px-4.5 mi:rounded-lg mi:bg-card mi:shadow-1 mi:[&.is-mine]:ml-auto mi:[&.is-mine]:bg-p-tint mi:[&.is-mine]:shadow-none" :class="{ 'is-mine': m.me }">
-            <header class="ix__mail-head mi:flex mi:items-center mi:gap-2 mi:mb-2">
+        <div class="mi:flex-1 mi:min-h-0 mi:overflow-y-auto mi:grid mi:content-start mi:gap-3.5 mi:p-5">
+          <article v-for="(m, i) in active.messages" :key="i" class="mi:max-w-[64ch] mi:py-4 mi:px-4.5 mi:rounded-lg" :class="m.me ? 'mi:ml-auto mi:bg-p-tint mi:shadow-none' : 'mi:bg-card mi:shadow-1'">
+            <header class="mi:flex mi:items-center mi:gap-2 mi:mb-2">
               <MiAvatar :name="m.me ? 'Inès Moreau' : active.from" size="xs" :tone="m.me ? 'primary' : 'auto'" decorative />
-              <span class="ix__mail-from mi:flex-1 mi:text-[13px] mi:font-semibold">{{ m.me ? 'You' : active.from }}</span>
-              <time class="ix__time mi:flex-[none] mi:text-[12px] mi:text-label3 mi:tabular-nums">{{ m.time }}</time>
+              <span class="mi:flex-1 mi:text-[13px] mi:font-semibold">{{ m.me ? 'You' : active.from }}</span>
+              <time class="mi:flex-[none] mi:text-[12px] mi:text-label3 mi:tabular-nums">{{ m.time }}</time>
             </header>
-            <p v-for="(para, j) in m.body.split('\n\n')" :key="j" class="ix__mail-p mi:mt-0 mi:mx-0 mi:mb-2 mi:text-[14.5px] mi:leading-[1.55] mi:wrap-anywhere mi:last:mb-0">{{ para }}</p>
+            <p v-for="(para, j) in m.body.split('\n\n')" :key="j" class="mi:mt-0 mi:mx-0 mi:mb-2 mi:text-[14.5px] mi:leading-[1.55] mi:wrap-anywhere mi:last:mb-0">{{ para }}</p>
           </article>
         </div>
 
-        <form class="ix__reply mi:pt-3 mi:px-4 mi:pb-4 mi:border-t mi:border-t-sep mi:bg-card" @submit.prevent="send">
+        <form class="mi:pt-3 mi:px-4 mi:pb-4 mi:border-t mi:border-t-sep mi:bg-card" @submit.prevent="send">
           <MiInputGroup
             v-model="draft" multiline :rows="2" :aria-label="'Reply to ' + active.from" :placeholder="'Reply to ' + active.from.split(' ')[0] + '…'"
             @keydown.enter.meta.prevent="send" @keydown.enter.ctrl.prevent="send"
           >
             <template #block-end>
-              <div class="ix__reply-bar mi:flex mi:items-center mi:justify-between mi:gap-2 mi:w-full">
+              <div class="mi:flex mi:items-center mi:justify-between mi:gap-2 mi:w-full">
                 <MiText variant="caption" tone="label3">⌘ Enter to send</MiText>
                 <MiButton type="submit" size="small" :disabled="!draft.trim()">Send reply</MiButton>
               </div>
@@ -196,20 +196,3 @@ function send() {
 }
 </script>
 
-<style scoped>
-@container (min-width: 720px) {
-  .ix__back { display: none; }
-}
-@container (min-width: 1040px) {
-  .ix__seg { display: none; }
-}
-.ix__lane { font: inherit; font-size: 14px; }
-.ix__lane:hover { background: var(--mi-fill4); }
-.ix__lane.is-on { background: var(--mi-p-tint); font-weight: 600; }
-.ix__lane-dot[data-lane="reply"] { background: var(--mi-red); }
-.ix__lane-dot[data-lane="waiting"] { background: var(--mi-p); }
-.ix__lane-dot[data-lane="fyi"] { background: var(--mi-label3); }
-.ix__row:hover { background: var(--mi-fill4); }
-.ix__row.is-on { background: var(--mi-fill3); }
-.ix__age-track span { display: block; background: currentColor; }
-</style>

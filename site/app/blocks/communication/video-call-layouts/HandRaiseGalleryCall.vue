@@ -1,8 +1,8 @@
 <template>
-  <section class="hg mi:@container mi:min-h-165 mi:font-mi mi:text-label mi:[background:var(--mi-page)]" aria-labelledby="hg-title">
-    <div class="hg__shell mi:grid mi:gap-4 mi:p-4 mi:grid-cols-[minmax(0,_1fr)] mi:@[920px]:grid-cols-[minmax(0,_1fr)_280px] mi:@[920px]:p-5">
-      <div class="hg__main mi:grid mi:content-start mi:gap-3.5 mi:min-w-0">
-        <header class="hg__head mi:flex mi:items-center mi:justify-between mi:gap-3">
+  <section class="mi:@container mi:min-h-165 mi:font-mi mi:text-label mi:[background:var(--mi-page)]" aria-labelledby="hg-title">
+    <div class="mi:grid mi:gap-4 mi:p-4 mi:grid-cols-[minmax(0,_1fr)] mi:@[920px]:grid-cols-[minmax(0,_1fr)_280px] mi:@[920px]:p-5">
+      <div class="mi:grid mi:content-start mi:gap-3.5 mi:min-w-0">
+        <header class="mi:flex mi:items-center mi:justify-between mi:gap-3">
           <div>
             <MiText id="hg-title" as="h2" variant="headline" weight="semibold">All-hands Q&amp;A</MiText>
             <MiText variant="caption" tone="label2">{{ people.length }} in call · 32:14 · you are hosting</MiText>
@@ -10,21 +10,21 @@
           <MiBadge :tone="queue.length ? 'warning' : 'neutral'" :label="queue.length + ' raised'" dot />
         </header>
 
-        <ul class="hg__grid mi:[list-style:none] mi:m-0 mi:p-0 mi:grid mi:gap-2.5 mi:grid-cols-2 mi:@[600px]:grid-cols-3 mi:@[1100px]:grid-cols-4" aria-label="Participants">
+        <ul class="mi:[list-style:none] mi:m-0 mi:p-0 mi:grid mi:gap-2.5 mi:grid-cols-2 mi:@[600px]:grid-cols-3 mi:@[1100px]:grid-cols-4" aria-label="Participants">
           <li
-            v-for="p in people" :key="p.id" class="hg__tile mi:relative mi:grid mi:place-items-center mi:aspect-[4_/_3] mi:rounded-lg mi:overflow-hidden mi:isolate mi:[background:radial-gradient(120%_90%_at_30%_20%,_color-mix(in_srgb,_var(--hg-hue)_35%,_var(--mi-elev)),_var(--mi-elev))] mi:after:content-[''] mi:after:absolute mi:after:inset-0 mi:after:border-3 mi:after:border-green mi:after:rounded-[inherit] mi:after:opacity-0 mi:after:pointer-events-none mi:[&.is-speaking]:after:opacity-100" :class="{ 'is-speaking': p.id === speakerId }"
+            v-for="p in people" :key="p.id" class="mi:relative mi:grid mi:place-items-center mi:aspect-[4_/_3] mi:rounded-lg mi:overflow-hidden mi:isolate mi:[background:radial-gradient(120%_90%_at_30%_20%,_color-mix(in_srgb,_var(--hg-hue)_35%,_var(--mi-elev)),_var(--mi-elev))] mi:after:content-[''] mi:after:absolute mi:after:inset-0 mi:after:border-3 mi:after:border-green mi:after:rounded-[inherit] mi:after:pointer-events-none mi:after:[--mi-blink:.45]" :class="p.id === speakerId ? 'mi:after:opacity-100 mi:after:animate-[blink_1.6s_var(--mi-ease)_infinite] mi:motion-reduce:after:animate-none' : 'mi:after:opacity-0'"
             :style="{ '--hg-hue': p.hue }"
           >
             <MiAvatar :name="p.name" size="lg" tone="auto" decorative />
-            <span v-if="queuePos(p.id)" class="hg__hand mi:absolute mi:top-2 mi:right-2 mi:py-[3px] mi:px-2 mi:rounded-[999px] mi:[background:var(--mi-card)] mi:text-orange-t mi:text-[12px] mi:font-bold mi:shadow-1" :aria-label="'Hand raised, number ' + queuePos(p.id)">✋ {{ queuePos(p.id) }}</span>
-            <span class="hg__name mi:absolute mi:left-2 mi:bottom-2 mi:inline-flex mi:items-center mi:gap-1 mi:max-w-[calc(100%_-_16px)] mi:py-[3px] mi:px-2 mi:rounded-[8px] mi:[background:color-mix(in_srgb,_var(--mi-card)_82%,_transparent)] mi:text-[12px] mi:font-semibold mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">
+            <span v-if="queuePos(p.id)" class="mi:[--mi-in-s:.6] mi:animate-[in_var(--mi-dur-3)_var(--mi-spring)] mi:motion-reduce:animate-none mi:absolute mi:top-2 mi:right-2 mi:py-[3px] mi:px-2 mi:rounded-[999px] mi:[background:var(--mi-card)] mi:text-orange-t mi:text-[12px] mi:font-bold mi:shadow-1" :aria-label="'Hand raised, number ' + queuePos(p.id)">✋ {{ queuePos(p.id) }}</span>
+            <span class="mi:absolute mi:left-2 mi:bottom-2 mi:inline-flex mi:items-center mi:gap-1 mi:max-w-[calc(100%_-_16px)] mi:py-[3px] mi:px-2 mi:rounded-[8px] mi:[background:color-mix(in_srgb,_var(--mi-card)_82%,_transparent)] mi:text-[12px] mi:font-semibold mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">
               <MiIcon v-if="p.muted" :svg="icons.micOff" :size="13" label="Muted" />
               {{ p.id === 'me' ? 'You' : p.name }}
             </span>
           </li>
         </ul>
 
-        <div class="hg__controls mi:flex mi:justify-center mi:items-center mi:gap-2.5 mi:p-2.5 mi:rounded-[999px] mi:[background:var(--mi-card)] mi:shadow-1 mi:justify-self-center" role="toolbar" aria-label="Call controls">
+        <div class="mi:flex mi:justify-center mi:items-center mi:gap-2.5 mi:p-2.5 mi:rounded-[999px] mi:[background:var(--mi-card)] mi:shadow-1 mi:justify-self-center" role="toolbar" aria-label="Call controls">
           <MiIconButton :label="me.muted ? 'Unmute' : 'Mute'" variant="gray" :pressed="me.muted" @click="me.muted = !me.muted">
             <MiIcon :svg="me.muted ? icons.micOff : icons.mic" />
           </MiIconButton>
@@ -35,20 +35,20 @@
         </div>
       </div>
 
-      <aside class="hg__queue mi:grid mi:content-start mi:gap-1.5 mi:py-4.5 mi:px-4 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1" aria-labelledby="hg-queue-title">
+      <aside class="mi:grid mi:content-start mi:gap-1.5 mi:py-4.5 mi:px-4 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1" aria-labelledby="hg-queue-title">
         <MiText id="hg-queue-title" as="h3" variant="subheadline" weight="semibold">Raised hands</MiText>
         <MiText variant="caption" tone="label2">First come, first served. Calling on someone unmutes them.</MiText>
-        <ol v-if="queue.length" class="hg__list mi:[list-style:none] mi:mt-2 mi:mx-0 mi:mb-0 mi:p-0 mi:grid mi:gap-1">
-          <li v-for="(id, i) in queue" :key="id" class="hg__q mi:flex mi:items-center mi:gap-2 mi:min-h-10 mi:pt-1 mi:pr-1 mi:pb-1 mi:pl-2 mi:rounded-md mi:first:[background:var(--mi-p-tint)]">
-            <span class="hg__q-n mi:w-4 mi:text-[12px] mi:font-bold mi:text-label3 mi:tabular-nums">{{ i + 1 }}</span>
+        <ol v-if="queue.length" class="mi:[list-style:none] mi:mt-2 mi:mx-0 mi:mb-0 mi:p-0 mi:grid mi:gap-1">
+          <li v-for="(id, i) in queue" :key="id" class="mi:flex mi:items-center mi:gap-2 mi:min-h-10 mi:pt-1 mi:pr-1 mi:pb-1 mi:pl-2 mi:rounded-md mi:first:[background:var(--mi-p-tint)]">
+            <span class="mi:w-4 mi:text-[12px] mi:font-bold mi:text-label3 mi:tabular-nums">{{ i + 1 }}</span>
             <MiAvatar :name="byId[id]?.name" size="xs" tone="auto" decorative />
-            <span class="hg__q-name mi:flex-1 mi:min-w-0 mi:text-[14px] mi:font-semibold mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ id === 'me' ? 'You' : byId[id]?.name }}</span>
+            <span class="mi:flex-1 mi:min-w-0 mi:text-[14px] mi:font-semibold mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ id === 'me' ? 'You' : byId[id]?.name }}</span>
             <MiButton v-if="i === 0" size="mini" variant="tinted" @click="callOn(id)">Call on</MiButton>
             <MiIconButton :label="'Lower hand for ' + byId[id]?.name" variant="plain" size="small" @click="toggleHand(id)"><MiIcon name="close" :size="14" /></MiIconButton>
           </li>
         </ol>
-        <p v-else class="hg__empty mi:mt-2 mi:mx-0 mi:mb-0 mi:text-[13px] mi:text-label2">No hands raised.</p>
-        <p class="hg__now mi:mt-1.5 mi:mx-0 mi:mb-0 mi:min-h-4.5 mi:text-[12.5px] mi:text-green-t" role="status">{{ speakerId ? 'Speaking: ' + (speakerId === 'me' ? 'You' : byId[speakerId]?.name) : '' }}</p>
+        <p v-else class="mi:mt-2 mi:mx-0 mi:mb-0 mi:text-[13px] mi:text-label2">No hands raised.</p>
+        <p class="mi:mt-1.5 mi:mx-0 mi:mb-0 mi:min-h-4.5 mi:text-[12.5px] mi:text-green-t" role="status">{{ speakerId ? 'Speaking: ' + (speakerId === 'me' ? 'You' : byId[speakerId]?.name) : '' }}</p>
       </aside>
     </div>
   </section>
@@ -99,11 +99,3 @@ function callOn(id: string) {
   queue.value = queue.value.filter(x => x !== id)
 }
 </script>
-
-<style scoped>
-.hg__tile.is-speaking::after { animation: hg-talk 1.6s var(--mi-ease) infinite; }
-@keyframes hg-talk { 50% { opacity: .45; } }
-.hg__hand { animation: hg-pop var(--mi-dur-3) var(--mi-spring); }
-@keyframes hg-pop { from { transform: scale(.6); opacity: 0; } }
-@media (prefers-reduced-motion: reduce) { .hg__tile.is-speaking::after, .hg__hand { animation: none; } }
-</style>

@@ -1,28 +1,28 @@
 <template>
-  <section class="rcf mi:@container mi:font-mi mi:text-label" aria-labelledby="rcf-title">
-    <div class="rcf__grid mi:grid mi:gap-4 mi:grid-cols-[minmax(0,_1fr)] mi:@[820px]:grid-cols-[minmax(0,_1fr)_280px] mi:@[820px]:items-start">
-      <form v-if="!ticket" class="rcf__form mi:grid mi:gap-4 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:min-w-0" novalidate @submit.prevent="submit">
+  <section class="mi:@container mi:font-mi mi:text-label" aria-labelledby="rcf-title">
+    <div class="mi:grid mi:gap-4 mi:grid-cols-[minmax(0,_1fr)] mi:@[820px]:grid-cols-[minmax(0,_1fr)_280px] mi:@[820px]:items-start">
+      <form v-if="!ticket" class="mi:grid mi:gap-4 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:min-w-0" novalidate @submit.prevent="submit">
         <header>
           <MiText id="rcf-title" variant="title3" as="h2" weight="semibold">Contact Tessera</MiText>
           <MiText variant="footnote" tone="label2">Tell us what it is about and we route it to the right people.</MiText>
         </header>
 
-        <fieldset class="rcf__topics mi:grid mi:gap-2 mi:m-0 mi:p-0 mi:[border:0] mi:min-w-0 mi:grid-cols-[minmax(0,_1fr)] mi:@[600px]:grid-cols-3">
-          <legend class="rcf__legend mi:mb-2 mi:p-0 mi:text-[13px] mi:font-semibold">What is it about?</legend>
-          <label v-for="t in TOPICS" :key="t.id" class="rcf__topic mi:relative mi:flex mi:[align-items:flex-start] mi:gap-2.5 mi:p-3 mi:rounded-lg mi:cursor-pointer mi:shadow-[0_0_0_1px_var(--mi-sep)] mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:hover:transform-[translateY(-1px)] mi:[&.is-on]:shadow-[0_0_0_2px_var(--mi-p)] mi:[&.is-on]:[background:color-mix(in_srgb,_var(--mi-p)_5%,_transparent)] mi:[&:has(:focus-visible)]:[outline:3px_solid_color-mix(in_srgb,_var(--mi-p)_45%,_transparent)] mi:[&:has(:focus-visible)]:outline-offset-[2px]" :class="{ 'is-on': topic === t.id }">
-            <input v-model="topic" type="radio" name="rcf-topic" :value="t.id" class="rcf__radio mi:absolute mi:opacity-0 mi:pointer-events-none">
-            <MiIcon :name="t.icon" :size="18" />
-            <span><b>{{ t.label }}</b><small>{{ t.blurb }}</small></span>
+        <fieldset class="mi:grid mi:gap-2 mi:m-0 mi:p-0 mi:[border:0] mi:min-w-0 mi:grid-cols-[minmax(0,_1fr)] mi:@[600px]:grid-cols-3">
+          <legend class="mi:mb-2 mi:p-0 mi:text-[13px] mi:font-semibold">What is it about?</legend>
+          <label v-for="t in TOPICS" :key="t.id" class="mi:relative mi:flex mi:[align-items:flex-start] mi:gap-2.5 mi:p-3 mi:rounded-lg mi:cursor-pointer mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:hover:transform-[translateY(-1px)] mi:[&:has(:focus-visible)]:[outline:3px_solid_color-mix(in_srgb,_var(--mi-p)_45%,_transparent)] mi:[&:has(:focus-visible)]:outline-offset-[2px]" :class="topic === t.id ? 'mi:shadow-[0_0_0_2px_var(--mi-p)] mi:[background:color-mix(in_srgb,_var(--mi-p)_5%,_transparent)]' : 'mi:shadow-[0_0_0_1px_var(--mi-sep)]'">
+            <input v-model="topic" type="radio" name="rcf-topic" :value="t.id" class="mi:flex-[none] mi:text-p-text mi:mt-px mi:absolute mi:opacity-0 mi:pointer-events-none">
+            <MiIcon :name="t.icon" :size="18" class="mi:flex-[none] mi:text-p-text mi:mt-px" />
+            <span class="mi:flex-[none] mi:text-p-text mi:mt-px mi:grid mi:text-[14px]"><b>{{ t.label }}</b><small class="mi:text-[12px] mi:text-label2">{{ t.blurb }}</small></span>
           </label>
         </fieldset>
 
-        <div class="rcf__pair mi:grid mi:gap-3.5 mi:grid-cols-[minmax(0,_1fr)] mi:@[600px]:grid-cols-[1fr_1fr] mi:@[600px]:items-start">
+        <div class="mi:grid mi:gap-3.5 mi:grid-cols-[minmax(0,_1fr)] mi:@[600px]:grid-cols-[1fr_1fr] mi:@[600px]:items-start">
           <MiField label="Your name" required :error="err('name')"><MiInput v-model="form.name" autocomplete="name" /></MiField>
           <MiField label="Work email" required :error="err('email')"><MiInput v-model="form.email" type="email" autocomplete="email" /></MiField>
         </div>
 
         <!-- Fields that only this team needs. -->
-        <div class="rcf__pair mi:grid mi:gap-3.5 mi:grid-cols-[minmax(0,_1fr)] mi:@[600px]:grid-cols-[1fr_1fr] mi:@[600px]:items-start">
+        <div class="mi:grid mi:gap-3.5 mi:grid-cols-[minmax(0,_1fr)] mi:@[600px]:grid-cols-[1fr_1fr] mi:@[600px]:items-start">
           <template v-if="topic === 'sales'">
             <MiField label="Company size"><MiNativeSelect v-model="form.size" :options="SIZES" /></MiField>
             <MiField label="Planned start" hint="Helps us book the right demo slot"><MiNativeSelect v-model="form.when" :options="WHEN" /></MiField>
@@ -40,26 +40,26 @@
           <MiTextarea v-model="form.message" :rows="4" :maxlength="1200" counter :placeholder="team.placeholder" />
         </MiField>
 
-        <div class="rcf__actions mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2.5">
+        <div class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2.5">
           <MiText variant="caption" tone="label2">We only use your email to reply.</MiText>
           <MiButton type="submit" :loading="busy">Send to {{ team.team }}</MiButton>
         </div>
       </form>
 
-      <div v-else class="rcf__form rcf__sent mi:grid mi:gap-4 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:min-w-0 mi:justify-items-center mi:py-10 mi:text-center" role="status">
-        <span class="rcf__sent-mark mi:grid mi:place-items-center mi:w-13 mi:h-13 mi:rounded-[50%] mi:bg-green mi:text-card"><MiIcon name="check" :size="24" :weight="2.6" /></span>
+      <div v-else class="mi:grid mi:gap-4 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:min-w-0 mi:justify-items-center mi:py-10 mi:text-center" role="status">
+        <span class="mi:grid mi:place-items-center mi:w-13 mi:h-13 mi:rounded-[50%] mi:bg-green mi:text-card"><MiIcon name="check" :size="24" :weight="2.6" /></span>
         <MiText variant="title3" as="h2" weight="semibold">{{ team.team }} has it</MiText>
         <MiText variant="subheadline" tone="label2" align="center">Reference {{ ticket }}. {{ team.reply }}, at {{ form.email }}.</MiText>
         <MiButton variant="gray" @click="ticket = ''">Send another message</MiButton>
       </div>
 
-      <aside class="rcf__side mi:grid mi:justify-items-start mi:gap-2.5 mi:p-5 mi:rounded-xl mi:bg-fill4" aria-labelledby="rcf-who" aria-live="polite">
+      <aside class="mi:grid mi:justify-items-start mi:gap-2.5 mi:p-5 mi:rounded-xl mi:bg-fill4" aria-labelledby="rcf-who" aria-live="polite">
         <MiText variant="caption" tone="label2" weight="semibold">Who will answer</MiText>
         <MiText id="rcf-who" variant="headline" as="h3">{{ team.team }}</MiText>
         <MiAvatarGroup :items="team.people" :max="3" size="sm" />
-        <dl class="rcf__facts mi:grid mi:gap-2 mi:w-full mi:my-1 mi:mx-0 mi:text-[13px]">
-          <div class="mi:[.rcf__facts_&]:gap-0.5"><dt>First reply</dt><dd class="mi:[.rcf__facts_&]:m-0 mi:[.rcf__facts_&]:font-medium">{{ urgent ? 'Within 1 hour' : team.reply }}</dd></div>
-          <div class="mi:[.rcf__facts_&]:gap-0.5"><dt>Hours</dt><dd class="mi:[.rcf__facts_&]:m-0 mi:[.rcf__facts_&]:font-medium">{{ team.hours }}</dd></div>
+        <dl class="mi:grid mi:gap-2 mi:w-full mi:my-1 mi:mx-0 mi:text-[13px]">
+          <div class="mi:grid mi:gap-0.5"><dt class="mi:text-label2 mi:text-[12px]">First reply</dt><dd class="mi:m-0 mi:font-medium">{{ urgent ? 'Within 1 hour' : team.reply }}</dd></div>
+          <div class="mi:grid mi:gap-0.5"><dt class="mi:text-label2 mi:text-[12px]">Hours</dt><dd class="mi:m-0 mi:font-medium">{{ team.hours }}</dd></div>
         </dl>
         <MiBadge :tone="team.open ? 'success' : 'neutral'" dot :label="team.open ? 'Online now' : 'Back at 9:00 CET'" />
       </aside>
@@ -113,11 +113,3 @@ function submit() {
 }
 onBeforeUnmount(() => clearTimeout(timer))
 </script>
-
-<style scoped>
-.rcf__topic > :first-of-type { flex: none; color: var(--mi-p-text); margin-top: 1px; }
-.rcf__topic span { display: grid; font-size: 14px; }
-.rcf__topic small { font-size: 12px; color: var(--mi-label2); }
-.rcf__facts div { display: grid; }
-.rcf__facts dt { color: var(--mi-label2); font-size: 12px; }
-</style>

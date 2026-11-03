@@ -45,6 +45,11 @@ describe('application UI blocks', () => {
     }
   })
 
+  it('styles blocks with utilities only, without a style block', () => {
+    const bad = all.filter(b => /<style/.test(read(b))).map(b => `${b.family}/${b.category.id}/${b.meta.file}`)
+    expect(bad).toEqual([])
+  })
+
   it('styles blocks with tokens and container queries only', () => {
     for (const b of all) {
       const all = css(read(b))
@@ -78,9 +83,7 @@ describe('application UI blocks', () => {
     // The preview frame (and many app layouts) give a block more height than it needs: a root grid
     // without align-content spreads that space between its rows, opening gaps when content shrinks.
     const bad = all.filter(b => b.meta.stage !== 'bleed').flatMap((b) => {
-      const src = read(b)
-      const root = src.match(/<template>\s*(?:<!--[\s\S]*?-->\s*)*<[a-zA-Z-]+[^>]*?\sclass="([\w-]+)/)?.[1]
-      const rule = (style(src).match(new RegExp(`(^|\\n)\\.${root}\\s*\\{([^}]*)\\}`))?.[2] ?? '') + rootUtilities(src)
+      const rule = rootUtilities(read(b))
       return /display:\s*grid/.test(rule) && !/align-content|place-content|grid-template(-rows)?:/.test(rule) ? [`${b.family}/${b.category.id}/${b.meta.file}`] : []
     })
     expect(bad).toEqual([])
@@ -96,13 +99,25 @@ describe('application UI blocks', () => {
   it('never container-queries the root element against itself', () => {
     const bad = all.flatMap((b) => {
       const src = read(b)
-      const root = src.match(/<template>\s*(?:<!--[\s\S]*?-->\s*)*<[a-zA-Z-]+[^>]*?\sclass="([\w-]+)/)?.[1]
-      if (!root) return [`${b.meta.file}: no root class`]
-      const queries = style(src).match(/@container[^{]*\{(?:[^{}]*\{[^}]*\})*\s*\}/g) ?? []
-      const self = new RegExp(`(^|[},])\\s*\\.${root}([.:\\[][^\\s>+~,{]*)?\\s*[,{]`)
-      const utilities = rootClasses(src).filter(t => parse(t)?.at.some(a => a.startsWith('@container')))
-      return [...queries.filter(q => self.test(q.replace(/^@container[^{]*\{/, ''))).map(() => `.${root}`), ...utilities].map(x => `${b.family}/${b.category.id}/${b.meta.file}: ${x}`)
+      if (!rootClasses(src).length) return [`${b.meta.file}: no root class`]
+      return rootClasses(src).filter(t => parse(t)?.at.some(a => a.startsWith('@container'))).map(x => `${b.family}/${b.category.id}/${b.meta.file}: ${x}`)
     })
+    expect(bad).toEqual([])
+  })
+
+  it('puts only mi: utilities in class attributes', () => {
+    // Static `class` and the string literals of `:class` (comparison operands are not classes).
+    const tokens = (src: string) => {
+      const tpl = src.slice(0, src.search(/<script/) === -1 ? undefined : src.search(/<script/))
+      const found: string[] = []
+      for (const m of tpl.matchAll(/(?<![:\w@-])class="([^"]*)"/g)) found.push(...m[1]!.split(/\s+/))
+      for (const m of tpl.matchAll(/(?<![\w@-]):class="([^"]*)"/g)) {
+        const expr = m[1]!.replace(/(?:===?|!==?)\s*'[^']*'|'[^']*'\s*(?:===?|!==?)/g, '')
+        for (const l of expr.matchAll(/'([^']*)'/g)) found.push(...l[1]!.split(/\s+/))
+      }
+      return found.filter(t => t && !t.startsWith('mi:') && !t.startsWith('mi-'))
+    }
+    const bad = all.flatMap(b => tokens(read(b)).map(t => `${b.family}/${b.category.id}/${b.meta.file}: ${t}`))
     expect(bad).toEqual([])
   })
 })

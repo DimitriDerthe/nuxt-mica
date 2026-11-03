@@ -1,6 +1,6 @@
 <template>
-  <section class="cfm mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="cfm-title">
-    <header class="cfm__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="cfm-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText variant="caption" tone="label2" weight="medium">Women · Knitwear</MiText>
         <MiText id="cfm-title" variant="title3" as="h2" weight="semibold">Merino and cashmere</MiText>
@@ -8,9 +8,9 @@
       <MiMenu v-model="sort" variant="popup" :items="sortItems" aria-label="Sort products" placement="bottom-end" />
     </header>
 
-    <div class="cfm__body mi:grid mi:gap-4 mi:grid-cols-[minmax(0,_1fr)] mi:items-start mi:@[760px]:grid-cols-[300px_minmax(0,_1fr)] mi:@[760px]:gap-6">
+    <div class="mi:grid mi:gap-4 mi:grid-cols-[minmax(0,_1fr)] mi:items-start mi:@[760px]:grid-cols-[300px_minmax(0,_1fr)] mi:@[760px]:gap-6">
       <!-- Filter popover, shown open in place; the wrapper owns its grid cell. -->
-      <div class="cfm__filters mi:min-w-0">
+      <div class="mi:min-w-0">
         <MiPopover v-model="open" inline trigger="manual" :width="300" :arrow-offset="44" label="Filters">
           <template #trigger="{ attrs, toggle }">
             <MiButton v-bind="attrs" size="small" :variant="activeCount ? 'tinted' : 'gray'" @click="toggle">
@@ -19,14 +19,14 @@
             </MiButton>
           </template>
 
-          <div class="cfm__panel mi:grid mi:gap-4">
+          <div class="mi:grid mi:gap-4">
             <MiSlider v-model="price" :min="40" :max="260" :step="10" label="Price" :format="v => '$' + v" />
-            <div class="cfm__group mi:grid mi:gap-2">
+            <div class="mi:grid mi:gap-2">
               <MiText variant="footnote" weight="semibold" aria-hidden="true">Size</MiText>
               <MiToggleGroup v-model="sizes" multiple :options="sizeOptions" size="sm" variant="outline" label="Size" />
             </div>
             <MiSwatch v-model="color" :options="colors" label="Colour" />
-            <div class="cfm__panel-foot mi:flex mi:justify-between mi:gap-2 mi:border-t mi:border-t-sep mi:pt-3">
+            <div class="mi:flex mi:justify-between mi:gap-2 mi:border-t mi:border-t-sep mi:pt-3">
               <MiButton size="small" variant="plain" :disabled="!activeCount" @click="reset">Reset</MiButton>
               <MiButton size="small" @click="open = false">Show {{ shown.length }} {{ shown.length === 1 ? 'item' : 'items' }}</MiButton>
             </div>
@@ -34,18 +34,18 @@
         </MiPopover>
       </div>
 
-      <ul class="cfm__grid mi:grid mi:gap-3 mi:grid-cols-2 mi:m-0 mi:p-0 mi:[list-style:none] mi:@[1000px]:grid-cols-3" aria-label="Products" aria-live="polite">
-        <li v-for="p in shown" :key="p.id" class="cfm__card mi:grid mi:gap-2 mi:min-w-0 mi:pt-2 mi:px-2 mi:pb-3 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1">
-          <span class="cfm__art mi:grid mi:place-items-center mi:aspect-[4_/_3] mi:rounded-md mi:[background:repeating-linear-gradient(90deg,_color-mix(in_srgb,_var(--tone)_22%,_var(--mi-card))_0_6px,_color-mix(in_srgb,_var(--tone)_32%,_var(--mi-card))_6px_9px)]" :style="{ '--tone': toneOf(p.color) }" aria-hidden="true"><i class="mi:[.cfm__art_&]:w-[44%] mi:[.cfm__art_&]:aspect-[1] mi:[.cfm__art_&]:rounded-[30%_30%_12%_12%] mi:[.cfm__art_&]:[background:var(--tone)] mi:[.cfm__art_&]:shadow-2" /></span>
-          <div class="cfm__info mi:grid mi:min-w-0 mi:px-1">
+      <ul class="mi:grid mi:gap-3 mi:grid-cols-2 mi:m-0 mi:p-0 mi:[list-style:none] mi:@[1000px]:grid-cols-3" aria-label="Products" aria-live="polite">
+        <li v-for="p in shown" :key="p.id" class="mi:grid mi:gap-2 mi:min-w-0 mi:pt-2 mi:px-2 mi:pb-3 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1">
+          <span class="mi:grid mi:place-items-center mi:aspect-[4_/_3] mi:rounded-md mi:[background:repeating-linear-gradient(90deg,_color-mix(in_srgb,_var(--tone)_22%,_var(--mi-card))_0_6px,_color-mix(in_srgb,_var(--tone)_32%,_var(--mi-card))_6px_9px)]" :style="{ '--tone': toneOf(p.color) }" aria-hidden="true"><i class="mi:w-[44%] mi:aspect-[1] mi:rounded-[30%_30%_12%_12%] mi:[background:var(--tone)] mi:shadow-2" /></span>
+          <div class="mi:grid mi:min-w-0 mi:px-1">
             <MiText variant="subheadline" weight="semibold" :lines="1">{{ p.name }}</MiText>
             <MiText variant="caption" tone="label2">{{ p.sizes.join(' · ') }}</MiText>
           </div>
-          <span class="cfm__price mi:px-1 mi:font-bold mi:tabular-nums">
-            <s v-if="p.was" class="cfm__was mi:me-1.5 mi:font-medium mi:text-label3">${{ p.was }}</s>${{ p.price }}
+          <span class="mi:px-1 mi:font-bold mi:tabular-nums">
+            <s v-if="p.was" class="mi:me-1.5 mi:font-medium mi:text-label3">${{ p.was }}</s>${{ p.price }}
           </span>
         </li>
-        <li v-if="!shown.length" class="cfm__empty mi:col-span-full mi:py-7 mi:px-3 mi:text-center mi:rounded-lg mi:[background:var(--mi-fill4)]"><MiText variant="footnote" tone="label2">Nothing in this range. Widen the price or clear a size.</MiText></li>
+        <li v-if="!shown.length" class="mi:col-span-full mi:py-7 mi:px-3 mi:text-center mi:rounded-lg mi:[background:var(--mi-fill4)]"><MiText variant="footnote" tone="label2">Nothing in this range. Widen the price or clear a size.</MiText></li>
       </ul>
     </div>
   </section>

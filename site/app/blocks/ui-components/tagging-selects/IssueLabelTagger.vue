@@ -1,14 +1,14 @@
 <template>
-  <div class="ilt-cq mi:@container">
-    <section class="ilt mi:grid mi:gap-5 mi:grid-cols-[minmax(0,_1fr)] mi:items-start mi:font-mi mi:text-label mi:@[780px]:grid-cols-[minmax(0,_1fr)_296px] mi:@[780px]:gap-7" aria-labelledby="ilt-title">
-      <div class="ilt__main mi:grid mi:gap-4 mi:min-w-0">
-        <header class="ilt__issue mi:grid mi:gap-2 mi:p-5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1">
-          <MiText variant="caption" tone="label3" weight="medium" class="ilt__key">MOB-233</MiText>
+  <div class="mi:@container">
+    <section class="mi:grid mi:gap-5 mi:grid-cols-[minmax(0,_1fr)] mi:items-start mi:font-mi mi:text-label mi:@[780px]:grid-cols-[minmax(0,_1fr)_296px] mi:@[780px]:gap-7" aria-labelledby="ilt-title">
+      <div class="mi:grid mi:gap-4 mi:min-w-0">
+        <header class="mi:grid mi:gap-2 mi:p-5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1">
+          <MiText variant="caption" tone="label3" weight="medium" class="mi:tracking-[.02em]!">MOB-233</MiText>
           <MiText id="ilt-title" variant="title3" as="h2" weight="semibold" balance>Push notification opens the wrong thread on Android 15</MiText>
-          <ul class="ilt__chips mi:flex mi:flex-wrap mi:gap-1.5 mi:mt-1 mi:mx-0 mi:mb-0 mi:p-0 mi:[list-style:none]" aria-label="Applied labels">
+          <ul class="mi:flex mi:flex-wrap mi:gap-1.5 mi:mt-1 mi:mx-0 mi:mb-0 mi:p-0 mi:[list-style:none]" aria-label="Applied labels">
             <li v-for="l in pickedLabels" :key="l.value">
               <MiChip tone="neutral" size="small" removable :remove-label="'Remove label ' + l.label" @remove="toggle(l.value)">
-                <span class="ilt__dot mi:inline-block mi:flex-[none] mi:w-2 mi:h-2 mi:me-1.5 mi:rounded-[50%]" :style="{ background: `var(--mi-${l.color})` }" />{{ l.label }}
+                <span class="mi:inline-block mi:flex-[none] mi:w-2 mi:h-2 mi:me-1.5 mi:rounded-[50%]" :style="{ background: `var(--mi-${l.color})` }" />{{ l.label }}
               </MiChip>
             </li>
             <li v-if="!pickedLabels.length"><MiText variant="footnote" tone="label3">No labels yet</MiText></li>
@@ -28,31 +28,31 @@
       </div>
 
       <!-- Label picker drawn open next to its trigger; rows toggle the same labels. -->
-      <MiPopover v-model="open" inline trigger="manual" :width="280" :arrow-offset="40" label="Edit labels" class="ilt__pop">
+      <MiPopover v-model="open" inline trigger="manual" :width="280" :arrow-offset="40" label="Edit labels">
         <template #trigger="{ attrs, toggle }">
           <MiButton v-bind="attrs" variant="gray" size="small" @click="toggle">
             <template #leading><MiIcon name="bookmark" :size="16" /></template>
             Edit labels
           </MiButton>
         </template>
-        <div class="ilt__panel mi:grid mi:gap-2.5 mi:-my-1 mi:-mx-1.5">
+        <div class="mi:grid mi:gap-2.5 mi:-my-1 mi:-mx-1.5">
           <MiSearch v-model="query" size="compact" placeholder="Filter labels" aria-label="Filter labels" :cancelable="false" />
-          <div class="ilt__scroll mi:grid mi:gap-2.5 mi:max-h-75 mi:overflow-y-auto mi:overscroll-contain">
-            <div v-for="g in filteredGroups" :key="g.name" role="group" :aria-label="g.name" class="ilt__group mi:grid mi:gap-px">
-              <MiText variant="caption2" tone="label3" weight="semibold" class="ilt__group-name mi:pt-0.5 mi:px-2 mi:pb-1">
+          <div class="mi:grid mi:gap-2.5 mi:max-h-75 mi:overflow-y-auto mi:overscroll-contain">
+            <div v-for="g in filteredGroups" :key="g.name" role="group" :aria-label="g.name" class="mi:grid mi:gap-px">
+              <MiText variant="caption2" tone="label3" weight="semibold" class="mi:uppercase mi:tracking-[.06em]! mi:pt-0.5 mi:px-2 mi:pb-1">
                 {{ g.name }}<span v-if="g.exclusive"> · pick one</span>
               </MiText>
               <button
-                v-for="l in g.items" :key="l.value" type="button" class="ilt__row mi:flex mi:items-center mi:gap-0.5 mi:w-full mi:py-[7px] mi:px-2 mi:[border:0] mi:rounded-sm mi:[background:none] mi:text-inherit mi:text-start mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px]" :aria-pressed="picked.includes(l.value)"
+                v-for="l in g.items" :key="l.value" type="button" class="mi:group mi:[font:inherit] mi:text-[14px] mi:flex mi:items-center mi:gap-0.5 mi:w-full mi:py-[7px] mi:px-2 mi:[border:0] mi:rounded-sm mi:text-inherit mi:text-start mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px]" :aria-pressed="picked.includes(l.value)" :class="picked.includes(l.value) ? 'mi:[background:var(--mi-p-tint)]' : 'mi:[background:none] mi:hover:[background:var(--mi-fill4)]'"
                 @click="toggle(l.value)"
               >
-                <span class="ilt__dot mi:inline-block mi:flex-[none] mi:w-2 mi:h-2 mi:me-1.5 mi:rounded-[50%]" :style="{ background: `var(--mi-${l.color})` }" />
-                <span class="ilt__name mi:flex-1 mi:min-w-0 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ l.label }}</span>
-                <span class="ilt__count mi:me-2 mi:text-[12px] mi:text-label3 mi:tabular-nums">{{ l.count }}</span>
-                <MiIcon name="check" :size="15" class="ilt__tick mi:text-p-text mi:opacity-0 mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),_transform_var(--mi-dur-2)_var(--mi-spring)] mi:[.ilt__row[aria-pressed='true']_&]:opacity-100" />
+                <span class="mi:inline-block mi:flex-[none] mi:w-2 mi:h-2 mi:me-1.5 mi:rounded-[50%]" :style="{ background: `var(--mi-${l.color})` }" />
+                <span class="mi:flex-1 mi:min-w-0 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ l.label }}</span>
+                <span class="mi:me-2 mi:text-[12px] mi:text-label3 mi:tabular-nums">{{ l.count }}</span>
+                <MiIcon name="check" :size="15" class="mi:transform-[scale(.6)] mi:group-aria-pressed:[transform:none] mi:text-p-text mi:opacity-0 mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),_transform_var(--mi-dur-2)_var(--mi-spring)] mi:group-aria-pressed:opacity-100" />
               </button>
             </div>
-            <MiText v-if="!filteredGroups.length" variant="footnote" tone="label2" class="ilt__empty mi:p-2">No label matches “{{ query }}”.</MiText>
+            <MiText v-if="!filteredGroups.length" variant="footnote" tone="label2" class="mi:p-2">No label matches “{{ query }}”.</MiText>
           </div>
         </div>
       </MiPopover>
@@ -120,13 +120,3 @@ function onReject(tag: string) {
   rejected.value = keywords.value.length >= 6 ? 'Six keywords at most.' : `“${tag}” is not a valid keyword: use lowercase, digits and hyphens.`
 }
 </script>
-
-<style scoped>
-.ilt__key { letter-spacing: .02em; }
-.ilt__group-name { text-transform: uppercase; letter-spacing: .06em; }
-.ilt__row { font: inherit; font-size: 14px; }
-.ilt__row:hover { background: var(--mi-fill4); }
-.ilt__row[aria-pressed="true"] { background: var(--mi-p-tint); }
-.ilt__tick { transform: scale(.6); }
-.ilt__row[aria-pressed="true"] .ilt__tick { transform: none; }
-</style>

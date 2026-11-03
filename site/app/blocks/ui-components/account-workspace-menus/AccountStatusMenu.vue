@@ -1,12 +1,12 @@
 <template>
-  <section class="asm mi:@container mi:grid mi:content-start mi:gap-3 mi:font-mi mi:text-label" aria-labelledby="asm-title">
-    <MiText id="asm-title" variant="headline" as="h2" class="asm__sr mi:absolute mi:w-px mi:h-px mi:[clip-path:inset(50%)]">Account and status menu</MiText>
+  <section class="mi:@container mi:grid mi:content-start mi:gap-3 mi:font-mi mi:text-label" aria-labelledby="asm-title">
+    <MiText id="asm-title" variant="headline" as="h2" class="mi:absolute mi:w-px mi:h-px mi:[clip-path:inset(50%)] mi:overflow-hidden mi:whitespace-nowrap">Account and status menu</MiText>
 
     <!-- Faux top bar: the avatar trigger carries the live presence dot. -->
-    <div class="asm__stage mi:grid mi:justify-items-end mi:gap-2 mi:pt-3 mi:px-3 mi:pb-5 mi:rounded-xl mi:[background:radial-gradient(90%_70%_at_100%_0%,_var(--mi-p-tint),_transparent_70%),_var(--mi-fill4)]">
-      <div class="asm__bar mi:flex mi:items-center mi:justify-between mi:gap-3 mi:w-full mi:pt-1.5 mi:pr-1.5 mi:pb-1.5 mi:pl-3.5 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1">
+    <div class="mi:grid mi:justify-items-end mi:gap-2 mi:pt-3 mi:px-3 mi:pb-5 mi:rounded-xl mi:[background:radial-gradient(90%_70%_at_100%_0%,_var(--mi-p-tint),_transparent_70%),_var(--mi-fill4)]">
+      <div class="mi:flex mi:items-center mi:justify-between mi:gap-3 mi:w-full mi:pt-1.5 mi:pr-1.5 mi:pb-1.5 mi:pl-3.5 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1">
         <MiText variant="footnote" tone="label2" weight="medium">{{ account.org }}</MiText>
-        <button type="button" class="asm__trigger mi:grid mi:place-items-center mi:p-[3px] mi:[border:0] mi:rounded-[50%] mi:[background:none] mi:cursor-pointer mi:shadow-[0_0_0_3px_var(--mi-p-tint)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" :aria-expanded="open" aria-controls="asm-panel" :aria-label="'Account menu, ' + account.name + ', ' + current.label" @click="open = !open">
+        <button type="button" class="mi:grid mi:place-items-center mi:p-[3px] mi:[border:0] mi:rounded-[50%] mi:[background:none] mi:cursor-pointer mi:shadow-[0_0_0_3px_var(--mi-p-tint)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" :aria-expanded="open" aria-controls="asm-panel" :aria-label="'Account menu, ' + account.name + ', ' + current.label" @click="open = !open">
           <MiBadge dot-only :tone="current.tone" placement="bottom-right" :dot-size="11" :aria-label="current.label">
             <template #target><MiAvatar :name="account.name" size="sm" :tone="account.tone" decorative /></template>
           </MiBadge>
@@ -14,25 +14,25 @@
       </div>
 
       <!-- The menu, pinned open under its trigger. -->
-      <div v-show="open" id="asm-panel" class="asm__panel mi:grid mi:gap-2.5 mi:w-full mi:p-3.5 mi:rounded-xl mi:[background:var(--mi-elev)] mi:shadow-3 mi:@[480px]:w-85" role="group" aria-label="Account">
-        <div class="asm__me mi:flex mi:items-center mi:gap-3">
+      <div v-show="open" id="asm-panel" class="mi:grid mi:gap-2.5 mi:w-full mi:p-3.5 mi:rounded-xl mi:[background:var(--mi-elev)] mi:shadow-3 mi:@[480px]:w-85" role="group" aria-label="Account">
+        <div class="mi:flex mi:items-center mi:gap-3">
           <MiAvatar :name="account.name" size="md" :tone="account.tone" decorative />
-          <div class="asm__me-text mi:grid mi:min-w-0">
+          <div class="mi:grid mi:min-w-0">
             <MiText variant="headline" as="h3" :lines="1">{{ account.name }}</MiText>
             <MiText variant="caption" tone="label2" :lines="1">{{ account.email }}</MiText>
           </div>
         </div>
 
-        <div class="asm__status mi:grid mi:gap-2.5">
-          <MiSegmented v-model="status" label="Presence" :options="statusOptions" />
+        <div class="mi:grid mi:gap-2.5">
+          <MiSegmented v-model="status" label="Presence" :options="statusOptions" class="mi:w-full!" />
           <MiInput v-model="note" size="sm" clearable placeholder="What are you working on?" aria-label="Status message">
             <template #leading><MiIcon name="chat" :size="15" /></template>
           </MiInput>
-          <div class="asm__row mi:flex mi:items-center mi:justify-between mi:gap-2.5 mi:min-h-8">
+          <div class="mi:flex mi:items-center mi:justify-between mi:gap-2.5 mi:min-h-8">
             <MiText as="span" variant="footnote" tone="label2">Clear status</MiText>
             <MiMenu v-model="clearAfter" variant="popup" :items="clearItems" aria-label="Clear status after" placement="bottom-end" />
           </div>
-          <div class="asm__row mi:flex mi:items-center mi:justify-between mi:gap-2.5 mi:min-h-8">
+          <div class="mi:flex mi:items-center mi:justify-between mi:gap-2.5 mi:min-h-8">
             <MiText id="asm-mute" as="span" variant="footnote" tone="label2">Pause notifications</MiText>
             <MiSwitch v-model="muted" size="compact" aria-labelledby="asm-mute" />
           </div>
@@ -45,7 +45,7 @@
             :aria-current="a.email === account.email ? 'true' : undefined" @click="accountId = a.email"
           >
             <template #leading><MiAvatar :name="a.name" size="xs" :tone="a.tone" decorative /></template>
-            <template #trailing><MiIcon v-if="a.email === account.email" name="check" :size="16" class="asm__check mi:text-p" /></template>
+            <template #trailing><MiIcon v-if="a.email === account.email" name="check" :size="16" class="mi:text-p" /></template>
           </MiListItem>
         </MiList>
         <MiSeparator />
@@ -58,7 +58,7 @@
       </div>
     </div>
 
-    <p class="asm__log mi:m-0 mi:text-[13px] mi:text-label2" aria-live="polite">{{ log }}</p>
+    <p class="mi:m-0 mi:text-[13px] mi:text-label2" aria-live="polite">{{ log }}</p>
   </section>
 </template>
 
@@ -95,8 +95,3 @@ const log = ref('Change your presence; the dot on the avatar follows it.')
 const account = computed(() => accounts.find(a => a.email === accountId.value) ?? accounts[0]!)
 const current = computed(() => presence[(status.value ?? 'online') as Presence])
 </script>
-
-<style scoped>
-.asm__sr { overflow: hidden; white-space: nowrap; }
-.asm__status > :first-child { width: 100%; }
-</style>

@@ -1,30 +1,30 @@
 <template>
-  <section class="ctr mi:@container mi:relative mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="ctr-title">
-    <header class="ctr__head mi:grid mi:grid-cols-[auto_minmax(0,_1fr)_auto] mi:items-center mi:gap-3">
+  <section class="mi:@container mi:relative mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="ctr-title">
+    <header class="mi:grid mi:grid-cols-[auto_minmax(0,_1fr)_auto] mi:items-center mi:gap-3">
       <MiAvatar name="Ledgerline GmbH" shape="square" tone="indigo" size="md" decorative />
-      <div class="ctr__title mi:min-w-0">
+      <div class="mi:min-w-0">
         <MiText id="ctr-title" variant="title3" as="h2" weight="semibold">Ledgerline GmbH</MiText>
         <MiText variant="footnote" tone="label2">Enterprise contract · renews in 58 days</MiText>
       </div>
       <MiBadge tone="success" label="Active" dot />
     </header>
 
-    <div class="ctr__cols mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:gap-3 mi:@[860px]:grid-cols-2 mi:@[860px]:items-start">
-      <section v-for="group in groups" :key="group.title" class="ctr__card mi:grid mi:gap-2 mi:pt-3.5 mi:px-4 mi:pb-2 mi:rounded-xl mi:bg-card mi:shadow-1 mi:min-w-0" :aria-labelledby="'ctr-' + group.id">
-        <MiText :id="'ctr-' + group.id" as="h3" variant="footnote" weight="semibold" tone="label2" class="ctr__card-title">{{ group.title }}</MiText>
+    <div class="mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:gap-3 mi:@[860px]:grid-cols-2 mi:@[860px]:items-start">
+      <section v-for="group in groups" :key="group.title" class="mi:grid mi:gap-2 mi:pt-3.5 mi:px-4 mi:pb-2 mi:rounded-xl mi:bg-card mi:shadow-1 mi:min-w-0" :aria-labelledby="'ctr-' + group.id">
+        <MiText :id="'ctr-' + group.id" as="h3" variant="footnote" weight="semibold" tone="label2" class="mi:uppercase mi:tracking-[.06em]!">{{ group.title }}</MiText>
         <MiDetails :items="group.items.map(f => ({ key: f.key, label: f.label, value: shown(f.key) }))" label-width="128px">
           <template #value="{ item }">
             <!-- Inline edit: the row turns into a field; Enter saves, Escape cancels. -->
-            <form v-if="editing === item.key" class="ctr__edit mi:flex mi:items-center mi:gap-1.5 mi:min-w-0" @submit.prevent="commit" @keydown.esc="editing = null">
-              <MiInput v-model="draft" size="sm" :aria-label="item.label" :type="item.key === 'seats' ? 'number' : 'text'" />
+            <form v-if="editing === item.key" class="mi:flex mi:items-center mi:gap-1.5 mi:min-w-0" @submit.prevent="commit" @keydown.esc="editing = null">
+              <MiInput v-model="draft" class="mi:flex-1! mi:min-w-0!" size="sm" :aria-label="item.label" :type="item.key === 'seats' ? 'number' : 'text'" />
               <MiIconButton type="submit" size="small" variant="tinted" :label="'Save ' + item.label"><MiIcon name="check" :size="15" /></MiIconButton>
               <MiIconButton size="small" variant="gray" :label="'Cancel editing ' + item.label" @click="editing = null"><MiIcon name="close" :size="15" /></MiIconButton>
             </form>
-            <div v-else class="ctr__value mi:flex mi:flex-wrap mi:items-center mi:gap-y-0.5 mi:gap-x-2 mi:min-h-7.5 mi:min-w-0">
-              <span class="mi:[.ctr__value>span&:first-child]:wrap-anywhere" :class="{ 'ctr__mono mi:font-[ui-monospace,_SFMono-Regular,_Menlo,_monospace] mi:text-[.92em]': fields[item.key]?.mono, 'is-changed mi:py-0 mi:px-1 mi:rounded-[4px] mi:[background:color-mix(in_srgb,_var(--mi-yellow)_28%,_transparent)]': changed(item.key) }">{{ item.value }}</span>
-              <span v-if="changed(item.key)" class="ctr__was mi:[.ctr__value>span&:first-child]:wrap-anywhere mi:text-[11px] mi:text-label3 mi:[text-decoration:line-through]">was {{ was(item.key) }}</span>
-              <MiCopyButton class="mi:[.ctr__value>span&:first-child]:wrap-anywhere" v-if="fields[item.key]?.copy" :value="String(item.value)" icon-only variant="ghost" :label="'Copy ' + item.label" />
-              <MiIconButton v-if="fields[item.key]?.edit" size="small" variant="plain" class="ctr__pen mi:[.ctr__value>span&:first-child]:wrap-anywhere" :label="'Edit ' + item.label" @click="start(item.key)">
+            <div v-else class="mi:group mi:flex mi:flex-wrap mi:items-center mi:gap-y-0.5 mi:gap-x-2 mi:min-h-7.5 mi:min-w-0">
+              <span class="mi:min-w-0 mi:wrap-anywhere" :class="{ 'mi:font-[ui-monospace,_SFMono-Regular,_Menlo,_monospace] mi:text-[.92em]': fields[item.key]?.mono, 'mi:py-0 mi:px-1 mi:rounded-[4px] mi:[background:color-mix(in_srgb,_var(--mi-yellow)_28%,_transparent)]': changed(item.key) }">{{ item.value }}</span>
+              <span v-if="changed(item.key)" class="mi:text-[11px] mi:text-label3 mi:[text-decoration:line-through]">was {{ was(item.key) }}</span>
+              <MiCopyButton v-if="fields[item.key]?.copy" :value="String(item.value)" icon-only variant="ghost" :label="'Copy ' + item.label" />
+              <MiIconButton v-if="fields[item.key]?.edit" size="small" variant="plain" class="mi:opacity-55 mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)]! mi:group-hover:opacity-100 mi:focus-visible:opacity-100 mi:[@media(hover:none)]:opacity-100" :label="'Edit ' + item.label" @click="start(item.key)">
                 <MiIcon name="pencil" :size="15" />
               </MiIconButton>
             </div>
@@ -34,19 +34,19 @@
     </div>
 
     <!-- Change tray: every pending edit, with its before and after, until saved or discarded. -->
-    <Transition name="ctr-tray">
-      <div v-if="pending.length" class="ctr__tray mi:sticky mi:bottom-3 mi:z-2 mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-2.5 mi:gap-x-4 mi:pt-3 mi:pr-3.5 mi:pb-3 mi:pl-4 mi:rounded-lg mi:bg-elev mi:shadow-3" role="region" aria-label="Unsaved changes">
-        <div class="mi:[.ctr__tray>&:first-child]:gap-0.5">
+    <Transition enter-active-class="mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring),_opacity_var(--mi-dur-2)_var(--mi-ease)]" leave-active-class="mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring),_opacity_var(--mi-dur-2)_var(--mi-ease)]" enter-from-class="mi:transform-[translateY(10px)] mi:opacity-0" leave-to-class="mi:transform-[translateY(10px)] mi:opacity-0">
+      <div v-if="pending.length" class="mi:sticky mi:bottom-3 mi:z-2 mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-2.5 mi:gap-x-4 mi:pt-3 mi:pr-3.5 mi:pb-3 mi:pl-4 mi:rounded-lg mi:bg-elev mi:shadow-3" role="region" aria-label="Unsaved changes">
+        <div class="mi:grid mi:min-w-0 mi:gap-0.5">
           <MiText as="p" variant="subheadline" weight="semibold">{{ pending.length }} unsaved {{ pending.length === 1 ? 'change' : 'changes' }}</MiText>
           <MiText v-for="p in pending" :key="p.key" variant="caption" tone="label2" :lines="1">{{ p.label }}: {{ base[p.key] }} → {{ values[p.key] }}</MiText>
         </div>
-        <div class="ctr__tray-actions mi:[.ctr__tray>&:first-child]:gap-0.5 mi:flex mi:gap-1.5">
+        <div class="mi:flex mi:gap-1.5">
           <MiButton size="small" variant="gray" @click="discard">Discard</MiButton>
           <MiButton size="small" @click="save">Save to contract</MiButton>
         </div>
       </div>
     </Transition>
-    <MiText variant="caption" tone="label2" aria-live="polite" class="ctr__status">{{ status }}</MiText>
+    <MiText variant="caption" tone="label2" aria-live="polite" class="mi:empty:hidden">{{ status }}</MiText>
   </section>
 </template>
 
@@ -109,16 +109,3 @@ const pending = computed(() => Object.keys(values).filter(changed).map(key => ({
 const discard = () => { Object.assign(values, base); status.value = 'Changes discarded.' }
 const save = () => { const n = pending.value.length; Object.assign(base, values); status.value = `${n} ${n === 1 ? 'change' : 'changes'} saved to the contract.` }
 </script>
-
-<style scoped>
-.ctr__card-title { text-transform: uppercase; letter-spacing: .06em; }
-.ctr__value > span:first-child { min-width: 0; }
-.ctr__pen { opacity: .55; transition: opacity var(--mi-dur-2) var(--mi-ease); }
-.ctr__value:hover .ctr__pen, .ctr__pen:focus-visible { opacity: 1; }
-@media (hover: none) { .ctr__pen { opacity: 1; } }
-.ctr__edit > :first-child { flex: 1; min-width: 0; }
-.ctr__tray > div:first-child { display: grid; min-width: 0; }
-.ctr-tray-enter-active, .ctr-tray-leave-active { transition: transform var(--mi-dur-3) var(--mi-spring), opacity var(--mi-dur-2) var(--mi-ease); }
-.ctr-tray-enter-from, .ctr-tray-leave-to { transform: translateY(10px); opacity: 0; }
-.ctr__status:empty { display: none; }
-</style>

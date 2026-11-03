@@ -1,9 +1,9 @@
 <template>
-  <div class="ss-cq mi:@container">
-    <section class="ss mi:grid mi:gap-4 mi:p-5 mi:rounded-xl mi:font-mi mi:text-label mi:[background:var(--mi-card)] mi:shadow-1 mi:[--ok:var(--mi-green)] mi:[--warn:var(--mi-orange)] mi:[--bad:var(--mi-red)] mi:[--plan:var(--mi-s)] mi:@[720px]:py-6 mi:@[720px]:px-7" aria-labelledby="ss-title">
-      <header class="ss__head mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-3 mi:gap-x-4">
-        <div class="ss__headline mi:flex mi:items-center mi:gap-3">
-          <span class="ss__live mi:relative mi:grid mi:place-items-center mi:flex-[none] mi:w-7 mi:h-7 mi:[--c:var(--ok)] mi:before:absolute mi:before:w-3 mi:before:h-3 mi:before:rounded-[50%] mi:before:[background:var(--c)] mi:before:content-[''] mi:before:opacity-45" :class="'ss__live--' + worst" aria-hidden="true"><i class="mi:[.ss__live_&]:absolute" /></span>
+  <div class="mi:@container">
+    <section class="mi:grid mi:gap-4 mi:p-5 mi:rounded-xl mi:font-mi mi:text-label mi:[background:var(--mi-card)] mi:shadow-1 mi:[--ok:var(--mi-green)] mi:[--warn:var(--mi-orange)] mi:[--bad:var(--mi-red)] mi:[--plan:var(--mi-s)] mi:@[720px]:py-6 mi:@[720px]:px-7" aria-labelledby="ss-title">
+      <header class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-3 mi:gap-x-4">
+        <div class="mi:flex mi:items-center mi:gap-3">
+          <span class="mi:relative mi:grid mi:place-items-center mi:flex-[none] mi:w-7 mi:h-7 mi:before:[--mi-out-s:2.4] mi:before:animate-[out_2.4s_var(--mi-ease)_infinite] mi:motion-reduce:before:animate-none mi:before:absolute mi:before:w-3 mi:before:h-3 mi:before:rounded-[50%] mi:before:[background:var(--c)] mi:before:content-[''] mi:before:opacity-45" :class="worst === 'outage' ? 'mi:[--c:var(--bad)]' : worst === 'degraded' ? 'mi:[--c:var(--warn)]' : 'mi:[--c:var(--ok)]'" aria-hidden="true"><i class="mi:w-3 mi:h-3 mi:rounded-[50%] mi:bg-(--c) mi:absolute" /></span>
           <div>
             <MiText id="ss-title" variant="title3" as="h2" weight="semibold">{{ summary }}</MiText>
             <MiText variant="footnote" tone="label2">Ledgerline platform · checked 40 s ago</MiText>
@@ -12,40 +12,40 @@
         <MiSegmented v-model="scope" label="Show services" :options="scopes" />
       </header>
 
-      <ul class="ss__list mi:grid mi:m-0 mi:p-0 mi:[list-style:none]" aria-label="Services">
-        <li v-for="s in shown" :key="s.id" class="ss__row mi:border-t mi:border-t-sep">
+      <ul class="mi:grid mi:m-0 mi:p-0 mi:[list-style:none]" aria-label="Services">
+        <li v-for="s in shown" :key="s.id" class="mi:border-t mi:border-t-sep">
           <button
-            type="button" class="ss__summary mi:grid mi:grid-cols-[minmax(0,_1fr)_auto_auto] mi:[grid-template-areas:'name_badge_chev'_'ribbon_ribbon_pct'] mi:items-center mi:gap-y-2.5 mi:gap-x-3 mi:w-full mi:py-3.5 mi:px-1 mi:[border:0] mi:[background:none] mi:text-inherit mi:[font:inherit] mi:text-start mi:cursor-pointer mi:rounded-sm mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:@[720px]:grid-cols-[minmax(160px,_1.1fr)_150px_minmax(0,_2fr)_56px_16px] mi:@[720px]:[grid-template-areas:'name_badge_ribbon_pct_chev'] mi:@[720px]:py-3 mi:@[720px]:px-1" :aria-expanded="open === s.id" :aria-controls="'ss-note-' + s.id"
+            type="button" class="mi:group mi:grid mi:grid-cols-[minmax(0,_1fr)_auto_auto] mi:[grid-template-areas:'name_badge_chev'_'ribbon_ribbon_pct'] mi:items-center mi:gap-y-2.5 mi:gap-x-3 mi:w-full mi:py-3.5 mi:px-1 mi:[border:0] mi:[background:none] mi:text-inherit mi:[font:inherit] mi:text-start mi:cursor-pointer mi:rounded-sm mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:@[720px]:grid-cols-[minmax(160px,_1.1fr)_150px_minmax(0,_2fr)_56px_16px] mi:@[720px]:[grid-template-areas:'name_badge_ribbon_pct_chev'] mi:@[720px]:py-3 mi:@[720px]:px-1" :aria-expanded="open === s.id" :aria-controls="'ss-note-' + s.id"
             @click="open = open === s.id ? null : s.id"
           >
-            <span class="ss__name mi:[grid-area:name] mi:grid mi:min-w-0">
+            <span class="mi:[grid-area:name] mi:grid mi:min-w-0">
               <MiText as="span" variant="subheadline" weight="semibold">{{ s.name }}</MiText>
               <MiText as="span" variant="caption" tone="label3">{{ s.scope }}</MiText>
             </span>
 
-            <MiBadge v-bind="badge[s.status]" class="ss__badge">
+            <MiBadge v-bind="badge[s.status]" class="mi:[grid-area:badge] mi:@[720px]:justify-self-start">
               <MiSpinner v-if="s.status === 'deploying'" variant="arc" :size="11" label="" />
               {{ label[s.status] }}
             </MiBadge>
 
             <!-- 30-day ribbon: one tick per day, colored by the worst state of that day. -->
-            <span class="ss__ribbon mi:[grid-area:ribbon] mi:flex mi:gap-0.5 mi:h-5.5" role="img" :aria-label="`${s.uptime} uptime over 30 days, ${s.days.replace(/o/g, '').length} days with incidents`">
-              <i class="mi:[.ss__ribbon_&]:opacity-80 mi:[.ss__ribbon_&:last-child]:shadow-[0_0_0_1.5px_var(--mi-card),_0_0_0_3px_var(--mi-label3)]" v-for="(d, i) in s.days" :key="i" :class="'is-' + d" />
+            <span class="mi:[grid-area:ribbon] mi:flex mi:gap-0.5 mi:h-5.5" role="img" :aria-label="`${s.uptime} uptime over 30 days, ${s.days.replace(/o/g, '').length} days with incidents`">
+              <i class="mi:flex-1 mi:rounded-[2px] mi:last:shadow-[0_0_0_1.5px_var(--mi-card),_0_0_0_3px_var(--mi-label3)]" v-for="(d, i) in s.days" :key="i" :class="[d === 'd' ? 'mi:bg-(--warn) mi:opacity-100' : d === 'x' ? 'mi:bg-(--bad) mi:opacity-100' : d === 'm' ? 'mi:bg-(--plan) mi:opacity-100' : 'mi:bg-(--ok) mi:opacity-80']" />
             </span>
-            <MiText as="span" variant="caption" tone="label2" tabular class="ss__pct mi:[grid-area:pct] mi:min-w-12 mi:text-end">{{ s.uptime }}</MiText>
-            <MiIcon name="chevron-down" :size="16" class="ss__chev mi:[grid-area:chev] mi:text-label3 mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)]" />
+            <MiText as="span" variant="caption" tone="label2" tabular class="mi:[grid-area:pct] mi:min-w-12 mi:text-end">{{ s.uptime }}</MiText>
+            <MiIcon name="chevron-down" :size="16" class="mi:[grid-area:chev] mi:text-label3 mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:group-aria-expanded:transform-[rotate(180deg)]" />
           </button>
 
-          <div v-show="open === s.id" :id="'ss-note-' + s.id" class="ss__note mi:grid mi:gap-0.5 mi:mt-0 mi:mx-1 mi:mb-3.5 mi:py-2.5 mi:px-3 mi:rounded-md mi:[background:var(--mi-fill4)]">
+          <div v-show="open === s.id" :id="'ss-note-' + s.id" class="mi:grid mi:gap-0.5 mi:mt-0 mi:mx-1 mi:mb-3.5 mi:py-2.5 mi:px-3 mi:rounded-md mi:[background:var(--mi-fill4)]">
             <MiText variant="caption" tone="label3" weight="semibold">{{ s.noteTime }}</MiText>
             <MiText variant="footnote">{{ s.note }}</MiText>
           </div>
         </li>
       </ul>
 
-      <footer class="ss__legend mi:flex mi:flex-wrap mi:items-center mi:gap-y-2 mi:gap-x-3.5 mi:pt-3 mi:border-t mi:border-t-sep mi:text-[12px] mi:text-label2" aria-label="Legend">
-        <span v-for="k in legend" :key="k" class="ss__key mi:inline-flex mi:items-center mi:gap-1.5"><i class="mi:[.ss__key_&]:flex-1 mi:[.ss__key_&]:opacity-80" :class="'is-' + k" />{{ legendLabel[k] }}</span>
-        <MiText as="span" variant="caption" tone="label3" class="ss__range">30 days ago → today</MiText>
+      <footer class="mi:flex mi:flex-wrap mi:items-center mi:gap-y-2 mi:gap-x-3.5 mi:pt-3 mi:border-t mi:border-t-sep mi:text-[12px] mi:text-label2" aria-label="Legend">
+        <span v-for="k in legend" :key="k" class="mi:inline-flex mi:items-center mi:gap-1.5"><i class="mi:flex-none mi:w-2 mi:h-3.5 mi:rounded-[2px]" :class="[k === 'd' ? 'mi:bg-(--warn) mi:opacity-100' : k === 'x' ? 'mi:bg-(--bad) mi:opacity-100' : k === 'm' ? 'mi:bg-(--plan) mi:opacity-100' : 'mi:bg-(--ok) mi:opacity-80']" />{{ legendLabel[k] }}</span>
+        <MiText as="span" variant="caption" tone="label3" class="mi:ml-auto!">30 days ago → today</MiText>
       </footer>
     </section>
   </div>
@@ -95,25 +95,3 @@ const legend = ['o', 'd', 'x', 'm'] as const
 const legendLabel = { o: 'Operational', d: 'Degraded', x: 'Outage', m: 'Maintenance' }
 </script>
 
-<style scoped>
-.ss__live--outage { --c: var(--bad); } .ss__live--degraded { --c: var(--warn); }
-.ss__live i { width: 12px; height: 12px; border-radius: 50%; background: var(--c); }
-.ss__live::before { animation: ss-ping 2.4s var(--mi-ease) infinite; }
-@keyframes ss-ping { from { transform: scale(1); opacity: .45; } to { transform: scale(2.4); opacity: 0; } }
-@media (prefers-reduced-motion: reduce) { .ss__live::before { animation: none; } }
-.ss__badge { grid-area: badge; }
-.ss__summary[aria-expanded="true"] .ss__chev { transform: rotate(180deg); }
-
-.ss__ribbon i { flex: 1; border-radius: 2px; background: var(--ok); }
-
-.ss__key i { border-radius: 2px; background: var(--ok); }
-.ss__ribbon i.is-d, .ss__key i.is-d { background: var(--warn); opacity: 1; }
-.ss__ribbon i.is-x, .ss__key i.is-x { background: var(--bad); opacity: 1; }
-.ss__ribbon i.is-m, .ss__key i.is-m { background: var(--plan); opacity: 1; }
-.ss__key i { flex: none; width: 8px; height: 14px; }
-.ss__range { margin-left: auto; }
-
-@container (min-width: 720px) {
-  .ss__badge { justify-self: start; }
-}
-</style>

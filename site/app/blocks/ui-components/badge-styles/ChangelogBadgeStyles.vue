@@ -1,7 +1,7 @@
 <template>
-  <div class="cl-cq mi:@container">
-    <section class="cl mi:grid mi:gap-4 mi:p-5 mi:rounded-xl mi:font-mi mi:text-label mi:bg-card mi:shadow-1 mi:@[600px]:py-6 mi:@[600px]:px-7" aria-labelledby="cl-title">
-      <header class="cl__head mi:flex mi:flex-wrap mi:[align-items:flex-start] mi:justify-between mi:gap-y-2 mi:gap-x-4">
+  <div class="mi:@container">
+    <section class="mi:grid mi:gap-4 mi:p-5 mi:rounded-xl mi:font-mi mi:text-label mi:bg-card mi:shadow-1 mi:@[600px]:py-6 mi:@[600px]:px-7" aria-labelledby="cl-title">
+      <header class="mi:flex mi:flex-wrap mi:[align-items:flex-start] mi:justify-between mi:gap-y-2 mi:gap-x-4">
         <div>
           <MiText id="cl-title" variant="title3" as="h2" weight="semibold">What's new in Fieldnote</MiText>
           <MiText variant="footnote" tone="label2">Releases for the inspection app, newest first</MiText>
@@ -12,26 +12,26 @@
       </header>
 
       <!-- Filters carry count badges; the strip scrolls on its own when narrow. -->
-      <div class="cl__filters mi:flex mi:gap-1.5 mi:-mx-5 mi:pt-0.5 mi:px-5 mi:pb-1.5 mi:overflow-x-auto mi:[scrollbar-width:none] mi:[mask-image:linear-gradient(90deg,_transparent,_black_20px,_black_calc(100%_-_20px),_transparent)] mi:@[600px]:mx-0 mi:@[600px]:px-0 mi:@[600px]:[mask-image:none] mi:@[600px]:flex-wrap mi:@[600px]:overflow-visible" role="group" aria-label="Filter by type">
+      <div class="mi:flex mi:gap-1.5 mi:-mx-5 mi:pt-0.5 mi:px-5 mi:pb-1.5 mi:overflow-x-auto mi:[scrollbar-width:none] mi:[mask-image:linear-gradient(90deg,_transparent,_black_20px,_black_calc(100%_-_20px),_transparent)] mi:@[600px]:mx-0 mi:@[600px]:px-0 mi:@[600px]:[mask-image:none] mi:@[600px]:flex-wrap mi:@[600px]:overflow-visible" role="group" aria-label="Filter by type">
         <button
-          v-for="f in filters" :key="f.id" type="button" class="cl__filter mi:inline-flex mi:flex-[none] mi:items-center mi:gap-2 mi:h-8 mi:pt-0 mi:pr-1.5 mi:pb-0 mi:pl-3 mi:[border:0] mi:rounded-[999px] mi:text-label2 mi:bg-fill4 mi:cursor-pointer mi:shadow-[inset_0_0_0_1px_var(--mi-sep)] mi:aria-pressed:text-label mi:aria-pressed:bg-card mi:aria-pressed:shadow-[inset_0_0_0_1.5px_var(--mi-p)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" :aria-pressed="filter === f.id" @click="filter = f.id"
+          v-for="f in filters" :key="f.id" type="button" class="mi:[font:inherit] mi:text-[13px] mi:font-medium mi:inline-flex mi:flex-[none] mi:items-center mi:gap-2 mi:h-8 mi:pt-0 mi:pr-1.5 mi:pb-0 mi:pl-3 mi:[border:0] mi:rounded-[999px] mi:text-label2 mi:bg-fill4 mi:cursor-pointer mi:shadow-[inset_0_0_0_1px_var(--mi-sep)] mi:aria-pressed:text-label mi:aria-pressed:bg-card mi:aria-pressed:shadow-[inset_0_0_0_1.5px_var(--mi-p)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" :aria-pressed="filter === f.id" @click="filter = f.id"
         >
           {{ f.label }}
           <MiBadge :count="f.count" :tone="filter === f.id ? 'primary' : 'neutral'" variant="tint" show-zero :count-noun="f.label.toLowerCase() + ' entries'" />
         </button>
       </div>
 
-      <TransitionGroup tag="ol" name="cl" class="cl__list mi:grid mi:m-0 mi:p-0 mi:[list-style:none]">
-        <li v-for="e in shown" :key="e.id" class="cl__item mi:grid mi:gap-2 mi:py-4 mi:px-0 mi:border-t mi:border-t-sep mi:@[600px]:grid-cols-[120px_minmax(0,_1fr)] mi:@[600px]:gap-5 mi:@[600px]:py-4.5 mi:@[600px]:px-0">
-          <div class="cl__when mi:flex mi:items-center mi:gap-2.5 mi:@[600px]:flex-col mi:@[600px]:[align-items:flex-start] mi:@[600px]:gap-1.5">
+      <TransitionGroup tag="ol" move-class="mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring)]" enter-active-class="mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)]" leave-active-class="mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)] mi:absolute mi:invisible" enter-from-class="mi:opacity-0" leave-to-class="mi:opacity-0" class="mi:grid mi:m-0 mi:p-0 mi:[list-style:none]">
+        <li v-for="e in shown" :key="e.id" class="mi:grid mi:gap-2 mi:py-4 mi:px-0 mi:border-t mi:border-t-sep mi:@[600px]:grid-cols-[120px_minmax(0,_1fr)] mi:@[600px]:gap-5 mi:@[600px]:py-4.5 mi:@[600px]:px-0">
+          <div class="mi:flex mi:items-center mi:gap-2.5 mi:@[600px]:flex-col mi:@[600px]:[align-items:flex-start] mi:@[600px]:gap-1.5">
             <MiBadge v-if="unread.has(e.id)" dot-only :dot-size="8" tone="primary" placement="top-right" :offset="2" aria-label="Unread">
-              <template #target><span class="cl__ver mi:inline-grid mi:place-items-center mi:min-w-11 mi:h-6 mi:py-0 mi:px-2 mi:rounded-[7px] mi:[font:600_12px/1_ui-monospace,_'SF_Mono',_Menlo,_monospace] mi:text-label mi:bg-fill3">{{ e.version }}</span></template>
+              <template #target><span class="mi:inline-grid mi:place-items-center mi:min-w-11 mi:h-6 mi:py-0 mi:px-2 mi:rounded-[7px] mi:[font:600_12px/1_ui-monospace,_'SF_Mono',_Menlo,_monospace] mi:text-label mi:bg-fill3">{{ e.version }}</span></template>
             </MiBadge>
-            <span v-else class="cl__ver mi:inline-grid mi:place-items-center mi:min-w-11 mi:h-6 mi:py-0 mi:px-2 mi:rounded-[7px] mi:[font:600_12px/1_ui-monospace,_'SF_Mono',_Menlo,_monospace] mi:text-label mi:bg-fill3">{{ e.version }}</span>
+            <span v-else class="mi:inline-grid mi:place-items-center mi:min-w-11 mi:h-6 mi:py-0 mi:px-2 mi:rounded-[7px] mi:[font:600_12px/1_ui-monospace,_'SF_Mono',_Menlo,_monospace] mi:text-label mi:bg-fill3">{{ e.version }}</span>
             <MiText variant="caption" tone="label3">{{ e.date }}</MiText>
           </div>
-          <div class="cl__text mi:grid mi:gap-1 mi:min-w-0">
-            <div class="cl__badges mi:flex mi:flex-wrap mi:gap-1.5 mi:mb-1">
+          <div class="mi:grid mi:gap-1 mi:min-w-0">
+            <div class="mi:flex mi:flex-wrap mi:gap-1.5 mi:mb-1">
               <MiBadge v-for="b in e.badges" :key="b.label" v-bind="styles[b.kind]" :label="b.label" />
             </div>
             <MiText as="h3" variant="subheadline" weight="semibold">{{ e.title }}</MiText>
@@ -79,14 +79,3 @@ const filters = computed(() => [
 ])
 const shown = computed(() => (filter.value === 'all' ? entries : entries.filter(e => e.badges.some(b => b.kind === filter.value))))
 </script>
-
-<style scoped>
-.cl__filter {
-  font: inherit; font-size: 13px; font-weight: 500;
-}
-
-.cl-move { transition: transform var(--mi-dur-3) var(--mi-spring); }
-.cl-enter-active, .cl-leave-active { transition: opacity var(--mi-dur-2) var(--mi-ease); }
-.cl-enter-from, .cl-leave-to { opacity: 0; }
-.cl-leave-active { position: absolute; visibility: hidden; }
-</style>

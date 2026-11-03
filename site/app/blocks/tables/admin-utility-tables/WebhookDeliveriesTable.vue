@@ -1,58 +1,58 @@
 <template>
-  <section class="wdt mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="wdt-title">
-    <header class="wdt__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="wdt-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="wdt-title" variant="title3" as="h2" weight="semibold">Webhook deliveries</MiText>
-        <MiText variant="footnote" tone="label2"><code>https://api.harbor.dev/hooks/billing</code> · last 24 hours</MiText>
+        <MiText variant="footnote" tone="label2"><code class="mi:font-[ui-monospace,monospace] mi:text-[12px] mi:[overflow-wrap:anywhere]">https://api.harbor.dev/hooks/billing</code> · last 24 hours</MiText>
       </div>
-      <dl class="wdt__stats mi:flex mi:gap-5 mi:m-0">
-        <div><dt class="mi:[.wdt__stats_&]:text-label2">Success rate</dt><dd class="mi:[.wdt__stats_&]:m-0 mi:[.wdt__stats_&]:font-bold mi:[.wdt__stats_&]:tracking-[-.02em] mi:[.wdt__stats_&]:tabular-nums" :class="{ 'is-bad': successRate < 95 }">{{ successRate }}%</dd></div>
-        <div><dt class="mi:[.wdt__stats_&]:text-label2">p95 latency</dt><dd class="mi:[.wdt__stats_&]:m-0 mi:[.wdt__stats_&]:font-bold mi:[.wdt__stats_&]:tracking-[-.02em] mi:[.wdt__stats_&]:tabular-nums">{{ p95 >= TIMEOUT ? "> 10 s" : p95 + " ms" }}</dd></div>
+      <dl class="mi:flex mi:gap-5 mi:m-0">
+        <div><dt class="mi:text-[12px] mi:text-label2">Success rate</dt><dd class="mi:text-[22px] mi:m-0 mi:font-bold mi:tracking-[-.02em] mi:tabular-nums" :class="successRate < 95 ? 'mi:text-orange-t' : ''">{{ successRate }}%</dd></div>
+        <div><dt class="mi:text-[12px] mi:text-label2">p95 latency</dt><dd class="mi:text-[22px] mi:m-0 mi:font-bold mi:tracking-[-.02em] mi:tabular-nums">{{ p95 >= TIMEOUT ? "> 10 s" : p95 + " ms" }}</dd></div>
       </dl>
     </header>
 
-    <div class="wdt__tools mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2.5">
+    <div class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2.5">
       <MiSegmented v-model="filter" label="Filter deliveries" :options="filters" />
       <MiText variant="caption" tone="label2" aria-live="polite">{{ live }}</MiText>
     </div>
 
     <!-- Wide table scrolls inside its own frame on narrow screens. -->
-    <div class="wdt__scroll mi:overflow-x-auto mi:rounded-xl mi:bg-card mi:shadow-1 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" tabindex="0" aria-label="Deliveries table">
-      <table class="wdt__table mi:w-full mi:min-w-175 mi:border-collapse mi:text-[13px]">
-        <caption class="wdt__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">Webhook deliveries, newest first</caption>
+    <div class="mi:overflow-x-auto mi:rounded-xl mi:bg-card mi:shadow-1 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" tabindex="0" aria-label="Deliveries table">
+      <table class="mi:w-full mi:min-w-175 mi:border-collapse mi:text-[13px]">
+        <caption class="mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">Webhook deliveries, newest first</caption>
         <thead>
-          <tr><th class="mi:[.wdt__table_th&]:text-start" scope="col"><span class="wdt__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">Details</span></th><th class="mi:[.wdt__table_th&]:text-start" scope="col">Status</th><th class="mi:[.wdt__table_th&]:text-start" scope="col">Event</th><th class="mi:[.wdt__table_th&]:text-start" scope="col">Latency</th><th class="mi:[.wdt__table_th&]:text-start" scope="col">Attempts</th><th class="mi:[.wdt__table_th&]:text-start" scope="col">Sent</th><th class="mi:[.wdt__table_th&]:text-start" scope="col"><span class="wdt__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">Actions</span></th></tr>
+          <tr><th class="mi:w-9 mi:ps-2 mi:pe-0 mi:py-2.5 mi:px-3 mi:text-[11px] mi:font-semibold mi:uppercase mi:tracking-[.05em] mi:text-label3 mi:border-b mi:border-b-sep mi:text-start" scope="col"><span class="mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">Details</span></th><th class="mi:py-2.5 mi:px-3 mi:text-[11px] mi:font-semibold mi:uppercase mi:tracking-[.05em] mi:text-label3 mi:border-b mi:border-b-sep mi:text-start" scope="col">Status</th><th class="mi:py-2.5 mi:px-3 mi:text-[11px] mi:font-semibold mi:uppercase mi:tracking-[.05em] mi:text-label3 mi:border-b mi:border-b-sep mi:text-start" scope="col">Event</th><th class="mi:py-2.5 mi:px-3 mi:text-[11px] mi:font-semibold mi:uppercase mi:tracking-[.05em] mi:text-label3 mi:border-b mi:border-b-sep mi:text-start" scope="col">Latency</th><th class="mi:py-2.5 mi:px-3 mi:text-[11px] mi:font-semibold mi:uppercase mi:tracking-[.05em] mi:text-label3 mi:border-b mi:border-b-sep mi:text-start" scope="col">Attempts</th><th class="mi:py-2.5 mi:px-3 mi:text-[11px] mi:font-semibold mi:uppercase mi:tracking-[.05em] mi:text-label3 mi:border-b mi:border-b-sep mi:text-start" scope="col">Sent</th><th class="mi:py-2.5 mi:px-3 mi:text-[11px] mi:font-semibold mi:uppercase mi:tracking-[.05em] mi:text-label3 mi:border-b mi:border-b-sep mi:text-start" scope="col"><span class="mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">Actions</span></th></tr>
         </thead>
         <tbody>
           <template v-for="d in rows" :key="d.id">
-            <tr :class="{ 'is-open': openId === d.id }">
-              <td>
-                <MiIconButton class="mi:[.wdt__table_th&]:text-start" size="small" variant="plain" :label="(openId === d.id ? 'Hide' : 'Show') + ' response for ' + d.id" :aria-expanded="openId === d.id" @click="openId = openId === d.id ? null : d.id">
-                  <MiIcon name="chevron-right" :size="14" class="wdt__chev mi:[.wdt__table_th&]:text-start mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)]" :class="{ 'is-open': openId === d.id }" />
+            <tr class="mi:group" :data-open="openId === d.id || undefined">
+              <td class="mi:w-9 mi:ps-2 mi:pe-0 mi:py-2 mi:px-3 mi:align-middle mi:[tr+tr>&]:border-t mi:[tr+tr>&]:border-t-sep mi:group-data-[open]:bg-fill4">
+                <MiIconButton class="" size="small" variant="plain" :label="(openId === d.id ? 'Hide' : 'Show') + ' response for ' + d.id" :aria-expanded="openId === d.id" @click="openId = openId === d.id ? null : d.id">
+                  <MiIcon name="chevron-right" :size="14" class="mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)]" :class="openId === d.id ? 'mi:transform-[rotate(90deg)]' : ''" />
                 </MiIconButton>
               </td>
-              <td><span class="wdt__code mi:inline-block mi:min-w-11 mi:py-0.5 mi:px-2 mi:rounded-[6px] mi:text-[12px] mi:font-bold mi:text-center mi:tabular-nums" :class="'is-' + kind(d.code)">{{ d.code || 'Timeout' }}</span></td>
-              <td>
-                <span class="wdt__event mi:block mi:font-[ui-monospace,_monospace] mi:font-semibold">{{ d.event }}</span>
-                <span class="wdt__id mi:text-[12px] mi:text-label3">{{ d.id }}</span>
+              <td class="mi:py-2 mi:px-3 mi:align-middle mi:[tr+tr>&]:border-t mi:[tr+tr>&]:border-t-sep mi:group-data-[open]:bg-fill4"><span class="mi:inline-block mi:min-w-11 mi:py-0.5 mi:px-2 mi:rounded-[6px] mi:text-[12px] mi:font-bold mi:text-center mi:tabular-nums" :class="[({ ok: 'mi:bg-green/14 mi:text-green-t', client: 'mi:bg-orange/16 mi:text-orange-t', server: 'mi:bg-red/14 mi:text-red-t' } as Record<string, string>)[kind(d.code)]]">{{ d.code || 'Timeout' }}</span></td>
+              <td class="mi:py-2 mi:px-3 mi:align-middle mi:[tr+tr>&]:border-t mi:[tr+tr>&]:border-t-sep mi:group-data-[open]:bg-fill4">
+                <span class="mi:block mi:font-[ui-monospace,_monospace] mi:font-semibold">{{ d.event }}</span>
+                <span class="mi:text-[12px] mi:text-label3">{{ d.id }}</span>
               </td>
-              <td>
-                <span class="wdt__lat mi:flex mi:items-center mi:gap-2">
-                  <span class="wdt__lat-bar mi:w-18 mi:h-[5px] mi:rounded-[3px] mi:bg-fill3 mi:overflow-hidden"><i class="mi:[.wdt__lat-bar_&]:block mi:[.wdt__lat-bar_&]:h-full mi:[.wdt__lat-bar_&]:bg-p mi:[.wdt__lat-bar_&]:origin-left mi:[.wdt__lat-bar_&]:[transition:transform_var(--mi-dur-3)_var(--mi-spring)]" :class="{ 'is-slow': d.ms > SLOW }" :style="{ transform: `scaleX(${Math.min(d.ms / TIMEOUT, 1)})` }" /></span>
-                  <span class="wdt__lat-num mi:tabular-nums mi:whitespace-nowrap mi:text-label2">{{ d.ms >= TIMEOUT ? '> 10 s' : d.ms + ' ms' }}</span>
+              <td class="mi:py-2 mi:px-3 mi:align-middle mi:[tr+tr>&]:border-t mi:[tr+tr>&]:border-t-sep mi:group-data-[open]:bg-fill4">
+                <span class="mi:flex mi:items-center mi:gap-2">
+                  <span class="mi:w-18 mi:h-[5px] mi:rounded-[3px] mi:bg-fill3 mi:overflow-hidden"><i class="mi:block mi:h-full mi:origin-left mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring)]" :class="d.ms > SLOW ? 'mi:bg-orange' : 'mi:bg-p'" :style="{ transform: `scaleX(${Math.min(d.ms / TIMEOUT, 1)})` }" /></span>
+                  <span class="mi:tabular-nums mi:whitespace-nowrap mi:text-label2">{{ d.ms >= TIMEOUT ? '> 10 s' : d.ms + ' ms' }}</span>
                 </span>
               </td>
-              <td class="wdt__num mi:tabular-nums mi:whitespace-nowrap mi:text-label2">{{ d.attempts }}</td>
-              <td class="wdt__time mi:tabular-nums mi:whitespace-nowrap mi:text-label2">{{ d.sent }}</td>
-              <td class="wdt__act mi:text-end">
-                <MiButton class="mi:[.wdt__table_th&]:text-start" v-if="kind(d.code) !== 'ok'" size="mini" variant="gray" :loading="retrying === d.id" @click="redeliver(d)">Redeliver</MiButton>
+              <td class="mi:py-2 mi:px-3 mi:align-middle mi:[tr+tr>&]:border-t mi:[tr+tr>&]:border-t-sep mi:group-data-[open]:bg-fill4 mi:tabular-nums mi:whitespace-nowrap mi:text-label2">{{ d.attempts }}</td>
+              <td class="mi:py-2 mi:px-3 mi:align-middle mi:[tr+tr>&]:border-t mi:[tr+tr>&]:border-t-sep mi:group-data-[open]:bg-fill4 mi:tabular-nums mi:whitespace-nowrap mi:text-label2">{{ d.sent }}</td>
+              <td class="mi:py-2 mi:px-3 mi:align-middle mi:[tr+tr>&]:border-t mi:[tr+tr>&]:border-t-sep mi:group-data-[open]:bg-fill4 mi:text-end">
+                <MiButton class="" v-if="kind(d.code) !== 'ok'" size="mini" variant="gray" :loading="retrying === d.id" @click="redeliver(d)">Redeliver</MiButton>
               </td>
             </tr>
-            <tr v-if="openId === d.id" class="wdt__detail">
-              <td class="mi:[.wdt__detail_td&]:bg-fill4 mi:[.wdt__table_tbody_tr.wdt__detail_td&]:[border-top:0]" colspan="7">
-                <div class="wdt__resp mi:grid mi:gap-1.5 mi:py-2.5 mi:px-3 mi:rounded-md mi:bg-card">
-                  <MiText class="mi:[.wdt__table_th&]:text-start mi:[.wdt__detail_td&]:bg-fill4 mi:[.wdt__table_tbody_tr.wdt__detail_td&]:[border-top:0]" variant="caption" weight="semibold" tone="label2">Response · {{ d.code || 'no response' }}</MiText>
-                  <pre>{{ d.body }}</pre>
+            <tr v-if="openId === d.id" >
+              <td class="mi:w-9 mi:align-middle mi:pt-0 mi:pb-3 mi:ps-2 mi:pe-0 mi:bg-fill4" colspan="7">
+                <div class="mi:grid mi:gap-1.5 mi:py-2.5 mi:px-3 mi:rounded-md mi:bg-card">
+                  <MiText variant="caption" weight="semibold" tone="label2">Response · {{ d.code || 'no response' }}</MiText>
+                  <pre class="mi:m-0 mi:font-[ui-monospace,monospace] mi:text-[12px] mi:whitespace-pre-wrap mi:[overflow-wrap:anywhere] mi:text-label">{{ d.body }}</pre>
                 </div>
               </td>
             </tr>
@@ -115,23 +115,3 @@ function redeliver(d: Delivery) {
 }
 onBeforeUnmount(() => clearTimeout(timer))
 </script>
-
-<style scoped>
-.wdt__head code { font-family: ui-monospace, monospace; font-size: 12px; overflow-wrap: anywhere; }
-.wdt__stats dt { font-size: 12px; }
-.wdt__stats dd { font-size: 22px; }
-.wdt__stats dd.is-bad { color: var(--mi-orange-t); }
-.wdt__table th { padding: 10px 12px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--mi-label3); border-bottom: 1px solid var(--mi-sep); }
-.wdt__table td { padding: 8px 12px; vertical-align: middle; }
-.wdt__table tbody tr + tr td { border-top: 1px solid var(--mi-sep); }
-.wdt__table th:first-child, .wdt__table td:first-child { width: 36px; padding-inline: 8px 0; }
-.wdt__table tr.is-open td { background: var(--mi-fill4); }
-.wdt__chev.is-open { transform: rotate(90deg); }
-.wdt__code.is-ok { background: color-mix(in srgb, var(--mi-green) 14%, transparent); color: var(--mi-green-t); }
-.wdt__code.is-client { background: color-mix(in srgb, var(--mi-orange) 16%, transparent); color: var(--mi-orange-t); }
-.wdt__code.is-server { background: color-mix(in srgb, var(--mi-red) 14%, transparent); color: var(--mi-red-t); }
-.wdt__lat-bar i.is-slow { background: var(--mi-orange); }
-
-.wdt__detail td { padding: 0 12px 12px 44px; }
-.wdt__resp pre { margin: 0; font-family: ui-monospace, monospace; font-size: 12px; white-space: pre-wrap; overflow-wrap: anywhere; color: var(--mi-label); }
-</style>

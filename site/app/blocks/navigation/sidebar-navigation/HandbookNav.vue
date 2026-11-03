@@ -1,75 +1,75 @@
 <template>
-  <div class="hb mi:@container mi:font-mi mi:text-label">
-    <div class="hb__shell mi:relative mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:h-155 mi:overflow-hidden mi:[background:var(--mi-card)] mi:@[760px]:grid-cols-[284px_minmax(0,_1fr)]" @keydown.esc="open = false">
-      <aside id="hb-nav" class="hb__side mi:absolute mi:top-0 mi:right-auto mi:bottom-0 mi:left-0 mi:z-3 mi:w-[min(300px,_88%)] mi:flex mi:flex-col mi:box-border mi:[background:var(--mi-side)] mi:shadow-3 mi:transform-[translateX(-104%)] mi:invisible mi:[transition:transform_var(--mi-dur-3)_var(--mi-ease),_visibility_0s_linear_var(--mi-dur-3)] mi:[&.is-open]:transform-none mi:[&.is-open]:visible mi:[&.is-open]:[transition:transform_var(--mi-dur-3)_var(--mi-ease)] mi:@[760px]:relative mi:@[760px]:inset-auto mi:@[760px]:w-auto mi:@[760px]:transform-none mi:@[760px]:visible mi:@[760px]:[transition:none] mi:@[760px]:shadow-none mi:@[760px]:border-r mi:@[760px]:border-r-sep" :class="{ 'is-open': open }" aria-label="Handbook">
-        <header class="hb__head mi:grid mi:gap-3 mi:pt-4.5 mi:px-4 mi:pb-3">
-          <div class="hb__head-row mi:flex mi:items-center mi:justify-between mi:gap-2">
+  <div class="mi:@container mi:font-mi mi:text-label">
+    <div class="mi:relative mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:h-155 mi:overflow-hidden mi:[background:var(--mi-card)] mi:@[760px]:grid-cols-[284px_minmax(0,_1fr)]" @keydown.esc="open = false">
+      <aside id="hb-nav" class="mi:absolute mi:top-0 mi:right-auto mi:bottom-0 mi:left-0 mi:z-3 mi:w-[min(300px,_88%)] mi:flex mi:flex-col mi:box-border mi:[background:var(--mi-side)] mi:shadow-3 mi:@[760px]:relative mi:@[760px]:inset-auto mi:@[760px]:w-auto mi:@[760px]:transform-none mi:@[760px]:visible mi:@[760px]:[transition:none] mi:@[760px]:shadow-none mi:@[760px]:border-r mi:@[760px]:border-r-sep" :class="open ? 'mi:transform-none mi:visible mi:[transition:transform_var(--mi-dur-3)_var(--mi-ease)]' : 'mi:transform-[translateX(-104%)] mi:invisible mi:[transition:transform_var(--mi-dur-3)_var(--mi-ease),_visibility_0s_linear_var(--mi-dur-3)]'" aria-label="Handbook">
+        <header class="mi:grid mi:gap-3 mi:pt-4.5 mi:px-4 mi:pb-3">
+          <div class="mi:flex mi:items-center mi:justify-between mi:gap-2">
             <MiText variant="headline" as="h2">The Loomwork handbook</MiText>
-            <MiIconButton class="hb__close" label="Close handbook navigation" variant="gray" size="small" @click="open = false">
+            <MiIconButton class="mi:@[760px]:hidden!" label="Close handbook navigation" variant="gray" size="small" @click="open = false">
               <MiIcon name="close" :size="14" />
             </MiIconButton>
           </div>
-          <div class="hb__overall mi:flex mi:items-center mi:gap-2.5">
-            <div class="hb__overall-bar mi:flex-1 mi:h-1 mi:rounded-[2px] mi:[background:var(--mi-fill3)] mi:overflow-hidden" role="meter" aria-label="Pages read" :aria-valuenow="readCount" aria-valuemin="0" :aria-valuemax="total">
-              <span class="mi:[.hb__overall-bar_&]:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleX(${readCount / total})` }" />
+          <div class="mi:flex mi:items-center mi:gap-2.5">
+            <div class="mi:flex-1 mi:h-1 mi:rounded-[2px] mi:[background:var(--mi-fill3)] mi:overflow-hidden" role="meter" aria-label="Pages read" :aria-valuenow="readCount" aria-valuemin="0" :aria-valuemax="total">
+              <span class="mi:block mi:h-full mi:[background:var(--mi-p)] mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleX(${readCount / total})` }" />
             </div>
             <MiText variant="caption" tone="label2" tabular>{{ readCount }} of {{ total }} read</MiText>
           </div>
           <MiSearch v-model="query" size="compact" placeholder="Filter pages" aria-label="Filter handbook pages" />
         </header>
 
-        <nav class="hb__nav mi:flex-1 mi:min-h-0 mi:overflow-y-auto mi:pt-1 mi:px-2.5 mi:pb-3.5 mi:grid mi:content-start mi:gap-1.5" aria-label="Handbook pages">
-          <section v-for="s in filtered" :key="s.id" class="hb__sec">
+        <nav class="mi:flex-1 mi:min-h-0 mi:overflow-y-auto mi:pt-1 mi:px-2.5 mi:pb-3.5 mi:grid mi:content-start mi:gap-1.5" aria-label="Handbook pages">
+          <section v-for="s in filtered" :key="s.id">
             <button
-              type="button" class="hb__sec-head mi:flex mi:items-center mi:gap-1.5 mi:w-full mi:py-[7px] mi:px-1.5 mi:[border:0] mi:rounded-sm mi:[background:none] mi:text-label mi:[font:600_13px/1.3_var(--mi-font)] mi:text-left mi:cursor-pointer mi:hover:[background:var(--mi-fill4)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" :aria-expanded="isOpen(s.id)" :aria-controls="'hb-s-' + s.id"
+              type="button" class="mi:flex mi:items-center mi:gap-1.5 mi:w-full mi:py-[7px] mi:px-1.5 mi:[border:0] mi:rounded-sm mi:[background:none] mi:text-label mi:[font:600_13px/1.3_var(--mi-font)] mi:text-left mi:cursor-pointer mi:hover:[background:var(--mi-fill4)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" :aria-expanded="isOpen(s.id)" :aria-controls="'hb-s-' + s.id"
               @click="folded[s.id] = !folded[s.id]"
             >
-              <MiIcon name="chevron-right" :size="12" class="hb__chev mi:text-label2 mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)]" :class="{ 'is-open': isOpen(s.id) }" />
-              <span class="hb__sec-label mi:flex-1 mi:min-w-0">{{ s.label }}</span>
-              <span class="hb__sec-count mi:inline-flex mi:items-center mi:gap-[3px] mi:text-[11px] mi:font-semibold mi:tabular-nums mi:text-label3 mi:[&.is-done]:text-green-t" :class="{ 'is-done': s.readIn === s.size }">
+              <MiIcon name="chevron-right" :size="12" class="mi:text-label2 mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] " :class="isOpen(s.id) ? 'mi:transform-[rotate(90deg)]' : ''" />
+              <span class="mi:flex-1 mi:min-w-0">{{ s.label }}</span>
+              <span class="mi:inline-flex mi:items-center mi:gap-[3px] mi:text-[11px] mi:font-semibold mi:tabular-nums" :class="s.readIn === s.size ? 'mi:text-green-t' : 'mi:text-label3'">
                 <MiIcon v-if="s.readIn === s.size" name="check" :size="11" :weight="2.6" />
                 {{ s.readIn }}/{{ s.size }}
               </span>
             </button>
-            <ul v-show="isOpen(s.id)" :id="'hb-s-' + s.id" class="hb__pages mi:relative mi:grid mi:mt-0.5 mi:mr-0 mi:mb-1.5 mi:ml-3 mi:p-0 mi:[list-style:none] mi:before:content-[''] mi:before:absolute mi:before:left-[5px] mi:before:top-2 mi:before:bottom-2 mi:before:w-px mi:before:[background:var(--mi-sep)]">
+            <ul v-show="isOpen(s.id)" :id="'hb-s-' + s.id" class="mi:relative mi:grid mi:mt-0.5 mi:mr-0 mi:mb-1.5 mi:ml-3 mi:p-0 mi:[list-style:none] mi:before:content-[''] mi:before:absolute mi:before:left-[5px] mi:before:top-2 mi:before:bottom-2 mi:before:w-px mi:before:[background:var(--mi-sep)]">
               <li v-for="p in s.pages" :key="p.id">
                 <a
-                  :href="'#hb-' + p.id" class="hb__page mi:relative mi:flex mi:items-center mi:gap-3 mi:pt-[7px] mi:pr-2 mi:pb-[7px] mi:pl-0 mi:rounded-sm mi:text-label2 mi:text-[14px] mi:leading-[1.3] mi:[text-decoration:none] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px] mi:[&.is-active]:font-semibold" :class="{ 'is-active': p.id === current, 'is-read': read.has(p.id) }"
+                  :href="'#hb-' + p.id" class="mi:relative mi:flex mi:items-center mi:gap-3 mi:pt-[7px] mi:pr-2 mi:pb-[7px] mi:pl-0 mi:rounded-sm mi:text-[14px] mi:leading-[1.3] mi:[text-decoration:none] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px] " :class="[p.id === current ? 'mi:font-semibold mi:text-label' : 'mi:text-label2 mi:hover:text-label']"
                   :aria-current="p.id === current ? 'page' : undefined" @click.prevent="go(p.id)"
                 >
-                  <span class="hb__mark mi:relative mi:flex-[none] mi:grid mi:place-items-center mi:w-[11px] mi:h-[11px] mi:rounded-[50%] mi:[background:var(--mi-side)] mi:shadow-[inset_0_0_0_1.5px_var(--mi-label3)] mi:text-p-on mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring)] mi:[.hb__page.is-read_&]:[background:var(--mi-green)] mi:[.hb__page.is-active_&]:transform-[scale(1.15)] mi:[.hb__page.is-active.is-read_&]:[background:var(--mi-p)]" aria-hidden="true"><MiIcon class="mi:[.hb__page_mark&]:text-inherit mi:[.hb__page_mark&]:py-0 mi:[.hb__page_mark&]:px-px" v-if="read.has(p.id)" name="check" :size="9" :weight="3" /></span>
-                  <span class="hb__page-label mi:min-w-0">{{ p.parts[0] }}<mark class="mi:[.hb__page_mark&]:text-inherit mi:[.hb__page_mark&]:py-0 mi:[.hb__page_mark&]:px-px" v-if="p.parts[1]">{{ p.parts[1] }}</mark>{{ p.parts[2] }}</span>
-                  <span class="hb__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">{{ read.has(p.id) ? ', read' : ', unread' }}</span>
+                  <span class="mi:relative mi:flex-[none] mi:grid mi:place-items-center mi:w-[11px] mi:h-[11px] mi:rounded-[50%] mi:text-p-on mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring)]" :class="[p.id === current ? 'mi:transform-[scale(1.15)]' : '', p.id === current && read.has(p.id) ? 'mi:[background:var(--mi-p)]' : read.has(p.id) ? 'mi:[background:var(--mi-green)]' : 'mi:[background:var(--mi-side)]', p.id === current && read.has(p.id) ? 'mi:shadow-[0_0_0_3px_var(--mi-p-tint)]' : p.id === current ? 'mi:shadow-[0_0_0_3px_var(--mi-p-tint),_inset_0_0_0_1.5px_var(--mi-p)]' : read.has(p.id) ? 'mi:shadow-none' : 'mi:shadow-[inset_0_0_0_1.5px_var(--mi-label3)]']" aria-hidden="true"><MiIcon v-if="read.has(p.id)" name="check" :size="9" :weight="3" /></span>
+                  <span class="mi:min-w-0">{{ p.parts[0] }}<mark class="mi:text-inherit mi:py-0 mi:px-px mi:[background:var(--mi-p-tint2)] mi:rounded-[3px]" v-if="p.parts[1]">{{ p.parts[1] }}</mark>{{ p.parts[2] }}</span>
+                  <span class="mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">{{ read.has(p.id) ? ', read' : ', unread' }}</span>
                 </a>
               </li>
             </ul>
           </section>
-          <MiText v-if="!filtered.length" variant="footnote" tone="label2" class="hb__empty mi:p-2">No page title contains “{{ query }}”.</MiText>
+          <MiText v-if="!filtered.length" variant="footnote" tone="label2" class="mi:p-2">No page title contains “{{ query }}”.</MiText>
         </nav>
 
-        <footer v-if="recent.length" class="hb__recent mi:grid mi:gap-2 mi:pt-3 mi:px-4 mi:pb-4 mi:border-t mi:border-t-sep">
-          <MiText variant="caption2" tone="label2" weight="semibold" class="hb__recent-label">Recently viewed</MiText>
-          <div class="hb__recent-list mi:flex mi:flex-wrap mi:gap-1.5">
-            <button v-for="id in recent" :key="id" type="button" class="hb__recent-chip mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px] mi:max-w-full mi:py-[5px] mi:px-2.5 mi:[border:0] mi:rounded-[99px] mi:[background:var(--mi-card)] mi:shadow-1 mi:text-label mi:[font:500_12px/1.2_var(--mi-font)] mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:cursor-pointer" @click="go(id)">{{ byId[id]?.label }}</button>
+        <footer v-if="recent.length" class="mi:grid mi:gap-2 mi:pt-3 mi:px-4 mi:pb-4 mi:border-t mi:border-t-sep">
+          <MiText variant="caption2" tone="label2" weight="semibold" class="mi:tracking-[.06em]! mi:uppercase">Recently viewed</MiText>
+          <div class="mi:flex mi:flex-wrap mi:gap-1.5">
+            <button v-for="id in recent" :key="id" type="button" class="mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px] mi:max-w-full mi:py-[5px] mi:px-2.5 mi:[border:0] mi:rounded-[99px] mi:[background:var(--mi-card)] mi:shadow-1 mi:text-label mi:[font:500_12px/1.2_var(--mi-font)] mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:cursor-pointer" @click="go(id)">{{ byId[id]?.label }}</button>
           </div>
         </footer>
       </aside>
-      <div class="hb__scrim mi:absolute mi:inset-0 mi:z-2 mi:[background:var(--mi-scrim)] mi:opacity-0 mi:pointer-events-none mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)] mi:[&.is-on]:opacity-100 mi:[&.is-on]:pointer-events-auto mi:@[760px]:hidden" :class="{ 'is-on': open }" aria-hidden="true" @click="open = false" />
+      <div class="mi:absolute mi:inset-0 mi:z-2 mi:[background:var(--mi-scrim)] mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)] mi:@[760px]:hidden" :class="open ? 'mi:opacity-100 mi:pointer-events-auto' : 'mi:opacity-0 mi:pointer-events-none'" aria-hidden="true" @click="open = false" />
 
-      <main class="hb__main mi:min-w-0 mi:overflow-y-auto mi:pt-3.5 mi:px-4.5 mi:pb-7 mi:@[760px]:pt-4.5 mi:@[760px]:px-9 mi:@[760px]:pb-9" aria-labelledby="hb-title">
-        <div class="hb__bar mi:flex mi:items-center mi:gap-2.5 mi:min-h-9 mi:@[760px]:min-h-0">
-          <MiIconButton class="hb__burger" label="Open handbook navigation" variant="gray" size="regular" aria-controls="hb-nav" :aria-expanded="open" @click="open = true">
+      <main class="mi:min-w-0 mi:overflow-y-auto mi:pt-3.5 mi:px-4.5 mi:pb-7 mi:@[760px]:pt-4.5 mi:@[760px]:px-9 mi:@[760px]:pb-9" aria-labelledby="hb-title">
+        <div class="mi:flex mi:items-center mi:gap-2.5 mi:min-h-9 mi:@[760px]:min-h-0">
+          <MiIconButton class="mi:@[760px]:hidden!" label="Open handbook navigation" variant="gray" size="regular" aria-controls="hb-nav" :aria-expanded="open" @click="open = true">
             <MiIcon :svg="burger" :size="18" />
           </MiIconButton>
           <MiText variant="footnote" tone="label2" :lines="1">{{ page.section }} / {{ page.label }}</MiText>
         </div>
-        <Transition name="hb-swap" mode="out-in">
-          <article :id="'hb-' + page.id" :key="page.id" class="hb__article mi:grid mi:justify-items-start mi:gap-3 mi:max-w-155 mi:mt-7 mi:mx-auto mi:mb-0">
+        <Transition mode="out-in" enter-active-class="mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),_transform_var(--mi-dur-2)_var(--mi-ease)]" enter-from-class="mi:opacity-0 mi:transform-[translateY(8px)]" leave-active-class="mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),_transform_var(--mi-dur-2)_var(--mi-ease)]" leave-to-class="mi:opacity-0">
+          <article :id="'hb-' + page.id" :key="page.id" class="mi:grid mi:justify-items-start mi:gap-3 mi:max-w-155 mi:mt-7 mi:mx-auto mi:mb-0">
             <MiText variant="caption" tone="primary" weight="semibold">{{ page.minutes }} min read</MiText>
             <MiText id="hb-title" variant="title1" as="h3" weight="bold" balance>{{ page.label }}</MiText>
-            <MiText variant="body" class="hb__lede">{{ page.summary }}</MiText>
-            <div class="hb__lines mi:grid mi:gap-2.5 mi:w-full" aria-hidden="true"><span v-for="w in [1, 0.92, 0.97, 0.6]" :key="w" :style="{ transform: `scaleX(${w})` }" /></div>
-            <div class="hb__actions mi:flex mi:flex-wrap mi:gap-2 mi:mt-2.5">
+            <MiText variant="body" class="mi:text-[17px]! mi:leading-[1.6]!">{{ page.summary }}</MiText>
+            <div class="mi:grid mi:gap-2.5 mi:w-full" aria-hidden="true"><span v-for="w in [1, 0.92, 0.97, 0.6]" :key="w" class="mi:block mi:h-[9px] mi:rounded-[5px] mi:[background:var(--mi-fill4)] mi:origin-left" :style="{ transform: `scaleX(${w})` }" /></div>
+            <div class="mi:flex mi:flex-wrap mi:gap-2 mi:mt-2.5">
               <MiButton v-if="next" @click="finish">
                 Done, next: {{ next.label }}
                 <template #trailing><MiIcon name="arrow-right" :size="16" /></template>
@@ -176,25 +176,3 @@ function finish() {
   if (next.value) go(next.value.id)
 }
 </script>
-
-<style scoped>
-.hb__overall-bar span { display: block; height: 100%; background: var(--mi-p); transform-origin: left; }
-.hb__chev.is-open { transform: rotate(90deg); }
-.hb__page:hover { color: var(--mi-label); }
-.hb__page.is-read .hb__mark { box-shadow: none; }
-.hb__page.is-active { color: var(--mi-label); }
-.hb__page.is-active .hb__mark { box-shadow: 0 0 0 3px var(--mi-p-tint), inset 0 0 0 1.5px var(--mi-p); }
-.hb__page.is-active.is-read .hb__mark { box-shadow: 0 0 0 3px var(--mi-p-tint); }
-.hb__page mark { background: var(--mi-p-tint2); border-radius: 3px; }
-.hb__recent-label { letter-spacing: .06em; text-transform: uppercase; }
-.hb__lede { font-size: 17px; line-height: 1.6; }
-.hb__lines span { display: block; height: 9px; border-radius: 5px; background: var(--mi-fill4); transform-origin: left; }
-
-.hb-swap-enter-active, .hb-swap-leave-active { transition: opacity var(--mi-dur-2) var(--mi-ease), transform var(--mi-dur-2) var(--mi-ease); }
-.hb-swap-enter-from { opacity: 0; transform: translateY(8px); }
-.hb-swap-leave-to { opacity: 0; }
-
-@container (min-width: 760px) {
-  .hb__close, .hb__burger { display: none; }
-}
-</style>

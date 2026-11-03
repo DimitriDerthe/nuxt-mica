@@ -1,6 +1,6 @@
 <template>
-  <section class="fd mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="fd-title">
-    <header class="fd__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="fd-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="fd-title" variant="title3" as="h2" weight="semibold">Fulfillment week</MiText>
         <MiText variant="footnote" tone="label2">Tilburg warehouse · week 44 · pick a day to drill in</MiText>
@@ -9,20 +9,20 @@
     </header>
 
     <!-- The week strip is the selector: every chart below redraws for the chosen day. -->
-    <div class="fd__week mi:grid mi:grid-cols-7 mi:gap-1.5 mi:p-2 mi:rounded-xl mi:bg-card mi:shadow-1" role="group" aria-label="Day">
+    <div class="mi:grid mi:grid-cols-7 mi:gap-1.5 mi:p-2 mi:rounded-xl mi:bg-card mi:shadow-1" role="group" aria-label="Day">
       <button
-        v-for="d in days" :key="d.id" type="button" class="fd__day mi:grid mi:justify-items-center mi:gap-1 mi:min-w-0 mi:py-2 mi:px-0.5 mi:[border:0] mi:rounded-md mi:bg-transparent mi:text-inherit mi:[font:inherit] mi:cursor-pointer mi:[transition:background-color_var(--mi-dur-2)_var(--mi-ease)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" :class="{ 'is-on': day.id === d.id, 'is-late': d.onTime < 0.95 }"
+        v-for="d in days" :key="d.id" type="button" class="mi:grid mi:justify-items-center mi:gap-1 mi:min-w-0 mi:py-2 mi:px-0.5 mi:[border:0] mi:rounded-md mi:text-inherit mi:[font:inherit] mi:cursor-pointer mi:[transition:background-color_var(--mi-dur-2)_var(--mi-ease)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" :class="day.id === d.id ? 'mi:bg-p-tint' : 'mi:bg-transparent mi:hover:bg-fill4'"
         :aria-pressed="day.id === d.id" :aria-label="`${d.label} ${d.date}, ${d.orders} orders, ${pct(d.onTime)} on time`" @click="dayId = d.id"
       >
-        <span class="fd__day-bar mi:flex mi:[align-items:flex-end] mi:w-3.5 mi:h-11 mi:rounded-[4px] mi:bg-fill4 mi:overflow-hidden" aria-hidden="true"><i class="mi:[.fd__day-bar_&]:block mi:[.fd__day-bar_&]:w-full mi:[.fd__day-bar_&]:h-full mi:[.fd__day-bar_&]:rounded-[inherit] mi:[.fd__day-bar_&]:[background:color-mix(in_srgb,_var(--mi-p)_55%,_var(--mi-card))] mi:[.fd__day-bar_&]:origin-bottom" :style="{ transform: `scaleY(${d.orders / peakOrders})` }" /></span>
-        <span class="fd__day-label mi:text-[13px] mi:font-semibold">{{ d.label }}</span>
-        <span class="fd__day-num mi:text-[11px] mi:text-label2 mi:tabular-nums mi:@max-[420px]:hidden">{{ d.orders.toLocaleString('en-US') }}</span>
+        <span class="mi:flex mi:[align-items:flex-end] mi:w-3.5 mi:h-11 mi:rounded-[4px] mi:bg-fill4 mi:overflow-hidden" aria-hidden="true"><i class="mi:block mi:w-full mi:h-full mi:rounded-[inherit] mi:origin-bottom" :class="d.onTime < 0.95 ? 'mi:bg-orange' : day.id === d.id ? 'mi:bg-p' : 'mi:[background:color-mix(in_srgb,_var(--mi-p)_55%,_var(--mi-card))]'" :style="{ transform: `scaleY(${d.orders / peakOrders})` }" /></span>
+        <span class="mi:text-[13px] mi:font-semibold">{{ d.label }}</span>
+        <span class="mi:text-[11px] mi:text-label2 mi:tabular-nums mi:@max-[420px]:hidden">{{ d.orders.toLocaleString('en-US') }}</span>
       </button>
     </div>
 
-    <div class="fd__grid mi:grid mi:gap-3 mi:grid-cols-[minmax(0,_1fr)] mi:@[620px]:grid-cols-2 mi:@[980px]:grid-cols-[minmax(0,_1.6fr)_minmax(0,_1fr)]">
-      <article class="fd__card fd__flow mi:@[620px]:col-[span_2] mi:@[980px]:col-[auto] mi:@[980px]:row-[span_2] mi:grid mi:gap-3 mi:content-start mi:min-w-0 mi:p-4.5 mi:rounded-xl mi:bg-card mi:shadow-1">
-        <div class="fd__card-head mi:grid mi:gap-0.5">
+    <div class="mi:grid mi:gap-3 mi:grid-cols-[minmax(0,_1fr)] mi:@[620px]:grid-cols-2 mi:@[980px]:grid-cols-[minmax(0,_1.6fr)_minmax(0,_1fr)]">
+      <article class="mi:@[620px]:col-[span_2] mi:@[980px]:col-[auto] mi:@[980px]:row-[span_2] mi:grid mi:gap-3 mi:content-start mi:min-w-0 mi:p-4.5 mi:rounded-xl mi:bg-card mi:shadow-1">
+        <div class="mi:grid mi:gap-0.5">
           <MiText variant="headline" as="h3">Packed and shipped by hour</MiText>
           <MiText variant="footnote" tone="label2">{{ day.label }} {{ day.date }} · {{ day.orders.toLocaleString('en-US') }} orders</MiText>
         </div>
@@ -32,12 +32,12 @@
         />
       </article>
 
-      <article class="fd__card mi:grid mi:gap-3 mi:content-start mi:min-w-0 mi:p-4.5 mi:rounded-xl mi:bg-card mi:shadow-1">
+      <article class="mi:grid mi:gap-3 mi:content-start mi:min-w-0 mi:p-4.5 mi:rounded-xl mi:bg-card mi:shadow-1">
         <MiText variant="headline" as="h3">Carrier mix</MiText>
         <MiStackedBar :segments="carriers" :height="22" :legend-columns="2" :aria-label="`Parcels by carrier on ${day.label}`" />
       </article>
 
-      <article class="fd__card mi:grid mi:gap-3 mi:content-start mi:min-w-0 mi:p-4.5 mi:rounded-xl mi:bg-card mi:shadow-1">
+      <article class="mi:grid mi:gap-3 mi:content-start mi:min-w-0 mi:p-4.5 mi:rounded-xl mi:bg-card mi:shadow-1">
         <MiText variant="headline" as="h3">Service levels</MiText>
         <MiRings :rings="rings" :card="false" :size="132" :stroke-width="11" :aria-label="`Service levels on ${day.label}`" />
       </article>
@@ -87,9 +87,3 @@ const rings = computed(() => [
 const pct = (v: number) => Math.round(v * 100) + '%'
 </script>
 
-<style scoped>
-.fd__day:hover { background: var(--mi-fill4); }
-.fd__day.is-on { background: var(--mi-p-tint); }
-.fd__day.is-on .fd__day-bar i { background: var(--mi-p); }
-.fd__day.is-late .fd__day-bar i { background: var(--mi-orange); }
-</style>

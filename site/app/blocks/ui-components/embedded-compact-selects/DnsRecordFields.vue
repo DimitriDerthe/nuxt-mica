@@ -1,7 +1,7 @@
 <template>
-  <div class="dns mi:@container mi:font-mi mi:text-label">
-    <section class="dns__card mi:grid mi:gap-4.5 mi:p-5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:@[720px]:py-6 mi:@[720px]:px-7" aria-labelledby="dns-title">
-      <header class="dns__head mi:flex mi:flex-wrap mi:[align-items:flex-start] mi:justify-between mi:gap-y-2.5 mi:gap-x-4">
+  <div class="mi:@container mi:font-mi mi:text-label">
+    <section class="mi:grid mi:gap-4.5 mi:p-5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:@[720px]:py-6 mi:@[720px]:px-7" aria-labelledby="dns-title">
+      <header class="mi:flex mi:flex-wrap mi:[align-items:flex-start] mi:justify-between mi:gap-y-2.5 mi:gap-x-4">
         <div>
           <MiText id="dns-title" variant="title3" as="h2" weight="semibold">DNS records</MiText>
           <MiText variant="footnote" tone="label2">northwind.studio · changes propagate in about 5 minutes</MiText>
@@ -10,47 +10,47 @@
       </header>
 
       <!-- Each field carries its own compact select: record type before the name, TTL after the value. -->
-      <form class="dns__form mi:grid mi:gap-3.5 mi:@[720px]:grid-cols-[minmax(0,_1fr)_minmax(0,_1.3fr)_auto] mi:@[720px]:items-start" novalidate @submit.prevent="add">
+      <form class="mi:grid mi:gap-3.5 mi:@[720px]:grid-cols-[minmax(0,_1fr)_minmax(0,_1.3fr)_auto] mi:@[720px]:items-start" novalidate @submit.prevent="add">
         <MiField label="Name" hint="Leave empty for the root, or type a subdomain">
           <MiInputGroup v-model="name" placeholder="www">
             <template #inline-start>
-              <select v-model="type" class="dns__pick mi:h-full mi:[background:none] mi:text-label mi:cursor-pointer mi:rounded-sm mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" aria-label="Record type">
+              <select v-model="type" class="mi:pt-0 mi:pr-2 mi:pb-0 mi:pl-0.5 mi:[border:0] mi:border-r mi:border-r-sep mi:[font:inherit] mi:text-[13px] mi:font-semibold mi:h-full mi:[background:none] mi:text-label mi:cursor-pointer mi:rounded-sm mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" aria-label="Record type">
                 <option v-for="t in types" :key="t" :value="t">{{ t }}</option>
               </select>
             </template>
-            <template #inline-end><span class="dns__zone mi:text-[13px] mi:text-label3 mi:whitespace-nowrap">.northwind.studio</span></template>
+            <template #inline-end><span class="mi:text-[13px] mi:text-label3 mi:whitespace-nowrap">.northwind.studio</span></template>
           </MiInputGroup>
         </MiField>
 
         <MiField label="Value" :hint="rule.hint" :error="showError ? rule.error : undefined">
           <MiInputGroup v-model="value" :placeholder="rule.placeholder">
             <template #inline-end>
-              <select v-model.number="ttl" class="dns__pick dns__pick--end mi:h-full mi:[background:none] mi:text-label mi:cursor-pointer mi:rounded-sm mi:text-label2 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" aria-label="Time to live">
+              <select v-model.number="ttl" class="mi:pt-0 mi:pr-0.5 mi:pb-0 mi:pl-2 mi:[border:0] mi:border-l mi:border-l-sep mi:[font:inherit] mi:text-[13px] mi:font-medium mi:h-full mi:[background:none] mi:cursor-pointer mi:rounded-sm mi:text-label2 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" aria-label="Time to live">
                 <option v-for="t in ttls" :key="t.value" :value="t.value">{{ t.label }}</option>
               </select>
             </template>
           </MiInputGroup>
         </MiField>
 
-        <MiButton type="submit" class="dns__add mi:justify-self-start mi:@[720px]:mt-6.5">
+        <MiButton type="submit" class="mi:justify-self-start mi:@[720px]:mt-6.5">
           <template #leading><MiIcon name="plus" :size="16" /></template>
           Add record
         </MiButton>
       </form>
 
-      <p class="dns__preview mi:grid mi:gap-1 mi:m-0 mi:py-3 mi:px-3.5 mi:rounded-md mi:[background:var(--mi-fill4)]" aria-live="polite">
-        <span class="dns__preview-label mi:text-[11px] mi:font-semibold mi:tracking-[.04em] mi:uppercase mi:text-label3">Zone line</span>
-        <code class="mi:[.dns__preview_&]:text-[13px] mi:[.dns__preview_&]:text-p-text mi:[.dns__preview_&]:wrap-anywhere">{{ host }}. {{ ttl }} IN {{ type }} {{ value.trim() || '…' }}</code>
+      <p class="mi:grid mi:gap-1 mi:m-0 mi:py-3 mi:px-3.5 mi:rounded-md mi:[background:var(--mi-fill4)]" aria-live="polite">
+        <span class="mi:text-[11px] mi:font-semibold mi:tracking-[.04em] mi:uppercase mi:text-label3">Zone line</span>
+        <code class="mi:font-[ui-monospace,SFMono-Regular,Menlo,monospace] mi:text-[13px] mi:text-p-text mi:wrap-anywhere">{{ host }}. {{ ttl }} IN {{ type }} {{ value.trim() || '…' }}</code>
       </p>
 
-      <ul class="dns__list mi:grid mi:m-0 mi:p-0 mi:[list-style:none]" aria-label="Current records">
-        <li v-for="r in records" :key="r.id" class="dns__row mi:grid mi:grid-cols-[64px_minmax(0,_1fr)_auto] mi:items-center mi:gap-y-1 mi:gap-x-3 mi:py-2.5 mi:px-0 mi:border-t mi:border-t-sep mi:@[720px]:grid-cols-[72px_minmax(0,_1fr)_64px_auto]">
-          <MiBadge variant="outline" tone="neutral" :label="r.type" class="dns__type" />
-          <div class="dns__text mi:min-w-0">
+      <ul class="mi:grid mi:m-0 mi:p-0 mi:[list-style:none]" aria-label="Current records">
+        <li v-for="r in records" :key="r.id" class="mi:grid mi:grid-cols-[64px_minmax(0,_1fr)_auto] mi:items-center mi:gap-y-1 mi:gap-x-3 mi:py-2.5 mi:px-0 mi:border-t mi:border-t-sep mi:@[720px]:grid-cols-[72px_minmax(0,_1fr)_64px_auto]">
+          <MiBadge variant="outline" tone="neutral" :label="r.type" class="mi:justify-self-start" />
+          <div class="mi:min-w-0">
             <MiText variant="subheadline" weight="medium" :lines="1">{{ r.name || '@' }}</MiText>
-            <MiText variant="caption" tone="label2" :lines="1" class="dns__mono">{{ r.value }}</MiText>
+            <MiText variant="caption" tone="label2" :lines="1" class="mi:font-[ui-monospace,SFMono-Regular,Menlo,monospace]!">{{ r.value }}</MiText>
           </div>
-          <MiText as="span" variant="caption" tone="label3" tabular class="dns__ttl mi:@[720px]:text-end">{{ ttlLabel(r.ttl) }}</MiText>
+          <MiText as="span" variant="caption" tone="label3" tabular class="mi:hidden mi:@[720px]:block mi:@[720px]:text-end">{{ ttlLabel(r.ttl) }}</MiText>
           <MiIconButton :label="`Delete ${r.type} record ${r.name || '@'}`" variant="plain" size="small" @click="remove(r.id)">
             <MiIcon name="trash" :size="16" />
           </MiIconButton>
@@ -115,17 +115,3 @@ function remove(id: number): void {
   records.value = records.value.filter(r => r.id !== id)
 }
 </script>
-
-<style scoped>
-/* Bare native selects that sit inside the field surface, separated by a hairline. */
-.dns__pick { padding: 0 8px 0 2px; border: 0; border-right: 1px solid var(--mi-sep); font: inherit; font-size: 13px; font-weight: 600;
-}
-.dns__pick--end { padding: 0 2px 0 8px; border-right: 0; border-left: 1px solid var(--mi-sep); font-weight: 500; }
-.dns__preview code, .dns__mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
-.dns__type { justify-self: start; }
-.dns__ttl { display: none; }
-
-@container (min-width: 720px) {
-  .dns__ttl { display: block; }
-}
-</style>

@@ -1,17 +1,17 @@
 <template>
-  <section class="stb mi:@container mi:grid mi:content-start mi:gap-3 mi:font-mi mi:text-label" aria-labelledby="stb-title" @keydown.esc="selected = []">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-3 mi:font-mi mi:text-label" aria-labelledby="stb-title" @keydown.esc="selected = []">
     <!-- Both bars share one grid cell: selecting rows cross-fades the title bar into a contextual action bar. -->
-    <div class="stb__bars mi:grid">
-      <header class="stb__bar stb__bar--title mi:[grid-area:1_/_1] mi:flex mi:flex-wrap mi:items-center mi:gap-y-3 mi:gap-x-4 mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),_transform_var(--mi-dur-3)_var(--mi-ease),_visibility_0s] mi:[&.is-hidden]:opacity-0 mi:[&.is-hidden]:invisible mi:[&.is-hidden]:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),_transform_var(--mi-dur-3)_var(--mi-ease),_visibility_0s_linear_var(--mi-dur-3)] mi:[&.is-hidden]:transform-[translateY(-8px)]" :class="{ 'is-hidden': selecting }" :inert="selecting || undefined">
-        <div class="stb__heading mi:grid mi:gap-0.5 mi:flex-[1_1_220px] mi:min-w-0">
-          <div class="stb__title-row mi:flex mi:items-center mi:gap-2">
+    <div class="mi:grid">
+      <header class="mi:[grid-area:1_/_1] mi:flex mi:flex-wrap mi:items-center mi:gap-y-3 mi:gap-x-4" :class="selecting ? 'mi:opacity-0 mi:invisible mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),_transform_var(--mi-dur-3)_var(--mi-ease),_visibility_0s_linear_var(--mi-dur-3)] mi:transform-[translateY(-8px)]' : 'mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),_transform_var(--mi-dur-3)_var(--mi-ease),_visibility_0s]'" :inert="selecting || undefined">
+        <div class="mi:grid mi:gap-0.5 mi:flex-[1_1_220px] mi:min-w-0">
+          <div class="mi:flex mi:items-center mi:gap-2">
             <MiText id="stb-title" variant="title2" as="h2" weight="bold">Invoices</MiText>
             <MiBadge :label="String(invoices.length)" tone="neutral" variant="tint" shape="pill" />
           </div>
           <MiText variant="footnote" tone="label2" tabular>{{ money(outstanding) }} outstanding across {{ clients }} clients</MiText>
         </div>
-        <div class="stb__tools mi:flex mi:flex-wrap mi:items-center mi:gap-2">
-          <MiSearch v-model="query" class="stb__search" size="compact" placeholder="Client or number" aria-label="Search invoices" />
+        <div class="mi:flex mi:flex-wrap mi:items-center mi:gap-2">
+          <MiSearch v-model="query" size="compact" placeholder="Client or number" aria-label="Search invoices" />
           <MiSegmented v-model="view" label="Layout" :options="[{ value: 'list', icon: 'list', ariaLabel: 'List' }, { value: 'grid', icon: 'grid', ariaLabel: 'Cards' }]" />
           <MiButton size="small">
             <template #leading><MiIcon name="plus" :size="15" /></template>
@@ -20,13 +20,13 @@
         </div>
       </header>
 
-      <div class="stb__bar stb__bar--select mi:[grid-area:1_/_1] mi:flex mi:flex-wrap mi:items-center mi:gap-y-3 mi:gap-x-4 mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),_transform_var(--mi-dur-3)_var(--mi-ease),_visibility_0s] mi:[&.is-hidden]:opacity-0 mi:[&.is-hidden]:invisible mi:[&.is-hidden]:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),_transform_var(--mi-dur-3)_var(--mi-ease),_visibility_0s_linear_var(--mi-dur-3)] mi:self-stretch mi:py-2.5 mi:px-3 mi:rounded-lg mi:[background:var(--mi-p-tint)] mi:shadow-[inset_0_0_0_1px_color-mix(in_srgb,_var(--mi-p)_28%,_transparent)] mi:[&.is-hidden]:transform-[translateY(8px)_scale(.98)]" :class="{ 'is-hidden': !selecting }" :inert="!selecting || undefined" role="toolbar" aria-label="Selected invoices">
+      <div class="mi:[grid-area:1_/_1] mi:flex mi:flex-wrap mi:items-center mi:gap-y-3 mi:gap-x-4 mi:self-stretch mi:py-2.5 mi:px-3 mi:rounded-lg mi:[background:var(--mi-p-tint)] mi:shadow-[inset_0_0_0_1px_color-mix(in_srgb,_var(--mi-p)_28%,_transparent)]" :class="!selecting ? 'mi:opacity-0 mi:invisible mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),_transform_var(--mi-dur-3)_var(--mi-ease),_visibility_0s_linear_var(--mi-dur-3)] mi:transform-[translateY(8px)_scale(.98)]' : 'mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),_transform_var(--mi-dur-3)_var(--mi-ease),_visibility_0s]'" :inert="!selecting || undefined" role="toolbar" aria-label="Selected invoices">
         <MiIconButton label="Clear selection" variant="plain" size="small" @click="selected = []"><MiIcon name="close" :size="16" /></MiIconButton>
-        <div class="stb__sel-text mi:grid mi:flex-[1_1_120px] mi:min-w-0">
+        <div class="mi:grid mi:flex-[1_1_120px] mi:min-w-0">
           <MiText variant="headline" as="p" tabular>{{ selected.length }} selected</MiText>
-          <MiText variant="caption" tabular class="stb__sel-sum">{{ money(selectedTotal) }} total</MiText>
+          <MiText variant="caption" tabular class="mi:text-p-text!">{{ money(selectedTotal) }} total</MiText>
         </div>
-        <div class="stb__sel-actions mi:flex mi:flex-wrap mi:gap-1.5">
+        <div class="mi:flex mi:flex-wrap mi:gap-1.5">
           <MiButton variant="gray" size="small" @click="remind">Send reminder</MiButton>
           <MiButton variant="gray" size="small" @click="exportPdf">Export PDF</MiButton>
           <MiButton size="small" @click="markPaid">Mark paid</MiButton>
@@ -34,28 +34,28 @@
       </div>
     </div>
 
-    <div class="stb__filters mi:flex mi:flex-wrap mi:gap-1.5" role="group" aria-label="Quick filters">
+    <div class="mi:flex mi:flex-wrap mi:gap-1.5" role="group" aria-label="Quick filters">
       <MiChip v-for="f in filters" :key="f.id" v-model="f.on" selectable size="small" tone="primary" :label="`${f.label} · ${count(f.id)}`" />
     </div>
 
-    <MiText variant="footnote" tone="label2" aria-live="polite" class="stb__note mi:min-h-[1lh]">{{ note }}</MiText>
+    <MiText variant="footnote" tone="label2" aria-live="polite" class="mi:empty:hidden mi:min-h-[1lh]">{{ note }}</MiText>
 
-    <div class="stb__list mi:grid mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1 mi:overflow-hidden mi:[&.is-grid]:grid-cols-[repeat(auto-fill,_minmax(200px,_1fr))] mi:[&.is-grid]:gap-2.5 mi:[&.is-grid]:p-2.5 mi:[&.is-grid]:[background:none] mi:[&.is-grid]:shadow-none" :class="'is-' + view">
-      <div v-if="view === 'list'" class="stb__head-row mi:grid mi:grid-cols-[auto_minmax(0,_1fr)_auto] mi:items-center mi:gap-y-1 mi:gap-x-3 mi:py-3 mi:px-3.5 mi:text-[12px] mi:font-semibold mi:text-label2 mi:border-b mi:border-b-sep mi:@[640px]:grid-cols-[auto_minmax(0,_1fr)_120px_110px_92px] mi:@[640px]:after:content-['']">
+    <div class="mi:grid mi:rounded-lg mi:overflow-hidden" :class="view === 'grid' ? 'mi:grid-cols-[repeat(auto-fill,_minmax(200px,_1fr))] mi:gap-2.5 mi:p-2.5 mi:[background:none] mi:shadow-none' : 'mi:[background:var(--mi-card)] mi:shadow-1'">
+      <div v-if="view === 'list'" class="mi:grid mi:grid-cols-[auto_minmax(0,_1fr)_auto] mi:items-center mi:gap-y-1 mi:gap-x-3 mi:py-3 mi:px-3.5 mi:text-[12px] mi:font-semibold mi:text-label2 mi:border-b mi:border-b-sep mi:@[640px]:grid-cols-[auto_minmax(0,_1fr)_120px_110px_92px] mi:@[640px]:after:content-['']">
         <MiCheckbox :model-value="allOn" :indeterminate="someOn" aria-label="Select all visible invoices" @update:model-value="toggleAll" />
-        <span>Client</span><span class="stb__col-due mi:hidden mi:text-[13px] mi:text-label2 mi:[.stb__head-row_&]:hidden mi:@[640px]:block mi:@[640px]:[.stb__head-row_&]:block">Due</span><span class="stb__col-amt mi:col-[3] mi:row-[1] mi:justify-self-end mi:text-[14px] mi:font-semibold mi:tabular-nums mi:[.is-grid_&]:col-[2] mi:[.is-grid_&]:row-[auto] mi:[.is-grid_&]:justify-self-start mi:[.is-grid_&]:tracking-[-.02em] mi:@[640px]:col-[auto] mi:@[640px]:row-[auto]">Amount</span>
+        <span>Client</span><span class="mi:hidden mi:text-[13px] mi:text-label2 mi:@[640px]:block">Due</span><span class="mi:col-[3] mi:row-[1] mi:justify-self-end mi:text-[12px] mi:font-semibold mi:tabular-nums mi:@[640px]:col-[auto] mi:@[640px]:row-[auto]">Amount</span>
       </div>
-      <div v-for="inv in rows" :key="inv.id" class="stb__row mi:grid mi:grid-cols-[auto_minmax(0,_1fr)_auto] mi:items-center mi:gap-y-1 mi:gap-x-3 mi:py-3 mi:px-3.5 mi:cursor-pointer mi:[.is-grid_&]:grid-cols-[auto_minmax(0,_1fr)] mi:[.is-grid_&]:rounded-lg mi:[.is-grid_&]:shadow-1 mi:@[640px]:grid-cols-[auto_minmax(0,_1fr)_120px_110px_92px]" :class="{ 'is-on': selected.includes(inv.id) }" @click="toggle(inv.id)">
-        <span class="stb__check mi:inline-flex" @click.stop><MiCheckbox :model-value="selected.includes(inv.id)" :aria-label="'Select ' + inv.id" @update:model-value="toggle(inv.id)" /></span>
-        <span class="stb__client mi:grid mi:min-w-0">
-          <span class="stb__client-name mi:text-[14px] mi:font-semibold mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ inv.client }}</span>
-          <span class="stb__client-meta mi:text-[12px] mi:text-label2 mi:tabular-nums">{{ inv.id }}</span>
+      <div v-for="inv in rows" :key="inv.id" class="mi:grid mi:items-center mi:gap-y-1 mi:gap-x-3 mi:py-3 mi:px-3.5 mi:cursor-pointer" :class="[selected.includes(inv.id) ? 'mi:bg-p-tint' : view === 'grid' ? 'mi:bg-card' : 'mi:hover:bg-fill4', view === 'grid' ? 'mi:grid-cols-[auto_minmax(0,_1fr)] mi:rounded-lg mi:shadow-1' : 'mi:grid-cols-[auto_minmax(0,_1fr)_auto] mi:@[640px]:grid-cols-[auto_minmax(0,_1fr)_120px_110px_92px] mi:[&:nth-child(n+3)]:border-t mi:[&:nth-child(n+3)]:border-t-sep']" @click="toggle(inv.id)">
+        <span class="mi:inline-flex" @click.stop><MiCheckbox :model-value="selected.includes(inv.id)" :aria-label="'Select ' + inv.id" @update:model-value="toggle(inv.id)" /></span>
+        <span class="mi:grid mi:min-w-0">
+          <span class="mi:text-[14px] mi:font-semibold mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ inv.client }}</span>
+          <span class="mi:text-[12px] mi:text-label2 mi:tabular-nums">{{ inv.id }}</span>
         </span>
-        <span class="stb__col-due mi:hidden mi:text-[13px] mi:text-label2 mi:[.stb__head-row_&]:hidden mi:@[640px]:block mi:@[640px]:[.stb__head-row_&]:block">{{ inv.due }}</span>
-        <span class="stb__col-amt mi:col-[3] mi:row-[1] mi:justify-self-end mi:text-[14px] mi:font-semibold mi:tabular-nums mi:[.is-grid_&]:col-[2] mi:[.is-grid_&]:row-[auto] mi:[.is-grid_&]:justify-self-start mi:[.is-grid_&]:tracking-[-.02em] mi:@[640px]:col-[auto] mi:@[640px]:row-[auto]">{{ money(inv.amount) }}</span>
-        <MiBadge class="stb__status" :label="labels[inv.status]" :tone="tones[inv.status]" variant="tint" />
+        <span class="mi:hidden mi:text-[13px] mi:text-label2 mi:@[640px]:block">{{ inv.due }}</span>
+        <span class="mi:font-semibold mi:tabular-nums" :class="view === 'grid' ? 'mi:col-[2] mi:row-[auto] mi:justify-self-start mi:tracking-[-.02em] mi:text-[20px]' : 'mi:col-[3] mi:row-[1] mi:justify-self-end mi:text-[14px] mi:@[640px]:col-[auto] mi:@[640px]:row-[auto]'">{{ money(inv.amount) }}</span>
+        <MiBadge :class="view === 'grid' ? 'mi:col-[2] mi:row-[auto] mi:justify-self-start' : 'mi:col-[3] mi:row-[2] mi:justify-self-end mi:@[640px]:col-[auto] mi:@[640px]:row-[auto]'" :label="labels[inv.status]" :tone="tones[inv.status]" variant="tint" />
       </div>
-      <MiText v-if="!rows.length" variant="footnote" tone="label2" class="stb__empty mi:p-4">No invoice matches these filters.</MiText>
+      <MiText v-if="!rows.length" variant="footnote" tone="label2" class="mi:p-4">No invoice matches these filters.</MiText>
     </div>
   </section>
 </template>
@@ -122,23 +122,3 @@ function exportPdf() {
   note.value = `Exported ${selected.value.length} PDF${selected.value.length > 1 ? 's' : ''} to Downloads.`
 }
 </script>
-
-<style scoped>
-.stb__search { width: 100%; }
-.stb__sel-sum { color: var(--mi-p-text); }
-.stb__note:empty { display: none; }
-.stb__row + .stb__row { border-top: 1px solid var(--mi-sep); }
-.stb__row:hover { background: var(--mi-fill4); }
-.stb__row.is-on { background: var(--mi-p-tint); }
-.stb__head-row .stb__col-amt { font-size: 12px; }
-.stb__status { grid-column: 3; grid-row: 2; justify-self: end; }
-.is-grid .stb__row { background: var(--mi-card); border: 0; }
-.is-grid .stb__row.is-on { background: var(--mi-p-tint); }
-.is-grid .stb__col-amt { font-size: 20px; }
-.is-grid .stb__status { grid-column: 2; grid-row: auto; justify-self: start; }
-
-@container (min-width: 640px) {
-  .stb__search { width: 220px; }
-  .stb__status { grid-column: auto; grid-row: auto; }
-}
-</style>

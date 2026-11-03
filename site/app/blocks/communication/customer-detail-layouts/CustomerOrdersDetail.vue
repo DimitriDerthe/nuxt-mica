@@ -1,68 +1,68 @@
 <template>
-  <section class="co mi:@container mi:min-h-155 mi:font-mi mi:text-label mi:[background:var(--mi-page)]" aria-labelledby="co-title">
-    <header class="co__hero mi:grid mi:gap-4.5 mi:py-5.5 mi:px-5 mi:[background:var(--mi-card)] mi:border-b mi:border-b-sep mi:@[880px]:grid-cols-[auto_minmax(0,_520px)] mi:@[880px]:justify-between mi:@[880px]:items-center mi:@[880px]:py-6 mi:@[880px]:px-7">
-      <div class="co__id mi:flex mi:items-center mi:gap-3.5 mi:min-w-0">
+  <section class="mi:@container mi:min-h-155 mi:font-mi mi:text-label mi:[background:var(--mi-page)]" aria-labelledby="co-title">
+    <header class="mi:grid mi:gap-4.5 mi:py-5.5 mi:px-5 mi:[background:var(--mi-card)] mi:border-b mi:border-b-sep mi:@[880px]:grid-cols-[auto_minmax(0,_520px)] mi:@[880px]:justify-between mi:@[880px]:items-center mi:@[880px]:py-6 mi:@[880px]:px-7">
+      <div class="mi:flex mi:items-center mi:gap-3.5 mi:min-w-0">
         <MiAvatar name="Camille Roux" size="lg" tone="purple" decorative />
-        <div class="co__id-text mi:min-w-0">
-          <div class="co__name-row mi:flex mi:flex-wrap mi:items-center mi:gap-2">
+        <div class="mi:min-w-0">
+          <div class="mi:flex mi:flex-wrap mi:items-center mi:gap-2">
             <MiText id="co-title" as="h2" variant="title2" weight="bold">Camille Roux</MiText>
             <MiBadge tone="secondary" label="Gold member" />
           </div>
           <MiText variant="footnote" tone="label2">Customer since March 2021 · Lyon, France · prefers email</MiText>
         </div>
       </div>
-      <dl class="co__stats mi:grid mi:grid-cols-2 mi:gap-px mi:m-0 mi:rounded-lg mi:[background:var(--mi-sep)] mi:overflow-hidden mi:@[640px]:grid-cols-4">
-        <div v-for="s in stats" :key="s.label" class="co__stat mi:py-2.5 mi:px-3.5 mi:[background:var(--mi-card)]">
-          <dt class="mi:[.co__stat_&]:text-[12px] mi:[.co__stat_&]:text-label2">{{ s.label }}</dt>
-          <dd class="mi:[.co__stat_&]:mt-0.5 mi:[.co__stat_&]:mx-0 mi:[.co__stat_&]:mb-0 mi:[.co__stat_&]:text-[20px] mi:[.co__stat_&]:font-bold mi:[.co__stat_&]:tracking-[-.02em] mi:[.co__stat_&]:tabular-nums">{{ s.value }}</dd>
+      <dl class="mi:grid mi:grid-cols-2 mi:gap-px mi:m-0 mi:rounded-lg mi:[background:var(--mi-sep)] mi:overflow-hidden mi:@[640px]:grid-cols-4">
+        <div v-for="s in stats" :key="s.label" class="mi:py-2.5 mi:px-3.5 mi:[background:var(--mi-card)]">
+          <dt class="mi:text-[12px] mi:text-label2">{{ s.label }}</dt>
+          <dd class="mi:mt-0.5 mi:mx-0 mi:mb-0 mi:text-[20px] mi:font-bold mi:tracking-[-.02em] mi:tabular-nums">{{ s.value }}</dd>
         </div>
       </dl>
     </header>
 
-    <div class="co__body mi:grid mi:gap-4 mi:p-4 mi:grid-cols-[minmax(0,_1fr)] mi:@[880px]:grid-cols-[280px_minmax(0,_1fr)] mi:@[880px]:pt-5 mi:@[880px]:px-7 mi:@[880px]:pb-7 mi:@[880px]:gap-5">
-      <nav class="co__orders mi:grid mi:content-start mi:gap-2" aria-labelledby="co-orders-title">
+    <div class="mi:grid mi:gap-4 mi:p-4 mi:grid-cols-[minmax(0,_1fr)] mi:@[880px]:grid-cols-[280px_minmax(0,_1fr)] mi:@[880px]:pt-5 mi:@[880px]:px-7 mi:@[880px]:pb-7 mi:@[880px]:gap-5">
+      <nav class="mi:grid mi:content-start mi:gap-2" aria-labelledby="co-orders-title">
         <MiText id="co-orders-title" as="h3" variant="subheadline" weight="semibold">Orders</MiText>
-        <ul class="co__list mi:[list-style:none] mi:m-0 mi:p-0 mi:grid mi:gap-1.5">
+        <ul class="mi:[list-style:none] mi:m-0 mi:p-0 mi:grid mi:gap-1.5">
           <li v-for="o in orders" :key="o.id">
-            <button type="button" class="co__order mi:grid mi:gap-1 mi:w-full mi:py-3 mi:px-3.5 mi:border mi:border-sep mi:rounded-lg mi:[background:var(--mi-card)] mi:text-inherit mi:[font:inherit] mi:text-start mi:cursor-pointer mi:[&.is-on]:border-p mi:[&.is-on]:[background:var(--mi-p-tint)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" :class="{ 'is-on': o.id === activeId }" :aria-current="o.id === activeId ? 'true' : undefined" @click="activeId = o.id">
-              <span class="co__order-top mi:flex mi:items-center mi:justify-between mi:gap-2">
-                <span class="co__order-no mi:font-bold mi:tabular-nums">#{{ o.id }}</span>
+            <button type="button" class="mi:grid mi:gap-1 mi:w-full mi:py-3 mi:px-3.5 mi:border mi:rounded-lg mi:text-inherit mi:[font:inherit] mi:text-start mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" :class="o.id === activeId ? 'mi:border-p mi:[background:var(--mi-p-tint)]' : 'mi:border-sep mi:[background:var(--mi-card)]'" :aria-current="o.id === activeId ? 'true' : undefined" @click="activeId = o.id">
+              <span class="mi:flex mi:items-center mi:justify-between mi:gap-2">
+                <span class="mi:font-bold mi:tabular-nums">#{{ o.id }}</span>
                 <MiBadge :tone="tones[o.status]" :label="o.status" />
               </span>
-              <span class="co__order-meta mi:text-[12.5px] mi:text-label2">{{ o.date }} · {{ o.items.length }} {{ o.items.length === 1 ? 'item' : 'items' }} · {{ money(total(o)) }}</span>
+              <span class="mi:text-[12.5px] mi:text-label2">{{ o.date }} · {{ o.items.length }} {{ o.items.length === 1 ? 'item' : 'items' }} · {{ money(total(o)) }}</span>
             </button>
           </li>
         </ul>
       </nav>
 
-      <article class="co__detail mi:grid mi:content-start mi:gap-4 mi:min-w-0 mi:p-4.5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1" aria-labelledby="co-detail-title">
-        <header class="co__detail-head mi:flex mi:flex-wrap mi:[align-items:flex-start] mi:justify-between mi:gap-3">
+      <article class="mi:grid mi:content-start mi:gap-4 mi:min-w-0 mi:p-4.5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1" aria-labelledby="co-detail-title">
+        <header class="mi:flex mi:flex-wrap mi:[align-items:flex-start] mi:justify-between mi:gap-3">
           <div>
             <MiText id="co-detail-title" as="h3" variant="headline" weight="semibold">Order #{{ active.id }}</MiText>
             <MiText variant="caption" tone="label2">Placed {{ active.date }} · {{ money(total(active)) }}</MiText>
           </div>
-          <div class="co__acts mi:flex mi:flex-wrap mi:gap-2">
+          <div class="mi:flex mi:flex-wrap mi:gap-2">
             <MiButton variant="gray" size="small" @click="resend">Resend receipt</MiButton>
             <MiButton variant="destructive" size="small" soft :disabled="active.status === 'Refunded'" @click="refund">Refund</MiButton>
           </div>
         </header>
 
-        <ul class="co__items mi:[list-style:none] mi:m-0 mi:p-0 mi:grid">
-          <li v-for="it in active.items" :key="it.sku" class="co__item mi:flex mi:items-center mi:gap-3 mi:py-2.5 mi:px-0 mi:[.co__item+&]:border-t mi:[.co__item+&]:border-t-sep">
-            <span class="co__thumb mi:flex-[none] mi:w-11 mi:h-11 mi:rounded-[10px] mi:[background:linear-gradient(150deg,_color-mix(in_srgb,_var(--co-hue)_70%,_var(--mi-card)),_color-mix(in_srgb,_var(--co-hue)_25%,_var(--mi-card)))]" :style="{ '--co-hue': it.hue }" aria-hidden="true" />
-            <span class="co__item-text mi:grid mi:flex-1 mi:min-w-0">
-              <span class="co__item-name mi:text-[14.5px] mi:font-semibold mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ it.name }}</span>
-              <span class="co__item-meta mi:text-[12.5px] mi:text-label2">{{ it.variant }} · qty {{ it.qty }}</span>
+        <ul class="mi:[list-style:none] mi:m-0 mi:p-0 mi:grid">
+          <li v-for="it in active.items" :key="it.sku" class="mi:flex mi:items-center mi:gap-3 mi:py-2.5 mi:px-0 mi:not-first:border-t mi:not-first:border-t-sep">
+            <span class="mi:flex-[none] mi:w-11 mi:h-11 mi:rounded-[10px] mi:[background:linear-gradient(150deg,_color-mix(in_srgb,_var(--co-hue)_70%,_var(--mi-card)),_color-mix(in_srgb,_var(--co-hue)_25%,_var(--mi-card)))]" :style="{ '--co-hue': it.hue }" aria-hidden="true" />
+            <span class="mi:grid mi:flex-1 mi:min-w-0">
+              <span class="mi:text-[14.5px] mi:font-semibold mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ it.name }}</span>
+              <span class="mi:text-[12.5px] mi:text-label2">{{ it.variant }} · qty {{ it.qty }}</span>
             </span>
-            <span class="co__item-price mi:font-semibold mi:tabular-nums">{{ money(it.price * it.qty) }}</span>
+            <span class="mi:font-semibold mi:tabular-nums">{{ money(it.price * it.qty) }}</span>
           </li>
         </ul>
 
-        <div class="co__split mi:grid mi:gap-4.5 mi:grid-cols-[minmax(0,_1fr)] mi:pt-4 mi:border-t mi:border-t-sep mi:@[640px]:grid-cols-[minmax(0,_1fr)_minmax(0,_1fr)]">
+        <div class="mi:grid mi:gap-4.5 mi:grid-cols-[minmax(0,_1fr)] mi:pt-4 mi:border-t mi:border-t-sep mi:@[640px]:grid-cols-[minmax(0,_1fr)_minmax(0,_1fr)]">
           <MiDetails :items="facts" label-width="96px" />
           <MiTimeline :items="active.events" aria-label="Order history" />
         </div>
-        <p class="co__status mi:m-0 mi:min-h-4.5 mi:text-[13px] mi:text-label2" role="status">{{ status }}</p>
+        <p class="mi:m-0 mi:min-h-4.5 mi:text-[13px] mi:text-label2" role="status">{{ status }}</p>
       </article>
     </div>
   </section>

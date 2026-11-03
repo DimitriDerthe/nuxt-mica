@@ -1,108 +1,108 @@
 <template>
-  <section class="tdir mi:[--tdir-t3:color-mix(in_srgb,_var(--mi-label2)_78%,_transparent)] mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="tdir-title">
-    <header class="tdir__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-y-3 mi:gap-x-5">
-      <div class="tdir__title mi:grid mi:gap-0.5 mi:min-w-0">
+  <section class="mi:[--tdir-t3:color-mix(in_srgb,_var(--mi-label2)_78%,_transparent)] mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="tdir-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-y-3 mi:gap-x-5">
+      <div class="mi:grid mi:gap-0.5 mi:min-w-0">
         <MiText id="tdir-title" variant="title3" as="h2" weight="semibold">Team directory</MiText>
         <MiText variant="footnote" tone="label2" tabular>
-          <span class="tdir__live mi:[.tdir__chips_&]:me-1.5 mi:[.tdir__chips_&]:shadow-none mi:inline-block mi:w-[7px] mi:h-[7px] mi:me-[7px] mi:rounded-[50%] mi:[vertical-align:1px] mi:[background:var(--mi-green)] mi:shadow-[0_0_0_3px_color-mix(in_srgb,_var(--mi-green)_22%,_transparent)]" aria-hidden="true" />{{ workingCount }} of {{ people.length }} people are in working hours · your time {{ viewerTime }}
+          <span class="mi:inline-block mi:w-[7px] mi:h-[7px] mi:me-[7px] mi:rounded-[50%] mi:[vertical-align:1px] mi:[background:var(--mi-green)] mi:shadow-[0_0_0_3px_color-mix(in_srgb,_var(--mi-green)_22%,_transparent)]" aria-hidden="true" />{{ workingCount }} of {{ people.length }} people are in working hours · your time {{ viewerTime }}
         </MiText>
       </div>
-      <div class="tdir__view mi:flex-[none]"><MiSegmented v-model="view" label="Layout" :options="views" /></div>
+      <div class="mi:flex-[none]"><MiSegmented v-model="view" label="Layout" :options="views" /></div>
     </header>
 
-    <div class="tdir__filters mi:grid mi:gap-2.5 mi:@[960px]:grid-cols-[minmax(200px,_280px)_minmax(0,_1fr)] mi:@[960px]:items-center">
-      <div class="tdir__search mi:max-w-80 mi:min-w-0"><MiSearch v-model="query" size="compact" placeholder="Name, role or city" aria-label="Search people" /></div>
-      <div class="tdir__chips mi:flex mi:flex-wrap mi:gap-1.5 mi:@[960px]:[justify-content:flex-end]" role="group" aria-label="Filter by department">
+    <div class="mi:grid mi:gap-2.5 mi:@[960px]:grid-cols-[minmax(200px,_280px)_minmax(0,_1fr)] mi:@[960px]:items-center">
+      <div class="mi:max-w-80 mi:min-w-0"><MiSearch v-model="query" size="compact" placeholder="Name, role or city" aria-label="Search people" /></div>
+      <div class="mi:flex mi:flex-wrap mi:gap-1.5 mi:@[960px]:[justify-content:flex-end]" role="group" aria-label="Filter by department">
         <MiChip
           v-for="d in departments" :key="d" selectable size="small" tone="neutral" :model-value="depts.includes(d)"
           :label="`${d} ${countBy(d)}`" @update:model-value="toggleDept(d)"
         />
-        <MiChip v-model="reachable" selectable size="small" tone="primary"><span class="tdir__live mi:[.tdir__chips_&]:me-1.5 mi:[.tdir__chips_&]:shadow-none mi:inline-block mi:w-[7px] mi:h-[7px] mi:me-[7px] mi:rounded-[50%] mi:[vertical-align:1px] mi:[background:var(--mi-green)] mi:shadow-[0_0_0_3px_color-mix(in_srgb,_var(--mi-green)_22%,_transparent)]" aria-hidden="true" />Working now</MiChip>
+        <MiChip v-model="reachable" selectable size="small" tone="primary"><span class="mi:me-1.5 mi:shadow-none mi:inline-block mi:w-[7px] mi:h-[7px] mi:rounded-[50%] mi:[vertical-align:1px] mi:[background:var(--mi-green)]" aria-hidden="true" />Working now</MiChip>
       </div>
     </div>
 
-    <div class="tdir__body mi:relative mi:grid mi:grid-cols-[minmax(0,_1fr)_26px] mi:gap-1.5 mi:min-w-0 mi:@[860px]:grid-cols-[minmax(0,_1fr)_28px] mi:@[860px]:gap-2">
-      <div ref="scroller" class="tdir__scroll mi:relative mi:h-103 mi:overflow-auto mi:overscroll-contain mi:rounded-xl mi:[background:var(--mi-card)] mi:border mi:border-sep mi:shadow-1 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" tabindex="0" aria-label="People" role="region">
+    <div class="mi:relative mi:grid mi:grid-cols-[minmax(0,_1fr)_26px] mi:gap-1.5 mi:min-w-0 mi:@[860px]:grid-cols-[minmax(0,_1fr)_28px] mi:@[860px]:gap-2">
+      <div ref="scroller" class="mi:relative mi:h-103 mi:overflow-auto mi:overscroll-contain mi:rounded-xl mi:[background:var(--mi-card)] mi:border mi:border-sep mi:shadow-1 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" tabindex="0" aria-label="People" role="region">
         <!-- Table view: one row group per letter, so the scrubber has a target in both layouts. -->
-        <table v-if="view === 'table'" class="tdir__table mi:w-full mi:border-separate mi:[border-spacing:0] mi:text-[13px]">
-          <caption class="tdir__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">People sorted by first name, with their local time</caption>
+        <table v-if="view === 'table'" class="mi:w-full mi:border-separate mi:[border-spacing:0] mi:text-[13px]">
+          <caption class="mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">People sorted by first name, with their local time</caption>
           <thead>
             <tr>
-              <th class="mi:[.tdir__table_thead_th&]:h-9.5 mi:[.tdir__table_thead_th&]:text-[11px] mi:[.tdir__table_thead_th&]:font-semibold mi:[.tdir__table_thead_th&]:tracking-[.05em] mi:[.tdir__table_thead_th&]:uppercase mi:[.tdir__table_thead_th&]:text-(--tdir-t3) mi:[.tdir__table_thead_th&]:[background:var(--mi-card)] mi:[.tdir__table_thead_th&]:border-b mi:[.tdir__table_thead_th&]:border-b-sep" scope="col">Person</th>
-              <th scope="col" class="c-dept mi:[.tdir__table_thead_th&]:h-9.5 mi:[.tdir__table_thead_th&]:text-[11px] mi:[.tdir__table_thead_th&]:font-semibold mi:[.tdir__table_thead_th&]:tracking-[.05em] mi:[.tdir__table_thead_th&]:uppercase mi:[.tdir__table_thead_th&]:text-(--tdir-t3) mi:[.tdir__table_thead_th&]:[background:var(--mi-card)] mi:[.tdir__table_thead_th&]:border-b mi:[.tdir__table_thead_th&]:border-b-sep mi:[.tdir__table_&]:hidden mi:@[860px]:[.tdir__table_&]:table-cell">Department</th>
-              <th scope="col" class="c-loc mi:[.tdir__table_thead_th&]:h-9.5 mi:[.tdir__table_thead_th&]:text-[11px] mi:[.tdir__table_thead_th&]:font-semibold mi:[.tdir__table_thead_th&]:tracking-[.05em] mi:[.tdir__table_thead_th&]:uppercase mi:[.tdir__table_thead_th&]:text-(--tdir-t3) mi:[.tdir__table_thead_th&]:[background:var(--mi-card)] mi:[.tdir__table_thead_th&]:border-b mi:[.tdir__table_thead_th&]:border-b-sep mi:[.tdir__table_&]:hidden mi:@[640px]:[.tdir__table_&]:table-cell">Location</th>
-              <th scope="col" class="c-time mi:[.tdir__table_thead_th&]:h-9.5 mi:[.tdir__table_thead_th&]:text-[11px] mi:[.tdir__table_thead_th&]:font-semibold mi:[.tdir__table_thead_th&]:tracking-[.05em] mi:[.tdir__table_thead_th&]:uppercase mi:[.tdir__table_thead_th&]:text-(--tdir-t3) mi:[.tdir__table_thead_th&]:[background:var(--mi-card)] mi:[.tdir__table_thead_th&]:border-b mi:[.tdir__table_thead_th&]:border-b-sep mi:[.tdir__table_&]:w-31 mi:@[640px]:[.tdir__table_&]:w-57.5">Local time</th>
-              <th scope="col" class="c-act mi:[.tdir__table_thead_th&]:h-9.5 mi:[.tdir__table_thead_th&]:text-[11px] mi:[.tdir__table_thead_th&]:font-semibold mi:[.tdir__table_thead_th&]:tracking-[.05em] mi:[.tdir__table_thead_th&]:uppercase mi:[.tdir__table_thead_th&]:text-(--tdir-t3) mi:[.tdir__table_thead_th&]:[background:var(--mi-card)] mi:[.tdir__table_thead_th&]:border-b mi:[.tdir__table_thead_th&]:border-b-sep mi:[.tdir__table_&]:hidden mi:[.tdir__table_&]:w-12 mi:@[640px]:[.tdir__table_&]:table-cell"><span class="tdir__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">Contact</span></th>
+              <th class="mi:sticky mi:top-0 mi:z-3 mi:py-0 mi:px-3.5 mi:text-start mi:whitespace-nowrap mi:h-9.5 mi:text-[11px] mi:font-semibold mi:tracking-[.05em] mi:uppercase mi:text-(--tdir-t3) mi:[background:var(--mi-card)] mi:border-b mi:border-b-sep" scope="col">Person</th>
+              <th scope="col" class="mi:sticky mi:top-0 mi:z-3 mi:py-0 mi:px-3.5 mi:text-start mi:whitespace-nowrap mi:h-9.5 mi:text-[11px] mi:font-semibold mi:tracking-[.05em] mi:uppercase mi:text-(--tdir-t3) mi:[background:var(--mi-card)] mi:border-b mi:border-b-sep mi:hidden mi:@[860px]:table-cell">Department</th>
+              <th scope="col" class="mi:sticky mi:top-0 mi:z-3 mi:py-0 mi:px-3.5 mi:text-start mi:whitespace-nowrap mi:h-9.5 mi:text-[11px] mi:font-semibold mi:tracking-[.05em] mi:uppercase mi:text-(--tdir-t3) mi:[background:var(--mi-card)] mi:border-b mi:border-b-sep mi:hidden mi:@[640px]:table-cell">Location</th>
+              <th scope="col" class="mi:sticky mi:top-0 mi:z-3 mi:py-0 mi:ps-1 mi:pe-3.5 mi:@[640px]:ps-3.5 mi:text-start mi:whitespace-nowrap mi:h-9.5 mi:text-[11px] mi:font-semibold mi:tracking-[.05em] mi:uppercase mi:text-(--tdir-t3) mi:[background:var(--mi-card)] mi:border-b mi:border-b-sep mi:w-31 mi:@[640px]:w-57.5">Local time</th>
+              <th scope="col" class="mi:sticky mi:top-0 mi:z-3 mi:py-0 mi:ps-1 mi:pe-2.5 mi:text-end mi:whitespace-nowrap mi:h-9.5 mi:text-[11px] mi:font-semibold mi:tracking-[.05em] mi:uppercase mi:text-(--tdir-t3) mi:[background:var(--mi-card)] mi:border-b mi:border-b-sep mi:hidden mi:w-12 mi:@[640px]:table-cell"><span class="mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">Contact</span></th>
             </tr>
           </thead>
           <tbody v-for="sec in sections" :key="sec.letter">
-            <tr class="tdir__letter-row">
-              <th :id="`tdir-l-${sec.letter}`" :data-letter="sec.letter" scope="rowgroup" colspan="5" class="tdir__letter mi:m-0 mi:py-1.5 mi:px-3.5 mi:text-[12px] mi:font-bold mi:tracking-[.04em] mi:text-start mi:text-p-text mi:[background:color-mix(in_srgb,_var(--mi-fill4)_70%,_var(--mi-card))] mi:border-b mi:border-b-sep">{{ sec.letter }}</th>
+            <tr>
+              <th :id="`tdir-l-${sec.letter}`" :data-letter="sec.letter" scope="rowgroup" colspan="5" class="mi:sticky mi:top-9.5 mi:z-2 mi:m-0 mi:py-1.5 mi:px-3.5 mi:text-[12px] mi:font-bold mi:tracking-[.04em] mi:text-start mi:text-p-text mi:[background:color-mix(in_srgb,_var(--mi-fill4)_70%,_var(--mi-card))] mi:border-b mi:border-b-sep">{{ sec.letter }}</th>
             </tr>
-            <tr v-for="p in sec.people" :key="p.id" class="tdir__row">
-              <td>
-                <span class="tdir__who mi:flex mi:items-center mi:gap-2.5 mi:min-w-0">
+            <tr v-for="p in sec.people" :key="p.id" class="mi:group">
+              <td class="mi:py-2.5 mi:px-3.5 mi:border-b mi:border-b-sep mi:align-middle mi:group-hover:bg-fill4/55 mi:[tbody:last-of-type_tr:last-child_&]:[border-bottom:0]">
+                <span class="mi:flex mi:items-center mi:gap-2.5 mi:min-w-0">
                   <MiAvatar :name="p.name" size="sm" tone="auto" decorative />
-                  <span class="tdir__who-text mi:grid mi:min-w-0">
-                    <span class="tdir__name mi:font-semibold mi:text-[14px] mi:whitespace-nowrap mi:overflow-hidden mi:text-ellipsis">{{ p.name }}</span>
-                    <span class="tdir__role mi:text-[12px] mi:text-label2 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ p.role }}<span class="tdir__role-more mi:@[640px]:hidden"> · {{ p.dept }} · {{ p.city }}</span></span>
+                  <span class="mi:grid mi:min-w-0">
+                    <span class="mi:font-semibold mi:text-[14px] mi:whitespace-nowrap mi:overflow-hidden mi:text-ellipsis">{{ p.name }}</span>
+                    <span class="mi:text-[12px] mi:text-label2 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ p.role }}<span class="mi:@[640px]:hidden"> · {{ p.dept }} · {{ p.city }}</span></span>
                   </span>
                 </span>
               </td>
-              <td class="c-dept mi:[.tdir__table_&]:hidden mi:@[860px]:[.tdir__table_&]:table-cell"><span class="tdir__dept mi:inline-flex mi:items-center mi:gap-1.5 mi:text-[12px] mi:font-medium mi:text-label2 mi:whitespace-nowrap mi:before:content-[''] mi:before:w-[7px] mi:before:h-[7px] mi:before:rounded-[2px] mi:before:[background:var(--mi-label3)] mi:[&[data-dept='Design']]:before:[background:var(--mi-pink)] mi:[&[data-dept='Engineering']]:before:[background:var(--mi-p)] mi:[&[data-dept='Product']]:before:[background:var(--mi-orange)] mi:[&[data-dept='Sales']]:before:[background:var(--mi-teal)] mi:[&[data-dept='Support']]:before:[background:var(--mi-purple)]" :data-dept="p.dept">{{ p.dept }}</span></td>
-              <td class="c-loc mi:[.tdir__table_&]:hidden mi:@[640px]:[.tdir__table_&]:table-cell">{{ p.city }}</td>
-              <td class="c-time mi:[.tdir__table_&]:w-31 mi:@[640px]:[.tdir__table_&]:w-57.5">
-                <div class="tdir__time mi:grid mi:grid-cols-[auto_minmax(0,_1fr)] mi:[grid-template-areas:'clock_rel'_'day_day'_'status_status'] mi:items-center mi:gap-y-1 mi:gap-x-2 mi:min-w-0 mi:[.tdir__card_&]:pt-3 mi:[.tdir__card_&]:border-t mi:[.tdir__card_&]:border-t-sep mi:@[640px]:grid-cols-[58px_minmax(0,_1fr)] mi:@[640px]:[grid-template-areas:'clock_day'_'rel_status'] mi:@[640px]:gap-y-[3px] mi:@[640px]:gap-x-3" :class="`is-${p.c.state}`">
-                  <span class="tdir__clock mi:[grid-area:clock] mi:inline-flex mi:items-baseline mi:gap-1 mi:text-[15px] mi:font-semibold mi:tabular-nums mi:tracking-[-.01em]">{{ p.c.time }}</span>
-                  <div class="tdir__day mi:[grid-area:day] mi:relative mi:h-1 mi:rounded-[2px] mi:[background:var(--mi-fill3)] mi:overflow-x-clip mi:[overflow-clip-margin:2px]" aria-hidden="true">
-                    <i class="tdir__work mi:absolute mi:top-0 mi:bottom-0 mi:rounded-[2px] mi:[background:color-mix(in_srgb,_var(--mi-label2)_35%,_transparent)]" :style="{ insetInlineStart: `${(p.c.start / 24) * 100}%`, width: `${((p.c.end - p.c.start) / 24) * 100}%` }" />
-                    <span class="tdir__now mi:absolute mi:inset-y-[-3px] mi:inset-x-0 mi:[transition:transform_var(--mi-dur-4)_var(--mi-ease)]" :style="{ transform: `translateX(${(p.c.hour / 24) * 100}%)` }"><i class="mi:[.tdir__now_&]:absolute mi:[.tdir__now_&]:top-0 mi:[.tdir__now_&]:-left-px mi:[.tdir__now_&]:w-0.5 mi:[.tdir__now_&]:h-2.5 mi:[.tdir__now_&]:rounded-[1px] mi:[.tdir__now_&]:[background:var(--mi-label)]" /></span>
+              <td class="mi:py-2.5 mi:px-3.5 mi:border-b mi:border-b-sep mi:align-middle mi:group-hover:bg-fill4/55 mi:[tbody:last-of-type_tr:last-child_&]:[border-bottom:0] mi:hidden mi:@[860px]:table-cell"><span class="mi:inline-flex mi:items-center mi:gap-1.5 mi:text-[12px] mi:font-medium mi:text-label2 mi:whitespace-nowrap mi:before:content-[''] mi:before:w-[7px] mi:before:h-[7px] mi:before:rounded-[2px] mi:before:[background:var(--mi-label3)] mi:[&[data-dept='Design']]:before:[background:var(--mi-pink)] mi:[&[data-dept='Engineering']]:before:[background:var(--mi-p)] mi:[&[data-dept='Product']]:before:[background:var(--mi-orange)] mi:[&[data-dept='Sales']]:before:[background:var(--mi-teal)] mi:[&[data-dept='Support']]:before:[background:var(--mi-purple)]" :data-dept="p.dept">{{ p.dept }}</span></td>
+              <td class="mi:py-2.5 mi:px-3.5 mi:border-b mi:border-b-sep mi:align-middle mi:group-hover:bg-fill4/55 mi:[tbody:last-of-type_tr:last-child_&]:[border-bottom:0] mi:@[640px]:whitespace-nowrap mi:@[640px]:text-label2 mi:hidden mi:@[640px]:table-cell">{{ p.city }}</td>
+              <td class="mi:py-2.5 mi:ps-1 mi:pe-3.5 mi:@[640px]:ps-3.5 mi:border-b mi:border-b-sep mi:align-middle mi:group-hover:bg-fill4/55 mi:[tbody:last-of-type_tr:last-child_&]:[border-bottom:0] mi:w-31 mi:@[640px]:w-57.5">
+                <div class="mi:grid mi:grid-cols-[auto_minmax(0,_1fr)] mi:[grid-template-areas:'clock_rel'_'day_day'_'status_status'] mi:items-center mi:gap-y-1 mi:gap-x-2 mi:min-w-0 mi:@[640px]:grid-cols-[58px_minmax(0,_1fr)] mi:@[640px]:[grid-template-areas:'clock_day'_'rel_status'] mi:@[640px]:gap-y-[3px] mi:@[640px]:gap-x-3">
+                  <span class="mi:[grid-area:clock] mi:inline-flex mi:items-baseline mi:gap-1 mi:text-[15px] mi:font-semibold mi:tabular-nums mi:tracking-[-.01em]">{{ p.c.time }}</span>
+                  <div class="mi:[grid-area:day] mi:relative mi:h-1 mi:rounded-[2px] mi:[background:var(--mi-fill3)] mi:overflow-x-clip mi:[overflow-clip-margin:2px]" aria-hidden="true">
+                    <i class="mi:absolute mi:top-0 mi:bottom-0 mi:rounded-[2px]" :class="p.c.state === 'in' ? 'mi:bg-green/60' : p.c.state === 'late' ? 'mi:bg-orange/60' : 'mi:[background:color-mix(in_srgb,_var(--mi-label2)_35%,_transparent)]'" :style="{ insetInlineStart: `${(p.c.start / 24) * 100}%`, width: `${((p.c.end - p.c.start) / 24) * 100}%` }" />
+                    <span class="mi:absolute mi:inset-y-[-3px] mi:inset-x-0 mi:[transition:transform_var(--mi-dur-4)_var(--mi-ease)]" :style="{ transform: `translateX(${(p.c.hour / 24) * 100}%)` }"><i class="mi:absolute mi:top-0 mi:-left-px mi:w-0.5 mi:h-2.5 mi:rounded-[1px] mi:[background:var(--mi-label)]" /></span>
                   </div>
-                  <span class="tdir__rel mi:[grid-area:rel] mi:justify-self-end mi:text-[11px] mi:text-(--tdir-t3) mi:tabular-nums mi:whitespace-nowrap mi:@[640px]:justify-self-start">{{ p.c.rel }}<template v-if="p.c.day"> · {{ p.c.day }}</template></span>
-                  <span class="tdir__status mi:[grid-area:status] mi:text-[11px] mi:text-(--tdir-t3) mi:whitespace-nowrap mi:overflow-hidden mi:text-ellipsis mi:[.is-in_&]:text-green-t mi:[.is-late_&]:text-orange-t">{{ p.c.status }}</span>
+                  <span class="mi:[grid-area:rel] mi:justify-self-end mi:text-[11px] mi:text-(--tdir-t3) mi:tabular-nums mi:whitespace-nowrap mi:@[640px]:justify-self-start">{{ p.c.rel }}<template v-if="p.c.day"> · {{ p.c.day }}</template></span>
+                  <span class="mi:[grid-area:status] mi:text-[11px] mi:whitespace-nowrap mi:overflow-hidden mi:text-ellipsis" :class="p.c.state === 'in' ? 'mi:text-green-t' : p.c.state === 'late' ? 'mi:text-orange-t' : 'mi:text-(--tdir-t3)'">{{ p.c.status }}</span>
                 </div>
               </td>
-              <td class="c-act mi:[.tdir__table_&]:hidden mi:[.tdir__table_&]:w-12 mi:@[640px]:[.tdir__table_&]:table-cell">
-                <MiIconButton size="small" variant="plain" :label="`Message ${p.name}`"><MiIcon class="mi:[.tdir__table_thead_th&]:h-9.5 mi:[.tdir__table_thead_th&]:text-[11px] mi:[.tdir__table_thead_th&]:font-semibold mi:[.tdir__table_thead_th&]:tracking-[.05em] mi:[.tdir__table_thead_th&]:uppercase mi:[.tdir__table_thead_th&]:text-(--tdir-t3) mi:[.tdir__table_thead_th&]:[background:var(--mi-card)] mi:[.tdir__table_thead_th&]:border-b mi:[.tdir__table_thead_th&]:border-b-sep" name="chat" :size="16" /></MiIconButton>
+              <td class="mi:py-2.5 mi:ps-1 mi:pe-2.5 mi:text-end mi:border-b mi:border-b-sep mi:align-middle mi:group-hover:bg-fill4/55 mi:[tbody:last-of-type_tr:last-child_&]:[border-bottom:0] mi:hidden mi:w-12 mi:@[640px]:table-cell">
+                <MiIconButton size="small" variant="plain" :label="`Message ${p.name}`"><MiIcon name="chat" :size="16" /></MiIconButton>
               </td>
             </tr>
           </tbody>
         </table>
 
         <!-- Card view: one continuous grid; the first card of each letter carries the scrubber target. -->
-        <ul v-else class="tdir__grid mi:grid mi:grid-cols-[repeat(auto-fill,_minmax(196px,_1fr))] mi:gap-2.5 mi:m-0 mi:p-3 mi:[list-style:none]">
-          <li v-for="p in filtered" :key="p.id" class="tdir__card mi:grid mi:gap-3 mi:p-3.5 mi:rounded-lg mi:[background:var(--mi-card)] mi:border mi:border-sep mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:hover:transform-[translateY(-2px)] mi:[scroll-margin-top:12px]" :data-letter="p.first ? p.letter : undefined">
-            <div class="tdir__card-top mi:flex mi:[align-items:flex-start] mi:gap-2">
-                  <MiAvatar :name="p.name" size="md" tone="auto" decorative />
-                  <MiIconButton size="small" variant="gray" :label="`Message ${p.name}`"><MiIcon class="mi:[.tdir__table_thead_th&]:h-9.5 mi:[.tdir__table_thead_th&]:text-[11px] mi:[.tdir__table_thead_th&]:font-semibold mi:[.tdir__table_thead_th&]:tracking-[.05em] mi:[.tdir__table_thead_th&]:uppercase mi:[.tdir__table_thead_th&]:text-(--tdir-t3) mi:[.tdir__table_thead_th&]:[background:var(--mi-card)] mi:[.tdir__table_thead_th&]:border-b mi:[.tdir__table_thead_th&]:border-b-sep" name="chat" :size="15" /></MiIconButton>
+        <ul v-else class="mi:grid mi:grid-cols-[repeat(auto-fill,_minmax(196px,_1fr))] mi:gap-2.5 mi:m-0 mi:p-3 mi:[list-style:none]">
+          <li v-for="p in filtered" :key="p.id" class="mi:grid mi:gap-3 mi:p-3.5 mi:rounded-lg mi:[background:var(--mi-card)] mi:border mi:border-sep mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:hover:transform-[translateY(-2px)] mi:[scroll-margin-top:12px]" :data-letter="p.first ? p.letter : undefined">
+            <div class="mi:flex mi:[align-items:flex-start] mi:gap-2">
+                  <MiAvatar class="mi:me-auto!" :name="p.name" size="md" tone="auto" decorative />
+                  <MiIconButton size="small" variant="gray" :label="`Message ${p.name}`"><MiIcon name="chat" :size="15" /></MiIconButton>
                 </div>
-                <div class="tdir__card-id mi:grid mi:gap-px mi:min-w-0">
+                <div class="mi:grid mi:gap-px mi:min-w-0">
                   <MiText as="h3" variant="subheadline" weight="semibold" :lines="1">{{ p.name }}</MiText>
                   <MiText variant="caption" tone="label2" :lines="1">{{ p.role }}</MiText>
                 </div>
-                <div class="tdir__card-meta mi:flex mi:flex-wrap mi:items-center mi:gap-y-1 mi:gap-x-3">
-                  <span class="tdir__dept mi:inline-flex mi:items-center mi:gap-1.5 mi:text-[12px] mi:font-medium mi:text-label2 mi:whitespace-nowrap mi:before:content-[''] mi:before:w-[7px] mi:before:h-[7px] mi:before:rounded-[2px] mi:before:[background:var(--mi-label3)] mi:[&[data-dept='Design']]:before:[background:var(--mi-pink)] mi:[&[data-dept='Engineering']]:before:[background:var(--mi-p)] mi:[&[data-dept='Product']]:before:[background:var(--mi-orange)] mi:[&[data-dept='Sales']]:before:[background:var(--mi-teal)] mi:[&[data-dept='Support']]:before:[background:var(--mi-purple)]" :data-dept="p.dept">{{ p.dept }}</span>
-                  <span class="tdir__city mi:inline-flex mi:items-center mi:gap-1 mi:text-[12px] mi:text-label2"><MiIcon name="globe" :size="12" />{{ p.city }}</span>
+                <div class="mi:flex mi:flex-wrap mi:items-center mi:gap-y-1 mi:gap-x-3">
+                  <span class="mi:inline-flex mi:items-center mi:gap-1.5 mi:text-[12px] mi:font-medium mi:text-label2 mi:whitespace-nowrap mi:before:content-[''] mi:before:w-[7px] mi:before:h-[7px] mi:before:rounded-[2px] mi:before:[background:var(--mi-label3)] mi:[&[data-dept='Design']]:before:[background:var(--mi-pink)] mi:[&[data-dept='Engineering']]:before:[background:var(--mi-p)] mi:[&[data-dept='Product']]:before:[background:var(--mi-orange)] mi:[&[data-dept='Sales']]:before:[background:var(--mi-teal)] mi:[&[data-dept='Support']]:before:[background:var(--mi-purple)]" :data-dept="p.dept">{{ p.dept }}</span>
+                  <span class="mi:inline-flex mi:items-center mi:gap-1 mi:text-[12px] mi:text-label2"><MiIcon name="globe" :size="12" />{{ p.city }}</span>
                 </div>
-                <div class="tdir__time mi:grid mi:grid-cols-[auto_minmax(0,_1fr)] mi:[grid-template-areas:'clock_rel'_'day_day'_'status_status'] mi:items-center mi:gap-y-1 mi:gap-x-2 mi:min-w-0 mi:[.tdir__card_&]:pt-3 mi:[.tdir__card_&]:border-t mi:[.tdir__card_&]:border-t-sep mi:@[640px]:grid-cols-[58px_minmax(0,_1fr)] mi:@[640px]:[grid-template-areas:'clock_day'_'rel_status'] mi:@[640px]:gap-y-[3px] mi:@[640px]:gap-x-3" :class="`is-${p.c.state}`">
-                  <span class="tdir__clock mi:[grid-area:clock] mi:inline-flex mi:items-baseline mi:gap-1 mi:text-[15px] mi:font-semibold mi:tabular-nums mi:tracking-[-.01em]">{{ p.c.time }}</span>
-                  <div class="tdir__day mi:[grid-area:day] mi:relative mi:h-1 mi:rounded-[2px] mi:[background:var(--mi-fill3)] mi:overflow-x-clip mi:[overflow-clip-margin:2px]" aria-hidden="true">
-                    <i class="tdir__work mi:absolute mi:top-0 mi:bottom-0 mi:rounded-[2px] mi:[background:color-mix(in_srgb,_var(--mi-label2)_35%,_transparent)]" :style="{ insetInlineStart: `${(p.c.start / 24) * 100}%`, width: `${((p.c.end - p.c.start) / 24) * 100}%` }" />
-                    <span class="tdir__now mi:absolute mi:inset-y-[-3px] mi:inset-x-0 mi:[transition:transform_var(--mi-dur-4)_var(--mi-ease)]" :style="{ transform: `translateX(${(p.c.hour / 24) * 100}%)` }"><i class="mi:[.tdir__now_&]:absolute mi:[.tdir__now_&]:top-0 mi:[.tdir__now_&]:-left-px mi:[.tdir__now_&]:w-0.5 mi:[.tdir__now_&]:h-2.5 mi:[.tdir__now_&]:rounded-[1px] mi:[.tdir__now_&]:[background:var(--mi-label)]" /></span>
+                <div class="mi:grid mi:grid-cols-[auto_minmax(0,_1fr)] mi:[grid-template-areas:'clock_rel'_'day_day'_'status_status'] mi:items-center mi:gap-y-1 mi:gap-x-2 mi:min-w-0 mi:pt-3 mi:border-t mi:border-t-sep mi:@[640px]:grid-cols-[58px_minmax(0,_1fr)] mi:@[640px]:[grid-template-areas:'clock_day'_'rel_status'] mi:@[640px]:gap-y-[3px] mi:@[640px]:gap-x-3">
+                  <span class="mi:[grid-area:clock] mi:inline-flex mi:items-baseline mi:gap-1 mi:text-[15px] mi:font-semibold mi:tabular-nums mi:tracking-[-.01em]">{{ p.c.time }}</span>
+                  <div class="mi:[grid-area:day] mi:relative mi:h-1 mi:rounded-[2px] mi:[background:var(--mi-fill3)] mi:overflow-x-clip mi:[overflow-clip-margin:2px]" aria-hidden="true">
+                    <i class="mi:absolute mi:top-0 mi:bottom-0 mi:rounded-[2px]" :class="p.c.state === 'in' ? 'mi:bg-green/60' : p.c.state === 'late' ? 'mi:bg-orange/60' : 'mi:[background:color-mix(in_srgb,_var(--mi-label2)_35%,_transparent)]'" :style="{ insetInlineStart: `${(p.c.start / 24) * 100}%`, width: `${((p.c.end - p.c.start) / 24) * 100}%` }" />
+                    <span class="mi:absolute mi:inset-y-[-3px] mi:inset-x-0 mi:[transition:transform_var(--mi-dur-4)_var(--mi-ease)]" :style="{ transform: `translateX(${(p.c.hour / 24) * 100}%)` }"><i class="mi:absolute mi:top-0 mi:-left-px mi:w-0.5 mi:h-2.5 mi:rounded-[1px] mi:[background:var(--mi-label)]" /></span>
                   </div>
-                  <span class="tdir__rel mi:[grid-area:rel] mi:justify-self-end mi:text-[11px] mi:text-(--tdir-t3) mi:tabular-nums mi:whitespace-nowrap mi:@[640px]:justify-self-start">{{ p.c.rel }}<template v-if="p.c.day"> · {{ p.c.day }}</template></span>
-                  <span class="tdir__status mi:[grid-area:status] mi:text-[11px] mi:text-(--tdir-t3) mi:whitespace-nowrap mi:overflow-hidden mi:text-ellipsis mi:[.is-in_&]:text-green-t mi:[.is-late_&]:text-orange-t">{{ p.c.status }}</span>
+                  <span class="mi:[grid-area:rel] mi:justify-self-end mi:text-[11px] mi:text-(--tdir-t3) mi:tabular-nums mi:whitespace-nowrap mi:@[640px]:justify-self-start">{{ p.c.rel }}<template v-if="p.c.day"> · {{ p.c.day }}</template></span>
+                  <span class="mi:[grid-area:status] mi:text-[11px] mi:whitespace-nowrap mi:overflow-hidden mi:text-ellipsis" :class="p.c.state === 'in' ? 'mi:text-green-t' : p.c.state === 'late' ? 'mi:text-orange-t' : 'mi:text-(--tdir-t3)'">{{ p.c.status }}</span>
                 </div>
           </li>
         </ul>
 
-        <p v-if="!sections.length" class="tdir__none mi:m-0 mi:py-12 mi:px-4 mi:text-center mi:text-[13px] mi:text-label2">Nobody matches these filters.</p>
+        <p v-if="!sections.length" class="mi:m-0 mi:py-12 mi:px-4 mi:text-center mi:text-[13px] mi:text-label2">Nobody matches these filters.</p>
       </div>
 
       <!-- A–Z scrubber: letters with people are buttons, the letter in view is marked current. -->
-      <nav class="tdir__az mi:flex mi:flex-col mi:justify-between mi:py-1.5 mi:px-0" aria-label="Jump to letter">
+      <nav class="mi:flex mi:flex-col mi:justify-between mi:py-1.5 mi:px-0" aria-label="Jump to letter">
         <button
-          v-for="l in alphabet" :key="l" type="button" class="tdir__az-btn mi:grid mi:place-items-center mi:h-3.5 mi:p-0 mi:[border:0] mi:rounded-[4px] mi:[background:none] mi:text-p-text mi:cursor-pointer mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease),_opacity_var(--mi-dur-1)_var(--mi-ease)] mi:[&:hover:not(:disabled)]:transform-[scale(1.35)] mi:disabled:opacity-45 mi:disabled:cursor-default mi:aria-current:[background:var(--mi-p)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" :disabled="!letters.has(l)"
+          v-for="l in alphabet" :key="l" type="button" class="mi:[font:inherit] mi:text-[10px] mi:font-bold mi:leading-none mi:disabled:text-(--tdir-t3) mi:aria-current:text-p-on mi:grid mi:place-items-center mi:h-3.5 mi:p-0 mi:[border:0] mi:rounded-[4px] mi:[background:none] mi:text-p-text mi:cursor-pointer mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease),_opacity_var(--mi-dur-1)_var(--mi-ease)] mi:[&:hover:not(:disabled)]:transform-[scale(1.35)] mi:disabled:opacity-45 mi:disabled:cursor-default mi:aria-current:[background:var(--mi-p)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" :disabled="!letters.has(l)"
           :aria-current="current === l ? 'true' : undefined" :aria-label="`Jump to ${l}`" @click="jump(l)"
         >
           {{ l }}
@@ -245,29 +245,3 @@ function jump(l: string) {
   current.value = l
 }
 </script>
-
-<style scoped>
-.tdir__az-btn {
-  font: inherit; font-size: 10px; font-weight: 700; line-height: 1;
-}
-.tdir__az-btn:disabled { color: var(--tdir-t3); }
-.tdir__az-btn[aria-current="true"] { color: var(--mi-p-on); }
-.tdir__table thead th {
-  position: sticky; top: 0; z-index: 3; padding: 0 14px; text-align: start; white-space: nowrap;
-}
-.tdir__table .tdir__letter { position: sticky; top: 38px; z-index: 2; }
-.tdir__row td { padding: 10px 14px; border-bottom: 1px solid var(--mi-sep); vertical-align: middle; }
-.tdir__row:hover td { background: color-mix(in srgb, var(--mi-fill4) 55%, transparent); }
-.tdir__table tbody:last-of-type .tdir__row:last-child td { border-bottom: 0; }
-.tdir__table .c-act { padding-inline: 4px 10px; text-align: end; }
-.tdir__table .c-time { padding-inline-start: 4px; }
-.is-in .tdir__work, .is-late .tdir__work { background: color-mix(in srgb, var(--mi-green) 60%, transparent); }
-.is-late .tdir__work { background: color-mix(in srgb, var(--mi-orange) 60%, transparent); }
-.tdir__card-top > :first-child { margin-inline-end: auto; }
-
-@container (min-width: 640px) {
-  .tdir__table .c-time { padding-inline-start: 14px; }
-  .tdir__table .c-loc { white-space: nowrap; }
-  .tdir__table td.c-loc { color: var(--mi-label2); }
-}
-</style>

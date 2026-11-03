@@ -1,7 +1,7 @@
 <template>
-  <section class="pve mi:@container mi:font-mi mi:text-label" aria-labelledby="pve-title">
-    <form class="pve__card mi:grid mi:gap-4 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1" novalidate @submit.prevent="save">
-      <header class="pve__head mi:flex mi:flex-wrap mi:[align-items:flex-start] mi:justify-between mi:gap-2.5">
+  <section class="mi:@container mi:font-mi mi:text-label" aria-labelledby="pve-title">
+    <form class="mi:grid mi:gap-4 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1" novalidate @submit.prevent="save">
+      <header class="mi:flex mi:flex-wrap mi:[align-items:flex-start] mi:justify-between mi:gap-2.5">
         <div>
           <MiText id="pve-title" variant="title3" as="h2" weight="semibold">New product</MiText>
           <MiText variant="footnote" tone="label2">Options build the variant list; edit price and stock per line.</MiText>
@@ -9,7 +9,7 @@
         <MiBadge tone="primary" :label="`${active.length} of ${rows.length} variants on sale`" />
       </header>
 
-      <div class="pve__basics mi:grid mi:gap-3.5 mi:grid-cols-[minmax(0,_1fr)] mi:@[620px]:grid-cols-[2fr_1fr] mi:@[620px]:items-start">
+      <div class="mi:grid mi:gap-3.5 mi:grid-cols-[minmax(0,_1fr)] mi:@[620px]:grid-cols-[2fr_1fr] mi:@[620px]:items-start">
         <MiField label="Product name" required :error="tried && !name.trim() ? 'Give the product a name.' : ''">
           <MiInput v-model="name" />
         </MiField>
@@ -18,37 +18,37 @@
         </MiField>
       </div>
 
-      <div class="pve__opts mi:grid mi:gap-3.5 mi:grid-cols-[minmax(0,_1fr)] mi:@[620px]:grid-cols-[1fr_1fr] mi:@[620px]:items-start mi:p-3.5 mi:rounded-lg mi:bg-fill4">
+      <div class="mi:grid mi:gap-3.5 mi:grid-cols-[minmax(0,_1fr)] mi:@[620px]:grid-cols-[1fr_1fr] mi:@[620px]:items-start mi:p-3.5 mi:rounded-lg mi:bg-fill4">
         <MiField v-for="o in options" :key="o.name" :label="o.name" :hint="`${o.values.length} values · press Return to add`">
           <MiTagInput v-model="o.values" :max="6" :placeholder="o.hint" />
         </MiField>
       </div>
 
-      <div class="pve__table-head mi:flex mi:items-center mi:justify-between mi:gap-2">
+      <div class="mi:flex mi:items-center mi:justify-between mi:gap-2">
         <MiText variant="subheadline" as="h3" weight="semibold">Variants</MiText>
         <MiButton size="small" variant="plain" @click="resetPrices">Set all to €{{ base || 0 }}</MiButton>
       </div>
-      <div class="pve__scroll mi:overflow-x-auto mi:rounded-lg mi:border mi:border-sep">
-        <table class="pve__table mi:w-full mi:min-w-140 mi:border-collapse mi:text-[13px]">
-          <thead><tr><th scope="col">On sale</th><th scope="col">Variant</th><th scope="col">SKU</th><th scope="col">Price</th><th scope="col">Stock</th></tr></thead>
+      <div class="mi:overflow-x-auto mi:rounded-lg mi:border mi:border-sep">
+        <table class="mi:w-full mi:min-w-140 mi:border-collapse mi:text-[13px]">
+          <thead><tr><th scope="col" class="mi:py-2 mi:px-3 mi:text-start mi:text-[12px] mi:font-semibold mi:text-label2 mi:bg-fill4">On sale</th><th scope="col" class="mi:py-2 mi:px-3 mi:text-start mi:text-[12px] mi:font-semibold mi:text-label2 mi:bg-fill4">Variant</th><th scope="col" class="mi:py-2 mi:px-3 mi:text-start mi:text-[12px] mi:font-semibold mi:text-label2 mi:bg-fill4">SKU</th><th scope="col" class="mi:py-2 mi:px-3 mi:text-start mi:text-[12px] mi:font-semibold mi:text-label2 mi:bg-fill4">Price</th><th scope="col" class="mi:py-2 mi:px-3 mi:text-start mi:text-[12px] mi:font-semibold mi:text-label2 mi:bg-fill4">Stock</th></tr></thead>
           <tbody>
-            <tr v-for="r in rows" :key="r.key" :class="{ 'is-off': !r.on }">
-              <td><MiCheckbox :model-value="r.on" :aria-label="`Sell ${r.label}`" @update:model-value="patch(r.key, { on: $event })" /></td>
-              <td class="pve__name mi:font-medium mi:whitespace-nowrap"><span v-if="r.swatch" class="pve__swatch mi:inline-block mi:w-2.5 mi:h-2.5 mi:me-2 mi:rounded-[50%] mi:shadow-[0_0_0_1px_var(--mi-sep)]" :style="{ background: r.swatch }" aria-hidden="true" />{{ r.label }}</td>
-              <td class="pve__sku mi:font-[ui-monospace,_SFMono-Regular,_Menlo,_monospace] mi:text-[12px] mi:text-label2 mi:whitespace-nowrap">{{ r.sku }}</td>
-              <td><MiInput :model-value="r.price" size="sm" prefix="€" inputmode="decimal" :aria-label="`Price of ${r.label}`" @update:model-value="patch(r.key, { price: $event })" /></td>
-              <td><MiInput :model-value="String(r.stock)" size="sm" inputmode="numeric" :aria-label="`Stock of ${r.label}`" :invalid="r.on && r.stock === 0" @update:model-value="patch(r.key, { stock: Math.max(0, parseInt($event, 10) || 0) })" /></td>
+            <tr v-for="r in rows" :key="r.key" class="mi:group" :data-off="!r.on || undefined">
+              <td class="mi:py-1.5 mi:px-3 mi:border-t mi:border-t-sep mi:align-middle"><MiCheckbox :model-value="r.on" :aria-label="`Sell ${r.label}`" @update:model-value="patch(r.key, { on: $event })" /></td>
+              <td class="mi:py-1.5 mi:px-3 mi:border-t mi:border-t-sep mi:align-middle mi:group-data-[off]:opacity-50 mi:font-medium mi:whitespace-nowrap"><span v-if="r.swatch" class="mi:inline-block mi:w-2.5 mi:h-2.5 mi:me-2 mi:rounded-[50%] mi:shadow-[0_0_0_1px_var(--mi-sep)]" :style="{ background: r.swatch }" aria-hidden="true" />{{ r.label }}</td>
+              <td class="mi:py-1.5 mi:px-3 mi:border-t mi:border-t-sep mi:align-middle mi:group-data-[off]:opacity-50 mi:font-[ui-monospace,_SFMono-Regular,_Menlo,_monospace] mi:text-[12px] mi:text-label2 mi:whitespace-nowrap">{{ r.sku }}</td>
+              <td class="mi:py-1.5 mi:px-3 mi:border-t mi:border-t-sep mi:align-middle mi:w-30 mi:group-data-[off]:opacity-50"><MiInput :model-value="r.price" size="sm" prefix="€" inputmode="decimal" :aria-label="`Price of ${r.label}`" @update:model-value="patch(r.key, { price: $event })" /></td>
+              <td class="mi:py-1.5 mi:px-3 mi:border-t mi:border-t-sep mi:align-middle mi:w-24 mi:group-data-[off]:opacity-50"><MiInput :model-value="String(r.stock)" size="sm" inputmode="numeric" :aria-label="`Stock of ${r.label}`" :invalid="r.on && r.stock === 0" @update:model-value="patch(r.key, { stock: Math.max(0, parseInt($event, 10) || 0) })" /></td>
             </tr>
           </tbody>
         </table>
-        <MiText v-if="!rows.length" variant="footnote" tone="label2" class="pve__empty mi:p-3.5">Add at least one value to each option.</MiText>
+        <MiText v-if="!rows.length" variant="footnote" tone="label2" class="mi:p-3.5">Add at least one value to each option.</MiText>
       </div>
 
-      <footer class="pve__foot mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2.5">
+      <footer class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2.5">
         <MiText variant="caption" :tone="saved ? 'green' : 'label2'" aria-live="polite">
           {{ saved ? `${name} saved with ${active.length} variants` : `${totalStock} units in stock · ${empty} on sale with no stock` }}
         </MiText>
-        <div class="pve__btns mi:flex mi:gap-2">
+        <div class="mi:flex mi:gap-2">
           <MiButton variant="gray">Save as draft</MiButton>
           <MiButton type="submit">Create product</MiButton>
         </div>
@@ -101,11 +101,3 @@ function save() {
   if (name.value.trim() && active.value.length) saved.value = true
 }
 </script>
-
-<style scoped>
-.pve__table th { padding: 8px 12px; text-align: start; font-size: 12px; font-weight: 600; color: var(--mi-label2); background: var(--mi-fill4); }
-.pve__table td { padding: 6px 12px; border-top: 1px solid var(--mi-sep); vertical-align: middle; }
-.pve__table td:nth-child(4) { width: 120px; }
-.pve__table td:nth-child(5) { width: 96px; }
-.pve__table tr.is-off td:not(:first-child) { opacity: .5; }
-</style>

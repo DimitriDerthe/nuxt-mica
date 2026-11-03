@@ -1,6 +1,6 @@
 <template>
-  <section class="psp mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="psp-title">
-    <header class="psp__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="psp-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="psp-title" variant="title3" as="h2" weight="semibold">Studio pipeline</MiText>
         <MiText variant="footnote" tone="label2">{{ projects.length }} projects · {{ money(totalBudget) }} booked · {{ overCount }} over budget</MiText>
@@ -9,35 +9,35 @@
     </header>
 
     <!-- Stage rail: each step is a filter, sized by the money sitting in it. -->
-    <ol class="psp__rail mi:grid mi:grid-cols-[repeat(auto-fit,_minmax(96px,_1fr))] mi:gap-1.5 mi:m-0 mi:p-0 mi:[list-style:none]" aria-label="Stages">
+    <ol class="mi:grid mi:grid-cols-[repeat(auto-fit,_minmax(96px,_1fr))] mi:gap-1.5 mi:m-0 mi:p-0 mi:[list-style:none]" aria-label="Stages">
       <li v-for="s in stageStats" :key="s.id">
-        <button type="button" class="psp__stage mi:grid mi:gap-1 mi:w-full mi:py-2.5 mi:px-3 mi:[border:0] mi:rounded-md mi:bg-card mi:shadow-1 mi:text-inherit mi:[font:inherit] mi:text-start mi:cursor-pointer mi:[&.is-on]:bg-p-tint mi:[&.is-on]:shadow-[inset_0_0_0_1.5px_var(--mi-p)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" :class="{ 'is-on': stage === s.id }" :aria-pressed="stage === s.id" @click="stage = stage === s.id ? null : s.id">
-          <span class="psp__stage-top mi:flex mi:justify-between mi:gap-1.5 mi:text-[13px]"><b>{{ s.label }}</b><span class="mi:[.psp__stage-top_&]:text-label2 mi:[.psp__stage-top_&]:tabular-nums">{{ s.count }}</span></span>
-          <span class="psp__stage-sum mi:text-[17px] mi:font-bold mi:tracking-[-.02em] mi:tabular-nums">{{ money(s.budget) }}</span>
-          <span class="psp__stage-bar mi:h-[3px] mi:rounded-[2px] mi:bg-fill3 mi:overflow-hidden" aria-hidden="true"><i class="mi:[.psp__stage-bar_&]:block mi:[.psp__stage-bar_&]:h-full mi:[.psp__stage-bar_&]:bg-p mi:[.psp__stage-bar_&]:origin-left mi:[.psp__stage-bar_&]:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleX(${s.budget / maxStage})` }" /></span>
+        <button type="button" class="mi:grid mi:gap-1 mi:w-full mi:py-2.5 mi:px-3 mi:[border:0] mi:rounded-md mi:text-inherit mi:[font:inherit] mi:text-start mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" :class="stage === s.id ? 'mi:bg-p-tint mi:shadow-[inset_0_0_0_1.5px_var(--mi-p)]' : 'mi:bg-card mi:shadow-1'" :aria-pressed="stage === s.id" @click="stage = stage === s.id ? null : s.id">
+          <span class="mi:flex mi:justify-between mi:gap-1.5 mi:text-[13px]"><b>{{ s.label }}</b><span class="mi:text-label2 mi:tabular-nums">{{ s.count }}</span></span>
+          <span class="mi:text-[17px] mi:font-bold mi:tracking-[-.02em] mi:tabular-nums">{{ money(s.budget) }}</span>
+          <span class="mi:h-[3px] mi:rounded-[2px] mi:bg-fill3 mi:overflow-hidden" aria-hidden="true"><i class="mi:block mi:h-full mi:bg-p mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleX(${s.budget / maxStage})` }" /></span>
         </button>
       </li>
     </ol>
 
-    <ul class="psp__list mi:grid mi:m-0 mi:p-0 mi:[list-style:none] mi:rounded-lg mi:bg-card mi:shadow-1 mi:overflow-hidden" aria-live="polite">
-      <li v-for="p in shown" :key="p.id" class="psp__row mi:grid mi:grid-cols-[minmax(0,_1fr)_auto] mi:gap-y-2.5 mi:gap-x-3.5 mi:items-center mi:py-3.5 mi:px-4 mi:[.psp__row+&]:border-t mi:[.psp__row+&]:border-t-sep mi:@[760px]:grid-cols-[minmax(0,_1.3fr)_auto_minmax(160px,_1fr)_minmax(0,_220px)]">
-        <div class="psp__who mi:grid mi:min-w-0">
+    <ul class="mi:grid mi:m-0 mi:p-0 mi:[list-style:none] mi:rounded-lg mi:bg-card mi:shadow-1 mi:overflow-hidden" aria-live="polite">
+      <li v-for="p in shown" :key="p.id" class="mi:grid mi:grid-cols-[minmax(0,_1fr)_auto] mi:gap-y-2.5 mi:gap-x-3.5 mi:items-center mi:py-3.5 mi:px-4 mi:not-first:border-t mi:not-first:border-t-sep mi:@[760px]:grid-cols-[minmax(0,_1.3fr)_auto_minmax(160px,_1fr)_minmax(0,_220px)]">
+        <div class="mi:grid mi:min-w-0">
           <MiText variant="headline" as="h3" :lines="1">{{ p.name }}</MiText>
           <MiText variant="caption" tone="label2">{{ p.client }} · due {{ p.due }}</MiText>
         </div>
         <MiAvatarGroup :items="teamOf(p)" :max="3" size="xs" />
-        <div class="psp__burn mi:col-span-full mi:grid mi:gap-1 mi:@[760px]:col-[auto]">
-          <div class="psp__burn-top mi:flex mi:justify-between mi:gap-2">
+        <div class="mi:col-span-full mi:grid mi:gap-1 mi:@[760px]:col-[auto]">
+          <div class="mi:flex mi:justify-between mi:gap-2">
             <MiText variant="caption" weight="semibold" :tone="burn(p) > 1 ? 'red' : burn(p) > .85 ? 'orange' : 'label2'" tabular>
               {{ money(p.spent) }} of {{ money(p.budget) }}
             </MiText>
             <MiText variant="caption" tone="label3" tabular>{{ Math.round(burn(p) * 100) }}%</MiText>
           </div>
-          <div class="psp__track mi:h-1.5 mi:rounded-[3px] mi:bg-fill3 mi:overflow-hidden" role="meter" :aria-label="p.name + ' budget used'" :aria-valuenow="Math.round(burn(p) * 100)" aria-valuemin="0" aria-valuemax="100">
-            <i class="mi:[.psp__track_&]:block mi:[.psp__track_&]:h-full mi:[.psp__track_&]:origin-left mi:[.psp__track_&]:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :class="{ 'is-over': burn(p) > 1, 'is-warn': burn(p) > .85 && burn(p) <= 1 }" :style="{ transform: `scaleX(${Math.min(burn(p), 1)})` }" />
+          <div class="mi:h-1.5 mi:rounded-[3px] mi:bg-fill3 mi:overflow-hidden" role="meter" :aria-label="p.name + ' budget used'" :aria-valuenow="Math.round(burn(p) * 100)" aria-valuemin="0" aria-valuemax="100">
+            <i class="mi:block mi:h-full mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :class="burn(p) > 1 ? 'mi:bg-red' : burn(p) > .85 ? 'mi:bg-orange' : 'mi:bg-p'" :style="{ transform: `scaleX(${Math.min(burn(p), 1)})` }" />
           </div>
         </div>
-        <div class="psp__act mi:col-span-full mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2 mi:@[760px]:col-[auto] mi:@[760px]:[justify-content:flex-end]">
+        <div class="mi:col-span-full mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2 mi:@[760px]:col-[auto] mi:@[760px]:[justify-content:flex-end]">
           <MiBadge tone="neutral" variant="outline" :label="stageLabel(p.stage)" />
           <MiButton v-if="p.stage < STAGES.length - 1" variant="tinted" size="mini" @click="p.stage++">
             Move to {{ stageLabel(p.stage + 1) }}
@@ -80,9 +80,3 @@ const totalBudget = computed(() => projects.value.reduce((n, p) => n + p.budget,
 const overCount = computed(() => projects.value.filter(p => burn(p) > 1).length)
 const shown = computed(() => (stage.value ? projects.value.filter(p => STAGES[p.stage]?.id === stage.value) : projects.value))
 </script>
-
-<style scoped>
-.psp__track i { background: var(--mi-p); }
-.psp__track i.is-warn { background: var(--mi-orange); }
-.psp__track i.is-over { background: var(--mi-red); }
-</style>

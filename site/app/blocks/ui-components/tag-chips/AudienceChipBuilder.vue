@@ -1,53 +1,53 @@
 <template>
-  <div class="ac-cq mi:@container">
-    <section class="ac mi:grid mi:gap-3.5 mi:font-mi mi:text-label mi:@[760px]:grid-cols-[minmax(0,_1fr)_300px] mi:@[760px]:items-start mi:@[760px]:gap-4" aria-labelledby="ac-title">
-      <div class="ac__build mi:grid mi:gap-4.5 mi:p-5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:@[760px]:py-6 mi:@[760px]:px-6.5">
+  <div class="mi:@container">
+    <section class="mi:grid mi:gap-3.5 mi:font-mi mi:text-label mi:@[760px]:grid-cols-[minmax(0,_1fr)_300px] mi:@[760px]:items-start mi:@[760px]:gap-4" aria-labelledby="ac-title">
+      <div class="mi:grid mi:gap-4.5 mi:p-5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:@[760px]:py-6 mi:@[760px]:px-6.5">
         <header>
           <MiText id="ac-title" variant="title3" as="h2" weight="semibold">Who gets the pricing notice?</MiText>
           <MiText variant="footnote" tone="label2">Pick chips to shape the audience; the estimate updates as you go.</MiText>
         </header>
 
-        <fieldset class="ac__group mi:grid mi:gap-2 mi:min-w-0 mi:m-0 mi:p-0 mi:[border:0]">
-          <legend class="ac__legend mi:p-0 mi:mb-2 mi:text-[13px] mi:font-semibold">Plan <span class="mi:[.ac__legend_&]:ml-1.5 mi:[.ac__legend_&]:font-medium mi:[.ac__legend_&]:text-label3">any of</span></legend>
-          <div class="ac__chips mi:flex mi:flex-wrap mi:gap-1.5">
+        <fieldset class="mi:grid mi:gap-2 mi:min-w-0 mi:m-0 mi:p-0 mi:[border:0]">
+          <legend class="mi:p-0 mi:mb-2 mi:text-[13px] mi:font-semibold">Plan <span class="mi:ml-1.5 mi:font-medium mi:text-label3">any of</span></legend>
+          <div class="mi:flex mi:flex-wrap mi:gap-1.5">
             <MiChip v-for="p in plans" :key="p.id" v-model="plan[p.id]" selectable :label="p.label" />
           </div>
         </fieldset>
 
-        <fieldset class="ac__group mi:grid mi:gap-2 mi:min-w-0 mi:m-0 mi:p-0 mi:[border:0]">
-          <legend class="ac__legend mi:p-0 mi:mb-2 mi:text-[13px] mi:font-semibold">Region <span class="mi:[.ac__legend_&]:ml-1.5 mi:[.ac__legend_&]:font-medium mi:[.ac__legend_&]:text-label3">any of</span></legend>
-          <div class="ac__chips mi:flex mi:flex-wrap mi:gap-1.5">
+        <fieldset class="mi:grid mi:gap-2 mi:min-w-0 mi:m-0 mi:p-0 mi:[border:0]">
+          <legend class="mi:p-0 mi:mb-2 mi:text-[13px] mi:font-semibold">Region <span class="mi:ml-1.5 mi:font-medium mi:text-label3">any of</span></legend>
+          <div class="mi:flex mi:flex-wrap mi:gap-1.5">
             <MiChip v-for="r in regions" :key="r.id" v-model="region[r.id]" selectable tone="secondary" :label="r.label" />
           </div>
         </fieldset>
 
-        <fieldset class="ac__group mi:grid mi:gap-2 mi:min-w-0 mi:m-0 mi:p-0 mi:[border:0]">
-          <legend class="ac__legend mi:p-0 mi:mb-2 mi:text-[13px] mi:font-semibold">Behaviour <span class="mi:[.ac__legend_&]:ml-1.5 mi:[.ac__legend_&]:font-medium mi:[.ac__legend_&]:text-label3">all of</span></legend>
-          <TransitionGroup tag="div" name="ac" class="ac__chips mi:flex mi:flex-wrap mi:gap-1.5">
+        <fieldset class="mi:grid mi:gap-2 mi:min-w-0 mi:m-0 mi:p-0 mi:[border:0]">
+          <legend class="mi:p-0 mi:mb-2 mi:text-[13px] mi:font-semibold">Behaviour <span class="mi:ml-1.5 mi:font-medium mi:text-label3">all of</span></legend>
+          <TransitionGroup tag="div" move-class="mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring)]" class="mi:flex mi:flex-wrap mi:gap-1.5">
             <MiChip
               v-for="s in signals" :key="s" :label="s" tone="neutral" removable :remove-label="'Remove ' + s" @remove="removeSignal(s)"
             />
-            <button v-for="s in suggestions" :key="'add-' + s" type="button" class="ac__suggest mi:inline-flex mi:items-center mi:gap-1 mi:h-8 mi:py-0 mi:px-3 mi:[border:1px_dashed_var(--mi-sep)] mi:rounded-[999px] mi:text-label2 mi:[background:none] mi:cursor-pointer mi:hover:text-label mi:hover:border-label3 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" @click="signals.push(s)">
+            <button v-for="s in suggestions" :key="'add-' + s" type="button" class="mi:[font:inherit] mi:text-[13px] mi:inline-flex mi:items-center mi:gap-1 mi:h-8 mi:py-0 mi:px-3 mi:[border:1px_dashed_var(--mi-sep)] mi:rounded-[999px] mi:text-label2 mi:[background:none] mi:cursor-pointer mi:hover:text-label mi:hover:border-label3 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" @click="signals.push(s)">
               <MiIcon name="plus" :size="13" :weight="2.4" /> {{ s }}
             </button>
           </TransitionGroup>
         </fieldset>
 
-        <fieldset class="ac__group mi:grid mi:gap-2 mi:min-w-0 mi:m-0 mi:p-0 mi:[border:0]">
-          <legend class="ac__legend mi:p-0 mi:mb-2 mi:text-[13px] mi:font-semibold">Exclude tags</legend>
+        <fieldset class="mi:grid mi:gap-2 mi:min-w-0 mi:m-0 mi:p-0 mi:[border:0]">
+          <legend class="mi:p-0 mi:mb-2 mi:text-[13px] mi:font-semibold">Exclude tags</legend>
           <MiTagInput v-model="excluded" placeholder="Type a tag, press Return" :max="6" remove-label="Stop excluding" />
         </fieldset>
       </div>
 
       <!-- Summary: the chips read back as one sentence, with the estimate. -->
-      <aside class="ac__sum mi:relative mi:grid mi:content-start mi:gap-2 mi:p-5 mi:rounded-xl mi:overflow-hidden mi:isolate mi:[background:var(--mi-card)] mi:shadow-1 mi:before:content-[''] mi:before:absolute mi:before:top-[-50%] mi:before:right-[-40%] mi:before:bottom-auto mi:before:left-auto mi:before:w-[80%] mi:before:aspect-[1] mi:before:-z-1 mi:before:rounded-[50%] mi:before:[background:radial-gradient(closest-side,_var(--mi-s-tint),_transparent)]" aria-labelledby="ac-sum-title">
+      <aside class="mi:relative mi:grid mi:content-start mi:gap-2 mi:p-5 mi:rounded-xl mi:overflow-hidden mi:isolate mi:[background:var(--mi-card)] mi:shadow-1 mi:before:content-[''] mi:before:absolute mi:before:top-[-50%] mi:before:right-[-40%] mi:before:bottom-auto mi:before:left-auto mi:before:w-[80%] mi:before:aspect-[1] mi:before:-z-1 mi:before:rounded-[50%] mi:before:[background:radial-gradient(closest-side,_var(--mi-s-tint),_transparent)]" aria-labelledby="ac-sum-title">
         <MiText id="ac-sum-title" variant="caption" tone="label2" weight="semibold" as="h3">Estimated audience</MiText>
-        <p class="ac__big mi:m-0 mi:text-[44px] mi:font-bold mi:leading-none mi:tracking-[-.04em] mi:tabular-nums" aria-live="polite">{{ estimate.toLocaleString('en-US') }}</p>
-        <div class="ac__bar mi:h-1.5 mi:rounded-[3px] mi:overflow-hidden mi:[background:var(--mi-fill3)]" role="meter" aria-label="Share of all customers" :aria-valuenow="estimate" aria-valuemin="0" :aria-valuemax="TOTAL">
-          <span class="mi:[.ac__bar_&]:block mi:[.ac__bar_&]:h-full mi:[.ac__bar_&]:rounded-[inherit] mi:[.ac__bar_&]:[background:linear-gradient(90deg,_var(--mi-p),_var(--mi-s))] mi:[.ac__bar_&]:origin-left mi:[.ac__bar_&]:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleX(${estimate / TOTAL})` }" />
+        <p class="mi:m-0 mi:text-[44px] mi:font-bold mi:leading-none mi:tracking-[-.04em] mi:tabular-nums" aria-live="polite">{{ estimate.toLocaleString('en-US') }}</p>
+        <div class="mi:h-1.5 mi:rounded-[3px] mi:overflow-hidden mi:[background:var(--mi-fill3)]" role="meter" aria-label="Share of all customers" :aria-valuenow="estimate" aria-valuemin="0" :aria-valuemax="TOTAL">
+          <span class="mi:block mi:h-full mi:rounded-[inherit] mi:[background:linear-gradient(90deg,_var(--mi-p),_var(--mi-s))] mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleX(${estimate / TOTAL})` }" />
         </div>
         <MiText variant="caption" tone="label3" tabular>{{ share }}% of {{ TOTAL.toLocaleString('en-US') }} customers</MiText>
-        <p class="ac__sentence mi:mt-1.5 mi:mx-0 mi:mb-2 mi:py-3 mi:px-3.5 mi:rounded-md mi:text-[14px] mi:leading-normal mi:text-label mi:[background:var(--mi-fill4)]">{{ sentence }}</p>
+        <p class="mi:mt-1.5 mi:mx-0 mi:mb-2 mi:py-3 mi:px-3.5 mi:rounded-md mi:text-[14px] mi:leading-normal mi:text-label mi:[background:var(--mi-fill4)]">{{ sentence }}</p>
         <MiButton block :disabled="!estimate">Use this audience</MiButton>
       </aside>
     </section>
@@ -104,10 +104,3 @@ const sentence = computed(() => {
   return s + '.'
 })
 </script>
-
-<style scoped>
-.ac__suggest {
-  font: inherit; font-size: 13px;
-}
-.ac-move { transition: transform var(--mi-dur-3) var(--mi-spring); }
-</style>

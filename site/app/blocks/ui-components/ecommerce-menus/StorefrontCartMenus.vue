@@ -1,8 +1,8 @@
 <template>
-  <section class="scm mi:@container mi:grid mi:content-start mi:gap-4.5 mi:font-mi mi:text-label" aria-labelledby="scm-title">
-    <header class="scm__bar mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2.5 mi:pb-3.5 mi:[border-bottom:.5px_solid_var(--mi-sep)]">
-      <MiText id="scm-title" variant="headline" as="h2" class="scm__brand">Ferment <span class="mi:[.scm__brand_&]:text-p-text mi:[.scm__brand_&]:italic">&amp;</span> Field</MiText>
-      <nav class="scm__nav mi:flex mi:items-center mi:gap-1.5" aria-label="Store">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-4.5 mi:font-mi mi:text-label" aria-labelledby="scm-title">
+    <header class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2.5 mi:pb-3.5 mi:[border-bottom:.5px_solid_var(--mi-sep)]">
+      <MiText id="scm-title" variant="headline" as="h2" class="mi:tracking-[-.02em]!">Ferment <span class="mi:text-p-text mi:italic">&amp;</span> Field</MiText>
+      <nav class="mi:flex mi:items-center mi:gap-1.5" aria-label="Store">
         <MiMenu :items="shopItems" aria-label="Shop categories" @select="(i) => browse(String(i.label))">
           <template #trigger="{ props: tp }">
             <MiButton v-bind="tp" variant="plain" size="small">Shop<template #trailing><MiIcon name="chevron-down" :size="14" /></template></MiButton>
@@ -12,29 +12,29 @@
       </nav>
     </header>
 
-    <div class="scm__body mi:grid mi:gap-5 mi:grid-cols-[minmax(0,_1fr)] mi:items-start mi:@[780px]:grid-cols-[minmax(0,_1fr)_280px] mi:@[780px]:gap-7">
+    <div class="mi:grid mi:gap-5 mi:grid-cols-[minmax(0,_1fr)] mi:items-start mi:@[780px]:grid-cols-[minmax(0,_1fr)_280px] mi:@[780px]:gap-7">
       <!-- Category menu, open in place: three aisles and one featured box. -->
-      <div class="scm__mega mi:grid mi:gap-y-4.5 mi:gap-x-6 mi:grid-cols-2 mi:p-5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-2 mi:@[560px]:grid-cols-3" role="group" aria-label="Shop menu, shown open">
-        <div v-for="aisle in aisles" :key="aisle.name" class="scm__aisle">
-          <MiText variant="caption" tone="label2" weight="semibold" as="h3" class="scm__aisle-name mi:[.scm__aisle_ul&]:gap-0.5 mi:[.scm__aisle_ul&]:p-0 mi:[.scm__aisle_ul&]:[list-style:none]">{{ aisle.name }}</MiText>
-          <ul class="mi:[.scm__aisle_ul&]:gap-0.5 mi:[.scm__aisle_ul&]:p-0 mi:[.scm__aisle_ul&]:[list-style:none]">
+      <div class="mi:grid mi:gap-y-4.5 mi:gap-x-6 mi:grid-cols-2 mi:p-5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-2 mi:@[560px]:grid-cols-3" role="group" aria-label="Shop menu, shown open">
+        <div v-for="aisle in aisles" :key="aisle.name">
+          <MiText variant="caption" tone="label2" weight="semibold" as="h3" class="mi:uppercase mi:tracking-[.08em]!">{{ aisle.name }}</MiText>
+          <ul class="mi:grid mi:[margin:6px_0_0] mi:gap-0.5 mi:p-0 mi:[list-style:none]">
             <li v-for="link in aisle.links" :key="link">
-              <button type="button" class="scm__link mi:w-full mi:py-1.5 mi:px-2 mi:-ms-2 mi:[border:0] mi:rounded-sm mi:[background:none] mi:text-label mi:text-start mi:cursor-pointer mi:hover:[background:var(--mi-fill4)] mi:[&[aria-current='page']]:text-p-text mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" :aria-current="browsing === link ? 'page' : undefined" @click="browse(link)">{{ link }}</button>
+              <button type="button" class="mi:[font:inherit] mi:text-[14px] mi:[&[aria-current='page']]:font-semibold mi:w-full mi:py-1.5 mi:px-2 mi:-ms-2 mi:[border:0] mi:rounded-sm mi:[background:none] mi:text-label mi:text-start mi:cursor-pointer mi:hover:[background:var(--mi-fill4)] mi:[&[aria-current='page']]:text-p-text mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" :aria-current="browsing === link ? 'page' : undefined" @click="browse(link)">{{ link }}</button>
             </li>
           </ul>
         </div>
-        <button type="button" class="scm__feature mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px] mi:col-span-full mi:flex mi:items-center mi:gap-3.5 mi:p-2.5 mi:[border:0] mi:rounded-lg mi:[background:var(--mi-fill4)] mi:text-inherit mi:[font:inherit] mi:text-start mi:cursor-pointer" @click="browse('Autumn harvest box')">
-          <span class="scm__art mi:relative mi:flex-[none] mi:w-18 mi:h-14 mi:rounded-[12px] mi:overflow-hidden mi:[background:linear-gradient(160deg,_color-mix(in_srgb,_var(--mi-orange)_35%,_var(--mi-card)),_color-mix(in_srgb,_var(--mi-p)_30%,_var(--mi-card)))]" aria-hidden="true"><i class="mi:[.scm__feature:hover_.scm__art_&]:transform-[translateY(-2px)] mi:[.scm__art_&]:absolute mi:[.scm__art_&]:bottom-2 mi:[.scm__art_&]:rounded-[50%_50%_6px_6px] mi:[.scm__art_&]:[transition:transform_var(--mi-dur-2)_var(--mi-spring)] mi:[.scm__art_&:nth-child(1)]:left-2 mi:[.scm__art_&:nth-child(1)]:w-4.5 mi:[.scm__art_&:nth-child(1)]:h-6.5 mi:[.scm__art_&:nth-child(1)]:[background:var(--mi-orange)] mi:[.scm__art_&:nth-child(2)]:left-7 mi:[.scm__art_&:nth-child(2)]:w-4 mi:[.scm__art_&:nth-child(2)]:h-8.5 mi:[.scm__art_&:nth-child(2)]:[background:var(--mi-p)] mi:[.scm__art_&:nth-child(2)]:delay-[30ms] mi:[.scm__art_&:nth-child(3)]:left-11.5 mi:[.scm__art_&:nth-child(3)]:w-4.5 mi:[.scm__art_&:nth-child(3)]:h-5.5 mi:[.scm__art_&:nth-child(3)]:[background:var(--mi-green)] mi:[.scm__art_&:nth-child(3)]:delay-[60ms]" /><i class="mi:[.scm__feature:hover_.scm__art_&]:transform-[translateY(-2px)] mi:[.scm__art_&]:absolute mi:[.scm__art_&]:bottom-2 mi:[.scm__art_&]:rounded-[50%_50%_6px_6px] mi:[.scm__art_&]:[transition:transform_var(--mi-dur-2)_var(--mi-spring)] mi:[.scm__art_&:nth-child(1)]:left-2 mi:[.scm__art_&:nth-child(1)]:w-4.5 mi:[.scm__art_&:nth-child(1)]:h-6.5 mi:[.scm__art_&:nth-child(1)]:[background:var(--mi-orange)] mi:[.scm__art_&:nth-child(2)]:left-7 mi:[.scm__art_&:nth-child(2)]:w-4 mi:[.scm__art_&:nth-child(2)]:h-8.5 mi:[.scm__art_&:nth-child(2)]:[background:var(--mi-p)] mi:[.scm__art_&:nth-child(2)]:delay-[30ms] mi:[.scm__art_&:nth-child(3)]:left-11.5 mi:[.scm__art_&:nth-child(3)]:w-4.5 mi:[.scm__art_&:nth-child(3)]:h-5.5 mi:[.scm__art_&:nth-child(3)]:[background:var(--mi-green)] mi:[.scm__art_&:nth-child(3)]:delay-[60ms]" /><i class="mi:[.scm__feature:hover_.scm__art_&]:transform-[translateY(-2px)] mi:[.scm__art_&]:absolute mi:[.scm__art_&]:bottom-2 mi:[.scm__art_&]:rounded-[50%_50%_6px_6px] mi:[.scm__art_&]:[transition:transform_var(--mi-dur-2)_var(--mi-spring)] mi:[.scm__art_&:nth-child(1)]:left-2 mi:[.scm__art_&:nth-child(1)]:w-4.5 mi:[.scm__art_&:nth-child(1)]:h-6.5 mi:[.scm__art_&:nth-child(1)]:[background:var(--mi-orange)] mi:[.scm__art_&:nth-child(2)]:left-7 mi:[.scm__art_&:nth-child(2)]:w-4 mi:[.scm__art_&:nth-child(2)]:h-8.5 mi:[.scm__art_&:nth-child(2)]:[background:var(--mi-p)] mi:[.scm__art_&:nth-child(2)]:delay-[30ms] mi:[.scm__art_&:nth-child(3)]:left-11.5 mi:[.scm__art_&:nth-child(3)]:w-4.5 mi:[.scm__art_&:nth-child(3)]:h-5.5 mi:[.scm__art_&:nth-child(3)]:[background:var(--mi-green)] mi:[.scm__art_&:nth-child(3)]:delay-[60ms]" /></span>
-          <span class="scm__feature-text mi:grid mi:gap-0.5 mi:text-[14px]">
+        <button type="button" class="mi:group/feat mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px] mi:col-span-full mi:flex mi:items-center mi:gap-3.5 mi:p-2.5 mi:[border:0] mi:rounded-lg mi:[background:var(--mi-fill4)] mi:text-inherit mi:[font:inherit] mi:text-start mi:cursor-pointer" @click="browse('Autumn harvest box')">
+          <span class="mi:relative mi:flex-[none] mi:w-18 mi:h-14 mi:rounded-[12px] mi:overflow-hidden mi:[background:linear-gradient(160deg,_color-mix(in_srgb,_var(--mi-orange)_35%,_var(--mi-card)),_color-mix(in_srgb,_var(--mi-p)_30%,_var(--mi-card)))]" aria-hidden="true"><i class="mi:group-hover/feat:transform-[translateY(-2px)] mi:absolute mi:bottom-2 mi:rounded-[50%_50%_6px_6px] mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring)] mi:[&:nth-child(1)]:left-2 mi:[&:nth-child(1)]:w-4.5 mi:[&:nth-child(1)]:h-6.5 mi:[&:nth-child(1)]:[background:var(--mi-orange)] mi:[&:nth-child(2)]:left-7 mi:[&:nth-child(2)]:w-4 mi:[&:nth-child(2)]:h-8.5 mi:[&:nth-child(2)]:[background:var(--mi-p)] mi:[&:nth-child(2)]:delay-[30ms] mi:[&:nth-child(3)]:left-11.5 mi:[&:nth-child(3)]:w-4.5 mi:[&:nth-child(3)]:h-5.5 mi:[&:nth-child(3)]:[background:var(--mi-green)] mi:[&:nth-child(3)]:delay-[60ms]" /><i class="mi:group-hover/feat:transform-[translateY(-2px)] mi:absolute mi:bottom-2 mi:rounded-[50%_50%_6px_6px] mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring)] mi:[&:nth-child(1)]:left-2 mi:[&:nth-child(1)]:w-4.5 mi:[&:nth-child(1)]:h-6.5 mi:[&:nth-child(1)]:[background:var(--mi-orange)] mi:[&:nth-child(2)]:left-7 mi:[&:nth-child(2)]:w-4 mi:[&:nth-child(2)]:h-8.5 mi:[&:nth-child(2)]:[background:var(--mi-p)] mi:[&:nth-child(2)]:delay-[30ms] mi:[&:nth-child(3)]:left-11.5 mi:[&:nth-child(3)]:w-4.5 mi:[&:nth-child(3)]:h-5.5 mi:[&:nth-child(3)]:[background:var(--mi-green)] mi:[&:nth-child(3)]:delay-[60ms]" /><i class="mi:group-hover/feat:transform-[translateY(-2px)] mi:absolute mi:bottom-2 mi:rounded-[50%_50%_6px_6px] mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring)] mi:[&:nth-child(1)]:left-2 mi:[&:nth-child(1)]:w-4.5 mi:[&:nth-child(1)]:h-6.5 mi:[&:nth-child(1)]:[background:var(--mi-orange)] mi:[&:nth-child(2)]:left-7 mi:[&:nth-child(2)]:w-4 mi:[&:nth-child(2)]:h-8.5 mi:[&:nth-child(2)]:[background:var(--mi-p)] mi:[&:nth-child(2)]:delay-[30ms] mi:[&:nth-child(3)]:left-11.5 mi:[&:nth-child(3)]:w-4.5 mi:[&:nth-child(3)]:h-5.5 mi:[&:nth-child(3)]:[background:var(--mi-green)] mi:[&:nth-child(3)]:delay-[60ms]" /></span>
+          <span class="mi:grid mi:gap-0.5 mi:text-[14px]">
             <strong>Autumn harvest box</strong>
-            <span class="mi:[.scm__feature-text_&]:text-[12px] mi:[.scm__feature-text_&]:text-label2">12 small-batch goods · ships Nov 18</span>
+            <span class="mi:text-[12px] mi:text-label2">12 small-batch goods · ships Nov 18</span>
           </span>
         </button>
-        <MiText variant="caption" tone="label3" class="scm__status mi:col-span-full" aria-live="polite">Browsing: {{ browsing }}</MiText>
+        <MiText variant="caption" tone="label3" class="mi:col-span-full" aria-live="polite">Browsing: {{ browsing }}</MiText>
       </div>
 
       <!-- Mini bag: quantities, threshold meter and totals all reprice with the currency. -->
-      <MiPopover v-model="bagOpen" inline trigger="manual" :width="280" :arrow-offset="36" label="Your bag" class="scm__pop">
+      <MiPopover v-model="bagOpen" inline trigger="manual" :width="280" :arrow-offset="36" label="Your bag">
         <template #trigger="{ attrs, toggle }">
           <MiBadge :count="count" tone="primary" count-noun="items in bag">
             <template #target>
@@ -46,28 +46,28 @@
           </MiBadge>
         </template>
 
-        <div class="scm__bag mi:grid mi:gap-3.5">
-          <div class="scm__ship mi:grid mi:gap-1.5" aria-live="polite">
+        <div class="mi:grid mi:gap-3.5">
+          <div class="mi:grid mi:gap-1.5" aria-live="polite">
             <MiText variant="footnote" weight="medium">{{ shipText }}</MiText>
-            <div class="scm__meter mi:h-1.5 mi:rounded-[3px] mi:[background:var(--mi-fill3)] mi:overflow-hidden" role="meter" aria-label="Progress to free shipping" :aria-valuenow="Math.round(subtotal)" aria-valuemin="0" :aria-valuemax="threshold">
-              <span class="mi:[.scm__meter_&]:h-full mi:[.scm__meter_&]:rounded-[inherit] mi:[.scm__meter_&]:origin-left mi:[.scm__meter_&]:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :class="{ 'is-full': subtotal >= threshold }" :style="{ transform: `scaleX(${Math.min(1, subtotal / threshold)})` }" />
+            <div class="mi:h-1.5 mi:rounded-[3px] mi:[background:var(--mi-fill3)] mi:overflow-hidden" role="meter" aria-label="Progress to free shipping" :aria-valuenow="Math.round(subtotal)" aria-valuemin="0" :aria-valuemax="threshold">
+              <span class="mi:block mi:h-full mi:rounded-[inherit] mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :class="subtotal >= threshold ? 'mi:bg-green' : 'mi:bg-p'" :style="{ transform: `scaleX(${Math.min(1, subtotal / threshold)})` }" />
             </div>
           </div>
 
-          <ul v-if="lines.length" class="scm__lines mi:grid mi:gap-3 mi:m-0 mi:p-0 mi:[list-style:none]">
-            <li v-for="line in lines" :key="line.id" class="scm__line mi:grid mi:grid-cols-[40px_minmax(0,_1fr)_auto] mi:gap-2.5 mi:items-start">
-              <span class="scm__thumb mi:w-10 mi:h-10 mi:rounded-[10px] mi:[background:radial-gradient(circle_at_30%_30%,_color-mix(in_srgb,_var(--a)_70%,_var(--mi-card)),_color-mix(in_srgb,_var(--a)_25%,_var(--mi-card)))]" :style="{ '--a': `var(--mi-${line.hue})` }" aria-hidden="true" />
-              <div class="scm__line-text mi:grid mi:gap-px mi:min-w-0">
+          <ul v-if="lines.length" class="mi:grid mi:gap-3 mi:m-0 mi:p-0 mi:[list-style:none]">
+            <li v-for="line in lines" :key="line.id" class="mi:grid mi:grid-cols-[40px_minmax(0,_1fr)_auto] mi:gap-2.5 mi:items-start">
+              <span class="mi:w-10 mi:h-10 mi:rounded-[10px] mi:[background:radial-gradient(circle_at_30%_30%,_color-mix(in_srgb,_var(--a)_70%,_var(--mi-card)),_color-mix(in_srgb,_var(--a)_25%,_var(--mi-card)))]" :style="{ '--a': `var(--mi-${line.hue})` }" aria-hidden="true" />
+              <div class="mi:grid mi:gap-px mi:min-w-0">
                 <MiText variant="footnote" weight="semibold" :lines="1">{{ line.name }}</MiText>
                 <MiText variant="caption2" tone="label2" :lines="1">{{ line.variant }}</MiText>
-                <MiStepper v-model="line.qty" :min="0" :max="9" :label="'Quantity of ' + line.name" show-value class="scm__step mi:mt-1.5 mi:justify-self-start" />
+                <MiStepper v-model="line.qty" :min="0" :max="9" :label="'Quantity of ' + line.name" show-value class="mi:mt-1.5 mi:justify-self-start" />
               </div>
-              <span class="scm__price mi:text-[13px] mi:font-semibold mi:tabular-nums">{{ price(line.price * line.qty) }}</span>
+              <span class="mi:text-[13px] mi:font-semibold mi:tabular-nums">{{ price(line.price * line.qty) }}</span>
             </li>
           </ul>
-          <MiText v-else variant="footnote" tone="label2" class="scm__empty mi:py-2 mi:px-0">Your bag is empty.</MiText>
+          <MiText v-else variant="footnote" tone="label2" class="mi:py-2 mi:px-0">Your bag is empty.</MiText>
 
-          <div class="scm__sum mi:flex mi:justify-between mi:pt-3 mi:[border-top:.5px_solid_var(--mi-sep)] mi:text-[15px] mi:tabular-nums">
+          <div class="mi:flex mi:justify-between mi:pt-3 mi:[border-top:.5px_solid_var(--mi-sep)] mi:text-[15px] mi:tabular-nums">
             <span>Subtotal</span><strong>{{ price(subtotal) }}</strong>
           </div>
           <MiButton block :disabled="!lines.length">Checkout</MiButton>
@@ -111,15 +111,3 @@ const subtotal = computed(() => lines.value.reduce((s, l) => s + l.price * l.qty
 const threshold = 80
 const shipText = computed(() => subtotal.value >= threshold ? 'Free shipping unlocked' : `${price(threshold - subtotal.value)} away from free shipping`)
 </script>
-
-<style scoped>
-.scm__brand { letter-spacing: -.02em; }
-.scm__pop { order: -1; justify-self: start; }
-@container (min-width: 780px) { .scm__pop { order: 0; } }
-.scm__aisle ul { display: grid; margin: 6px 0 0; }
-.scm__aisle-name { text-transform: uppercase; letter-spacing: .08em; }
-.scm__link { font: inherit; font-size: 14px; }
-.scm__link[aria-current="page"] { font-weight: 600; }
-.scm__meter span { display: block; background: var(--mi-p); }
-.scm__meter span.is-full { background: var(--mi-green); }
-</style>

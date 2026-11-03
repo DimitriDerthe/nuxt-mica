@@ -1,6 +1,6 @@
 <template>
-  <section class="cqp mi:@container mi:flex mi:flex-col mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="cqp-title">
-    <header class="cqp__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-2.5">
+  <section class="mi:@container mi:flex mi:flex-col mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="cqp-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-2.5">
       <div>
         <MiText id="cqp-title" as="h2" variant="title3" weight="bold">Call quality</MiText>
         <MiText variant="footnote" tone="label2">Weekly design review · 7 people · 32 min in</MiText>
@@ -8,43 +8,43 @@
       <MiBadge :tone="health.tone" :label="health.label" dot />
     </header>
 
-    <div class="cqp__grid mi:grid mi:gap-3 mi:@[760px]:grid-cols-[minmax(0,_1fr)_minmax(0,_1.2fr)]">
+    <div class="mi:grid mi:gap-3 mi:@[760px]:grid-cols-[minmax(0,_1fr)_minmax(0,_1.2fr)]">
       <!-- Connection: three readings, each against the level where calls start to suffer. -->
-      <div class="cqp__card mi:grid mi:content-start mi:gap-4 mi:min-w-0 mi:p-4.5 mi:rounded-xl mi:bg-card mi:shadow-1">
+      <div class="mi:grid mi:content-start mi:gap-4 mi:min-w-0 mi:p-4.5 mi:rounded-xl mi:bg-card mi:shadow-1">
         <MiText as="h3" variant="headline">Your connection</MiText>
-        <ul class="cqp__stats mi:grid mi:gap-3.5 mi:m-0 mi:p-0 mi:[list-style:none]">
-          <li v-for="s in stats" :key="s.label" class="cqp__stat mi:grid mi:gap-1.5">
-            <div class="cqp__stat-top mi:flex mi:justify-between mi:gap-2">
+        <ul class="mi:grid mi:gap-3.5 mi:m-0 mi:p-0 mi:[list-style:none]">
+          <li v-for="s in stats" :key="s.label" class="mi:grid mi:gap-1.5">
+            <div class="mi:flex mi:justify-between mi:gap-2">
               <MiText variant="footnote" weight="medium">{{ s.label }}</MiText>
               <MiText variant="footnote" :tone="s.value > s.warn ? 'orange' : 'label2'" tabular>{{ s.value }} {{ s.unit }}</MiText>
             </div>
-            <div class="cqp__bar mi:relative mi:h-1.5 mi:rounded-[3px] mi:bg-fill3" role="meter" :aria-label="s.label" :aria-valuenow="s.value" aria-valuemin="0" :aria-valuemax="s.max" :aria-valuetext="s.value + ' ' + s.unit">
-              <span class="mi:[.cqp__bar_&]:inset-0 mi:[.cqp__bar_&]:bg-green mi:[.cqp__bar_&]:origin-left mi:[.cqp__bar_&]:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :class="{ 'is-warn mi:[.cqp__bar_&]:bg-orange': s.value > s.warn }" :style="{ transform: `scaleX(${Math.min(1, s.value / s.max)})` }" />
-              <i class="mi:[.cqp__bar_&]:top-[-3px] mi:[.cqp__bar_&]:w-0.5 mi:[.cqp__bar_&]:h-3 mi:[.cqp__bar_&]:-ml-px mi:[.cqp__bar_&]:bg-label3" :style="{ left: (s.warn / s.max * 100) + '%' }" aria-hidden="true" />
+            <div class="mi:relative mi:h-1.5 mi:rounded-[3px] mi:bg-fill3" role="meter" :aria-label="s.label" :aria-valuenow="s.value" aria-valuemin="0" :aria-valuemax="s.max" :aria-valuetext="s.value + ' ' + s.unit">
+              <span class="mi:absolute mi:rounded-[inherit] mi:inset-0 mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :class="s.value > s.warn ? 'mi:bg-orange' : 'mi:bg-green'" :style="{ transform: `scaleX(${Math.min(1, s.value / s.max)})` }" />
+              <i class="mi:absolute mi:rounded-[1px] mi:top-[-3px] mi:w-0.5 mi:h-3 mi:-ml-px mi:bg-label3" :style="{ left: (s.warn / s.max * 100) + '%' }" aria-hidden="true" />
             </div>
           </li>
         </ul>
         <MiSlider v-model="upload" :min="0.3" :max="4" :step="0.1" label="Upload bandwidth (measured)" :format="v => v.toFixed(1) + ' Mbps'" />
       </div>
 
-      <div class="cqp__card mi:grid mi:content-start mi:gap-4 mi:min-w-0 mi:p-4.5 mi:rounded-xl mi:bg-card mi:shadow-1">
+      <div class="mi:grid mi:content-start mi:gap-4 mi:min-w-0 mi:p-4.5 mi:rounded-xl mi:bg-card mi:shadow-1">
         <MiText as="h3" variant="headline">What you send and receive</MiText>
-        <div class="cqp__field mi:grid mi:justify-items-start mi:gap-2">
+        <div class="mi:grid mi:justify-items-start mi:gap-2">
           <MiText variant="footnote" weight="medium">Your video</MiText>
           <MiSegmented v-model="sendQuality" label="Your video quality" :options="sendOptions" />
         </div>
-        <div class="cqp__field mi:grid mi:justify-items-start mi:gap-2">
+        <div class="mi:grid mi:justify-items-start mi:gap-2">
           <MiText variant="footnote" weight="medium">Incoming video</MiText>
           <MiRadioGroup v-model="incoming" label="Incoming video" :options="incomingOptions" :disabled="lowBandwidth" />
         </div>
-        <div class="cqp__switch mi:flex mi:items-center mi:justify-between mi:gap-3.5 mi:pt-3.5 mi:border-t mi:border-t-sep">
+        <div class="mi:flex mi:items-center mi:justify-between mi:gap-3.5 mi:pt-3.5 mi:border-t mi:border-t-sep">
           <div>
             <MiText id="cqp-low" variant="subheadline" weight="medium">Low-bandwidth mode</MiText>
             <MiText variant="caption" tone="label2">Sends 360p and shows only the active speaker.</MiText>
           </div>
           <MiSwitch v-model="lowBandwidth" aria-labelledby="cqp-low" />
         </div>
-        <footer class="cqp__usage mi:flex mi:items-center mi:gap-2.5 mi:py-3 mi:px-3.5 mi:rounded-lg mi:bg-p-tint mi:text-p-text" aria-live="polite">
+        <footer class="mi:[&_strong]:text-label mi:flex mi:items-center mi:gap-2.5 mi:py-3 mi:px-3.5 mi:rounded-lg mi:bg-p-tint mi:text-p-text" aria-live="polite">
           <MiIcon name="wifi" :size="18" />
           <MiText variant="footnote">About <strong>{{ usage }} GB per hour</strong> at {{ effective.send }} sending, {{ incomingPhrase[effective.inc] }}.</MiText>
         </footer>
@@ -99,10 +99,3 @@ const health = computed<{ tone: 'success' | 'warning', label: string }>(() => {
   return issues > 1 ? { tone: 'warning', label: 'Unstable connection' } : { tone: 'success', label: 'Good connection' }
 })
 </script>
-
-<style scoped>
-.cqp__bar span { position: absolute; border-radius: inherit; }
-/* Tick marking the threshold where quality starts to drop. */
-.cqp__bar i { position: absolute; border-radius: 1px; }
-.cqp__usage :deep(strong) { color: var(--mi-label); }
-</style>

@@ -1,6 +1,6 @@
 <template>
-  <section class="cpt mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="cpt-title">
-    <header class="cpt__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="cpt-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="cpt-title" variant="title3" as="h2" weight="semibold">Acquisition channels</MiText>
         <MiText variant="footnote" tone="label2">Halden Outdoor store · compared with the previous {{ periodName }}</MiText>
@@ -8,34 +8,34 @@
       <MiSegmented v-model="period" label="Period" :options="periods" />
     </header>
 
-    <dl class="cpt__totals mi:grid mi:grid-cols-3 mi:gap-px mi:m-0 mi:rounded-lg mi:overflow-hidden mi:bg-sep mi:shadow-1">
-      <div class="mi:[.cpt__totals_div&]:gap-0.5 mi:[.cpt__totals_div&]:py-3 mi:[.cpt__totals_div&]:px-3.5 mi:[.cpt__totals_div&]:min-w-0"><dt>Sessions</dt><dd>{{ num(totals.sessions) }}</dd><MiText class="mi:[.cpt__totals_div&]:gap-0.5 mi:[.cpt__totals_div&]:py-3 mi:[.cpt__totals_div&]:px-3.5 mi:[.cpt__totals_div&]:min-w-0" as="span" variant="caption" :tone="totals.sessions >= totals.prevSessions ? 'green' : 'red'" tabular>{{ delta(totals.sessions, totals.prevSessions) }}</MiText></div>
-      <div class="mi:[.cpt__totals_div&]:gap-0.5 mi:[.cpt__totals_div&]:py-3 mi:[.cpt__totals_div&]:px-3.5 mi:[.cpt__totals_div&]:min-w-0"><dt>Conversion</dt><dd>{{ pct(totals.orders / totals.sessions) }}</dd><MiText class="mi:[.cpt__totals_div&]:gap-0.5 mi:[.cpt__totals_div&]:py-3 mi:[.cpt__totals_div&]:px-3.5 mi:[.cpt__totals_div&]:min-w-0" as="span" variant="caption" tone="label2">store average</MiText></div>
-      <div class="mi:[.cpt__totals_div&]:gap-0.5 mi:[.cpt__totals_div&]:py-3 mi:[.cpt__totals_div&]:px-3.5 mi:[.cpt__totals_div&]:min-w-0"><dt>Revenue</dt><dd>{{ money(totals.revenue) }}</dd><MiText class="mi:[.cpt__totals_div&]:gap-0.5 mi:[.cpt__totals_div&]:py-3 mi:[.cpt__totals_div&]:px-3.5 mi:[.cpt__totals_div&]:min-w-0" as="span" variant="caption" :tone="totals.revenue >= totals.prevRevenue ? 'green' : 'red'" tabular>{{ delta(totals.revenue, totals.prevRevenue) }}</MiText></div>
+    <dl class="mi:grid mi:grid-cols-3 mi:gap-px mi:m-0 mi:rounded-lg mi:overflow-hidden mi:bg-sep mi:shadow-1">
+      <div class="mi:grid mi:bg-card mi:gap-0.5 mi:py-3 mi:px-3.5 mi:min-w-0"><dt class="mi:text-[11px] mi:text-label2">Sessions</dt><dd class="mi:m-0 mi:text-[clamp(17px,_4.6cqi,_24px)] mi:font-bold mi:tracking-[-.03em] mi:tabular-nums">{{ num(totals.sessions) }}</dd><MiText as="span" variant="caption" :tone="totals.sessions >= totals.prevSessions ? 'green' : 'red'" tabular>{{ delta(totals.sessions, totals.prevSessions) }}</MiText></div>
+      <div class="mi:grid mi:bg-card mi:gap-0.5 mi:py-3 mi:px-3.5 mi:min-w-0"><dt class="mi:text-[11px] mi:text-label2">Conversion</dt><dd class="mi:m-0 mi:text-[clamp(17px,_4.6cqi,_24px)] mi:font-bold mi:tracking-[-.03em] mi:tabular-nums">{{ pct(totals.orders / totals.sessions) }}</dd><MiText as="span" variant="caption" tone="label2">store average</MiText></div>
+      <div class="mi:grid mi:bg-card mi:gap-0.5 mi:py-3 mi:px-3.5 mi:min-w-0"><dt class="mi:text-[11px] mi:text-label2">Revenue</dt><dd class="mi:m-0 mi:text-[clamp(17px,_4.6cqi,_24px)] mi:font-bold mi:tracking-[-.03em] mi:tabular-nums">{{ money(totals.revenue) }}</dd><MiText as="span" variant="caption" :tone="totals.revenue >= totals.prevRevenue ? 'green' : 'red'" tabular>{{ delta(totals.revenue, totals.prevRevenue) }}</MiText></div>
     </dl>
 
-    <div class="cpt__table mi:hidden mi:min-w-0 mi:overflow-x-auto mi:@[720px]:block">
+    <div class="mi:hidden mi:min-w-0 mi:overflow-x-auto mi:@[720px]:block">
       <MiTable :columns="columns" :rows="rows" caption="Channel performance" density="relaxed" :zebra="false">
         <template #cell-name="{ row }">
-          <span class="cpt__chan mi:inline-flex mi:items-center mi:gap-2.5 mi:font-semibold mi:whitespace-nowrap"><span class="cpt__glyph mi:grid mi:place-items-center mi:w-7 mi:h-7 mi:rounded-[8px] mi:text-(--tint) mi:[background:color-mix(in_srgb,_var(--tint)_14%,_transparent)]" :style="{ '--tint': c(row).tint }" aria-hidden="true"><MiIcon :svg="c(row).icon" :size="15" /></span>{{ c(row).name }}</span>
+          <span class="mi:inline-flex mi:items-center mi:gap-2.5 mi:font-semibold mi:whitespace-nowrap"><span class="mi:grid mi:place-items-center mi:w-7 mi:h-7 mi:rounded-[8px] mi:text-(--tint) mi:[background:color-mix(in_srgb,_var(--tint)_14%,_transparent)]" :style="{ '--tint': c(row).tint }" aria-hidden="true"><MiIcon :svg="c(row).icon" :size="15" /></span>{{ c(row).name }}</span>
         </template>
         <template #cell-sessions="{ row }">
           <!-- Data bar with a ghost tick at last period's value: growth reads as the gap between them. -->
-          <span class="cpt__bar-cell mi:grid mi:gap-1">
-            <span class="cpt__num mi:font-semibold mi:tabular-nums">{{ num(c(row).sessions) }}</span>
-            <span class="cpt__bar mi:relative mi:block mi:h-1.5 mi:rounded-[3px] mi:bg-fill2">
-              <i class="mi:[.cpt__bar_&]:inset-0 mi:[.cpt__bar_&]:origin-left mi:[.cpt__bar_&]:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleX(${c(row).sessions / maxSessions})` }" />
-              <b class="mi:[.cpt__bar_&]:top-[-3px] mi:[.cpt__bar_&]:bottom-[-3px] mi:[.cpt__bar_&]:w-0.5 mi:[.cpt__bar_&]:opacity-55" :style="{ insetInlineStart: (c(row).prevSessions / maxSessions) * 100 + '%' }" />
+          <span class="mi:grid mi:gap-1">
+            <span class="mi:font-semibold mi:tabular-nums">{{ num(c(row).sessions) }}</span>
+            <span class="mi:relative mi:block mi:h-1.5 mi:rounded-[3px] mi:bg-fill2">
+              <i class="mi:absolute mi:rounded-[inherit] mi:bg-p/75 mi:inset-0 mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleX(${c(row).sessions / maxSessions})` }" />
+              <b class="mi:absolute mi:-ms-px mi:rounded-[1px] mi:bg-label mi:top-[-3px] mi:bottom-[-3px] mi:w-0.5 mi:opacity-55" :style="{ insetInlineStart: (c(row).prevSessions / maxSessions) * 100 + '%' }" />
             </span>
           </span>
         </template>
         <template #cell-conv="{ row }">
-          <span class="cpt__heat mi:inline-block mi:py-[3px] mi:px-2 mi:rounded-[7px] mi:text-[13px] mi:font-semibold mi:tabular-nums mi:[background:color-mix(in_srgb,_var(--mi-green)_var(--heat),_transparent)] mi:text-label" :style="{ '--heat': Math.round(Math.min(1, c(row).conv / 0.05) * 60) + '%' }">{{ pct(c(row).conv) }}</span>
+          <span class="mi:inline-block mi:py-[3px] mi:px-2 mi:rounded-[7px] mi:text-[13px] mi:font-semibold mi:tabular-nums mi:[background:color-mix(in_srgb,_var(--mi-green)_var(--heat),_transparent)] mi:text-label" :style="{ '--heat': Math.round(Math.min(1, c(row).conv / 0.05) * 60) + '%' }">{{ pct(c(row).conv) }}</span>
         </template>
         <template #cell-revenue="{ row }">
-          <span class="cpt__rev mi:grid mi:justify-items-end mi:leading-tight">
-            <span class="cpt__num mi:font-semibold mi:tabular-nums">{{ money(c(row).revenue) }}</span>
-            <span class="cpt__delta mi:text-[12px] mi:font-semibold mi:tabular-nums" :class="c(row).revenue >= c(row).prevRevenue ? 'is-up' : 'is-down'">{{ delta(c(row).revenue, c(row).prevRevenue) }}</span>
+          <span class="mi:grid mi:justify-items-end mi:leading-tight">
+            <span class="mi:font-semibold mi:tabular-nums">{{ money(c(row).revenue) }}</span>
+            <span class="mi:text-[12px] mi:font-semibold mi:tabular-nums" :class="c(row).revenue >= c(row).prevRevenue ? 'mi:text-green-t' : 'mi:text-red-t'">{{ delta(c(row).revenue, c(row).prevRevenue) }}</span>
           </span>
         </template>
         <template #cell-trend="{ row }">
@@ -44,19 +44,19 @@
       </MiTable>
     </div>
 
-    <ul class="cpt__cards mi:grid mi:gap-2 mi:m-0 mi:p-0 mi:[list-style:none] mi:@[720px]:hidden">
-      <li v-for="ch in rows" :key="ch.id" class="cpt__card mi:grid mi:gap-2.5 mi:py-3 mi:px-3.5 mi:rounded-lg mi:bg-card mi:shadow-1">
-        <div class="cpt__card-top mi:flex mi:items-center mi:justify-between mi:gap-2.5">
-          <span class="cpt__chan mi:inline-flex mi:items-center mi:gap-2.5 mi:font-semibold mi:whitespace-nowrap"><span class="cpt__glyph mi:grid mi:place-items-center mi:w-7 mi:h-7 mi:rounded-[8px] mi:text-(--tint) mi:[background:color-mix(in_srgb,_var(--tint)_14%,_transparent)]" :style="{ '--tint': ch.tint }" aria-hidden="true"><MiIcon :svg="ch.icon" :size="15" /></span>{{ ch.name }}</span>
-          <span class="cpt__rev cpt__rev--end mi:grid mi:justify-items-end mi:leading-tight">
-            <span class="cpt__num mi:font-semibold mi:tabular-nums">{{ money(ch.revenue) }}</span>
-            <span class="cpt__delta mi:text-[12px] mi:font-semibold mi:tabular-nums" :class="ch.revenue >= ch.prevRevenue ? 'is-up' : 'is-down'">{{ delta(ch.revenue, ch.prevRevenue) }}</span>
+    <ul class="mi:grid mi:gap-2 mi:m-0 mi:p-0 mi:[list-style:none] mi:@[720px]:hidden">
+      <li v-for="ch in rows" :key="ch.id" class="mi:grid mi:gap-2.5 mi:py-3 mi:px-3.5 mi:rounded-lg mi:bg-card mi:shadow-1">
+        <div class="mi:flex mi:items-center mi:justify-between mi:gap-2.5">
+          <span class="mi:inline-flex mi:items-center mi:gap-2.5 mi:font-semibold mi:whitespace-nowrap"><span class="mi:grid mi:place-items-center mi:w-7 mi:h-7 mi:rounded-[8px] mi:text-(--tint) mi:[background:color-mix(in_srgb,_var(--tint)_14%,_transparent)]" :style="{ '--tint': ch.tint }" aria-hidden="true"><MiIcon :svg="ch.icon" :size="15" /></span>{{ ch.name }}</span>
+          <span class="mi:grid mi:justify-items-end mi:leading-tight">
+            <span class="mi:font-semibold mi:tabular-nums">{{ money(ch.revenue) }}</span>
+            <span class="mi:text-[12px] mi:font-semibold mi:tabular-nums" :class="ch.revenue >= ch.prevRevenue ? 'mi:text-green-t' : 'mi:text-red-t'">{{ delta(ch.revenue, ch.prevRevenue) }}</span>
           </span>
         </div>
-        <span class="cpt__bar mi:relative mi:block mi:h-1.5 mi:rounded-[3px] mi:bg-fill2"><i class="mi:[.cpt__bar_&]:inset-0 mi:[.cpt__bar_&]:origin-left mi:[.cpt__bar_&]:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleX(${ch.sessions / maxSessions})` }" /><b class="mi:[.cpt__bar_&]:top-[-3px] mi:[.cpt__bar_&]:bottom-[-3px] mi:[.cpt__bar_&]:w-0.5 mi:[.cpt__bar_&]:opacity-55" :style="{ insetInlineStart: (ch.prevSessions / maxSessions) * 100 + '%' }" /></span>
-        <div class="cpt__card-foot mi:flex mi:items-center mi:justify-between mi:gap-2">
+        <span class="mi:relative mi:block mi:h-1.5 mi:rounded-[3px] mi:bg-fill2"><i class="mi:absolute mi:rounded-[inherit] mi:bg-p/75 mi:inset-0 mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleX(${ch.sessions / maxSessions})` }" /><b class="mi:absolute mi:-ms-px mi:rounded-[1px] mi:bg-label mi:top-[-3px] mi:bottom-[-3px] mi:w-0.5 mi:opacity-55" :style="{ insetInlineStart: (ch.prevSessions / maxSessions) * 100 + '%' }" /></span>
+        <div class="mi:flex mi:items-center mi:justify-between mi:gap-2">
           <MiText as="span" variant="caption" tone="label2" tabular>{{ num(ch.sessions) }} sessions</MiText>
-          <span class="cpt__heat mi:inline-block mi:py-[3px] mi:px-2 mi:rounded-[7px] mi:text-[13px] mi:font-semibold mi:tabular-nums mi:[background:color-mix(in_srgb,_var(--mi-green)_var(--heat),_transparent)] mi:text-label" :style="{ '--heat': Math.round(Math.min(1, ch.conv / 0.05) * 60) + '%' }">{{ pct(ch.conv) }} conv.</span>
+          <span class="mi:inline-block mi:py-[3px] mi:px-2 mi:rounded-[7px] mi:text-[13px] mi:font-semibold mi:tabular-nums mi:[background:color-mix(in_srgb,_var(--mi-green)_var(--heat),_transparent)] mi:text-label" :style="{ '--heat': Math.round(Math.min(1, ch.conv / 0.05) * 60) + '%' }">{{ pct(ch.conv) }} conv.</span>
         </div>
       </li>
     </ul>
@@ -118,12 +118,3 @@ const pct = (x: number) => (x * 100).toFixed(1) + '%'
 const delta = (a: number, b: number) => { const d = ((a - b) / b) * 100; return (d >= 0 ? '+' : '−') + Math.abs(d).toFixed(1) + '%' }
 </script>
 
-<style scoped>
-.cpt__totals div { display: grid; background: var(--mi-card); }
-.cpt__totals dt { font-size: 11px; color: var(--mi-label2); }
-.cpt__totals dd { margin: 0; font-size: clamp(17px, 4.6cqi, 24px); font-weight: 700; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
-.cpt__bar i { position: absolute; border-radius: inherit; background: color-mix(in srgb, var(--mi-p) 75%, transparent); }
-.cpt__bar b { position: absolute; margin-inline-start: -1px; border-radius: 1px; background: var(--mi-label); }
-.cpt__delta.is-up { color: var(--mi-green-t); }
-.cpt__delta.is-down { color: var(--mi-red-t); }
-</style>

@@ -1,8 +1,8 @@
 <template>
-  <section class="rfd mi:@container mi:relative mi:grid mi:min-h-180 mi:rounded-xl mi:overflow-hidden mi:[background:var(--mi-page)] mi:shadow-[0_0_0_1px_var(--mi-sep)] mi:font-mi mi:text-label" aria-labelledby="rfd-title">
+  <section class="mi:@container mi:relative mi:grid mi:min-h-180 mi:rounded-xl mi:overflow-hidden mi:[background:var(--mi-page)] mi:shadow-[0_0_0_1px_var(--mi-sep)] mi:font-mi mi:text-label" aria-labelledby="rfd-title">
     <!-- Listing page: cards that stop matching fade back live while the drawer is open. -->
-    <div class="rfd__page mi:[grid-area:1_/_1] mi:grid mi:content-start mi:gap-3.5 mi:p-5" :inert="open || undefined">
-      <div class="rfd__page-head mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-3">
+    <div class="mi:[grid-area:1_/_1] mi:grid mi:content-start mi:gap-3.5 mi:p-5" :inert="open || undefined">
+      <div class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-3">
         <div>
           <MiText id="rfd-title" variant="title3" as="h2" weight="semibold">Rentals in Berlin</MiText>
           <MiText variant="footnote" tone="label2">{{ matches.length }} of {{ HOMES.length }} homes · long-term, unfurnished first</MiText>
@@ -12,43 +12,43 @@
           Filters{{ activeCount ? ' · ' + activeCount : '' }}
         </MiButton>
       </div>
-      <ul class="rfd__grid mi:grid mi:gap-3 mi:grid-cols-[repeat(auto-fill,_minmax(170px,_1fr))] mi:m-0 mi:p-0 mi:[list-style:none]">
-        <li v-for="h in shown" :key="h.id" class="rfd__home mi:grid mi:rounded-lg mi:overflow-hidden mi:[background:var(--mi-card)] mi:shadow-1 mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease),_transform_var(--mi-dur-3)_var(--mi-spring)] mi:[&.is-out]:opacity-22 mi:[&.is-out]:transform-[scale(.96)]" :class="{ 'is-out': !ok(h) }">
-          <span class="rfd__photo mi:relative mi:aspect-[4_/_3] mi:[background:linear-gradient(160deg,_color-mix(in_srgb,_var(--h1)_55%,_var(--mi-card)),_color-mix(in_srgb,_var(--h2)_70%,_var(--mi-card)))]" :style="{ '--h1': h.c1, '--h2': h.c2 }" aria-hidden="true"><i class="mi:[.rfd__photo_&]:absolute mi:[.rfd__photo_&]:left-[22%] mi:[.rfd__photo_&]:right-[22%] mi:[.rfd__photo_&]:bottom-0 mi:[.rfd__photo_&]:h-[64%] mi:[.rfd__photo_&]:rounded-[4px_4px_0_0] mi:[.rfd__photo_&]:bg-[color:color-mix(in_srgb,_var(--mi-card)_82%,_var(--h2))] mi:[.rfd__photo_&]:bg-[radial-gradient(circle,_color-mix(in_srgb,_var(--h2)_60%,_var(--mi-card))_0_30%,_transparent_32%)] mi:[.rfd__photo_&]:[background-size:25%_22%]" /></span>
-          <div class="rfd__home-text mi:grid mi:gap-0.5 mi:pt-2.5 mi:px-3 mi:pb-3 mi:text-[13px] mi:min-w-0">
-            <b class="mi:[.rfd__home-text_&]:tabular-nums">€{{ h.rent.toLocaleString('en-US') }} <small class="mi:[.rfd__home-text_&]:font-normal">/ month</small></b>
-            <span class="mi:[.rfd__home-text_&]:overflow-hidden mi:[.rfd__home-text_&]:text-ellipsis mi:[.rfd__home-text_&]:whitespace-nowrap">{{ h.rooms }} rooms · {{ h.size }} m² · {{ h.area }}</span>
-            <span class="rfd__tags mi:[.rfd__home-text_&]:overflow-hidden mi:[.rfd__home-text_&]:text-ellipsis mi:[.rfd__home-text_&]:whitespace-nowrap">{{ h.tags.slice(0, 3).join(' · ') }}</span>
+      <ul class="mi:grid mi:gap-3 mi:grid-cols-[repeat(auto-fill,_minmax(170px,_1fr))] mi:m-0 mi:p-0 mi:[list-style:none]">
+        <li v-for="h in shown" :key="h.id" class="mi:grid mi:rounded-lg mi:overflow-hidden mi:[background:var(--mi-card)] mi:shadow-1 mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease),_transform_var(--mi-dur-3)_var(--mi-spring)]" :class="ok(h) ? '' : 'mi:opacity-22 mi:transform-[scale(.96)]'">
+          <span class="mi:relative mi:aspect-[4_/_3] mi:[background:linear-gradient(160deg,_color-mix(in_srgb,_var(--h1)_55%,_var(--mi-card)),_color-mix(in_srgb,_var(--h2)_70%,_var(--mi-card)))]" :style="{ '--h1': h.c1, '--h2': h.c2 }" aria-hidden="true"><i class="mi:absolute mi:left-[22%] mi:right-[22%] mi:bottom-0 mi:h-[64%] mi:rounded-[4px_4px_0_0] mi:bg-[color:color-mix(in_srgb,_var(--mi-card)_82%,_var(--h2))] mi:bg-[radial-gradient(circle,_color-mix(in_srgb,_var(--h2)_60%,_var(--mi-card))_0_30%,_transparent_32%)] mi:[background-size:25%_22%]" /></span>
+          <div class="mi:grid mi:gap-0.5 mi:pt-2.5 mi:px-3 mi:pb-3 mi:text-[13px] mi:min-w-0">
+            <b class="mi:text-[16px] mi:tabular-nums">€{{ h.rent.toLocaleString('en-US') }} <small class="mi:text-[12px] mi:text-label2 mi:font-normal">/ month</small></b>
+            <span class="mi:text-label2 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ h.rooms }} rooms · {{ h.size }} m² · {{ h.area }}</span>
+            <span class="mi:text-label3 mi:text-[12px] mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ h.tags.slice(0, 3).join(' · ') }}</span>
           </div>
         </li>
       </ul>
     </div>
 
-    <div class="rfd__scrim mi:[grid-area:1_/_1] mi:[background:color-mix(in_srgb,_var(--mi-page)_30%,_transparent)] mi:opacity-0 mi:pointer-events-none mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)] mi:[&.is-on]:opacity-100 mi:[&.is-on]:pointer-events-auto" :class="{ 'is-on': open }" aria-hidden="true" @click="open = false" />
+    <div class="mi:[grid-area:1_/_1] mi:[background:color-mix(in_srgb,_var(--mi-page)_30%,_transparent)] mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)]" :class="open ? 'mi:opacity-100 mi:pointer-events-auto' : 'mi:opacity-0 mi:pointer-events-none'" aria-hidden="true" @click="open = false" />
 
-    <div class="rfd__drawer mi:[grid-area:1_/_1] mi:justify-self-start mi:w-[min(380px,_calc(100%_-_24px))] mi:p-2.5 mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)] mi:[&.is-closed]:transform-[translateX(-105%)]" :class="{ 'is-closed': !open }" :inert="!open || undefined">
+    <div class="mi:[grid-area:1_/_1] mi:justify-self-start mi:w-[min(380px,_calc(100%_-_24px))] mi:p-2.5 mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :class="open ? '' : 'mi:transform-[translateX(-105%)]'" :inert="!open || undefined">
       <MiDrawer :model-value="true" inline swipe-direction="left" title="Filters" :description="matches.length + ' homes match'">
-        <div class="rfd__body mi:grid mi:gap-5">
+        <div class="mi:grid mi:gap-5">
           <MiSlider v-model="rent" label="Monthly rent" :min="600" :max="3000" :step="50" :format="v => (v >= 3000 ? '€3,000+' : '€' + v.toLocaleString('en-US'))" />
 
-          <div class="rfd__group mi:grid mi:gap-2">
+          <div class="mi:grid mi:gap-2">
             <MiText variant="footnote" weight="semibold" aria-hidden="true">Rooms</MiText>
             <MiToggleGroup v-model="rooms" variant="outline" label="Rooms" :spacing="0" :options="[1, 2, 3, 4].map(n => ({ value: n, label: n + '+' }))" />
           </div>
 
           <MiSlider v-model="size" label="Minimum size" :min="20" :max="140" :step="5" unit=" m²" />
 
-          <fieldset class="rfd__areas mi:grid mi:gap-1.5 mi:m-0 mi:p-0 mi:[border:0] mi:min-w-0">
-            <legend>Neighbourhood</legend>
-            <div v-for="a in AREAS" :key="a" class="rfd__area mi:flex mi:items-center mi:justify-between mi:gap-2">
-              <MiCheckbox class="mi:[.rfd__area_span&]:tabular-nums" :model-value="areas.includes(a)" :label="a" @update:model-value="on => (areas = on ? [...areas, a] : areas.filter(x => x !== a))" />
-              <span class="mi:[.rfd__area_span&]:tabular-nums">{{ areaCount(a) }}</span>
+          <fieldset class="mi:grid mi:gap-1.5 mi:m-0 mi:p-0 mi:[border:0] mi:min-w-0">
+            <legend class="mi:p-0 mi:mb-2 mi:text-[13px] mi:font-semibold">Neighbourhood</legend>
+            <div v-for="a in AREAS" :key="a" class="mi:flex mi:items-center mi:justify-between mi:gap-2">
+              <MiCheckbox :model-value="areas.includes(a)" :label="a" @update:model-value="on => (areas = on ? [...areas, a] : areas.filter(x => x !== a))" />
+              <span class="mi:min-w-6 mi:py-px mi:px-[7px] mi:rounded-[999px] mi:bg-fill4 mi:text-label2 mi:text-[12px] mi:text-center mi:tabular-nums">{{ areaCount(a) }}</span>
             </div>
           </fieldset>
 
-          <div class="rfd__group mi:grid mi:gap-2">
+          <div class="mi:grid mi:gap-2">
             <MiText variant="footnote" weight="semibold" aria-hidden="true">Must have</MiText>
-            <div class="rfd__chips mi:flex mi:flex-wrap mi:gap-1.5" role="group" aria-label="Must have">
+            <div class="mi:flex mi:flex-wrap mi:gap-1.5" role="group" aria-label="Must have">
               <MiChip
                 v-for="t in TAGS" :key="t" selectable size="small" :label="t" :model-value="tags.includes(t)"
                 @update:model-value="on => (tags = on ? [...tags, t] : tags.filter(x => x !== t))"
@@ -56,14 +56,14 @@
             </div>
           </div>
 
-          <div class="rfd__group mi:grid mi:gap-2">
+          <div class="mi:grid mi:gap-2">
             <MiText variant="footnote" weight="semibold" aria-hidden="true">Move in</MiText>
             <MiSegmented v-model="moveIn" label="Move in" :options="[{ value: 0, label: 'Any' }, { value: 1, label: 'By Dec' }, { value: 2, label: 'By Jan' }]" />
           </div>
         </div>
 
         <template #footer>
-          <div class="rfd__foot mi:flex mi:justify-between mi:gap-2">
+          <div class="mi:flex mi:justify-between mi:gap-2">
             <MiButton variant="plain" :disabled="!activeCount" @click="clear">Clear all</MiButton>
             <MiButton :disabled="!matches.length" @click="open = false">{{ matches.length ? `Show ${matches.length} homes` : 'No homes match' }}</MiButton>
           </div>
@@ -130,12 +130,3 @@ function clear() {
   moveIn.value = 0
 }
 </script>
-
-<style scoped>
-.rfd__home-text b { font-size: 16px; }
-.rfd__home-text small { font-size: 12px; color: var(--mi-label2); }
-.rfd__home-text span { color: var(--mi-label2); }
-.rfd__home-text .rfd__tags { color: var(--mi-label3); font-size: 12px; }
-.rfd__areas legend { padding: 0; margin-bottom: 8px; font-size: 13px; font-weight: 600; }
-.rfd__area span { min-width: 24px; padding: 1px 7px; border-radius: 999px; background: var(--mi-fill4); color: var(--mi-label2); font-size: 12px; text-align: center; }
-</style>

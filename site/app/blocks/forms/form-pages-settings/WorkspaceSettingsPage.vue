@@ -1,25 +1,25 @@
 <template>
-  <section class="wss mi:@container/wss mi:grid mi:content-start mi:gap-4.5 mi:font-mi mi:text-label" aria-labelledby="wss-title">
-    <header class="wss__head mi:grid mi:gap-0.5">
+  <section class="mi:@container/wss mi:grid mi:content-start mi:gap-4.5 mi:font-mi mi:text-label" aria-labelledby="wss-title">
+    <header class="mi:grid mi:gap-0.5">
       <MiText id="wss-title" as="h2" variant="title2" weight="bold">Workspace settings</MiText>
       <MiText variant="footnote" tone="label2">Fieldnote Research · Owner access</MiText>
     </header>
 
-    <div class="wss__layout mi:grid mi:gap-4 mi:grid-cols-[minmax(0,_1fr)] mi:items-start mi:@[760px]/wss:grid-cols-[200px_minmax(0,_1fr)] mi:@[760px]/wss:gap-6">
+    <div class="mi:grid mi:gap-4 mi:grid-cols-[minmax(0,_1fr)] mi:items-start mi:@[760px]/wss:grid-cols-[200px_minmax(0,_1fr)] mi:@[760px]/wss:gap-6">
       <!-- Section nav: each entry shows a dot while it holds unsaved edits. -->
-      <nav class="wss__nav mi:flex mi:gap-1 mi:p-1 mi:overflow-x-auto mi:rounded-lg mi:bg-fill4 mi:[scrollbar-width:none] mi:@[760px]/wss:flex-col mi:@[760px]/wss:p-1.5 mi:@[760px]/wss:bg-transparent" aria-label="Settings sections">
+      <nav class="mi:flex mi:gap-1 mi:p-1 mi:overflow-x-auto mi:rounded-lg mi:bg-fill4 mi:[scrollbar-width:none] mi:@[760px]/wss:flex-col mi:@[760px]/wss:p-1.5 mi:@[760px]/wss:bg-transparent" aria-label="Settings sections">
         <button
-          v-for="s in sections" :key="s.id" type="button" class="wss__nav-item mi:relative mi:flex mi:flex-[1_0_auto] mi:items-center mi:gap-2.5 mi:min-h-10 mi:py-2 mi:px-3 mi:[border:0] mi:rounded-[10px] mi:text-label2 mi:bg-transparent mi:cursor-pointer mi:text-start mi:[&.is-on]:shadow-1 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" :class="{ 'is-on': active === s.id }"
+          v-for="s in sections" :key="s.id" type="button" class="mi:[font:inherit] mi:text-[14px] mi:font-medium mi:relative mi:flex mi:flex-[1_0_auto] mi:items-center mi:gap-2.5 mi:min-h-10 mi:py-2 mi:px-3 mi:[border:0] mi:rounded-[10px] mi:cursor-pointer mi:text-start mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" :class="[active === s.id ? 'mi:shadow-1 mi:text-label mi:bg-card' : 'mi:text-label2 mi:bg-transparent mi:hover:text-label mi:hover:[background:var(--mi-fill3)]']"
           :aria-current="active === s.id ? 'page' : undefined" @click="active = s.id"
         >
           <MiIcon :name="s.icon" :size="18" />
-          <span class="wss__nav-label mi:flex-1">{{ s.label }}</span>
-          <span v-if="sectionErrors(s.id)" class="wss__flag is-err mi:w-[7px] mi:h-[7px] mi:rounded-[50%] mi:bg-p mi:[&.is-err]:bg-red" aria-label="has errors" />
-          <span v-else-if="sectionDirty(s.id)" class="wss__flag mi:w-[7px] mi:h-[7px] mi:rounded-[50%] mi:bg-p mi:[&.is-err]:bg-red" aria-label="unsaved changes" />
+          <span class="mi:flex-1">{{ s.label }}</span>
+          <span v-if="sectionErrors(s.id)" class="mi:w-[7px] mi:h-[7px] mi:rounded-[50%] mi:bg-p" aria-label="has errors" />
+          <span v-else-if="sectionDirty(s.id)" class="mi:w-[7px] mi:h-[7px] mi:rounded-[50%] mi:bg-p" aria-label="unsaved changes" />
         </button>
       </nav>
 
-      <div class="wss__main mi:grid mi:content-start mi:gap-3.5 mi:min-w-0">
+      <div class="mi:grid mi:content-start mi:gap-3.5 mi:min-w-0">
         <MiForm
           v-if="active === 'general'" title="General" description="How your workspace appears to members and guests."
           max-width="100%" @submit.prevent="save"
@@ -58,7 +58,7 @@
           max-width="100%" @submit.prevent="save"
         >
           <MiFormRow label="Two-step login">
-            <div class="wss__switch mi:flex mi:items-center mi:gap-3">
+            <div class="mi:flex mi:items-center mi:gap-3">
               <MiSwitch v-model="draft.mfa" label="Require two-step login" />
               <MiText variant="footnote" tone="label2">{{ draft.mfa ? 'Required for all members' : 'Optional' }}</MiText>
             </div>
@@ -72,18 +72,18 @@
         </MiForm>
 
         <!-- In-flow save bar: reflects the dirty state of every section. -->
-        <div class="wss__bar mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-3 mi:pt-3 mi:pr-3.5 mi:pb-3 mi:pl-4.5 mi:rounded-lg mi:bg-card mi:shadow-1 mi:border mi:border-transparent mi:[&.is-dirty]:border-p/45" :class="{ 'is-dirty': changes.length, 'is-saved': justSaved }" aria-live="polite">
-          <div class="wss__bar-text mi:grid mi:grid-cols-[auto_minmax(0,_1fr)] mi:items-center mi:gap-y-0 mi:gap-x-2.5 mi:min-w-0 mi:flex-[1_1_220px] mi:[.wss__bar.is-dirty_&]:grid-cols-[minmax(0,_1fr)]">
+        <div class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-3 mi:pt-3 mi:pr-3.5 mi:pb-3 mi:pl-4.5 mi:rounded-lg mi:bg-card mi:shadow-1 mi:border" :class="changes.length ? 'mi:border-p/45' : 'mi:border-transparent'" aria-live="polite">
+          <div class="mi:grid mi:items-center mi:gap-y-0 mi:gap-x-2.5 mi:min-w-0 mi:flex-[1_1_220px]" :class="changes.length ? 'mi:grid-cols-[minmax(0,_1fr)]' : 'mi:grid-cols-[auto_minmax(0,_1fr)]'">
             <template v-if="changes.length">
               <MiText variant="subheadline" weight="semibold">{{ changes.length }} unsaved {{ changes.length === 1 ? 'change' : 'changes' }}</MiText>
               <MiText variant="caption" tone="label2" :lines="1">{{ changes.join(', ') }}</MiText>
             </template>
             <template v-else>
-              <span class="wss__ok mi:grid mi:place-items-center mi:w-5.5 mi:h-5.5 mi:rounded-[50%] mi:text-green-t mi:[background:color-mix(in_srgb,_var(--mi-green)_16%,_transparent)]"><MiIcon name="check" :size="14" :weight="2.6" /></span>
+              <span :class="justSaved ? 'mi:[--mi-in-s:.4] mi:animate-[in_var(--mi-dur-4)_var(--mi-spring)]' : ''" class="mi:motion-reduce:animate-none mi:grid mi:place-items-center mi:w-5.5 mi:h-5.5 mi:rounded-[50%] mi:text-green-t mi:[background:color-mix(in_srgb,_var(--mi-green)_16%,_transparent)]"><MiIcon name="check" :size="14" :weight="2.6" /></span>
               <MiText variant="subheadline" tone="label2">{{ justSaved ? 'Saved. Members see the update now.' : 'Everything is up to date' }}</MiText>
             </template>
           </div>
-          <div class="wss__bar-actions mi:flex mi:gap-2">
+          <div class="mi:flex mi:gap-2">
             <MiButton variant="gray" :disabled="!changes.length" @click="discard">Discard</MiButton>
             <MiButton :disabled="!changes.length" :loading="saving" @click="save">Save changes</MiButton>
           </div>
@@ -218,14 +218,3 @@ function discard() {
   submitted.value = false
 }
 </script>
-
-<style scoped>
-.wss__nav-item {
-  font: inherit; font-size: 14px; font-weight: 500;
-}
-.wss__nav-item:hover { color: var(--mi-label); background: var(--mi-fill3); }
-.wss__nav-item.is-on { color: var(--mi-label); background: var(--mi-card); }
-.wss__bar.is-saved .wss__ok { animation: wss-pop var(--mi-dur-4) var(--mi-spring); }
-@keyframes wss-pop { from { transform: scale(.4); opacity: 0; } to { transform: none; opacity: 1; } }
-@media (prefers-reduced-motion: reduce) { .wss__bar.is-saved .wss__ok { animation: none; } }
-</style>

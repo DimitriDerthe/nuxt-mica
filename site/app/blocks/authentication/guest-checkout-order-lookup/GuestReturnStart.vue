@@ -1,7 +1,7 @@
 <template>
-  <section class="grs mi:@container mi:grid mi:content-start mi:grid-cols-[minmax(0,_1fr)] mi:justify-items-center mi:font-mi mi:text-label" aria-labelledby="grs-title">
-    <div class="grs__card mi:grid mi:gap-5 mi:w-full mi:max-w-140 mi:py-5.5 mi:px-4.5 mi:box-border mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-2 mi:@[520px]:py-7 mi:@[520px]:px-7.5">
-      <header class="grs__head mi:grid mi:gap-1">
+  <section class="mi:@container mi:grid mi:content-start mi:grid-cols-[minmax(0,_1fr)] mi:justify-items-center mi:font-mi mi:text-label" aria-labelledby="grs-title">
+    <div class="mi:grid mi:gap-5 mi:w-full mi:max-w-140 mi:py-5.5 mi:px-4.5 mi:box-border mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-2 mi:@[520px]:py-7 mi:@[520px]:px-7.5">
+      <header class="mi:grid mi:gap-1">
         <MiText id="grs-title" as="h2" variant="title3" weight="bold">Return an order</MiText>
         <MiText variant="footnote" tone="label2">No account needed. Harbor &amp; Pine accepts returns within 30 days.</MiText>
       </header>
@@ -9,7 +9,7 @@
       <MiSteps v-model="step" :steps="steps" orientation="horizontal" :clickable="false" aria-label="Return progress" />
 
       <!-- Step 1: find the order with the email it was placed with. -->
-      <form v-if="step === 0" class="grs__form mi:grid mi:gap-4" novalidate @submit.prevent="find">
+      <form v-if="step === 0" class="mi:grid mi:gap-4" novalidate @submit.prevent="find">
         <MiField label="Email used at checkout" :error="tried && !emailOk ? 'Enter the email from your order confirmation.' : ''">
           <MiInput v-model="email" type="email" />
         </MiField>
@@ -21,16 +21,16 @@
       </form>
 
       <!-- Step 2: pick items, a reason for each, and how to be refunded. -->
-      <div v-else-if="step === 1" class="grs__pick mi:grid mi:gap-4">
-        <ul class="grs__items mi:grid mi:m-0 mi:p-0 mi:[list-style:none] mi:border mi:border-sep mi:rounded-lg" aria-label="Items in order HP-48213">
-          <li v-for="item in items" :key="item.id" class="grs__item mi:grid mi:grid-cols-[auto_minmax(0,_1fr)] mi:items-center mi:gap-y-2.5 mi:gap-x-3 mi:py-3 mi:px-3.5 mi:[.grs__item+&]:border-t mi:[.grs__item+&]:border-t-sep mi:[&.is-on]:[background:color-mix(in_srgb,_var(--mi-p)_5%,_transparent)] mi:@[520px]:grid-cols-[auto_minmax(0,_1fr)_auto]" :class="{ 'is-on': picked[item.id] }">
-            <span class="grs__swatch mi:w-9 mi:h-11 mi:rounded-[8px] mi:[background:linear-gradient(160deg,_color-mix(in_srgb,_var(--grs-tone)_70%,_var(--mi-card)),_color-mix(in_srgb,_var(--grs-tone)_30%,_var(--mi-card)))] mi:shadow-[inset_0_0_0_1px_var(--mi-sep)]" :style="{ '--grs-tone': item.tone }" aria-hidden="true" />
+      <div v-else-if="step === 1" class="mi:grid mi:gap-4">
+        <ul class="mi:grid mi:m-0 mi:p-0 mi:[list-style:none] mi:border mi:border-sep mi:rounded-lg" aria-label="Items in order HP-48213">
+          <li v-for="item in items" :key="item.id" class="mi:grid mi:grid-cols-[auto_minmax(0,_1fr)] mi:items-center mi:gap-y-2.5 mi:gap-x-3 mi:py-3 mi:px-3.5 mi:not-first:border-t mi:not-first:border-t-sep mi:@[520px]:grid-cols-[auto_minmax(0,_1fr)_auto]" :class="picked[item.id] ? 'mi:[background:color-mix(in_srgb,_var(--mi-p)_5%,_transparent)]' : ''">
+            <span class="mi:w-9 mi:h-11 mi:rounded-[8px] mi:[background:linear-gradient(160deg,_color-mix(in_srgb,_var(--grs-tone)_70%,_var(--mi-card)),_color-mix(in_srgb,_var(--grs-tone)_30%,_var(--mi-card)))] mi:shadow-[inset_0_0_0_1px_var(--mi-sep)]" :style="{ '--grs-tone': item.tone }" aria-hidden="true" />
             <MiCheckbox
               v-model="picked[item.id]" :label="item.name" :description="item.variant + ' · ' + money(item.price)" :disabled="item.finalSale"
             />
-            <MiBadge v-if="item.finalSale" tone="neutral" variant="outline" label="Final sale" class="grs__end" />
+            <MiBadge v-if="item.finalSale" tone="neutral" variant="outline" label="Final sale" class="mi:col-start-2 mi:justify-self-start mi:@[520px]:[grid-column:auto] mi:@[520px]:justify-self-end" />
             <MiNativeSelect
-              v-else-if="picked[item.id]" v-model="reasons[item.id]" size="sm" :options="reasonOptions" placeholder="Reason" class="grs__end"
+              v-else-if="picked[item.id]" v-model="reasons[item.id]" size="sm" :options="reasonOptions" placeholder="Reason" class="mi:col-start-2 mi:justify-self-start mi:@[520px]:[grid-column:auto] mi:@[520px]:justify-self-end"
               :aria-label="'Reason for returning ' + item.name"
             />
           </li>
@@ -38,21 +38,21 @@
 
         <MiRadioGroup v-model="method" label="Refund method" :options="methodOptions" />
 
-        <div class="grs__total mi:flex mi:items-baseline mi:justify-between mi:gap-3 mi:pt-3 mi:border-t mi:border-t-sep" aria-live="polite">
+        <div class="mi:flex mi:items-baseline mi:justify-between mi:gap-3 mi:pt-3 mi:border-t mi:border-t-sep" aria-live="polite">
           <MiText variant="subheadline" tone="label2">Refund</MiText>
-          <MiText as="p" variant="title2" weight="bold" tabular>{{ money(refund) }}</MiText>
+          <MiText as="p" variant="title2" weight="bold" tabular class="mi:m-0">{{ money(refund) }}</MiText>
         </div>
-        <div class="grs__actions mi:flex mi:[justify-content:flex-end] mi:gap-2">
+        <div class="mi:flex mi:[justify-content:flex-end] mi:gap-2">
           <MiButton variant="plain" @click="step = 0">Back</MiButton>
           <MiButton :disabled="!ready" @click="step = 2">Create return</MiButton>
         </div>
       </div>
 
       <!-- Step 3: a drop-off code instead of a label to print. -->
-      <div v-else class="grs__done mi:grid mi:gap-4">
-        <div class="grs__code mi:grid mi:justify-items-center mi:gap-2 mi:p-5 mi:rounded-lg mi:[background:repeating-linear-gradient(-45deg,_var(--mi-p-tint)_0_10px,_transparent_10px_20px),_var(--mi-card)] mi:shadow-[inset_0_0_0_1px_var(--mi-sep)]" role="group" aria-labelledby="grs-code-label">
+      <div v-else class="mi:grid mi:gap-4">
+        <div class="mi:grid mi:justify-items-center mi:gap-2 mi:p-5 mi:rounded-lg mi:[background:repeating-linear-gradient(-45deg,_var(--mi-p-tint)_0_10px,_transparent_10px_20px),_var(--mi-card)] mi:shadow-[inset_0_0_0_1px_var(--mi-sep)]" role="group" aria-labelledby="grs-code-label">
           <MiText id="grs-code-label" variant="caption" tone="label2" weight="medium">Show this code at any Relay point</MiText>
-          <p class="grs__code-value mi:m-0 mi:text-[clamp(28px,_8cqi,_40px)] mi:font-extrabold mi:tracking-[.08em] mi:tabular-nums mi:text-p-text">{{ dropCode }}</p>
+          <p class="mi:m-0 mi:text-[clamp(28px,_8cqi,_40px)] mi:font-extrabold mi:tracking-[.08em] mi:tabular-nums mi:text-p-text">{{ dropCode }}</p>
           <MiCopyButton :value="dropCode" label="Copy code" />
         </div>
         <MiDetails :items="summary" label-width="120px" />
@@ -124,11 +124,3 @@ function reset() {
   email.value = ''; orderNo.value = ''; tried.value = false; step.value = 0
 }
 </script>
-
-<style scoped>
-.grs__end { grid-column: 2; justify-self: start; }
-@container (min-width: 520px) {
-  .grs__end { grid-column: auto; justify-self: end; }
-}
-.grs__total p { margin: 0; }
-</style>

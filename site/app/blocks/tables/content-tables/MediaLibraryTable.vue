@@ -1,14 +1,14 @@
 <template>
-  <section class="mlt mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="mlt-title">
-    <header class="mlt__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="mlt-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="mlt-title" variant="title3" as="h2" weight="semibold">Media library</MiText>
         <MiText variant="footnote" tone="label2">Fieldnotes Journal · {{ assets.length }} assets · {{ mb(totalSize) }} stored</MiText>
       </div>
-      <MiSearch v-model="query" size="compact" placeholder="Search files" aria-label="Search files" class="mlt__search" />
+      <MiSearch v-model="query" size="compact" placeholder="Search files" aria-label="Search files" />
     </header>
 
-    <div class="mlt__filters mi:flex mi:flex-wrap mi:gap-1.5" role="group" aria-label="Filter by kind">
+    <div class="mi:flex mi:flex-wrap mi:gap-1.5" role="group" aria-label="Filter by kind">
       <MiChip
         v-for="f in filters" :key="f.id" selectable size="small" :tone="f.id === 'unused' ? 'secondary' : 'primary'"
         :model-value="filter === f.id" @update:model-value="filter = f.id"
@@ -18,9 +18,9 @@
     </div>
 
     <!-- Bulk bar: appears with a selection and only deletes what no page uses. -->
-    <div v-if="selected.length" class="mlt__bulk mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2.5 mi:pt-2.5 mi:pr-3 mi:pb-2.5 mi:pl-4 mi:rounded-lg mi:[background:var(--mi-p-tint)] mi:text-p-text">
+    <div v-if="selected.length" class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2.5 mi:pt-2.5 mi:pr-3 mi:pb-2.5 mi:pl-4 mi:rounded-lg mi:[background:var(--mi-p-tint)] mi:text-p-text">
       <MiText variant="subheadline" weight="semibold" tabular>{{ selected.length }} selected · {{ mb(selectedSize) }}</MiText>
-      <div class="mlt__bulk-actions mi:flex mi:gap-2">
+      <div class="mi:flex mi:gap-2">
         <MiButton size="small" variant="gray" @click="selected = []">Clear</MiButton>
         <MiButton size="small" variant="destructive" soft :disabled="!deletable.length" @click="remove">
           Delete {{ deletable.length }} unused
@@ -28,16 +28,16 @@
       </div>
     </div>
 
-    <div class="mlt__scroll mi:min-w-0 mi:overflow-x-auto mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1">
+    <div class="mi:*:min-w-160 mi:min-w-0 mi:overflow-x-auto mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1">
       <MiTable
         v-model:selected="selected" :columns="columns" :rows="rows" selectable="multiple" caption="Media assets"
         density="relaxed" :zebra="false" empty-text="No files match this view"
       >
         <template #cell-name="{ row }">
-          <span class="mlt__file mi:flex mi:items-center mi:gap-3">
-            <span class="mlt__thumb mi:flex-[none] mi:grid mi:[place-items:end_start] mi:w-11 mi:h-8.5 mi:py-[3px] mi:px-[5px] mi:rounded-[7px] mi:text-[9px] mi:font-bold mi:tracking-[.04em] mi:text-p-on mi:[background:linear-gradient(135deg,_var(--mi-p),_var(--mi-s))]" :data-kind="byId(row.id).kind" aria-hidden="true">{{ byId(row.id).ext }}</span>
-            <span class="mlt__meta mi:grid mi:leading-tight">
-              <span class="mlt__name mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:font-semibold">{{ byId(row.id).name }}</span>
+          <span class="mi:min-w-0 mi:flex mi:items-center mi:gap-3">
+            <span class="mi:flex-[none] mi:grid mi:[place-items:end_start] mi:w-11 mi:h-8.5 mi:py-[3px] mi:px-[5px] mi:rounded-[7px] mi:text-[9px] mi:font-bold mi:tracking-[.04em] mi:text-p-on mi:[background:linear-gradient(135deg,_var(--mi-p),_var(--mi-s))] mi:data-[kind=video]:[background:linear-gradient(135deg,_var(--mi-label),_color-mix(in_srgb,_var(--mi-p)_60%,_var(--mi-label)))] mi:data-[kind=video]:text-card mi:data-[kind=doc]:[background:var(--mi-fill2)] mi:data-[kind=doc]:text-label2" :data-kind="byId(row.id).kind" aria-hidden="true">{{ byId(row.id).ext }}</span>
+            <span class="mi:min-w-0 mi:grid mi:leading-tight">
+              <span class="mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:font-semibold">{{ byId(row.id).name }}</span>
               <MiText as="span" variant="caption" tone="label2">{{ byId(row.id).dims }}</MiText>
             </span>
           </span>
@@ -55,7 +55,7 @@
       </MiTable>
     </div>
 
-    <p class="mlt__log mi:m-0 mi:text-[13px] mi:text-label2" aria-live="polite">{{ log }}</p>
+    <p class="mi:m-0 mi:text-[13px] mi:text-label2" aria-live="polite">{{ log }}</p>
   </section>
 </template>
 
@@ -125,13 +125,3 @@ function remove() {
 
 const mb = (n: number) => (n >= 1000 ? (n / 1000).toFixed(2) + ' GB' : n.toFixed(1) + ' MB')
 </script>
-
-<style scoped>
-.mlt__search { width: 100%; }
-@container (min-width: 560px) { .mlt__search { width: 240px; } }
-.mlt__scroll > * { min-width: 640px; }
-.mlt__file { min-width: 0; }
-.mlt__meta { min-width: 0; }
-.mlt__thumb[data-kind="video"] { background: linear-gradient(135deg, var(--mi-label), color-mix(in srgb, var(--mi-p) 60%, var(--mi-label))); color: var(--mi-card); }
-.mlt__thumb[data-kind="doc"] { background: var(--mi-fill2); color: var(--mi-label2); }
-</style>

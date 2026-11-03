@@ -1,11 +1,11 @@
 <template>
-  <section class="rsc mi:@container/rsc mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="rsc-title">
-    <header class="rsc__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
+  <section class="mi:@container/rsc mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="rsc-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="rsc-title" as="h2" variant="title3" weight="semibold">Choose a region</MiText>
         <MiText variant="footnote" tone="label2">orbit-analytics · Postgres 17 · 2 vCPU / 8 GB</MiText>
       </div>
-      <label class="rsc__eu mi:inline-flex mi:items-center mi:gap-2 mi:text-[13px] mi:text-label2 mi:cursor-pointer">
+      <label class="mi:inline-flex mi:items-center mi:gap-2 mi:text-[13px] mi:text-label2 mi:cursor-pointer">
         <MiSwitch v-model="euOnly" size="compact" label="Keep data in the EU" />
         <span aria-hidden="true">EU data residency</span>
       </label>
@@ -13,56 +13,56 @@
 
     <MiAlert v-if="created" tone="success" title="Cluster is provisioning" dismissible @dismiss="created = ''">{{ created }}</MiAlert>
 
-    <form class="rsc__form mi:grid mi:gap-4.5 mi:p-4.5 mi:rounded-xl mi:bg-card mi:shadow-1" novalidate @submit.prevent="submit">
-      <div class="rsc__tools mi:flex mi:flex-wrap mi:justify-between mi:gap-2.5">
+    <form class="mi:grid mi:gap-4.5 mi:p-4.5 mi:rounded-xl mi:bg-card mi:shadow-1" novalidate @submit.prevent="submit">
+      <div class="mi:flex mi:flex-wrap mi:justify-between mi:gap-2.5">
         <MiSegmented v-model="area" label="Area" :options="areas" />
         <MiSegmented v-model="sortBy" label="Sort by" :options="sorts" variant="tinted" />
       </div>
 
-      <fieldset class="rsc__set mi:grid mi:gap-2.5 mi:min-w-0 mi:m-0 mi:p-0 mi:[border:0]">
-        <legend class="rsc__legend mi:p-0 mi:mb-2.5 mi:text-[15px] mi:font-semibold">Primary region <span aria-hidden="true">*</span></legend>
-        <div class="rsc__cards mi:grid mi:gap-2.5 mi:grid-cols-[minmax(0,_1fr)] mi:@[520px]/rsc:grid-cols-2 mi:@[900px]/rsc:grid-cols-4">
+      <fieldset class="mi:grid mi:gap-2.5 mi:min-w-0 mi:m-0 mi:p-0 mi:[border:0]">
+        <legend class="mi:p-0 mi:mb-2.5 mi:text-[15px] mi:font-semibold">Primary region <span aria-hidden="true" class="mi:text-red">*</span></legend>
+        <div class="mi:grid mi:gap-2.5 mi:grid-cols-[minmax(0,_1fr)] mi:@[520px]/rsc:grid-cols-2 mi:@[900px]/rsc:grid-cols-4">
           <label
-            v-for="r in shown" :key="r.id" class="rsc__card mi:relative mi:grid mi:gap-3.5 mi:p-3.5 mi:rounded-lg mi:border mi:border-sep mi:bg-card mi:cursor-pointer mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:active:transform-[scale(.99)] mi:[&.is-on]:shadow-[0_0_0_3px_var(--mi-p-tint)] mi:[&.is-off]:cursor-not-allowed mi:[&.is-off]:opacity-50 mi:[&:has(.rsc__radio:focus-visible)]:[outline:2px_solid_var(--mi-p)] mi:[&:has(.rsc__radio:focus-visible)]:outline-offset-[2px]"
-            :class="{ 'is-on': primary === r.id, 'is-off': blocked(r) }"
+            v-for="r in shown" :key="r.id" class="mi:relative mi:grid mi:gap-3.5 mi:p-3.5 mi:rounded-lg mi:border mi:bg-card mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:active:transform-[scale(.99)] mi:[&:has(input:focus-visible)]:[outline:2px_solid_var(--mi-p)] mi:[&:has(input:focus-visible)]:outline-offset-[2px]"
+            :class="[primary === r.id ? 'mi:border-p mi:shadow-[0_0_0_3px_var(--mi-p-tint)]' : 'mi:border-sep mi:hover:border-[color-mix(in_srgb,_var(--mi-p)_40%,_var(--mi-sep))]', blocked(r) ? 'mi:cursor-not-allowed mi:opacity-50' : 'mi:cursor-pointer']"
           >
-            <input v-model="primary" class="rsc__radio mi:absolute mi:opacity-0 mi:pointer-events-none" type="radio" name="rsc-primary" :value="r.id" :disabled="blocked(r)" :aria-describedby="'rsc-' + r.id + '-d'">
-            <span class="rsc__card-top mi:flex mi:items-center mi:gap-2.5">
-              <span class="rsc__cc mi:grid mi:place-items-center mi:w-8.5 mi:h-8.5 mi:flex-[none] mi:rounded-[10px] mi:text-[12px] mi:font-bold mi:tracking-[.04em] mi:text-label2 mi:bg-fill3 mi:[.is-on_&]:bg-p" aria-hidden="true">{{ r.cc }}</span>
-              <span class="rsc__name mi:grid mi:flex-1 mi:min-w-0 mi:leading-tight">
-                <b class="mi:[.rsc__name_&]:font-semibold">{{ r.city }}</b>
-                <code>{{ r.id }}</code>
+            <input v-model="primary" class="mi:absolute mi:opacity-0 mi:pointer-events-none" type="radio" name="rsc-primary" :value="r.id" :disabled="blocked(r)" :aria-describedby="'rsc-' + r.id + '-d'">
+            <span class="mi:flex mi:items-center mi:gap-2.5">
+              <span class="mi:grid mi:place-items-center mi:w-8.5 mi:h-8.5 mi:flex-[none] mi:rounded-[10px] mi:text-[12px] mi:font-bold mi:tracking-[.04em]" :class="primary === r.id ? 'mi:bg-p mi:text-p-on' : 'mi:bg-fill3 mi:text-label2'" aria-hidden="true">{{ r.cc }}</span>
+              <span class="mi:grid mi:flex-1 mi:min-w-0 mi:leading-tight">
+                <b class="mi:text-[15px] mi:font-semibold">{{ r.city }}</b>
+                <code class="mi:[font:11.5px_ui-monospace,SFMono-Regular,Menlo,monospace] mi:text-label3">{{ r.id }}</code>
               </span>
-              <span class="rsc__dot mi:w-4.5 mi:h-4.5 mi:flex-[none] mi:rounded-[50%] mi:border-[1.5px] mi:border-sep mi:[.is-on_&]:border-5 mi:[.is-on_&]:border-p" aria-hidden="true" />
+              <span class="mi:w-4.5 mi:h-4.5 mi:flex-[none] mi:rounded-[50%]" :class="primary === r.id ? 'mi:border-5 mi:border-p' : 'mi:border-[1.5px] mi:border-sep'" aria-hidden="true" />
             </span>
-            <span :id="'rsc-' + r.id + '-d'" class="rsc__stats mi:grid mi:gap-2">
-              <span class="rsc__stat mi:grid mi:grid-cols-[74px_minmax(0,_1fr)_auto] mi:items-center mi:gap-2 mi:text-[12px]">
-                <span class="rsc__stat-l mi:text-label2">Latency</span>
-                <span class="rsc__lat mi:h-1 mi:rounded-[2px] mi:bg-fill3 mi:overflow-hidden"><i class="mi:[.rsc__lat_&]:block mi:[.rsc__lat_&]:h-full mi:[.rsc__lat_&]:bg-p mi:[.rsc__lat_&]:origin-left mi:[.rsc__lat_&]:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleX(${Math.min(r.ms / 240, 1)})` }" /></span>
-                <span class="rsc__stat-v mi:tabular-nums mi:text-label mi:text-end">{{ r.ms }} ms</span>
+            <span :id="'rsc-' + r.id + '-d'" class="mi:grid mi:gap-2">
+              <span class="mi:grid mi:grid-cols-[74px_minmax(0,_1fr)_auto] mi:items-center mi:gap-2 mi:text-[12px]">
+                <span class="mi:text-label2">Latency</span>
+                <span class="mi:h-1 mi:rounded-[2px] mi:bg-fill3 mi:overflow-hidden"><i class="mi:block mi:h-full mi:bg-p mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleX(${Math.min(r.ms / 240, 1)})` }" /></span>
+                <span class="mi:tabular-nums mi:text-label mi:text-end">{{ r.ms }} ms</span>
               </span>
-              <span class="rsc__stat mi:grid mi:grid-cols-[74px_minmax(0,_1fr)_auto] mi:items-center mi:gap-2 mi:text-[12px]">
-                <span class="rsc__stat-l mi:text-label2">Grid carbon</span>
-                <span class="rsc__co2 mi:justify-self-start mi:py-px mi:px-1.5 mi:rounded-[5px] mi:font-semibold mi:tabular-nums" :class="carbon(r.co2)">{{ r.co2 }} g/kWh</span>
-                <span class="rsc__stat-v mi:tabular-nums mi:text-label mi:text-end">€{{ r.price.toFixed(3) }}/h</span>
+              <span class="mi:grid mi:grid-cols-[74px_minmax(0,_1fr)_auto] mi:items-center mi:gap-2 mi:text-[12px]">
+                <span class="mi:text-label2">Grid carbon</span>
+                <span class="mi:justify-self-start mi:py-px mi:px-1.5 mi:rounded-[5px] mi:font-semibold mi:tabular-nums" :class="carbon(r.co2)">{{ r.co2 }} g/kWh</span>
+                <span class="mi:tabular-nums mi:text-label mi:text-end">€{{ r.price.toFixed(3) }}/h</span>
               </span>
             </span>
-            <span v-if="r.id === best" class="rsc__best mi:absolute mi:top-[-9px] mi:right-3 mi:py-0.5 mi:px-2 mi:rounded-[999px] mi:text-[10.5px] mi:font-bold mi:tracking-[.03em] mi:text-p-on mi:bg-p">Best balance</span>
-            <span v-if="blocked(r)" class="rsc__why mi:absolute mi:top-[-9px] mi:right-3 mi:py-0.5 mi:px-2 mi:rounded-[999px] mi:text-[10.5px] mi:font-bold mi:tracking-[.03em] mi:text-label2 mi:bg-fill2">Outside the EU</span>
+            <span v-if="r.id === best" class="mi:absolute mi:top-[-9px] mi:right-3 mi:py-0.5 mi:px-2 mi:rounded-[999px] mi:text-[10.5px] mi:font-bold mi:tracking-[.03em] mi:text-p-on mi:bg-p">Best balance</span>
+            <span v-if="blocked(r)" class="mi:absolute mi:top-[-9px] mi:right-3 mi:py-0.5 mi:px-2 mi:rounded-[999px] mi:text-[10.5px] mi:font-bold mi:tracking-[.03em] mi:text-label2 mi:bg-fill2">Outside the EU</span>
           </label>
         </div>
         <MiText v-if="err('primary')" variant="footnote" tone="red" role="alert">{{ err('primary') }}</MiText>
       </fieldset>
 
       <!-- Second shape: a selectable list for backup replicas, excluding the primary. -->
-      <fieldset class="rsc__set rsc__backups mi:grid mi:gap-2.5 mi:min-w-0 mi:m-0 mi:p-0 mi:[border:0] mi:pt-4 mi:border-t mi:border-t-sep">
-        <legend class="rsc__legend mi:p-0 mi:mb-2.5 mi:text-[15px] mi:font-semibold">Backup replicas</legend>
+      <fieldset class="mi:[&_[role=group]]:max-h-65 mi:[&_[role=group]]:overflow-y-auto mi:grid mi:gap-2.5 mi:min-w-0 mi:m-0 mi:p-0 mi:[border:0] mi:pt-4 mi:border-t mi:border-t-sep">
+        <legend class="mi:p-0 mi:mb-2.5 mi:text-[15px] mi:font-semibold">Backup replicas</legend>
         <MiText variant="footnote" tone="label2">Nightly snapshots are copied to every region you tick. Pick one or two.</MiText>
         <MiCheckboxGroup v-model="backups" label="Backup regions" :options="backupOptions" />
         <MiText v-if="err('backups')" variant="footnote" tone="red" role="alert">{{ err('backups') }}</MiText>
       </fieldset>
 
-      <div class="rsc__foot mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2.5">
+      <div class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2.5">
         <MiText variant="footnote" tone="label2" aria-live="polite">{{ monthly }}</MiText>
         <MiButton type="submit" :loading="busy">Create cluster</MiButton>
       </div>
@@ -112,7 +112,7 @@ const best = computed(() => {
   const score = (r: Region) => r.ms / 221 + r.co2 / 662 + r.price / 0.053
   return [...regions].filter(r => !blocked(r)).sort((a, b) => score(a) - score(b))[0]?.id
 })
-const carbon = (g: number) => (g < 100 ? 'is-low' : g < 420 ? 'is-mid' : 'is-high')
+const carbon = (g: number) => (g < 100 ? 'mi:text-green-t mi:bg-green/14' : g < 420 ? 'mi:text-orange-t mi:bg-orange/14' : 'mi:text-red-t mi:bg-red/12')
 
 const backupOptions = computed(() => regions
   .filter(r => r.id !== primary.value && !blocked(r))
@@ -157,16 +157,3 @@ function submit() {
   }, 700)
 }
 </script>
-
-<style scoped>
-.rsc__legend span { color: var(--mi-red); }
-.rsc__card:hover { border-color: color-mix(in srgb, var(--mi-p) 40%, var(--mi-sep)); }
-.rsc__card.is-on { border-color: var(--mi-p); }
-.is-on .rsc__cc { color: var(--mi-p-on); }
-.rsc__name b { font-size: 15px; }
-.rsc__name code { font: 11.5px ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--mi-label3); }
-.rsc__co2.is-low { color: var(--mi-green-t); background: color-mix(in srgb, var(--mi-green) 14%, transparent); }
-.rsc__co2.is-mid { color: var(--mi-orange-t); background: color-mix(in srgb, var(--mi-orange) 14%, transparent); }
-.rsc__co2.is-high { color: var(--mi-red-t); background: color-mix(in srgb, var(--mi-red) 12%, transparent); }
-.rsc__backups :deep([role="group"]) { max-height: 260px; overflow-y: auto; }
-</style>

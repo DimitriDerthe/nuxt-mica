@@ -1,45 +1,45 @@
 <template>
-  <section class="saf mi:@container mi:font-mi mi:text-label" aria-labelledby="saf-title">
-    <div class="saf__wrap mi:grid mi:gap-4">
-      <header class="saf__head mi:grid mi:gap-3 mi:@[620px]:grid-cols-[1fr_220px] mi:@[620px]:items-end">
+  <section class="mi:@container mi:font-mi mi:text-label" aria-labelledby="saf-title">
+    <div class="mi:grid mi:gap-4">
+      <header class="mi:grid mi:gap-3 mi:@[620px]:grid-cols-[1fr_220px] mi:@[620px]:items-end">
         <div>
           <MiText id="saf-title" variant="title3" as="h2" weight="semibold">Needs your attention</MiText>
           <MiText variant="footnote" tone="label2">Suggested from what changed in Harbor Analytics since Friday</MiText>
         </div>
-        <div class="saf__score mi:grid mi:gap-1.5">
+        <div class="mi:grid mi:gap-1.5">
           <MiText variant="caption" tone="label2" weight="medium">{{ handled }} of {{ ITEMS.length }} handled</MiText>
-          <div class="saf__bar mi:h-1.5 mi:rounded-[3px] mi:bg-fill3 mi:overflow-hidden" role="meter" aria-label="Suggestions handled" :aria-valuenow="handled" aria-valuemin="0" :aria-valuemax="ITEMS.length">
-            <span class="mi:[.saf__bar_&]:block mi:[.saf__bar_&]:h-full mi:[.saf__bar_&]:rounded-[inherit] mi:[.saf__bar_&]:origin-left mi:[.saf__bar_&]:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleX(${handled / ITEMS.length})` }" />
+          <div class="mi:h-1.5 mi:rounded-[3px] mi:bg-fill3 mi:overflow-hidden" role="meter" aria-label="Suggestions handled" :aria-valuenow="handled" aria-valuemin="0" :aria-valuemax="ITEMS.length">
+            <span class="mi:bg-green mi:block mi:h-full mi:rounded-[inherit] mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleX(${handled / ITEMS.length})` }" />
           </div>
         </div>
       </header>
 
-      <div class="saf__chips mi:flex mi:flex-wrap mi:gap-2" role="group" aria-label="Filter by area">
+      <div class="mi:flex mi:flex-wrap mi:gap-2" role="group" aria-label="Filter by area">
         <MiChip v-for="a in AREAS" :key="a.id" selectable size="small" :label="`${a.label} · ${openIn(a.id)}`" :model-value="area === a.id" @update:model-value="area = a.id" />
       </div>
 
-      <ul class="saf__grid mi:grid mi:gap-3 mi:m-0 mi:p-0 mi:[list-style:none] mi:grid-cols-[minmax(0,_1fr)] mi:@[560px]:grid-cols-2 mi:@[900px]:grid-cols-3">
-        <li v-for="s in shown" :key="s.id" class="saf__card mi:grid mi:content-start mi:gap-1.5 mi:p-4 mi:rounded-lg mi:bg-card mi:shadow-1 mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)] mi:[&[data-state='snoozed']]:opacity-62" :data-state="state[s.id]">
-          <div class="saf__top mi:flex mi:items-center mi:justify-between mi:gap-2 mi:mb-1">
-            <span class="saf__tile mi:grid mi:place-items-center mi:w-8.5 mi:h-8.5 mi:rounded-md mi:bg-fill4 mi:text-label2" :data-tone="s.tone"><MiIcon :name="s.icon" :size="18" /></span>
+      <ul class="mi:grid mi:gap-3 mi:m-0 mi:p-0 mi:[list-style:none] mi:grid-cols-[minmax(0,_1fr)] mi:@[560px]:grid-cols-2 mi:@[900px]:grid-cols-3">
+        <li v-for="s in shown" :key="s.id" class="mi:grid mi:content-start mi:gap-1.5 mi:p-4 mi:rounded-lg mi:bg-card mi:shadow-1 mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)] mi:[&[data-state='snoozed']]:opacity-62" :data-state="state[s.id]">
+          <div class="mi:flex mi:items-center mi:justify-between mi:gap-2 mi:mb-1">
+            <span class="mi:grid mi:place-items-center mi:w-8.5 mi:h-8.5 mi:rounded-md mi:bg-fill4 mi:text-label2 mi:data-[tone=risk]:bg-red/14 mi:data-[tone=risk]:text-red-t mi:data-[tone=money]:bg-p-tint mi:data-[tone=money]:text-p-text" :data-tone="s.tone"><MiIcon :name="s.icon" :size="18" /></span>
             <MiBadge :tone="s.tone === 'risk' ? 'danger' : s.tone === 'money' ? 'warning' : 'neutral'" :label="s.impact" />
           </div>
           <MiText variant="subheadline" as="h3" weight="semibold">{{ s.title }}</MiText>
           <MiText variant="footnote" tone="label2">{{ s.detail }}</MiText>
 
-          <div v-if="state[s.id] === 'open'" class="saf__acts mi:flex mi:flex-wrap mi:gap-1.5 mi:mt-2">
+          <div v-if="state[s.id] === 'open'" class="mi:flex mi:flex-wrap mi:gap-1.5 mi:mt-2">
             <MiButton size="small" @click="set(s, 'done')">{{ s.action }}</MiButton>
             <MiButton size="small" variant="plain" @click="set(s, 'snoozed')">Remind me Monday</MiButton>
           </div>
-          <div v-else class="saf__done mi:flex mi:items-center mi:gap-2 mi:mt-2 mi:pt-1.5 mi:pr-1 mi:pb-1.5 mi:pl-2.5 mi:rounded-md mi:bg-fill4">
+          <div v-else class="mi:flex mi:items-center mi:gap-2 mi:mt-2 mi:pt-1.5 mi:pr-1 mi:pb-1.5 mi:pl-2.5 mi:rounded-md mi:bg-fill4 mi:[&_svg]:flex-none" :class="state[s.id] === 'snoozed' ? 'mi:[&_svg]:text-label2' : 'mi:[&_svg]:text-green'">
             <MiIcon :name="state[s.id] === 'done' ? 'check-circle-fill' : 'calendar'" :size="16" />
-            <MiText variant="footnote" weight="medium">{{ state[s.id] === 'done' ? s.result : 'Back on Monday, 9:00' }}</MiText>
+            <MiText class="mi:flex-1! mi:min-w-0!" variant="footnote" weight="medium">{{ state[s.id] === 'done' ? s.result : 'Back on Monday, 9:00' }}</MiText>
             <MiButton size="small" variant="plain" @click="set(s, 'open')">Undo</MiButton>
           </div>
         </li>
       </ul>
 
-      <p class="saf__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:m-0" aria-live="polite">{{ announce }}</p>
+      <p class="mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:m-0" aria-live="polite">{{ announce }}</p>
     </div>
   </section>
 </template>
@@ -81,12 +81,3 @@ function set(s: Suggestion, to: State) {
   announce.value = to === 'done' ? s.result : to === 'snoozed' ? `${s.title}: snoozed until Monday` : `${s.title}: back in your list`
 }
 </script>
-
-<style scoped>
-.saf__bar span { background: var(--mi-green); }
-.saf__tile[data-tone="risk"] { background: color-mix(in srgb, var(--mi-red) 14%, transparent); color: var(--mi-red-t); }
-.saf__tile[data-tone="money"] { background: var(--mi-p-tint); color: var(--mi-p-text); }
-.saf__done :deep(svg) { flex: none; color: var(--mi-green); }
-.saf__done > :nth-child(2) { flex: 1; min-width: 0; }
-.saf__card[data-state="snoozed"] .saf__done :deep(svg) { color: var(--mi-label2); }
-</style>

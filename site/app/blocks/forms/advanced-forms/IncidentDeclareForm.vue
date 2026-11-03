@@ -1,36 +1,36 @@
 <template>
-  <section class="inc mi:@container/inc mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="inc-title" :style="{ '--inc-sev': sev.color }">
-    <header class="inc__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-y-2.5 mi:gap-x-4">
+  <section class="mi:@container/inc mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="inc-title" :style="{ '--inc-sev': sev.color }">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-y-2.5 mi:gap-x-4">
       <div>
         <MiText id="inc-title" as="h2" variant="title3" weight="semibold">Declare an incident</MiText>
         <MiText variant="footnote" tone="label2">Ledgerline · Core API on-call rotation</MiText>
       </div>
-      <span class="inc__sev-pill mi:inline-flex mi:items-center mi:gap-2 mi:py-1.5 mi:px-3 mi:rounded-[999px] mi:text-[13px] mi:font-semibold mi:[background:color-mix(in_srgb,_var(--inc-sev)_14%,_transparent)] mi:text-label"><i aria-hidden="true" />{{ sev.short }} · {{ sev.name }}</span>
+      <span class="mi:inline-flex mi:items-center mi:gap-2 mi:py-1.5 mi:px-3 mi:rounded-[999px] mi:text-[13px] mi:font-semibold mi:[background:color-mix(in_srgb,_var(--inc-sev)_14%,_transparent)] mi:text-label"><i class="mi:w-2 mi:h-2 mi:rounded-[50%] mi:bg-(--inc-sev)" aria-hidden="true" />{{ sev.short }} · {{ sev.name }}</span>
     </header>
 
     <!-- Success state replaces the form in place. -->
-    <div v-if="declared" class="inc__done mi:grid mi:justify-items-center mi:gap-2.5 mi:py-10 mi:px-5 mi:text-center mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1" role="status" aria-live="polite">
-      <span class="inc__done-mark mi:grid mi:place-items-center mi:w-14 mi:h-14 mi:rounded-[50%] mi:text-p-on mi:[background:var(--mi-p)] mi:mb-1.5"><MiIcon name="check" :size="26" :weight="2.4" /></span>
+    <div v-if="declared" class="mi:grid mi:justify-items-center mi:gap-2.5 mi:py-10 mi:px-5 mi:text-center mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1" role="status" aria-live="polite">
+      <span class="mi:grid mi:place-items-center mi:w-14 mi:h-14 mi:rounded-[50%] mi:text-p-on mi:[background:var(--mi-p)] mi:mb-1.5"><MiIcon name="check" :size="26" :weight="2.4" /></span>
       <MiText as="h3" variant="title2" weight="bold">{{ declared.id }} declared</MiText>
       <MiText variant="subheadline" tone="label2" align="center">
         {{ declared.commander }} is incident commander. {{ declared.actions }}
       </MiText>
-      <div class="inc__done-actions mi:flex mi:flex-wrap mi:justify-center mi:gap-2.5 mi:mt-2">
+      <div class="mi:flex mi:flex-wrap mi:justify-center mi:gap-2.5 mi:mt-2">
         <MiButton variant="gray" @click="reset">Declare another</MiButton>
         <MiButton>Open war room</MiButton>
       </div>
     </div>
 
-    <div v-else class="inc__grid mi:grid mi:gap-3.5 mi:grid-cols-[minmax(0,_1fr)] mi:items-start mi:@[820px]/inc:grid-cols-[minmax(0,_1.55fr)_minmax(0,_1fr)]">
-      <form class="inc__form mi:@container/incform mi:relative mi:grid mi:gap-4.5 mi:pt-5.5 mi:px-5 mi:pb-5 mi:overflow-hidden mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:before:content-[''] mi:before:absolute mi:before:top-0 mi:before:right-0 mi:before:bottom-auto mi:before:left-0 mi:before:h-[3px] mi:before:[background:var(--inc-sev)]" novalidate @submit.prevent="submit">
+    <div v-else class="mi:grid mi:gap-3.5 mi:grid-cols-[minmax(0,_1fr)] mi:items-start mi:@[820px]/inc:grid-cols-[minmax(0,_1.55fr)_minmax(0,_1fr)]">
+      <form class="mi:@container/incform mi:relative mi:grid mi:gap-4.5 mi:pt-5.5 mi:px-5 mi:pb-5 mi:overflow-hidden mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:before:content-[''] mi:before:absolute mi:before:top-0 mi:before:right-0 mi:before:bottom-auto mi:before:left-0 mi:before:h-[3px] mi:before:[background:var(--inc-sev)]" novalidate @submit.prevent="submit">
         <MiField label="What is happening?" required :error="err('title')" hint="One line, written so a customer understands it.">
           <MiInput v-model="form.title" placeholder="Card payments failing for EU merchants" clearable />
         </MiField>
 
-        <fieldset class="inc__set mi:grid mi:gap-2.5 mi:m-0 mi:p-0 mi:[border:0] mi:min-w-0">
-          <legend class="inc__legend mi:p-0 mi:mb-2 mi:text-[13px] mi:font-semibold mi:text-label">Severity</legend>
+        <fieldset class="mi:grid mi:gap-2.5 mi:m-0 mi:p-0 mi:[border:0] mi:min-w-0">
+          <legend class="mi:p-0 mi:mb-2 mi:text-[13px] mi:font-semibold mi:text-label">Severity</legend>
           <MiSegmented v-model="form.severity" label="Severity" :options="sevOptions" />
-          <p class="inc__note mi:flex mi:gap-2 mi:items-baseline mi:m-0 mi:text-[13px] mi:leading-[1.45] mi:text-label2"><i class="mi:[.inc__note_&]:flex-[none] mi:[.inc__note_&]:transform-[translateY(-1px)]" aria-hidden="true" />{{ sev.note }}</p>
+          <p class="mi:flex mi:gap-2 mi:items-baseline mi:m-0 mi:text-[13px] mi:leading-[1.45] mi:text-label2"><i class="mi:w-1.5 mi:h-1.5 mi:rounded-[50%] mi:bg-(--inc-sev) mi:flex-[none] mi:transform-[translateY(-1px)]" aria-hidden="true" />{{ sev.note }}</p>
         </fieldset>
 
         <MiField label="Affected services" required :error="err('services')">
@@ -40,7 +40,7 @@
           />
         </MiField>
 
-        <div class="inc__pair mi:grid mi:gap-4.5 mi:grid-cols-[minmax(0,_1fr)] mi:@[520px]/incform:grid-cols-2">
+        <div class="mi:grid mi:gap-4.5 mi:grid-cols-[minmax(0,_1fr)] mi:@[520px]/incform:grid-cols-2">
           <MiField label="Started at" required :error="err('started')">
             <MiDatePicker v-model="form.started" time :minute-step="1" date-style="medium" />
           </MiField>
@@ -49,13 +49,13 @@
           </MiField>
         </div>
 
-        <fieldset class="inc__set mi:grid mi:gap-2.5 mi:m-0 mi:p-0 mi:[border:0] mi:min-w-0">
-          <legend class="inc__legend mi:p-0 mi:mb-2 mi:text-[13px] mi:font-semibold mi:text-label">On declare</legend>
+        <fieldset class="mi:grid mi:gap-2.5 mi:m-0 mi:p-0 mi:[border:0] mi:min-w-0">
+          <legend class="mi:p-0 mi:mb-2 mi:text-[13px] mi:font-semibold mi:text-label">On declare</legend>
           <MiCheckboxGroup v-model="form.escalate" label="Escalation steps" :options="escalations" />
         </fieldset>
 
-        <div class="inc__public mi:grid mi:gap-3.5 mi:p-3.5 mi:rounded-lg mi:[background:var(--mi-fill4)]">
-          <div class="inc__public-row mi:flex mi:items-center mi:justify-between mi:gap-3.5">
+        <div class="mi:grid mi:gap-3.5 mi:p-3.5 mi:rounded-lg mi:[background:var(--mi-fill4)]">
+          <div class="mi:flex mi:items-center mi:justify-between mi:gap-3.5">
             <div>
               <MiText id="inc-public-l" variant="subheadline" weight="semibold">Post to the public status page</MiText>
               <MiText variant="caption" tone="label2">Customers subscribed to these services get an email.</MiText>
@@ -70,7 +70,7 @@
           </MiField>
         </div>
 
-        <div class="inc__actions mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2.5 mi:pt-4 mi:border-t mi:border-t-sep">
+        <div class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2.5 mi:pt-4 mi:border-t mi:border-t-sep">
           <MiText variant="caption" tone="label2" aria-live="polite">
             {{ missing ? missing + ' required ' + (missing === 1 ? 'field' : 'fields') + ' left' : 'Ready to declare' }}
           </MiText>
@@ -79,20 +79,20 @@
       </form>
 
       <!-- Live preview of what customers will see, plus a readiness list. -->
-      <aside class="inc__side mi:@[820px]/inc:sticky mi:@[820px]/inc:top-3 mi:grid mi:gap-3" aria-label="Preview">
-        <div class="inc__status mi:grid mi:gap-2 mi:p-4.5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:[border-left:3px_solid_var(--inc-sev)] mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)] mi:[&.is-muted]:border-l-sep" :class="{ 'is-muted': !form.isPublic }">
-          <div class="inc__status-top mi:flex mi:justify-between mi:items-center mi:gap-2 mi:mb-1">
-            <span class="inc__brand mi:inline-flex mi:items-center mi:gap-1.5 mi:text-[12px] mi:font-semibold mi:text-label2"><i aria-hidden="true" />status.ledgerline.io</span>
+      <aside class="mi:@[820px]/inc:sticky mi:@[820px]/inc:top-3 mi:grid mi:gap-3" aria-label="Preview">
+        <div class="mi:grid mi:gap-2 mi:p-4.5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)]" :class="form.isPublic ? 'mi:[border-left:3px_solid_var(--inc-sev)]' : 'mi:[border-left:3px_solid_var(--mi-sep)]'">
+          <div class="mi:flex mi:justify-between mi:items-center mi:gap-2 mi:mb-1">
+            <span class="mi:inline-flex mi:items-center mi:gap-1.5 mi:text-[12px] mi:font-semibold mi:text-label2"><i class="mi:w-2.5 mi:h-2.5 mi:rounded-[3px] mi:bg-[linear-gradient(135deg,_var(--mi-p),_var(--mi-s))]" aria-hidden="true" />status.ledgerline.io</span>
             <MiText variant="caption2" tone="label3">Preview</MiText>
           </div>
           <template v-if="form.isPublic">
-            <span class="inc__state mi:justify-self-start mi:py-0.5 mi:px-2 mi:rounded-[6px] mi:text-[11px] mi:font-bold mi:tracking-[.04em] mi:uppercase mi:text-label mi:[background:color-mix(in_srgb,_var(--inc-sev)_18%,_transparent)]">Investigating</span>
+            <span class="mi:justify-self-start mi:py-0.5 mi:px-2 mi:rounded-[6px] mi:text-[11px] mi:font-bold mi:tracking-[.04em] mi:uppercase mi:text-label mi:[background:color-mix(in_srgb,_var(--inc-sev)_18%,_transparent)]">Investigating</span>
             <MiText as="h3" variant="headline" :lines="2">{{ form.title || 'Your one-line summary appears here' }}</MiText>
             <MiText variant="footnote" tone="label2" :lines="4">
               {{ form.message || 'Write the public message to see how it reads on the status page.' }}
             </MiText>
-            <ul v-if="pickedServices.length" class="inc__chips mi:flex mi:flex-wrap mi:gap-1.5 mi:my-0.5 mi:mx-0 mi:p-0 mi:[list-style:none]" aria-label="Affected components">
-              <li class="mi:[.inc__chips_&]:py-[3px] mi:[.inc__chips_&]:px-[9px] mi:[.inc__chips_&]:text-[12px]" v-for="s in pickedServices" :key="s">{{ s }}</li>
+            <ul v-if="pickedServices.length" class="mi:flex mi:flex-wrap mi:gap-1.5 mi:my-0.5 mi:mx-0 mi:p-0 mi:[list-style:none]" aria-label="Affected components">
+              <li class="mi:rounded-[999px] mi:bg-fill3 mi:text-label mi:py-[3px] mi:px-[9px] mi:text-[12px]" v-for="s in pickedServices" :key="s">{{ s }}</li>
             </ul>
             <MiText variant="caption2" tone="label3">Posted on declare · next update in 30 min</MiText>
           </template>
@@ -102,18 +102,18 @@
           </template>
         </div>
 
-        <div class="inc__ready mi:grid mi:gap-2.5 mi:py-4 mi:px-4.5 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1">
-          <div class="inc__ready-head mi:flex mi:justify-between mi:items-baseline">
+        <div class="mi:grid mi:gap-2.5 mi:py-4 mi:px-4.5 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1">
+          <div class="mi:flex mi:justify-between mi:items-baseline">
             <MiText as="h3" variant="subheadline" weight="semibold">Readiness</MiText>
             <MiText variant="caption" tone="label2" tabular>{{ done }}/{{ checks.length }}</MiText>
           </div>
-          <div class="inc__bar mi:h-1 mi:rounded-[2px] mi:[background:var(--mi-fill3)] mi:overflow-hidden" role="meter" aria-label="Required fields complete" :aria-valuenow="done" aria-valuemin="0" :aria-valuemax="checks.length">
-            <span class="mi:[.inc__bar_&]:block mi:[.inc__bar_&]:origin-left mi:[.inc__bar_&]:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleX(${done / checks.length})` }" />
+          <div class="mi:h-1 mi:rounded-[2px] mi:[background:var(--mi-fill3)] mi:overflow-hidden" role="meter" aria-label="Required fields complete" :aria-valuenow="done" aria-valuemin="0" :aria-valuemax="checks.length">
+            <span class="mi:h-full mi:bg-p mi:block mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleX(${done / checks.length})` }" />
           </div>
-          <ul class="inc__checks mi:grid mi:gap-2 mi:m-0 mi:p-0 mi:[list-style:none] mi:text-[13px] mi:text-label2">
-            <li class="mi:[.inc__checks_li&]:items-center mi:[.inc__checks_li&]:gap-2.5" v-for="c in checks" :key="c.label" :class="{ 'is-ok': c.ok }">
-              <span class="inc__tick mi:grid mi:place-items-center mi:w-4.5 mi:h-4.5 mi:rounded-[50%] mi:border-[1.5px] mi:border-sep mi:text-p-on mi:[.is-ok_&]:border-p" aria-hidden="true"><MiIcon class="mi:[.inc__checks_li&]:items-center mi:[.inc__checks_li&]:gap-2.5" v-if="c.ok" name="check" :size="12" :weight="3" /></span>
-              {{ c.label }}<span class="inc__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">{{ c.ok ? ', done' : ', missing' }}</span>
+          <ul class="mi:grid mi:gap-2 mi:m-0 mi:p-0 mi:[list-style:none] mi:text-[13px] mi:text-label2">
+            <li class="mi:flex mi:items-center mi:gap-2.5 mi:group" v-for="c in checks" :key="c.label" :class="c.ok ? 'mi:text-label' : ''" :data-ok="c.ok || undefined">
+              <span class="mi:grid mi:place-items-center mi:w-4.5 mi:h-4.5 mi:rounded-[50%] mi:border-[1.5px] mi:border-sep mi:text-p-on mi:group-data-[ok]:border-p mi:group-data-[ok]:bg-p" aria-hidden="true"><MiIcon v-if="c.ok" name="check" :size="12" :weight="3" /></span>
+              {{ c.label }}<span class="mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">{{ c.ok ? ', done' : ', missing' }}</span>
             </li>
           </ul>
         </div>
@@ -234,14 +234,3 @@ function reset() {
   declared.value = null
 }
 </script>
-
-<style scoped>
-.inc__sev-pill i { width: 8px; height: 8px; border-radius: 50%; background: var(--inc-sev); }
-.inc__note i { width: 6px; height: 6px; border-radius: 50%; background: var(--inc-sev); }
-.inc__brand i { width: 10px; height: 10px; border-radius: 3px; background: linear-gradient(135deg, var(--mi-p), var(--mi-s)); }
-.inc__chips li { border-radius: 999px; background: var(--mi-fill3); color: var(--mi-label); }
-.inc__bar span { height: 100%; background: var(--mi-p); }
-.inc__checks li { display: flex; }
-.inc__checks li.is-ok { color: var(--mi-label); }
-.is-ok .inc__tick { background: var(--mi-p); }
-</style>

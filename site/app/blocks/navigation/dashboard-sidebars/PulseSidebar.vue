@@ -1,59 +1,59 @@
 <template>
-  <div class="psb mi:@container mi:font-mi mi:text-label">
-    <div class="psb__shell mi:relative mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:h-165 mi:overflow-hidden mi:[background:var(--mi-page)] mi:@[768px]:grid-cols-[252px_minmax(0,_1fr)] mi:@[900px]:[&.is-rail]:grid-cols-[72px_minmax(0,_1fr)]" :class="{ 'is-rail': rail }" @keydown.esc="open = false">
+  <div class="mi:@container mi:font-mi mi:text-label">
+    <div class="mi:group/rail mi:relative mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:h-165 mi:overflow-hidden mi:[background:var(--mi-page)] mi:@[768px]:grid-cols-[252px_minmax(0,_1fr)]" :data-rail="rail || undefined" :class="rail ? 'mi:@[900px]:grid-cols-[72px_minmax(0,_1fr)]' : ''" @keydown.esc="open = false">
       <!-- Sidebar: static column from 768px, off-canvas panel below (slides with transform). -->
-      <aside id="psb-side" class="psb__side mi:absolute mi:top-0 mi:right-auto mi:bottom-0 mi:left-0 mi:z-3 mi:w-[min(288px,_86%)] mi:flex mi:flex-col mi:gap-3.5 mi:pt-4 mi:px-3 mi:pb-3 mi:[background:var(--mi-side)] mi:shadow-3 mi:box-border mi:transform-[translateX(-104%)] mi:invisible mi:[transition:transform_var(--mi-dur-3)_var(--mi-ease),_visibility_0s_linear_var(--mi-dur-3)] mi:[&.is-open]:transform-none mi:[&.is-open]:visible mi:[&.is-open]:[transition:transform_var(--mi-dur-3)_var(--mi-ease)] mi:@[768px]:relative mi:@[768px]:inset-auto mi:@[768px]:w-auto mi:@[768px]:transform-none mi:@[768px]:visible mi:@[768px]:[transition:none] mi:@[768px]:shadow-none mi:@[768px]:border-r mi:@[768px]:border-r-sep mi:@[900px]:[.is-rail_&]:px-2.5 mi:@[900px]:[.is-rail_&]:items-stretch" :class="{ 'is-open': open }" aria-label="Spoke & Dock">
-        <div class="psb__brand mi:flex mi:items-center mi:gap-2.5 mi:py-0 mi:px-1 mi:@[900px]:[.is-rail_&]:justify-center mi:@[900px]:[.is-rail_&]:p-0">
-          <span class="psb__mark mi:flex-[none] mi:grid mi:place-items-center mi:w-8.5 mi:h-8.5 mi:rounded-[10px] mi:text-p-on mi:[background:linear-gradient(135deg,_var(--mi-p),_var(--mi-s))]" aria-hidden="true"><MiIcon :svg="glyph.bike" :size="18" /></span>
-          <div class="psb__brand-text psb__hide-rail mi:grid mi:min-w-0 mi:flex-1">
+      <aside id="psb-side" class="mi:absolute mi:top-0 mi:right-auto mi:bottom-0 mi:left-0 mi:z-3 mi:w-[min(288px,_86%)] mi:flex mi:flex-col mi:gap-3.5 mi:pt-4 mi:px-3 mi:pb-3 mi:[background:var(--mi-side)] mi:shadow-3 mi:box-border mi:@[768px]:relative mi:@[768px]:inset-auto mi:@[768px]:w-auto mi:@[768px]:transform-none mi:@[768px]:visible mi:@[768px]:[transition:none] mi:@[768px]:shadow-none mi:@[768px]:border-r mi:@[768px]:border-r-sep mi:@[900px]:group-data-[rail]/rail:px-2.5 mi:@[900px]:group-data-[rail]/rail:items-stretch" :class="open ? 'mi:transform-none mi:visible mi:[transition:transform_var(--mi-dur-3)_var(--mi-ease)]' : 'mi:transform-[translateX(-104%)] mi:invisible mi:[transition:transform_var(--mi-dur-3)_var(--mi-ease),_visibility_0s_linear_var(--mi-dur-3)]'" aria-label="Spoke & Dock">
+        <div class="mi:flex mi:items-center mi:gap-2.5 mi:py-0 mi:px-1 mi:@[900px]:group-data-[rail]/rail:justify-center mi:@[900px]:group-data-[rail]/rail:p-0">
+          <span class="mi:flex-[none] mi:grid mi:place-items-center mi:w-8.5 mi:h-8.5 mi:rounded-[10px] mi:text-p-on mi:[background:linear-gradient(135deg,_var(--mi-p),_var(--mi-s))]" aria-hidden="true"><MiIcon :svg="glyph.bike" :size="18" /></span>
+          <div class="mi:@[900px]:group-data-[rail]/rail:hidden mi:grid mi:min-w-0 mi:flex-1">
             <MiText variant="subheadline" weight="semibold">Spoke &amp; Dock</MiText>
             <MiText variant="caption2" tone="label2">Lisbon network · 412 docks</MiText>
           </div>
-          <MiIconButton class="psb__close mi:ml-auto" label="Close navigation" variant="gray" size="small" @click="open = false">
+          <MiIconButton class="mi:ml-auto mi:@[768px]:hidden!" label="Close navigation" variant="gray" size="small" @click="open = false">
             <MiIcon name="close" :size="14" />
           </MiIconButton>
         </div>
 
-        <MiSearch v-model="query" class="psb__search psb__hide-rail" size="compact" placeholder="Jump to…" aria-label="Filter navigation" />
+        <MiSearch v-model="query" class="mi:my-0! mi:mx-0.5! mi:@[900px]:group-data-[rail]/rail:hidden!" size="compact" placeholder="Jump to…" aria-label="Filter navigation" />
 
-        <nav class="psb__nav mi:flex-1 mi:min-h-0 mi:overflow-y-auto mi:grid mi:content-start mi:gap-3.5 mi:[scrollbar-width:thin]" aria-label="Sections">
-          <section v-for="g in visibleGroups" :key="g.id" class="psb__group mi:grid mi:gap-0.5 mi:@[900px]:[.is-rail_.psb__group+&]:pt-2.5 mi:@[900px]:[.is-rail_.psb__group+&]:border-t mi:@[900px]:[.is-rail_.psb__group+&]:border-t-sep">
+        <nav class="mi:flex-1 mi:min-h-0 mi:overflow-y-auto mi:grid mi:content-start mi:gap-3.5 mi:[scrollbar-width:thin]" aria-label="Sections">
+          <section v-for="g in visibleGroups" :key="g.id" class="mi:grid mi:gap-0.5 mi:@[900px]:group-data-[rail]/rail:not-first:pt-2.5 mi:@[900px]:group-data-[rail]/rail:not-first:border-t mi:@[900px]:group-data-[rail]/rail:not-first:border-t-sep">
             <button
-              v-if="g.label" type="button" class="psb__group-head psb__hide-rail mi:flex mi:items-center mi:justify-between mi:py-1.5 mi:px-2.5 mi:[border:0] mi:rounded-sm mi:[background:none] mi:text-label2 mi:tracking-[.06em] mi:uppercase mi:cursor-pointer mi:hover:text-label mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px]" :aria-expanded="isOpen(g.id)"
+              v-if="g.label" type="button" class="mi:[font:inherit] mi:text-[11px] mi:font-semibold mi:@[900px]:group-data-[rail]/rail:hidden mi:flex mi:items-center mi:justify-between mi:py-1.5 mi:px-2.5 mi:[border:0] mi:rounded-sm mi:[background:none] mi:text-label2 mi:tracking-[.06em] mi:uppercase mi:cursor-pointer mi:hover:text-label mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px]" :aria-expanded="isOpen(g.id)"
               :aria-controls="'psb-g-' + g.id" @click="closed[g.id] = !closed[g.id]"
             >
               <span>{{ g.label }}</span>
-              <MiIcon name="chevron-down" :size="12" class="psb__chev mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)]" :class="{ 'is-closed': !isOpen(g.id) }" />
+              <MiIcon name="chevron-down" :size="12" class="mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)]" :class="isOpen(g.id) ? '' : 'mi:transform-[rotate(-90deg)]'" />
             </button>
-            <Transition name="psb-fold">
-              <ul v-show="isOpen(g.id)" :id="'psb-g-' + g.id" class="psb__list mi:grid mi:gap-0.5 mi:m-0 mi:p-0 mi:[list-style:none]">
+            <Transition enter-active-class="mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),_transform_var(--mi-dur-2)_var(--mi-ease)]" leave-active-class="mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),_transform_var(--mi-dur-2)_var(--mi-ease)]" enter-from-class="mi:opacity-0 mi:transform-[translateY(-4px)]" leave-to-class="mi:opacity-0 mi:transform-[translateY(-4px)]">
+              <ul v-show="isOpen(g.id)" :id="'psb-g-' + g.id" class="mi:grid mi:gap-0.5 mi:m-0 mi:p-0 mi:[list-style:none]">
                 <li v-for="it in g.items" :key="it.id">
                   <button
-                    type="button" class="psb__item mi:relative mi:flex mi:items-center mi:gap-2.5 mi:w-full mi:min-h-9 mi:py-0 mi:px-2.5 mi:[border:0] mi:rounded-[10px] mi:[background:none] mi:text-label mi:text-left mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px] mi:[&.is-active]:shadow-1 mi:before:content-[''] mi:before:absolute mi:before:left-[3px] mi:before:top-2.5 mi:before:bottom-2.5 mi:before:w-[3px] mi:before:rounded-[2px] mi:before:[background:var(--mi-p)] mi:before:transform-[scaleY(0)] mi:before:[transition:transform_var(--mi-dur-2)_var(--mi-spring)] mi:[&.is-active]:before:transform-[scaleY(1)] mi:@[900px]:[.is-rail_&]:justify-center mi:@[900px]:[.is-rail_&]:p-0" :class="{ 'is-active': it.id === current }"
+                    type="button" class="mi:[font:inherit] mi:text-[14px] mi:relative mi:flex mi:items-center mi:gap-2.5 mi:w-full mi:min-h-9 mi:py-0 mi:px-2.5 mi:[border:0] mi:rounded-[10px] mi:[background:none] mi:text-label mi:text-left mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px] mi:before:content-[''] mi:before:absolute mi:before:left-[3px] mi:before:top-2.5 mi:before:bottom-2.5 mi:before:w-[3px] mi:before:rounded-[2px] mi:before:[background:var(--mi-p)] mi:before:[transition:transform_var(--mi-dur-2)_var(--mi-spring)] mi:@[900px]:group-data-[rail]/rail:justify-center mi:@[900px]:group-data-[rail]/rail:p-0" :class="it.id === current ? 'mi:bg-card mi:font-semibold mi:shadow-1 mi:before:transform-[scaleY(1)]' : 'mi:hover:bg-fill4 mi:before:transform-[scaleY(0)]'"
                     :aria-current="it.id === current ? 'page' : undefined" :title="rail ? it.label : undefined" @click="select(it.id)"
                   >
-                    <span v-if="it.dot" class="psb__swatch mi:flex-[none] mi:w-2.5 mi:h-2.5 mi:my-0 mi:mx-1 mi:rounded-[3px]" :style="{ background: `var(--mi-${it.dot})` }" aria-hidden="true" />
-                    <MiIcon v-else v-bind="it.icon" :size="18" class="psb__icon mi:text-label2 mi:[.psb__item.is-active_&]:text-p-text" />
-                    <span class="psb__label mi:flex-1 mi:min-w-0 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:@[900px]:[.is-rail_&]:absolute mi:@[900px]:[.is-rail_&]:w-px mi:@[900px]:[.is-rail_&]:h-px mi:@[900px]:[.is-rail_&]:overflow-hidden mi:@[900px]:[.is-rail_&]:[clip-path:inset(50%)] mi:@[900px]:[.is-rail_&]:whitespace-nowrap">{{ it.label }}</span>
-                    <span v-if="it.pulse" class="psb__pulse mi:inline-flex mi:items-center mi:gap-[5px] mi:flex-[none] mi:text-[11px] mi:font-semibold mi:tabular-nums mi:text-label2 mi:@[900px]:[.is-rail_&]:absolute mi:@[900px]:[.is-rail_&]:top-1.5 mi:@[900px]:[.is-rail_&]:right-2.5" :class="'is-' + it.pulse.tone">
-                      <i class="mi:[.psb__pulse_&]:w-1.5 mi:[.psb__pulse_&]:h-1.5 mi:[.psb__pulse_&]:rounded-[50%] mi:[.psb__pulse_&]:[background:currentColor] mi:motion-reduce:[.psb__pulse_&]:animate-none!" aria-hidden="true" /><span class="psb__pulse-text mi:@[900px]:[.is-rail_&]:absolute mi:@[900px]:[.is-rail_&]:w-px mi:@[900px]:[.is-rail_&]:h-px mi:@[900px]:[.is-rail_&]:overflow-hidden mi:@[900px]:[.is-rail_&]:[clip-path:inset(50%)] mi:@[900px]:[.is-rail_&]:whitespace-nowrap">{{ it.pulse.text }}</span>
+                    <span v-if="it.dot" class="mi:flex-[none] mi:w-2.5 mi:h-2.5 mi:my-0 mi:mx-1 mi:rounded-[3px]" :style="{ background: `var(--mi-${it.dot})` }" aria-hidden="true" />
+                    <MiIcon v-else v-bind="it.icon" :size="18" class="mi:flex-none!" :class="it.id === current ? 'mi:text-p-text' : 'mi:text-label2'" />
+                    <span class="mi:flex-1 mi:min-w-0 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:@[900px]:group-data-[rail]/rail:absolute mi:@[900px]:group-data-[rail]/rail:w-px mi:@[900px]:group-data-[rail]/rail:h-px mi:@[900px]:group-data-[rail]/rail:overflow-hidden mi:@[900px]:group-data-[rail]/rail:[clip-path:inset(50%)] mi:@[900px]:group-data-[rail]/rail:whitespace-nowrap">{{ it.label }}</span>
+                    <span v-if="it.pulse" class="mi:inline-flex mi:items-center mi:gap-[5px] mi:flex-[none] mi:text-[11px] mi:font-semibold mi:tabular-nums mi:@[900px]:group-data-[rail]/rail:absolute mi:@[900px]:group-data-[rail]/rail:top-1.5 mi:@[900px]:group-data-[rail]/rail:right-2.5" :class="PULSE[it.pulse.tone].text">
+                      <i class="mi:w-1.5 mi:h-1.5 mi:rounded-[50%] mi:motion-reduce:animate-none!" :class="PULSE[it.pulse.tone].dot" aria-hidden="true" /><span class="mi:@[900px]:group-data-[rail]/rail:absolute mi:@[900px]:group-data-[rail]/rail:w-px mi:@[900px]:group-data-[rail]/rail:h-px mi:@[900px]:group-data-[rail]/rail:overflow-hidden mi:@[900px]:group-data-[rail]/rail:[clip-path:inset(50%)] mi:@[900px]:group-data-[rail]/rail:whitespace-nowrap">{{ it.pulse.text }}</span>
                     </span>
                   </button>
                 </li>
               </ul>
             </Transition>
           </section>
-          <MiText v-if="!visibleGroups.length" variant="footnote" tone="label2" class="psb__none mi:py-1.5 mi:px-2.5">No section matches “{{ query }}”.</MiText>
+          <MiText v-if="!visibleGroups.length" variant="footnote" tone="label2" class="mi:py-1.5 mi:px-2.5">No section matches “{{ query }}”.</MiText>
         </nav>
 
-        <footer class="psb__foot mi:flex mi:items-center mi:gap-2.5 mi:pt-2.5 mi:px-1.5 mi:pb-0.5 mi:border-t mi:border-t-sep mi:@[900px]:[.is-rail_&]:flex-col mi:@[900px]:[.is-rail_&]:px-0">
+        <footer class="mi:flex mi:items-center mi:gap-2.5 mi:pt-2.5 mi:px-1.5 mi:pb-0.5 mi:border-t mi:border-t-sep mi:@[900px]:group-data-[rail]/rail:flex-col mi:@[900px]:group-data-[rail]/rail:px-0">
           <MiAvatar name="Inês Carvalho" size="sm" tone="auto" decorative />
-          <div class="psb__who psb__hide-rail mi:grid mi:flex-1 mi:min-w-0">
+          <div class="mi:@[900px]:group-data-[rail]/rail:hidden mi:grid mi:flex-1 mi:min-w-0">
             <MiText variant="footnote" weight="semibold">Inês Carvalho</MiText>
             <MiText variant="caption2" tone="label2">Ops lead · on shift</MiText>
           </div>
           <MiIconButton
-            class="psb__rail-btn mi:ml-auto mi:@[900px]:[.is-rail_&]:m-0" :label="rail ? 'Expand sidebar' : 'Collapse sidebar to icons'" variant="gray" size="small"
+            class="mi:hidden! mi:@[900px]:inline-flex! mi:ml-auto mi:@[900px]:group-data-[rail]/rail:m-0" :label="rail ? 'Expand sidebar' : 'Collapse sidebar to icons'" variant="gray" size="small"
             :pressed="rail" @click="rail = !rail"
           >
             <MiIcon name="sidebar" :size="15" />
@@ -61,35 +61,35 @@
         </footer>
       </aside>
 
-      <div class="psb__scrim mi:absolute mi:inset-0 mi:z-2 mi:[background:var(--mi-scrim)] mi:opacity-0 mi:pointer-events-none mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)] mi:[&.is-on]:opacity-100 mi:[&.is-on]:pointer-events-auto mi:@[768px]:hidden" :class="{ 'is-on': open }" aria-hidden="true" @click="open = false" />
+      <div class="mi:absolute mi:inset-0 mi:z-2 mi:[background:var(--mi-scrim)] mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)] mi:@[768px]:hidden" :class="open ? 'mi:opacity-100 mi:pointer-events-auto' : 'mi:opacity-0 mi:pointer-events-none'" aria-hidden="true" @click="open = false" />
 
       <!-- Faux content: every sidebar item swaps the page. -->
-      <main class="psb__main mi:min-w-0 mi:overflow-y-auto mi:p-4 mi:grid mi:content-start mi:gap-4 mi:@[560px]:p-6 mi:@[768px]:py-7 mi:@[768px]:px-8" aria-labelledby="psb-title">
-        <header class="psb__top mi:flex mi:items-center mi:gap-3">
+      <main class="mi:min-w-0 mi:overflow-y-auto mi:p-4 mi:grid mi:content-start mi:gap-4 mi:@[560px]:p-6 mi:@[768px]:py-7 mi:@[768px]:px-8" aria-labelledby="psb-title">
+        <header class="mi:flex mi:items-center mi:gap-3">
           <MiIconButton
-            class="psb__burger" label="Open navigation" variant="gray" size="regular" aria-controls="psb-side"
+            class="mi:@[768px]:hidden!" label="Open navigation" variant="gray" size="regular" aria-controls="psb-side"
             :aria-expanded="open" @click="open = true"
           >
             <MiIcon :svg="glyph.burger" :size="18" />
           </MiIconButton>
-          <div class="psb__title mi:grid mi:flex-1 mi:min-w-0">
+          <div class="mi:grid mi:flex-1 mi:min-w-0">
             <MiText variant="caption" tone="label2" weight="medium">{{ page.kicker }}</MiText>
             <MiText id="psb-title" variant="title3" as="h2" weight="bold">{{ page.title }}</MiText>
           </div>
-          <MiBadge class="psb__live" tone="success" label="Live" dot />
+          <MiBadge tone="success" label="Live" dot />
         </header>
 
-        <Transition name="psb-swap" mode="out-in">
-          <div :key="current" class="psb__page mi:grid mi:gap-4">
-            <MiText variant="callout" tone="label2" class="psb__lede mi:max-w-[60ch]">{{ page.lede }}</MiText>
-            <div class="psb__stats mi:grid mi:gap-3 mi:grid-cols-[minmax(0,_1fr)] mi:@[560px]:grid-cols-3">
+        <Transition mode="out-in" enter-active-class="mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),_transform_var(--mi-dur-2)_var(--mi-ease)]" leave-active-class="mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),_transform_var(--mi-dur-2)_var(--mi-ease)]" enter-from-class="mi:opacity-0 mi:transform-[translateY(6px)]" leave-to-class="mi:opacity-0">
+          <div :key="current" class="mi:grid mi:gap-4">
+            <MiText variant="callout" tone="label2" class="mi:max-w-[60ch]">{{ page.lede }}</MiText>
+            <div class="mi:grid mi:gap-3 mi:grid-cols-[minmax(0,_1fr)] mi:@[560px]:grid-cols-3">
               <MiStatTile v-for="s in page.stats" :key="s.label" v-bind="s" comparison="vs yesterday" />
             </div>
-            <section class="psb__panel mi:grid mi:gap-2 mi:p-4.5 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1" aria-labelledby="psb-panel-title">
+            <section class="mi:grid mi:gap-2 mi:p-4.5 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1" aria-labelledby="psb-panel-title">
               <MiText id="psb-panel-title" variant="headline" as="h3">{{ page.panel }}</MiText>
-              <ul class="psb__rows mi:m-0 mi:p-0 mi:[list-style:none]">
-                <li v-for="r in page.rows" :key="r[0]" class="psb__row mi:flex mi:items-center mi:justify-between mi:gap-3 mi:py-2.5 mi:px-0 mi:[.psb__row+&]:border-t mi:[.psb__row+&]:border-t-sep">
-                  <span class="psb__row-main mi:grid mi:min-w-0">
+              <ul class="mi:m-0 mi:p-0 mi:[list-style:none]">
+                <li v-for="r in page.rows" :key="r[0]" class="mi:flex mi:items-center mi:justify-between mi:gap-3 mi:py-2.5 mi:px-0 mi:not-first:border-t mi:not-first:border-t-sep">
+                  <span class="mi:grid mi:min-w-0">
                     <MiText variant="subheadline" weight="medium" :lines="1">{{ r[0] }}</MiText>
                     <MiText variant="caption" tone="label2" :lines="1">{{ r[1] }}</MiText>
                   </span>
@@ -117,6 +117,11 @@ const glyph = {
 }
 
 type Tone = 'good' | 'warn' | 'bad'
+const PULSE: Record<Tone, { text: string, dot: string }> = {
+  good: { text: 'mi:text-label2', dot: 'mi:bg-green' },
+  warn: { text: 'mi:text-orange-t', dot: 'mi:bg-orange mi:[--mi-beat:1.6] mi:[--mi-beat-o:.5] mi:animate-[beat_1.6s_var(--mi-ease)_infinite]' },
+  bad: { text: 'mi:text-red-t', dot: 'mi:bg-red' }
+}
 interface Item { id: string, label: string, icon?: { name?: 'home' | 'grid' | 'people', svg?: string }, dot?: string, pulse?: { text: string, tone: Tone } }
 interface Group { id: string, label?: string, items: Item[] }
 
@@ -287,39 +292,3 @@ function select(id: string) {
   open.value = false
 }
 </script>
-
-<style scoped>
-.psb__search { margin: 0 2px; }
-.psb__group-head { font: inherit; font-size: 11px; font-weight: 600;
-}
-.psb__chev.is-closed { transform: rotate(-90deg); }
-
-.psb__item { font: inherit; font-size: 14px;
-}
-.psb__item:hover { background: var(--mi-fill4); }
-.psb__item.is-active { background: var(--mi-card); font-weight: 600; }
-.psb__icon { flex: none; }
-.psb__pulse.is-good i { background: var(--mi-green); }
-.psb__pulse.is-warn { color: var(--mi-orange-t); }
-.psb__pulse.is-warn i { background: var(--mi-orange); animation: psb-beat 1.6s var(--mi-ease) infinite; }
-.psb__pulse.is-bad { color: var(--mi-red-t); }
-.psb__pulse.is-bad i { background: var(--mi-red); }
-@keyframes psb-beat { 50% { transform: scale(1.6); opacity: .5; } }
-.psb__rail-btn { display: none; }
-
-.psb-fold-enter-active, .psb-fold-leave-active { transition: opacity var(--mi-dur-2) var(--mi-ease), transform var(--mi-dur-2) var(--mi-ease); }
-.psb-fold-enter-from, .psb-fold-leave-to { opacity: 0; transform: translateY(-4px); }
-.psb-swap-enter-active, .psb-swap-leave-active { transition: opacity var(--mi-dur-2) var(--mi-ease), transform var(--mi-dur-2) var(--mi-ease); }
-.psb-swap-enter-from { opacity: 0; transform: translateY(6px); }
-.psb-swap-leave-to { opacity: 0; }
-
-@container (min-width: 768px) {
-  .psb__close, .psb__burger { display: none; }
-}
-
-/* Icon rail: a denser layout for wide screens; rows keep their names for screen readers. */
-@container (min-width: 900px) {
-  .psb__rail-btn { display: inline-flex; }
-  .is-rail .psb__hide-rail { display: none; }
-}
-</style>

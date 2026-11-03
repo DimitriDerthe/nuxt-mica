@@ -1,8 +1,8 @@
 <template>
-  <section class="pt mi:@container mi:font-mi mi:text-label" aria-labelledby="pt-title">
-    <div class="pt__card mi:flex mi:flex-col mi:max-w-140 mi:mx-auto mi:rounded-xl mi:bg-card mi:shadow-2 mi:overflow-hidden">
-      <header class="pt__head mi:flex mi:flex-wrap mi:items-center mi:gap-3 mi:py-3.5 mi:px-4 mi:border-b mi:border-b-sep">
-        <div class="pt__head-text mi:flex-1 mi:min-w-0">
+  <section class="mi:@container mi:font-mi mi:text-label" aria-labelledby="pt-title">
+    <div class="mi:flex mi:flex-col mi:max-w-140 mi:mx-auto mi:rounded-xl mi:bg-card mi:shadow-2 mi:overflow-hidden">
+      <header class="mi:flex mi:flex-wrap mi:items-center mi:gap-3 mi:py-3.5 mi:px-4 mi:border-b mi:border-b-sep">
+        <div class="mi:flex-1 mi:min-w-0">
           <MiText id="pt-title" as="h2" variant="headline" weight="semibold">Dock 4 crew</MiText>
           <MiText variant="caption" tone="label2">Push-to-talk · 6 on shift</MiText>
         </div>
@@ -12,37 +12,37 @@
         </MiButton>
       </header>
 
-      <ol class="pt__clips mi:[list-style:none] mi:m-0 mi:p-3 mi:grid mi:gap-1.5 mi:bg-page mi:@[480px]:p-4" aria-label="Voice clips">
-        <li v-for="c in clips" :key="c.id" class="pt__clip mi:flex mi:gap-2.5 mi:p-2.5 mi:rounded-lg mi:bg-card mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:[&.is-playing]:transform-[scale(1.01)] mi:[&.is-playing]:shadow-[inset_0_0_0_1.5px_var(--mi-p)]" :class="{ 'is-me': c.who === 'You', 'is-playing': c.id === playingId }">
+      <ol class="mi:[list-style:none] mi:m-0 mi:p-3 mi:grid mi:gap-1.5 mi:bg-page mi:@[480px]:p-4" aria-label="Voice clips">
+        <li v-for="c in clips" :key="c.id" class="mi:flex mi:gap-2.5 mi:p-2.5 mi:rounded-lg mi:bg-card mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)]" :class="c.id === playingId ? 'mi:transform-[scale(1.01)] mi:shadow-[inset_0_0_0_1.5px_var(--mi-p)]' : ''">
           <MiAvatar :name="c.who === 'You' ? 'Ruth Adeyemi' : c.who" size="sm" :tone="c.who === 'You' ? 'primary' : 'auto'" decorative />
-          <div class="pt__clip-body mi:grid mi:gap-1.5 mi:flex-1 mi:min-w-0">
-            <span class="pt__meta mi:flex mi:items-center mi:gap-1 mi:text-[12.5px] mi:text-label2">
-              <strong class="mi:[.pt__meta_&]:text-label">{{ c.who }}</strong> · {{ c.time }}
-              <span v-if="!c.heard" class="pt__new mi:w-[7px] mi:h-[7px] mi:ml-1 mi:rounded-[50%] mi:bg-p" aria-label="Not played yet" role="img" />
+          <div class="mi:grid mi:gap-1.5 mi:flex-1 mi:min-w-0">
+            <span class="mi:flex mi:items-center mi:gap-1 mi:text-[12.5px] mi:text-label2">
+              <strong class="mi:text-label">{{ c.who }}</strong> · {{ c.time }}
+              <span v-if="!c.heard" class="mi:w-[7px] mi:h-[7px] mi:ml-1 mi:rounded-[50%] mi:bg-p" aria-label="Not played yet" role="img" />
             </span>
-            <div class="pt__player mi:flex mi:items-center mi:gap-2.5">
+            <div class="mi:flex mi:items-center mi:gap-2.5">
               <MiIconButton :label="(c.id === playingId ? 'Stop clip from ' : 'Play clip from ') + c.who" size="small" variant="tinted" @click="c.id === playingId ? stop() : play(c.id, false)">
                 <MiIcon :svg="c.id === playingId ? icons.stop : icons.play" :size="14" />
               </MiIconButton>
-              <span class="pt__wave mi:flex mi:items-center mi:gap-0.5 mi:flex-1 mi:min-w-0 mi:h-7 mi:overflow-hidden" aria-hidden="true">
-                <span class="mi:[.pt__wave_&]:flex-1 mi:[.pt__wave_&]:min-w-0.5 mi:[.pt__wave_&]:rounded-[2px] mi:[.pt__clip.is-playing_.pt__wave_&]:bg-p-tint2" v-for="(h, i) in c.bars" :key="i" :style="{ transform: `scaleY(${h})` }" />
+              <span class="mi:flex mi:items-center mi:gap-0.5 mi:flex-1 mi:min-w-0 mi:h-7 mi:overflow-hidden" aria-hidden="true">
+                <span class="mi:h-full mi:flex-1 mi:min-w-0.5 mi:rounded-[2px]" :class="c.id === playingId ? 'mi:bg-p-tint2' : 'mi:bg-fill2'" v-for="(h, i) in c.bars" :key="i" :style="{ transform: `scaleY(${h})` }" />
               </span>
-              <span class="pt__dur mi:flex-[none] mi:text-[12px] mi:text-label3 mi:tabular-nums">0:{{ String(c.seconds).padStart(2, '0') }}</span>
+              <span class="mi:flex-[none] mi:text-[12px] mi:text-label3 mi:tabular-nums">0:{{ String(c.seconds).padStart(2, '0') }}</span>
             </div>
-            <span class="pt__track mi:block mi:h-[3px] mi:rounded-[2px] mi:bg-fill4 mi:overflow-hidden" aria-hidden="true">
-              <span class="mi:[.pt__track_&]:block mi:[.pt__track_&]:origin-left" v-if="c.id === playingId" :style="{ animationDuration: c.seconds + 's' }" @animationend="ended(c)" />
+            <span class="mi:block mi:h-[3px] mi:rounded-[2px] mi:bg-fill4 mi:overflow-hidden" aria-hidden="true">
+              <span class="mi:h-full mi:bg-p mi:animate-[grow_linear_forwards] mi:block mi:origin-left" v-if="c.id === playingId" :style="{ animationDuration: c.seconds + 's' }" @animationend="ended(c)" />
             </span>
           </div>
         </li>
       </ol>
 
-      <footer class="pt__talk mi:grid mi:justify-items-center mi:gap-2.5 mi:pt-5 mi:px-4 mi:pb-5.5 mi:border-t mi:border-t-sep">
+      <footer class="mi:grid mi:justify-items-center mi:gap-2.5 mi:pt-5 mi:px-4 mi:pb-5.5 mi:border-t mi:border-t-sep">
         <button
-          type="button" class="pt__ptt mi:relative mi:grid mi:place-items-center mi:w-19 mi:h-19 mi:[border:0] mi:rounded-[50%] mi:bg-p mi:text-p-on mi:cursor-pointer mi:touch-none mi:select-none mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring)] mi:focus-visible:[outline:3px_solid_var(--mi-p-tint2)] mi:focus-visible:outline-offset-[3px] mi:[&.is-rec]:transform-[scale(1.08)] mi:[&.is-rec]:bg-red" :class="{ 'is-rec': recording }" :aria-pressed="recording"
+          type="button" class="mi:group mi:relative mi:grid mi:place-items-center mi:w-19 mi:h-19 mi:[border:0] mi:rounded-[50%] mi:text-p-on mi:cursor-pointer mi:touch-none mi:select-none mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring)] mi:focus-visible:[outline:3px_solid_var(--mi-p-tint2)] mi:focus-visible:outline-offset-[3px]" :class="recording ? 'mi:transform-[scale(1.08)] mi:bg-red' : 'mi:bg-p'" :data-rec="recording || undefined" :aria-pressed="recording"
           aria-label="Hold to talk" @pointerdown.prevent="startRec" @pointerup="stopRec" @pointerleave="stopRec" @pointercancel="stopRec"
           @keydown.space.prevent="startRec" @keyup.space.prevent="stopRec"
         >
-          <span class="pt__ring mi:absolute mi:-inset-1.5 mi:border-2 mi:border-red mi:rounded-[50%] mi:opacity-0 mi:pointer-events-none mi:motion-reduce:[.pt__ptt.is-rec_&]:opacity-60" aria-hidden="true" />
+          <span class="mi:absolute mi:-inset-1.5 mi:border-2 mi:border-red mi:rounded-[50%] mi:opacity-0 mi:pointer-events-none mi:group-data-[rec]:opacity-80 mi:group-data-[rec]:transform-[scale(.9)] mi:group-data-[rec]:[--mi-out-s:1.35] mi:group-data-[rec]:animate-[out_1.2s_var(--mi-ease)_infinite] mi:motion-reduce:group-data-[rec]:animate-none mi:motion-reduce:group-data-[rec]:opacity-60" aria-hidden="true" />
           <MiIcon :svg="icons.mic" :size="28" />
         </button>
         <MiText variant="footnote" tone="label2" role="status">{{ recording ? 'Recording… release to send' : hint }}</MiText>
@@ -115,12 +115,3 @@ function stopRec() {
   hint.value = `Sent a ${seconds}s clip to Dock 4 crew.`
 }
 </script>
-
-<style scoped>
-.pt__wave span { height: 100%; background: var(--mi-fill2); }
-.pt__track span { height: 100%; background: var(--mi-p); animation: pt-progress linear forwards; }
-@keyframes pt-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
-.pt__ptt.is-rec .pt__ring { animation: pt-pulse 1.2s var(--mi-ease) infinite; }
-@keyframes pt-pulse { from { transform: scale(.9); opacity: .8; } to { transform: scale(1.35); opacity: 0; } }
-@media (prefers-reduced-motion: reduce) { .pt__ptt.is-rec .pt__ring { animation: none; } }
-</style>

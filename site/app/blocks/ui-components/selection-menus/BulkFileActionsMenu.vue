@@ -1,7 +1,7 @@
 <template>
-  <div class="bfa mi:@container mi:font-mi mi:text-label">
-    <section class="bfa__card mi:grid mi:gap-4 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:@[760px]:py-6 mi:@[760px]:px-7" aria-labelledby="bfa-title">
-      <header class="bfa__head mi:flex mi:flex-wrap mi:[align-items:flex-start] mi:justify-between mi:gap-y-2.5 mi:gap-x-4">
+  <div class="mi:@container mi:font-mi mi:text-label">
+    <section class="mi:grid mi:gap-4 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:@[760px]:py-6 mi:@[760px]:px-7" aria-labelledby="bfa-title">
+      <header class="mi:flex mi:flex-wrap mi:[align-items:flex-start] mi:justify-between mi:gap-y-2.5 mi:gap-x-4">
         <div>
           <MiText id="bfa-title" variant="title3" as="h2" weight="semibold">Contracts</MiText>
           <MiText variant="footnote" tone="label2">Legal · shared drive</MiText>
@@ -9,9 +9,9 @@
         <MiMenu v-model="sort" :items="sortItems" variant="popup" aria-label="Sort files" placement="bottom-end" />
       </header>
 
-      <div class="bfa__layout mi:grid mi:gap-4.5 mi:@[760px]:grid-cols-[minmax(0,_1fr)_240px] mi:@[760px]:items-start">
-        <div class="bfa__files mi:grid mi:min-w-0">
-          <div class="bfa__bar mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-1.5 mi:gap-x-3 mi:py-2.5 mi:px-3 mi:rounded-md mi:bg-fill4 mi:[&.is-active]:bg-p-tint" :class="{ 'is-active': picked.length }">
+      <div class="mi:grid mi:gap-4.5 mi:@[760px]:grid-cols-[minmax(0,_1fr)_240px] mi:@[760px]:items-start">
+        <div class="mi:grid mi:min-w-0">
+          <div class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-1.5 mi:gap-x-3 mi:py-2.5 mi:px-3 mi:rounded-md" :class="picked.length ? 'mi:bg-p-tint' : 'mi:bg-fill4'">
             <MiCheckbox
               :model-value="allPicked" :indeterminate="somePicked" :label="picked.length ? `${picked.length} selected` : 'Select all'"
               @update:model-value="toggleAll"
@@ -19,22 +19,22 @@
             <MiText as="span" variant="caption" tone="label2" aria-live="polite">{{ status }}</MiText>
           </div>
 
-          <ul class="bfa__list mi:grid mi:m-0 mi:p-0 mi:[list-style:none]" aria-label="Files">
-            <li v-for="f in sorted" :key="f.id" class="bfa__row mi:grid mi:grid-cols-[auto_auto_minmax(0,_1fr)_auto] mi:items-center mi:gap-3 mi:py-2.5 mi:px-3 mi:border-b mi:border-b-sep mi:[&.is-picked]:[background:color-mix(in_srgb,_var(--mi-p)_6%,_transparent)]" :class="{ 'is-picked': picked.includes(f.id) }">
+          <ul class="mi:grid mi:m-0 mi:p-0 mi:[list-style:none]" aria-label="Files">
+            <li v-for="f in sorted" :key="f.id" class="mi:grid mi:grid-cols-[auto_auto_minmax(0,_1fr)_auto] mi:items-center mi:gap-3 mi:py-2.5 mi:px-3 mi:border-b mi:border-b-sep" :class="picked.includes(f.id) ? 'mi:[background:color-mix(in_srgb,_var(--mi-p)_6%,_transparent)]' : ''">
               <MiCheckbox :model-value="picked.includes(f.id)" :aria-label="`Select ${f.name}`" @update:model-value="toggle(f.id)" />
-              <span class="bfa__icon mi:grid mi:place-items-center mi:w-8 mi:h-8 mi:rounded-sm mi:bg-fill3 mi:text-label2" aria-hidden="true"><MiIcon name="document" :size="18" /></span>
-              <div class="bfa__text mi:min-w-0">
+              <span class="mi:grid mi:place-items-center mi:w-8 mi:h-8 mi:rounded-sm mi:bg-fill3 mi:text-label2" aria-hidden="true"><MiIcon name="document" :size="18" /></span>
+              <div class="mi:min-w-0">
                 <MiText variant="subheadline" weight="medium" :lines="1">{{ f.name }}</MiText>
                 <MiText variant="caption" tone="label2">{{ f.size }} · edited {{ f.edited }}</MiText>
               </div>
-              <MiIcon v-if="f.starred" name="star" filled :size="16" label="Starred" class="bfa__star mi:text-orange" />
+              <MiIcon v-if="f.starred" name="star" filled :size="16" label="Starred" class="mi:text-orange" />
             </li>
-            <li v-if="!files.length" class="bfa__empty mi:py-4 mi:px-3"><MiText variant="footnote" tone="label2">Folder is empty.</MiText></li>
+            <li v-if="!files.length" class="mi:py-4 mi:px-3"><MiText variant="footnote" tone="label2">Folder is empty.</MiText></li>
           </ul>
         </div>
 
         <!-- Selection menu drawn open in place; it acts on every checked file. -->
-        <div class="bfa__menu mi:grid mi:content-start mi:justify-items-start mi:gap-2">
+        <div class="mi:grid mi:content-start mi:justify-items-start mi:gap-2">
           <MiText variant="caption" tone="label3" weight="semibold" as="h3">Actions for selection</MiText>
           <MiContextMenu inline :items="actions" label="Selection actions" :width="240" highlighted="star" @select="run" />
         </div>

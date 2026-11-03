@@ -1,38 +1,38 @@
 <template>
-  <section class="mat mi:@container mi:flex mi:flex-col mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:font-mi mi:text-label mi:overflow-hidden" aria-labelledby="mat-title">
-    <header class="mat__head mi:flex mi:flex-wrap mi:items-baseline mi:justify-between mi:gap-y-1 mi:gap-x-3 mi:py-3.5 mi:px-4 mi:border-b mi:border-b-sep">
+  <section class="mi:@container mi:flex mi:flex-col mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:font-mi mi:text-label mi:overflow-hidden" aria-labelledby="mat-title">
+    <header class="mi:flex mi:flex-wrap mi:items-baseline mi:justify-between mi:gap-y-1 mi:gap-x-3 mi:py-3.5 mi:px-4 mi:border-b mi:border-b-sep">
       <MiText id="mat-title" as="h2" variant="headline" weight="semibold"># release-train</MiText>
       <MiText variant="caption" tone="label2">Hover or focus a message for its actions</MiText>
     </header>
 
-    <div v-if="pinned" class="mat__pin mi:flex mi:items-center mi:gap-2 mi:pt-1.5 mi:pr-2 mi:pb-1.5 mi:pl-4 mi:text-p-text mi:[background:var(--mi-p-tint)]" role="status">
+    <div v-if="pinned" class="mi:flex mi:items-center mi:gap-2 mi:pt-1.5 mi:pr-2 mi:pb-1.5 mi:pl-4 mi:text-p-text mi:[background:var(--mi-p-tint)]" role="status">
       <MiIcon name="bookmark" :size="15" filled />
-      <MiText variant="footnote" :lines="1" class="mat__pin-text mi:flex-1 mi:min-w-0"><strong>{{ pinned.author }}:</strong> {{ pinned.text }}</MiText>
+      <MiText variant="footnote" :lines="1" class="mi:text-label! mi:flex-1 mi:min-w-0"><strong>{{ pinned.author }}:</strong> {{ pinned.text }}</MiText>
       <MiIconButton label="Unpin message" variant="plain" size="small" @click="pinnedId = ''"><MiIcon name="close" :size="14" /></MiIconButton>
     </div>
 
-    <ol class="mat__list mi:grid mi:m-0 mi:py-2 mi:px-0 mi:[list-style:none]" aria-label="Messages">
-      <li v-for="m in messages" :key="m.id" class="mat__row mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:gap-1.5 mi:py-2.5 mi:px-4 mi:[&.is-active]:[background:var(--mi-fill4)] mi:@[640px]:grid-cols-[minmax(0,_1fr)_auto] mi:@[640px]:items-start" :class="{ 'is-active': active === m.id }" @mouseenter="active = m.id" @focusin="active = m.id">
+    <ol class="mi:grid mi:m-0 mi:py-2 mi:px-0 mi:[list-style:none]" aria-label="Messages">
+      <li v-for="m in messages" :key="m.id" class="mi:group mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:gap-1.5 mi:py-2.5 mi:px-4 mi:@[640px]:grid-cols-[minmax(0,_1fr)_auto] mi:@[640px]:items-start" :class="active === m.id ? 'mi:[background:var(--mi-fill4)]' : ''" :data-active="active === m.id || undefined" @mouseenter="active = m.id" @focusin="active = m.id">
         <MiMessage :label="m.author">
           <template #avatar><MiAvatar :name="m.author" size="sm" tone="auto" decorative /></template>
-          <template #header><span class="mat__meta mi:text-[12px] mi:text-label2"><strong class="mi:[.mat__meta_&]:mr-1 mi:[.mat__meta_&]:font-semibold">{{ m.author }}</strong> {{ m.time }}</span></template>
+          <template #header><span class="mi:text-[12px] mi:text-label2"><strong class="mi:text-label mi:mr-1 mi:font-semibold">{{ m.author }}</strong> {{ m.time }}</span></template>
           <MiBubble variant="muted">{{ m.text }}</MiBubble>
           <template v-if="m.reactions.length" #footer>
-            <div class="mat__reactions mi:flex mi:flex-wrap mi:gap-1.5">
+            <div class="mi:flex mi:flex-wrap mi:gap-1.5">
               <button
-                v-for="r in m.reactions" :key="r.emoji" type="button" class="mat__reaction mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px] mi:inline-flex mi:items-center mi:gap-1 mi:py-0.5 mi:px-2 mi:[border:0] mi:rounded-[999px] mi:[background:var(--mi-fill3)] mi:text-label mi:cursor-pointer mi:shadow-[inset_0_0_0_1px_transparent] mi:[&.is-mine]:[background:var(--mi-p-tint)] mi:[&.is-mine]:shadow-[inset_0_0_0_1px_color-mix(in_srgb,_var(--mi-p)_45%,_transparent)] mi:[&.is-mine]:text-p-text" :class="{ 'is-mine': r.mine }" :aria-pressed="r.mine"
+                v-for="r in m.reactions" :key="r.emoji" type="button" class="mi:[font:inherit] mi:text-[13px] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px] mi:inline-flex mi:items-center mi:gap-1 mi:py-0.5 mi:px-2 mi:[border:0] mi:rounded-[999px] mi:cursor-pointer" :class="r.mine ? 'mi:[background:var(--mi-p-tint)] mi:shadow-[inset_0_0_0_1px_color-mix(in_srgb,_var(--mi-p)_45%,_transparent)] mi:text-p-text' : 'mi:[background:var(--mi-fill3)] mi:shadow-[inset_0_0_0_1px_transparent] mi:text-label'" :aria-pressed="r.mine"
                 :aria-label="`${r.emoji} ${r.count}, ${r.mine ? 'remove' : 'add'} your reaction`" @click="react(m, r.emoji)"
               >
-                {{ r.emoji }} <span class="mi:[.mat__reaction_&]:tabular-nums mi:[.mat__reaction_&]:font-semibold">{{ r.count }}</span>
+                {{ r.emoji }} <span class="mi:tabular-nums mi:font-semibold">{{ r.count }}</span>
               </button>
             </div>
           </template>
         </MiMessage>
 
         <!-- The toolbar itself: quick reactions, then message actions. Shown with opacity only, its space is always reserved. -->
-        <div class="mat__bar mi:[.mat__row:not(.is-active):not(:focus-within)_&]:hidden mi:@[640px]:[.mat__row:not(.is-active):not(:focus-within)_&]:flex mi:flex mi:flex-wrap mi:items-center mi:justify-self-end mi:gap-0.5 mi:p-[3px] mi:rounded-[12px] mi:[background:var(--mi-card)] mi:shadow-2 mi:opacity-0 mi:transform-[translateY(4px)] mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),_transform_var(--mi-dur-2)_var(--mi-ease)]" role="toolbar" :aria-label="'Actions for message from ' + m.author">
-          <button v-for="e in quick" :key="e" type="button" class="mat__emoji mi:grid mi:place-items-center mi:w-7.5 mi:h-7.5 mi:p-0 mi:[border:0] mi:rounded-[8px] mi:[background:none] mi:text-[16px] mi:cursor-pointer mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease)] mi:hover:transform-[scale(1.18)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" :aria-label="'React with ' + e" @click="react(m, e)">{{ e }}</button>
-          <span class="mat__sep mi:w-px mi:h-4.5 mi:mx-[3px] mi:[background:var(--mi-sep)]" aria-hidden="true" />
+        <div class="mi:hidden mi:group-data-[active]:flex mi:group-focus-within:flex mi:@[640px]:flex mi:group-data-[active]:opacity-100 mi:group-data-[active]:transform-[none] mi:group-focus-within:opacity-100 mi:group-focus-within:transform-[none] mi:flex-wrap mi:items-center mi:justify-self-end mi:gap-0.5 mi:p-[3px] mi:rounded-[12px] mi:[background:var(--mi-card)] mi:shadow-2 mi:opacity-0 mi:transform-[translateY(4px)] mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),_transform_var(--mi-dur-2)_var(--mi-ease)]" role="toolbar" :aria-label="'Actions for message from ' + m.author">
+          <button v-for="e in quick" :key="e" type="button" class="mi:grid mi:place-items-center mi:w-7.5 mi:h-7.5 mi:p-0 mi:[border:0] mi:rounded-[8px] mi:[background:none] mi:text-[16px] mi:cursor-pointer mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease)] mi:hover:transform-[scale(1.18)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" :aria-label="'React with ' + e" @click="react(m, e)">{{ e }}</button>
+          <span class="mi:w-px mi:h-4.5 mi:mx-[3px] mi:[background:var(--mi-sep)]" aria-hidden="true" />
           <MiIconButton label="Reply" variant="plain" size="small" @click="replyTo = m.id"><MiIcon name="chat" :size="16" /></MiIconButton>
           <MiIconButton :label="pinnedId === m.id ? 'Unpin' : 'Pin to channel'" variant="plain" size="small" :pressed="pinnedId === m.id" @click="pinnedId = pinnedId === m.id ? '' : m.id">
             <MiIcon name="bookmark" :size="16" :filled="pinnedId === m.id" />
@@ -47,9 +47,9 @@
       </li>
     </ol>
 
-    <form class="mat__composer mi:grid mi:gap-1.5 mi:pt-3 mi:px-4 mi:pb-3.5 mi:border-t mi:border-t-sep" @submit.prevent="send">
-      <div v-if="replying" class="mat__reply mi:flex mi:items-center mi:gap-2 mi:pt-1 mi:pr-1 mi:pb-1 mi:pl-2.5 mi:border-l-3 mi:border-l-p mi:rounded-[4px] mi:[background:var(--mi-fill4)]">
-        <MiText variant="caption" tone="label2" :lines="1" class="mat__reply-text mi:flex-1 mi:min-w-0">Replying to <strong>{{ replying.author }}</strong>: {{ replying.text }}</MiText>
+    <form class="mi:grid mi:gap-1.5 mi:pt-3 mi:px-4 mi:pb-3.5 mi:border-t mi:border-t-sep" @submit.prevent="send">
+      <div v-if="replying" class="mi:flex mi:items-center mi:gap-2 mi:pt-1 mi:pr-1 mi:pb-1 mi:pl-2.5 mi:border-l-3 mi:border-l-p mi:rounded-[4px] mi:[background:var(--mi-fill4)]">
+        <MiText variant="caption" tone="label2" :lines="1" class="mi:flex-1 mi:min-w-0">Replying to <strong>{{ replying.author }}</strong>: {{ replying.text }}</MiText>
         <MiIconButton label="Cancel reply" variant="plain" size="small" @click="replyTo = ''"><MiIcon name="close" :size="14" /></MiIconButton>
       </div>
       <MiInputGroup v-model="draft" aria-label="Message #release-train" placeholder="Message #release-train">
@@ -106,10 +106,3 @@ function send() {
   draft.value = ''; replyTo.value = ''; active.value = id
 }
 </script>
-
-<style scoped>
-.mat__pin-text { color: var(--mi-label); }
-.mat__meta strong { color: var(--mi-label); }
-.mat__row.is-active .mat__bar, .mat__row:focus-within .mat__bar { opacity: 1; transform: none; }
-.mat__reaction { font: inherit; font-size: 13px; }
-</style>

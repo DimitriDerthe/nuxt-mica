@@ -1,47 +1,47 @@
 <template>
-  <section class="tmt mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="tmt-title">
-    <header class="tmt__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3.5 mi:p-5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1">
-      <div class="tmt__amount-block mi:grid mi:gap-1">
-        <div class="tmt__status-row mi:flex mi:flex-wrap mi:items-center mi:gap-2">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="tmt-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3.5 mi:p-5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1">
+      <div class="mi:grid mi:gap-1">
+        <div class="mi:flex mi:flex-wrap mi:items-center mi:gap-2">
           <MiBadge :tone="refunded > 0 ? 'warning' : 'success'" :label="statusLabel" dot />
           <MiText as="span" variant="caption" tone="label2">4 Nov 2026, 14:02</MiText>
         </div>
-        <MiText id="tmt-title" as="h2" variant="largeTitle" weight="bold" class="tmt__amount" tabular>{{ eur(gross) }}</MiText>
-        <MiText variant="footnote" tone="label2">From <strong class="tmt__strong mi:text-label mi:font-semibold">Camille Moreau</strong> for order FH-20431</MiText>
+        <MiText id="tmt-title" as="h2" variant="largeTitle" weight="bold" class="mi:tracking-[-.04em]!" tabular>{{ eur(gross) }}</MiText>
+        <MiText variant="footnote" tone="label2">From <strong class="mi:text-label mi:font-semibold">Camille Moreau</strong> for order FH-20431</MiText>
       </div>
-      <div class="tmt__id mi:flex mi:flex-wrap mi:items-center mi:gap-2 mi:min-w-0">
-        <code class="tmt__code mi:py-[5px] mi:px-[9px] mi:rounded-[8px] mi:[background:var(--mi-fill4)] mi:[font:500_12px/1.4_ui-monospace,_SFMono-Regular,_Menlo,_monospace] mi:text-label2 mi:wrap-anywhere">pay_sample_8Hq2LxV41c</code>
+      <div class="mi:flex mi:flex-wrap mi:items-center mi:gap-2 mi:min-w-0">
+        <code class="mi:py-[5px] mi:px-[9px] mi:rounded-[8px] mi:[background:var(--mi-fill4)] mi:[font:500_12px/1.4_ui-monospace,_SFMono-Regular,_Menlo,_monospace] mi:text-label2 mi:wrap-anywhere">pay_sample_8Hq2LxV41c</code>
         <MiCopyButton value="pay_sample_8Hq2LxV41c" label="Copy ID" variant="outline" />
       </div>
     </header>
 
     <!-- Where the money went: gross split into net, fees and refunds, recomputed after each refund. -->
-    <div class="tmt__split mi:grid mi:content-start mi:gap-3.5 mi:py-4.5 mi:px-5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:min-w-0">
-      <div class="tmt__split-head mi:flex mi:flex-wrap mi:items-baseline mi:justify-between mi:gap-2">
+    <div class="mi:grid mi:content-start mi:gap-3.5 mi:py-4.5 mi:px-5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:min-w-0">
+      <div class="mi:flex mi:flex-wrap mi:items-baseline mi:justify-between mi:gap-2">
         <MiText as="h3" variant="headline" weight="semibold">Where it goes</MiText>
         <MiText variant="subheadline" weight="semibold" tabular>Net {{ eur(net) }}</MiText>
       </div>
       <MiStackedBar :key="refunded" :segments="segments" :height="18" :legend-columns="2" :format-share="share" aria-label="Breakdown of the payment" />
     </div>
 
-    <div class="tmt__grid mi:grid mi:gap-3.5 mi:@[800px]:grid-cols-[minmax(0,_1.1fr)_minmax(0,_1fr)]">
-      <div class="tmt__card mi:grid mi:content-start mi:gap-3.5 mi:py-4.5 mi:px-5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:min-w-0">
+    <div class="mi:grid mi:gap-3.5 mi:@[800px]:grid-cols-[minmax(0,_1.1fr)_minmax(0,_1fr)]">
+      <div class="mi:grid mi:content-start mi:gap-3.5 mi:py-4.5 mi:px-5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:min-w-0">
         <MiText as="h3" variant="headline" weight="semibold">Details</MiText>
         <MiDetails :items="details" label-width="120px" />
       </div>
 
-      <div class="tmt__card mi:grid mi:content-start mi:gap-3.5 mi:py-4.5 mi:px-5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:min-w-0">
+      <div class="mi:grid mi:content-start mi:gap-3.5 mi:py-4.5 mi:px-5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:min-w-0">
         <MiText as="h3" variant="headline" weight="semibold">Lifecycle</MiText>
         <MiTimeline :items="events" aria-label="Payment lifecycle" />
       </div>
     </div>
 
-    <form class="tmt__refund mi:grid mi:content-start mi:gap-3.5 mi:py-4.5 mi:px-5 mi:rounded-xl mi:shadow-1 mi:min-w-0 mi:@[1000px]:grid-cols-[minmax(0,_.8fr)_minmax(0,_1.4fr)] mi:@[1000px]:items-end" novalidate @submit.prevent="refund">
-      <div class="tmt__refund-text">
+    <form class="mi:[background:linear-gradient(120deg,_color-mix(in_srgb,_var(--mi-orange)_8%,_transparent),_transparent_60%),_var(--mi-card)] mi:grid mi:content-start mi:gap-3.5 mi:py-4.5 mi:px-5 mi:rounded-xl mi:shadow-1 mi:min-w-0 mi:@[1000px]:grid-cols-[minmax(0,_.8fr)_minmax(0,_1.4fr)] mi:@[1000px]:items-end" novalidate @submit.prevent="refund">
+      <div>
         <MiText as="h3" variant="headline" weight="semibold">Refund</MiText>
         <MiText variant="caption" tone="label2">{{ eur(refundable) }} still refundable. Fees are not returned by the card network.</MiText>
       </div>
-      <div class="tmt__refund-fields mi:grid mi:gap-3 mi:items-end mi:@[640px]:grid-cols-[160px_minmax(0,_1fr)_auto]">
+      <div class="mi:grid mi:gap-3 mi:items-end mi:@[640px]:grid-cols-[160px_minmax(0,_1fr)_auto]">
         <MiField label="Amount" :error="error">
           <template #default="{ id, describedBy }">
             <MiInput :id="id" v-model="amount" prefix="€" inputmode="decimal" :aria-describedby="describedBy" :disabled="refundable <= 0" @update:model-value="error = ''" />
@@ -52,7 +52,7 @@
             <MiNativeSelect :id="id" v-model="reason" :options="reasons" :disabled="refundable <= 0" />
           </template>
         </MiField>
-        <MiButton type="submit" variant="destructive" :loading="busy" :disabled="refundable <= 0" class="tmt__refund-btn">Refund</MiButton>
+        <MiButton type="submit" variant="destructive" :loading="busy" :disabled="refundable <= 0">Refund</MiButton>
       </div>
     </form>
   </section>
@@ -122,11 +122,3 @@ function refund() {
   }, 700)
 }
 </script>
-
-<style scoped>
-.tmt__amount { letter-spacing: -.04em; }
-
-.tmt__refund { background: var(--mi-card); }
-
-.tmt__refund { background: linear-gradient(120deg, color-mix(in srgb, var(--mi-orange) 8%, transparent), transparent 60%), var(--mi-card); }
-</style>

@@ -1,54 +1,54 @@
 <template>
   <!-- Single-letter shortcuts fire while focus is anywhere inside this panel, never page-wide. -->
-  <section class="qal mi:@container mi:grid mi:content-start mi:gap-4.5 mi:font-mi mi:text-label" aria-labelledby="qal-title" @keydown="onKey">
-    <header class="qal__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-y-2 mi:gap-x-4">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-4.5 mi:font-mi mi:text-label" aria-labelledby="qal-title" @keydown="onKey">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-y-2 mi:gap-x-4">
       <div>
         <MiText id="qal-title" variant="title3" as="h2" weight="semibold">Quick actions</MiText>
         <MiText variant="footnote" tone="label2">Focus the panel and press a key, or click a card.</MiText>
       </div>
-      <p class="qal__live mi:m-0 mi:min-h-[1.4em] mi:text-[13px] mi:font-medium mi:text-p-text" role="status" aria-live="polite">{{ announce }}</p>
+      <p class="mi:m-0 mi:min-h-[1.4em] mi:text-[13px] mi:font-medium mi:text-p-text" role="status" aria-live="polite">{{ announce }}</p>
     </header>
 
-    <div class="qal__layout mi:grid mi:gap-5 mi:@[900px]:grid-cols-[minmax(0,_1fr)_300px] mi:@[900px]:items-start">
-      <ul class="qal__grid mi:[list-style:none] mi:m-0 mi:p-0 mi:grid mi:gap-2.5 mi:grid-cols-[minmax(0,_1fr)] mi:@[480px]:grid-cols-2 mi:@[660px]:grid-cols-3" aria-label="Actions">
+    <div class="mi:grid mi:gap-5 mi:@[900px]:grid-cols-[minmax(0,_1fr)_300px] mi:@[900px]:items-start">
+      <ul class="mi:[list-style:none] mi:m-0 mi:p-0 mi:grid mi:gap-2.5 mi:grid-cols-[minmax(0,_1fr)] mi:@[480px]:grid-cols-2 mi:@[660px]:grid-cols-3" aria-label="Actions">
         <li v-for="a in actions" :key="a.key">
-          <button type="button" class="qal__card mi:relative mi:grid mi:grid-cols-[auto_minmax(0,_1fr)_auto] mi:items-center mi:gap-3 mi:w-full mi:h-full mi:p-3.5 mi:[border:0] mi:rounded-lg mi:bg-card mi:shadow-1 mi:text-inherit mi:[font:inherit] mi:text-start mi:cursor-pointer mi:isolate mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring)] mi:hover:transform-[translateY(-2px)] mi:active:transform-[scale(.98)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:@[660px]:grid-cols-[1fr_auto] mi:@[660px]:grid-rows-[auto_1fr] mi:@[660px]:items-start mi:@[660px]:gap-y-4.5 mi:@[660px]:gap-x-2 mi:@[660px]:p-4 mi:motion-reduce:[transition:none]" :aria-keyshortcuts="a.key" :style="{ '--qal-c': a.color }" @click="fire(a)">
-            <span v-if="flashes[a.key]" :key="flashes[a.key]" class="qal__flash mi:absolute mi:inset-0 mi:-z-1 mi:rounded-[inherit] mi:[background:color-mix(in_srgb,_var(--qal-c)_18%,_transparent)]" aria-hidden="true" />
-            <span class="qal__icon mi:grid mi:place-items-center mi:w-10 mi:h-10 mi:rounded-[12px] mi:text-(--qal-c) mi:[background:color-mix(in_srgb,_var(--qal-c)_14%,_transparent)]"><MiIcon :svg="a.glyph" :size="20" /></span>
-            <span class="qal__text mi:@[660px]:col-span-full mi:@[660px]:row-[2] mi:grid mi:gap-0.5 mi:min-w-0 mi:text-[13px] mi:text-label2">
-              <strong class="mi:[.qal__text_&]:text-[15px] mi:[.qal__text_&]:font-semibold mi:[.qal__text_&]:text-label">{{ a.title }}</strong>
+          <button type="button" class="mi:relative mi:grid mi:grid-cols-[auto_minmax(0,_1fr)_auto] mi:items-center mi:gap-3 mi:w-full mi:h-full mi:p-3.5 mi:[border:0] mi:rounded-lg mi:bg-card mi:shadow-1 mi:text-inherit mi:[font:inherit] mi:text-start mi:cursor-pointer mi:isolate mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring)] mi:hover:transform-[translateY(-2px)] mi:active:transform-[scale(.98)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:@[660px]:grid-cols-[1fr_auto] mi:@[660px]:grid-rows-[auto_1fr] mi:@[660px]:items-start mi:@[660px]:gap-y-4.5 mi:@[660px]:gap-x-2 mi:@[660px]:p-4 mi:motion-reduce:[transition:none]" :aria-keyshortcuts="a.key" :style="{ '--qal-c': a.color }" @click="fire(a)">
+            <span v-if="flashes[a.key]" :key="flashes[a.key]" class="mi:[--mi-out-s:1.04] mi:animate-[out_700ms_var(--mi-ease)_both] mi:motion-reduce:animate-none mi:absolute mi:inset-0 mi:-z-1 mi:rounded-[inherit] mi:[background:color-mix(in_srgb,_var(--qal-c)_18%,_transparent)]" aria-hidden="true" />
+            <span class="mi:grid mi:place-items-center mi:w-10 mi:h-10 mi:rounded-[12px] mi:text-(--qal-c) mi:[background:color-mix(in_srgb,_var(--qal-c)_14%,_transparent)]"><MiIcon :svg="a.glyph" :size="20" /></span>
+            <span class="mi:@[660px]:col-span-full mi:@[660px]:row-[2] mi:grid mi:gap-0.5 mi:min-w-0 mi:text-[13px] mi:text-label2">
+              <strong class="mi:text-[15px] mi:font-semibold mi:text-label">{{ a.title }}</strong>
               <span>{{ a.desc }}</span>
             </span>
-            <MiKbd class="qal__key mi:@[660px]:col-[2] mi:@[660px]:row-[1]">{{ a.key }}</MiKbd>
+            <MiKbd class="mi:@[660px]:col-[2] mi:@[660px]:row-[1]">{{ a.key }}</MiKbd>
           </button>
         </li>
       </ul>
 
-      <aside class="qal__side mi:grid mi:gap-3 mi:p-4 mi:rounded-lg mi:bg-fill4" aria-labelledby="qal-jump">
+      <aside class="mi:grid mi:gap-3 mi:p-4 mi:rounded-lg mi:bg-fill4" aria-labelledby="qal-jump">
         <MiText id="qal-jump" variant="subheadline" as="h3" weight="semibold">Jump back in</MiText>
-        <ul class="qal__links mi:[list-style:none] mi:m-0 mi:p-0 mi:grid mi:gap-0.5">
-          <li v-for="l in sortedLinks" :key="l.id" class="qal__link mi:flex mi:items-center mi:gap-1">
-            <a href="#" class="qal__link-a mi:grid mi:flex-1 mi:min-w-0 mi:py-2 mi:px-2.5 mi:rounded-md mi:[text-decoration:none] mi:text-inherit mi:hover:bg-fill3 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]">
-              <span class="qal__link-kind mi:text-[11px] mi:font-semibold mi:uppercase mi:tracking-[.06em] mi:text-label3">{{ l.kind }}</span>
-              <span class="qal__link-title mi:text-[14px] mi:font-semibold mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ l.title }}</span>
-              <span class="qal__link-meta mi:text-[12px] mi:text-label2">{{ l.meta }}</span>
+        <ul class="mi:[list-style:none] mi:m-0 mi:p-0 mi:grid mi:gap-0.5">
+          <li v-for="l in sortedLinks" :key="l.id" class="mi:flex mi:items-center mi:gap-1">
+            <a href="#" class="mi:grid mi:flex-1 mi:min-w-0 mi:py-2 mi:px-2.5 mi:rounded-md mi:[text-decoration:none] mi:text-inherit mi:hover:bg-fill3 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]">
+              <span class="mi:text-[11px] mi:font-semibold mi:uppercase mi:tracking-[.06em] mi:text-label3">{{ l.kind }}</span>
+              <span class="mi:text-[14px] mi:font-semibold mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ l.title }}</span>
+              <span class="mi:text-[12px] mi:text-label2">{{ l.meta }}</span>
             </a>
             <MiIconButton
               :label="(l.pinned ? 'Unpin ' : 'Pin ') + l.title" variant="plain" size="small" :pressed="l.pinned"
               @click="l.pinned = !l.pinned"
             >
-              <MiIcon name="star" :size="16" :filled="l.pinned" :class="{ 'qal__pin--on mi:text-orange': l.pinned }" />
+              <MiIcon name="star" :size="16" :filled="l.pinned" :class="l.pinned ? 'mi:text-orange' : ''" />
             </MiIconButton>
           </li>
         </ul>
 
-        <div v-if="recent.length" class="qal__recent mi:grid mi:gap-2 mi:pt-3 mi:border-t mi:border-t-sep">
-          <MiText variant="caption" tone="label3" weight="semibold" class="qal__caps">Just used</MiText>
-          <ol class="qal__recent-list mi:[list-style:none] mi:m-0 mi:p-0 mi:grid mi:gap-1.5 mi:text-[13px]">
-            <li class="mi:[.qal__recent-list_li&]:items-center mi:[.qal__recent-list_li&]:gap-2" v-for="r in recent" :key="r.id">
-              <span class="qal__recent-dot mi:w-2 mi:h-2 mi:rounded-[50%]" :style="{ background: r.color }" aria-hidden="true" />
-              <span>{{ r.title }}</span>
-              <MiText class="mi:[.qal__recent-list_li&]:items-center mi:[.qal__recent-list_li&]:gap-2" variant="caption2" tone="label3" as="span">{{ r.at }}</MiText>
+        <div v-if="recent.length" class="mi:grid mi:gap-2 mi:pt-3 mi:border-t mi:border-t-sep">
+          <MiText variant="caption" tone="label3" weight="semibold" class="mi:uppercase! mi:tracking-[.06em]!">Just used</MiText>
+          <ol class="mi:[list-style:none] mi:m-0 mi:p-0 mi:grid mi:gap-1.5 mi:text-[13px]">
+            <li class="mi:flex mi:[--mi-in-x:-6px] mi:animate-[in_var(--mi-dur-3)_var(--mi-spring)_both] mi:motion-reduce:animate-none mi:items-center mi:gap-2" v-for="r in recent" :key="r.id">
+              <span class="mi:w-2 mi:h-2 mi:rounded-[50%]" :style="{ background: r.color }" aria-hidden="true" />
+              <span class="mi:flex-1">{{ r.title }}</span>
+              <MiText variant="caption2" tone="label3" as="span">{{ r.at }}</MiText>
             </li>
           </ol>
         </div>
@@ -101,13 +101,3 @@ function onKey(e: KeyboardEvent) {
   fire(a)
 }
 </script>
-
-<style scoped>
-.qal__flash { animation: qal-flash 700ms var(--mi-ease) both; }
-@keyframes qal-flash { from { opacity: 1; transform: scale(.96); } to { opacity: 0; transform: scale(1.04); } }
-.qal__caps { text-transform: uppercase; letter-spacing: .06em; }
-.qal__recent-list li { display: flex; animation: qal-in var(--mi-dur-3) var(--mi-spring) both; }
-.qal__recent-list li > span:nth-child(2) { flex: 1; }
-@keyframes qal-in { from { opacity: 0; transform: translateX(-6px); } }
-@media (prefers-reduced-motion: reduce) { .qal__flash, .qal__recent-list li { animation: none; } }
-</style>

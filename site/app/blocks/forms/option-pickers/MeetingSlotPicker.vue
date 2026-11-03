@@ -1,20 +1,20 @@
 <template>
-  <section class="msp mi:@container/msp mi:font-mi mi:text-label" aria-labelledby="msp-title">
-    <div v-if="booked" class="msp__done mi:grid mi:grid-cols-[auto_minmax(0,_1fr)] mi:items-center mi:gap-y-4 mi:gap-x-5 mi:p-6 mi:rounded-xl mi:bg-card mi:shadow-1 mi:@[640px]/msp:grid-cols-[auto_minmax(0,_1fr)_auto]" role="status" aria-live="polite">
-      <span class="msp__done-date mi:grid mi:justify-items-center mi:w-18 mi:py-2.5 mi:px-0 mi:rounded-[16px] mi:bg-p-tint mi:text-p-text mi:text-[12px] mi:font-semibold mi:uppercase mi:tracking-[.06em]" aria-hidden="true"><b class="mi:[.msp__done-date_&]:text-[30px] mi:[.msp__done-date_&]:leading-[1.1] mi:[.msp__done-date_&]:tracking-[-.03em] mi:[.msp__done-date_&]:text-label">{{ booked.dayNum }}</b>{{ booked.month }}</span>
-      <div class="msp__done-text mi:grid mi:gap-1">
+  <section class="mi:@container/msp mi:font-mi mi:text-label" aria-labelledby="msp-title">
+    <div v-if="booked" class="mi:grid mi:grid-cols-[auto_minmax(0,_1fr)] mi:items-center mi:gap-y-4 mi:gap-x-5 mi:p-6 mi:rounded-xl mi:bg-card mi:shadow-1 mi:@[640px]/msp:grid-cols-[auto_minmax(0,_1fr)_auto]" role="status" aria-live="polite">
+      <span class="mi:grid mi:justify-items-center mi:w-18 mi:py-2.5 mi:px-0 mi:rounded-[16px] mi:bg-p-tint mi:text-p-text mi:text-[12px] mi:font-semibold mi:uppercase mi:tracking-[.06em]" aria-hidden="true"><b class="mi:text-[30px] mi:leading-[1.1] mi:tracking-[-.03em] mi:text-label">{{ booked.dayNum }}</b>{{ booked.month }}</span>
+      <div class="mi:grid mi:gap-1">
         <MiText as="h2" variant="title3" weight="semibold">You're booked with Dana</MiText>
         <MiText variant="subheadline" tone="label2">{{ booked.line }}</MiText>
         <MiText variant="footnote" tone="label3">An invite is on its way to your inbox with the {{ booked.where }} details.</MiText>
       </div>
-      <div class="msp__done-actions mi:col-span-full mi:@[640px]/msp:col-[auto]">
+      <div class="mi:col-span-full mi:@[640px]/msp:col-[auto]">
         <MiButton variant="gray" @click="booked = null">Change time</MiButton>
       </div>
     </div>
 
-    <form v-else class="msp__card mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:rounded-xl mi:bg-card mi:shadow-1 mi:overflow-hidden mi:@[760px]/msp:grid-cols-[290px_minmax(0,_1fr)]" novalidate @submit.prevent="confirm">
-      <aside class="msp__host mi:@[760px]/msp:border-r mi:@[760px]/msp:border-r-sep mi:grid mi:content-start mi:gap-4.5 mi:p-5 mi:bg-fill4">
-        <div class="msp__who mi:flex mi:items-center mi:gap-3">
+    <form v-else class="mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:rounded-xl mi:bg-card mi:shadow-1 mi:overflow-hidden mi:@[760px]/msp:grid-cols-[290px_minmax(0,_1fr)]" novalidate @submit.prevent="confirm">
+      <aside class="mi:border-b mi:border-b-sep mi:@[760px]/msp:border-r mi:@[760px]/msp:border-r-sep mi:grid mi:content-start mi:gap-4.5 mi:p-5 mi:bg-fill4">
+        <div class="mi:flex mi:items-center mi:gap-3">
           <MiAvatar name="Dana Whitfield" size="md" tone="indigo" decorative />
           <div>
             <MiText variant="footnote" tone="label2">Dana Whitfield · Halcyon Health</MiText>
@@ -22,11 +22,11 @@
           </div>
         </div>
 
-        <div class="msp__opt mi:grid mi:gap-2">
+        <div class="mi:grid mi:gap-2">
           <MiText id="msp-dur" variant="footnote" weight="semibold">Length</MiText>
           <MiToggleGroup v-model="duration" :options="durations" variant="outline" size="sm" label="Meeting length" />
         </div>
-        <div class="msp__opt mi:grid mi:gap-2">
+        <div class="mi:grid mi:gap-2">
           <MiText variant="footnote" weight="semibold">Where</MiText>
           <MiSegmented v-model="where" label="Meeting place" :options="places" />
         </div>
@@ -35,39 +35,39 @@
         </MiField>
       </aside>
 
-      <div class="msp__pick mi:grid mi:content-start mi:gap-3.5 mi:p-5 mi:min-w-0">
-        <div class="msp__days mi:grid mi:grid-cols-5 mi:gap-1.5" role="group" aria-label="Day">
+      <div class="mi:grid mi:content-start mi:gap-3.5 mi:p-5 mi:min-w-0">
+        <div class="mi:grid mi:grid-cols-5 mi:gap-1.5" role="group" aria-label="Day">
           <button
-            v-for="(d, i) in days" :key="d.key" type="button" class="msp__day mi:grid mi:justify-items-center mi:gap-0.5 mi:pt-2.5 mi:px-1 mi:pb-2 mi:border mi:border-sep mi:rounded-[14px] mi:bg-transparent mi:text-label mi:[font:inherit] mi:cursor-pointer mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:[&:hover:not(:disabled)]:bg-fill4 mi:[&:active:not(:disabled)]:transform-[scale(.97)] mi:disabled:cursor-not-allowed mi:disabled:opacity-45 mi:[&.is-on]:border-p mi:[&.is-on]:bg-p-tint mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" :class="{ 'is-on': day === i }"
+            v-for="(d, i) in days" :key="d.key" type="button" class="mi:grid mi:justify-items-center mi:gap-0.5 mi:pt-2.5 mi:px-1 mi:pb-2 mi:border mi:rounded-[14px] mi:text-label mi:[font:inherit] mi:cursor-pointer mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:[&:active:not(:disabled)]:transform-[scale(.97)] mi:disabled:cursor-not-allowed mi:disabled:opacity-45 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" :class="day === i ? 'mi:border-p mi:bg-p-tint' : 'mi:border-sep mi:bg-transparent mi:[&:hover:not(:disabled)]:bg-fill4'"
             :disabled="!slotsFor(i).length" :aria-pressed="day === i"
             :aria-label="d.long + (slotsFor(i).length ? ', ' + slotsFor(i).length + ' times free' : ', fully booked')"
             @click="day = i; slot = null"
           >
-            <span class="msp__dow mi:text-[11px] mi:font-semibold mi:tracking-[.05em] mi:uppercase mi:text-label2">{{ d.dow }}</span>
-            <span class="msp__num mi:text-[22px] mi:font-bold mi:tracking-[-.03em] mi:tabular-nums">{{ d.num }}</span>
+            <span class="mi:text-[11px] mi:font-semibold mi:tracking-[.05em] mi:uppercase mi:text-label2">{{ d.dow }}</span>
+            <span class="mi:text-[22px] mi:font-bold mi:tracking-[-.03em] mi:tabular-nums">{{ d.num }}</span>
             <!-- Availability density: up to four pips. -->
-            <span class="msp__pips mi:flex mi:gap-[3px] mi:mt-0.5" aria-hidden="true">
-              <i class="mi:[.msp__pips_&]:w-1 mi:[.msp__pips_&]:h-1 mi:[.msp__pips_&]:rounded-[50%] mi:[.msp__pips_&]:bg-fill2" v-for="p in 4" :key="p" :class="{ 'is-on': p <= Math.ceil(slotsFor(i).length / 3) }" />
+            <span class="mi:flex mi:gap-[3px] mi:mt-0.5" aria-hidden="true">
+              <i class="mi:w-1 mi:h-1 mi:rounded-[50%]" v-for="p in 4" :key="p" :class="p <= Math.ceil(slotsFor(i).length / 3) ? 'mi:bg-p' : 'mi:bg-fill2'" />
             </span>
           </button>
         </div>
 
-        <div class="msp__slots-head mi:flex mi:flex-wrap mi:items-baseline mi:justify-between mi:gap-y-1 mi:gap-x-3">
+        <div class="mi:flex mi:flex-wrap mi:items-baseline mi:justify-between mi:gap-y-1 mi:gap-x-3">
           <MiText as="h3" variant="subheadline" weight="semibold">{{ days[day]?.long }}</MiText>
           <MiText variant="caption" tone="label2">Your time · Dana's time</MiText>
         </div>
-        <div v-if="slots.length" class="msp__slots mi:grid mi:grid-cols-[repeat(auto-fill,_minmax(104px,_1fr))] mi:gap-2 mi:max-h-59 mi:overflow-y-auto mi:p-0.5" role="group" aria-label="Start time">
+        <div v-if="slots.length" class="mi:grid mi:grid-cols-[repeat(auto-fill,_minmax(104px,_1fr))] mi:gap-2 mi:max-h-59 mi:overflow-y-auto mi:p-0.5" role="group" aria-label="Start time">
           <button
-            v-for="s in slots" :key="s" type="button" class="msp__slot mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:grid mi:gap-px mi:py-2 mi:px-2.5 mi:border mi:border-sep mi:rounded-[12px] mi:bg-transparent mi:[font:inherit] mi:text-start mi:text-label mi:cursor-pointer mi:[&.is-on]:bg-p mi:[&.is-on]:text-p-on" :class="{ 'is-on': slot === s }" :aria-pressed="slot === s"
+            v-for="s in slots" :key="s" type="button" class="mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:grid mi:gap-px mi:py-2 mi:px-2.5 mi:border mi:rounded-[12px] mi:[font:inherit] mi:text-start mi:cursor-pointer" :class="slot === s ? 'mi:bg-p mi:text-p-on mi:border-p' : 'mi:bg-transparent mi:text-label mi:border-sep mi:hover:[border-color:color-mix(in_srgb,_var(--mi-p)_50%,_var(--mi-sep))]'" :aria-pressed="slot === s"
             :aria-label="fmt(s + offsetDiff) + ' your time, ' + fmt(s) + ' for Dana'" @click="slot = s"
           >
-            <span class="msp__t1 mi:text-[14px] mi:font-semibold mi:tabular-nums mi:whitespace-nowrap">{{ fmt(s + offsetDiff) }}</span>
-            <span class="msp__t2 mi:text-[11.5px] mi:opacity-70 mi:tabular-nums mi:whitespace-nowrap">{{ fmt(s) }}</span>
+            <span class="mi:text-[14px] mi:font-semibold mi:tabular-nums mi:whitespace-nowrap">{{ fmt(s + offsetDiff) }}</span>
+            <span class="mi:text-[11.5px] mi:opacity-70 mi:tabular-nums mi:whitespace-nowrap">{{ fmt(s) }}</span>
           </button>
         </div>
         <MiText v-else variant="footnote" tone="label2">No {{ duration }}-minute window left that day. Try a shorter meeting.</MiText>
 
-        <div class="msp__foot mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2.5 mi:pt-3.5 mi:border-t mi:border-t-sep">
+        <div class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2.5 mi:pt-3.5 mi:border-t mi:border-t-sep">
           <MiText v-if="error" variant="footnote" tone="red" role="alert">{{ error }}</MiText>
           <MiText v-else variant="footnote" tone="label2" aria-live="polite">{{ summary }}</MiText>
           <MiButton type="submit">Confirm</MiButton>
@@ -155,11 +155,3 @@ function confirm() {
 }
 </script>
 
-<style scoped>
-@container msp (min-width: 760px) { .msp__host { border-bottom: 0; } }
-
-.msp__host { border-bottom: 1px solid var(--mi-sep); }
-.msp__pips i.is-on { background: var(--mi-p); }
-.msp__slot:hover { border-color: color-mix(in srgb, var(--mi-p) 50%, var(--mi-sep)); }
-.msp__slot.is-on { border-color: var(--mi-p); }
-</style>

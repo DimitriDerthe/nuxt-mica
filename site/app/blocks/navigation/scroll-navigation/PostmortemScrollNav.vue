@@ -1,7 +1,7 @@
 <template>
-  <div class="sc mi:@container mi:grid mi:content-start mi:gap-0 mi:overflow-hidden mi:rounded-xl mi:font-mi mi:text-label mi:[background:var(--mi-card)] mi:shadow-1 mi:[timeline-scope:--sc-read]">
-    <header class="sc__head mi:relative mi:flex mi:items-center mi:justify-between mi:gap-3 mi:pt-4 mi:px-4 mi:pb-3.5 mi:border-b mi:border-b-sep mi:@[720px]:pt-4.5 mi:@[720px]:px-6 mi:@[720px]:pb-4">
-      <div class="sc__title mi:grid mi:gap-0.5 mi:min-w-0">
+  <div class="mi:@container mi:grid mi:content-start mi:gap-0 mi:overflow-hidden mi:rounded-xl mi:font-mi mi:text-label mi:[background:var(--mi-card)] mi:shadow-1 mi:[timeline-scope:--sc-read]">
+    <header class="mi:relative mi:flex mi:items-center mi:justify-between mi:gap-3 mi:pt-4 mi:px-4 mi:pb-3.5 mi:border-b mi:border-b-sep mi:@[720px]:pt-4.5 mi:@[720px]:px-6 mi:@[720px]:pb-4">
+      <div class="mi:grid mi:gap-0.5 mi:min-w-0">
         <MiText variant="caption" tone="label2" weight="medium">Postmortem · Sev 2 · resolved</MiText>
         <MiText id="sc-title" variant="title3" as="h2" weight="semibold">Delayed SEPA payouts on October 14</MiText>
       </div>
@@ -10,34 +10,34 @@
         Top
       </MiButton>
       <!-- Reading progress: a CSS scroll-driven animation on transform, no scroll listener. -->
-      <div class="sc__progress mi:absolute mi:left-0 mi:right-0 mi:-bottom-px mi:h-0.5" aria-hidden="true"><span class="mi:[.sc__progress_&]:block mi:[.sc__progress_&]:h-full mi:[.sc__progress_&]:[background:var(--mi-p)] mi:[.sc__progress_&]:transform-[scaleX(0)] mi:[.sc__progress_&]:origin-left" /></div>
+      <div class="mi:supports-[not_(animation-timeline:scroll())]:hidden mi:absolute mi:left-0 mi:right-0 mi:-bottom-px mi:h-0.5" aria-hidden="true"><span class="mi:animate-[grow_linear_both] mi:[animation-timeline:--sc-read] mi:block mi:h-full mi:[background:var(--mi-p)] mi:transform-[scaleX(0)] mi:origin-left" /></div>
     </header>
 
-    <div class="sc__layout mi:grid mi:min-w-0 mi:@[720px]:grid-cols-[220px_minmax(0,_1fr)]">
-      <nav ref="navEl" class="sc__nav mi:relative mi:flex mi:gap-1.5 mi:py-2.5 mi:px-4 mi:overflow-x-auto mi:[scrollbar-width:none] mi:border-b mi:border-b-sep mi:[background:var(--mi-fill4)] mi:@[720px]:grid mi:@[720px]:content-start mi:@[720px]:gap-0 mi:@[720px]:pt-4 mi:@[720px]:pr-3 mi:@[720px]:pb-4 mi:@[720px]:pl-4 mi:@[720px]:overflow-visible mi:@[720px]:[border-bottom:0] mi:@[720px]:border-r mi:@[720px]:border-r-sep mi:@[720px]:[background:none]" aria-label="Sections of this postmortem" :style="{ '--i': activeIndex }">
-        <span class="sc__marker mi:hidden mi:@[720px]:absolute mi:@[720px]:top-4 mi:@[720px]:left-4 mi:@[720px]:block mi:@[720px]:w-0.5 mi:@[720px]:h-9 mi:@[720px]:rounded-[1px] mi:@[720px]:[background:var(--mi-p)] mi:@[720px]:transform-[translateY(calc(var(--i)_*_36px))] mi:@[720px]:[transition:transform_var(--mi-dur-3)_var(--mi-spring)]" aria-hidden="true" />
+    <div class="mi:grid mi:min-w-0 mi:@[720px]:grid-cols-[220px_minmax(0,_1fr)]">
+      <nav ref="navEl" class="mi:relative mi:flex mi:gap-1.5 mi:py-2.5 mi:px-4 mi:overflow-x-auto mi:[scrollbar-width:none] mi:border-b mi:border-b-sep mi:[background:var(--mi-fill4)] mi:@[720px]:grid mi:@[720px]:content-start mi:@[720px]:gap-0 mi:@[720px]:pt-4 mi:@[720px]:pr-3 mi:@[720px]:pb-4 mi:@[720px]:pl-4 mi:@[720px]:overflow-visible mi:@[720px]:[border-bottom:0] mi:@[720px]:border-r mi:@[720px]:border-r-sep mi:@[720px]:[background:none]" aria-label="Sections of this postmortem" :style="{ '--i': activeIndex }">
+        <span class="mi:hidden mi:@[720px]:absolute mi:@[720px]:top-4 mi:@[720px]:left-4 mi:@[720px]:block mi:@[720px]:w-0.5 mi:@[720px]:h-9 mi:@[720px]:rounded-[1px] mi:@[720px]:[background:var(--mi-p)] mi:@[720px]:transform-[translateY(calc(var(--i)_*_36px))] mi:@[720px]:[transition:transform_var(--mi-dur-3)_var(--mi-spring)]" aria-hidden="true" />
         <a
-          v-for="s in sections" :key="s.id" :href="'#' + s.id" class="sc__link mi:inline-flex mi:flex-[none] mi:items-center mi:gap-2 mi:h-8 mi:py-0 mi:px-3 mi:rounded-[999px] mi:text-[13px] mi:font-medium mi:text-label2 mi:[text-decoration:none] mi:whitespace-nowrap mi:[&[aria-current='location']]:text-p-on mi:[&[aria-current='location']]:[background:var(--mi-p)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:@[720px]:h-9 mi:@[720px]:pt-0 mi:@[720px]:pr-3 mi:@[720px]:pb-0 mi:@[720px]:pl-4 mi:@[720px]:rounded-[0_8px_8px_0] mi:@[720px]:shadow-[inset_2px_0_0_var(--mi-sep)] mi:@[720px]:[&[aria-current='location']]:text-label mi:@[720px]:[&[aria-current='location']]:[background:var(--mi-fill4)]" :aria-current="active === s.id ? 'location' : undefined"
+          v-for="s in sections" :key="s.id" :href="'#' + s.id" class="mi:inline-flex mi:flex-[none] mi:items-center mi:gap-2 mi:h-8 mi:py-0 mi:px-3 mi:rounded-[999px] mi:text-[13px] mi:font-medium mi:text-label2 mi:[text-decoration:none] mi:whitespace-nowrap mi:[&[aria-current='location']]:text-p-on mi:[&[aria-current='location']]:[background:var(--mi-p)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:@[720px]:h-9 mi:@[720px]:pt-0 mi:@[720px]:pr-3 mi:@[720px]:pb-0 mi:@[720px]:pl-4 mi:@[720px]:rounded-[0_8px_8px_0] mi:@[720px]:shadow-[inset_2px_0_0_var(--mi-sep)] mi:@[720px]:[&[aria-current='location']]:text-label mi:@[720px]:[&[aria-current='location']]:[background:var(--mi-fill4)]" :aria-current="active === s.id ? 'location' : undefined"
           :data-id="s.id" @click.prevent="go(s.id)"
         >
-          <span class="sc__num mi:[font:600_11px_ui-monospace,_'SF_Mono',_Menlo,_monospace] mi:opacity-60">{{ String(sections.indexOf(s) + 1).padStart(2, '0') }}</span>{{ s.label }}
+          <span class="mi:[font:600_11px_ui-monospace,_'SF_Mono',_Menlo,_monospace] mi:opacity-60">{{ String(sections.indexOf(s) + 1).padStart(2, '0') }}</span>{{ s.label }}
         </a>
       </nav>
 
-      <div ref="pane" class="sc__pane mi:relative mi:h-105 mi:overflow-y-auto mi:pt-1 mi:px-4.5 mi:pb-6 mi:overscroll-contain mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px] mi:@[720px]:h-115 mi:@[720px]:pt-1 mi:@[720px]:px-8 mi:@[720px]:pb-7" tabindex="0" aria-labelledby="sc-title">
-        <section v-for="s in sections" :id="s.id" :key="s.id" class="sc__section mi:pt-4 mi:px-0 mi:pb-2 mi:max-w-[64ch] mi:text-[15px] mi:leading-[1.65] mi:text-label2 mi:[.sc__section+&]:border-t mi:[.sc__section+&]:border-t-sep">
-          <h3 class="sc__h mi:mt-0 mi:mx-0 mi:mb-2 mi:text-[17px] mi:font-650 mi:tracking-[-.01em] mi:text-label">{{ s.label }}</h3>
-          <p v-for="(p, i) in s.body" :key="i">{{ p }}</p>
-          <ol v-if="s.timeline" class="sc__timeline mi:grid mi:gap-2 mi:mt-1 mi:mx-0 mi:mb-3 mi:p-0 mi:[list-style:none]">
-            <li class="mi:[.sc__timeline_&]:grid mi:[.sc__timeline_&]:grid-cols-[52px_minmax(0,_1fr)] mi:[.sc__timeline_&]:gap-2" v-for="t in s.timeline" :key="t.at"><time class="mi:[.sc__timeline_&]:[font:600_13px/1.65_ui-monospace,_'SF_Mono',_Menlo,_monospace] mi:[.sc__timeline_&]:text-label">{{ t.at }}</time>{{ t.what }}</li>
+      <div ref="pane" class="mi:[scroll-timeline-name:--sc-read] mi:[scroll-timeline-axis:block] mi:relative mi:h-105 mi:overflow-y-auto mi:pt-1 mi:px-4.5 mi:pb-6 mi:overscroll-contain mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px] mi:@[720px]:h-115 mi:@[720px]:pt-1 mi:@[720px]:px-8 mi:@[720px]:pb-7" tabindex="0" aria-labelledby="sc-title">
+        <section v-for="s in sections" :id="s.id" :key="s.id" data-section class="mi:pt-4 mi:px-0 mi:pb-2 mi:max-w-[64ch] mi:text-[15px] mi:leading-[1.65] mi:text-label2 mi:not-first:border-t mi:not-first:border-t-sep">
+          <h3 class="mi:mt-0 mi:mx-0 mi:mb-2 mi:text-[17px] mi:font-650 mi:tracking-[-.01em] mi:text-label">{{ s.label }}</h3>
+          <p v-for="(p, i) in s.body" :key="i" class="mi:mt-0 mi:mx-0 mi:mb-2.5">{{ p }}</p>
+          <ol v-if="s.timeline" class="mi:grid mi:gap-2 mi:mt-1 mi:mx-0 mi:mb-3 mi:p-0 mi:[list-style:none]">
+            <li class="mi:grid mi:grid-cols-[52px_minmax(0,_1fr)] mi:gap-2" v-for="t in s.timeline" :key="t.at"><time class="mi:[font:600_13px/1.65_ui-monospace,_'SF_Mono',_Menlo,_monospace] mi:text-label">{{ t.at }}</time>{{ t.what }}</li>
           </ol>
-          <ul v-if="s.actions" class="sc__actions mi:grid mi:gap-2.5 mi:mt-1 mi:mx-0 mi:mb-3 mi:p-0 mi:[list-style:none]">
+          <ul v-if="s.actions" class="mi:grid mi:gap-2.5 mi:mt-1 mi:mx-0 mi:mb-3 mi:p-0 mi:[list-style:none]">
             <li v-for="a in s.actions" :key="a.what">
               <MiCheckbox v-model="a.done" :label="a.what" :description="a.owner + ' · due ' + a.due" />
             </li>
           </ul>
         </section>
-        <div ref="end" class="sc__end mi:h-px" aria-hidden="true" />
+        <div ref="end" class="mi:h-px" aria-hidden="true" />
       </div>
     </div>
   </div>
@@ -113,19 +113,8 @@ onMounted(() => {
     if (atEnd) active.value = sections.at(-1)!.id
     else if (first) active.value = first.id
   }, { root: pane.value, rootMargin: '0px 0px -66% 0px' })
-  pane.value.querySelectorAll('.sc__section').forEach(el => io!.observe(el))
+  pane.value.querySelectorAll('[data-section]').forEach(el => io!.observe(el))
   if (end.value) io.observe(end.value)
 })
 onBeforeUnmount(() => io?.disconnect())
 </script>
-
-<style scoped>
-.sc__progress span {
-  animation: sc-read linear both; animation-timeline: --sc-read;
-}
-@keyframes sc-read { from { transform: scaleX(0); } to { transform: scaleX(1); } }
-@supports not (animation-timeline: scroll()) { .sc__progress { display: none; } }
-
-.sc__pane { scroll-timeline: --sc-read block; }
-.sc__section p { margin: 0 0 10px; }
-</style>

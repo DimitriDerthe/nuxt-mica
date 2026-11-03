@@ -1,27 +1,27 @@
 <template>
-  <div class="dh mi:@container mi:grid mi:content-start mi:min-h-full mi:font-mi mi:text-label mi:[background:var(--mi-page)]">
-    <header class="dh__header mi:grid mi:gap-3.5 mi:pt-2.5 mi:px-3.5 mi:pb-4 mi:[background:var(--mi-card)] mi:shadow-[0_1px_0_var(--mi-sep)] mi:@[560px]:pt-3 mi:@[560px]:px-5 mi:@[560px]:pb-4.5">
+  <div class="mi:@container mi:grid mi:content-start mi:min-h-full mi:font-mi mi:text-label mi:[background:var(--mi-page)]">
+    <header class="mi:grid mi:gap-3.5 mi:pt-2.5 mi:px-3.5 mi:pb-4 mi:[background:var(--mi-card)] mi:shadow-[0_1px_0_var(--mi-sep)] mi:@[560px]:pt-3 mi:@[560px]:px-5 mi:@[560px]:pb-4.5">
       <!-- Row 1: workspace, trail, global tools. -->
-      <div class="dh__bar mi:flex mi:items-center mi:gap-2 mi:min-w-0">
-        <MiIconButton class="dh__burger" size="toolbar" variant="plain" :label="menuOpen ? 'Close navigation' : 'Open navigation'" :pressed="menuOpen" aria-controls="dh-menu" :aria-expanded="menuOpen" @click="menuOpen = !menuOpen">
+      <div class="mi:flex mi:items-center mi:gap-2 mi:min-w-0">
+        <MiIconButton class="mi:@[900px]:hidden!" size="toolbar" variant="plain" :label="menuOpen ? 'Close navigation' : 'Open navigation'" :pressed="menuOpen" aria-controls="dh-menu" :aria-expanded="menuOpen" @click="menuOpen = !menuOpen">
           <MiIcon :svg="menuOpen ? icons.close : icons.burger" />
         </MiIconButton>
 
         <MiMenu v-model="workspace" variant="popup" :items="workspaces" aria-label="Switch workspace">
           <template #trigger="{ props }">
-            <button v-bind="props" type="button" class="dh__ws mi:inline-flex mi:items-center mi:gap-2 mi:min-w-0 mi:h-9 mi:pt-0 mi:pr-2 mi:pb-0 mi:pl-1 mi:[border:0] mi:rounded-[10px] mi:text-inherit mi:[background:none] mi:cursor-pointer mi:hover:[background:var(--mi-fill4)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]">
-              <span class="dh__ws-tile mi:grid mi:place-items-center mi:flex-[none] mi:w-7 mi:h-7 mi:rounded-[8px] mi:text-[11px] mi:font-extrabold mi:tracking-[.02em] mi:text-p-on mi:[background:linear-gradient(140deg,_var(--mi-p),_var(--mi-s))]" aria-hidden="true">{{ currentWs.initials }}</span>
-              <span class="dh__ws-name mi:overflow-hidden mi:whitespace-nowrap mi:text-ellipsis mi:max-w-[9ch] mi:@[560px]:max-w-[18ch]">{{ currentWs.label }}</span>
+            <button v-bind="props" type="button" class="mi:[font:inherit] mi:text-[14px] mi:font-semibold mi:inline-flex mi:items-center mi:gap-2 mi:min-w-0 mi:h-9 mi:pt-0 mi:pr-2 mi:pb-0 mi:pl-1 mi:[border:0] mi:rounded-[10px] mi:text-inherit mi:[background:none] mi:cursor-pointer mi:hover:[background:var(--mi-fill4)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]">
+              <span class="mi:grid mi:place-items-center mi:flex-[none] mi:w-7 mi:h-7 mi:rounded-[8px] mi:text-[11px] mi:font-extrabold mi:tracking-[.02em] mi:text-p-on mi:[background:linear-gradient(140deg,_var(--mi-p),_var(--mi-s))]" aria-hidden="true">{{ currentWs.initials }}</span>
+              <span class="mi:overflow-hidden mi:whitespace-nowrap mi:text-ellipsis mi:max-w-[9ch] mi:@[560px]:max-w-[18ch]">{{ currentWs.label }}</span>
               <MiIcon name="chevron-up-down" :size="14" />
             </button>
           </template>
         </MiMenu>
 
-        <MiBreadcrumb class="dh__crumbs" :items="crumbs" />
+        <MiBreadcrumb class="mi:hidden mi:min-w-0 mi:pl-3 mi:border-l mi:border-l-sep mi:@[900px]:block" :items="crumbs" />
 
-        <div class="dh__tools mi:flex mi:flex-[none] mi:items-center mi:gap-1 mi:ml-auto">
-          <MiSearch v-model="query" class="dh__search" size="compact" placeholder="Search shipments, drivers…" shortcut="⌘K" aria-label="Search the workspace" />
-          <MiIconButton class="dh__search-btn" size="toolbar" variant="plain" label="Search">
+        <div class="mi:flex mi:flex-[none] mi:items-center mi:gap-1 mi:ml-auto">
+          <MiSearch v-model="query" class="mi:hidden! mi:w-65! mi:@[560px]:inline-flex! mi:@[560px]:w-50! mi:@[900px]:w-65!" size="compact" placeholder="Search shipments, drivers…" shortcut="⌘K" aria-label="Search the workspace" />
+          <MiIconButton class="mi:@[560px]:hidden!" size="toolbar" variant="plain" label="Search">
             <MiIcon name="search" />
           </MiIconButton>
           <MiBadge :count="alerts" placement="top-right" :offset="2" count-noun="unread alerts">
@@ -33,22 +33,22 @@
         </div>
       </div>
 
-      <nav v-show="menuOpen" id="dh-menu" class="dh__menu mi:grid mi:gap-0.5 mi:p-1.5 mi:rounded-lg mi:[background:var(--mi-fill4)] mi:@[900px]:hidden" aria-label="Sections">
-        <a v-for="s in sections" :key="s" href="#" class="dh__menu-link mi:py-2.5 mi:px-3 mi:rounded-md mi:text-[15px] mi:font-medium mi:text-label2 mi:[text-decoration:none] mi:[&[aria-current='page']]:text-p-text mi:[&[aria-current='page']]:[background:var(--mi-p-tint)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px]" :aria-current="s === 'Fleet' ? 'page' : undefined" @click.prevent="menuOpen = false">{{ s }}</a>
+      <nav v-show="menuOpen" id="dh-menu" class="mi:grid mi:gap-0.5 mi:p-1.5 mi:rounded-lg mi:[background:var(--mi-fill4)] mi:@[900px]:hidden" aria-label="Sections">
+        <a v-for="s in sections" :key="s" href="#" class="mi:py-2.5 mi:px-3 mi:rounded-md mi:text-[15px] mi:font-medium mi:text-label2 mi:[text-decoration:none] mi:[&[aria-current='page']]:text-p-text mi:[&[aria-current='page']]:[background:var(--mi-p-tint)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px]" :aria-current="s === 'Fleet' ? 'page' : undefined" @click.prevent="menuOpen = false">{{ s }}</a>
       </nav>
 
       <!-- Row 2: page title, freshness and the page's own actions. -->
-      <div class="dh__title-row mi:grid mi:gap-3 mi:@[900px]:grid-cols-[minmax(0,_1fr)_auto] mi:@[900px]:items-center">
-        <div class="dh__title mi:flex mi:flex-wrap mi:items-center mi:gap-y-2 mi:gap-x-3">
+      <div class="mi:grid mi:gap-3 mi:@[900px]:grid-cols-[minmax(0,_1fr)_auto] mi:@[900px]:items-center">
+        <div class="mi:flex mi:flex-wrap mi:items-center mi:gap-y-2 mi:gap-x-3">
           <MiText id="dh-title" variant="title2" as="h2" weight="bold">Fleet overview</MiText>
-          <button type="button" class="dh__sync mi:inline-flex mi:items-center mi:gap-1.5 mi:h-6.5 mi:py-0 mi:px-2.5 mi:[border:0] mi:rounded-[999px] mi:text-label2 mi:[background:var(--mi-fill4)] mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" :aria-label="'Last synced ' + syncedText + '. Refresh now'" @click="refresh">
-            <span class="dh__sync-dot mi:w-[7px] mi:h-[7px] mi:rounded-[50%] mi:[background:var(--mi-green)] mi:shadow-[0_0_0_3px_color-mix(in_srgb,_var(--mi-green)_20%,_transparent)]" aria-hidden="true" />
+          <button type="button" class="mi:[font:inherit] mi:text-[12px] mi:font-medium mi:tabular-nums mi:inline-flex mi:items-center mi:gap-1.5 mi:h-6.5 mi:py-0 mi:px-2.5 mi:[border:0] mi:rounded-[999px] mi:text-label2 mi:[background:var(--mi-fill4)] mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" :aria-label="'Last synced ' + syncedText + '. Refresh now'" @click="refresh">
+            <span class="mi:w-[7px] mi:h-[7px] mi:rounded-[50%] mi:[background:var(--mi-green)] mi:shadow-[0_0_0_3px_color-mix(in_srgb,_var(--mi-green)_20%,_transparent)]" aria-hidden="true" />
             <span>Synced {{ syncedText }}</span>
-            <MiIcon :svg="icons.refresh" :size="13" :class="{ 'is-spinning': spinning }" />
+            <MiIcon :svg="icons.refresh" :size="13" :class="spinning ? 'mi:animate-[spin_700ms_var(--mi-ease)]' : ''" />
           </button>
         </div>
-        <div class="dh__actions mi:flex mi:flex-wrap mi:items-center mi:gap-2">
-          <MiSegmented v-model="range" label="Time range" :options="ranges" />
+        <div class="mi:flex mi:flex-wrap mi:items-center mi:gap-2">
+          <MiSegmented v-model="range" label="Time range" :options="ranges" class="mi:mr-auto mi:@[900px]:mr-1" />
           <MiButton variant="bordered" size="small">
             <template #leading><MiIcon :svg="icons.download" :size="16" /></template>
             Export
@@ -61,11 +61,11 @@
       </div>
 
       <!-- Row 3: the pulse rail, four figures that follow the time range. -->
-      <ul class="dh__rail mi:grid mi:grid-flow-col mi:auto-cols-[minmax(172px,_1fr)] mi:gap-0 mi:mt-0.5 mi:-mx-3.5 mi:mb-0 mi:py-0 mi:px-3.5 mi:[scroll-padding-inline:14px] mi:[list-style:none] mi:overflow-x-auto mi:[scroll-snap-type:x_mandatory] mi:[scrollbar-width:none] mi:@[560px]:-mx-5 mi:@[560px]:px-5 mi:@[560px]:[scroll-padding-inline:20px] mi:@[900px]:grid-flow-row mi:@[900px]:grid-cols-4 mi:@[900px]:overflow-visible" aria-label="Key figures">
-        <li v-for="k in kpis" :key="k.label" class="dh__kpi mi:grid mi:gap-1 mi:pt-2.5 mi:pr-4 mi:pb-1 mi:pl-0 mi:snap-start mi:[.dh__kpi+&]:pl-4 mi:[.dh__kpi+&]:[border-left:1px_dashed_var(--mi-sep)]">
+      <ul class="mi:grid mi:grid-flow-col mi:auto-cols-[minmax(172px,_1fr)] mi:gap-0 mi:mt-0.5 mi:-mx-3.5 mi:mb-0 mi:py-0 mi:px-3.5 mi:[scroll-padding-inline:14px] mi:[list-style:none] mi:overflow-x-auto mi:[scroll-snap-type:x_mandatory] mi:[scrollbar-width:none] mi:@[560px]:-mx-5 mi:@[560px]:px-5 mi:@[560px]:[scroll-padding-inline:20px] mi:@[900px]:grid-flow-row mi:@[900px]:grid-cols-4 mi:@[900px]:overflow-visible" aria-label="Key figures">
+        <li v-for="k in kpis" :key="k.label" class="mi:grid mi:gap-1 mi:pt-2.5 mi:pr-4 mi:pb-1 mi:pl-0 mi:snap-start mi:not-first:pl-4 mi:not-first:[border-left:1px_dashed_var(--mi-sep)]">
           <MiText as="span" variant="caption" tone="label2" weight="medium">{{ k.label }}</MiText>
-          <span class="dh__kpi-row mi:flex mi:items-baseline mi:gap-2">
-            <span class="dh__kpi-val mi:text-[22px] mi:font-bold mi:tracking-[-.03em] mi:tabular-nums">{{ k.value }}</span>
+          <span class="mi:flex mi:items-baseline mi:gap-2">
+            <span class="mi:text-[22px] mi:font-bold mi:tracking-[-.03em] mi:tabular-nums">{{ k.value }}</span>
             <MiText as="span" variant="caption2" :tone="k.good ? 'green' : 'red'" weight="semibold">{{ k.delta }}</MiText>
           </span>
           <MiSparkline :values="k.spark" :width="96" :height="22" :animate="false" />
@@ -74,10 +74,10 @@
     </header>
 
     <!-- Faux page body so the header reads in context. -->
-    <main class="dh__body mi:grid mi:gap-3 mi:py-4 mi:px-3.5 mi:@[560px]:grid-cols-[1fr_1fr] mi:@[560px]:p-5 mi:@[900px]:grid-cols-[2fr_1fr_1fr]" aria-labelledby="dh-title">
-      <div class="dh__panel dh__panel--wide mi:min-h-30 mi:p-4 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-[0_0_0_1px_var(--mi-sep)] mi:grid mi:min-h-45 mi:@[560px]:col-span-full mi:@[900px]:col-[auto]"><MiSkeleton :animated="false" :height="148" :radius="10" /></div>
-      <div class="dh__panel mi:min-h-30 mi:p-4 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-[0_0_0_1px_var(--mi-sep)]"><MiSkeleton variant="text" :lines="['70%', '90%', '55%', '80%']" :animated="false" /></div>
-      <div class="dh__panel mi:min-h-30 mi:p-4 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-[0_0_0_1px_var(--mi-sep)]"><MiSkeleton variant="text" :lines="['60%', '85%', '40%']" :animated="false" /></div>
+    <main class="mi:grid mi:gap-3 mi:py-4 mi:px-3.5 mi:@[560px]:grid-cols-[1fr_1fr] mi:@[560px]:p-5 mi:@[900px]:grid-cols-[2fr_1fr_1fr]" aria-labelledby="dh-title">
+      <div class="mi:min-h-30 mi:p-4 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-[0_0_0_1px_var(--mi-sep)] mi:grid mi:min-h-45 mi:@[560px]:col-span-full mi:@[900px]:col-[auto]"><MiSkeleton :animated="false" :height="148" :radius="10" /></div>
+      <div class="mi:min-h-30 mi:p-4 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-[0_0_0_1px_var(--mi-sep)]"><MiSkeleton variant="text" :lines="['70%', '90%', '55%', '80%']" :animated="false" /></div>
+      <div class="mi:min-h-30 mi:p-4 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-[0_0_0_1px_var(--mi-sep)]"><MiSkeleton variant="text" :lines="['60%', '85%', '40%']" :animated="false" /></div>
     </main>
   </div>
 </template>
@@ -143,29 +143,3 @@ function refresh() {
 onMounted(() => { clock = setInterval(() => { synced.value++ }, 1000) })
 onBeforeUnmount(() => { clearInterval(clock); clearTimeout(spinStop) })
 </script>
-
-<style scoped>
-.dh__ws {
-  font: inherit; font-size: 14px; font-weight: 600;
-}
-.dh__crumbs { display: none; min-width: 0; padding-left: 12px; border-left: 1px solid var(--mi-sep); }
-/* Doubled class so it beats the display set by MiSearch itself. */
-.dh__tools .dh__search { display: none; width: 260px; }
-.dh__sync {
-  font: inherit; font-size: 12px; font-weight: 500; font-variant-numeric: tabular-nums;
-}
-.dh__sync .is-spinning { animation: dh-spin 700ms var(--mi-ease); }
-@keyframes dh-spin { to { transform: rotate(360deg); } }
-.dh__actions > :first-child { margin-right: auto; }
-
-@container (min-width: 560px) {
-  .dh__tools .dh__search { display: inline-flex; width: 200px; }
-  .dh__tools .dh__search-btn { display: none; }
-}
-@container (min-width: 900px) {
-  .dh__burger { display: none; }
-  .dh__crumbs { display: block; }
-  .dh__tools .dh__search { width: 260px; }
-  .dh__actions > :first-child { margin-right: 4px; }
-}
-</style>

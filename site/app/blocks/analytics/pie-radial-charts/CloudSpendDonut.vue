@@ -1,6 +1,6 @@
 <template>
-  <section class="cs mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="cs-title">
-    <header class="cs__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="cs-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="cs-title" variant="title3" as="h2" weight="semibold">Where the cloud bill goes</MiText>
         <MiText variant="footnote" tone="label2">Production account · {{ month.label }} invoice, USD</MiText>
@@ -8,9 +8,9 @@
       <MiSegmented v-model="monthId" label="Invoice month" :options="months" />
     </header>
 
-    <div class="cs__grid mi:grid mi:gap-3 mi:grid-cols-[minmax(0,_1fr)] mi:@[820px]:grid-cols-[minmax(0,_1.2fr)_minmax(0,_1fr)]">
-      <div class="cs__chart mi:grid mi:gap-4 mi:items-center mi:min-w-0 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:@[560px]:grid-cols-[220px_minmax(0,_1fr)]">
-        <div class="cs__donut mi:w-full mi:max-w-59 mi:justify-self-center">
+    <div class="mi:grid mi:gap-3 mi:grid-cols-[minmax(0,_1fr)] mi:@[820px]:grid-cols-[minmax(0,_1.2fr)_minmax(0,_1fr)]">
+      <div class="mi:grid mi:gap-4 mi:items-center mi:min-w-0 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:@[560px]:grid-cols-[220px_minmax(0,_1fr)]">
+        <div class="mi:w-full mi:max-w-59 mi:justify-self-center">
           <MiDonutChart
             :key="String(monthId)" :data="slices" :card="false" :legend="false" :toggle="false" :size="236" :thickness="34"
             :active="hovered" :format-value="(v) => money(v)" total-label="This month"
@@ -18,39 +18,39 @@
             @update:active="hovered = $event"
           >
             <template #center="{ active, totalText }">
-              <div class="cs__center mi:grid mi:justify-items-center mi:gap-0.5 mi:text-center">
-                <span class="cs__center-label mi:text-[12px] mi:font-medium mi:text-label2">{{ active ? active.label : 'Total' }}</span>
-                <span class="cs__center-value mi:text-[24px] mi:font-bold mi:tracking-[-.035em] mi:tabular-nums">{{ active ? active.text : totalText }}</span>
-                <span v-if="active" class="cs__center-sub mi:text-[11px] mi:font-semibold mi:text-label2">{{ pct(active.value) }} of bill</span>
-                <span v-else class="cs__center-sub mi:text-[11px] mi:font-semibold mi:text-label2" :class="delta >= 0 ? 'is-up' : 'is-down'">{{ delta >= 0 ? '+' : '' }}{{ delta.toFixed(1) }}% vs {{ month.prev }}</span>
+              <div class="mi:grid mi:justify-items-center mi:gap-0.5 mi:text-center">
+                <span class="mi:text-[12px] mi:font-medium mi:text-label2">{{ active ? active.label : 'Total' }}</span>
+                <span class="mi:text-[24px] mi:font-bold mi:tracking-[-.035em] mi:tabular-nums">{{ active ? active.text : totalText }}</span>
+                <span v-if="active" class="mi:text-[11px] mi:font-semibold mi:text-label2">{{ pct(active.value) }} of bill</span>
+                <span v-else class="mi:text-[11px] mi:font-semibold" :class="delta >= 0 ? 'mi:text-orange-t' : 'mi:text-green-t'">{{ delta >= 0 ? '+' : '' }}{{ delta.toFixed(1) }}% vs {{ month.prev }}</span>
               </div>
             </template>
           </MiDonutChart>
         </div>
 
         <!-- Custom legend doubles as the selector for the drill-down panel. -->
-        <ul class="cs__legend mi:grid mi:gap-0.5 mi:m-0 mi:p-0 mi:[list-style:none]" aria-label="Services">
+        <ul class="mi:grid mi:gap-0.5 mi:m-0 mi:p-0 mi:[list-style:none]" aria-label="Services">
           <li v-for="(s, i) in month.services" :key="s.name">
             <button
-              type="button" class="cs__row mi:grid mi:grid-cols-[10px_minmax(0,_1fr)_auto_38px] mi:items-center mi:gap-2.5 mi:w-full mi:py-[9px] mi:px-2.5 mi:[border:0] mi:rounded-md mi:bg-transparent mi:text-inherit mi:text-start mi:cursor-pointer mi:[transition:background-color_var(--mi-dur-2)_var(--mi-ease)] mi:hover:bg-fill4 mi:[&.is-on]:bg-fill4 mi:aria-pressed:shadow-[inset_0_0_0_1px_var(--mi-sep)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" :class="{ 'is-on': focus === i }" :aria-pressed="selected === i"
+              type="button" class="mi:[font:inherit] mi:text-[14px] mi:grid mi:grid-cols-[10px_minmax(0,_1fr)_auto_38px] mi:items-center mi:gap-2.5 mi:w-full mi:py-[9px] mi:px-2.5 mi:[border:0] mi:rounded-md mi:text-inherit mi:text-start mi:cursor-pointer mi:[transition:background-color_var(--mi-dur-2)_var(--mi-ease)] mi:hover:bg-fill4 mi:aria-pressed:shadow-[inset_0_0_0_1px_var(--mi-sep)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" :class="focus === i ? 'mi:bg-fill4' : 'mi:bg-transparent'" :aria-pressed="selected === i"
               @click="selected = i" @mouseenter="hovered = i" @mouseleave="hovered = -1" @focus="hovered = i" @blur="hovered = -1"
             >
-              <i class="mi:[.cs__row_&]:w-2.5 mi:[.cs__row_&]:h-2.5 mi:[.cs__row_&]:rounded-[3px]" :style="{ background: colors[i] }" aria-hidden="true" />
-              <span class="cs__row-name mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:font-medium">{{ s.name }}</span>
-              <span class="cs__row-val mi:tabular-nums">{{ money(s.spend) }}</span>
-              <span class="cs__row-share mi:text-end mi:text-label2 mi:text-[12px] mi:tabular-nums">{{ pct(s.spend) }}</span>
+              <i class="mi:w-2.5 mi:h-2.5 mi:rounded-[3px]" :style="{ background: colors[i] }" aria-hidden="true" />
+              <span class="mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:font-medium">{{ s.name }}</span>
+              <span class="mi:tabular-nums">{{ money(s.spend) }}</span>
+              <span class="mi:text-end mi:text-label2 mi:text-[12px] mi:tabular-nums">{{ pct(s.spend) }}</span>
             </button>
           </li>
         </ul>
       </div>
 
-      <article class="cs__detail mi:grid mi:gap-2.5 mi:content-start mi:min-w-0 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1" aria-live="polite" aria-labelledby="cs-detail-title">
-        <div class="cs__detail-top mi:flex mi:items-center mi:gap-2.5 mi:flex-wrap">
-          <span class="cs__swatch mi:w-3.5 mi:h-3.5 mi:rounded-[4px]" :style="{ background: colors[focus] }" aria-hidden="true" />
-          <MiText id="cs-detail-title" variant="headline" as="h3">{{ current.name }}</MiText>
+      <article class="mi:grid mi:gap-2.5 mi:content-start mi:min-w-0 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1" aria-live="polite" aria-labelledby="cs-detail-title">
+        <div class="mi:flex mi:items-center mi:gap-2.5 mi:flex-wrap">
+          <span class="mi:w-3.5 mi:h-3.5 mi:rounded-[4px]" :style="{ background: colors[focus] }" aria-hidden="true" />
+          <MiText id="cs-detail-title" variant="headline" as="h3" class="mi:flex-1 mi:min-w-0">{{ current.name }}</MiText>
           <MiBadge :tone="overBudget ? 'warning' : 'success'" :label="overBudget ? 'Over budget' : 'Within budget'" dot />
         </div>
-        <p class="cs__detail-big mi:m-0 mi:text-[clamp(30px,_6cqi,_40px)] mi:leading-none mi:font-bold mi:tracking-[-.04em] mi:tabular-nums">{{ money(current.spend) }}</p>
+        <p class="mi:m-0 mi:text-[clamp(30px,_6cqi,_40px)] mi:leading-none mi:font-bold mi:tracking-[-.04em] mi:tabular-nums">{{ money(current.spend) }}</p>
         <MiMeter
           :value="current.spend" :max="current.budget" :color="overBudget ? 'var(--mi-orange)' : colors[focus]"
           :aria-label="`${current.name} budget used`"
@@ -58,14 +58,14 @@
           :hint="overBudget ? `${money(current.spend - current.budget)} over` : `${money(current.budget - current.spend)} left`"
         />
 
-        <MiText variant="caption" tone="label2" weight="medium" as="h4" class="cs__items-title">Top line items</MiText>
-        <ol class="cs__items mi:grid mi:m-0 mi:p-0 mi:[list-style:none] mi:[counter-reset:cs]">
-          <li class="mi:[.cs__items_li&]:grid-cols-[22px_minmax(0,_1fr)_auto] mi:[.cs__items_li&]:items-center mi:[.cs__items_li&]:gap-2.5 mi:[.cs__items_li&]:py-[9px] mi:[.cs__items_li&]:px-0 mi:[.cs__items_li&]:border-t mi:[.cs__items_li&]:border-t-sep mi:[.cs__items_li&]:[counter-increment:cs] mi:[.cs__items_li&]:before:content-[counter(cs)]" v-for="item in current.items" :key="item.name">
-            <div class="cs__item-text mi:grid mi:min-w-0">
-              <MiText class="mi:[.cs__items_li&]:grid-cols-[22px_minmax(0,_1fr)_auto] mi:[.cs__items_li&]:items-center mi:[.cs__items_li&]:gap-2.5 mi:[.cs__items_li&]:py-[9px] mi:[.cs__items_li&]:px-0 mi:[.cs__items_li&]:border-t mi:[.cs__items_li&]:border-t-sep mi:[.cs__items_li&]:[counter-increment:cs] mi:[.cs__items_li&]:before:content-[counter(cs)]" variant="footnote" weight="medium" :lines="1">{{ item.name }}</MiText>
-              <MiText class="mi:[.cs__items_li&]:grid-cols-[22px_minmax(0,_1fr)_auto] mi:[.cs__items_li&]:items-center mi:[.cs__items_li&]:gap-2.5 mi:[.cs__items_li&]:py-[9px] mi:[.cs__items_li&]:px-0 mi:[.cs__items_li&]:border-t mi:[.cs__items_li&]:border-t-sep mi:[.cs__items_li&]:[counter-increment:cs] mi:[.cs__items_li&]:before:content-[counter(cs)]" variant="caption" tone="label2" :lines="1">{{ item.note }}</MiText>
+        <MiText variant="caption" tone="label2" weight="medium" as="h4" class="mi:mt-1.5! mi:uppercase mi:tracking-[.06em]!">Top line items</MiText>
+        <ol class="mi:grid mi:m-0 mi:p-0 mi:[list-style:none] mi:[counter-reset:cs]">
+          <li class="mi:grid mi:before:text-[12px] mi:before:font-semibold mi:before:text-label3 mi:before:tabular-nums mi:grid-cols-[22px_minmax(0,_1fr)_auto] mi:items-center mi:gap-2.5 mi:py-[9px] mi:px-0 mi:border-t mi:border-t-sep mi:[counter-increment:cs] mi:before:content-[counter(cs)]" v-for="item in current.items" :key="item.name">
+            <div class="mi:grid mi:min-w-0">
+              <MiText class="" variant="footnote" weight="medium" :lines="1">{{ item.name }}</MiText>
+              <MiText class="" variant="caption" tone="label2" :lines="1">{{ item.note }}</MiText>
             </div>
-            <span class="cs__item-val mi:text-[14px] mi:font-semibold mi:tabular-nums">{{ money(item.spend) }}</span>
+            <span class="mi:text-[14px] mi:font-semibold mi:tabular-nums">{{ money(item.spend) }}</span>
           </li>
         </ol>
         <MiTextLink href="#cost-explorer">Open in cost explorer</MiTextLink>
@@ -135,14 +135,3 @@ const overBudget = computed(() => current.value.spend > current.value.budget)
 const money = (n: number) => '$' + n.toLocaleString('en-US')
 const pct = (n: number) => Math.round((n / total.value) * 100) + '%'
 </script>
-
-<style scoped>
-.cs__center-sub.is-up { color: var(--mi-orange-t); }
-.cs__center-sub.is-down { color: var(--mi-green-t); }
-.cs__row { font: inherit; font-size: 14px;
-}
-.cs__detail-top > :nth-child(2) { flex: 1; min-width: 0; }
-.cs__items-title { margin-top: 6px; text-transform: uppercase; letter-spacing: .06em; }
-.cs__items li { display: grid; }
-.cs__items li::before { font-size: 12px; font-weight: 600; color: var(--mi-label3); font-variant-numeric: tabular-nums; }
-</style>

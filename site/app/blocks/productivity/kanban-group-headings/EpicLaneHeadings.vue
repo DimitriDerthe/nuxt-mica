@@ -1,6 +1,6 @@
 <template>
-  <section class="elh mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="elh-title">
-    <header class="elh__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="elh-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="elh-title" variant="title3" as="h2" weight="semibold">Q4 roadmap by epic</MiText>
         <MiText variant="footnote" tone="label2">Team velocity {{ VELOCITY }} pt per week · today is November 3</MiText>
@@ -9,40 +9,40 @@
     </header>
 
     <!-- One horizontal heading per lane: progress split by status, a forecast against the due date, owners, add. -->
-    <div class="elh__lanes mi:grid mi:gap-2.5">
-      <section v-for="e in sorted" :key="e.id" class="elh__lane mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-[inset_3px_0_0_var(--c),_var(--mi-sh1)] mi:overflow-hidden" :style="{ '--c': e.color }" :aria-labelledby="'elh-' + e.id">
-        <div class="elh__bar mi:grid mi:grid-cols-[minmax(0,_1fr)_auto] mi:[grid-template-areas:'name_end'_'prog_prog'_'fc_fc'] mi:items-center mi:gap-y-2 mi:gap-x-3 mi:pt-2.5 mi:pr-3 mi:pb-3 mi:pl-3.5 mi:@[760px]:grid-cols-[minmax(160px,_1.1fr)_minmax(160px,_1.2fr)_auto_auto] mi:@[760px]:[grid-template-areas:'name_prog_fc_end'] mi:@[760px]:gap-4">
-          <h3 class="elh__name mi:[grid-area:name] mi:m-0 mi:min-w-0">
-            <button :id="'elh-' + e.id" type="button" class="elh__toggle mi:flex mi:items-center mi:gap-2 mi:max-w-full mi:py-1 mi:px-0 mi:[border:0] mi:[background:transparent] mi:[font:inherit] mi:text-inherit mi:cursor-pointer mi:text-start mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:focus-visible:rounded-[4px]" :aria-expanded="open.has(e.id)" @click="toggle(e.id)">
-              <MiIcon name="chevron-right" :size="14" class="elh__chev mi:text-label3 mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)]" :class="{ 'is-open': open.has(e.id) }" />
-              <span class="elh__swatch mi:flex-[none] mi:w-2.5 mi:h-2.5 mi:rounded-[3px] mi:[background:var(--c)]" aria-hidden="true" />
-              <span class="elh__label mi:text-[15px] mi:font-semibold mi:whitespace-nowrap mi:overflow-hidden mi:text-ellipsis">{{ e.name }}</span>
+    <div class="mi:grid mi:gap-2.5">
+      <section v-for="e in sorted" :key="e.id" class="mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-[inset_3px_0_0_var(--c),_var(--mi-sh1)] mi:overflow-hidden" :style="{ '--c': e.color }" :aria-labelledby="'elh-' + e.id">
+        <div class="mi:grid mi:grid-cols-[minmax(0,_1fr)_auto] mi:[grid-template-areas:'name_end'_'prog_prog'_'fc_fc'] mi:items-center mi:gap-y-2 mi:gap-x-3 mi:pt-2.5 mi:pr-3 mi:pb-3 mi:pl-3.5 mi:@[760px]:grid-cols-[minmax(160px,_1.1fr)_minmax(160px,_1.2fr)_auto_auto] mi:@[760px]:[grid-template-areas:'name_prog_fc_end'] mi:@[760px]:gap-4">
+          <h3 class="mi:[grid-area:name] mi:m-0 mi:min-w-0">
+            <button :id="'elh-' + e.id" type="button" class="mi:flex mi:items-center mi:gap-2 mi:max-w-full mi:py-1 mi:px-0 mi:[border:0] mi:[background:transparent] mi:[font:inherit] mi:text-inherit mi:cursor-pointer mi:text-start mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:focus-visible:rounded-[4px]" :aria-expanded="open.has(e.id)" @click="toggle(e.id)">
+              <MiIcon name="chevron-right" :size="14" class="mi:flex-[none] mi:text-label3 mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)]" :class="open.has(e.id) ? 'mi:transform-[rotate(90deg)]' : ''" />
+              <span class="mi:flex-[none] mi:w-2.5 mi:h-2.5 mi:rounded-[3px] mi:[background:var(--c)]" aria-hidden="true" />
+              <span class="mi:text-[15px] mi:font-semibold mi:whitespace-nowrap mi:overflow-hidden mi:text-ellipsis">{{ e.name }}</span>
             </button>
           </h3>
 
-          <div class="elh__progress mi:[grid-area:prog] mi:flex mi:items-center mi:gap-2.5">
-            <div class="elh__track mi:flex mi:flex-1 mi:gap-0.5 mi:h-2" role="img" :aria-label="`${e.stats.done} done, ${e.stats.doing} in progress, ${e.stats.todo} to do, in points`">
-              <span class="is-done mi:[.elh__track_&]:min-w-0" :style="{ flexGrow: e.stats.done }" /><span class="is-doing mi:[.elh__track_&]:min-w-0" :style="{ flexGrow: e.stats.doing }" /><span class="is-todo mi:[.elh__track_&]:min-w-0" :style="{ flexGrow: e.stats.todo }" />
+          <div class="mi:[grid-area:prog] mi:flex mi:items-center mi:gap-2.5">
+            <div class="mi:flex mi:flex-1 mi:gap-0.5 mi:h-2" role="img" :aria-label="`${e.stats.done} done, ${e.stats.doing} in progress, ${e.stats.todo} to do, in points`">
+              <span class="mi:basis-0 mi:rounded-[3px] mi:[background:var(--c)] mi:min-w-0" :style="{ flexGrow: e.stats.done }" /><span class="mi:basis-0 mi:rounded-[3px] mi:[background:color-mix(in_srgb,var(--c)_45%,transparent)] mi:min-w-0" :style="{ flexGrow: e.stats.doing }" /><span class="mi:basis-0 mi:rounded-[3px] mi:[background:var(--mi-fill3)] mi:min-w-0" :style="{ flexGrow: e.stats.todo }" />
             </div>
-            <span class="elh__pct mi:min-w-9 mi:text-[13px] mi:font-semibold mi:text-end mi:tabular-nums">{{ e.stats.pct }}%</span>
+            <span class="mi:min-w-9 mi:text-[13px] mi:font-semibold mi:text-end mi:tabular-nums">{{ e.stats.pct }}%</span>
           </div>
 
-          <span class="elh__forecast mi:[grid-area:fc] mi:inline-flex mi:items-center mi:gap-1.5 mi:justify-self-start mi:text-[12px] mi:font-medium mi:text-label2 mi:[&.is-late]:py-[3px] mi:[&.is-late]:px-2 mi:[&.is-late]:text-red-t mi:[&.is-late]:font-semibold" :class="'is-' + e.stats.risk">
+          <span class="mi:[grid-area:fc] mi:inline-flex mi:items-center mi:gap-1.5 mi:justify-self-start mi:text-[12px]" :class="e.stats.risk === 'late' ? 'mi:rounded-[999px] mi:[background:color-mix(in_srgb,var(--mi-red)_12%,transparent)] mi:py-[3px] mi:px-2 mi:text-red-t mi:font-semibold' : 'mi:text-label2 mi:font-medium'">
             <MiIcon :name="e.stats.risk === 'late' ? 'warning' : 'calendar'" :size="13" />
             {{ e.stats.risk === 'late' ? `${e.stats.weeksLeft} wk needed, ${e.stats.weeksToDue} left` : 'Due ' + e.due }}
           </span>
 
-          <div class="elh__end mi:[grid-area:end] mi:flex mi:items-center mi:gap-1.5">
+          <div class="mi:[grid-area:end] mi:flex mi:items-center mi:gap-1.5">
             <MiAvatarGroup :items="members(e.owners)" :max="2" size="xs" />
             <MiIconButton size="small" variant="plain" :label="'Add task to ' + e.name" @click="addTask(e.id)"><MiIcon name="plus" :size="16" /></MiIconButton>
           </div>
         </div>
 
-        <ul v-if="open.has(e.id)" class="elh__tasks mi:grid mi:m-0 mi:pt-0 mi:pr-3 mi:pb-2.5 mi:pl-3.5 mi:[list-style:none]">
-          <li v-for="t in e.tasks" :key="t.id" class="elh__task mi:grid mi:grid-cols-[auto_minmax(0,_1fr)_auto] mi:items-center mi:gap-2.5 mi:pt-[9px] mi:pr-1 mi:pb-[9px] mi:pl-6.5 mi:border-t mi:border-t-sep mi:text-[13px]">
-            <span class="elh__dot mi:w-2 mi:h-2 mi:rounded-[50%] mi:[&.is-doing]:shadow-[inset_0_0_0_2px_var(--c)] mi:[&.is-todo]:shadow-[inset_0_0_0_2px_var(--mi-label3)]" :class="'is-' + t.status" aria-hidden="true" />
-            <span class="elh__task-title mi:whitespace-nowrap mi:overflow-hidden mi:text-ellipsis">{{ t.title }}</span>
-            <span class="elh__task-meta mi:text-label2 mi:tabular-nums">{{ statusLabel[t.status] }} · {{ t.points }} pt</span>
+        <ul v-if="open.has(e.id)" class="mi:grid mi:m-0 mi:pt-0 mi:pr-3 mi:pb-2.5 mi:pl-3.5 mi:[list-style:none]">
+          <li v-for="t in e.tasks" :key="t.id" class="mi:grid mi:grid-cols-[auto_minmax(0,_1fr)_auto] mi:items-center mi:gap-2.5 mi:pt-[9px] mi:pr-1 mi:pb-[9px] mi:pl-6.5 mi:border-t mi:border-t-sep mi:text-[13px]">
+            <span class="mi:w-2 mi:h-2 mi:rounded-[50%]" :class="t.status === 'done' ? 'mi:[background:var(--c)]' : t.status === 'doing' ? 'mi:shadow-[inset_0_0_0_2px_var(--c)]' : t.status === 'todo' ? 'mi:shadow-[inset_0_0_0_2px_var(--mi-label3)]' : ''" aria-hidden="true" />
+            <span class="mi:whitespace-nowrap mi:overflow-hidden mi:text-ellipsis">{{ t.title }}</span>
+            <span class="mi:text-label2 mi:tabular-nums">{{ statusLabel[t.status] }} · {{ t.points }} pt</span>
           </li>
         </ul>
       </section>
@@ -119,14 +119,3 @@ function addTask(id: string) {
   open.value = new Set(open.value).add(id)
 }
 </script>
-
-<style scoped>
-.elh__chev { flex: none; }
-.elh__chev.is-open { transform: rotate(90deg); }
-.elh__track span { flex-basis: 0; border-radius: 3px; }
-.elh__track .is-done { background: var(--c); }
-.elh__track .is-doing { background: color-mix(in srgb, var(--c) 45%, transparent); }
-.elh__track .is-todo { background: var(--mi-fill3); }
-.elh__forecast.is-late { border-radius: 999px; background: color-mix(in srgb, var(--mi-red) 12%, transparent); }
-.elh__dot.is-done { background: var(--c); }
-</style>

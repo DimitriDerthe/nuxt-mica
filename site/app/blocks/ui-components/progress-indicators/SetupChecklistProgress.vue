@@ -1,33 +1,33 @@
 <template>
-  <div class="scp mi:@container mi:font-mi mi:text-label">
-    <section class="scp__card mi:grid mi:gap-5 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:@[720px]:py-6 mi:@[720px]:px-7" aria-labelledby="scp-title">
-      <header class="scp__head mi:flex mi:items-center mi:gap-4">
+  <div class="mi:@container mi:font-mi mi:text-label">
+    <section class="mi:grid mi:gap-5 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:@[720px]:py-6 mi:@[720px]:px-7" aria-labelledby="scp-title">
+      <header class="mi:flex mi:items-center mi:gap-4">
         <MiProgressRing :value="doneCount" :max="tasks.length" :size="72" label="Setup tasks completed">
-          <span class="scp__ring-text mi:text-[13px] mi:text-label2 mi:tabular-nums"><strong class="mi:[.scp__ring-text_&]:text-[18px] mi:[.scp__ring-text_&]:text-label">{{ doneCount }}</strong>/{{ tasks.length }}</span>
+          <span class="mi:text-[13px] mi:text-label2 mi:tabular-nums"><strong class="mi:text-[18px] mi:text-label">{{ doneCount }}</strong>/{{ tasks.length }}</span>
         </MiProgressRing>
-        <div class="scp__intro mi:grid mi:gap-0.5 mi:min-w-0">
+        <div class="mi:grid mi:gap-0.5 mi:min-w-0">
           <MiText id="scp-title" variant="title3" as="h2" weight="semibold">Set up your workspace</MiText>
           <MiText variant="footnote" tone="label2" aria-live="polite">{{ remainingText }}</MiText>
         </div>
       </header>
 
       <!-- One bar per track, weighted by minutes rather than task count. -->
-      <ul class="scp__tracks mi:grid mi:gap-3 mi:m-0 mi:p-0 mi:[list-style:none] mi:@[720px]:grid-cols-3 mi:@[720px]:gap-5" aria-label="Progress by track">
-        <li v-for="t in trackStats" :key="t.id" class="scp__track mi:grid mi:gap-1.5">
-          <div class="scp__track-top mi:flex mi:justify-between mi:gap-2">
+      <ul class="mi:grid mi:gap-3 mi:m-0 mi:p-0 mi:[list-style:none] mi:@[720px]:grid-cols-3 mi:@[720px]:gap-5" aria-label="Progress by track">
+        <li v-for="t in trackStats" :key="t.id" class="mi:grid mi:gap-1.5">
+          <div class="mi:flex mi:justify-between mi:gap-2">
             <MiText as="span" variant="caption" weight="semibold">{{ t.label }}</MiText>
             <MiText as="span" variant="caption" tone="label2" tabular>{{ t.done }} / {{ t.total }} min</MiText>
           </div>
-          <div class="scp__bar mi:h-1.5 mi:rounded-[3px] mi:bg-fill3 mi:overflow-hidden" role="meter" :aria-label="`${t.label} progress`" :aria-valuenow="t.done" aria-valuemin="0" :aria-valuemax="t.total">
-            <span class="mi:[.scp__bar_&]:block mi:[.scp__bar_&]:h-full mi:[.scp__bar_&]:rounded-[inherit] mi:[.scp__bar_&]:bg-p mi:[.scp__bar_&]:origin-left mi:[.scp__bar_&]:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :class="'scp__fill--' + t.id" :style="{ transform: `scaleX(${t.total ? t.done / t.total : 0})` }" />
+          <div class="mi:h-1.5 mi:rounded-[3px] mi:bg-fill3 mi:overflow-hidden" role="meter" :aria-label="`${t.label} progress`" :aria-valuenow="t.done" aria-valuemin="0" :aria-valuemax="t.total">
+            <span class="mi:block mi:h-full mi:rounded-[inherit] mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :class="[t.id === 'team' ? 'mi:bg-s' : t.id === 'billing' ? 'mi:bg-[color-mix(in_srgb,_var(--mi-p)_55%,_var(--mi-s))]' : 'mi:bg-p']" :style="{ transform: `scaleX(${t.total ? t.done / t.total : 0})` }" />
           </div>
         </li>
       </ul>
 
-      <div class="scp__groups mi:grid mi:gap-4 mi:@[720px]:grid-cols-3 mi:@[720px]:gap-5">
-        <section v-for="t in trackStats" :key="t.id" class="scp__group mi:grid mi:gap-2" :aria-labelledby="`scp-g-${t.id}`">
+      <div class="mi:grid mi:gap-4 mi:@[720px]:grid-cols-3 mi:@[720px]:gap-5">
+        <section v-for="t in trackStats" :key="t.id" class="mi:grid mi:gap-2" :aria-labelledby="`scp-g-${t.id}`">
           <MiText :id="`scp-g-${t.id}`" variant="footnote" tone="label2" weight="semibold" as="h3">{{ t.label }}</MiText>
-          <ul class="scp__tasks mi:grid mi:gap-2.5 mi:m-0 mi:p-0 mi:[list-style:none]">
+          <ul class="mi:grid mi:gap-2.5 mi:m-0 mi:p-0 mi:[list-style:none]">
             <li v-for="task in t.items" :key="task.id">
               <MiCheckbox v-model="task.done" :label="task.label" :description="`${task.minutes} min · ${task.hint}`" />
             </li>
@@ -71,8 +71,3 @@ const remainingText = computed(() => {
   return left ? `About ${left} minutes left · progress saves automatically` : 'All done. Nice work.'
 })
 </script>
-
-<style scoped>
-.scp__bar .scp__fill--team { background: var(--mi-s); }
-.scp__bar .scp__fill--billing { background: color-mix(in srgb, var(--mi-p) 55%, var(--mi-s)); }
-</style>

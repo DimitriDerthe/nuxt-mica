@@ -1,29 +1,29 @@
 <template>
-  <section class="pace" aria-labelledby="pace-title">
-    <header class="pace__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="pace-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="pace-title" variant="title3" as="h2" weight="semibold">Client projects</MiText>
         <MiText variant="footnote" tone="label2">Field &amp; Form studio · {{ projects.length }} projects · today is Mon, Nov 2</MiText>
       </div>
-      <div class="pace__tools mi:flex mi:flex-wrap mi:items-center mi:gap-2 mi:max-w-full">
+      <div class="mi:flex mi:flex-wrap mi:items-center mi:gap-2 mi:max-w-full">
         <MiSegmented v-model="filter" label="Filter projects" :options="filters" />
         <MiMenu v-model="sort" variant="popup" :items="sorts" aria-label="Sort projects" placement="bottom-end" />
       </div>
     </header>
 
     <!-- Legend: explains the one idea of the board, the pace tick. -->
-    <p class="pace__legend mi:flex mi:flex-wrap mi:items-center mi:gap-y-1.5 mi:gap-x-2 mi:m-0">
-      <span class="pace__legend-bar mi:w-5.5 mi:h-1.5 mi:rounded-[3px] mi:bg-fill3 mi:overflow-hidden" aria-hidden="true"><i class="mi:[.pace__legend-bar_&]:block mi:[.pace__legend-bar_&]:w-[60%] mi:[.pace__legend-bar_&]:h-full mi:[.pace__legend-bar_&]:bg-p" /></span>
+    <p class="mi:flex mi:flex-wrap mi:items-center mi:gap-y-1.5 mi:gap-x-2 mi:m-0">
+      <span class="mi:w-5.5 mi:h-1.5 mi:rounded-[3px] mi:bg-fill3 mi:overflow-hidden" aria-hidden="true"><i class="mi:block mi:w-[60%] mi:h-full mi:bg-p" /></span>
       <MiText as="span" variant="caption" tone="label2">Work done</MiText>
-      <span class="pace__legend-tick mi:w-0.5 mi:h-3 mi:ms-2 mi:rounded-[1px] mi:bg-label" aria-hidden="true" />
+      <span class="mi:w-0.5 mi:h-3 mi:ms-2 mi:rounded-[1px] mi:bg-label" aria-hidden="true" />
       <MiText as="span" variant="caption" tone="label2">Where the work should be today</MiText>
     </p>
 
-    <ul class="pace__grid mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:gap-3 mi:m-0 mi:p-0 mi:[list-style:none] mi:@[600px]:grid-cols-2 mi:@[960px]:grid-cols-3" aria-live="polite">
-      <li v-for="p in visible" :key="p.id" class="pace__card mi:grid mi:gap-4 mi:p-4 mi:rounded-xl mi:bg-card mi:shadow-1">
-        <div class="pace__top mi:grid mi:grid-cols-[auto_minmax(0,_1fr)_auto] mi:items-center mi:gap-3">
-          <span class="pace__glyph mi:grid mi:place-items-center mi:w-10 mi:h-10 mi:rounded-[12px] mi:text-[13px] mi:font-bold mi:tracking-[.02em] mi:text-(--hue) mi:[background:color-mix(in_srgb,_var(--hue)_14%,_transparent)] mi:shadow-[inset_0_0_0_1px_color-mix(in_srgb,_var(--hue)_22%,_transparent)]" :style="{ '--hue': p.hue }" aria-hidden="true">{{ p.code }}</span>
-          <div class="pace__name mi:min-w-0">
+    <ul class="mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:gap-3 mi:m-0 mi:p-0 mi:[list-style:none] mi:@[600px]:grid-cols-2 mi:@[960px]:grid-cols-3" aria-live="polite">
+      <li v-for="p in visible" :key="p.id" class="mi:grid mi:gap-4 mi:p-4 mi:rounded-xl mi:bg-card mi:shadow-1">
+        <div class="mi:grid mi:grid-cols-[auto_minmax(0,_1fr)_auto] mi:items-center mi:gap-3">
+          <span class="mi:grid mi:place-items-center mi:w-10 mi:h-10 mi:rounded-[12px] mi:text-[13px] mi:font-bold mi:tracking-[.02em] mi:text-(--hue) mi:[background:color-mix(in_srgb,_var(--hue)_14%,_transparent)] mi:shadow-[inset_0_0_0_1px_color-mix(in_srgb,_var(--hue)_22%,_transparent)]" :style="{ '--hue': p.hue }" aria-hidden="true">{{ p.code }}</span>
+          <div class="mi:min-w-0">
             <MiText as="h3" variant="headline" :lines="1">{{ p.name }}</MiText>
             <MiText variant="caption" tone="label2" :lines="1">{{ p.client }} · {{ p.phase }}</MiText>
           </div>
@@ -32,23 +32,23 @@
           </MiIconButton>
         </div>
 
-        <div class="pace__meter mi:grid mi:gap-2">
+        <div class="mi:grid mi:gap-2">
           <div
-            class="pace__track mi:relative mi:h-2 mi:rounded-[4px] mi:bg-fill3" role="meter" :aria-label="p.name + ' progress'" aria-valuemin="0" aria-valuemax="100"
+            class="mi:relative mi:h-2 mi:rounded-[4px] mi:bg-fill3" role="meter" :aria-label="p.name + ' progress'" aria-valuemin="0" aria-valuemax="100"
             :aria-valuenow="p.done" :aria-valuetext="`${p.done}% done, ${p.elapsed}% of time used`"
           >
-            <span class="pace__fill mi:absolute mi:inset-0 mi:rounded-[inherit] mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :class="'pace__fill--' + p.state" :style="{ transform: `scaleX(${p.done / 100})` }" />
-            <span v-if="p.state !== 'shipped'" class="pace__tick mi:absolute mi:-top-1 mi:-bottom-1 mi:w-0.5 mi:-ms-px mi:rounded-[1px] mi:bg-label mi:shadow-[0_0_0_2px_var(--mi-card)]" :style="{ insetInlineStart: p.elapsed + '%' }" />
+            <span class="mi:absolute mi:inset-0 mi:rounded-[inherit] mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :class="[p.state === 'risk' ? 'mi:bg-orange' : p.state === 'shipped' ? 'mi:bg-green' : 'mi:bg-p']" :style="{ transform: `scaleX(${p.done / 100})` }" />
+            <span v-if="p.state !== 'shipped'" class="mi:absolute mi:-top-1 mi:-bottom-1 mi:w-0.5 mi:-ms-px mi:rounded-[1px] mi:bg-label mi:shadow-[0_0_0_2px_var(--mi-card)]" :style="{ insetInlineStart: p.elapsed + '%' }" />
           </div>
-          <div class="pace__numbers mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-1 mi:gap-x-2">
+          <div class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-1 mi:gap-x-2">
             <MiText as="span" variant="caption" tone="label2" tabular>{{ p.done }}% done · {{ p.elapsed }}% of time used</MiText>
-            <span class="pace__gap mi:text-[12px] mi:font-semibold mi:tabular-nums mi:whitespace-nowrap" :class="'pace__gap--' + p.state">{{ p.gapLabel }}</span>
+            <span class="mi:text-[12px] mi:font-semibold mi:tabular-nums mi:whitespace-nowrap" :class="[p.state === 'risk' ? 'mi:text-orange-t' : p.state === 'track' ? 'mi:text-label2' : 'mi:text-green-t']">{{ p.gapLabel }}</span>
           </div>
         </div>
 
-        <footer class="pace__foot mi:flex mi:flex-wrap mi:items-center mi:gap-y-2 mi:gap-x-3 mi:pt-3 mi:border-t mi:border-t-sep">
+        <footer class="mi:flex mi:flex-wrap mi:items-center mi:gap-y-2 mi:gap-x-3 mi:pt-3 mi:border-t mi:border-t-sep">
           <MiAvatarGroup :items="p.team" :max="3" :size="26" :label="'Team: ' + p.team.map(t => t.name).join(', ')" />
-          <MiText as="span" variant="caption" tone="label2" tabular>{{ p.tasksDone }}/{{ p.tasks }} tasks</MiText>
+          <MiText as="span" variant="caption" tone="label2" tabular class="mi:me-auto!">{{ p.tasksDone }}/{{ p.tasks }} tasks</MiText>
           <MiBadge :tone="p.state === 'risk' ? 'warning' : p.state === 'shipped' ? 'success' : 'neutral'" :label="p.dueLabel" />
         </footer>
       </li>
@@ -114,14 +114,3 @@ const visible = computed(() => {
   return [...list].sort((a, b) => live(a) - live(b) || a.due - b.due)
 })
 </script>
-
-<style scoped>
-.pace { container-type: inline-size; display: grid; align-content: start; gap: 16px; font-family: var(--mi-font); color: var(--mi-label); }
-.pace__fill--ahead, .pace__fill--track { background: var(--mi-p); }
-.pace__fill--risk { background: var(--mi-orange); }
-.pace__fill--shipped { background: var(--mi-green); }
-.pace__gap--ahead, .pace__gap--shipped { color: var(--mi-green-t); }
-.pace__gap--risk { color: var(--mi-orange-t); }
-.pace__gap--track { color: var(--mi-label2); }
-.pace__foot > :nth-child(2) { margin-inline-end: auto; }
-</style>

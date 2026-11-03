@@ -1,7 +1,7 @@
 <template>
-  <section class="dsf mi:@container mi:font-mi mi:text-label" aria-labelledby="dsf-title">
-    <div class="dsf__in mi:grid mi:gap-5 mi:p-5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:@[720px]:py-7 mi:@[720px]:px-8">
-    <header class="dsf__head mi:flex mi:[align-items:flex-start] mi:justify-between mi:gap-3">
+  <section class="mi:@container mi:font-mi mi:text-label" aria-labelledby="dsf-title">
+    <div class="mi:grid mi:gap-5 mi:p-5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:@[720px]:py-7 mi:@[720px]:px-8">
+    <header class="mi:flex mi:[align-items:flex-start] mi:justify-between mi:gap-3">
       <div>
         <MiText id="dsf-title" as="h2" variant="title3" weight="bold">Set up Tern Mail for your team</MiText>
         <MiText variant="footnote" tone="label2">About 4 minutes. Progress is saved as you go.</MiText>
@@ -11,12 +11,12 @@
 
     <MiSteps :model-value="step" :steps="steps" orientation="horizontal" aria-label="Setup progress" @update:model-value="jump" />
 
-    <div class="dsf__panel mi:min-h-70">
-      <Transition name="dsf-swap" mode="out-in">
+    <div class="mi:min-h-70">
+      <Transition mode="out-in" enter-active-class="mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),_transform_var(--mi-dur-3)_var(--mi-spring)] mi:motion-reduce:[transition:opacity_var(--mi-dur-2)_linear]" leave-active-class="mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),_transform_var(--mi-dur-3)_var(--mi-spring)] mi:motion-reduce:[transition:opacity_var(--mi-dur-2)_linear]" enter-from-class="mi:opacity-0 mi:transform-[translateX(12px)] mi:motion-reduce:transform-none" leave-to-class="mi:opacity-0 mi:transform-[translateX(-12px)] mi:motion-reduce:transform-none">
         <!-- 1. Workspace -->
-        <div v-if="step === 0" key="0" class="dsf__pane mi:grid mi:content-start mi:gap-3.5">
+        <div v-if="step === 0" key="0" class="mi:grid mi:content-start mi:gap-3.5">
           <MiText as="h3" variant="headline" weight="semibold">Name your workspace</MiText>
-          <div class="dsf__grid mi:grid mi:gap-3.5 mi:@[720px]:grid-cols-[1fr_1fr]">
+          <div class="mi:grid mi:gap-3.5 mi:@[720px]:grid-cols-[1fr_1fr]">
             <MiField label="Company name" :error="errs.name">
               <template #default="{ id, describedBy }">
                 <MiInput :id="id" v-model="form.name" :aria-describedby="describedBy" @update:model-value="onName" />
@@ -31,7 +31,7 @@
         </div>
 
         <!-- 2. Domain -->
-        <div v-else-if="step === 1" key="1" class="dsf__pane mi:grid mi:content-start mi:gap-3.5">
+        <div v-else-if="step === 1" key="1" class="mi:grid mi:content-start mi:gap-3.5">
           <MiText as="h3" variant="headline" weight="semibold">Connect your sending domain</MiText>
           <MiField label="Domain" :error="errs.domain">
             <template #default="{ id, describedBy }">
@@ -39,18 +39,18 @@
             </template>
           </MiField>
           <MiText variant="footnote" tone="label2">Add these records at your DNS provider, then check them here.</MiText>
-          <div class="dsf__records mi:grid mi:rounded-lg mi:shadow-[inset_0_0_0_1px_var(--mi-sep)] mi:overflow-hidden" role="table" aria-label="DNS records">
-            <div v-for="r in records" :key="r.host" class="dsf__record mi:grid mi:grid-cols-[58px_minmax(0,_1fr)_auto] mi:[grid-template-areas:'type_host_end'_'value_value_value'] mi:items-center mi:gap-y-1 mi:gap-x-2.5 mi:py-2.5 mi:px-3 mi:[.dsf__record+&]:border-t mi:[.dsf__record+&]:border-t-sep mi:@[720px]:grid-cols-[64px_minmax(0,_.9fr)_minmax(0,_1.4fr)_auto] mi:@[720px]:[grid-template-areas:'type_host_value_end']" role="row">
-              <span class="dsf__type mi:[grid-area:type] mi:justify-self-start mi:py-0.5 mi:px-[7px] mi:rounded-[6px] mi:text-[11px] mi:font-bold mi:tracking-[.04em] mi:text-s-text mi:[background:var(--mi-s-tint)]" role="cell">{{ r.type }}</span>
-              <code class="dsf__host mi:min-w-0 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:[font:500_12px/1.5_ui-monospace,_SFMono-Regular,_Menlo,_monospace] mi:[grid-area:host] mi:text-label2" role="cell">{{ r.host }}</code>
-              <code class="dsf__value mi:min-w-0 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:[font:500_12px/1.5_ui-monospace,_SFMono-Regular,_Menlo,_monospace] mi:[grid-area:value]" role="cell">{{ r.value }}</code>
-              <span class="dsf__rec-end mi:[grid-area:end] mi:justify-self-end" role="cell">
+          <div class="mi:grid mi:rounded-lg mi:shadow-[inset_0_0_0_1px_var(--mi-sep)] mi:overflow-hidden" role="table" aria-label="DNS records">
+            <div v-for="r in records" :key="r.host" class="mi:grid mi:grid-cols-[58px_minmax(0,_1fr)_auto] mi:[grid-template-areas:'type_host_end'_'value_value_value'] mi:items-center mi:gap-y-1 mi:gap-x-2.5 mi:py-2.5 mi:px-3 mi:not-first:border-t mi:not-first:border-t-sep mi:@[720px]:grid-cols-[64px_minmax(0,_.9fr)_minmax(0,_1.4fr)_auto] mi:@[720px]:[grid-template-areas:'type_host_value_end']" role="row">
+              <span class="mi:[grid-area:type] mi:justify-self-start mi:py-0.5 mi:px-[7px] mi:rounded-[6px] mi:text-[11px] mi:font-bold mi:tracking-[.04em] mi:text-s-text mi:[background:var(--mi-s-tint)]" role="cell">{{ r.type }}</span>
+              <code class="mi:min-w-0 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:[font:500_12px/1.5_ui-monospace,_SFMono-Regular,_Menlo,_monospace] mi:[grid-area:host] mi:text-label2" role="cell">{{ r.host }}</code>
+              <code class="mi:min-w-0 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:[font:500_12px/1.5_ui-monospace,_SFMono-Regular,_Menlo,_monospace] mi:[grid-area:value]" role="cell">{{ r.value }}</code>
+              <span class="mi:[grid-area:end] mi:justify-self-end" role="cell">
                 <MiBadge v-if="dnsState === 'ok'" tone="success" label="Found" />
                 <MiCopyButton v-else :value="r.value" :label="`Copy ${r.type} value`" variant="ghost" icon-only />
               </span>
             </div>
           </div>
-          <div class="dsf__check mi:flex mi:flex-wrap mi:items-center mi:gap-2.5">
+          <div class="mi:flex mi:flex-wrap mi:items-center mi:gap-2.5">
             <MiButton variant="tinted" size="small" :loading="dnsState === 'checking'" @click="checkDns">
               {{ dnsState === 'ok' ? 'Records verified' : 'Check records' }}
             </MiButton>
@@ -59,7 +59,7 @@
         </div>
 
         <!-- 3. Team -->
-        <div v-else-if="step === 2" key="2" class="dsf__pane mi:grid mi:content-start mi:gap-3.5">
+        <div v-else-if="step === 2" key="2" class="mi:grid mi:content-start mi:gap-3.5">
           <MiText as="h3" variant="headline" weight="semibold">Invite your teammates</MiText>
           <MiField label="Email addresses" :hint="`Press Return after each one · ${form.invites.length} of 10`" :error="errs.invites">
             <template #default>
@@ -74,13 +74,13 @@
         </div>
 
         <!-- 4. Review -->
-        <div v-else key="3" class="dsf__pane mi:grid mi:content-start mi:gap-3.5">
+        <div v-else key="3" class="mi:grid mi:content-start mi:gap-3.5">
           <template v-if="!launched">
             <MiText as="h3" variant="headline" weight="semibold">Review and launch</MiText>
             <MiDetails :items="summary" label-width="130px" />
           </template>
-          <div v-else class="dsf__done mi:grid mi:justify-items-center mi:gap-2 mi:py-6 mi:px-0" role="status">
-            <span class="dsf__done-mark mi:grid mi:place-items-center mi:w-14 mi:h-14 mi:rounded-[50%] mi:text-p-on mi:[background:linear-gradient(135deg,_var(--mi-p),_var(--mi-s))]" aria-hidden="true"><MiIcon name="check" :size="26" :weight="2.4" /></span>
+          <div v-else class="mi:grid mi:justify-items-center mi:gap-2 mi:py-6 mi:px-0" role="status">
+            <span class="mi:grid mi:place-items-center mi:w-14 mi:h-14 mi:rounded-[50%] mi:text-p-on mi:[background:linear-gradient(135deg,_var(--mi-p),_var(--mi-s))] mi:[--mi-in-s:.6] mi:animate-[in_var(--mi-dur-4)_var(--mi-spring)] mi:motion-reduce:animate-none" aria-hidden="true"><MiIcon name="check" :size="26" :weight="2.4" /></span>
             <MiText as="h3" variant="title3" weight="bold" align="center">{{ form.name }} is live</MiText>
             <MiText variant="subheadline" tone="label2" align="center">Invitations went to {{ form.invites.length }} people. Your inbox is at {{ form.slug }}.ternmail.app.</MiText>
           </div>
@@ -88,9 +88,9 @@
       </Transition>
     </div>
 
-    <footer class="dsf__foot mi:flex mi:flex-wrap mi:justify-between mi:gap-2.5 mi:pt-4 mi:border-t mi:border-t-sep">
+    <footer class="mi:flex mi:flex-wrap mi:justify-between mi:gap-2.5 mi:pt-4 mi:border-t mi:border-t-sep">
       <MiButton variant="gray" :disabled="step === 0 || launched" @click="back">Back</MiButton>
-      <div class="dsf__foot-end mi:flex mi:flex-wrap mi:gap-2">
+      <div class="mi:flex mi:flex-wrap mi:gap-2">
         <MiButton v-if="step === 1 && dnsState !== 'ok'" variant="plain" @click="advance(true)">Skip for now</MiButton>
         <MiButton v-if="step < 3" @click="advance(false)">Continue</MiButton>
         <MiButton v-else-if="!launched" :loading="launching" @click="launch">Launch workspace</MiButton>
@@ -178,13 +178,3 @@ function launch() {
 }
 function restart() { launched.value = false; step.value = 0; reached.value = 0; dnsState.value = 'idle' }
 </script>
-
-<style scoped>
-.dsf__done-mark { animation: dsf-pop var(--mi-dur-4) var(--mi-spring); }
-@keyframes dsf-pop { from { transform: scale(.6); opacity: 0; } }
-
-.dsf-swap-enter-active, .dsf-swap-leave-active { transition: opacity var(--mi-dur-2) var(--mi-ease), transform var(--mi-dur-3) var(--mi-spring); }
-.dsf-swap-enter-from { opacity: 0; transform: translateX(12px); }
-.dsf-swap-leave-to { opacity: 0; transform: translateX(-12px); }
-@media (prefers-reduced-motion: reduce) { .dsf-swap-enter-active, .dsf-swap-leave-active { transition: opacity var(--mi-dur-2) linear; } .dsf-swap-enter-from, .dsf-swap-leave-to { transform: none; } .dsf__done-mark { animation: none; } }
-</style>

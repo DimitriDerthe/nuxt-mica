@@ -1,53 +1,53 @@
 <template>
-  <section class="hd mi:@container mi:h-155 mi:font-mi mi:text-label mi:bg-page" aria-labelledby="hd-title">
-    <div class="hd__shell mi:grid mi:h-full mi:grid-cols-[minmax(0,_1fr)] mi:@[760px]:grid-cols-[minmax(0,_1fr)_380px]">
+  <section class="mi:@container mi:h-155 mi:font-mi mi:text-label mi:bg-page" aria-labelledby="hd-title">
+    <div class="mi:grid mi:h-full mi:grid-cols-[minmax(0,_1fr)] mi:@[760px]:grid-cols-[minmax(0,_1fr)_380px]">
       <!-- The app page the help sidebar sits beside (wide containers only). -->
-      <div class="hd__app mi:hidden mi:@[760px]:grid mi:content-start mi:gap-5 mi:p-7 mi:opacity-75" aria-hidden="true">
-        <div class="hd__app-head mi:flex mi:items-center mi:gap-2.5"><span class="hd__app-title mi:text-[24px] mi:font-bold mi:tracking-[-.02em]">Billing</span><span class="hd__pill mi:py-[3px] mi:px-2.5 mi:rounded-[999px] mi:bg-p-tint mi:text-p-text mi:text-[12px] mi:font-semibold">Team plan</span></div>
-        <div class="hd__app-card mi:grid mi:grid-cols-[auto_1fr] mi:gap-y-3 mi:gap-x-6 mi:p-5 mi:rounded-lg mi:bg-card mi:shadow-1 mi:text-[14px]">
-          <span class="hd__k mi:text-label2">Next invoice</span><span class="hd__v mi:font-medium">€348.00 on 1 December</span>
-          <span class="hd__k mi:text-label2">Seats</span><span class="hd__v mi:font-medium">12 of 12 used</span>
-          <span class="hd__k mi:text-label2">Payment method</span><span class="hd__v mi:font-medium">Visa ending 4410</span>
+      <div class="mi:hidden mi:@[760px]:grid mi:content-start mi:gap-5 mi:p-7 mi:opacity-75" aria-hidden="true">
+        <div class="mi:flex mi:items-center mi:gap-2.5"><span class="mi:text-[24px] mi:font-bold mi:tracking-[-.02em]">Billing</span><span class="mi:py-[3px] mi:px-2.5 mi:rounded-[999px] mi:bg-p-tint mi:text-p-text mi:text-[12px] mi:font-semibold">Team plan</span></div>
+        <div class="mi:grid mi:grid-cols-[auto_1fr] mi:gap-y-3 mi:gap-x-6 mi:p-5 mi:rounded-lg mi:bg-card mi:shadow-1 mi:text-[14px]">
+          <span class="mi:text-label2">Next invoice</span><span class="mi:font-medium">€348.00 on 1 December</span>
+          <span class="mi:text-label2">Seats</span><span class="mi:font-medium">12 of 12 used</span>
+          <span class="mi:text-label2">Payment method</span><span class="mi:font-medium">Visa ending 4410</span>
         </div>
-        <div class="hd__app-rows mi:grid mi:gap-2.5"><span class="mi:[.hd__app-rows_&]:h-11 mi:[.hd__app-rows_&]:rounded-md" /><span class="mi:[.hd__app-rows_&]:h-11 mi:[.hd__app-rows_&]:rounded-md" /><span class="mi:[.hd__app-rows_&]:h-11 mi:[.hd__app-rows_&]:rounded-md" /><span class="mi:[.hd__app-rows_&]:h-11 mi:[.hd__app-rows_&]:rounded-md" /></div>
+        <div class="mi:grid mi:gap-2.5"><span class="mi:bg-fill4 mi:h-11 mi:rounded-md" /><span class="mi:bg-fill4 mi:h-11 mi:rounded-md" /><span class="mi:bg-fill4 mi:h-11 mi:rounded-md" /><span class="mi:bg-fill4 mi:h-11 mi:rounded-md" /></div>
       </div>
 
-      <aside class="hd__side mi:@[760px]:border-l mi:@[760px]:border-l-sep mi:@[760px]:shadow-2 mi:flex mi:flex-col mi:min-h-0 mi:min-w-0 mi:bg-card">
-        <header class="hd__head mi:pt-4 mi:px-4 mi:pb-2">
+      <aside class="mi:@[760px]:border-l mi:@[760px]:border-l-sep mi:@[760px]:shadow-2 mi:flex mi:flex-col mi:min-h-0 mi:min-w-0 mi:bg-card">
+        <header class="mi:pt-4 mi:px-4 mi:pb-2">
           <MiText id="hd-title" as="h2" variant="headline" weight="bold">Help</MiText>
           <MiText variant="caption" tone="label2">Felix and Jun are online</MiText>
         </header>
 
-        <MiTabs v-model="tab" aria-label="Help sections" class="hd__tabs mi:min-h-0">
-          <MiTabsList aria-label="Help sections" class="hd__tablist mi:my-0 mi:mx-4">
+        <MiTabs v-model="tab" aria-label="Help sections" class="mi:flex-1! mi:flex! mi:flex-col! mi:min-h-0">
+          <MiTabsList aria-label="Help sections" class="mi:my-0 mi:mx-4">
             <MiTabsTrigger value="chat">Chat</MiTabsTrigger>
             <MiTabsTrigger value="guides">Guides</MiTabsTrigger>
           </MiTabsList>
 
-          <MiTabsContent value="chat" class="hd__panel mi:min-h-0 mi:flex mi:flex-col">
-            <MiMessageScroller class="hd__log" label="Support chat">
+          <MiTabsContent value="chat" class="mi:flex-1! mi:min-h-0 mi:flex mi:flex-col">
+            <MiMessageScroller class="mi:flex-1! mi:min-h-0! mi:bg-page!" label="Support chat">
               <MiMessageScrollerItem v-for="m in log" :key="m.id" :message-id="'hd-' + m.id">
-                <MiMarker v-if="m.kind === 'status'" role="status" class="hd__status">{{ m.text }}</MiMarker>
-                <MiMessage v-else :align="m.kind === 'me' ? 'end' : 'start'" :label="m.who" class="hd__row mi:[&.is-end]:ms-auto" :class="{ 'is-end': m.kind === 'me' }">
+                <MiMarker v-if="m.kind === 'status'" role="status" class="mi:justify-center!">{{ m.text }}</MiMarker>
+                <MiMessage v-else :align="m.kind === 'me' ? 'end' : 'start'" :label="m.who" class="mi:max-w-[90%]! " :class="m.kind === 'me' ? 'mi:ms-auto' : ''">
                   <template v-if="m.kind !== 'me'" #avatar><MiAvatar :name="m.who" size="xs" tone="indigo" decorative /></template>
-                  <MiBubble :align="m.kind === 'me' ? 'end' : 'start'" :variant="m.kind === 'me' ? 'default' : 'secondary'" class="hd__bub">{{ m.text }}</MiBubble>
+                  <MiBubble :align="m.kind === 'me' ? 'end' : 'start'" :variant="m.kind === 'me' ? 'default' : 'secondary'" class="mi:max-w-full!">{{ m.text }}</MiBubble>
                 </MiMessage>
               </MiMessageScrollerItem>
             </MiMessageScroller>
 
             <!-- Deflection: guides that match what is being typed, before it is sent. -->
-            <Transition name="hd-rise">
-              <div v-if="suggestions.length" class="hd__suggest mi:grid mi:gap-1 mi:my-0 mi:mx-3 mi:p-2.5 mi:rounded-[var(--mi-radius-l)_var(--mi-radius-l)_0_0] mi:bg-p-tint mi:origin-bottom" aria-live="polite">
+            <Transition enter-active-class="mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),_transform_var(--mi-dur-2)_var(--mi-ease)]" leave-active-class="mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),_transform_var(--mi-dur-2)_var(--mi-ease)]" enter-from-class="mi:opacity-0 mi:transform-[translateY(8px)]" leave-to-class="mi:opacity-0 mi:transform-[translateY(8px)]">
+              <div v-if="suggestions.length" class="mi:grid mi:gap-1 mi:my-0 mi:mx-3 mi:p-2.5 mi:rounded-[var(--mi-radius-l)_var(--mi-radius-l)_0_0] mi:bg-p-tint mi:origin-bottom" aria-live="polite">
                 <MiText variant="caption" weight="semibold" tone="label2">Might answer this</MiText>
-                <button v-for="a in suggestions" :key="a.id" type="button" class="hd__sug mi:flex mi:items-center mi:gap-2 mi:w-full mi:py-2 mi:px-2.5 mi:[border:0] mi:rounded-md mi:bg-card mi:text-label mi:text-start mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" @click="openGuide(a.id)">
-                  <MiIcon class="mi:[.hd__sug_span&]:min-w-0" name="document" :size="15" />
-                  <span class="mi:[.hd__sug_span&]:min-w-0">{{ a.title }}</span>
-                  <MiIcon class="mi:[.hd__sug_span&]:min-w-0" name="chevron-right" :size="14" />
+                <button v-for="a in suggestions" :key="a.id" type="button" class="mi:[font:inherit] mi:text-[13.5px] mi:font-medium mi:flex mi:items-center mi:gap-2 mi:w-full mi:py-2 mi:px-2.5 mi:[border:0] mi:rounded-md mi:bg-card mi:text-label mi:text-start mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" @click="openGuide(a.id)">
+                  <MiIcon class="mi:text-p-text" name="document" :size="15" />
+                  <span class="mi:flex-1 mi:min-w-0">{{ a.title }}</span>
+                  <MiIcon name="chevron-right" :size="14" />
                 </button>
               </div>
             </Transition>
 
-            <form class="hd__composer mi:pt-0 mi:px-3 mi:pb-3.5 mi:before:content-[''] mi:before:block mi:before:h-2.5" @submit.prevent="send">
+            <form class="mi:pt-0 mi:px-3 mi:pb-3.5 mi:before:content-[''] mi:before:block mi:before:h-2.5" @submit.prevent="send">
               <MiInputGroup v-model="draft" size="sm" aria-label="Message support" placeholder="Ask about billing, seats, invoices…">
                 <template #trailing>
                   <MiIconButton type="submit" label="Send" size="small" :disabled="!draft.trim()"><MiIcon name="arrow-up" :size="15" /></MiIconButton>
@@ -56,18 +56,18 @@
             </form>
           </MiTabsContent>
 
-          <MiTabsContent value="guides" class="hd__panel hd__panel--guides mi:min-h-0 mi:flex mi:flex-col mi:gap-3 mi:p-4 mi:overflow-y-auto">
+          <MiTabsContent value="guides" class="mi:flex-1! mi:min-h-0 mi:flex mi:flex-col mi:gap-3 mi:p-4 mi:overflow-y-auto">
             <template v-if="article">
-              <article class="hd__article mi:grid mi:gap-2 mi:justify-items-start" aria-labelledby="hd-art-title">
+              <article class="mi:grid mi:gap-2 mi:justify-items-start" aria-labelledby="hd-art-title">
                 <MiButton variant="plain" size="small" @click="articleId = null">
                   <template #leading><MiIcon name="chevron-left" :size="15" /></template>All guides
                 </MiButton>
                 <MiText id="hd-art-title" as="h3" variant="title3" weight="bold">{{ article.title }}</MiText>
                 <MiText variant="caption" tone="label3">{{ article.read }} min read</MiText>
-                <p v-for="(p, i) in article.body" :key="i" class="hd__art-p mi:m-0 mi:text-[14.5px] mi:leading-[1.6]">{{ p }}</p>
-                <div class="hd__helpful mi:grid mi:gap-2 mi:w-full mi:mt-2 mi:p-3 mi:rounded-md mi:bg-fill4">
+                <p v-for="(p, i) in article.body" :key="i" class="mi:m-0 mi:text-[14.5px] mi:leading-[1.6]">{{ p }}</p>
+                <div class="mi:grid mi:gap-2 mi:w-full mi:mt-2 mi:p-3 mi:rounded-md mi:bg-fill4">
                   <MiText variant="footnote" tone="label2">{{ helpful === null ? 'Did this answer your question?' : helpful ? 'Glad it helped.' : 'Sorry. Ask us in Chat, we reply in about 6 min.' }}</MiText>
-                  <div v-if="helpful === null" class="hd__yn mi:flex mi:gap-1.5">
+                  <div v-if="helpful === null" class="mi:flex mi:gap-1.5">
                     <MiButton variant="gray" size="small" @click="helpful = true">Yes</MiButton>
                     <MiButton variant="gray" size="small" @click="helpful = false; tab = 'chat'">No, chat</MiButton>
                   </div>
@@ -76,7 +76,7 @@
             </template>
             <template v-else>
               <MiSearch v-model="query" size="compact" placeholder="Search guides" aria-label="Search guides" :cancelable="false" />
-              <MiList :grouped="false" label="Guides" class="hd__list">
+              <MiList :grouped="false" label="Guides" class="mi:-mx-1!">
                 <MiListItem v-for="a in filtered" :key="a.id" button :title="a.title" :subtitle="a.read + ' min read'" chevron @click="openGuide(a.id)" />
               </MiList>
               <MiText v-if="!filtered.length" variant="footnote" tone="label2">No guide matches “{{ query }}”.</MiText>
@@ -133,21 +133,3 @@ function send() {
 }
 </script>
 
-<style scoped>
-.hd__app-rows span { background: var(--mi-fill4); }
-.hd__tabs { flex: 1; display: flex; flex-direction: column; }
-.hd__panel { flex: 1; }
-
-.hd__log { flex: 1; min-height: 0; background: var(--mi-page); }
-.hd__row { max-width: 90%; }
-.hd .hd__bub { max-width: 100%; }
-.hd__status { justify-content: center; }
-.hd__sug { font: inherit; font-size: 13.5px; font-weight: 500; }
-.hd__sug span { flex: 1; }
-.hd__sug > :first-child { color: var(--mi-p-text); }
-
-.hd__list { margin-inline: -4px; }
-
-.hd-rise-enter-active, .hd-rise-leave-active { transition: opacity var(--mi-dur-2) var(--mi-ease), transform var(--mi-dur-2) var(--mi-ease); }
-.hd-rise-enter-from, .hd-rise-leave-to { opacity: 0; transform: translateY(8px); }
-</style>

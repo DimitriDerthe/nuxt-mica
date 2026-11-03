@@ -1,9 +1,9 @@
 <template>
-  <section class="scs mi:@container mi:font-mi mi:text-label" aria-labelledby="scs-title">
-    <div class="scs__layout mi:grid mi:gap-4.5 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:@[720px]:grid-cols-[240px_minmax(0,_1fr)] mi:@[720px]:gap-7 mi:@[720px]:p-7">
-      <aside class="scs__intro mi:grid mi:content-start mi:justify-items-start mi:gap-3.5">
+  <section class="mi:@container mi:font-mi mi:text-label" aria-labelledby="scs-title">
+    <div class="mi:grid mi:gap-4.5 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:@[720px]:grid-cols-[240px_minmax(0,_1fr)] mi:@[720px]:gap-7 mi:@[720px]:p-7">
+      <aside class="mi:grid mi:content-start mi:justify-items-start mi:gap-3.5">
         <MiProgressRing :value="score" :size="88" label="Security setup progress">
-          <span class="scs__ring mi:text-[18px] mi:font-bold mi:tabular-nums">{{ doneCount }}/{{ tasks.length }}</span>
+          <span class="mi:text-[18px] mi:font-bold mi:tabular-nums">{{ doneCount }}/{{ tasks.length }}</span>
         </MiProgressRing>
         <div>
           <MiText id="scs-title" as="h2" variant="title3" weight="bold">Secure your account</MiText>
@@ -16,44 +16,44 @@
       </aside>
 
       <!-- Non-linear checklist: every task opens in place, no wizard order. -->
-      <MiAccordion v-model="open" variant="plain" class="scs__list">
+      <MiAccordion v-model="open" variant="plain" class="mi:min-w-0!">
         <MiAccordionItem v-for="t in tasks" :key="t.id" :value="t.id">
           <template #title>
-            <span class="scs__task mi:flex mi:items-center mi:gap-3 mi:min-w-0 mi:text-start">
-              <span class="scs__check mi:grid mi:flex-[none] mi:place-items-center mi:w-6 mi:h-6 mi:rounded-[50%] mi:text-transparent mi:shadow-[inset_0_0_0_1.5px_var(--mi-label3)] mi:[&.is-done]:text-p-on mi:[&.is-done]:bg-p mi:[&.is-done]:shadow-none" :class="{ 'is-done': done[t.id] }" aria-hidden="true"><MiIcon name="check" :size="14" :weight="2.6" /></span>
-              <span class="scs__task-text mi:grid mi:flex-1 mi:min-w-0">
-                <span class="scs__task-name mi:text-[15px] mi:font-semibold">{{ t.title }}</span>
-                <span class="scs__task-sub mi:text-[12px] mi:font-normal mi:text-label2">{{ done[t.id] ? t.doneText : t.hint }}</span>
+            <span class="mi:flex mi:items-center mi:gap-3 mi:min-w-0 mi:text-start">
+              <span class="mi:grid mi:flex-[none] mi:place-items-center mi:w-6 mi:h-6 mi:rounded-[50%]" :class="done[t.id] ? 'mi:text-p-on mi:bg-p mi:shadow-none' : 'mi:text-transparent mi:shadow-[inset_0_0_0_1.5px_var(--mi-label3)]'" aria-hidden="true"><MiIcon name="check" :size="14" :weight="2.6" /></span>
+              <span class="mi:grid mi:flex-1 mi:min-w-0">
+                <span class="mi:text-[15px] mi:font-semibold">{{ t.title }}</span>
+                <span class="mi:text-[12px] mi:font-normal mi:text-label2">{{ done[t.id] ? t.doneText : t.hint }}</span>
               </span>
               <MiBadge v-if="t.required && !done[t.id]" tone="warning" label="Required" />
             </span>
           </template>
 
-          <div v-if="t.id === 'email'" class="scs__body mi:grid mi:justify-items-start mi:gap-3 mi:pt-0 mi:pr-0 mi:pb-1.5 mi:pl-9 mi:max-w-full mi:box-border mi:@max-[459px]:pl-0">
+          <div v-if="t.id === 'email'" class="mi:grid mi:justify-items-start mi:gap-3 mi:pt-0 mi:pr-0 mi:pb-1.5 mi:pl-9 mi:max-w-full mi:box-border mi:@max-[459px]:pl-0">
             <MiText variant="footnote" tone="label2">Confirmed on 28 October from a link sent to noor.haddad@quillfield.com.</MiText>
           </div>
 
-          <div v-else-if="t.id === 'totp'" class="scs__body mi:grid mi:justify-items-start mi:gap-3 mi:pt-0 mi:pr-0 mi:pb-1.5 mi:pl-9 mi:max-w-full mi:box-border mi:@max-[459px]:pl-0">
+          <div v-else-if="t.id === 'totp'" class="mi:grid mi:justify-items-start mi:gap-3 mi:pt-0 mi:pr-0 mi:pb-1.5 mi:pl-9 mi:max-w-full mi:box-border mi:@max-[459px]:pl-0 mi:@max-[459px]:[&_.mi-code]:gap-1.5! mi:@max-[459px]:[&_.mi-code__slot]:w-[42px]! mi:@max-[459px]:[&_.mi-code__cell]:w-[42px]!">
             <MiText variant="footnote" tone="label2">Scan the key with your authenticator, then type the 6-digit code it shows. Sample code: 250731.</MiText>
-            <div class="scs__key mi:flex mi:flex-wrap mi:items-center mi:gap-y-2.5 mi:gap-x-3.5">
-              <code class="scs__secret mi:py-1.5 mi:px-2.5 mi:rounded-sm mi:bg-fill3 mi:font-[ui-monospace,_SFMono-Regular,_Menlo,_monospace] mi:text-[13px] mi:tracking-[.08em]">{{ secret }}</code>
+            <div class="mi:flex mi:flex-wrap mi:items-center mi:gap-y-2.5 mi:gap-x-3.5">
+              <code class="mi:py-1.5 mi:px-2.5 mi:rounded-sm mi:bg-fill3 mi:font-[ui-monospace,_SFMono-Regular,_Menlo,_monospace] mi:text-[13px] mi:tracking-[.08em]">{{ secret }}</code>
               <MiCopyButton :value="secret.replaceAll(' ', '')" label="Copy key" variant="outline" />
             </div>
             <MiCodeInput v-model="totp" :invalid="totpError" :disabled="done.totp" label="Authenticator code" @complete="checkTotp" />
             <MiText v-if="totpError" variant="caption" tone="red" role="alert">That code has expired or is wrong. Try the next one.</MiText>
           </div>
 
-          <div v-else-if="t.id === 'codes'" class="scs__body mi:grid mi:justify-items-start mi:gap-3 mi:pt-0 mi:pr-0 mi:pb-1.5 mi:pl-9 mi:max-w-full mi:box-border mi:@max-[459px]:pl-0">
-            <ul class="scs__codes mi:grid mi:grid-cols-2 mi:gap-y-1.5 mi:gap-x-4.5 mi:m-0 mi:py-3 mi:px-3.5 mi:[list-style:none] mi:rounded-md mi:bg-fill4 mi:font-[ui-monospace,_SFMono-Regular,_Menlo,_monospace] mi:text-[13px] mi:tabular-nums mi:@[520px]:grid-cols-[repeat(5,_auto)]" aria-label="Recovery codes">
+          <div v-else-if="t.id === 'codes'" class="mi:grid mi:justify-items-start mi:gap-3 mi:pt-0 mi:pr-0 mi:pb-1.5 mi:pl-9 mi:max-w-full mi:box-border mi:@max-[459px]:pl-0">
+            <ul class="mi:grid mi:grid-cols-2 mi:gap-y-1.5 mi:gap-x-4.5 mi:m-0 mi:py-3 mi:px-3.5 mi:[list-style:none] mi:rounded-md mi:bg-fill4 mi:font-[ui-monospace,_SFMono-Regular,_Menlo,_monospace] mi:text-[13px] mi:tabular-nums mi:@[520px]:grid-cols-[repeat(5,_auto)]" aria-label="Recovery codes">
               <li v-for="c in recoveryCodes" :key="c">{{ c }}</li>
             </ul>
-            <div class="scs__row mi:flex mi:flex-wrap mi:items-center mi:gap-y-2.5 mi:gap-x-3.5">
+            <div class="mi:flex mi:flex-wrap mi:items-center mi:gap-y-2.5 mi:gap-x-3.5">
               <MiCopyButton :value="recoveryCodes.join('\n')" label="Copy all codes" />
               <MiCheckbox v-model="done.codes" label="I stored these somewhere safe" />
             </div>
           </div>
 
-          <form v-else class="scs__body mi:grid mi:justify-items-start mi:gap-3 mi:pt-0 mi:pr-0 mi:pb-1.5 mi:pl-9 mi:max-w-full mi:box-border mi:@max-[459px]:pl-0" novalidate @submit.prevent="savePhone">
+          <form v-else class="mi:grid mi:justify-items-start mi:gap-3 mi:pt-0 mi:pr-0 mi:pb-1.5 mi:pl-9 mi:max-w-full mi:box-border mi:@max-[459px]:pl-0" novalidate @submit.prevent="savePhone">
             <MiField label="Recovery phone" hint="Used only if you lose your authenticator." :error="phoneError">
               <MiInput v-model="phone" type="tel" prefix="+44" />
             </MiField>
@@ -105,12 +105,3 @@ function savePhone() {
   if (!phoneError.value) done.phone = true
 }
 </script>
-
-<style scoped>
-.scs__list { min-width: 0; }
-/* Code cells are 52px; shrink them so six fit beside the indent on phones. */
-@container (max-width: 459px) {
-  .scs__body :deep(.mi-code) { gap: 6px; }
-  .scs__body :deep(.mi-code__slot), .scs__body :deep(.mi-code__cell) { width: 42px; }
-}
-</style>

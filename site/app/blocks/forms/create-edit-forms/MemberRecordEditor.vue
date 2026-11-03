@@ -1,53 +1,53 @@
 <template>
-  <section class="mre mi:@container/mre mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="mre-title">
-    <header class="mre__head mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-3.5">
-      <div class="mre__who mi:flex mi:items-center mi:gap-3.5 mi:min-w-0 mi:flex-[1_1_260px]">
-        <MiAvatar class="mi:[.mre__who>div&]:min-w-0" :name="mode === 'create' ? (draft.name || 'New member') : record.name" size="lg" tone="auto" decorative />
-        <div class="mi:[.mre__who>div&]:min-w-0">
+  <section class="mi:@container/mre mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="mre-title">
+    <header class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-3.5">
+      <div class="mi:flex mi:items-center mi:gap-3.5 mi:min-w-0 mi:flex-[1_1_260px]">
+        <MiAvatar :name="mode === 'create' ? (draft.name || 'New member') : record.name" size="lg" tone="auto" decorative />
+        <div class="mi:min-w-0">
           <MiText variant="caption" tone="label2" weight="medium">{{ mode === 'create' ? 'New member' : 'Crewbase · People' }}</MiText>
           <MiText id="mre-title" as="h2" variant="title2" weight="bold">{{ mode === 'create' ? (draft.name || 'Untitled member') : record.name }}</MiText>
           <MiText variant="footnote" tone="label2">{{ mode === 'create' ? 'Fill in the essentials; the invite goes out on save.' : roleLabel(record.role) + ' · ' + record.team }}</MiText>
         </div>
       </div>
-      <div v-if="mode === 'view'" class="mre__head-actions mi:flex mi:gap-2">
+      <div v-if="mode === 'view'" class="mi:flex mi:gap-2">
         <MiButton variant="gray" @click="startCreate">New member</MiButton>
         <MiButton @click="startEdit">Edit</MiButton>
       </div>
     </header>
 
-    <div v-if="flash" class="mre__flash mi:flex mi:flex-wrap mi:items-center mi:gap-2 mi:py-2.5 mi:px-3.5 mi:rounded-lg mi:[background:color-mix(in_srgb,_var(--mi-green)_12%,_transparent)]" role="status" aria-live="polite">
-      <MiIcon name="check-circle-fill" :size="18" />
-      <MiText variant="footnote">{{ flash }}</MiText>
+    <div v-if="flash" class="mi:[--mi-in-y:-4px] mi:animate-[in_var(--mi-dur-3)_var(--mi-ease)] mi:motion-reduce:animate-none mi:flex mi:flex-wrap mi:items-center mi:gap-2 mi:py-2.5 mi:px-3.5 mi:rounded-lg mi:[background:color-mix(in_srgb,_var(--mi-green)_12%,_transparent)]" role="status" aria-live="polite">
+      <MiIcon name="check-circle-fill" :size="18" class="mi:text-green" />
+      <MiText variant="footnote" class="mi:flex-[1_1_200px]">{{ flash }}</MiText>
       <MiButton v-if="undoTo" variant="plain" size="small" @click="undo">Undo</MiButton>
     </div>
 
     <!-- View -->
-    <div v-if="mode === 'view'" class="mre__card mi:grid mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1">
+    <div v-if="mode === 'view'" class="mi:grid mi:gap-4.5 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1">
       <MiDetails :items="details" label-width="150px" />
     </div>
 
     <!-- Review: a diff of what will change, before anything is written. -->
-    <div v-else-if="reviewing" class="mre__card mre__review mi:grid mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1">
+    <div v-else-if="reviewing" class="mi:grid mi:gap-3.5 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1">
       <MiText as="h3" variant="headline">{{ mode === 'create' ? 'Create this member?' : `Review ${diff.length} ${diff.length === 1 ? 'change' : 'changes'}` }}</MiText>
-      <ul class="mre__diff mi:grid mi:m-0 mi:p-0 mi:[list-style:none] mi:rounded-md mi:border mi:border-sep">
-        <li class="mi:[.mre__diff_li&]:gap-1 mi:@[560px]/mre:[.mre__diff_li&]:grid-cols-[140px_minmax(0,_1fr)] mi:@[560px]/mre:[.mre__diff_li&]:items-center" v-for="d in diff" :key="d.label">
-          <span class="mre__diff-l mi:text-[13px] mi:text-label2">{{ d.label }}</span>
-          <span class="mre__diff-v mi:flex mi:flex-wrap mi:items-center mi:gap-y-1.5 mi:gap-x-2 mi:text-[14px] mi:min-w-0">
-            <del class="mi:[.mre__diff_del&]:text-red-t mi:[.mre__diff_del&]:[background:color-mix(in_srgb,_var(--mi-red)_10%,_transparent)] mi:[.mre__diff_del&]:rounded-[6px] mi:[.mre__diff_del&]:wrap-anywhere" v-if="mode === 'edit'">{{ d.from || 'empty' }}</del>
-            <MiIcon class="mi:[.mre__diff_li&]:gap-1 mi:@[560px]/mre:[.mre__diff_li&]:grid-cols-[140px_minmax(0,_1fr)] mi:@[560px]/mre:[.mre__diff_li&]:items-center mi:[.mre__diff_del&]:text-red-t mi:[.mre__diff_del&]:[background:color-mix(in_srgb,_var(--mi-red)_10%,_transparent)] mi:[.mre__diff_del&]:rounded-[6px] mi:[.mre__diff_del&]:wrap-anywhere mi:[.mre__diff_ins&]:[text-decoration:none] mi:[.mre__diff_ins&]:text-green-t mi:[.mre__diff_ins&]:[background:color-mix(in_srgb,_var(--mi-green)_12%,_transparent)] mi:[.mre__diff_ins&]:rounded-[6px] mi:[.mre__diff_ins&]:wrap-anywhere" v-if="mode === 'edit'" name="arrow-right" :size="14" />
-            <ins class="mi:[.mre__diff_ins&]:[text-decoration:none] mi:[.mre__diff_ins&]:text-green-t mi:[.mre__diff_ins&]:[background:color-mix(in_srgb,_var(--mi-green)_12%,_transparent)] mi:[.mre__diff_ins&]:rounded-[6px] mi:[.mre__diff_ins&]:wrap-anywhere">{{ d.to || 'empty' }}</ins>
+      <ul class="mi:grid mi:m-0 mi:p-0 mi:[list-style:none] mi:rounded-md mi:border mi:border-sep">
+        <li class="mi:grid mi:py-2.5 mi:px-3.5 mi:not-first:border-t mi:not-first:border-t-sep mi:gap-1 mi:@[560px]/mre:grid-cols-[140px_minmax(0,_1fr)] mi:@[560px]/mre:items-center" v-for="d in diff" :key="d.label">
+          <span class="mi:text-[13px] mi:text-label2">{{ d.label }}</span>
+          <span class="mi:flex mi:flex-wrap mi:items-center mi:gap-y-1.5 mi:gap-x-2 mi:text-[14px] mi:min-w-0">
+            <del class="mi:py-px mi:px-1.5 mi:text-red-t mi:[background:color-mix(in_srgb,_var(--mi-red)_10%,_transparent)] mi:rounded-[6px] mi:wrap-anywhere" v-if="mode === 'edit'">{{ d.from || 'empty' }}</del>
+            <MiIcon class="mi:text-label3" v-if="mode === 'edit'" name="arrow-right" :size="14" />
+            <ins class="mi:py-px mi:px-1.5 mi:[text-decoration:none] mi:text-green-t mi:[background:color-mix(in_srgb,_var(--mi-green)_12%,_transparent)] mi:rounded-[6px] mi:wrap-anywhere">{{ d.to || 'empty' }}</ins>
           </span>
         </li>
       </ul>
-      <div class="mre__actions mi:flex mi:flex-wrap mi:items-center mi:[justify-content:flex-end] mi:gap-2">
+      <div class="mi:flex mi:flex-wrap mi:items-center mi:[justify-content:flex-end] mi:gap-2">
         <MiButton variant="gray" @click="reviewing = false">Back to editing</MiButton>
         <MiButton :loading="saving" @click="commit">{{ mode === 'create' ? 'Create and invite' : 'Save changes' }}</MiButton>
       </div>
     </div>
 
     <!-- Create / edit form -->
-    <form v-else class="mre__card mre__form mi:grid mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1" novalidate @submit.prevent="review">
-      <div class="mre__grid mi:grid mi:gap-4 mi:grid-cols-[minmax(0,_1fr)] mi:@[620px]/mre:grid-cols-2 mi:@[620px]/mre:gap-y-4.5 mi:@[620px]/mre:gap-x-5">
+    <form v-else class="mi:grid mi:gap-4.5 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1" novalidate @submit.prevent="review">
+      <div class="mi:grid mi:gap-4 mi:grid-cols-[minmax(0,_1fr)] mi:@[620px]/mre:grid-cols-2 mi:@[620px]/mre:gap-y-4.5 mi:@[620px]/mre:gap-x-5">
         <MiField label="Full name" required :error="err('name')">
           <MiInput v-model="draft.name" autocomplete="name" />
         </MiField>
@@ -68,16 +68,16 @@
         </MiField>
       </div>
 
-      <fieldset class="mre__set mi:grid mi:gap-3.5 mi:m-0 mi:pt-4 mi:px-0 mi:pb-0 mi:min-w-0">
-        <legend class="mre__legend mi:float-left mi:w-full mi:mb-2.5 mi:text-[13px] mi:font-semibold">Contract</legend>
+      <fieldset class="mi:[border:0] mi:border-t mi:border-t-sep mi:grid mi:gap-3.5 mi:m-0 mi:pt-4 mi:px-0 mi:pb-0 mi:min-w-0">
+        <legend class="mi:float-left mi:w-full mi:mb-2.5 mi:text-[13px] mi:font-semibold">Contract</legend>
         <MiRadioGroup v-model="draft.contract" label="Contract type" orientation="horizontal" :options="contracts" />
-        <MiField v-if="draft.contract === 'contractor'" label="Contract ends" required :error="err('end')" class="mre__end mi:max-w-80">
+        <MiField v-if="draft.contract === 'contractor'" label="Contract ends" required :error="err('end')" class="mi:[--mi-in-y:-4px] mi:animate-[in_var(--mi-dur-3)_var(--mi-ease)] mi:motion-reduce:animate-none mi:max-w-80">
           <MiDatePicker v-model="draft.end" locale="en-GB" :min="draft.start" />
         </MiField>
       </fieldset>
 
-      <div class="mre__actions mi:flex mi:flex-wrap mi:items-center mi:[justify-content:flex-end] mi:gap-2">
-        <MiText v-if="mode === 'edit' && !diff.length" variant="footnote" tone="label3" class="mre__nochange">No changes yet</MiText>
+      <div class="mi:flex mi:flex-wrap mi:items-center mi:[justify-content:flex-end] mi:gap-2">
+        <MiText v-if="mode === 'edit' && !diff.length" variant="footnote" tone="label3" class="mi:me-auto">No changes yet</MiText>
         <MiButton variant="gray" @click="cancel">Cancel</MiButton>
         <MiButton type="submit" :disabled="mode === 'edit' && !diff.length">Review</MiButton>
       </div>
@@ -199,23 +199,3 @@ function undo() {
   flash.value = 'Changes reverted.'
 }
 </script>
-
-<style scoped>
-.mre__flash { animation: mre-in var(--mi-dur-3) var(--mi-ease); }
-.mre__flash :deep(svg) { color: var(--mi-green); }
-.mre__flash > :nth-child(2) { flex: 1 1 200px; }
-
-.mre__card { gap: 18px; }
-.mre__set { border: 0; border-top: 1px solid var(--mi-sep); }
-.mre__end { animation: mre-in var(--mi-dur-3) var(--mi-ease); }
-.mre__nochange { margin-inline-end: auto; }
-
-.mre__review { gap: 14px; }
-.mre__diff li { display: grid; padding: 10px 14px; }
-.mre__diff li + li { border-top: 1px solid var(--mi-sep); }
-.mre__diff-v :deep(svg) { color: var(--mi-label3); }
-.mre__diff del { padding: 1px 6px; }
-.mre__diff ins { padding: 1px 6px; }
-@keyframes mre-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) { .mre__flash, .mre__end { animation: none; } }
-</style>

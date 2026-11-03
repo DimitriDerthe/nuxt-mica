@@ -1,31 +1,31 @@
 <template>
-  <section class="arb mi:@container mi:font-mi mi:text-label" aria-labelledby="arb-title">
-    <div class="arb__grid mi:grid mi:gap-4 mi:grid-cols-[minmax(0,_1fr)] mi:@[880px]:grid-cols-[minmax(0,_1fr)_320px] mi:@[880px]:items-start">
-      <form class="arb__form mi:grid mi:gap-3.5 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:min-w-0" novalidate @submit.prevent="save">
-        <header class="arb__head mi:flex mi:flex-wrap mi:[align-items:flex-start] mi:justify-between mi:gap-3">
+  <section class="mi:@container mi:font-mi mi:text-label" aria-labelledby="arb-title">
+    <div class="mi:grid mi:gap-4 mi:grid-cols-[minmax(0,_1fr)] mi:@[880px]:grid-cols-[minmax(0,_1fr)_320px] mi:@[880px]:items-start">
+      <form class="mi:grid mi:gap-3.5 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:min-w-0" novalidate @submit.prevent="save">
+        <header class="mi:flex mi:flex-wrap mi:[align-items:flex-start] mi:justify-between mi:gap-3">
           <div>
             <MiText id="arb-title" variant="title3" as="h2" weight="semibold">Routing rule</MiText>
             <MiText variant="footnote" tone="label2">Pipeline · New business EMEA</MiText>
           </div>
-          <div class="arb__on mi:flex mi:items-center mi:gap-2">
+          <div class="mi:flex mi:items-center mi:gap-2">
             <MiText id="arb-on" variant="footnote" weight="medium">{{ enabled ? 'Active' : 'Paused' }}</MiText>
             <MiSwitch v-model="enabled" size="compact" tone="success" aria-labelledby="arb-on" />
           </div>
         </header>
 
-        <div class="arb__step mi:relative mi:grid mi:gap-2.5 mi:p-3.5 mi:rounded-lg mi:bg-fill4 mi:[.arb__step+&]:before:content-[''] mi:[.arb__step+&]:before:absolute mi:[.arb__step+&]:before:left-7.5 mi:[.arb__step+&]:before:-top-3.5 mi:[.arb__step+&]:before:w-0.5 mi:[.arb__step+&]:before:h-3.5 mi:[.arb__step+&]:before:bg-sep">
-          <span class="arb__tag mi:justify-self-start mi:py-0.5 mi:px-2.5 mi:rounded-[999px] mi:text-[12px] mi:font-bold mi:tracking-[.04em] mi:uppercase mi:bg-p-tint mi:text-p-text">When</span>
+        <div class="mi:relative mi:grid mi:gap-2.5 mi:p-3.5 mi:rounded-lg mi:bg-fill4 mi:not-first:before:content-[''] mi:not-first:before:absolute mi:not-first:before:left-7.5 mi:not-first:before:-top-3.5 mi:not-first:before:w-0.5 mi:not-first:before:h-3.5 mi:not-first:before:bg-sep">
+          <span class="mi:justify-self-start mi:py-0.5 mi:px-2.5 mi:rounded-[999px] mi:text-[12px] mi:font-bold mi:tracking-[.04em] mi:uppercase mi:bg-p-tint mi:text-p-text">When</span>
           <MiSelect v-model="trigger" :options="TRIGGERS" aria-label="Trigger" />
         </div>
 
-        <div class="arb__step arb__step--if mi:relative mi:grid mi:gap-2.5 mi:p-3.5 mi:rounded-lg mi:bg-fill4 mi:[.arb__step+&]:before:content-[''] mi:[.arb__step+&]:before:absolute mi:[.arb__step+&]:before:left-7.5 mi:[.arb__step+&]:before:-top-3.5 mi:[.arb__step+&]:before:w-0.5 mi:[.arb__step+&]:before:h-3.5 mi:[.arb__step+&]:before:bg-sep">
-          <div class="arb__if-head mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2.5">
-            <span class="arb__tag mi:justify-self-start mi:py-0.5 mi:px-2.5 mi:rounded-[999px] mi:text-[12px] mi:font-bold mi:tracking-[.04em] mi:uppercase mi:bg-p-tint mi:text-p-text">If</span>
+        <div class="mi:relative mi:grid mi:gap-2.5 mi:p-3.5 mi:rounded-lg mi:bg-fill4 mi:not-first:before:content-[''] mi:not-first:before:absolute mi:not-first:before:left-7.5 mi:not-first:before:-top-3.5 mi:not-first:before:w-0.5 mi:not-first:before:h-3.5 mi:not-first:before:bg-sep">
+          <div class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2.5">
+            <span class="mi:justify-self-start mi:py-0.5 mi:px-2.5 mi:rounded-[999px] mi:text-[12px] mi:font-bold mi:tracking-[.04em] mi:uppercase mi:bg-p-tint mi:text-p-text">If</span>
             <MiSegmented v-model="match" label="Condition logic" :options="[{ value: 'all', label: 'All match' }, { value: 'any', label: 'Any matches' }]" />
           </div>
           <MiRepeater v-model="rows" :min="1" :max="4" :template="blank" label="Condition" add-label="Add condition" remove-label="Remove condition">
             <template #default="{ row, update }">
-              <div class="arb__cond mi:grid mi:gap-2 mi:grid-cols-[minmax(0,_1fr)] mi:flex-1 mi:min-w-0 mi:@[560px]:grid-cols-[1.1fr_1fr_1fr]">
+              <div class="mi:grid mi:gap-2 mi:grid-cols-[minmax(0,_1fr)] mi:flex-1 mi:min-w-0 mi:@[560px]:grid-cols-[1.1fr_1fr_1fr]">
                 <MiNativeSelect
                   :model-value="String(row.field)" size="sm" aria-label="Field" :options="FIELD_OPTIONS"
                   @update:model-value="update({ field: $event, op: FIELDS[fieldOf($event)].ops[0], value: '' })"
@@ -43,9 +43,9 @@
           </MiRepeater>
         </div>
 
-        <div class="arb__step mi:relative mi:grid mi:gap-2.5 mi:p-3.5 mi:rounded-lg mi:bg-fill4 mi:[.arb__step+&]:before:content-[''] mi:[.arb__step+&]:before:absolute mi:[.arb__step+&]:before:left-7.5 mi:[.arb__step+&]:before:-top-3.5 mi:[.arb__step+&]:before:w-0.5 mi:[.arb__step+&]:before:h-3.5 mi:[.arb__step+&]:before:bg-sep">
-          <span class="arb__tag mi:justify-self-start mi:py-0.5 mi:px-2.5 mi:rounded-[999px] mi:text-[12px] mi:font-bold mi:tracking-[.04em] mi:uppercase mi:bg-p-tint mi:text-p-text">Then</span>
-          <div class="arb__then mi:grid mi:gap-2 mi:grid-cols-[minmax(0,_1fr)] mi:@[560px]:grid-cols-[1fr_1fr] mi:@[560px]:items-start">
+        <div class="mi:relative mi:grid mi:gap-2.5 mi:p-3.5 mi:rounded-lg mi:bg-fill4 mi:not-first:before:content-[''] mi:not-first:before:absolute mi:not-first:before:left-7.5 mi:not-first:before:-top-3.5 mi:not-first:before:w-0.5 mi:not-first:before:h-3.5 mi:not-first:before:bg-sep">
+          <span class="mi:justify-self-start mi:py-0.5 mi:px-2.5 mi:rounded-[999px] mi:text-[12px] mi:font-bold mi:tracking-[.04em] mi:uppercase mi:bg-p-tint mi:text-p-text">Then</span>
+          <div class="mi:grid mi:gap-2 mi:grid-cols-[minmax(0,_1fr)] mi:@[560px]:grid-cols-[1fr_1fr] mi:@[560px]:items-start">
             <MiSelect v-model="action" :options="ACTIONS" aria-label="Action" />
             <MiField :error="tried && !target.trim() ? 'Who or where should this go?' : ''">
               <MiInput v-model="target" :placeholder="actionHint" :aria-label="actionHint" />
@@ -53,25 +53,25 @@
           </div>
         </div>
 
-        <footer class="arb__foot mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2.5 mi:pt-1.5">
+        <footer class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2.5 mi:pt-1.5">
           <MiText variant="caption" :tone="saved ? 'green' : 'label2'" aria-live="polite">{{ status }}</MiText>
           <MiButton type="submit">Save rule</MiButton>
         </footer>
       </form>
 
-      <aside class="arb__side mi:grid mi:gap-2.5 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1" aria-labelledby="arb-test-title">
+      <aside class="mi:grid mi:gap-2.5 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1" aria-labelledby="arb-test-title">
         <MiText variant="caption" tone="label2" weight="semibold">In plain words</MiText>
-        <p class="arb__sentence mi:mt-0 mi:mx-0 mi:mb-2 mi:py-3 mi:px-3.5 mi:border-l-3 mi:border-l-p mi:rounded-[0_var(--mi-radius-m)_var(--mi-radius-m)_0] mi:bg-fill4 mi:text-[14px] mi:leading-normal">{{ sentence }}</p>
+        <p class="mi:mt-0 mi:mx-0 mi:mb-2 mi:py-3 mi:px-3.5 mi:border-l-3 mi:border-l-p mi:rounded-[0_var(--mi-radius-m)_var(--mi-radius-m)_0] mi:bg-fill4 mi:text-[14px] mi:leading-normal">{{ sentence }}</p>
 
-        <div class="arb__test-head mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2">
+        <div class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2">
           <MiText id="arb-test-title" variant="subheadline" as="h3" weight="semibold">Dry run</MiText>
           <MiBadge :tone="hits ? 'success' : 'neutral'" :label="`${hits} of ${DEALS.length} recent deals`" />
         </div>
-        <ul class="arb__deals mi:grid mi:m-0 mi:p-0 mi:[list-style:none]">
-          <li class="mi:[.arb__deals_li&]:grid-cols-[16px_minmax(0,_1fr)_auto] mi:[.arb__deals_li&]:items-center mi:[.arb__deals_li&]:gap-2 mi:[.arb__deals_li&]:py-2 mi:[.arb__deals_li&]:px-0 mi:[.arb__deals_li&]:text-[13px]" v-for="d in tested" :key="d.name" :class="{ 'is-hit': d.hit }">
-            <MiIcon class="mi:[.arb__deals_li&]:grid-cols-[16px_minmax(0,_1fr)_auto] mi:[.arb__deals_li&]:items-center mi:[.arb__deals_li&]:gap-2 mi:[.arb__deals_li&]:py-2 mi:[.arb__deals_li&]:px-0 mi:[.arb__deals_li&]:text-[13px]" :name="d.hit ? 'check-circle-fill' : 'minus'" :size="16" />
-            <span class="arb__deal-name mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ d.name }}</span>
-            <span class="arb__deal-meta mi:text-[12px] mi:tabular-nums mi:text-label2">{{ d.country }} · €{{ d.amount.toLocaleString('en-US') }}</span>
+        <ul class="mi:grid mi:m-0 mi:p-0 mi:[list-style:none]">
+          <li class="mi:grid mi:not-first:border-t mi:not-first:border-t-sep mi:grid-cols-[16px_minmax(0,_1fr)_auto] mi:items-center mi:gap-2 mi:py-2 mi:px-0 mi:text-[13px]" v-for="d in tested" :key="d.name" :class="d.hit ? 'mi:text-label mi:[&_svg]:text-green' : 'mi:text-label3'">
+            <MiIcon :name="d.hit ? 'check-circle-fill' : 'minus'" :size="16" />
+            <span class="mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ d.name }}</span>
+            <span class="mi:text-[12px] mi:tabular-nums mi:text-label2">{{ d.country }} · €{{ d.amount.toLocaleString('en-US') }}</span>
           </li>
         </ul>
       </aside>
@@ -157,10 +157,3 @@ function save() {
   if (ready.value) saved.value = true
 }
 </script>
-
-<style scoped>
-.arb__deals li { display: grid; color: var(--mi-label3); }
-.arb__deals li + li { border-top: 1px solid var(--mi-sep); }
-.arb__deals li.is-hit { color: var(--mi-label); }
-.arb__deals li.is-hit :deep(svg) { color: var(--mi-green); }
-</style>

@@ -1,74 +1,74 @@
 <template>
-  <section class="upc mi:@container/upc mi:grid mi:content-start mi:gap-5 mi:font-mi mi:text-label" aria-labelledby="upc-title">
-    <header class="upc__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-y-3.5 mi:gap-x-6">
-      <div class="upc__intro mi:grid mi:gap-1.5 mi:max-w-135">
+  <section class="mi:@container/upc mi:grid mi:content-start mi:gap-5 mi:font-mi mi:text-label" aria-labelledby="upc-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-y-3.5 mi:gap-x-6">
+      <div class="mi:grid mi:gap-1.5 mi:max-w-135">
         <MiText id="upc-title" as="h2" variant="title2" weight="bold" balance>Pay for what you track</MiText>
         <MiText variant="subheadline" tone="label2">Signalbox bills events, editors and replay storage separately. Rates drop as volume grows.</MiText>
       </div>
-      <div class="upc__presets mi:flex mi:flex-wrap mi:gap-1 mi:p-[3px] mi:rounded-[12px] mi:[background:var(--mi-fill4)]" role="group" aria-label="Start from a typical team">
-        <button v-for="p in presets" :key="p.label" type="button" class="upc__preset mi:py-1.5 mi:px-[11px] mi:[border:0] mi:rounded-[9px] mi:text-label2 mi:[background:transparent] mi:cursor-pointer mi:aria-pressed:[background:var(--mi-card)] mi:aria-pressed:shadow-1 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" :aria-pressed="isPreset(p)" @click="apply(p)">{{ p.label }}</button>
+      <div class="mi:flex mi:flex-wrap mi:gap-1 mi:p-[3px] mi:rounded-[12px] mi:[background:var(--mi-fill4)]" role="group" aria-label="Start from a typical team">
+        <button v-for="p in presets" :key="p.label" type="button" class="mi:[font:inherit] mi:text-[12px] mi:font-semibold mi:hover:text-label mi:aria-pressed:text-label mi:py-1.5 mi:px-[11px] mi:[border:0] mi:rounded-[9px] mi:text-label2 mi:[background:transparent] mi:cursor-pointer mi:aria-pressed:[background:var(--mi-card)] mi:aria-pressed:shadow-1 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" :aria-pressed="isPreset(p)" @click="apply(p)">{{ p.label }}</button>
       </div>
     </header>
 
-    <div class="upc__layout mi:grid mi:gap-4 mi:grid-cols-[minmax(0,_1fr)] mi:items-start mi:@[740px]/upc:grid-cols-[minmax(0,_1.15fr)_minmax(0,_1fr)] mi:@[740px]/upc:gap-5">
-      <div class="upc__inputs mi:grid mi:gap-1 mi:py-2 mi:px-5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1">
-        <div v-for="l in lines" :key="l.id" class="upc__input mi:grid mi:gap-1.5 mi:pt-4 mi:px-0 mi:pb-4.5 mi:[.upc__input+&]:border-t mi:[.upc__input+&]:border-t-sep">
+    <div class="mi:grid mi:gap-4 mi:grid-cols-[minmax(0,_1fr)] mi:items-start mi:@[740px]/upc:grid-cols-[minmax(0,_1.15fr)_minmax(0,_1fr)] mi:@[740px]/upc:gap-5">
+      <div class="mi:grid mi:gap-1 mi:py-2 mi:px-5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1">
+        <div v-for="l in lines" :key="l.id" class="mi:grid mi:gap-1.5 mi:pt-4 mi:px-0 mi:pb-4.5 mi:not-first:border-t mi:not-first:border-t-sep">
           <MiSlider
             v-model="model[l.id]" :min="0" :max="l.max" :step="l.step" :label="l.label" :format="l.fmt"
             :tone="l.id === 'seats' ? 'secondary' : 'primary'"
           />
           <!-- Tier rail: bands and breakpoints where the rate changes, aligned with the slider track. -->
-          <div class="upc__rail mi:relative mi:h-6.5 mi:mt-0.5 mi:mx-0 mi:mb-0" aria-hidden="true">
+          <div class="mi:relative mi:h-6.5 mi:mt-0.5 mi:mx-0 mi:mb-0" aria-hidden="true">
             <span
-              v-for="(t, i) in l.tiers" :key="t.text" class="upc__band mi:absolute mi:top-0 mi:h-1 mi:rounded-[2px] mi:[background:var(--mi-fill3)] mi:[.upc__band+&]:ml-0.5 mi:[&.is-current]:[background:color-mix(in_srgb,_var(--mi-p)_50%,_transparent)]" :class="{ 'is-current mi:[.upc__rates_&]:before:w-1.5 mi:[.upc__rates_&]:before:h-1.5 mi:[.upc__rates_&]:before:rounded-[50%] mi:[.upc__rates_&]:before:[background:var(--mi-p)]': tierIndex(l) === i }"
+              v-for="(t, i) in l.tiers" :key="t.text" class="mi:absolute mi:top-0 mi:h-1 mi:rounded-[2px] mi:not-first:ml-0.5" :class="tierIndex(l) === i ? 'mi:[background:color-mix(in_srgb,_var(--mi-p)_50%,_transparent)]' : 'mi:[background:var(--mi-fill3)]'"
               :style="{ left: pct(t.from, l.max), right: pct(l.max - (t.to ?? l.max), l.max) }"
             />
             <span
-              v-for="t in l.tiers.slice(1)" :key="t.from" class="upc__mark mi:absolute mi:top-0 mi:bottom-0 mi:w-0 mi:before:content-[''] mi:before:absolute mi:before:top-[-3px] mi:before:-left-px mi:before:w-0.5 mi:before:h-2.5 mi:before:rounded-[1px] mi:before:[background:var(--mi-label3)] mi:[&.is-passed]:before:[background:var(--mi-p)]" :class="{ 'is-passed': val(l.id) >= t.from, 'is-edge': t.from / l.max < 0.08 }"
+              v-for="t in l.tiers.slice(1)" :key="t.from" class="mi:absolute mi:top-0 mi:bottom-0 mi:w-0 mi:before:content-[''] mi:before:absolute mi:before:top-[-3px] mi:before:-left-px mi:before:w-0.5 mi:before:h-2.5 mi:before:rounded-[1px]" :class="val(l.id) >= t.from ? 'mi:before:[background:var(--mi-p)]' : 'mi:before:[background:var(--mi-label3)]'"
               :style="{ left: pct(t.from, l.max) }"
-            ><span class="mi:[.upc__mark_&]:absolute mi:[.upc__mark_&]:top-3 mi:[.upc__mark_&]:left-0 mi:[.upc__mark_&]:transform-[translateX(-50%)] mi:[.upc__mark_&]:whitespace-nowrap mi:[.upc__mark_&]:text-[11px] mi:[.upc__mark_&]:tabular-nums mi:[.upc__mark.is-edge_&]:transform-[translateX(-3px)]">{{ l.unit(t.from) }}</span></span>
+            ><span class="mi:font-semibold mi:absolute mi:top-3 mi:left-0 mi:whitespace-nowrap mi:text-[11px] mi:tabular-nums" :class="[val(l.id) >= t.from ? 'mi:text-label2' : 'mi:text-label3', t.from / l.max < 0.08 ? 'mi:transform-[translateX(-3px)]' : 'mi:transform-[translateX(-50%)]']">{{ l.unit(t.from) }}</span></span>
           </div>
-          <p class="upc__rates mi:flex mi:flex-wrap mi:gap-y-1 mi:gap-x-3.5 mi:m-0 mi:text-[12px] mi:text-label2 mi:tabular-nums">
-            <span v-for="(t, i) in l.tiers" :key="t.text" :class="{ 'is-current mi:[.upc__rates_&]:before:w-1.5 mi:[.upc__rates_&]:before:h-1.5 mi:[.upc__rates_&]:before:rounded-[50%] mi:[.upc__rates_&]:before:[background:var(--mi-p)]': tierIndex(l) === i }">{{ t.text }}</span>
+          <p class="mi:flex mi:flex-wrap mi:gap-y-1 mi:gap-x-3.5 mi:m-0 mi:text-[12px] mi:text-label2 mi:tabular-nums">
+            <span v-for="(t, i) in l.tiers" :key="t.text" class="mi:inline-flex mi:items-center mi:gap-1.5 " :class="tierIndex(l) === i ? CURRENT_TIER : ''">{{ t.text }}</span>
           </p>
         </div>
       </div>
 
-      <aside class="upc__estimate mi:relative mi:grid mi:gap-4 mi:p-5 mi:rounded-xl mi:overflow-hidden mi:isolate mi:[background:var(--mi-card)] mi:shadow-2 mi:before:content-[''] mi:before:absolute mi:before:top-[-45%] mi:before:right-[-35%] mi:before:bottom-auto mi:before:left-auto mi:before:w-[75%] mi:before:aspect-[1] mi:before:-z-1 mi:before:rounded-[50%] mi:before:[background:radial-gradient(closest-side,_var(--mi-p-tint),_transparent)]" aria-labelledby="upc-est-title">
+      <aside class="mi:relative mi:grid mi:gap-4 mi:p-5 mi:rounded-xl mi:overflow-hidden mi:isolate mi:[background:var(--mi-card)] mi:shadow-2 mi:before:content-[''] mi:before:absolute mi:before:top-[-45%] mi:before:right-[-35%] mi:before:bottom-auto mi:before:left-auto mi:before:w-[75%] mi:before:aspect-[1] mi:before:-z-1 mi:before:rounded-[50%] mi:before:[background:radial-gradient(closest-side,_var(--mi-p-tint),_transparent)]" aria-labelledby="upc-est-title">
         <MiText id="upc-est-title" as="h3" variant="subheadline" weight="semibold" tone="label2">Estimated monthly bill</MiText>
-        <p class="upc__total mi:flex mi:flex-wrap mi:items-baseline mi:gap-2 mi:-mt-1.5 mi:mx-0 mi:mb-0" aria-live="polite"><span class="mi:[.upc__total_&]:leading-none mi:[.upc__total_&]:tracking-[-.045em] mi:[.upc__total_&]:tabular-nums">{{ eur(total) }}</span><small>/ month, excl. VAT</small></p>
+        <p class="mi:flex mi:flex-wrap mi:items-baseline mi:gap-2 mi:-mt-1.5 mi:mx-0 mi:mb-0" aria-live="polite"><span class="mi:text-[clamp(40px,_8cqi,_56px)] mi:font-750 mi:leading-none mi:tracking-[-.045em] mi:tabular-nums">{{ eur(total) }}</span><small class="mi:text-[13px] mi:text-label2">/ month, excl. VAT</small></p>
 
-        <div class="upc__compare mi:grid mi:gap-2">
-          <div class="upc__bar-row mi:grid mi:grid-cols-[52px_minmax(0,_1fr)_44px] mi:items-center mi:gap-2.5">
-            <span class="upc__bar-label mi:text-[12px] mi:font-semibold mi:text-label2">Usage</span>
-            <span class="upc__track mi:relative mi:h-3.5 mi:rounded-[7px] mi:[background:var(--mi-fill4)] mi:overflow-hidden" role="img" :aria-label="`Usage pricing ${eur(total)}`">
+        <div class="mi:grid mi:gap-2">
+          <div class="mi:grid mi:grid-cols-[52px_minmax(0,_1fr)_44px] mi:items-center mi:gap-2.5">
+            <span class="mi:text-[12px] mi:font-semibold mi:text-label2">Usage</span>
+            <span class="mi:relative mi:h-3.5 mi:rounded-[7px] mi:[background:var(--mi-fill4)] mi:overflow-hidden" role="img" :aria-label="`Usage pricing ${eur(total)}`">
               <span
-                v-for="s in segments" :key="s.id" class="upc__seg mi:absolute mi:inset-0 mi:[background:var(--upc-c)] mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)] mi:[&.is-flat]:[background:repeating-linear-gradient(135deg,_var(--mi-fill),_var(--mi-fill)_4px,_var(--mi-fill2)_4px,_var(--mi-fill2)_8px)] mi:[&.is-over]:opacity-45 mi:motion-reduce:[transition:none]" :style="{ '--upc-c': s.color, transform: `translateX(${s.offset * 100}%) scaleX(${s.share})` }"
+                v-for="s in segments" :key="s.id" class="mi:absolute mi:inset-0 mi:[background:var(--upc-c)] mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)] mi:motion-reduce:[transition:none]" :style="{ '--upc-c': s.color, transform: `translateX(${s.offset * 100}%) scaleX(${s.share})` }"
               />
             </span>
-            <span class="upc__bar-val mi:text-[12px] mi:font-650 mi:text-end mi:tabular-nums">{{ eur(total) }}</span>
+            <span class="mi:text-[12px] mi:font-650 mi:text-end mi:tabular-nums">{{ eur(total) }}</span>
           </div>
-          <div class="upc__bar-row mi:grid mi:grid-cols-[52px_minmax(0,_1fr)_44px] mi:items-center mi:gap-2.5">
-            <span class="upc__bar-label mi:text-[12px] mi:font-semibold mi:text-label2">Growth</span>
-            <span class="upc__track mi:relative mi:h-3.5 mi:rounded-[7px] mi:[background:var(--mi-fill4)] mi:overflow-hidden" role="img" :aria-label="`Growth flat plan ${eur(flat.price)}`">
-              <span class="upc__seg is-flat mi:absolute mi:inset-0 mi:[background:var(--upc-c)] mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)] mi:[&.is-flat]:[background:repeating-linear-gradient(135deg,_var(--mi-fill),_var(--mi-fill)_4px,_var(--mi-fill2)_4px,_var(--mi-fill2)_8px)] mi:[&.is-over]:opacity-45 mi:motion-reduce:[transition:none]" :class="{ 'is-over': overFlat.length }" :style="{ transform: `scaleX(${flat.price / scale})` }" />
+          <div class="mi:grid mi:grid-cols-[52px_minmax(0,_1fr)_44px] mi:items-center mi:gap-2.5">
+            <span class="mi:text-[12px] mi:font-semibold mi:text-label2">Growth</span>
+            <span class="mi:relative mi:h-3.5 mi:rounded-[7px] mi:[background:var(--mi-fill4)] mi:overflow-hidden" role="img" :aria-label="`Growth flat plan ${eur(flat.price)}`">
+              <span class="mi:absolute mi:inset-0 mi:[background:repeating-linear-gradient(135deg,_var(--mi-fill),_var(--mi-fill)_4px,_var(--mi-fill2)_4px,_var(--mi-fill2)_8px)] mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)] mi:motion-reduce:[transition:none]" :class="overFlat.length ? 'mi:opacity-45' : ''" :style="{ transform: `scaleX(${flat.price / scale})` }" />
             </span>
-            <span class="upc__bar-val is-muted mi:text-[12px] mi:font-650 mi:text-end mi:tabular-nums">{{ eur(flat.price) }}</span>
+            <span class="mi:font-medium mi:text-label2 mi:text-[12px] mi:text-end mi:tabular-nums">{{ eur(flat.price) }}</span>
           </div>
         </div>
 
-        <ul class="upc__lines mi:grid mi:m-0 mi:p-0 mi:[list-style:none]">
-          <li class="mi:[.upc__lines_&]:grid-cols-[auto_minmax(0,_1fr)_auto] mi:[.upc__lines_&]:py-[9px] mi:[.upc__lines_&]:px-0" v-for="c in costs" :key="c.id">
-            <span class="upc__dot mi:w-2 mi:h-2 mi:rounded-[3px] mi:transform-[translateY(-1px)]" :style="{ background: c.color }" aria-hidden="true" />
-            <span class="upc__line-main mi:grid mi:gap-px mi:min-w-0">
-              <span class="upc__line-name mi:text-[14px] mi:font-semibold mi:tabular-nums">{{ c.label }}</span>
-              <span class="upc__line-how mi:text-[12px] mi:text-label2 mi:tabular-nums">{{ c.how }}</span>
+        <ul class="mi:grid mi:m-0 mi:p-0 mi:[list-style:none]">
+          <li class="mi:grid mi:items-baseline mi:gap-2.5 mi:not-first:border-t mi:not-first:border-t-sep mi:grid-cols-[auto_minmax(0,_1fr)_auto] mi:py-[9px] mi:px-0" v-for="c in costs" :key="c.id">
+            <span class="mi:w-2 mi:h-2 mi:rounded-[3px] mi:transform-[translateY(-1px)]" :style="{ background: c.color }" aria-hidden="true" />
+            <span class="mi:grid mi:gap-px mi:min-w-0">
+              <span class="mi:text-[14px] mi:font-semibold mi:tabular-nums">{{ c.label }}</span>
+              <span class="mi:text-[12px] mi:text-label2 mi:tabular-nums">{{ c.how }}</span>
             </span>
-            <span class="upc__line-cost mi:text-[15px] mi:font-650 mi:tabular-nums">{{ eur(c.cost) }}</span>
+            <span class="mi:text-[15px] mi:font-650 mi:tabular-nums">{{ eur(c.cost) }}</span>
           </li>
         </ul>
 
-        <div class="upc__verdict mi:flex mi:[align-items:flex-start] mi:gap-2.5 mi:py-3 mi:px-3.5 mi:rounded-md mi:[background:var(--mi-fill4)] mi:[&.is-good]:[background:color-mix(in_srgb,_var(--mi-green)_12%,_transparent)] mi:[&.is-warn]:[background:color-mix(in_srgb,_var(--mi-orange)_12%,_transparent)]" :class="verdict.tone" aria-live="polite">
+        <div class="mi:[&_svg]:flex-none mi:[&_svg]:mt-px mi:flex mi:[align-items:flex-start] mi:gap-2.5 mi:py-3 mi:px-3.5 mi:rounded-md" :class="verdict.tone" aria-live="polite">
           <MiIcon :name="verdict.icon" :size="18" />
           <MiText as="span" variant="footnote">{{ verdict.text }}</MiText>
         </div>
@@ -80,6 +80,8 @@
 
 <script setup lang="ts">
 import { computed, reactive } from 'vue'
+
+const CURRENT_TIER = "mi:font-semibold mi:text-p-text mi:before:content-[''] mi:before:w-1.5 mi:before:h-1.5 mi:before:rounded-[50%] mi:before:[background:var(--mi-p)]"
 
 type LineId = 'events' | 'seats' | 'storage'
 interface Tier { from: number, to?: number, rate: number, label: string, text: string }
@@ -157,35 +159,14 @@ const overFlat = computed(() => lines.filter(l => val(l.id) > flat.limits[l.id])
 const verdict = computed(() => {
   if (overFlat.value.length) {
     const l = overFlat.value[0]!
-    return { tone: 'is-info', icon: 'info-circle' as const, text: `Growth caps ${l.label.toLowerCase()} at ${l.fmt(flat.limits[l.id])}, so usage pricing is the only fit here.` }
+    return { tone: 'mi:[background:var(--mi-fill4)] mi:[&_svg]:text-p-text', icon: 'info-circle' as const, text: `Growth caps ${l.label.toLowerCase()} at ${l.fmt(flat.limits[l.id])}, so usage pricing is the only fit here.` }
   }
   const diff = flat.price - total.value
-  if (diff >= 0) return { tone: 'is-good', icon: 'check-circle' as const, text: `${eur(diff)} a month less than the Growth flat plan (${eur(flat.price)}).` }
-  return { tone: 'is-warn', icon: 'warning' as const, text: `Growth flat is ${eur(-diff)} cheaper at this volume. We will suggest it on your first invoice.` }
+  if (diff >= 0) return { tone: 'mi:[background:color-mix(in_srgb,_var(--mi-green)_12%,_transparent)] mi:[&_svg]:text-green-t', icon: 'check-circle' as const, text: `${eur(diff)} a month less than the Growth flat plan (${eur(flat.price)}).` }
+  return { tone: 'mi:[background:color-mix(in_srgb,_var(--mi-orange)_12%,_transparent)] mi:[&_svg]:text-orange-t', icon: 'warning' as const, text: `Growth flat is ${eur(-diff)} cheaper at this volume. We will suggest it on your first invoice.` }
 })
 
 const fmt = new Intl.NumberFormat('en-IE', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 })
 const eur = (v: number) => fmt.format(Math.round(v))
 </script>
 
-<style scoped>
-.upc__preset { font: inherit; font-size: 12px; font-weight: 600;
-}
-.upc__preset:hover { color: var(--mi-label); }
-.upc__preset[aria-pressed="true"] { color: var(--mi-label); }
-.upc__mark span { font-weight: 600; color: var(--mi-label3);
-}
-.upc__mark.is-passed span { color: var(--mi-label2); }
-.upc__rates span { display: inline-flex; align-items: center; gap: 6px; }
-.upc__rates span.is-current { font-weight: 600; color: var(--mi-p-text); }
-.upc__rates span.is-current::before { content: ""; }
-.upc__total span { font-size: clamp(40px, 8cqi, 56px); font-weight: 750; }
-.upc__total small { font-size: 13px; color: var(--mi-label2); }
-.upc__bar-val.is-muted { font-weight: 500; color: var(--mi-label2); }
-.upc__lines li { display: grid; align-items: baseline; gap: 10px; }
-.upc__lines li + li { border-top: 1px solid var(--mi-sep); }
-.upc__verdict :deep(svg) { flex: none; margin-top: 1px; }
-.upc__verdict.is-good :deep(svg) { color: var(--mi-green-t); }
-.upc__verdict.is-warn :deep(svg) { color: var(--mi-orange-t); }
-.upc__verdict.is-info :deep(svg) { color: var(--mi-p-text); }
-</style>

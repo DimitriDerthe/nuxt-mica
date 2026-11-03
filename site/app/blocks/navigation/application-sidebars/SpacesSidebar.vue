@@ -1,50 +1,50 @@
 <template>
-  <div class="sp mi:@container mi:font-mi mi:text-label">
-    <div class="sp__shell mi:relative mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:h-160 mi:overflow-hidden mi:[background:var(--mi-side)] mi:isolate mi:@[720px]:grid-cols-[276px_minmax(0,_1fr)]" :class="{ 'is-detail': detail }" :style="{ '--tint': `var(--mi-${space.color})` }" @keydown="onKey">
+  <div class="mi:@container mi:font-mi mi:text-label">
+    <div class="mi:relative mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:h-160 mi:overflow-hidden mi:[background:var(--mi-side)] mi:isolate mi:@[720px]:grid-cols-[276px_minmax(0,_1fr)]" :style="{ '--tint': `var(--mi-${space.color})` }" @keydown="onKey">
       <!-- One tinted wash per space, cross-faded with opacity. -->
-      <span v-for="(s, i) in spaces" :key="s.id" class="sp__wash mi:absolute mi:inset-0 mi:-z-1 mi:opacity-0 mi:[transition:opacity_var(--mi-dur-4)_var(--mi-ease)] mi:[background:radial-gradient(90%_60%_at_0%_100%,_color-mix(in_srgb,_var(--c)_22%,_transparent),_transparent_70%),_linear-gradient(180deg,_color-mix(in_srgb,_var(--c)_9%,_var(--mi-side)),_color-mix(in_srgb,_var(--c)_14%,_var(--mi-side)))] mi:[&.is-on]:opacity-100" :class="{ 'is-on': i === active }" :style="{ '--c': `var(--mi-${s.color})` }" aria-hidden="true" />
+      <span v-for="(s, i) in spaces" :key="s.id" class="mi:absolute mi:inset-0 mi:-z-1 mi:[transition:opacity_var(--mi-dur-4)_var(--mi-ease)] mi:[background:radial-gradient(90%_60%_at_0%_100%,_color-mix(in_srgb,_var(--c)_22%,_transparent),_transparent_70%),_linear-gradient(180deg,_color-mix(in_srgb,_var(--c)_9%,_var(--mi-side)),_color-mix(in_srgb,_var(--c)_14%,_var(--mi-side)))] " :class="i === active ? 'mi:opacity-100' : 'mi:opacity-0'" :style="{ '--c': `var(--mi-${s.color})` }" aria-hidden="true" />
 
-      <aside class="sp__side mi:flex mi:flex-col mi:min-w-0 mi:min-h-0 mi:pt-4 mi:px-3 mi:pb-2.5" aria-label="Spaces">
-        <header class="sp__head mi:flex mi:items-center mi:gap-2.5 mi:pt-0 mi:px-1 mi:pb-3.5">
-          <span class="sp__mark mi:grid mi:place-items-center mi:flex-[none] mi:w-8.5 mi:h-8.5 mi:rounded-[11px] mi:text-(--tint) mi:[background:color-mix(in_srgb,_var(--tint)_16%,_var(--mi-card))] mi:shadow-[inset_0_0_0_1px_color-mix(in_srgb,_var(--tint)_24%,_transparent)]" aria-hidden="true"><MiIcon :name="space.icon" :size="16" /></span>
-          <div class="sp__head-text mi:flex-1 mi:min-w-0 mi:grid mi:leading-[1.2]">
+      <aside class="mi:flex mi:flex-col mi:min-w-0 mi:min-h-0 mi:pt-4 mi:px-3 mi:pb-2.5" aria-label="Spaces">
+        <header class="mi:flex mi:items-center mi:gap-2.5 mi:pt-0 mi:px-1 mi:pb-3.5">
+          <span class="mi:grid mi:place-items-center mi:flex-[none] mi:w-8.5 mi:h-8.5 mi:rounded-[11px] mi:text-(--tint) mi:[background:color-mix(in_srgb,_var(--tint)_16%,_var(--mi-card))] mi:shadow-[inset_0_0_0_1px_color-mix(in_srgb,_var(--tint)_24%,_transparent)]" aria-hidden="true"><MiIcon :name="space.icon" :size="16" /></span>
+          <div class="mi:flex-1 mi:min-w-0 mi:grid mi:leading-[1.2]">
             <MiText as="h2" variant="headline" weight="bold">{{ space.label }}</MiText>
             <MiText as="span" variant="caption" tone="label2">{{ space.members }}</MiText>
           </div>
           <MiIconButton size="small" variant="plain" :label="'New page in ' + space.label"><MiIcon name="plus" :size="16" /></MiIconButton>
         </header>
 
-        <button type="button" class="sp__jump mi:flex mi:items-center mi:gap-2 mi:h-9 mi:pt-0 mi:pr-2 mi:pb-0 mi:pl-3 mi:[border:0] mi:rounded-[12px] mi:text-label2 mi:cursor-pointer mi:[background:color-mix(in_srgb,_var(--mi-card)_70%,_transparent)] mi:shadow-1 mi:hover:text-label mi:focus-visible:[outline:2px_solid_var(--tint)] mi:focus-visible:outline-offset-[1px]">
-          <MiIcon class="mi:[.sp__jump_span&]:text-left" name="search" :size="15" />
-          <span class="mi:[.sp__jump_span&]:text-left">Jump to…</span>
-          <MiKbdGroup class="sp__keys mi:[.sp__jump_span&]:text-left mi:flex-[none]"><MiKbd class="mi:[.sp__jump_span&]:text-left">⌘</MiKbd><MiKbd class="mi:[.sp__jump_span&]:text-left">T</MiKbd></MiKbdGroup>
+        <button type="button" class="mi:[font:inherit] mi:text-[13px] mi:flex mi:items-center mi:gap-2 mi:h-9 mi:pt-0 mi:pr-2 mi:pb-0 mi:pl-3 mi:[border:0] mi:rounded-[12px] mi:text-label2 mi:cursor-pointer mi:[background:color-mix(in_srgb,_var(--mi-card)_70%,_transparent)] mi:shadow-1 mi:hover:text-label mi:focus-visible:[outline:2px_solid_var(--tint)] mi:focus-visible:outline-offset-[1px]">
+          <MiIcon name="search" :size="15" />
+          <span class="mi:flex-1 mi:text-left">Jump to…</span>
+          <MiKbdGroup class="mi:text-left! mi:flex-1"><MiKbd>⌘</MiKbd><MiKbd>T</MiKbd></MiKbdGroup>
         </button>
 
         <!-- The three space panels sit side by side; the track slides with transform. -->
-        <div class="sp__viewport mi:flex-1 mi:min-h-0 mi:mt-3 mi:-mx-3 mi:mb-0 mi:overflow-hidden">
-          <div class="sp__track mi:grid mi:grid-flow-col mi:auto-cols-[100%] mi:h-full mi:transform-[translateX(calc(var(--i)_*_-100%))] mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ '--i': active }">
+        <div class="mi:flex-1 mi:min-h-0 mi:mt-3 mi:-mx-3 mi:mb-0 mi:overflow-hidden">
+          <div class="mi:grid mi:grid-flow-col mi:auto-cols-[100%] mi:h-full mi:transform-[translateX(calc(var(--i)_*_-100%))] mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ '--i': active }">
             <section
-              v-for="(s, si) in spaces" :id="'sp-panel-' + s.id" :key="s.id" class="sp__panel mi:min-w-0 mi:overflow-y-auto mi:pt-0 mi:px-3 mi:pb-2 mi:[scrollbar-width:none]" role="tabpanel"
+              v-for="(s, si) in spaces" :id="'sp-panel-' + s.id" :key="s.id" class="mi:min-w-0 mi:overflow-y-auto mi:pt-0 mi:px-3 mi:pb-2 mi:[scrollbar-width:none]" role="tabpanel"
               :aria-labelledby="'sp-tab-' + s.id" :inert="si !== active" :aria-hidden="si !== active"
             >
-              <ul class="sp__pins mi:grid mi:grid-cols-4 mi:gap-1.5 mi:mt-0 mi:mx-0 mi:mb-3.5 mi:p-0 mi:[list-style:none]" :aria-label="s.label + ' pinned'">
+              <ul class="mi:grid mi:grid-cols-4 mi:gap-1.5 mi:mt-0 mi:mx-0 mi:mb-3.5 mi:p-0 mi:[list-style:none]" :aria-label="s.label + ' pinned'">
                 <li v-for="p in s.pins" :key="p.id">
-                  <button type="button" class="sp__pin mi:relative mi:grid mi:justify-items-center mi:gap-1 mi:w-full mi:pt-2.5 mi:px-0.5 mi:pb-2 mi:[border:0] mi:rounded-[12px] mi:text-label2 mi:[background:color-mix(in_srgb,_var(--mi-card)_55%,_transparent)] mi:[font:inherit] mi:cursor-pointer mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:active:transform-[scale(.96)] mi:[&.is-active]:shadow-1 mi:focus-visible:[outline:2px_solid_var(--tint)] mi:focus-visible:outline-offset-[1px]" :class="{ 'is-active': selection[s.id] === p.id }" :aria-current="selection[s.id] === p.id ? 'page' : undefined" @click="pick(s.id, p.id)">
+                  <button type="button" class="mi:relative mi:grid mi:justify-items-center mi:gap-1 mi:w-full mi:pt-2.5 mi:px-0.5 mi:pb-2 mi:[border:0] mi:rounded-[12px] mi:[background:color-mix(in_srgb,_var(--mi-card)_55%,_transparent)] mi:[font:inherit] mi:cursor-pointer mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:active:transform-[scale(.96)] mi:focus-visible:[outline:2px_solid_var(--tint)] mi:focus-visible:outline-offset-[1px]" :class="selection[s.id] === p.id ? 'mi:text-(--tint) mi:bg-card mi:shadow-1' : 'mi:text-label2 mi:hover:text-label mi:hover:bg-card/85'" :aria-current="selection[s.id] === p.id ? 'page' : undefined" @click="pick(s.id, p.id)">
                     <MiIcon :name="p.icon" :size="18" />
-                    <span class="sp__pin-label mi:max-w-full mi:overflow-hidden mi:whitespace-nowrap mi:text-ellipsis mi:text-[11px] mi:font-550 mi:text-label2 mi:[.sp__pin.is-active_&]:text-label">{{ p.label }}</span>
-                    <i v-if="p.unread" class="sp__pin-dot mi:absolute mi:top-[7px] mi:right-[9px] mi:w-[7px] mi:h-[7px] mi:rounded-[50%] mi:[background:var(--tint)] mi:shadow-[0_0_0_2px_color-mix(in_srgb,_var(--mi-card)_80%,_transparent)]" :aria-label="p.unread + ' unread'" />
+                    <span class="mi:max-w-full mi:overflow-hidden mi:whitespace-nowrap mi:text-ellipsis mi:text-[11px] mi:font-550" :class="selection[s.id] === p.id ? 'mi:text-label' : 'mi:text-label2'">{{ p.label }}</span>
+                    <i v-if="p.unread" class="mi:absolute mi:top-[7px] mi:right-[9px] mi:w-[7px] mi:h-[7px] mi:rounded-[50%] mi:[background:var(--tint)] mi:shadow-[0_0_0_2px_color-mix(in_srgb,_var(--mi-card)_80%,_transparent)]" :aria-label="p.unread + ' unread'" />
                   </button>
                 </li>
               </ul>
 
-              <div v-for="g in s.groups" :key="g.label" class="sp__group mi:[.sp__group+&]:mt-3.5">
-                <MiText as="h3" variant="caption2" weight="semibold" tone="label2" class="sp__eyebrow mi:pt-0 mi:px-2 mi:pb-1.5">{{ g.label }}</MiText>
-                <ul class="sp__list mi:grid mi:gap-px mi:m-0 mi:p-0 mi:[list-style:none]">
+              <div v-for="g in s.groups" :key="g.label" class="mi:[div+&]:mt-3.5">
+                <MiText as="h3" variant="caption2" weight="semibold" tone="label2" class="mi:uppercase! mi:tracking-[.08em]! mi:pt-0 mi:px-2 mi:pb-1.5">{{ g.label }}</MiText>
+                <ul class="mi:grid mi:gap-px mi:m-0 mi:p-0 mi:[list-style:none]">
                   <li v-for="it in g.items" :key="it.id">
-                    <button type="button" class="sp__item mi:flex mi:items-center mi:gap-2.5 mi:w-full mi:h-9 mi:py-0 mi:px-2 mi:[border:0] mi:rounded-[10px] mi:text-label2 mi:[background:none] mi:text-left mi:cursor-pointer mi:[&.is-active]:shadow-1 mi:focus-visible:[outline:2px_solid_var(--tint)] mi:focus-visible:outline-offset-[1px]" :class="{ 'is-active': selection[s.id] === it.id, 'is-unread': it.unread }" :aria-current="selection[s.id] === it.id ? 'page' : undefined" @click="pick(s.id, it.id)">
-                      <span class="sp__fav mi:grid mi:place-items-center mi:flex-[none] mi:w-5 mi:h-5 mi:rounded-[6px] mi:text-[10.5px] mi:font-bold mi:text-(--tint) mi:[background:color-mix(in_srgb,_var(--tint)_14%,_transparent)]" aria-hidden="true">{{ it.label.charAt(0) }}</span>
-                      <span class="sp__item-label mi:flex-1 mi:min-w-0 mi:overflow-hidden mi:whitespace-nowrap mi:text-ellipsis">{{ it.label }}</span>
-                      <span v-if="it.unread" class="sp__unread mi:flex-[none] mi:min-w-4.5 mi:h-4.5 mi:py-0 mi:px-[5px] mi:box-border mi:rounded-[9px] mi:text-[11px] mi:font-650 mi:leading-[18px] mi:text-center mi:tabular-nums mi:text-(--tint) mi:[background:color-mix(in_srgb,_var(--tint)_15%,_transparent)]" :aria-label="it.unread + ' unread'">{{ it.unread }}</span>
+                    <button type="button" class="mi:[font:inherit] mi:text-[13.5px] mi:flex mi:items-center mi:gap-2.5 mi:w-full mi:h-9 mi:py-0 mi:px-2 mi:[border:0] mi:rounded-[10px] mi:[background:none] mi:text-left mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--tint)] mi:focus-visible:outline-offset-[1px]" :class="[selection[s.id] === it.id ? 'mi:text-label mi:bg-card mi:shadow-1' : ['mi:hover:bg-card/55', it.unread ? 'mi:text-label' : 'mi:text-label2 mi:hover:text-label'], it.unread ? 'mi:font-semibold' : '']" :aria-current="selection[s.id] === it.id ? 'page' : undefined" @click="pick(s.id, it.id)">
+                      <span class="mi:grid mi:place-items-center mi:flex-[none] mi:w-5 mi:h-5 mi:rounded-[6px] mi:text-[10.5px] mi:font-bold mi:text-(--tint) mi:[background:color-mix(in_srgb,_var(--tint)_14%,_transparent)]" aria-hidden="true">{{ it.label.charAt(0) }}</span>
+                      <span class="mi:flex-1 mi:min-w-0 mi:overflow-hidden mi:whitespace-nowrap mi:text-ellipsis">{{ it.label }}</span>
+                      <span v-if="it.unread" class="mi:flex-[none] mi:min-w-4.5 mi:h-4.5 mi:py-0 mi:px-[5px] mi:box-border mi:rounded-[9px] mi:text-[11px] mi:font-650 mi:leading-[18px] mi:text-center mi:tabular-nums mi:text-(--tint) mi:[background:color-mix(in_srgb,_var(--tint)_15%,_transparent)]" :aria-label="it.unread + ' unread'">{{ it.unread }}</span>
                     </button>
                   </li>
                 </ul>
@@ -54,18 +54,18 @@
         </div>
 
         <!-- Space strip: dots switch spaces, arrow keys move between them. -->
-        <footer class="sp__strip mi:flex mi:items-center mi:justify-between mi:gap-2 mi:pt-2.5 mi:border-t mi:border-t-[color:color-mix(in_srgb,_var(--tint)_18%,_var(--mi-sep))]">
+        <footer class="mi:flex mi:items-center mi:justify-between mi:gap-2 mi:pt-2.5 mi:border-t mi:border-t-[color:color-mix(in_srgb,_var(--tint)_18%,_var(--mi-sep))]">
           <MiIconButton size="small" variant="plain" label="Archived pages"><MiIcon name="archive" :size="16" /></MiIconButton>
-          <div class="sp__dots mi:flex mi:items-center mi:gap-0.5" role="tablist" aria-label="Switch space" @keydown="onTabKey">
+          <div class="mi:flex mi:items-center mi:gap-0.5" role="tablist" aria-label="Switch space" @keydown="onTabKey">
             <button
-              v-for="(s, i) in spaces" :id="'sp-tab-' + s.id" :key="s.id" type="button" role="tab" class="sp__dot mi:focus-visible:[outline:2px_solid_var(--tint)] mi:focus-visible:outline-offset-[1px] mi:relative mi:grid mi:place-items-center mi:w-7.5 mi:h-7.5 mi:p-0 mi:[border:0] mi:rounded-[50%] mi:[background:none] mi:cursor-pointer"
-              :class="{ 'is-on': i === active }" :style="{ '--c': `var(--mi-${s.color})` }"
+              v-for="(s, i) in spaces" :id="'sp-tab-' + s.id" :key="s.id" type="button" role="tab" class="mi:group mi:focus-visible:[outline:2px_solid_var(--tint)] mi:focus-visible:outline-offset-[1px] mi:relative mi:grid mi:place-items-center mi:w-7.5 mi:h-7.5 mi:p-0 mi:[border:0] mi:rounded-[50%] mi:[background:none] mi:cursor-pointer"
+              :style="{ '--c': `var(--mi-${s.color})` }"
               :aria-selected="i === active" :aria-controls="'sp-panel-' + s.id" :tabindex="i === active ? 0 : -1"
               :aria-label="s.label + (unreadOf(s) ? ', ' + unreadOf(s) + ' unread' : '')" :title="s.label + ' · Ctrl ' + (i + 1)"
               @click="active = i"
             >
-              <span class="sp__dot-core mi:w-3.5 mi:h-3.5 mi:rounded-[50%] mi:[background:var(--c)] mi:opacity-38 mi:transform-[scale(.75)] mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring),_opacity_var(--mi-dur-3)_var(--mi-ease)] mi:[.sp__dot.is-on_&]:transform-[scale(1)] mi:[.sp__dot.is-on_&]:shadow-[0_0_0_3px_color-mix(in_srgb,_var(--c)_25%,_transparent)]" />
-              <i v-if="unreadOf(s) && i !== active" class="sp__dot-badge mi:absolute mi:top-[5px] mi:right-[5px] mi:w-1.5 mi:h-1.5 mi:rounded-[50%] mi:[background:var(--c)] mi:shadow-[0_0_0_2px_color-mix(in_srgb,_var(--tint)_12%,_var(--mi-side))]" />
+              <span :class="i === active ? 'mi:opacity-100 mi:transform-[scale(1)] mi:shadow-[0_0_0_3px_color-mix(in_srgb,_var(--c)_25%,_transparent)]' : 'mi:opacity-38 mi:transform-[scale(.75)] mi:group-hover:opacity-70'" class="mi:w-3.5 mi:h-3.5 mi:rounded-[50%] mi:[background:var(--c)] mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring),_opacity_var(--mi-dur-3)_var(--mi-ease)]" />
+              <i v-if="unreadOf(s) && i !== active" class="mi:absolute mi:top-[5px] mi:right-[5px] mi:w-1.5 mi:h-1.5 mi:rounded-[50%] mi:[background:var(--c)] mi:shadow-[0_0_0_2px_color-mix(in_srgb,_var(--tint)_12%,_var(--mi-side))]" />
             </button>
           </div>
           <MiIconButton size="small" variant="plain" label="New space"><MiIcon name="plus" :size="16" /></MiIconButton>
@@ -73,25 +73,25 @@
       </aside>
 
       <!-- Content card, framed on the tinted shell. On phones it slides over the list. -->
-      <main class="sp__main mi:absolute mi:inset-0 mi:z-2 mi:flex mi:p-2 mi:min-w-0 mi:min-h-0 mi:transform-[translateX(102%)] mi:invisible mi:[transition:transform_var(--mi-dur-3)_var(--mi-ease),_visibility_0s_linear_var(--mi-dur-3)] mi:[.is-detail_&]:transform-none mi:[.is-detail_&]:visible mi:[.is-detail_&]:[transition:transform_var(--mi-dur-3)_var(--mi-ease)] mi:@[720px]:relative mi:@[720px]:inset-auto mi:@[720px]:z-[auto] mi:@[720px]:pt-2.5 mi:@[720px]:pr-2.5 mi:@[720px]:pb-2.5 mi:@[720px]:pl-0 mi:@[720px]:transform-none mi:@[720px]:visible mi:@[720px]:[transition:none] mi:@[720px]:[.is-detail_&]:relative mi:@[720px]:[.is-detail_&]:inset-auto mi:@[720px]:[.is-detail_&]:z-[auto] mi:@[720px]:[.is-detail_&]:pt-2.5 mi:@[720px]:[.is-detail_&]:pr-2.5 mi:@[720px]:[.is-detail_&]:pb-2.5 mi:@[720px]:[.is-detail_&]:pl-0 mi:@[720px]:[.is-detail_&]:transform-none mi:@[720px]:[.is-detail_&]:visible mi:@[720px]:[.is-detail_&]:[transition:none]" aria-labelledby="sp-title">
-        <div class="sp__card mi:relative mi:flex-1 mi:min-w-0 mi:overflow-hidden mi:flex mi:flex-col mi:gap-7 mi:pt-3.5 mi:px-4.5 mi:pb-6 mi:rounded-[16px] mi:[background:var(--mi-card)] mi:shadow-2 mi:before:content-[''] mi:before:absolute mi:before:top-0 mi:before:right-0 mi:before:bottom-auto mi:before:left-0 mi:before:h-40 mi:before:pointer-events-none mi:before:[background:linear-gradient(180deg,_color-mix(in_srgb,_var(--tint)_10%,_transparent),_transparent)] mi:@[720px]:pt-4.5 mi:@[720px]:px-9 mi:@[720px]:pb-8 mi:@[720px]:gap-12 mi:@[1100px]:px-14">
-          <header class="sp__top mi:relative mi:flex mi:items-center mi:gap-2.5 mi:min-w-0">
-            <MiIconButton class="sp__back" size="small" variant="gray" :label="'Back to ' + space.label" @click="detail = false"><MiIcon name="chevron-left" :size="16" /></MiIconButton>
-            <MiText as="span" variant="footnote" tone="label2" class="sp__crumb mi:flex-1 mi:min-w-0 mi:text-ellipsis">{{ space.label }} <span class="mi:[.sp__crumb_&]:py-0 mi:[.sp__crumb_&]:px-0.5" aria-hidden="true">/</span> {{ current.group }}</MiText>
-            <MiAvatarGroup :items="space.people" :max="3" :size="28" class="sp__people mi:flex-[none]" />
+      <main class="mi:absolute mi:inset-0 mi:z-2 mi:flex mi:p-2 mi:min-w-0 mi:min-h-0 mi:@[720px]:relative mi:@[720px]:inset-auto mi:@[720px]:z-[auto] mi:@[720px]:pt-2.5 mi:@[720px]:pr-2.5 mi:@[720px]:pb-2.5 mi:@[720px]:pl-0 mi:@[720px]:transform-none mi:@[720px]:visible mi:@[720px]:[transition:none]" :class="detail ? 'mi:transform-none mi:visible mi:[transition:transform_var(--mi-dur-3)_var(--mi-ease)]' : 'mi:transform-[translateX(102%)] mi:invisible mi:[transition:transform_var(--mi-dur-3)_var(--mi-ease),_visibility_0s_linear_var(--mi-dur-3)]'"" aria-labelledby="sp-title">
+        <div class="mi:relative mi:flex-1 mi:min-w-0 mi:overflow-hidden mi:flex mi:flex-col mi:gap-7 mi:pt-3.5 mi:px-4.5 mi:pb-6 mi:rounded-[16px] mi:[background:var(--mi-card)] mi:shadow-2 mi:before:content-[''] mi:before:absolute mi:before:top-0 mi:before:right-0 mi:before:bottom-auto mi:before:left-0 mi:before:h-40 mi:before:pointer-events-none mi:before:[background:linear-gradient(180deg,_color-mix(in_srgb,_var(--tint)_10%,_transparent),_transparent)] mi:@[720px]:pt-4.5 mi:@[720px]:px-9 mi:@[720px]:pb-8 mi:@[720px]:gap-12 mi:@[1100px]:px-14">
+          <header class="mi:relative mi:flex mi:items-center mi:gap-2.5 mi:min-w-0">
+            <MiIconButton class="mi:@[720px]:hidden!" size="small" variant="gray" :label="'Back to ' + space.label" @click="detail = false"><MiIcon name="chevron-left" :size="16" /></MiIconButton>
+            <MiText as="span" variant="footnote" tone="label2" class="mi:overflow-hidden mi:whitespace-nowrap mi:flex-1 mi:min-w-0 mi:text-ellipsis">{{ space.label }} <span class="mi:text-label3 mi:py-0 mi:px-0.5" aria-hidden="true">/</span> {{ current.group }}</MiText>
+            <MiAvatarGroup :items="space.people" :max="3" :size="28" class="mi:flex-[none]" />
           </header>
-          <Transition name="sp-swap" mode="out-in">
-            <article :key="space.id + current.item.id" class="sp__doc mi:relative mi:grid mi:justify-items-start mi:gap-2.5 mi:w-full mi:max-w-140 mi:my-0 mi:mx-auto mi:@[720px]:m-0">
-              <span class="sp__doc-mark mi:grid mi:place-items-center mi:w-12 mi:h-12 mi:mb-1.5 mi:rounded-[15px] mi:text-[20px] mi:font-750 mi:text-(--tint) mi:[background:color-mix(in_srgb,_var(--tint)_14%,_var(--mi-card))] mi:shadow-[inset_0_0_0_1px_color-mix(in_srgb,_var(--tint)_22%,_transparent),_var(--mi-sh1)]" aria-hidden="true"><MiIcon v-if="'icon' in current.item" :name="current.item.icon" :size="22" /><template v-else>{{ current.item.label.charAt(0) }}</template></span>
+          <Transition mode="out-in" enter-active-class="mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),_transform_var(--mi-dur-2)_var(--mi-ease)]" leave-active-class="mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease),_transform_var(--mi-dur-2)_var(--mi-ease)]" enter-from-class="mi:opacity-0 mi:transform-[translateY(6px)]" leave-to-class="mi:opacity-0">
+            <article :key="space.id + current.item.id" class="mi:relative mi:grid mi:justify-items-start mi:gap-2.5 mi:w-full mi:max-w-140 mi:my-0 mi:mx-auto mi:@[720px]:m-0">
+              <span class="mi:grid mi:place-items-center mi:w-12 mi:h-12 mi:mb-1.5 mi:rounded-[15px] mi:text-[20px] mi:font-750 mi:text-(--tint) mi:[background:color-mix(in_srgb,_var(--tint)_14%,_var(--mi-card))] mi:shadow-[inset_0_0_0_1px_color-mix(in_srgb,_var(--tint)_22%,_transparent),_var(--mi-sh1)]" aria-hidden="true"><MiIcon v-if="'icon' in current.item" :name="current.item.icon" :size="22" /><template v-else>{{ current.item.label.charAt(0) }}</template></span>
               <MiText id="sp-title" as="h3" variant="title1" weight="bold" balance>{{ current.item.label }}</MiText>
               <MiText variant="footnote" tone="label2">{{ current.item.meta }}</MiText>
-              <MiText variant="body" class="sp__lede mi:max-w-[52ch]">{{ current.item.note }}</MiText>
-              <div v-if="current.item.unread" class="sp__new mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2.5 mi:w-full mi:box-border mi:mt-2 mi:pt-3 mi:pr-3 mi:pb-3 mi:pl-4 mi:rounded-[14px] mi:[background:color-mix(in_srgb,_var(--tint)_8%,_var(--mi-card))] mi:shadow-[inset_0_0_0_1px_color-mix(in_srgb,_var(--tint)_20%,_transparent)]">
+              <MiText variant="body" class="mi:text-[16px]! mi:leading-[1.6]! mi:max-w-[52ch]">{{ current.item.note }}</MiText>
+              <div v-if="current.item.unread" class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2.5 mi:w-full mi:box-border mi:mt-2 mi:pt-3 mi:pr-3 mi:pb-3 mi:pl-4 mi:rounded-[14px] mi:[background:color-mix(in_srgb,_var(--tint)_8%,_var(--mi-card))] mi:shadow-[inset_0_0_0_1px_color-mix(in_srgb,_var(--tint)_20%,_transparent)]">
                 <MiText as="span" variant="subheadline" weight="semibold">{{ current.item.unread }} new since your last visit</MiText>
                 <MiButton size="small" variant="tinted" @click="markRead">Mark as read</MiButton>
               </div>
-              <MiText v-else as="p" variant="subheadline" tone="label2" class="sp__caught mi:items-center mi:gap-1.5"><MiIcon name="check-circle" :size="16" /> You're caught up here.</MiText>
-              <div class="sp__lines mi:grid mi:gap-2.5 mi:w-full mi:mt-4.5" aria-hidden="true"><span class="mi:[.sp__lines_&]:h-2 mi:[.sp__lines_&]:rounded-[4px] mi:[.sp__lines_&]:[background:var(--mi-fill4)] mi:[.sp__lines_&]:origin-left mi:[.sp__lines_&]:transform-[scaleX(var(--w))]" v-for="n in 5" :key="n" :style="{ '--w': [0.96, 0.84, 0.9, 0.72, 0.38][n - 1] }" /></div>
+              <MiText v-else as="p" variant="subheadline" tone="label2" class="mi:inline-flex mi:mt-2! mi:text-green-t! mi:items-center mi:gap-1.5"><MiIcon name="check-circle" :size="16" /> You're caught up here.</MiText>
+              <div class="mi:grid mi:gap-2.5 mi:w-full mi:mt-4.5" aria-hidden="true"><span class="mi:block mi:h-2 mi:rounded-[4px] mi:[background:var(--mi-fill4)] mi:origin-left mi:transform-[scaleX(var(--w))]" v-for="n in 5" :key="n" :style="{ '--w': [0.96, 0.84, 0.9, 0.72, 0.38][n - 1] }" /></div>
             </article>
           </Transition>
         </div>
@@ -215,34 +215,3 @@ function onKey(e: KeyboardEvent) {
   if (e.ctrlKey && i >= 0 && i < spaces.length) { e.preventDefault(); active.value = i }
 }
 </script>
-
-<style scoped>
-.sp__jump {
-  font: inherit; font-size: 13px;
-}
-.sp__jump span { flex: 1; }
-.sp__pin:hover { color: var(--mi-label); background: color-mix(in srgb, var(--mi-card) 85%, transparent); }
-.sp__pin.is-active { color: var(--tint); background: var(--mi-card); }
-.sp__eyebrow { text-transform: uppercase; letter-spacing: .08em; }
-.sp__item {
-  font: inherit; font-size: 13.5px;
-}
-.sp__item:hover { color: var(--mi-label); background: color-mix(in srgb, var(--mi-card) 55%, transparent); }
-.sp__item.is-unread { color: var(--mi-label); font-weight: 600; }
-.sp__item.is-active { color: var(--mi-label); background: var(--mi-card); }
-.sp__dot:hover .sp__dot-core { opacity: .7; }
-.sp__dot.is-on .sp__dot-core { opacity: 1; }
-.sp__crumb { overflow: hidden; white-space: nowrap; }
-.sp__crumb span { color: var(--mi-label3); }
-.sp__lede { font-size: 16px; line-height: 1.6; }
-.sp__lines span { display: block; }
-.sp__caught { display: inline-flex; margin-top: 8px; color: var(--mi-green-t); }
-
-.sp-swap-enter-active, .sp-swap-leave-active { transition: opacity var(--mi-dur-2) var(--mi-ease), transform var(--mi-dur-2) var(--mi-ease); }
-.sp-swap-enter-from { opacity: 0; transform: translateY(6px); }
-.sp-swap-leave-to { opacity: 0; }
-
-@container (min-width: 720px) {
-  .sp__back { display: none; }
-}
-</style>

@@ -1,6 +1,6 @@
 <template>
-  <section class="lpc mi:@container/lpc mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="lpc-title">
-    <header class="lpc__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
+  <section class="mi:@container/lpc mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="lpc-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="lpc-title" as="h2" variant="title3" weight="semibold">Listing photos</MiText>
         <MiText variant="footnote" tone="label2">Loft on Rue Oberkampf · guests decide in the first five photos</MiText>
@@ -8,26 +8,26 @@
       <MiBadge :tone="ready ? 'success' : 'warning'" :label="`${requiredDone} of ${requiredCount} required`" dot />
     </header>
 
-    <div class="lpc__meter mi:h-1.5 mi:rounded-[3px] mi:[background:var(--mi-fill3)] mi:overflow-hidden" role="meter" aria-label="Required shots uploaded" :aria-valuenow="requiredDone" aria-valuemin="0" :aria-valuemax="requiredCount">
-      <span class="mi:[.lpc__meter_&]:block mi:[.lpc__meter_&]:h-full mi:[.lpc__meter_&]:rounded-[inherit] mi:[.lpc__meter_&]:[background:linear-gradient(90deg,_var(--mi-p),_var(--mi-s))] mi:[.lpc__meter_&]:origin-left mi:[.lpc__meter_&]:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleX(${requiredDone / requiredCount})` }" />
+    <div class="mi:h-1.5 mi:rounded-[3px] mi:[background:var(--mi-fill3)] mi:overflow-hidden" role="meter" aria-label="Required shots uploaded" :aria-valuenow="requiredDone" aria-valuemin="0" :aria-valuemax="requiredCount">
+      <span class="mi:block mi:h-full mi:rounded-[inherit] mi:[background:linear-gradient(90deg,_var(--mi-p),_var(--mi-s))] mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleX(${requiredDone / requiredCount})` }" />
     </div>
 
-    <ul class="lpc__grid mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:gap-3 mi:m-0 mi:p-0 mi:[list-style:none] mi:@[540px]/lpc:grid-cols-2 mi:@[860px]/lpc:grid-cols-3">
-      <li v-for="s in shots" :key="s.id" class="lpc__shot mi:grid mi:grid-rows-[auto_1fr] mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1 mi:overflow-hidden mi:[&.is-cover]:shadow-[0_0_0_2px_var(--mi-p),_var(--mi-sh1)]" :class="{ 'is-filled': s.file, 'is-cover': cover === s.id }">
+    <ul class="mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:gap-3 mi:m-0 mi:p-0 mi:[list-style:none] mi:@[540px]/lpc:grid-cols-2 mi:@[860px]/lpc:grid-cols-3">
+      <li v-for="s in shots" :key="s.id" class="mi:grid mi:grid-rows-[auto_1fr] mi:rounded-lg mi:[background:var(--mi-card)] mi:overflow-hidden" :class="cover === s.id ? 'mi:shadow-[0_0_0_2px_var(--mi-p),_var(--mi-sh1)]' : 'mi:shadow-1'">
         <!-- Drawn frame: a tinted gradient stands in for the photo, the shot guide shows while empty. -->
-        <div class="lpc__frame mi:relative mi:grid mi:place-content-center mi:justify-items-center mi:gap-1.5 mi:aspect-[16_/_9] mi:overflow-hidden mi:text-label3 mi:[background:repeating-linear-gradient(135deg,_var(--mi-fill4)_0_10px,_transparent_10px_20px)] mi:[border-bottom:1px_dashed_var(--mi-sep)] mi:[.is-filled_&]:[border-bottom:0] mi:[.is-filled_&]:[background:linear-gradient(160deg,_color-mix(in_srgb,_var(--lpc-tint)_30%,_var(--mi-card)),_color-mix(in_srgb,_var(--lpc-tint)_70%,_var(--mi-label)))]" :style="{ '--lpc-tint': s.tint }" aria-hidden="true">
+        <div class="mi:relative mi:grid mi:place-content-center mi:justify-items-center mi:gap-1.5 mi:aspect-[16_/_9] mi:overflow-hidden mi:text-label3" :class="s.file ? 'mi:[background:linear-gradient(160deg,_color-mix(in_srgb,_var(--lpc-tint)_30%,_var(--mi-card)),_color-mix(in_srgb,_var(--lpc-tint)_70%,_var(--mi-label)))] mi:[border-bottom:0]' : 'mi:[background:repeating-linear-gradient(135deg,_var(--mi-fill4)_0_10px,_transparent_10px_20px)] mi:[border-bottom:1px_dashed_var(--mi-sep)]'" :style="{ '--lpc-tint': s.tint }" aria-hidden="true">
           <template v-if="s.file">
-            <span class="lpc__sun mi:absolute mi:top-[18%] mi:right-[18%] mi:w-[18%] mi:aspect-[1] mi:rounded-[50%] mi:[background:color-mix(in_srgb,_var(--mi-card)_80%,_transparent)]" /><span class="lpc__hill mi:absolute mi:top-[58%] mi:right-[-10%] mi:bottom-[-40%] mi:left-[-10%] mi:rounded-[50%_50%_0_0] mi:[background:color-mix(in_srgb,_var(--mi-label)_30%,_transparent)]" />
+            <span class="mi:absolute mi:top-[18%] mi:right-[18%] mi:w-[18%] mi:aspect-[1] mi:rounded-[50%] mi:[background:color-mix(in_srgb,_var(--mi-card)_80%,_transparent)]" /><span class="mi:absolute mi:top-[58%] mi:right-[-10%] mi:bottom-[-40%] mi:left-[-10%] mi:rounded-[50%_50%_0_0] mi:[background:color-mix(in_srgb,_var(--mi-label)_30%,_transparent)]" />
           </template>
           <template v-else>
             <MiIcon name="image" :size="26" />
-            <span class="lpc__guide mi:text-[12px] mi:font-medium">{{ s.guide }}</span>
+            <span class="mi:text-[12px] mi:font-medium">{{ s.guide }}</span>
           </template>
-          <span v-if="cover === s.id" class="lpc__cover-tag mi:absolute mi:top-2.5 mi:left-2.5 mi:py-0.5 mi:px-[9px] mi:rounded-[999px] mi:text-[11px] mi:font-bold mi:text-p-on mi:[background:var(--mi-p)]">Cover</span>
+          <span v-if="cover === s.id" class="mi:absolute mi:top-2.5 mi:left-2.5 mi:py-0.5 mi:px-[9px] mi:rounded-[999px] mi:text-[11px] mi:font-bold mi:text-p-on mi:[background:var(--mi-p)]">Cover</span>
         </div>
 
-        <div class="lpc__body mi:grid mi:content-start mi:gap-2 mi:p-3.5">
-          <div class="lpc__title mi:flex mi:items-baseline mi:justify-between mi:gap-2">
+        <div class="mi:grid mi:content-start mi:gap-2 mi:p-3.5">
+          <div class="mi:flex mi:items-baseline mi:justify-between mi:gap-2">
             <MiText :id="`lpc-${s.id}`" as="h3" variant="subheadline" weight="semibold">{{ s.name }}</MiText>
             <MiText v-if="!s.required" variant="caption" tone="label3">Optional</MiText>
           </div>
@@ -41,7 +41,7 @@
             :model-value="null" @update:model-value="pick(s, $event)" @reject="s.error = rejectText($event)"
           />
           <MiButton
-            v-if="s.file" class="lpc__cover-btn mi:justify-self-start" size="small" :variant="cover === s.id ? 'tinted' : 'plain'" :pressed="cover === s.id"
+            v-if="s.file" class="mi:justify-self-start" size="small" :variant="cover === s.id ? 'tinted' : 'plain'" :pressed="cover === s.id"
             :aria-describedby="`lpc-${s.id}`" @click="cover = s.id"
           >
             <template #leading><MiIcon name="star" :size="14" :filled="cover === s.id" /></template>
@@ -51,8 +51,8 @@
       </li>
     </ul>
 
-    <footer class="lpc__foot mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-3">
-      <p class="lpc__status mi:flex-[1_1_240px] mi:m-0 mi:text-[13px] mi:text-label2" role="status" aria-live="polite">{{ status }}</p>
+    <footer class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-3">
+      <p class="mi:flex-[1_1_240px] mi:m-0 mi:text-[13px] mi:text-label2" role="status" aria-live="polite">{{ status }}</p>
       <MiButton :disabled="!ready" @click="saved = true">Save photos</MiButton>
     </footer>
   </section>

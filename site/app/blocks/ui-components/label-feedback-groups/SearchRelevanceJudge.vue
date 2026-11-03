@@ -1,24 +1,24 @@
 <template>
-  <div class="srj mi:@container mi:font-mi mi:text-label">
-    <section class="srj__card mi:grid mi:gap-4 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:@[720px]:py-6 mi:@[720px]:px-7" aria-labelledby="srj-title">
-      <header class="srj__head mi:grid mi:gap-3.5 mi:@[720px]:grid-cols-[minmax(0,_1fr)_240px] mi:@[720px]:items-end">
-        <div class="srj__query mi:grid mi:gap-0.5">
+  <div class="mi:@container mi:font-mi mi:text-label">
+    <section class="mi:grid mi:gap-4 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:@[720px]:py-6 mi:@[720px]:px-7" aria-labelledby="srj-title">
+      <header class="mi:grid mi:gap-3.5 mi:@[720px]:grid-cols-[minmax(0,_1fr)_240px] mi:@[720px]:items-end">
+        <div class="mi:grid mi:gap-0.5">
           <MiText variant="caption" tone="label2" weight="semibold">Relevance review · help center search</MiText>
           <MiText id="srj-title" variant="title3" as="h2" weight="semibold">“refund a partial payment”</MiText>
         </div>
-        <div class="srj__score" aria-live="polite">
+        <div aria-live="polite">
           <MiMeter :value="precision" label="Judged precision" :caption="`${precision}%`" :hint="`${judged} of ${results.length} judged`" size="sm" />
         </div>
       </header>
 
-      <ol class="srj__list mi:grid mi:m-0 mi:p-0 mi:[list-style:none]">
-        <li v-for="(r, i) in results" :key="r.id" class="srj__row mi:relative mi:grid mi:grid-cols-[24px_minmax(0,_1fr)] mi:gap-y-2.5 mi:gap-x-3 mi:py-3.5 mi:px-0 mi:border-t mi:border-t-sep mi:@[720px]:grid-cols-[24px_minmax(0,_1fr)_auto] mi:@[720px]:items-start" :class="verdicts[r.id] ? 'is-' + verdicts[r.id] : ''">
-          <span class="srj__rank mi:grid mi:place-items-center mi:w-6 mi:h-6 mi:rounded-[50%] mi:text-[12px] mi:font-semibold mi:bg-fill3 mi:text-label2 mi:[.srj__row.is-good_&]:[background:color-mix(in_srgb,_var(--mi-green)_18%,_transparent)] mi:[.srj__row.is-good_&]:text-green-t" aria-hidden="true">{{ i + 1 }}</span>
-          <div class="srj__body mi:[.srj__row.is-off_&]:opacity-62 mi:grid mi:gap-1 mi:min-w-0 mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)]">
+      <ol class="mi:grid mi:m-0 mi:p-0 mi:[list-style:none]">
+        <li v-for="(r, i) in results" :key="r.id" class="mi:relative mi:grid mi:grid-cols-[24px_minmax(0,_1fr)] mi:gap-y-2.5 mi:gap-x-3 mi:py-3.5 mi:px-0 mi:border-t mi:border-t-sep mi:@[720px]:grid-cols-[24px_minmax(0,_1fr)_auto] mi:@[720px]:items-start">
+          <span class="mi:grid mi:place-items-center mi:w-6 mi:h-6 mi:rounded-[50%] mi:text-[12px] mi:font-semibold" :class="verdicts[r.id] === 'good' ? 'mi:[background:color-mix(in_srgb,_var(--mi-green)_18%,_transparent)] mi:text-green-t' : verdicts[r.id] === 'part' ? 'mi:[background:color-mix(in_srgb,_var(--mi-orange)_18%,_transparent)] mi:text-orange-t' : verdicts[r.id] === 'off' ? 'mi:[background:color-mix(in_srgb,_var(--mi-red)_16%,_transparent)] mi:text-red-t' : 'mi:bg-fill3 mi:text-label2'" aria-hidden="true">{{ i + 1 }}</span>
+          <div class="mi:grid mi:gap-1 mi:min-w-0 mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)]" :class="verdicts[r.id] === 'off' ? 'mi:opacity-62' : ''">
             <MiText variant="subheadline" weight="semibold" as="h3">{{ r.title }}</MiText>
             <MiText variant="caption" tone="label2" :lines="2">{{ r.snippet }}</MiText>
             <!-- Label group: where the result comes from and how fresh it is. -->
-            <ul class="srj__labels mi:flex mi:flex-wrap mi:gap-1.5 mi:mt-1 mi:mx-0 mi:mb-0 mi:p-0 mi:[list-style:none]" :aria-label="`About ${r.title}`">
+            <ul class="mi:flex mi:flex-wrap mi:gap-1.5 mi:mt-1 mi:mx-0 mi:mb-0 mi:p-0 mi:[list-style:none]" :aria-label="`About ${r.title}`">
               <li><MiBadge variant="outline" tone="neutral" :label="r.source" /></li>
               <li><MiBadge variant="tint" :tone="r.stale ? 'warning' : 'neutral'" :label="r.updated" /></li>
               <li v-if="r.clicks"><MiBadge variant="tint" tone="primary" :label="`${r.clicks}% click rate`" /></li>
@@ -26,12 +26,12 @@
           </div>
           <MiToggleGroup
             v-model="verdicts[r.id]" :options="choices" size="sm" variant="outline" :spacing="0"
-            :label="`Judge result ${i + 1}`" class="srj__vote mi:col-[2] mi:justify-self-start mi:@[720px]:col-[3]"
+            :label="`Judge result ${i + 1}`" class="mi:col-[2] mi:justify-self-start mi:@[720px]:col-[3]"
           />
         </li>
       </ol>
 
-      <footer class="srj__foot mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-2.5 mi:gap-x-4 mi:pt-3.5 mi:border-t mi:border-t-sep">
+      <footer class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-2.5 mi:gap-x-4 mi:pt-3.5 mi:border-t mi:border-t-sep">
         <MiText variant="footnote" tone="label2" aria-live="polite">{{ footNote }}</MiText>
         <MiButton :disabled="judged < results.length || sent" @click="sent = true">
           {{ sent ? 'Judgements saved' : 'Save judgements' }}
@@ -72,7 +72,3 @@ const footNote = computed(() => {
 })
 </script>
 
-<style scoped>
-.srj__row.is-part .srj__rank { background: color-mix(in srgb, var(--mi-orange) 18%, transparent); color: var(--mi-orange-t); }
-.srj__row.is-off .srj__rank { background: color-mix(in srgb, var(--mi-red) 16%, transparent); color: var(--mi-red-t); }
-</style>

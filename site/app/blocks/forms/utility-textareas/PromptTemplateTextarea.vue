@@ -1,6 +1,6 @@
 <template>
-  <section class="ptt mi:@container/ptt mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="ptt-title">
-    <header class="ptt__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
+  <section class="mi:@container/ptt mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="ptt-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="ptt-title" as="h2" variant="title3" weight="semibold">Prompt template</MiText>
         <MiText variant="footnote" tone="label2">Support macro · “Refund follow-up” · variables use <code v-text="syntax" /></MiText>
@@ -8,43 +8,43 @@
       <MiBadge :tone="issues.length ? 'warning' : 'success'" :label="issues.length ? `${issues.length} to check` : 'Template valid'" dot />
     </header>
 
-    <div class="ptt__body mi:grid mi:gap-3.5 mi:@[820px]/ptt:grid-cols-[minmax(0,_1.2fr)_minmax(0,_1fr)] mi:@[820px]/ptt:items-start">
-      <div class="ptt__edit mi:grid mi:gap-3 mi:p-4.5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:min-w-0">
+    <div class="mi:grid mi:gap-3.5 mi:@[820px]/ptt:grid-cols-[minmax(0,_1.2fr)_minmax(0,_1fr)] mi:@[820px]/ptt:items-start">
+      <div class="mi:grid mi:gap-3 mi:p-4.5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:min-w-0">
         <MiField label="Template" :hint="`${vars.length} variables detected`">
           <template #default="{ id, describedBy }">
-            <MiTextarea :id="id" v-model="template" class="ptt__mono" :rows="7" :max-rows="14" :aria-describedby="describedBy" />
+            <MiTextarea :id="id" v-model="template" class="mi:[&_textarea]:font-[ui-monospace,SFMono-Regular,Menlo,monospace]! mi:[&_textarea]:text-[13px]! mi:[&_textarea]:leading-[1.55]!" :rows="7" :max-rows="14" :aria-describedby="describedBy" />
           </template>
         </MiField>
-        <ul v-if="issues.length" class="ptt__issues mi:grid mi:gap-1 mi:m-0 mi:p-0 mi:[list-style:none] mi:text-[13px] mi:text-orange-t" aria-label="Template issues">
-          <li class="mi:[.ptt__issues_li&]:[align-items:flex-start] mi:[.ptt__issues_li&]:gap-1.5" v-for="i in issues" :key="i"><MiIcon class="mi:[.ptt__issues_li&]:[align-items:flex-start] mi:[.ptt__issues_li&]:gap-1.5" name="warning" :size="14" />{{ i }}</li>
+        <ul v-if="issues.length" class="mi:grid mi:gap-1 mi:m-0 mi:p-0 mi:[list-style:none] mi:text-[13px] mi:text-orange-t" aria-label="Template issues">
+          <li class="mi:flex mi:[align-items:flex-start] mi:gap-1.5" v-for="i in issues" :key="i"><MiIcon class="mi:mt-0.5" name="warning" :size="14" />{{ i }}</li>
         </ul>
 
         <!-- One test field per detected variable, created and removed as the template changes. -->
-        <fieldset v-if="vars.length" class="ptt__vars mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:gap-2.5 mi:m-0 mi:pt-3.5 mi:px-0 mi:pb-0 mi:min-w-0 mi:@[480px]/ptt:grid-cols-2">
-          <legend class="ptt__legend mi:float-left mi:w-full mi:mb-2.5 mi:p-0 mi:text-[13px] mi:font-semibold mi:text-label2">Test values</legend>
+        <fieldset v-if="vars.length" class="mi:[border:0] mi:border-t mi:border-t-sep mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:gap-2.5 mi:m-0 mi:pt-3.5 mi:px-0 mi:pb-0 mi:min-w-0 mi:@[480px]/ptt:grid-cols-2">
+          <legend class="mi:float-left mi:w-full mi:mb-2.5 mi:p-0 mi:text-[13px] mi:font-semibold mi:text-label2">Test values</legend>
           <MiField v-for="v in vars" :key="v" :label="v">
             <MiInput :model-value="values[v] ?? ''" size="sm" :placeholder="`Value for ${v}`" @update:model-value="values[v] = $event" />
           </MiField>
         </fieldset>
       </div>
 
-      <div class="ptt__side mi:grid mi:gap-3 mi:p-4.5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:min-w-0">
-        <div class="ptt__side-head mi:flex mi:items-center mi:justify-between mi:gap-2">
+      <div class="mi:grid mi:gap-3 mi:p-4.5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:min-w-0">
+        <div class="mi:flex mi:items-center mi:justify-between mi:gap-2">
           <MiText as="h3" variant="subheadline" weight="semibold">Preview</MiText>
           <MiCopyButton :value="filled" label="Copy" variant="ghost" />
         </div>
-        <p class="ptt__preview mi:m-0 mi:p-3.5 mi:rounded-lg mi:text-[14px] mi:leading-[1.6] mi:whitespace-pre-wrap mi:wrap-anywhere mi:bg-fill4">
+        <p class="mi:m-0 mi:p-3.5 mi:rounded-lg mi:text-[14px] mi:leading-[1.6] mi:whitespace-pre-wrap mi:wrap-anywhere mi:bg-fill4">
           <template v-for="(p, i) in parts" :key="i">
-            <mark v-if="p.kind === 'var'" class="ptt__var mi:py-px mi:px-1 mi:rounded-[4px] mi:text-p-text mi:bg-p-tint mi:[&.is-empty]:text-orange-t mi:[&.is-empty]:[background:color-mix(in_srgb,_var(--mi-orange)_14%,_transparent)]" :class="{ 'is-empty': !p.filled }">{{ p.text }}</mark><template v-else>{{ p.text }}</template>
+            <mark v-if="p.kind === 'var'" class="mi:py-px mi:px-1 mi:rounded-[4px]" :class="p.filled ? 'mi:text-p-text mi:bg-p-tint' : 'mi:text-orange-t mi:[background:color-mix(in_srgb,_var(--mi-orange)_14%,_transparent)] mi:font-[ui-monospace,SFMono-Regular,Menlo,monospace] mi:text-[12.5px]'">{{ p.text }}</mark><template v-else>{{ p.text }}</template>
           </template>
         </p>
-        <div class="ptt__budget mi:grid mi:gap-1.5">
-          <div class="ptt__budget-line mi:flex mi:justify-between mi:gap-2">
+        <div class="mi:grid mi:gap-1.5">
+          <div class="mi:flex mi:justify-between mi:gap-2">
             <MiText variant="caption" tone="label2">≈ {{ tokens }} tokens of {{ limit }}</MiText>
             <MiText variant="caption" :tone="tokens > limit ? 'red' : 'label3'" tabular>{{ Math.round(tokens / limit * 100) }}%</MiText>
           </div>
-          <div class="ptt__meter mi:h-1.5 mi:rounded-[3px] mi:bg-fill3 mi:overflow-hidden" role="meter" aria-label="Prompt size" :aria-valuenow="tokens" aria-valuemin="0" :aria-valuemax="limit">
-            <span class="mi:[.ptt__meter_&]:h-full mi:[.ptt__meter_&]:rounded-[inherit] mi:[.ptt__meter_&]:bg-p mi:[.ptt__meter_&]:origin-left mi:[.ptt__meter_&]:[transition:transform_var(--mi-dur-3)_var(--mi-ease)]" :class="{ 'is-over mi:[.ptt__meter_&]:bg-red': tokens > limit }" :style="{ transform: `scaleX(${Math.min(tokens / limit, 1)})` }" />
+          <div class="mi:h-1.5 mi:rounded-[3px] mi:bg-fill3 mi:overflow-hidden" role="meter" aria-label="Prompt size" :aria-valuenow="tokens" aria-valuemin="0" :aria-valuemax="limit">
+            <span class="mi:block mi:h-full mi:rounded-[inherit] mi:origin-left mi:[transition:transform_var(--mi-dur-3)_var(--mi-ease)]" :class="tokens > limit ? 'mi:bg-red' : 'mi:bg-p'" :style="{ transform: `scaleX(${Math.min(tokens / limit, 1)})` }" />
           </div>
         </div>
         <MiButton block :disabled="issues.length > 0">Save template</MiButton>
@@ -93,13 +93,3 @@ const filled = computed(() => parts.value.map(p => p.text).join(''))
 // Rough estimate: about four characters per token for English text.
 const tokens = computed(() => Math.ceil(filled.value.length / 4))
 </script>
-
-<style scoped>
-.ptt__mono :deep(textarea) { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; line-height: 1.55; }
-.ptt__issues li { display: flex; }
-.ptt__issues :deep(svg) { flex: none; margin-top: 2px; }
-
-.ptt__vars { border: 0; border-top: 1px solid var(--mi-sep); }
-.ptt__var.is-empty { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12.5px; }
-.ptt__meter span { display: block; }
-</style>

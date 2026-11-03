@@ -1,6 +1,6 @@
 <template>
-  <section class="prh mi:@container mi:grid mi:content-start mi:gap-4.5 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:font-mi mi:text-label" aria-labelledby="prh-title">
-    <header class="prh__head mi:flex mi:[align-items:flex-start] mi:justify-between mi:gap-3">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-4.5 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:font-mi mi:text-label" aria-labelledby="prh-title">
+    <header class="mi:flex mi:[align-items:flex-start] mi:justify-between mi:gap-3">
       <div>
         <MiText id="prh-title" variant="title3" as="h2" weight="semibold">Stays in Porto</MiText>
         <MiText variant="footnote" tone="label2">12 – 16 March · 2 guests</MiText>
@@ -8,27 +8,27 @@
       <MiButton variant="plain" size="small" :disabled="isDefault" @click="reset">Reset</MiButton>
     </header>
 
-    <div class="prh__body mi:grid mi:gap-5.5 mi:grid-cols-[minmax(0,_1fr)] mi:@[760px]:grid-cols-[minmax(0,_1.5fr)_minmax(0,_1fr)] mi:@[760px]:gap-8">
+    <div class="mi:grid mi:gap-5.5 mi:grid-cols-[minmax(0,_1fr)] mi:@[760px]:grid-cols-[minmax(0,_1.5fr)_minmax(0,_1fr)] mi:@[760px]:gap-8">
       <!-- Price: histogram of what is left after the other filters, with the selected band lit. -->
-      <fieldset class="prh__group prh__price mi:grid mi:gap-3 mi:m-0 mi:p-0 mi:[border:0] mi:min-w-0">
-        <legend class="prh__legend mi:p-0 mi:mb-1 mi:text-[15px] mi:font-semibold">Nightly price</legend>
-        <div class="prh__hist mi:flex mi:[align-items:flex-end] mi:gap-0.5 mi:h-18 mi:py-0 mi:px-2.5 mi:-mb-2" aria-hidden="true">
-          <span class="mi:[.prh__hist_&]:flex-1 mi:[.prh__hist_&]:h-full mi:[.prh__hist_&]:rounded-[3px_3px_0_0] mi:[.prh__hist_&]:bg-fill2 mi:[.prh__hist_&]:origin-bottom mi:[.prh__hist_&]:[transition:transform_var(--mi-dur-4)_var(--mi-spring),_opacity_var(--mi-dur-2)_var(--mi-ease)]"
-            v-for="b in bins" :key="b.from" :class="{ 'is-in mi:[.prh__hist_&]:bg-p': b.from + STEP > low && b.from < high }"
+      <fieldset class="mi:grid mi:gap-3 mi:m-0 mi:p-0 mi:[border:0] mi:min-w-0">
+        <legend class="mi:p-0 mi:mb-1 mi:text-[15px] mi:font-semibold">Nightly price</legend>
+        <div class="mi:flex mi:[align-items:flex-end] mi:gap-0.5 mi:h-18 mi:py-0 mi:px-2.5 mi:-mb-2" aria-hidden="true">
+          <span class="mi:flex-1 mi:h-full mi:rounded-[3px_3px_0_0] mi:bg-fill2 mi:origin-bottom mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring),_opacity_var(--mi-dur-2)_var(--mi-ease)]"
+            v-for="b in bins" :key="b.from" :class="b.from + STEP > low && b.from < high ? 'mi:bg-p mi:opacity-100' : 'mi:opacity-55'"
             :style="{ transform: `scaleY(${Math.max(0.04, b.count / peak)})` }"
           />
         </div>
         <MiSlider v-model="price" :min="MIN" :max="MAX" :step="10" aria-label="Nightly price range" :format="money" />
-        <div class="prh__inputs mi:grid mi:grid-cols-[minmax(0,_1fr)_14px_minmax(0,_1fr)] mi:items-end mi:gap-2">
+        <div class="mi:grid mi:grid-cols-[minmax(0,_1fr)_14px_minmax(0,_1fr)] mi:items-end mi:gap-2">
           <MiField label="Minimum">
             <MiInput v-model="lowText" prefix="$" inputmode="numeric" @blur="commit" @keydown.enter.prevent="commit" />
           </MiField>
-          <span class="prh__dash mi:h-px mi:mb-4.5 mi:bg-label3" aria-hidden="true" />
+          <span class="mi:h-px mi:mb-4.5 mi:bg-label3" aria-hidden="true" />
           <MiField label="Maximum">
             <MiInput v-model="highText" prefix="$" inputmode="numeric" @blur="commit" @keydown.enter.prevent="commit" />
           </MiField>
         </div>
-        <div class="prh__presets mi:flex mi:flex-wrap mi:gap-1.5" role="group" aria-label="Price presets">
+        <div class="mi:flex mi:flex-wrap mi:gap-1.5" role="group" aria-label="Price presets">
           <MiChip
             v-for="p in presets" :key="p.label" selectable size="small" tone="neutral" :label="p.label"
             :model-value="low === p.range[0] && high === p.range[1]" @update:model-value="price = [p.range[0], p.range[1]]"
@@ -36,23 +36,23 @@
         </div>
       </fieldset>
 
-      <div class="prh__side mi:grid mi:gap-5.5 mi:content-start mi:@[760px]:pl-8 mi:@[760px]:border-l mi:@[760px]:border-l-sep">
-        <fieldset class="prh__group mi:grid mi:gap-3 mi:m-0 mi:p-0 mi:[border:0] mi:min-w-0">
-          <legend class="prh__legend mi:p-0 mi:mb-1 mi:text-[15px] mi:font-semibold">Walk to Ribeira</legend>
+      <div class="mi:grid mi:gap-5.5 mi:content-start mi:@[760px]:pl-8 mi:@[760px]:border-l mi:@[760px]:border-l-sep">
+        <fieldset class="mi:grid mi:gap-3 mi:m-0 mi:p-0 mi:[border:0] mi:min-w-0">
+          <legend class="mi:p-0 mi:mb-1 mi:text-[15px] mi:font-semibold">Walk to Ribeira</legend>
           <MiSlider v-model="distance" :min="0.5" :max="6" :step="0.5" aria-label="Maximum distance" :format="v => (v >= 6 ? 'Any distance' : 'Within ' + v + ' km')" show-value />
-          <div class="prh__scale mi:flex mi:justify-between mi:-mt-1.5 mi:text-[11px] mi:text-label3" aria-hidden="true"><span>0.5 km</span><span>Any</span></div>
+          <div class="mi:flex mi:justify-between mi:-mt-1.5 mi:text-[11px] mi:text-label3" aria-hidden="true"><span>0.5 km</span><span>Any</span></div>
         </fieldset>
-        <fieldset class="prh__group mi:grid mi:gap-3 mi:m-0 mi:p-0 mi:[border:0] mi:min-w-0">
-          <legend class="prh__legend mi:p-0 mi:mb-1 mi:text-[15px] mi:font-semibold">Guest rating</legend>
+        <fieldset class="mi:grid mi:gap-3 mi:m-0 mi:p-0 mi:[border:0] mi:min-w-0">
+          <legend class="mi:p-0 mi:mb-1 mi:text-[15px] mi:font-semibold">Guest rating</legend>
           <MiSlider v-model="rating" :min="6" :max="9.5" :step="0.5" aria-label="Minimum guest rating" :format="v => v.toFixed(1) + ' or higher · ' + ratingWord(v)" show-value />
-          <div class="prh__scale mi:flex mi:justify-between mi:-mt-1.5 mi:text-[11px] mi:text-label3" aria-hidden="true"><span>6.0</span><span>9.5</span></div>
+          <div class="mi:flex mi:justify-between mi:-mt-1.5 mi:text-[11px] mi:text-label3" aria-hidden="true"><span>6.0</span><span>9.5</span></div>
         </fieldset>
       </div>
     </div>
 
-    <footer class="prh__foot mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-3 mi:pt-3.5 mi:border-t mi:border-t-sep">
-      <p class="prh__count mi:m-0 mi:text-[14px] mi:text-label2 mi:tabular-nums" aria-live="polite">
-        <b class="mi:[.prh__count_&]:text-label mi:[.prh__count_&]:text-[17px]">{{ matches.length }}</b> of {{ stays.length }} stays
+    <footer class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-3 mi:pt-3.5 mi:border-t mi:border-t-sep">
+      <p class="mi:m-0 mi:text-[14px] mi:text-label2 mi:tabular-nums" aria-live="polite">
+        <b class="mi:text-label mi:text-[17px]">{{ matches.length }}</b> of {{ stays.length }} stays
         <span v-if="matches.length">· median {{ money(median) }} a night</span>
       </p>
       <MiButton :disabled="!matches.length">{{ matches.length ? `Show ${matches.length} stays` : 'No stays match' }}</MiButton>
@@ -142,9 +142,3 @@ function reset() {
   rating.value = 8
 }
 </script>
-
-<style scoped>
-.prh__hist span { opacity: .55;
-}
-.prh__hist span.is-in { opacity: 1; }
-</style>

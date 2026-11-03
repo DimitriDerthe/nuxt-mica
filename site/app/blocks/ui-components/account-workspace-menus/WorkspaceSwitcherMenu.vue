@@ -1,24 +1,24 @@
 <template>
-  <div class="wsm-cq mi:@container">
-    <section class="wsm mi:relative mi:grid mi:gap-4 mi:font-mi mi:text-label mi:@[720px]:grid-cols-[300px_minmax(0,_1fr)] mi:@[720px]:grid-rows-[auto_1fr] mi:@[720px]:items-start mi:@[720px]:gap-x-6" aria-labelledby="wsm-title" :style="{ '--wsm-hue': `var(--mi-${current.tile})` }">
-      <header class="wsm__bar mi:grid mi:gap-2.5 mi:@[720px]:contents">
-        <MiText id="wsm-title" variant="headline" as="h2" class="wsm__sr mi:absolute mi:w-px mi:h-px mi:[clip-path:inset(50%)]">Workspace and account menus</MiText>
+  <div class="mi:@container">
+    <section class="mi:relative mi:grid mi:gap-4 mi:font-mi mi:text-label mi:@[720px]:grid-cols-[300px_minmax(0,_1fr)] mi:@[720px]:grid-rows-[auto_1fr] mi:@[720px]:items-start mi:@[720px]:gap-x-6" aria-labelledby="wsm-title" :style="{ '--wsm-hue': `var(--mi-${current.tile})` }">
+      <header class="mi:grid mi:gap-2.5 mi:@[720px]:contents">
+        <MiText id="wsm-title" variant="headline" as="h2" class="mi:absolute mi:w-px mi:h-px mi:[clip-path:inset(50%)] mi:overflow-hidden mi:whitespace-nowrap">Workspace and account menus</MiText>
         <!-- Wrappers own the grid placement: an inline MiPopover renders its trigger and panel as two siblings. -->
-        <div class="wsm__pop mi:grid mi:justify-items-start mi:min-w-0 mi:@[720px]:col-[1] mi:@[720px]:row-[1_/_span_2]">
+        <div class="mi:grid mi:justify-items-start mi:min-w-0 mi:@[720px]:col-[1] mi:@[720px]:row-[1_/_span_2]">
           <MiPopover v-model="open" inline trigger="manual" :width="280" :arrow-offset="26" label="Switch workspace">
             <template #trigger="{ attrs, toggle }">
-              <button v-bind="attrs" type="button" class="wsm__trigger mi:flex mi:items-center mi:gap-2.5 mi:min-w-0 mi:max-w-70 mi:pt-1.5 mi:pr-2.5 mi:pb-1.5 mi:pl-1.5 mi:[border:0] mi:rounded-md mi:[background:var(--mi-card)] mi:shadow-1 mi:text-inherit mi:[font:inherit] mi:text-start mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" @click="toggle">
-                <span class="wsm__mark mi:grid mi:place-items-center mi:flex-[none] mi:w-8 mi:h-8 mi:rounded-[9px] mi:[background:var(--wsm-hue)] mi:text-p-on mi:text-[13px] mi:font-bold mi:tracking-[-.02em]">{{ initials(current.name) }}</span>
-                <span class="wsm__trigger-text mi:grid mi:min-w-0">
-                  <span class="wsm__trigger-name mi:text-[14px] mi:font-semibold mi:whitespace-nowrap mi:overflow-hidden mi:text-ellipsis">{{ current.name }}</span>
-                  <span class="wsm__trigger-plan mi:text-[12px] mi:text-label2">{{ current.plan }} plan</span>
+              <button v-bind="attrs" type="button" class="mi:flex mi:items-center mi:gap-2.5 mi:min-w-0 mi:max-w-70 mi:pt-1.5 mi:pr-2.5 mi:pb-1.5 mi:pl-1.5 mi:[border:0] mi:rounded-md mi:[background:var(--mi-card)] mi:shadow-1 mi:text-inherit mi:[font:inherit] mi:text-start mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" @click="toggle">
+                <span class="mi:grid mi:place-items-center mi:flex-[none] mi:w-8 mi:h-8 mi:rounded-[9px] mi:[background:var(--wsm-hue)] mi:text-p-on mi:text-[13px] mi:font-bold mi:tracking-[-.02em]">{{ initials(current.name) }}</span>
+                <span class="mi:grid mi:min-w-0">
+                  <span class="mi:text-[14px] mi:font-semibold mi:whitespace-nowrap mi:overflow-hidden mi:text-ellipsis">{{ current.name }}</span>
+                  <span class="mi:text-[12px] mi:text-label2">{{ current.plan }} plan</span>
                 </span>
-                <MiIcon name="chevron-up-down" :size="16" class="wsm__chev mi:text-label3" />
+                <MiIcon name="chevron-up-down" :size="16" class="mi:text-label3 mi:flex-none" />
               </button>
             </template>
 
-            <div class="wsm__panel mi:grid mi:gap-1.5 mi:-my-1.5 mi:-mx-2">
-              <div class="wsm__panel-head mi:flex mi:items-center mi:justify-between mi:py-0 mi:px-2">
+            <div class="mi:grid mi:gap-1.5 mi:-my-1.5 mi:-mx-2">
+              <div class="mi:flex mi:items-center mi:justify-between mi:py-0 mi:px-2">
                 <MiText variant="caption" tone="label2" weight="semibold">Workspaces</MiText>
                 <MiKbdGroup><MiKbd>⌘</MiKbd><MiKbd>O</MiKbd></MiKbdGroup>
               </div>
@@ -28,9 +28,9 @@
                   :subtitle="`${w.plan} · ${w.members === 1 ? 'Just you' : w.members + ' members'}`"
                   :aria-current="w.id === currentId ? 'true' : undefined" @click="pick(w.id)"
                 >
-                  <template #leading><span class="wsm__tile-text mi:text-[12px] mi:font-bold mi:text-p-on">{{ initials(w.name) }}</span></template>
+                  <template #leading><span class="mi:text-[12px] mi:font-bold mi:text-p-on">{{ initials(w.name) }}</span></template>
                   <template #trailing>
-                    <MiIcon v-if="w.id === currentId" name="check" :size="16" class="wsm__check mi:text-p-text" />
+                    <MiIcon v-if="w.id === currentId" name="check" :size="16" class="mi:text-p-text" />
                     <MiBadge v-else-if="w.unread" :count="w.unread" tone="primary" count-noun="unread updates" />
                   </template>
                 </MiListItem>
@@ -48,10 +48,10 @@
           </MiPopover>
         </div>
 
-        <div class="wsm__account mi:-order-1 mi:flex mi:[justify-content:flex-end] mi:@[720px]:order-0 mi:@[720px]:col-[2] mi:@[720px]:row-[1]">
+        <div class="mi:-order-1 mi:flex mi:[justify-content:flex-end] mi:@[720px]:order-0 mi:@[720px]:col-[2] mi:@[720px]:row-[1]">
           <MiMenu :items="accountItems" aria-label="Account" placement="bottom-end" @select="onAccount">
             <template #trigger="{ props: tp }">
-              <button v-bind="tp" type="button" class="wsm__me mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:flex mi:items-center mi:gap-1 mi:pt-[3px] mi:pr-1.5 mi:pb-[3px] mi:pl-[3px] mi:[border:0] mi:rounded-[999px] mi:[background:var(--mi-fill3)] mi:text-label2 mi:cursor-pointer" aria-label="Account menu, Noor Farah">
+              <button v-bind="tp" type="button" class="mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:flex mi:items-center mi:gap-1 mi:pt-[3px] mi:pr-1.5 mi:pb-[3px] mi:pl-[3px] mi:[border:0] mi:rounded-[999px] mi:[background:var(--mi-fill3)] mi:text-label2 mi:cursor-pointer" aria-label="Account menu, Noor Farah">
                 <MiAvatar name="Noor Farah" size="sm" tone="secondary" decorative />
                 <MiIcon name="chevron-down" :size="14" />
               </button>
@@ -61,24 +61,24 @@
       </header>
 
       <!-- The workspace you land in: its hue, seats and team follow the switcher. -->
-      <article class="wsm__space mi:relative mi:grid mi:gap-4 mi:p-5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:overflow-hidden mi:isolate mi:before:content-[''] mi:before:absolute mi:before:top-[-50%] mi:before:right-[-20%] mi:before:bottom-auto mi:before:left-auto mi:before:w-[70%] mi:before:aspect-[1] mi:before:-z-1 mi:before:rounded-[50%] mi:before:[background:radial-gradient(closest-side,_color-mix(in_srgb,_var(--wsm-hue)_22%,_transparent),_transparent)] mi:@[720px]:col-[2] mi:@[720px]:row-[2]" aria-live="polite">
-        <div class="wsm__space-top mi:flex mi:[align-items:flex-start] mi:justify-between mi:gap-3">
+      <article class="mi:relative mi:grid mi:gap-4 mi:p-5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:overflow-hidden mi:isolate mi:before:content-[''] mi:before:absolute mi:before:top-[-50%] mi:before:right-[-20%] mi:before:bottom-auto mi:before:left-auto mi:before:w-[70%] mi:before:aspect-[1] mi:before:-z-1 mi:before:rounded-[50%] mi:before:[background:radial-gradient(closest-side,_color-mix(in_srgb,_var(--wsm-hue)_22%,_transparent),_transparent)] mi:@[720px]:col-[2] mi:@[720px]:row-[2]" aria-live="polite">
+        <div class="mi:flex mi:[align-items:flex-start] mi:justify-between mi:gap-3">
           <div>
             <MiText variant="caption" tone="label2" weight="medium">Current workspace</MiText>
-            <p class="wsm__space-name mi:mt-0.5 mi:mx-0 mi:mb-0 mi:text-[clamp(22px,_5cqi,_30px)] mi:font-bold mi:tracking-[-.03em] mi:leading-[1.1]">{{ current.name }}</p>
+            <p class="mi:mt-0.5 mi:mx-0 mi:mb-0 mi:text-[clamp(22px,_5cqi,_30px)] mi:font-bold mi:tracking-[-.03em] mi:leading-[1.1]">{{ current.name }}</p>
           </div>
           <MiBadge :label="current.plan" variant="outline" />
         </div>
-        <div class="wsm__seats mi:grid mi:gap-2">
-          <div class="wsm__seats-row mi:flex mi:justify-between mi:gap-2">
+        <div class="mi:grid mi:gap-2">
+          <div class="mi:flex mi:justify-between mi:gap-2">
             <MiText variant="footnote" weight="medium">Seats</MiText>
             <MiText variant="footnote" tone="label2" tabular>{{ current.members }} of {{ current.seats }} used</MiText>
           </div>
-          <div class="wsm__meter mi:h-1.5 mi:rounded-[3px] mi:[background:var(--mi-fill3)] mi:overflow-hidden" role="meter" aria-label="Seats used" :aria-valuenow="current.members" aria-valuemin="0" :aria-valuemax="current.seats">
-            <span class="mi:[.wsm__meter_&]:block mi:[.wsm__meter_&]:h-full mi:[.wsm__meter_&]:rounded-[inherit] mi:[.wsm__meter_&]:[background:var(--wsm-hue)] mi:[.wsm__meter_&]:origin-left mi:[.wsm__meter_&]:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleX(${current.members / current.seats})` }" />
+          <div class="mi:h-1.5 mi:rounded-[3px] mi:[background:var(--mi-fill3)] mi:overflow-hidden" role="meter" aria-label="Seats used" :aria-valuenow="current.members" aria-valuemin="0" :aria-valuemax="current.seats">
+            <span class="mi:block mi:h-full mi:rounded-[inherit] mi:[background:var(--wsm-hue)] mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleX(${current.members / current.seats})` }" />
           </div>
         </div>
-        <div class="wsm__team mi:flex mi:flex-wrap mi:items-center mi:gap-3">
+        <div class="mi:flex mi:flex-wrap mi:items-center mi:gap-3">
           <MiAvatarGroup :items="current.team" :max="4" size="sm" />
           <MiText variant="footnote" tone="label2">{{ current.activity }}</MiText>
         </div>
@@ -129,10 +129,3 @@ function onAccount(item: { value?: string | number, label?: string }) {
   note.value = item.value === 'signout' ? 'Signing out of every workspace…' : `${item.label} opened.`
 }
 </script>
-
-<style scoped>
-.wsm__sr { overflow: hidden; white-space: nowrap; }
-.wsm__chev { flex: none; }
-
-/* Wide: the open switcher keeps its own column and the workspace card sits beside it. */
-</style>

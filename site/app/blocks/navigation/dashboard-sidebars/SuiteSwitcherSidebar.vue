@@ -1,11 +1,11 @@
 <template>
-  <div class="drs mi:@container mi:min-h-full mi:font-mi mi:text-label mi:[background:var(--mi-page)]">
-    <div class="drs__shell mi:relative mi:grid mi:grid-cols-[60px_minmax(0,_1fr)] mi:min-h-full mi:overflow-hidden mi:@[720px]:grid-cols-[60px_248px_minmax(0,_1fr)]" @keydown.esc="panel = false">
+  <div class="mi:@container mi:min-h-full mi:font-mi mi:text-label mi:[background:var(--mi-page)]">
+    <div class="mi:relative mi:grid mi:grid-cols-[60px_minmax(0,_1fr)] mi:min-h-full mi:overflow-hidden mi:@[720px]:grid-cols-[60px_248px_minmax(0,_1fr)]" @keydown.esc="panel = false">
       <!-- Rail: one icon per app. Picking an app swaps the panel beside it. -->
-      <nav class="drs__rail mi:flex mi:flex-col mi:items-center mi:gap-1.5 mi:py-3 mi:px-0 mi:[background:var(--mi-fill4)] mi:shadow-[inset_-1px_0_0_var(--mi-sep)]" aria-label="Apps">
-        <span class="drs__logo mi:grid mi:place-items-center mi:w-8.5 mi:h-8.5 mi:mb-2.5 mi:rounded-[10px] mi:font-extrabold mi:text-p-on mi:[background:linear-gradient(135deg,_var(--mi-p),_var(--mi-s))]" aria-hidden="true">H</span>
+      <nav class="mi:flex mi:flex-col mi:items-center mi:gap-1.5 mi:py-3 mi:px-0 mi:[background:var(--mi-fill4)] mi:shadow-[inset_-1px_0_0_var(--mi-sep)]" aria-label="Apps">
+        <span class="mi:grid mi:place-items-center mi:w-8.5 mi:h-8.5 mi:mb-2.5 mi:rounded-[10px] mi:font-extrabold mi:text-p-on mi:[background:linear-gradient(135deg,_var(--mi-p),_var(--mi-s))]" aria-hidden="true">H</span>
         <button
-          v-for="a in apps" :key="a.id" type="button" class="drs__app mi:relative mi:grid mi:place-items-center mi:w-10.5 mi:h-10.5 mi:[border:0] mi:rounded-[12px] mi:text-label2 mi:[background:transparent] mi:cursor-pointer mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring)] mi:active:transform-[scale(.94)] mi:aria-current:before:content-[''] mi:aria-current:before:absolute mi:aria-current:before:top-2.5 mi:aria-current:before:right-auto mi:aria-current:before:bottom-2.5 mi:aria-current:before:left-[-9px] mi:aria-current:before:w-[3px] mi:aria-current:before:rounded-[2px] mi:aria-current:before:[background:var(--mi-p)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" :aria-current="a.id === app ? 'true' : undefined"
+          v-for="a in apps" :key="a.id" type="button" class="mi:hover:text-label mi:hover:bg-fill3 mi:aria-current:text-p-text mi:aria-current:bg-p-tint mi:relative mi:grid mi:place-items-center mi:w-10.5 mi:h-10.5 mi:[border:0] mi:rounded-[12px] mi:text-label2 mi:[background:transparent] mi:cursor-pointer mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring)] mi:active:transform-[scale(.94)] mi:aria-current:before:content-[''] mi:aria-current:before:absolute mi:aria-current:before:top-2.5 mi:aria-current:before:right-auto mi:aria-current:before:bottom-2.5 mi:aria-current:before:left-[-9px] mi:aria-current:before:w-[3px] mi:aria-current:before:rounded-[2px] mi:aria-current:before:[background:var(--mi-p)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" :aria-current="a.id === app ? 'true' : undefined"
           :aria-label="a.label" :title="a.label" @click="pick(a.id)"
         >
           <MiBadge v-if="a.alert" dot-only tone="danger" :dot-size="8" placement="top-right" ring-color="var(--mi-fill4)">
@@ -13,38 +13,38 @@
           </MiBadge>
           <MiIcon v-else :name="a.icon" :size="20" />
         </button>
-        <MiAvatar class="drs__me mi:mt-auto" name="Leila Benali" size="sm" tone="auto" />
+        <MiAvatar class="mi:mt-auto" name="Leila Benali" size="sm" tone="auto" />
       </nav>
 
       <!-- Contextual panel: a static column when wide, an overlay that slides in when narrow. -->
-      <aside id="drs-panel" class="drs__panel mi:absolute mi:top-0 mi:right-auto mi:bottom-0 mi:left-15 mi:z-3 mi:flex mi:flex-col mi:gap-1.5 mi:w-[min(280px,_calc(100%_-_76px))] mi:py-3.5 mi:px-2.5 mi:[background:var(--mi-card)] mi:shadow-3 mi:transform-[translateX(-110%)] mi:opacity-0 mi:invisible mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring),_opacity_var(--mi-dur-2)_var(--mi-ease),_visibility_0s_linear_var(--mi-dur-3)] mi:[&.is-open]:transform-none mi:[&.is-open]:opacity-100 mi:[&.is-open]:visible mi:[&.is-open]:delay-[0s] mi:@[720px]:static mi:@[720px]:w-auto mi:@[720px]:transform-none mi:@[720px]:opacity-100 mi:@[720px]:visible mi:@[720px]:shadow-[inset_-1px_0_0_var(--mi-sep)] mi:@[720px]:[transition:none]" :class="{ 'is-open': panel }" :aria-label="`${current.label} navigation`">
-        <div class="drs__panel-head mi:flex mi:[align-items:flex-start] mi:justify-between mi:gap-2 mi:pt-0 mi:px-1.5 mi:pb-1.5">
+      <aside id="drs-panel" class="mi:absolute mi:top-0 mi:right-auto mi:bottom-0 mi:left-15 mi:z-3 mi:flex mi:flex-col mi:gap-1.5 mi:w-[min(280px,_calc(100%_-_76px))] mi:py-3.5 mi:px-2.5 mi:[background:var(--mi-card)] mi:shadow-3 mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring),_opacity_var(--mi-dur-2)_var(--mi-ease),_visibility_0s_linear_var(--mi-dur-3)] mi:@[720px]:static mi:@[720px]:w-auto mi:@[720px]:transform-none mi:@[720px]:opacity-100 mi:@[720px]:visible mi:@[720px]:shadow-[inset_-1px_0_0_var(--mi-sep)] mi:@[720px]:[transition:none]" :class="panel ? 'mi:transform-none mi:opacity-100 mi:visible mi:delay-[0s]' : 'mi:transform-[translateX(-110%)] mi:opacity-0 mi:invisible'" :aria-label="`${current.label} navigation`">
+        <div class="mi:flex mi:[align-items:flex-start] mi:justify-between mi:gap-2 mi:pt-0 mi:px-1.5 mi:pb-1.5">
           <div>
             <MiText variant="headline" as="h2">{{ current.label }}</MiText>
             <MiText variant="caption" tone="label2">{{ current.hint }}</MiText>
           </div>
-          <MiIconButton :label="`Hide ${current.label} panel`" variant="gray" size="small" class="drs__hide" @click="panel = false">
+          <MiIconButton :label="`Hide ${current.label} panel`" variant="gray" size="small" class="mi:@[720px]:hidden!" @click="panel = false">
             <MiIcon name="sidebar" :size="15" />
           </MiIconButton>
         </div>
         <MiSidebar
-          :key="app" v-model="picked[app]" class="drs__nav" :groups="current.groups" :aria-label="current.label"
+          :key="app" v-model="picked[app]" class="mi:flex-1! mi:min-h-0!" :groups="current.groups" :aria-label="current.label"
           :footer-label="current.footer" @select="panel = false"
         />
       </aside>
-      <div v-if="panel" class="drs__scrim mi:absolute mi:top-0 mi:right-0 mi:bottom-0 mi:left-15 mi:z-2 mi:[background:var(--mi-scrim)] mi:@[720px]:hidden" aria-hidden="true" @click="panel = false" />
+      <div v-if="panel" class="mi:absolute mi:top-0 mi:right-0 mi:bottom-0 mi:left-15 mi:z-2 mi:[background:var(--mi-scrim)] mi:@[720px]:hidden" aria-hidden="true" @click="panel = false" />
 
-      <main class="drs__main mi:grid mi:content-start mi:gap-2.5 mi:pt-3.5 mi:px-4 mi:pb-7 mi:min-w-0 mi:@[720px]:pt-5.5 mi:@[720px]:px-7 mi:@[720px]:pb-9" aria-labelledby="drs-title">
-        <div class="drs__bar mi:flex mi:items-center mi:gap-2.5">
+      <main class="mi:grid mi:content-start mi:gap-2.5 mi:pt-3.5 mi:px-4 mi:pb-7 mi:min-w-0 mi:@[720px]:pt-5.5 mi:@[720px]:px-7 mi:@[720px]:pb-9" aria-labelledby="drs-title">
+        <div class="mi:flex mi:items-center mi:gap-2.5">
           <MiIconButton
-            label="Show panel" variant="gray" size="small" class="drs__toggle" :aria-expanded="panel" aria-controls="drs-panel" @click="panel = !panel"
+            label="Show panel" variant="gray" size="small" class="mi:@[720px]:hidden!" :aria-expanded="panel" aria-controls="drs-panel" @click="panel = !panel"
           >
             <MiIcon name="sidebar" :size="15" />
           </MiIconButton>
           <MiText variant="caption" tone="label2">{{ current.label }}</MiText>
         </div>
         <MiText id="drs-title" variant="title2" as="h3" weight="bold">{{ itemLabel }}</MiText>
-        <div class="drs__ghosts mi:grid mi:gap-2.5 mi:mt-2 mi:@[720px]:grid-cols-2" aria-hidden="true"><span class="mi:[.drs__ghosts_&]:h-16 mi:[.drs__ghosts_&]:rounded-lg mi:[.drs__ghosts_&]:[background:var(--mi-card)] mi:[.drs__ghosts_&]:shadow-1 mi:@[720px]:[.drs__ghosts_&]:h-30" v-for="n in 4" :key="n" /></div>
+        <div class="mi:grid mi:gap-2.5 mi:mt-2 mi:@[720px]:grid-cols-2" aria-hidden="true"><span class="mi:h-16 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1 mi:@[720px]:h-30" v-for="n in 4" :key="n" /></div>
       </main>
     </div>
   </div>
@@ -103,13 +103,3 @@ function pick(id: AppId) {
   panel.value = true
 }
 </script>
-
-<style scoped>
-.drs__app:hover { color: var(--mi-label); background: var(--mi-fill3); }
-.drs__app[aria-current="true"] { color: var(--mi-p-text); background: var(--mi-p-tint); }
-.drs__nav { flex: 1; min-height: 0; }
-
-@container (min-width: 720px) {
-  .drs__hide, .drs__toggle { display: none; }
-}
-</style>

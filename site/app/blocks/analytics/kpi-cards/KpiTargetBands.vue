@@ -1,92 +1,92 @@
 <template>
-  <section class="ktb mi:@container mi:grid mi:content-start mi:gap-4.5 mi:font-mi mi:text-label" aria-labelledby="ktb-title">
-    <header class="ktb__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-y-2.5 mi:gap-x-5">
-      <div class="ktb__intro mi:grid mi:gap-0.5">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-4.5 mi:font-mi mi:text-label" aria-labelledby="ktb-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-y-2.5 mi:gap-x-5">
+      <div class="mi:grid mi:gap-0.5">
         <MiText id="ktb-title" variant="title3" as="h2" weight="semibold">Unit economics against plan</MiText>
         <MiText variant="footnote" tone="label2">Ledgerly · weeks 28 to 39 · bands are the FY26 targets set by finance</MiText>
       </div>
-      <div class="ktb__key mi:flex mi:flex-wrap mi:gap-y-1.5 mi:gap-x-4 mi:text-[12px] mi:text-label2" aria-hidden="true">
-        <span class="mi:[.ktb__key_&]:inline-flex mi:[.ktb__key_&]:items-center mi:[.ktb__key_&]:gap-1.5"><i class="ktb__key-band mi:w-4 mi:h-2.5 mi:rounded-[3px] mi:[background:color-mix(in_srgb,_var(--mi-p)_16%,_transparent)] mi:shadow-[inset_0_1px_0_color-mix(in_srgb,_var(--mi-p)_45%,_transparent),_inset_0_-1px_0_color-mix(in_srgb,_var(--mi-p)_45%,_transparent)]" />Target band</span>
-        <span class="mi:[.ktb__key_&]:inline-flex mi:[.ktb__key_&]:items-center mi:[.ktb__key_&]:gap-1.5"><i class="ktb__key-dot is-good mi:w-2 mi:h-2 mi:rounded-[50%] mi:[&.is-good]:[background:var(--mi-green)] mi:[&.is-bad]:[background:var(--mi-orange)]" />Better than band</span>
-        <span class="mi:[.ktb__key_&]:inline-flex mi:[.ktb__key_&]:items-center mi:[.ktb__key_&]:gap-1.5"><i class="ktb__key-dot is-bad mi:w-2 mi:h-2 mi:rounded-[50%] mi:[&.is-good]:[background:var(--mi-green)] mi:[&.is-bad]:[background:var(--mi-orange)]" />Off target</span>
+      <div class="mi:flex mi:flex-wrap mi:gap-y-1.5 mi:gap-x-4 mi:text-[12px] mi:text-label2" aria-hidden="true">
+        <span class="mi:inline-flex mi:items-center mi:gap-1.5"><i class="mi:w-4 mi:h-2.5 mi:rounded-[3px] mi:[background:color-mix(in_srgb,_var(--mi-p)_16%,_transparent)] mi:shadow-[inset_0_1px_0_color-mix(in_srgb,_var(--mi-p)_45%,_transparent),_inset_0_-1px_0_color-mix(in_srgb,_var(--mi-p)_45%,_transparent)]" />Target band</span>
+        <span class="mi:inline-flex mi:items-center mi:gap-1.5"><i class="mi:w-2 mi:h-2 mi:rounded-[50%] mi:bg-green" />Better than band</span>
+        <span class="mi:inline-flex mi:items-center mi:gap-1.5"><i class="mi:w-2 mi:h-2 mi:rounded-[50%] mi:bg-orange" />Off target</span>
       </div>
     </header>
 
-    <div class="ktb__grid mi:grid mi:gap-3 mi:grid-cols-[minmax(0,_1fr)] mi:@[560px]:grid-cols-2 mi:@[560px]:grid-flow-row-dense mi:@[560px]:[&.has-open]:grid-cols-3 mi:@[960px]:grid-cols-4" :class="{ 'has-open': open !== null }">
+    <div class="mi:grid mi:gap-3 mi:grid-cols-[minmax(0,_1fr)] mi:@[560px]:grid-flow-row-dense" :class="open !== null ? 'mi:@[560px]:grid-cols-3 mi:@[960px]:grid-cols-3' : 'mi:@[560px]:grid-cols-2 mi:@[960px]:grid-cols-4'">
       <article
-        v-for="(m, i) in view" :key="m.id" class="ktb__card mi:@[560px]:[&.is-open]:col-span-full mi:relative mi:grid mi:gap-3.5 mi:content-start mi:min-w-0 mi:pt-4 mi:px-4 mi:pb-4.5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:after:content-[''] mi:after:absolute mi:after:inset-0 mi:after:rounded-[inherit] mi:after:pointer-events-none mi:after:shadow-2 mi:after:opacity-0 mi:after:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)] mi:[&:not(.is-open):hover]:after:opacity-100 mi:[&.is-open]:gap-4.5 mi:[&.is-open]:pt-4.5 mi:[&.is-open]:px-4.5 mi:[&.is-open]:pb-5 mi:motion-reduce:after:[transition:none]" :class="{ 'is-open': open === i }"
+        v-for="(m, i) in view" :key="m.id" class="mi:relative mi:grid mi:content-start mi:min-w-0 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:after:content-[''] mi:after:absolute mi:after:inset-0 mi:after:rounded-[inherit] mi:after:pointer-events-none mi:after:shadow-2 mi:after:opacity-0 mi:after:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)] mi:motion-reduce:after:[transition:none]" :class="open === i ? 'mi:@[560px]:col-span-full mi:gap-4.5 mi:pt-4.5 mi:px-4.5 mi:pb-5' : 'mi:gap-3.5 mi:pt-4 mi:px-4 mi:pb-4.5 mi:hover:after:opacity-100'"
         :aria-labelledby="`ktb-btn-${m.id}`"
       >
         <button
-          :id="`ktb-btn-${m.id}`" type="button" class="ktb__toggle mi:grid mi:gap-1 mi:justify-items-start mi:static mi:w-full mi:m-0 mi:pt-0 mi:pr-7 mi:pb-0 mi:pl-0 mi:[border:0] mi:[background:none] mi:text-inherit mi:[font:inherit] mi:text-start mi:cursor-pointer mi:rounded-md mi:[.ktb__card:not(.is-open)_&]:before:content-[''] mi:[.ktb__card:not(.is-open)_&]:before:absolute mi:[.ktb__card:not(.is-open)_&]:before:inset-0 mi:[.ktb__card:not(.is-open)_&]:before:z-1 mi:[.ktb__card:not(.is-open)_&]:before:rounded-xl mi:focus-visible:[outline:none] mi:focus-visible:before:content-[''] mi:focus-visible:before:absolute mi:focus-visible:before:inset-0 mi:focus-visible:before:z-1 mi:focus-visible:before:rounded-xl mi:focus-visible:before:shadow-[0_0_0_2px_var(--mi-p)]" :aria-expanded="open === i"
+          :id="`ktb-btn-${m.id}`" type="button" class="mi:grid mi:gap-1 mi:justify-items-start mi:static mi:w-full mi:m-0 mi:pt-0 mi:pr-7 mi:pb-0 mi:pl-0 mi:[border:0] mi:[background:none] mi:text-inherit mi:[font:inherit] mi:text-start mi:cursor-pointer mi:rounded-md mi:focus-visible:[outline:none] mi:focus-visible:before:content-[''] mi:focus-visible:before:absolute mi:focus-visible:before:inset-0 mi:focus-visible:before:z-1 mi:focus-visible:before:rounded-xl mi:focus-visible:before:shadow-[0_0_0_2px_var(--mi-p)]" :class="open !== i ? `mi:before:content-[''] mi:before:absolute mi:before:inset-0 mi:before:z-1 mi:before:rounded-xl` : ''" :aria-expanded="open === i"
           :aria-controls="`ktb-panel-${m.id}`" @click="toggle(i)"
         >
-          <span class="ktb__label mi:max-w-full mi:text-[13px] mi:font-semibold mi:text-label2 mi:tracking-[-.005em] mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ m.label }}</span>
-          <span class="ktb__top mi:flex mi:flex-wrap mi:items-baseline mi:gap-y-1.5 mi:gap-x-2.5 mi:mt-1.5">
-            <span class="ktb__value mi:text-[30px] mi:leading-none mi:font-bold mi:tracking-[-.035em] mi:tabular-nums mi:[.ktb__card.is-open_&]:text-[40px]">{{ m.now }}</span>
-            <span class="ktb__status mi:relative mi:-top-1 mi:py-0.5 mi:px-[7px] mi:rounded-[999px] mi:text-[11px] mi:font-semibold mi:leading-4" :class="`is-${m.tone}`">{{ m.status }}</span>
+          <span class="mi:max-w-full mi:text-[13px] mi:font-semibold mi:text-label2 mi:tracking-[-.005em] mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ m.label }}</span>
+          <span class="mi:flex mi:flex-wrap mi:items-baseline mi:gap-y-1.5 mi:gap-x-2.5 mi:mt-1.5">
+            <span class="mi:leading-none mi:font-bold mi:tracking-[-.035em] mi:tabular-nums" :class="open === i ? 'mi:text-[40px]' : 'mi:text-[30px]'">{{ m.now }}</span>
+            <span class="mi:relative mi:-top-1 mi:py-0.5 mi:px-[7px] mi:rounded-[999px] mi:text-[11px] mi:font-semibold mi:leading-4" :class="m.tone === 'in' ? 'mi:text-p-text mi:bg-p-tint' : m.tone === 'good' ? 'mi:text-green-t mi:bg-green/14' : 'mi:text-orange-t mi:bg-orange/16'">{{ m.status }}</span>
           </span>
-          <span class="ktb__sub mi:grid mi:gap-0.5 mi:mt-1.5 mi:text-[12px] mi:text-label2 mi:tabular-nums mi:[.ktb__card.is-open_&]:flex mi:[.ktb__card.is-open_&]:flex-wrap mi:[.ktb__card.is-open_&]:gap-y-0.5 mi:[.ktb__card.is-open_&]:gap-x-3.5">
+          <span class="mi:mt-1.5 mi:text-[12px] mi:text-label2 mi:tabular-nums" :class="open === i ? 'mi:flex mi:flex-wrap mi:gap-y-0.5 mi:gap-x-3.5' : 'mi:grid mi:gap-0.5'">
             <span>Target {{ m.bandText }}</span>
-            <span class="ktb__weeks mi:text-label2 mi:opacity-85">{{ m.weeksIn }} of {{ weeks.length }} weeks in band</span>
+            <span class="mi:text-label2 mi:opacity-85">{{ m.weeksIn }} of {{ weeks.length }} weeks in band</span>
           </span>
-          <MiIcon name="chevron-down" :size="16" class="ktb__chev mi:[.ktb__card.is-open_&]:top-5 mi:[.ktb__card.is-open_&]:right-4.5 mi:absolute mi:top-4.5 mi:right-4 mi:text-label3 mi:[transition:transform_var(--mi-dur-3)_var(--mi-ease)] mi:[.ktb__card.is-open_&]:text-label2 mi:motion-reduce:[transition:none]" />
+          <MiIcon name="chevron-down" :size="16" class="mi:absolute mi:[transition:transform_var(--mi-dur-3)_var(--mi-ease)] mi:motion-reduce:[transition:none]" :class="open === i ? 'mi:top-5 mi:right-4.5 mi:text-label2 mi:transform-[rotate(180deg)]' : 'mi:top-4.5 mi:right-4 mi:text-label3'" />
         </button>
 
         <!-- Compact view: the sparkline over its target band. -->
-        <div v-if="open !== i" class="ktb__spark mi:relative mi:h-13.5 mi:my-0 mi:mx-[3px]" role="img" :aria-label="m.summary">
-          <svg class="mi:[.ktb__spark_&]:block mi:[.ktb__spark_&]:w-full mi:[.ktb__spark_&]:h-full mi:[.ktb__spark_&]:overflow-visible" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true">
-            <rect x="0" :y="m.bandY" width="100" :height="m.bandH" class="ktb__band mi:fill-p/13" />
-            <line x1="0" x2="100" :y1="m.bandY" :y2="m.bandY" class="ktb__edge mi:stroke-p/42 mi:[stroke-width:1] mi:[stroke-dasharray:3_3] mi:[vector-effect:non-scaling-stroke]" />
-            <line x1="0" x2="100" :y1="m.bandY + m.bandH" :y2="m.bandY + m.bandH" class="ktb__edge mi:stroke-p/42 mi:[stroke-width:1] mi:[stroke-dasharray:3_3] mi:[vector-effect:non-scaling-stroke]" />
-            <path :d="m.path" class="ktb__line mi:fill-[color:none] mi:stroke-label mi:[stroke-width:1.6] mi:[stroke-linejoin:round] mi:[stroke-linecap:round] mi:[vector-effect:non-scaling-stroke] mi:[&.is-big]:[stroke-width:2]" />
+        <div v-if="open !== i" class="mi:relative mi:h-13.5 mi:my-0 mi:mx-[3px]" role="img" :aria-label="m.summary">
+          <svg class="mi:block mi:w-full mi:h-full mi:overflow-visible" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true">
+            <rect x="0" :y="m.bandY" width="100" :height="m.bandH" class="mi:fill-p/13" />
+            <line x1="0" x2="100" :y1="m.bandY" :y2="m.bandY" class="mi:stroke-p/42 mi:[stroke-width:1] mi:[stroke-dasharray:3_3] mi:[vector-effect:non-scaling-stroke]" />
+            <line x1="0" x2="100" :y1="m.bandY + m.bandH" :y2="m.bandY + m.bandH" class="mi:stroke-p/42 mi:[stroke-width:1] mi:[stroke-dasharray:3_3] mi:[vector-effect:non-scaling-stroke]" />
+            <path :d="m.path" class="mi:fill-[color:none] mi:stroke-label mi:[stroke-width:1.6] mi:[stroke-linejoin:round] mi:[stroke-linecap:round] mi:[vector-effect:non-scaling-stroke]" />
           </svg>
           <i
-            v-for="p in m.outside" :key="p.i" class="ktb__pt mi:absolute mi:w-[7px] mi:h-[7px] mi:mt-[-3.5px] mi:mr-0 mi:mb-0 mi:ml-[-3.5px] mi:rounded-[50%] mi:shadow-[0_0_0_2px_var(--mi-card)] mi:[&.is-now]:[background:var(--mi-p)]" :class="p.good ? 'is-good' : 'is-bad'"
+            v-for="p in m.outside" :key="p.i" class="mi:absolute mi:w-[7px] mi:h-[7px] mi:mt-[-3.5px] mi:mr-0 mi:mb-0 mi:ml-[-3.5px] mi:rounded-[50%] mi:shadow-[0_0_0_2px_var(--mi-card)]" :class="p.good ? 'mi:bg-green' : 'mi:bg-orange'"
             :style="{ left: p.left + '%', top: p.top + '%' }"
           />
-          <i class="ktb__pt is-now mi:absolute mi:w-[7px] mi:h-[7px] mi:mt-[-3.5px] mi:mr-0 mi:mb-0 mi:ml-[-3.5px] mi:rounded-[50%] mi:shadow-[0_0_0_2px_var(--mi-card)] mi:[&.is-now]:[background:var(--mi-p)]" :style="{ left: '100%', top: m.lastTop + '%' }" />
+          <i class="mi:absolute mi:w-[9px] mi:h-[9px] mi:mt-[-4.5px] mi:mr-0 mi:mb-0 mi:ml-[-4.5px] mi:rounded-[50%] mi:bg-p mi:shadow-[0_0_0_2px_var(--mi-card)]" :style="{ left: '100%', top: m.lastTop + '%' }" />
         </div>
 
         <!-- Expanded view: the same picture, larger, with the segment breakdown. -->
-        <Transition name="ktb-reveal">
-          <div v-if="open === i" :id="`ktb-panel-${m.id}`" class="ktb__panel mi:grid mi:gap-5 mi:grid-cols-[minmax(0,_1fr)] mi:@[760px]:grid-cols-[minmax(0,_1fr)_minmax(240px,_300px)] mi:@[760px]:gap-7">
-            <figure class="ktb__big mi:grid mi:gap-2 mi:m-0 mi:min-w-0">
-              <div class="ktb__plot mi:relative mi:h-42 mi:mr-13" role="img" :aria-label="m.summary">
-                <svg class="mi:[.ktb__plot_&]:block mi:[.ktb__plot_&]:w-full mi:[.ktb__plot_&]:h-full mi:[.ktb__plot_&]:overflow-visible" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true">
-                  <line v-for="g in [10, 20, 30]" :key="g" x1="0" x2="100" :y1="g" :y2="g" class="ktb__grid-line mi:stroke-sep mi:[stroke-width:1] mi:[vector-effect:non-scaling-stroke]" />
-                  <rect x="0" :y="m.bandY" width="100" :height="m.bandH" class="ktb__band mi:fill-p/13" />
-                  <line x1="0" x2="100" :y1="m.bandY" :y2="m.bandY" class="ktb__edge mi:stroke-p/42 mi:[stroke-width:1] mi:[stroke-dasharray:3_3] mi:[vector-effect:non-scaling-stroke]" />
-                  <line x1="0" x2="100" :y1="m.bandY + m.bandH" :y2="m.bandY + m.bandH" class="ktb__edge mi:stroke-p/42 mi:[stroke-width:1] mi:[stroke-dasharray:3_3] mi:[vector-effect:non-scaling-stroke]" />
-                  <path :d="m.area" class="ktb__area mi:fill-label/5" />
-                  <path :d="m.path" class="ktb__line is-big mi:fill-[color:none] mi:stroke-label mi:[stroke-width:1.6] mi:[stroke-linejoin:round] mi:[stroke-linecap:round] mi:[vector-effect:non-scaling-stroke] mi:[&.is-big]:[stroke-width:2]" />
+        <Transition enter-active-class="mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease),_transform_var(--mi-dur-3)_var(--mi-ease)] mi:motion-reduce:[transition:none]" enter-from-class="mi:opacity-0 mi:transform-[translateY(6px)]">
+          <div v-if="open === i" :id="`ktb-panel-${m.id}`" class="mi:grid mi:gap-5 mi:grid-cols-[minmax(0,_1fr)] mi:@[760px]:grid-cols-[minmax(0,_1fr)_minmax(240px,_300px)] mi:@[760px]:gap-7">
+            <figure class="mi:grid mi:gap-2 mi:m-0 mi:min-w-0">
+              <div class="mi:relative mi:h-42 mi:mr-13" role="img" :aria-label="m.summary">
+                <svg class="mi:block mi:w-full mi:h-full mi:overflow-visible" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true">
+                  <line v-for="g in [10, 20, 30]" :key="g" x1="0" x2="100" :y1="g" :y2="g" class="mi:stroke-sep mi:[stroke-width:1] mi:[vector-effect:non-scaling-stroke]" />
+                  <rect x="0" :y="m.bandY" width="100" :height="m.bandH" class="mi:fill-p/13" />
+                  <line x1="0" x2="100" :y1="m.bandY" :y2="m.bandY" class="mi:stroke-p/42 mi:[stroke-width:1] mi:[stroke-dasharray:3_3] mi:[vector-effect:non-scaling-stroke]" />
+                  <line x1="0" x2="100" :y1="m.bandY + m.bandH" :y2="m.bandY + m.bandH" class="mi:stroke-p/42 mi:[stroke-width:1] mi:[stroke-dasharray:3_3] mi:[vector-effect:non-scaling-stroke]" />
+                  <path :d="m.area" class="mi:fill-label/5" />
+                  <path :d="m.path" class="mi:fill-[color:none] mi:stroke-label mi:[stroke-width:2] mi:[stroke-linejoin:round] mi:[stroke-linecap:round] mi:[vector-effect:non-scaling-stroke]" />
                 </svg>
-                <span class="ktb__edge-label mi:absolute mi:left-[calc(100%_+_10px)] mi:transform-[translateY(-50%)] mi:text-[11px] mi:font-semibold mi:text-p-text mi:tabular-nums mi:whitespace-nowrap" :style="{ top: m.bandY * 2.5 + '%' }">{{ m.bandTop }}</span>
-                <span class="ktb__edge-label mi:absolute mi:left-[calc(100%_+_10px)] mi:transform-[translateY(-50%)] mi:text-[11px] mi:font-semibold mi:text-p-text mi:tabular-nums mi:whitespace-nowrap" :style="{ top: (m.bandY + m.bandH) * 2.5 + '%' }">{{ m.bandBottom }}</span>
+                <span class="mi:absolute mi:left-[calc(100%_+_10px)] mi:transform-[translateY(-50%)] mi:text-[11px] mi:font-semibold mi:text-p-text mi:tabular-nums mi:whitespace-nowrap" :style="{ top: m.bandY * 2.5 + '%' }">{{ m.bandTop }}</span>
+                <span class="mi:absolute mi:left-[calc(100%_+_10px)] mi:transform-[translateY(-50%)] mi:text-[11px] mi:font-semibold mi:text-p-text mi:tabular-nums mi:whitespace-nowrap" :style="{ top: (m.bandY + m.bandH) * 2.5 + '%' }">{{ m.bandBottom }}</span>
                 <i
-                  v-for="p in m.outside" :key="p.i" class="ktb__pt is-big mi:absolute mi:w-[7px] mi:h-[7px] mi:mt-[-3.5px] mi:mr-0 mi:mb-0 mi:ml-[-3.5px] mi:rounded-[50%] mi:shadow-[0_0_0_2px_var(--mi-card)] mi:[&.is-now]:[background:var(--mi-p)]" :class="p.good ? 'is-good' : 'is-bad'"
+                  v-for="p in m.outside" :key="p.i" class="mi:absolute mi:w-[9px] mi:h-[9px] mi:mt-[-4.5px] mi:mr-0 mi:mb-0 mi:ml-[-4.5px] mi:rounded-[50%] mi:shadow-[0_0_0_2px_var(--mi-card)]" :class="p.good ? 'mi:bg-green' : 'mi:bg-orange'"
                   :style="{ left: p.left + '%', top: p.top + '%' }"
                 />
-                <i class="ktb__pt is-now is-big mi:absolute mi:w-[7px] mi:h-[7px] mi:mt-[-3.5px] mi:mr-0 mi:mb-0 mi:ml-[-3.5px] mi:rounded-[50%] mi:shadow-[0_0_0_2px_var(--mi-card)] mi:[&.is-now]:[background:var(--mi-p)]" :style="{ left: '100%', top: m.lastTop + '%' }" />
+                <i class="mi:absolute mi:w-[11px] mi:h-[11px] mi:mt-[-5.5px] mi:mr-0 mi:mb-0 mi:ml-[-5.5px] mi:rounded-[50%] mi:bg-p mi:shadow-[0_0_0_2px_var(--mi-card)]" :style="{ left: '100%', top: m.lastTop + '%' }" />
               </div>
-              <figcaption class="ktb__axis mi:relative mi:h-3.5 mi:mr-13 mi:text-[11px] mi:text-label3 mi:tabular-nums" aria-hidden="true">
-                <span class="mi:[.ktb__axis_&]:absolute mi:[.ktb__axis_&]:top-0 mi:[.ktb__axis_&]:transform-[translateX(-50%)] mi:[.ktb__axis_&:first-child]:transform-none mi:[.ktb__axis_&:last-child]:transform-[translateX(-100%)]" v-for="w in [0, 4, 8, 11]" :key="w" :style="{ left: (w / 11) * 100 + '%' }">{{ weeks[w] }}</span>
+              <figcaption class="mi:relative mi:h-3.5 mi:mr-13 mi:text-[11px] mi:text-label3 mi:tabular-nums" aria-hidden="true">
+                <span class="mi:absolute mi:top-0 mi:transform-[translateX(-50%)] mi:[&:first-child]:transform-none mi:[&:last-child]:transform-[translateX(-100%)]" v-for="w in [0, 4, 8, 11]" :key="w" :style="{ left: (w / 11) * 100 + '%' }">{{ weeks[w] }}</span>
               </figcaption>
             </figure>
 
-            <div class="ktb__side mi:grid mi:gap-3 mi:content-start mi:pt-0.5 mi:@[760px]:pl-6 mi:@[760px]:border-l mi:@[760px]:border-l-sep">
+            <div class="mi:grid mi:gap-3 mi:content-start mi:pt-0.5 mi:@[760px]:pl-6 mi:@[760px]:border-l mi:@[760px]:border-l-sep">
               <MiText variant="footnote" weight="semibold" as="h3">By segment, week 39</MiText>
-              <ul class="ktb__segs mi:grid mi:gap-3.5 mi:m-0 mi:p-0 mi:[list-style:none]">
-                <li v-for="s in m.segs" :key="s.label" class="ktb__seg mi:grid mi:grid-cols-[minmax(0,_1fr)_auto] mi:gap-y-1.5 mi:gap-x-3 mi:items-baseline">
-                  <span class="ktb__seg-name mi:text-[13px] mi:text-label2">{{ s.label }}</span>
-                  <span class="ktb__seg-val mi:text-[14px] mi:font-650 mi:tabular-nums" :class="`is-${s.tone}`">{{ s.text }}</span>
-                  <span class="ktb__range mi:relative mi:col-span-full mi:h-1.5 mi:rounded-[3px] mi:[background:var(--mi-fill3)]" aria-hidden="true">
-                    <span class="ktb__range-band mi:absolute mi:top-0 mi:bottom-0 mi:rounded-[3px] mi:[background:color-mix(in_srgb,_var(--mi-p)_30%,_transparent)]" :style="{ left: m.segBand[0] + '%', right: 100 - m.segBand[1] + '%' }" />
-                    <i class="ktb__range-dot mi:absolute mi:top-1/2 mi:w-2.5 mi:h-2.5 mi:mt-[-5px] mi:mr-0 mi:mb-0 mi:ml-[-5px] mi:rounded-[50%] mi:[background:var(--mi-label)] mi:shadow-[0_0_0_2px_var(--mi-card)]" :class="`is-${s.tone}`" :style="{ left: s.pos + '%' }" />
+              <ul class="mi:grid mi:gap-3.5 mi:m-0 mi:p-0 mi:[list-style:none]">
+                <li v-for="s in m.segs" :key="s.label" class="mi:grid mi:grid-cols-[minmax(0,_1fr)_auto] mi:gap-y-1.5 mi:gap-x-3 mi:items-baseline">
+                  <span class="mi:text-[13px] mi:text-label2">{{ s.label }}</span>
+                  <span class="mi:text-[14px] mi:font-650 mi:tabular-nums" :class="s.tone === 'good' ? 'mi:text-green-t' : s.tone === 'bad' ? 'mi:text-orange-t' : ''">{{ s.text }}</span>
+                  <span class="mi:relative mi:col-span-full mi:h-1.5 mi:rounded-[3px] mi:[background:var(--mi-fill3)]" aria-hidden="true">
+                    <span class="mi:absolute mi:top-0 mi:bottom-0 mi:rounded-[3px] mi:[background:color-mix(in_srgb,_var(--mi-p)_30%,_transparent)]" :style="{ left: m.segBand[0] + '%', right: 100 - m.segBand[1] + '%' }" />
+                    <i class="mi:absolute mi:top-1/2 mi:w-2.5 mi:h-2.5 mi:mt-[-5px] mi:mr-0 mi:mb-0 mi:ml-[-5px] mi:rounded-[50%] mi:shadow-[0_0_0_2px_var(--mi-card)]" :class="s.tone === 'in' ? 'mi:bg-p' : s.tone === 'good' ? 'mi:bg-green' : 'mi:bg-orange'" :style="{ left: s.pos + '%' }" />
                   </span>
                 </li>
               </ul>
-              <MiText variant="footnote" tone="label2" class="ktb__note mi:pt-3 mi:border-t mi:border-t-sep">{{ m.note }}</MiText>
+              <MiText variant="footnote" tone="label2" class="mi:pt-3 mi:border-t mi:border-t-sep mi:text-pretty">{{ m.note }}</MiText>
             </div>
           </div>
         </Transition>
@@ -196,25 +196,3 @@ const view = computed(() => metrics.map((m) => {
   }
 }))
 </script>
-
-<style scoped>
-.ktb__pt.is-good { background: var(--mi-green); }
-.ktb__pt.is-bad { background: var(--mi-orange); }
-.ktb__card.is-open .ktb__chev { transform: rotate(180deg); }
-.ktb__status.is-in { color: var(--mi-p-text); background: var(--mi-p-tint); }
-.ktb__status.is-good { color: var(--mi-green-t); background: color-mix(in srgb, var(--mi-green) 14%, transparent); }
-.ktb__status.is-bad { color: var(--mi-orange-t); background: color-mix(in srgb, var(--mi-orange) 16%, transparent); }
-.ktb__pt.is-now { width: 9px; height: 9px; margin: -4.5px 0 0 -4.5px; }
-.ktb__pt.is-big { width: 9px; height: 9px; margin: -4.5px 0 0 -4.5px; }
-.ktb__pt.is-now.is-big { width: 11px; height: 11px; margin: -5.5px 0 0 -5.5px; }
-.ktb__seg-val.is-good { color: var(--mi-green-t); }
-.ktb__seg-val.is-bad { color: var(--mi-orange-t); }
-.ktb__range-dot.is-in { background: var(--mi-p); }
-.ktb__range-dot.is-good { background: var(--mi-green); }
-.ktb__range-dot.is-bad { background: var(--mi-orange); }
-.ktb__note { text-wrap: pretty; }
-
-.ktb-reveal-enter-active { transition: opacity var(--mi-dur-3) var(--mi-ease), transform var(--mi-dur-3) var(--mi-ease); }
-.ktb-reveal-enter-from { opacity: 0; transform: translateY(6px); }
-@media (prefers-reduced-motion: reduce) { .ktb-reveal-enter-active { transition: none; } }
-</style>

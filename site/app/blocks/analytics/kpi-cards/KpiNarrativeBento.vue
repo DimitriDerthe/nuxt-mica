@@ -1,101 +1,101 @@
 <template>
-  <section class="knb mi:@container mi:grid mi:content-start mi:gap-4.5 mi:font-mi mi:text-label" aria-labelledby="knb-title">
-    <header class="knb__head">
-      <div class="knb__intro">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-4.5 mi:font-mi mi:text-label" aria-labelledby="knb-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
+      <div class="mi:grid mi:gap-0.5">
         <MiText id="knb-title" variant="title3" as="h2" weight="semibold">Monthly business review</MiText>
         <MiText variant="footnote" tone="label2">Tessellate Cloud · closed books, all regions</MiText>
       </div>
       <MiSegmented v-model="period" label="Period" :options="periods" />
     </header>
 
-    <div class="knb__bento">
+    <div class="mi:grid mi:gap-3 mi:grid-cols-[minmax(0,_1fr)] mi:[grid-template-areas:'story'_'revenue'_'region'_'plans'_'churn'_'trial'] mi:@[560px]:grid-cols-[repeat(2,_minmax(0,_1fr))] mi:@[560px]:[grid-template-areas:'story_story'_'revenue_revenue'_'region_plans'_'churn_trial'] mi:@[900px]:grid-cols-[1.15fr_1.15fr_1fr_1fr] mi:@[900px]:[grid-template-areas:'story_story_revenue_revenue'_'story_story_region_region'_'churn_trial_plans_plans']">
       <!-- The story: every figure is a citation to the tile it came from. -->
-      <article class="knb__tile knb__story mi:relative mi:content-start mi:min-w-0 mi:pt-4 mi:px-4.5 mi:pb-4.5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)] mi:after:content-[''] mi:after:absolute mi:after:inset-0 mi:after:rounded-[inherit] mi:after:pointer-events-none mi:after:shadow-[0_0_0_2px_var(--mi-p),_0_10px_30px_-12px_color-mix(in_srgb,_var(--mi-p)_45%,_transparent)] mi:after:opacity-0 mi:after:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)] mi:[&.is-lit]:after:opacity-100 mi:[&.is-dim]:opacity-50 mi:motion-reduce:[transition:none] mi:motion-reduce:after:[transition:none]" aria-labelledby="knb-story-title">
-        <div class="knb__story-top">
+      <article class="mi:[grid-area:story] mi:grid mi:gap-4 mi:relative mi:content-start mi:min-w-0 mi:pt-5.5 mi:px-5.5 mi:pb-5 mi:rounded-xl mi:[background:linear-gradient(160deg,_color-mix(in_srgb,_var(--mi-p)_7%,_var(--mi-card)),_var(--mi-card)_55%)] mi:shadow-1 mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)] mi:after:content-[''] mi:after:hidden mi:after:absolute mi:after:inset-0 mi:after:rounded-[inherit] mi:after:pointer-events-none mi:after:shadow-[0_0_0_2px_var(--mi-p),_0_10px_30px_-12px_color-mix(in_srgb,_var(--mi-p)_45%,_transparent)] mi:after:opacity-0 mi:after:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)] mi:motion-reduce:[transition:none] mi:motion-reduce:after:[transition:none]" aria-labelledby="knb-story-title">
+        <div class="mi:flex mi:flex-wrap mi:items-baseline mi:justify-between mi:gap-y-1 mi:gap-x-3">
           <MiText id="knb-story-title" variant="footnote" weight="semibold" tone="label2" as="h3">{{ d.label }} in one paragraph</MiText>
-          <span class="knb__stamp">Written from 5 tiles · {{ d.stamp }}</span>
+          <span class="mi:text-[11px] mi:text-label3 mi:tabular-nums">Written from 5 tiles · {{ d.stamp }}</span>
         </div>
-        <p class="knb__prose" aria-live="polite">
+        <p class="mi:m-0 mi:text-[clamp(17px,_2.1cqi,_21px)] mi:leading-[1.62] mi:tracking-[-.012em] mi:text-label mi:text-pretty" aria-live="polite">
           <template v-for="(part, i) in story" :key="i">
             <template v-if="typeof part === 'string'">{{ part }}</template>
-            <span v-else class="knb__nb"><button
-              type="button" class="knb__ref" :class="{ 'is-lit': active === part.key }"
+            <span v-else class="mi:whitespace-nowrap"><button
+              type="button" class="mi:relative mi:inline mi:my-0 mi:-mx-0.5 mi:py-0 mi:px-0.5 mi:[border:0] mi:rounded-[5px] mi:cursor-pointer mi:[font:inherit] mi:font-650 mi:text-p-text mi:tabular-nums mi:[box-decoration-break:clone] mi:[-webkit-box-decoration-break:clone] mi:[background-image:linear-gradient(color-mix(in_srgb,_var(--mi-p)_45%,_transparent),_color-mix(in_srgb,_var(--mi-p)_45%,_transparent))] mi:bg-no-repeat mi:[background-size:100%_1.5px] mi:[background-position:0_100%] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" :class="active === part.key ? 'mi:bg-p-tint' : 'mi:bg-transparent'"
               :aria-pressed="pinned === part.key" :aria-describedby="`knb-name-${part.key}`"
               @pointerenter="hover = part.key" @pointerleave="hover = null"
               @focus="hover = part.key" @blur="hover = null" @click="pin(part.key)"
-            >{{ part.text }}<sup class="mi:[.knb__ref_sup&]:[vertical-align:.75em]">{{ cite[part.key] }}</sup></button>{{ part.tail }}</span>
+            >{{ part.text }}<sup class="mi:[vertical-align:.75em] mi:ml-px mi:text-[.52em] mi:font-bold mi:leading-[0]" :class="active === part.key ? 'mi:text-p-text' : 'mi:text-label3'">{{ cite[part.key] }}</sup></button>{{ part.tail }}</span>
           </template>
         </p>
-        <MiText variant="caption" tone="label3" class="knb__hint">Point at a figure to find its source. Tap to keep it lit.</MiText>
+        <MiText variant="caption" tone="label3" class="mi:mt-auto!">Point at a figure to find its source. Tap to keep it lit.</MiText>
       </article>
 
       <article
-        v-for="t in tiles" :key="t" class="knb__tile mi:relative mi:content-start mi:min-w-0 mi:pt-4 mi:px-4.5 mi:pb-4.5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)] mi:after:content-[''] mi:after:absolute mi:after:inset-0 mi:after:rounded-[inherit] mi:after:pointer-events-none mi:after:shadow-[0_0_0_2px_var(--mi-p),_0_10px_30px_-12px_color-mix(in_srgb,_var(--mi-p)_45%,_transparent)] mi:after:opacity-0 mi:after:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)] mi:[&.is-lit]:after:opacity-100 mi:[&.is-dim]:opacity-50 mi:motion-reduce:[transition:none] mi:motion-reduce:after:[transition:none]" :class="[`knb__${t}`, { 'is-lit': active === t, 'is-dim': hover !== null && hover !== t }]"
+        v-for="t in tiles" :key="t" class="mi:grid mi:gap-3 mi:relative mi:content-start mi:min-w-0 mi:pt-4 mi:px-4.5 mi:pb-4.5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)] mi:after:content-[''] mi:after:absolute mi:after:inset-0 mi:after:rounded-[inherit] mi:after:pointer-events-none mi:after:shadow-[0_0_0_2px_var(--mi-p),_0_10px_30px_-12px_color-mix(in_srgb,_var(--mi-p)_45%,_transparent)] mi:after:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)] mi:motion-reduce:[transition:none] mi:motion-reduce:after:[transition:none]" :class="[t === 'revenue' ? 'mi:[grid-area:revenue]' : t === 'region' ? 'mi:[grid-area:region]' : t === 'plans' ? 'mi:[grid-area:plans]' : t === 'churn' ? 'mi:[grid-area:churn]' : 'mi:[grid-area:trial]', active === t ? 'mi:after:opacity-100' : 'mi:after:opacity-0', hover !== null && hover !== t ? 'mi:opacity-50' : '']"
         :aria-labelledby="`knb-name-${t}`" @pointerenter="hover = t" @pointerleave="hover = null"
       >
-        <div class="knb__tile-top">
-          <MiText class="mi:[.knb__ref_sup&]:[vertical-align:.75em] mi:[.knb__regions_li&]:grid-cols-[minmax(0,_1fr)_auto_52px] mi:[.knb__regions_li.is-top_.knb__r-track_span&]:[background:var(--mi-p)]" :id="`knb-name-${t}`" variant="footnote" weight="semibold" tone="label2" as="h3">{{ names[t] }}</MiText>
-          <span class="knb__cite mi:[.knb__regions_li.is-top_.knb__r-track_span&]:[background:var(--mi-p)]" aria-hidden="true">{{ cite[t] }}</span>
+        <div class="mi:flex mi:items-center mi:justify-between mi:gap-2">
+          <MiText :id="`knb-name-${t}`" variant="footnote" weight="semibold" tone="label2" as="h3">{{ names[t] }}</MiText>
+          <span class="mi:inline-grid mi:place-items-center mi:min-w-5 mi:h-5 mi:py-0 mi:px-[5px] mi:rounded-[999px] mi:text-[11px] mi:font-bold mi:tabular-nums" :class="active === t ? 'mi:text-p-on mi:bg-p' : 'mi:text-label2 mi:bg-fill2'" aria-hidden="true">{{ cite[t] }}</span>
         </div>
 
         <template v-if="t === 'revenue'">
-          <div class="knb__figure">
-            <p class="knb__big">{{ money(d.revenue) }}</p>
-            <span class="knb__delta mi:[.knb__regions_li.is-top_.knb__r-track_span&]:[background:var(--mi-p)]" :class="d.revenueDelta >= 0 ? 'is-up' : 'is-down'">{{ signed(d.revenueDelta) }}% vs {{ d.prevShort }}</span>
+          <div class="mi:flex mi:flex-wrap mi:items-baseline mi:gap-y-1 mi:gap-x-2.5">
+            <p class="mi:m-0 mi:text-[clamp(30px,_4.4cqi,_40px)] mi:leading-none mi:font-bold mi:tracking-[-.035em] mi:tabular-nums">{{ money(d.revenue) }}</p>
+            <span class="mi:text-[12px] mi:font-semibold mi:tabular-nums" :class="d.revenueDelta >= 0 ? 'mi:text-green-t' : 'mi:text-orange-t'">{{ signed(d.revenueDelta) }}% vs {{ d.prevShort }}</span>
           </div>
-          <div class="knb__rev" role="img" :aria-label="`Net revenue by month, ${d.months[0]} to ${d.months[d.months.length - 1]}: ${d.trend.map(v => '$' + v + 'k').join(', ')}`">
-            <svg viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true">
-              <path :d="revArea" class="knb__rev-area" />
-              <path :d="revLine" class="knb__rev-line" />
+          <div class="mi:grid mi:gap-1.5" role="img" :aria-label="`Net revenue by month, ${d.months[0]} to ${d.months[d.months.length - 1]}: ${d.trend.map(v => '$' + v + 'k').join(', ')}`">
+            <svg class="mi:block mi:w-full mi:h-16 mi:overflow-visible" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true">
+              <path :d="revArea" class="mi:fill-p/14" />
+              <path :d="revLine" class="mi:fill-[color:none] mi:stroke-p mi:[stroke-width:2] mi:[stroke-linejoin:round] mi:[vector-effect:non-scaling-stroke]" />
             </svg>
-            <div class="knb__months" aria-hidden="true"><span class="mi:[.knb__regions_li.is-top_.knb__r-track_span&]:[background:var(--mi-p)]" v-for="m in d.months" :key="m">{{ m }}</span></div>
+            <div class="mi:flex mi:justify-between mi:text-[11px] mi:text-label3" aria-hidden="true"><span v-for="m in d.months" :key="m">{{ m }}</span></div>
           </div>
         </template>
 
         <template v-else-if="t === 'region'">
-          <ul class="knb__regions">
-            <li class="mi:[.knb__regions_li&]:grid-cols-[minmax(0,_1fr)_auto_52px]" v-for="r in d.regions" :key="r.name" :class="{ 'is-top': r.name === topRegion.name }">
-              <span class="knb__r-name mi:[.knb__regions_li.is-top_.knb__r-track_span&]:[background:var(--mi-p)]">{{ r.name }}</span>
-              <span class="knb__r-val mi:[.knb__regions_li.is-top_.knb__r-track_span&]:[background:var(--mi-p)]">{{ money(r.value) }}</span>
-              <span class="knb__r-delta mi:[.knb__regions_li.is-top_.knb__r-track_span&]:[background:var(--mi-p)]">{{ signed(r.growth) }}%</span>
-              <span class="knb__r-track mi:[.knb__regions_li.is-top_.knb__r-track_span&]:[background:var(--mi-p)]" aria-hidden="true"><span class="mi:[.knb__regions_li.is-top_.knb__r-track_span&]:[background:var(--mi-p)]" :style="{ transform: `scaleX(${r.value / maxRegion})` }" /></span>
+          <ul class="mi:grid mi:gap-3 mi:mt-0.5 mi:mr-0 mi:mb-0 mi:ml-0 mi:p-0 mi:[list-style:none]">
+            <li class="mi:grid-cols-[minmax(0,_1fr)_auto_52px] mi:grid mi:gap-y-1.5 mi:gap-x-2.5 mi:items-baseline" v-for="r in d.regions" :key="r.name">
+              <span class="mi:text-[13px] mi:whitespace-nowrap mi:overflow-hidden mi:text-ellipsis" :class="r.name === topRegion.name ? 'mi:text-label mi:font-semibold' : 'mi:text-label2'">{{ r.name }}</span>
+              <span class="mi:text-[13px] mi:font-semibold mi:tabular-nums">{{ money(r.value) }}</span>
+              <span class="mi:text-[12px] mi:font-semibold mi:text-right mi:tabular-nums" :class="r.name === topRegion.name ? 'mi:text-green-t' : 'mi:text-label2'">{{ signed(r.growth) }}%</span>
+              <span class="mi:col-span-full mi:h-1.5 mi:rounded-[3px] mi:bg-fill3 mi:overflow-hidden" aria-hidden="true"><span class="mi:block mi:h-full mi:rounded-[inherit] mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)] mi:motion-reduce:[transition:none]" :class="r.name === topRegion.name ? 'mi:bg-p' : 'mi:bg-label3'" :style="{ transform: `scaleX(${r.value / maxRegion})` }" /></span>
             </li>
           </ul>
         </template>
 
         <template v-else-if="t === 'plans'">
-          <div class="knb__figure">
-            <p class="knb__big">{{ d.annualShare }}%</p>
-            <span class="knb__delta mi:[.knb__regions_li.is-top_.knb__r-track_span&]:[background:var(--mi-p)]" :class="d.annualShare >= d.annualPrev ? 'is-up' : 'is-down'">annual, was {{ d.annualPrev }}%</span>
+          <div class="mi:flex mi:flex-wrap mi:items-baseline mi:gap-y-1 mi:gap-x-2.5">
+            <p class="mi:m-0 mi:text-[30px] mi:leading-none mi:font-bold mi:tracking-[-.035em] mi:tabular-nums">{{ d.annualShare }}%</p>
+            <span class="mi:text-[12px] mi:font-semibold mi:tabular-nums" :class="d.annualShare >= d.annualPrev ? 'mi:text-green-t' : 'mi:text-orange-t'">annual, was {{ d.annualPrev }}%</span>
           </div>
-          <MiStackedBar class="mi:[.knb__ref_sup&]:[vertical-align:.75em] mi:[.knb__regions_li&]:grid-cols-[minmax(0,_1fr)_auto_52px] mi:[.knb__regions_li.is-top_.knb__r-track_span&]:[background:var(--mi-p)]"
+          <MiStackedBar
             :segments="planSegments" :legend="false" :height="14"
             :aria-label="`New bookings: annual ${d.annualShare}%, monthly ${100 - d.annualShare}%`"
           />
-          <div class="knb__plan-key">
-            <span class="mi:[.knb__regions_li.is-top_.knb__r-track_span&]:[background:var(--mi-p)]"><i class="is-annual mi:[.knb__plan-key_&]:[background:var(--mi-p)]" />Annual · {{ money(d.bookings * d.annualShare / 100) }}</span>
-            <span class="mi:[.knb__regions_li.is-top_.knb__r-track_span&]:[background:var(--mi-p)]"><i class="is-monthly mi:[.knb__plan-key_&]:[background:color-mix(in_srgb,_var(--mi-p)_28%,_var(--mi-card))]" />Monthly · {{ money(d.bookings * (100 - d.annualShare) / 100) }}</span>
+          <div class="mi:flex mi:flex-wrap mi:gap-y-1 mi:gap-x-4 mi:text-[12px] mi:text-label2 mi:tabular-nums">
+            <span class="mi:inline-flex mi:items-center mi:gap-1.5"><i class="mi:[background:var(--mi-p)] mi:w-2 mi:h-2 mi:rounded-[2px]" />Annual · {{ money(d.bookings * d.annualShare / 100) }}</span>
+            <span class="mi:inline-flex mi:items-center mi:gap-1.5"><i class="mi:[background:color-mix(in_srgb,_var(--mi-p)_28%,_var(--mi-card))] mi:w-2 mi:h-2 mi:rounded-[2px]" />Monthly · {{ money(d.bookings * (100 - d.annualShare) / 100) }}</span>
           </div>
         </template>
 
         <template v-else-if="t === 'churn'">
-          <div class="knb__figure">
-            <p class="knb__big">{{ d.churn.toFixed(1) }}%</p>
+          <div class="mi:flex mi:flex-wrap mi:items-baseline mi:gap-y-1 mi:gap-x-2.5">
+            <p class="mi:m-0 mi:text-[30px] mi:leading-none mi:font-bold mi:tracking-[-.035em] mi:tabular-nums">{{ d.churn.toFixed(1) }}%</p>
           </div>
-          <ol class="knb__cols" :aria-label="`Monthly logo churn: ${d.churnSeries.map((v, i) => d.churnMonths[i] + ' ' + v + '%').join(', ')}`">
-            <li class="mi:[.knb__regions_li&]:grid-cols-[minmax(0,_1fr)_auto_52px]" v-for="(v, i) in d.churnSeries" :key="i" :class="{ 'is-now': i === d.churnSeries.length - 1 }">
-              <span class="mi:[.knb__regions_li.is-top_.knb__r-track_span&]:[background:var(--mi-p)] mi:[.knb__cols_li.is-now_&]:[background:var(--mi-p)]" :style="{ transform: `scaleY(${colScale(v)})` }" />
+          <ol class="mi:grid mi:grid-flow-col mi:auto-cols-[minmax(0,_1fr)] mi:items-end mi:gap-1 mi:h-10 mi:m-0 mi:p-0 mi:[list-style:none]" :aria-label="`Monthly logo churn: ${d.churnSeries.map((v, i) => d.churnMonths[i] + ' ' + v + '%').join(', ')}`">
+            <li class="mi:h-full mi:flex mi:[align-items:flex-end]" v-for="(v, i) in d.churnSeries" :key="i">
+              <span class="mi:block mi:w-full mi:h-full mi:rounded-[3px_3px_1px_1px] mi:origin-bottom mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)] mi:motion-reduce:[transition:none]" :class="i === d.churnSeries.length - 1 ? 'mi:bg-p' : 'mi:[background:color-mix(in_srgb,_var(--mi-label)_14%,_var(--mi-card))]'" :style="{ transform: `scaleY(${colScale(v)})` }" />
             </li>
           </ol>
-          <MiText class="mi:[.knb__ref_sup&]:[vertical-align:.75em] mi:[.knb__regions_li&]:grid-cols-[minmax(0,_1fr)_auto_52px] mi:[.knb__regions_li.is-top_.knb__r-track_span&]:[background:var(--mi-p)]" variant="caption" tone="label2">{{ d.churnNote }}</MiText>
+          <MiText variant="caption" tone="label2">{{ d.churnNote }}</MiText>
         </template>
 
         <template v-else>
-          <div class="knb__figure">
-            <p class="knb__big">{{ d.trial.toFixed(1) }}%</p>
-            <span class="knb__delta mi:[.knb__regions_li.is-top_.knb__r-track_span&]:[background:var(--mi-p)]" :class="d.trial >= d.trialPrev ? 'is-up' : 'is-down'">{{ signed(d.trial - d.trialPrev) }} pt</span>
+          <div class="mi:flex mi:flex-wrap mi:items-baseline mi:gap-y-1 mi:gap-x-2.5">
+            <p class="mi:m-0 mi:text-[30px] mi:leading-none mi:font-bold mi:tracking-[-.035em] mi:tabular-nums">{{ d.trial.toFixed(1) }}%</p>
+            <span class="mi:text-[12px] mi:font-semibold mi:tabular-nums" :class="d.trial >= d.trialPrev ? 'mi:text-green-t' : 'mi:text-orange-t'">{{ signed(d.trial - d.trialPrev) }} pt</span>
           </div>
-          <MiSparkline class="mi:[.knb__ref_sup&]:[vertical-align:.75em] mi:[.knb__regions_li&]:grid-cols-[minmax(0,_1fr)_auto_52px] mi:[.knb__regions_li.is-top_.knb__r-track_span&]:[background:var(--mi-p)]"
+          <MiSparkline
             :values="d.trialSeries" :width="150" :height="40" stroke="var(--mi-label2)"
             :color="d.trial >= d.trialPrev ? 'var(--mi-p)' : 'var(--mi-orange)'" :label="`Trial to paid over 8 weeks, ending at ${d.trial}%`"
           />
@@ -202,92 +202,3 @@ const revPts = computed(() => {
 const revLine = computed(() => 'M' + revPts.value.join(' L'))
 const revArea = computed(() => `${revLine.value} L100 40 L0 40 Z`)
 </script>
-
-<style scoped>
-.knb__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.knb__intro { display: grid; gap: 2px; }
-
-.knb__bento {
-  display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr);
-  grid-template-areas: "story" "revenue" "region" "plans" "churn" "trial";
-}
-@container (min-width: 560px) {
-  .knb__bento { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-areas: "story story" "revenue revenue" "region plans" "churn trial"; }
-}
-@container (min-width: 900px) {
-  .knb__bento {
-    grid-template-columns: 1.15fr 1.15fr 1fr 1fr;
-    grid-template-areas: "story story revenue revenue" "story story region region" "churn trial plans plans";
-  }
-}
-.knb__story { grid-area: story; }
-.knb__revenue { grid-area: revenue; }
-.knb__region { grid-area: region; }
-.knb__plans { grid-area: plans; }
-.knb__churn { grid-area: churn; }
-.knb__trial { grid-area: trial; }
-
-.knb__tile { display: grid; gap: 12px;
-}
-
-.knb__story { gap: 16px; padding: 22px 22px 20px; background: linear-gradient(160deg, color-mix(in srgb, var(--mi-p) 7%, var(--mi-card)), var(--mi-card) 55%); }
-.knb__story::after { display: none; }
-.knb__story-top { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 12px; }
-.knb__stamp { font-size: 11px; color: var(--mi-label3); font-variant-numeric: tabular-nums; }
-.knb__prose {
-  margin: 0; font-size: clamp(17px, 2.1cqi, 21px); line-height: 1.62; letter-spacing: -.012em; color: var(--mi-label); text-wrap: pretty;
-}
-.knb__ref {
-  position: relative; display: inline; margin: 0 -2px; padding: 0 2px; border: 0; border-radius: 5px; cursor: pointer;
-  font: inherit; font-weight: 650; color: var(--mi-p-text); font-variant-numeric: tabular-nums;
-  background-color: transparent; box-decoration-break: clone; -webkit-box-decoration-break: clone;
-  background-image: linear-gradient(color-mix(in srgb, var(--mi-p) 45%, transparent), color-mix(in srgb, var(--mi-p) 45%, transparent));
-  background-repeat: no-repeat; background-size: 100% 1.5px; background-position: 0 100%;
-}
-.knb__ref.is-lit { background-color: var(--mi-p-tint); }
-.knb__ref:focus-visible { outline: 2px solid var(--mi-p); outline-offset: 2px; }
-.knb__ref sup { margin-left: 1px; font-size: .52em; font-weight: 700; line-height: 0; color: var(--mi-label3); }
-.knb__ref.is-lit sup { color: var(--mi-p-text); }
-.knb__hint { margin-top: auto; }
-.knb__nb { white-space: nowrap; }
-
-.knb__tile-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.knb__cite {
-  display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 999px;
-  font-size: 11px; font-weight: 700; color: var(--mi-label2); background: var(--mi-fill2); font-variant-numeric: tabular-nums;
-}
-.knb__tile.is-lit .knb__cite { color: var(--mi-p-on); background: var(--mi-p); }
-
-.knb__figure { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
-.knb__big { margin: 0; font-size: 30px; line-height: 1; font-weight: 700; letter-spacing: -.035em; font-variant-numeric: tabular-nums; }
-.knb__revenue .knb__big { font-size: clamp(30px, 4.4cqi, 40px); }
-.knb__delta { font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; }
-.knb__delta.is-up { color: var(--mi-green-t); }
-.knb__delta.is-down { color: var(--mi-orange-t); }
-
-.knb__rev { display: grid; gap: 6px; }
-.knb__rev svg { display: block; width: 100%; height: 64px; overflow: visible; }
-.knb__rev-area { fill: color-mix(in srgb, var(--mi-p) 14%, transparent); }
-.knb__rev-line { fill: none; stroke: var(--mi-p); stroke-width: 2; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
-.knb__months { display: flex; justify-content: space-between; font-size: 11px; color: var(--mi-label3); }
-
-.knb__regions { display: grid; gap: 12px; margin: 2px 0 0; padding: 0; list-style: none; }
-.knb__regions li { display: grid; gap: 6px 10px; align-items: baseline; }
-.knb__r-name { font-size: 13px; color: var(--mi-label2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.knb__r-val { font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; }
-.knb__r-delta { font-size: 12px; font-weight: 600; text-align: right; color: var(--mi-label2); font-variant-numeric: tabular-nums; }
-.knb__regions li.is-top .knb__r-name { color: var(--mi-label); font-weight: 600; }
-.knb__regions li.is-top .knb__r-delta { color: var(--mi-green-t); }
-.knb__r-track { grid-column: 1 / -1; height: 6px; border-radius: 3px; background: var(--mi-fill3); overflow: hidden; }
-.knb__r-track span { display: block; height: 100%; border-radius: inherit; background: var(--mi-label3); transform-origin: left; transition: transform var(--mi-dur-4) var(--mi-spring); }
-
-.knb__plan-key { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 12px; color: var(--mi-label2); font-variant-numeric: tabular-nums; }
-.knb__plan-key span { display: inline-flex; align-items: center; gap: 6px; }
-.knb__plan-key i { width: 8px; height: 8px; border-radius: 2px; }
-
-.knb__cols { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); align-items: end; gap: 4px; height: 40px; margin: 0; padding: 0; list-style: none; }
-.knb__cols li { height: 100%; display: flex; align-items: flex-end; }
-.knb__cols span { display: block; width: 100%; height: 100%; border-radius: 3px 3px 1px 1px; background: color-mix(in srgb, var(--mi-label) 14%, var(--mi-card)); transform-origin: bottom; transition: transform var(--mi-dur-4) var(--mi-spring); }
-
-@media (prefers-reduced-motion: reduce) { .knb__r-track span, .knb__cols span { transition: none; } }
-</style>

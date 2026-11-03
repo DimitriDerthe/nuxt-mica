@@ -1,6 +1,6 @@
 <template>
-  <section class="kpi mi:@container mi:grid mi:content-start mi:gap-4.5 mi:font-mi mi:text-label" aria-labelledby="kpi-title">
-    <header class="kpi__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-4.5 mi:font-mi mi:text-label" aria-labelledby="kpi-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="kpi-title" variant="title3" as="h2" weight="semibold">Revenue pulse</MiText>
         <MiText variant="footnote" tone="label2">Northwind Studio · updated 4 min ago</MiText>
@@ -8,19 +8,19 @@
       <MiSegmented v-model="range" label="Period" :options="ranges" />
     </header>
 
-    <div class="kpi__grid mi:grid mi:gap-3 mi:grid-cols-[minmax(0,_1fr)] mi:@[560px]:grid-cols-2 mi:@[900px]:grid-cols-[1.4fr_1fr_1fr]">
+    <div class="mi:grid mi:gap-3 mi:grid-cols-[minmax(0,_1fr)] mi:@[560px]:grid-cols-2 mi:@[900px]:grid-cols-[1.4fr_1fr_1fr]">
       <!-- Hero tile: the one number the page is about, with its target as a ring. -->
-      <article class="kpi__hero mi:@[560px]:col-[span_2] mi:@[900px]:col-[auto] mi:@[900px]:row-[span_2] mi:relative mi:grid mi:content-start mi:gap-1.5 mi:p-5 mi:rounded-xl mi:overflow-hidden mi:isolate mi:[background:var(--mi-card)] mi:shadow-1 mi:before:content-[''] mi:before:absolute mi:before:top-[-40%] mi:before:right-[-30%] mi:before:bottom-auto mi:before:left-auto mi:before:w-[70%] mi:before:aspect-[1] mi:before:-z-1 mi:before:rounded-[50%] mi:before:[background:radial-gradient(closest-side,_var(--mi-p-tint),_transparent)]">
-        <div class="kpi__hero-top mi:flex mi:items-center mi:justify-between mi:gap-2">
+      <article class="mi:@[560px]:col-[span_2] mi:@[900px]:col-[auto] mi:@[900px]:row-[span_2] mi:relative mi:grid mi:content-start mi:gap-1.5 mi:p-5 mi:rounded-xl mi:overflow-hidden mi:isolate mi:[background:var(--mi-card)] mi:shadow-1 mi:before:content-[''] mi:before:absolute mi:before:top-[-40%] mi:before:right-[-30%] mi:before:bottom-auto mi:before:left-auto mi:before:w-[70%] mi:before:aspect-[1] mi:before:-z-1 mi:before:rounded-[50%] mi:before:[background:radial-gradient(closest-side,_var(--mi-p-tint),_transparent)]">
+        <div class="mi:flex mi:items-center mi:justify-between mi:gap-2">
           <MiText variant="subheadline" weight="medium" tone="label2">Net revenue</MiText>
           <MiBadge tone="success" :label="'+' + data.growth + '%'" dot />
         </div>
-        <p class="kpi__big mi:mt-1 mi:mx-0 mi:mb-0 mi:text-[clamp(40px,_9cqi,_64px)] mi:leading-none mi:font-bold mi:tracking-[-.045em] mi:tabular-nums">{{ data.revenue }}</p>
+        <p class="mi:mt-1 mi:mx-0 mi:mb-0 mi:text-[clamp(40px,_9cqi,_64px)] mi:leading-none mi:font-bold mi:tracking-[-.045em] mi:tabular-nums">{{ data.revenue }}</p>
         <MiText variant="footnote" tone="label2">{{ data.target }}% of the {{ data.goal }} goal</MiText>
-        <div class="kpi__bar mi:h-1.5 mi:mt-2.5 mi:rounded-[3px] mi:[background:var(--mi-fill3)] mi:overflow-hidden" role="meter" aria-label="Progress to goal" :aria-valuenow="data.target" aria-valuemin="0" aria-valuemax="100">
-          <span class="mi:[.kpi__bar_&]:block mi:[.kpi__bar_&]:h-full mi:[.kpi__bar_&]:rounded-[inherit] mi:[.kpi__bar_&]:[background:linear-gradient(90deg,_var(--mi-p),_var(--mi-s))] mi:[.kpi__bar_&]:origin-left mi:[.kpi__bar_&]:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleX(${data.target / 100})` }" />
+        <div class="mi:h-1.5 mi:mt-2.5 mi:rounded-[3px] mi:[background:var(--mi-fill3)] mi:overflow-hidden" role="meter" aria-label="Progress to goal" :aria-valuenow="data.target" aria-valuemin="0" aria-valuemax="100">
+          <span class="mi:block mi:h-full mi:rounded-[inherit] mi:[background:linear-gradient(90deg,_var(--mi-p),_var(--mi-s))] mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleX(${data.target / 100})` }" />
         </div>
-        <MiSparkline :values="data.trend" :width="320" :height="56" class="kpi__spark mi:max-w-full mi:mt-auto mi:pt-3.5" label="Revenue trend" />
+        <MiSparkline :values="data.trend" :width="320" :height="56" class="mi:max-w-full mi:mt-auto mi:pt-3.5" label="Revenue trend" />
       </article>
 
       <MiStatTile
@@ -28,10 +28,10 @@
       />
 
       <!-- Split tile: two linked metrics with a shared baseline. -->
-      <article class="kpi__split mi:@[900px]:col-[span_2] mi:grid mi:grid-cols-[1fr_1fr] mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1">
-        <div v-for="s in data.split" :key="s.label" class="kpi__split-cell mi:grid mi:gap-1 mi:py-4 mi:px-4.5 mi:[.kpi__split-cell+&]:border-l mi:[.kpi__split-cell+&]:border-l-sep">
+      <article class="mi:@[900px]:col-[span_2] mi:grid mi:grid-cols-[1fr_1fr] mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1">
+        <div v-for="s in data.split" :key="s.label" class="mi:grid mi:gap-1 mi:py-4 mi:px-4.5 mi:not-first:border-l mi:not-first:border-l-sep">
           <MiText variant="caption" tone="label2" weight="medium">{{ s.label }}</MiText>
-          <p class="kpi__mid mi:m-0 mi:text-[26px] mi:font-bold mi:tracking-[-.03em] mi:tabular-nums">{{ s.value }}</p>
+          <p class="mi:m-0 mi:text-[26px] mi:font-bold mi:tracking-[-.03em] mi:tabular-nums">{{ s.value }}</p>
           <MiText variant="caption2" :tone="s.good ? 'green' : 'red'" weight="semibold">{{ s.delta }}</MiText>
         </div>
       </article>

@@ -1,7 +1,7 @@
 <template>
-  <section class="sgt mi:[--sgt-t3:color-mix(in_srgb,_var(--mi-label2)_78%,_transparent)] mi:@container mi:grid mi:content-start mi:gap-3 mi:font-mi mi:text-label" aria-labelledby="sgt-title">
-    <header class="sgt__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-y-3 mi:gap-x-5">
-      <div class="sgt__title mi:grid mi:gap-0.5 mi:min-w-0">
+  <section class="mi:[--sgt-t3:color-mix(in_srgb,_var(--mi-label2)_78%,_transparent)] mi:@container mi:grid mi:content-start mi:gap-3 mi:font-mi mi:text-label" aria-labelledby="sgt-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-y-3 mi:gap-x-5">
+      <div class="mi:grid mi:gap-0.5 mi:min-w-0">
         <MiText id="sgt-title" variant="title3" as="h2" weight="semibold">Partner renewals</MiText>
         <MiText variant="footnote" tone="label2">{{ rows.length }} partner contacts · Enter to edit, arrows to move, Shift to select</MiText>
       </div>
@@ -9,10 +9,10 @@
         <template #trigger="{ attrs }">
           <MiButton variant="gray" size="small" v-bind="attrs">
             <template #leading><MiIcon name="columns" :size="15" /></template>
-            Columns <span class="sgt__num mi:tabular-nums mi:text-label2 mi:ms-0.5">{{ visible.length }}/{{ columns.length }}</span>
+            Columns <span class="mi:tabular-nums mi:text-label2 mi:ms-0.5">{{ visible.length }}/{{ columns.length }}</span>
           </MiButton>
         </template>
-        <div class="sgt__cols mi:grid mi:gap-2.5">
+        <div class="mi:grid mi:gap-2.5">
           <MiText variant="caption" weight="semibold" tone="label2">Show columns</MiText>
           <MiCheckbox
             v-for="col in columns" :key="col.key" :model-value="!hidden.includes(col.key)" :label="col.label"
@@ -23,22 +23,22 @@
     </header>
 
     <!-- Formula bar: the address and raw value of the active cell, like a spreadsheet name box. -->
-    <div class="sgt__bar mi:grid mi:grid-cols-[auto_auto_minmax(0,_1fr)] mi:items-center mi:gap-0 mi:min-h-8.5 mi:border mi:border-sep mi:rounded-md mi:bg-card mi:text-[13px] mi:overflow-hidden" aria-hidden="true">
-      <span class="sgt__addr mi:min-w-14 mi:py-0 mi:px-3 mi:font-semibold mi:tabular-nums mi:text-center mi:border-r mi:border-r-sep">{{ addr(active.r, active.c) }}</span>
-      <span class="sgt__fx mi:py-0 mi:px-2.5 mi:italic mi:font-semibold mi:text-(--sgt-t3) mi:border-r mi:border-r-sep">fx</span>
-      <span class="sgt__raw mi:py-0 mi:px-3 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:font-[ui-monospace,_SFMono-Regular,_Menlo,_monospace] mi:text-[12.5px] mi:text-label2">{{ editing ? draft : String(cellValue(active.r, active.c)) }}</span>
+    <div class="mi:grid mi:grid-cols-[auto_auto_minmax(0,_1fr)] mi:items-center mi:gap-0 mi:min-h-8.5 mi:border mi:border-sep mi:rounded-md mi:bg-card mi:text-[13px] mi:overflow-hidden" aria-hidden="true">
+      <span class="mi:min-w-14 mi:py-0 mi:px-3 mi:font-semibold mi:tabular-nums mi:text-center mi:border-r mi:border-r-sep">{{ addr(active.r, active.c) }}</span>
+      <span class="mi:py-0 mi:px-2.5 mi:italic mi:font-semibold mi:text-(--sgt-t3) mi:border-r mi:border-r-sep">fx</span>
+      <span class="mi:py-0 mi:px-3 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:font-[ui-monospace,_SFMono-Regular,_Menlo,_monospace] mi:text-[12.5px] mi:text-label2">{{ editing ? draft : String(cellValue(active.r, active.c)) }}</span>
     </div>
 
-    <div class="sgt__sheet mi:grid mi:border mi:border-sep mi:rounded-lg mi:bg-card mi:shadow-1 mi:overflow-hidden">
-      <div ref="scroller" class="sgt__scroll mi:max-h-101 mi:overflow-auto mi:overscroll-contain mi:[scroll-padding:36px_0_0_150px] mi:@[720px]:max-h-109.5 mi:@[720px]:[scroll-padding-left:210px]">
+    <div class="mi:grid mi:border mi:border-sep mi:rounded-lg mi:bg-card mi:shadow-1 mi:overflow-hidden">
+      <div ref="scroller" class="mi:max-h-101 mi:overflow-auto mi:overscroll-contain mi:[scroll-padding:36px_0_0_150px] mi:@[720px]:max-h-109.5 mi:@[720px]:[scroll-padding-left:210px]">
         <table
-          ref="grid" class="sgt__grid mi:border-separate mi:[border-spacing:0] mi:min-w-full mi:text-[13px]" role="grid" aria-labelledby="sgt-title" :aria-rowcount="rows.length + 1" :aria-colcount="visible.length"
+          ref="grid" class="mi:border-separate mi:[border-spacing:0] mi:min-w-full mi:text-[13px]" role="grid" aria-labelledby="sgt-title" :aria-rowcount="rows.length + 1" :aria-colcount="visible.length"
           aria-multiselectable="true" @keydown="onKey"
         >
           <thead>
             <tr role="row">
-              <th v-for="(col, ci) in visible" :key="col.key" role="columnheader" scope="col" class="sgt__colhead mi:sticky mi:top-0 mi:z-2 mi:h-9 mi:py-0 mi:px-3 mi:whitespace-nowrap mi:text-start mi:text-[12px] mi:font-semibold mi:text-label2 mi:[background:color-mix(in_srgb,_var(--mi-fill4)_80%,_var(--mi-card))] mi:border-b mi:border-b-sep mi:border-r mi:border-r-sep mi:[&.is-num]:text-end mi:[&.is-pin]:left-0 mi:[&.is-pin]:z-3 mi:[&.is-on]:text-p-text mi:[&.is-on]:shadow-[inset_0_-2px_0_var(--mi-p)]" :class="{ 'is-num': col.num, 'is-on': inCols(ci), 'is-pin': ci === 0 }">
-                <span class="sgt__letter mi:me-1.5 mi:text-[10px] mi:font-bold mi:text-(--sgt-t3) mi:tabular-nums mi:[.sgt__colhead.is-on_&]:text-p-text">{{ letter(ci) }}</span>{{ col.label }}
+              <th v-for="(col, ci) in visible" :key="col.key" role="columnheader" scope="col" class="mi:sticky mi:top-0 mi:h-9 mi:py-0 mi:px-3 mi:whitespace-nowrap mi:group mi:text-[12px] mi:font-semibold mi:[background:color-mix(in_srgb,_var(--mi-fill4)_80%,_var(--mi-card))] mi:border-b mi:border-b-sep mi:border-r mi:border-r-sep" :data-on="inCols(ci) || undefined" :class="[col.num ? 'mi:text-end' : 'mi:text-start', ci === 0 ? 'mi:left-0 mi:z-3' : 'mi:z-2', inCols(ci) ? 'mi:text-p-text mi:shadow-[inset_0_-2px_0_var(--mi-p)]' : 'mi:text-label2']">
+                <span class="mi:me-1.5 mi:text-[10px] mi:font-bold mi:text-(--sgt-t3) mi:tabular-nums mi:group-data-[on]:text-p-text">{{ letter(ci) }}</span>{{ col.label }}
               </th>
             </tr>
           </thead>
@@ -46,34 +46,34 @@
             <tr v-for="(row, ri) in rows" :key="row.id" role="row" :aria-rowindex="ri + 2">
               <component
                 :is="ci === 0 ? 'th' : 'td'" v-for="(col, ci) in visible" :key="col.key" :role="ci === 0 ? 'rowheader' : 'gridcell'"
-                :data-cell="`${ri}-${ci}`" :tabindex="isActive(ri, ci) ? 0 : -1" :aria-selected="inRange(ri, ci)"
-                class="sgt__cell" :class="{ 'is-num': col.num, 'is-pin': ci === 0, 'is-sel': inRange(ri, ci), 'is-active': isActive(ri, ci) }"
+                :data-cell="`${ri}-${ci}`" :data-active="isActive(ri, ci) || undefined" :tabindex="isActive(ri, ci) ? 0 : -1" :aria-selected="inRange(ri, ci)"
+                class="mi:h-8.5 mi:max-w-55 mi:py-0 mi:px-3 mi:whitespace-nowrap mi:overflow-hidden mi:text-ellipsis mi:border-b mi:border-b-sep mi:border-r mi:border-r-sep mi:cursor-cell mi:select-none mi:[outline:none] mi:[tr:last-child_&]:[border-bottom:0] mi:data-[active]:after:content-[''] mi:data-[active]:after:absolute mi:data-[active]:after:right-px mi:data-[active]:after:bottom-px mi:data-[active]:after:w-1.5 mi:data-[active]:after:h-1.5 mi:data-[active]:after:bg-p mi:data-[active]:after:shadow-[0_0_0_1.5px_var(--mi-card)] mi:focus-visible:shadow-[inset_0_0_0_2px_var(--mi-p),_0_0_0_3px_color-mix(in_srgb,_var(--mi-p)_28%,_transparent)]" :class="[col.num ? 'mi:text-end mi:tabular-nums' : 'mi:text-start', ci === 0 ? 'mi:sticky mi:left-0 mi:min-w-37.5 mi:pl-0 mi:font-medium mi:@[720px]:min-w-52.5' : col.num ? 'mi:relative mi:min-w-22 mi:font-normal' : 'mi:relative mi:min-w-28 mi:font-normal', inRange(ri, ci) ? 'mi:bg-[color-mix(in_srgb,_var(--mi-p)_9%,_var(--mi-card))]' : 'mi:bg-card', isActive(ri, ci) ? 'mi:z-2 mi:shadow-[inset_0_0_0_2px_var(--mi-p)]' : ci === 0 ? 'mi:z-1 mi:shadow-[1px_0_0_var(--mi-sep),_6px_0_12px_-10px_var(--mi-label3)]' : '']"
                 @mousedown="pick(ri, ci, $event)" @dblclick="startEdit()"
               >
-                <span v-if="ci === 0" class="sgt__rownum mi:inline-block mi:w-9 mi:me-2.5 mi:py-0 mi:px-1 mi:text-center mi:text-[11px] mi:font-medium mi:text-(--sgt-t3) mi:tabular-nums mi:border-r mi:border-r-sep mi:leading-[34px] mi:[&.is-on]:text-p-text mi:[&.is-on]:font-bold mi:[&.is-on]:[background:color-mix(in_srgb,_var(--mi-p)_9%,_transparent)]" :class="{ 'is-on': inRows(ri) }" aria-hidden="true">{{ ri + 1 }}</span>
+                <span v-if="ci === 0" class="mi:inline-block mi:w-9 mi:me-2.5 mi:py-0 mi:px-1 mi:text-center mi:text-[11px] mi:tabular-nums mi:border-r mi:border-r-sep mi:leading-[34px]" :class="inRows(ri) ? 'mi:text-p-text mi:font-bold mi:[background:color-mix(in_srgb,_var(--mi-p)_9%,_transparent)]' : 'mi:font-medium mi:text-(--sgt-t3)'" aria-hidden="true">{{ ri + 1 }}</span>
                 <input
-                  v-if="editing && isActive(ri, ci)" ref="editor" v-model="draft" class="sgt__edit mi:absolute mi:inset-0.5 mi:w-[calc(100%_-_4px)] mi:py-0 mi:px-2.5 mi:[border:0] mi:rounded-[2px] mi:[outline:none] mi:bg-card mi:text-label mi:[.sgt__cell.is-pin_&]:left-12 mi:[.sgt__cell.is-pin_&]:w-[calc(100%_-_50px)] mi:[&.is-num]:text-end" :class="{ 'is-num': col.num }"
+                  v-if="editing && isActive(ri, ci)" ref="editor" v-model="draft" class="mi:[font:inherit] mi:font-medium mi:absolute mi:inset-0.5 mi:py-0 mi:px-2.5 mi:[border:0] mi:rounded-[2px] mi:[outline:none] mi:bg-card mi:text-label" :class="[col.num ? 'mi:text-end mi:tabular-nums' : '', ci === 0 ? 'mi:left-12 mi:w-[calc(100%_-_50px)]' : 'mi:w-[calc(100%_-_4px)]']"
                   :inputmode="col.num ? 'decimal' : 'text'" :aria-label="`Edit ${col.label}, row ${ri + 1}`" @keydown="onEditKey" @blur="commit()"
                 >
-                <span v-else class="sgt__val" :data-tone="col.key === 'nps' ? npsTone(row.nps) : undefined">{{ show(row, col.key) }}</span>
+                <span v-else class="mi:data-[tone=good]:text-green-t mi:data-[tone=good]:font-semibold mi:data-[tone=bad]:text-red-t mi:data-[tone=bad]:font-semibold" :data-tone="col.key === 'nps' ? npsTone(row.nps) : undefined">{{ show(row, col.key) }}</span>
               </component>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <footer class="sgt__status mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-1.5 mi:gap-x-4 mi:py-[9px] mi:px-3.5 mi:border-t mi:border-t-sep mi:[background:color-mix(in_srgb,_var(--mi-fill4)_80%,_var(--mi-card))] mi:text-[12px] mi:text-label2">
-        <span class="sgt__meta">{{ rows.length }} rows<template v-if="hidden.length"> · {{ hidden.length }} hidden {{ hidden.length === 1 ? 'column' : 'columns' }}</template></span>
-        <span class="sgt__sum mi:flex mi:flex-wrap mi:gap-y-1 mi:gap-x-4.5 mi:tabular-nums mi:font-semibold mi:text-label" role="status" aria-live="polite">
-          <span><em class="mi:[.sgt__sum_&]:me-1.5 mi:[.sgt__sum_&]:not-italic mi:[.sgt__sum_&]:text-(--sgt-t3)">Count</em>{{ summary.count }}</span>
+      <footer class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-1.5 mi:gap-x-4 mi:py-[9px] mi:px-3.5 mi:border-t mi:border-t-sep mi:[background:color-mix(in_srgb,_var(--mi-fill4)_80%,_var(--mi-card))] mi:text-[12px] mi:text-label2">
+        <span>{{ rows.length }} rows<template v-if="hidden.length"> · {{ hidden.length }} hidden {{ hidden.length === 1 ? 'column' : 'columns' }}</template></span>
+        <span class="mi:flex mi:flex-wrap mi:gap-y-1 mi:gap-x-4.5 mi:tabular-nums mi:font-semibold mi:text-label" role="status" aria-live="polite">
+          <span><em class="mi:font-medium mi:me-1.5 mi:not-italic mi:text-(--sgt-t3)">Count</em>{{ summary.count }}</span>
           <template v-if="summary.nums">
-            <span><em class="mi:[.sgt__sum_&]:me-1.5 mi:[.sgt__sum_&]:not-italic mi:[.sgt__sum_&]:text-(--sgt-t3)">Sum</em>{{ summary.sum }}</span>
-            <span><em class="mi:[.sgt__sum_&]:me-1.5 mi:[.sgt__sum_&]:not-italic mi:[.sgt__sum_&]:text-(--sgt-t3)">Avg</em>{{ summary.avg }}</span>
+            <span><em class="mi:font-medium mi:me-1.5 mi:not-italic mi:text-(--sgt-t3)">Sum</em>{{ summary.sum }}</span>
+            <span><em class="mi:font-medium mi:me-1.5 mi:not-italic mi:text-(--sgt-t3)">Avg</em>{{ summary.avg }}</span>
           </template>
         </span>
       </footer>
     </div>
-    <p class="sgt__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap" aria-live="assertive">{{ notice }}</p>
+    <p class="mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap" aria-live="assertive">{{ notice }}</p>
   </section>
 </template>
 
@@ -242,31 +242,3 @@ function toggleCol(key: Key) {
   anchor.c = Math.min(anchor.c, last)
 }
 </script>
-
-<style scoped>
-.sgt__cell {
-  position: relative; height: 34px; min-width: 112px; max-width: 220px; padding: 0 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  text-align: start; font-weight: 400; background: var(--mi-card); border-bottom: 1px solid var(--mi-sep); border-right: 1px solid var(--mi-sep);
-  cursor: cell; user-select: none; outline: none;
-}
-tr:last-child .sgt__cell { border-bottom: 0; }
-.sgt__cell.is-num { text-align: end; font-variant-numeric: tabular-nums; min-width: 88px; }
-.sgt__cell.is-pin { position: sticky; left: 0; z-index: 1; min-width: 150px; padding-left: 0; font-weight: 500; box-shadow: 1px 0 0 var(--mi-sep), 6px 0 12px -10px var(--mi-label3); }
-.sgt__cell.is-sel { background: color-mix(in srgb, var(--mi-p) 9%, var(--mi-card)); }
-/* Active cell: inset ring plus a square fill handle in the corner, the spreadsheet signature. */
-.sgt__cell.is-active { box-shadow: inset 0 0 0 2px var(--mi-p); z-index: 2; }
-.sgt__cell.is-active::after { content: ""; position: absolute; right: 1px; bottom: 1px; width: 6px; height: 6px; background: var(--mi-p); box-shadow: 0 0 0 1.5px var(--mi-card); }
-.sgt__cell.is-pin.is-active { z-index: 2; }
-.sgt__cell:focus-visible { box-shadow: inset 0 0 0 2px var(--mi-p), 0 0 0 3px color-mix(in srgb, var(--mi-p) 28%, transparent); }
-.sgt__val[data-tone="good"] { color: var(--mi-green-t); font-weight: 600; }
-.sgt__val[data-tone="bad"] { color: var(--mi-red-t); font-weight: 600; }
-
-.sgt__edit { font: inherit; font-weight: 500;
-}
-.sgt__edit.is-num { font-variant-numeric: tabular-nums; }
-.sgt__sum em { font-weight: 500; }
-
-@container (min-width: 720px) {
-  .sgt__cell.is-pin { min-width: 210px; }
-}
-</style>

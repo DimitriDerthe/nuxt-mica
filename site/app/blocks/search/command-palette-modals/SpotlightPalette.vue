@@ -1,67 +1,67 @@
 <template>
-  <section class="spot mi:@container mi:grid mi:content-start mi:font-mi mi:text-label" aria-labelledby="spot-title">
-    <h2 id="spot-title" class="spot__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">Quick search with instant answers</h2>
+  <section class="mi:@container mi:grid mi:content-start mi:font-mi mi:text-label" aria-labelledby="spot-title">
+    <h2 id="spot-title" class="mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">Quick search with instant answers</h2>
 
-    <div class="spot__stage mi:relative mi:grid mi:[place-items:start_center] mi:min-h-130 mi:pt-10 mi:px-3 mi:pb-24 mi:rounded-xl mi:overflow-hidden mi:isolate mi:[background:var(--mi-page)] mi:@[560px]:pt-18 mi:@[560px]:px-8 mi:@[560px]:pb-27.5">
+    <div class="mi:relative mi:grid mi:[place-items:start_center] mi:min-h-130 mi:pt-10 mi:px-3 mi:pb-24 mi:rounded-xl mi:overflow-hidden mi:isolate mi:[background:var(--mi-page)] mi:@[560px]:pt-18 mi:@[560px]:px-8 mi:@[560px]:pb-27.5">
       <!-- Wallpaper: two brand glows and a faint dock, drawn from tokens. -->
-      <div class="spot__wall mi:absolute mi:inset-0 mi:-z-1" aria-hidden="true"><i class="mi:[.spot__wall>&]:absolute mi:[.spot__wall>&]:aspect-[1] mi:[.spot__wall>&]:[filter:blur(60px)] mi:[.spot__wall>&]:opacity-50 mi:[.spot__wall>&:first-child]:left-[-18%] mi:[.spot__wall>&:first-child]:top-[-30%] mi:[.spot__wall>&:nth-child(2)]:right-[-20%] mi:[.spot__wall>&:nth-child(2)]:bottom-[-40%]" /><i class="mi:[.spot__wall>&]:absolute mi:[.spot__wall>&]:aspect-[1] mi:[.spot__wall>&]:[filter:blur(60px)] mi:[.spot__wall>&]:opacity-50 mi:[.spot__wall>&:first-child]:left-[-18%] mi:[.spot__wall>&:first-child]:top-[-30%] mi:[.spot__wall>&:nth-child(2)]:right-[-20%] mi:[.spot__wall>&:nth-child(2)]:bottom-[-40%]" /><div class="spot__dock mi:absolute mi:left-1/2 mi:bottom-4 mi:flex mi:gap-2.5 mi:py-2 mi:px-2.5 mi:rounded-[20px] mi:transform-[translateX(-50%)] mi:[background:var(--mi-mat)] mi:border mi:border-mat-b"><b class="mi:[.spot__dock_&]:h-8.5 mi:[.spot__dock_&]:[background:var(--mi-fill2)]" v-for="n in 6" :key="n" /></div></div>
+      <div class="mi:absolute mi:inset-0 mi:-z-1" aria-hidden="true"><i class="mi:absolute mi:aspect-[1] mi:[filter:blur(60px)] mi:opacity-50 mi:w-[70%] mi:rounded-[50%] mi:left-[-18%] mi:top-[-30%] mi:[background:radial-gradient(closest-side,_color-mix(in_srgb,_var(--mi-p)_60%,_transparent),_transparent)]" /><i class="mi:absolute mi:aspect-[1] mi:[filter:blur(60px)] mi:opacity-50 mi:w-[70%] mi:rounded-[50%] mi:right-[-20%] mi:bottom-[-40%] mi:[background:radial-gradient(closest-side,_color-mix(in_srgb,_var(--mi-s)_55%,_transparent),_transparent)]" /><div class="mi:absolute mi:left-1/2 mi:bottom-4 mi:flex mi:gap-2.5 mi:py-2 mi:px-2.5 mi:rounded-[20px] mi:transform-[translateX(-50%)] mi:[background:var(--mi-mat)] mi:border mi:border-mat-b"><b class="mi:h-8.5 mi:w-8.5 mi:rounded-[9px] mi:bg-fill2 mi:[&:nth-child(2)]:bg-p/55 mi:[&:nth-child(5)]:bg-orange/55" v-for="n in 6" :key="n" /></div></div>
 
-      <div class="spot__palette mi:grid mi:w-full mi:max-w-150 mi:rounded-[22px] mi:overflow-hidden mi:[background:var(--mi-mat)] mi:border mi:border-mat-b mi:shadow-3" role="dialog" aria-modal="false" aria-labelledby="spot-title">
-        <div class="spot__search mi:flex mi:items-center mi:gap-3 mi:py-4 mi:px-5 mi:@[560px]:py-4.5 mi:@[560px]:px-5.5">
-          <MiIcon name="search" :size="22" :weight="2.2" class="spot__glass mi:text-label2" />
+      <div class="mi:[-webkit-backdrop-filter:blur(28px)_saturate(1.6)] mi:[backdrop-filter:blur(28px)_saturate(1.6)] mi:grid mi:w-full mi:max-w-150 mi:rounded-[22px] mi:overflow-hidden mi:[background:var(--mi-mat)] mi:border mi:border-mat-b mi:shadow-3" role="dialog" aria-modal="false" aria-labelledby="spot-title">
+        <div class="mi:flex mi:items-center mi:gap-3 mi:py-4 mi:px-5 mi:@[560px]:py-4.5 mi:@[560px]:px-5.5">
+          <MiIcon name="search" :size="22" :weight="2.2" class="mi:text-label2" />
           <input
-            v-model="query" class="spot__input mi:flex-1 mi:min-w-0 mi:h-9 mi:p-0 mi:[border:0] mi:[outline:none] mi:[background:none] mi:tracking-[-.01em] mi:text-label mi:placeholder:text-label2 mi:placeholder:opacity-70" type="text" role="combobox" aria-expanded="true" aria-autocomplete="list" aria-controls="spot-list"
+            v-model="query" class="mi:[font:inherit] mi:text-[22px] mi:font-normal mi:flex-1 mi:min-w-0 mi:h-9 mi:p-0 mi:[border:0] mi:[outline:none] mi:[background:none] mi:tracking-[-.01em] mi:text-label mi:placeholder:text-label2 mi:placeholder:opacity-70" type="text" role="combobox" aria-expanded="true" aria-autocomplete="list" aria-controls="spot-list"
             :aria-activedescendant="activeId" aria-label="Search, calculate or convert" placeholder="Search, calculate, convert…" autocomplete="off" spellcheck="false"
             @keydown="onKey"
           >
         </div>
 
-        <div v-if="query.trim()" id="spot-list" class="spot__list mi:max-h-82.5 mi:overflow-y-auto mi:overscroll-contain mi:pt-0 mi:px-2 mi:pb-2 mi:border-t mi:border-t-mat-b" role="listbox" aria-label="Results">
+        <div v-if="query.trim()" id="spot-list" class="mi:max-h-82.5 mi:overflow-y-auto mi:overscroll-contain mi:pt-0 mi:px-2 mi:pb-2 mi:border-t mi:border-t-mat-b" role="listbox" aria-label="Results">
           <!-- Instant answer: the result set large, with the working shown underneath like a receipt. -->
           <div
-            v-if="answer" id="spot-opt-answer" role="option" class="spot__answer mi:grid mi:gap-1.5 mi:mt-2 mi:pt-3.5 mi:px-4 mi:pb-4 mi:rounded-[14px] mi:cursor-pointer mi:[&.is-active]:[background:color-mix(in_srgb,_var(--mi-p)_10%,_transparent)]" :class="{ 'is-active': activeId === 'spot-opt-answer' }"
+            v-if="answer" id="spot-opt-answer" role="option" class="mi:group mi:grid mi:gap-1.5 mi:mt-2 mi:pt-3.5 mi:px-4 mi:pb-4 mi:rounded-[14px] mi:cursor-pointer mi:aria-selected:[background:color-mix(in_srgb,_var(--mi-p)_10%,_transparent)]"
             :aria-selected="activeId === 'spot-opt-answer'" :aria-label="`${answer.kind}: ${answer.value}. ${answer.working}`" @mousemove="active = 0" @click="copy"
           >
-            <span class="spot__kind mi:inline-flex mi:items-center mi:gap-1.5 mi:text-[11px] mi:font-semibold mi:tracking-[.05em] mi:uppercase mi:text-label2"><MiIcon :svg="kindIcon[answer.kind]" :size="13" />{{ answer.kind }}</span>
-            <div class="spot__result mi:flex mi:items-baseline mi:justify-between mi:gap-3 mi:min-w-0">
-              <span class="spot__value mi:min-w-0 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:text-[40px] mi:font-semibold mi:leading-[1.1] mi:tracking-[-.025em] mi:tabular-nums mi:@[560px]:text-[48px]">{{ answer.value }}<small class="mi:[.spot__value_&]:tracking-[0]" v-if="answer.unit">{{ answer.unit }}</small></span>
-              <span class="spot__copy mi:flex-[none] mi:text-[12px] mi:font-medium mi:text-label2 mi:opacity-0 mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)] mi:[.spot__answer.is-active_&]:opacity-100 mi:[.spot__answer.is-active_&]:text-p-text">{{ copied ? 'Copied' : '↵ Copy' }}</span>
+            <span class="mi:inline-flex mi:items-center mi:gap-1.5 mi:text-[11px] mi:font-semibold mi:tracking-[.05em] mi:uppercase mi:text-label2"><MiIcon :svg="kindIcon[answer.kind]" :size="13" />{{ answer.kind }}</span>
+            <div class="mi:flex mi:items-baseline mi:justify-between mi:gap-3 mi:min-w-0">
+              <span class="mi:min-w-0 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:text-[40px] mi:font-semibold mi:leading-[1.1] mi:tracking-[-.025em] mi:tabular-nums mi:@[560px]:text-[48px]">{{ answer.value }}<small class="mi:text-[22px] mi:font-medium mi:text-label2 mi:tracking-[0]" v-if="answer.unit">{{ answer.unit }}</small></span>
+              <span class="mi:flex-[none] mi:text-[12px] mi:font-medium mi:text-label2 mi:opacity-0 mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)] mi:group-aria-selected:opacity-100 mi:group-aria-selected:text-p-text">{{ copied ? 'Copied' : '↵ Copy' }}</span>
             </div>
-            <div class="spot__working mi:flex mi:flex-wrap mi:items-baseline mi:gap-y-1 mi:gap-x-3 mi:pt-2 mi:[border-top:1px_dashed_var(--mi-sep)] mi:text-[13px] mi:text-label2 mi:tabular-nums">
-              <span>{{ answer.working }}</span>
-              <span v-if="answer.note" class="spot__note mi:text-label mi:font-medium">{{ answer.note }}</span>
+            <div class="mi:flex mi:flex-wrap mi:items-baseline mi:gap-y-1 mi:gap-x-3 mi:pt-2 mi:[border-top:1px_dashed_var(--mi-sep)] mi:text-[13px] mi:text-label2 mi:tabular-nums">
+              <span class="mi:font-[ui-monospace,SFMono-Regular,Menlo,monospace] mi:text-[12.5px]">{{ answer.working }}</span>
+              <span v-if="answer.note" class="mi:text-label mi:font-medium">{{ answer.note }}</span>
             </div>
-            <div v-if="answer.clocks" class="spot__clocks mi:flex mi:flex-wrap mi:items-center mi:gap-2 mi:pt-1" aria-hidden="true">
-              <span v-for="(c, i) in answer.clocks" :key="i" class="spot__clock mi:inline-flex mi:items-baseline mi:gap-1.5 mi:py-1 mi:px-2.5 mi:rounded-[8px] mi:text-[12px] mi:text-label2 mi:[background:var(--mi-fill4)] mi:[.spot__clock+&]:before:content-['→'] mi:[.spot__clock+&]:before:mx-[-4px_6px] mi:[.spot__clock+&]:before:text-label2"><b class="mi:[.spot__clock_&]:tabular-nums">{{ c.time }}</b>{{ c.zone }}</span>
+            <div v-if="answer.clocks" class="mi:flex mi:flex-wrap mi:items-center mi:gap-2 mi:pt-1" aria-hidden="true">
+              <span v-for="(c, i) in answer.clocks" :key="i" class="mi:inline-flex mi:items-baseline mi:gap-1.5 mi:py-1 mi:px-2.5 mi:rounded-[8px] mi:text-[12px] mi:text-label2 mi:[background:var(--mi-fill4)] mi:[span+&]:before:content-['→'] mi:[span+&]:before:mx-[-4px_6px] mi:[span+&]:before:text-label2"><b class="mi:text-[13px] mi:font-semibold mi:text-label mi:tabular-nums">{{ c.time }}</b>{{ c.zone }}</span>
             </div>
           </div>
 
           <div v-if="results.length" role="group" aria-labelledby="spot-g-top">
-            <div id="spot-g-top" class="spot__group mi:pt-3 mi:px-3 mi:pb-1.5 mi:text-[11px] mi:font-semibold mi:tracking-[.05em] mi:uppercase mi:text-label2">{{ answer ? 'Related' : 'Top hits' }}</div>
+            <div id="spot-g-top" class="mi:pt-3 mi:px-3 mi:pb-1.5 mi:text-[11px] mi:font-semibold mi:tracking-[.05em] mi:uppercase mi:text-label2">{{ answer ? 'Related' : 'Top hits' }}</div>
             <div
-              v-for="r in results" :id="`spot-opt-${r.id}`" :key="r.id" role="option" class="spot__opt mi:flex mi:items-center mi:gap-3 mi:min-h-10 mi:py-1.5 mi:px-3 mi:rounded-[10px] mi:cursor-pointer mi:[&.is-active]:[background:var(--mi-p)] mi:[&.is-active]:text-p-on"
-              :class="{ 'is-active': activeId === `spot-opt-${r.id}` }" :aria-selected="activeId === `spot-opt-${r.id}`"
+              v-for="r in results" :id="`spot-opt-${r.id}`" :key="r.id" role="option" class="mi:group mi:flex mi:items-center mi:gap-3 mi:min-h-10 mi:py-1.5 mi:px-3 mi:rounded-[10px] mi:cursor-pointer mi:aria-selected:[background:var(--mi-p)] mi:aria-selected:text-p-on"
+              :aria-selected="activeId === `spot-opt-${r.id}`"
               @mousemove="active = options.indexOf(`spot-opt-${r.id}`)" @click="openItem(r)"
             >
-              <span class="spot__app mi:grid mi:place-items-center mi:flex-[none] mi:w-6.5 mi:h-6.5 mi:rounded-[7px] mi:text-p-on mi:[background:var(--mi-p)] mi:[.spot__opt.is-active_&]:shadow-[0_0_0_1.5px_color-mix(in_srgb,_var(--mi-p-on)_70%,_transparent)]" :data-tint="r.tint"><MiIcon :name="r.icon" :size="16" /></span>
-              <span class="spot__opt-title mi:min-w-0 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:text-[14px] mi:font-medium">{{ r.title }}</span>
-              <span class="spot__opt-sub mi:hidden mi:ml-auto mi:flex-[none] mi:text-[12px] mi:text-label2 mi:[.spot__opt.is-active_&]:text-p-on/80 mi:@[560px]:inline">{{ r.sub }}</span>
+              <span class="mi:grid mi:place-items-center mi:flex-[none] mi:w-6.5 mi:h-6.5 mi:rounded-[7px] mi:text-p-on mi:[background:var(--mi-p)] mi:group-aria-selected:shadow-[0_0_0_1.5px_color-mix(in_srgb,_var(--mi-p-on)_70%,_transparent)] mi:data-[tint=s]:bg-s mi:data-[tint=s]:text-s-on mi:data-[tint=orange]:bg-orange mi:data-[tint=orange]:text-p-on mi:data-[tint=green]:bg-green mi:data-[tint=green]:text-p-on mi:data-[tint=n]:bg-ctl mi:data-[tint=n]:text-p-on" :data-tint="r.tint"><MiIcon :name="r.icon" :size="16" /></span>
+              <span class="mi:min-w-0 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:text-[14px] mi:font-medium">{{ r.title }}</span>
+              <span class="mi:hidden mi:ml-auto mi:flex-[none] mi:text-[12px] mi:text-label2 mi:group-aria-selected:text-p-on/80 mi:@[560px]:inline">{{ r.sub }}</span>
             </div>
           </div>
 
-          <p v-if="!answer && !results.length" class="spot__none mi:m-0 mi:pt-5.5 mi:px-3 mi:pb-3 mi:text-[13px] mi:text-label2">No answer for “{{ query.trim() }}”. Try a sum, a percentage, a unit or a time zone.</p>
+          <p v-if="!answer && !results.length" class="mi:m-0 mi:pt-5.5 mi:px-3 mi:pb-3 mi:text-[13px] mi:text-label2">No answer for “{{ query.trim() }}”. Try a sum, a percentage, a unit or a time zone.</p>
         </div>
 
-        <div class="spot__try mi:flex mi:flex-wrap mi:items-center mi:gap-1 mi:py-2.5 mi:px-3.5 mi:border-t mi:border-t-mat-b" :class="{ 'is-empty': !query.trim() }">
-          <span class="spot__try-label mi:me-1 mi:text-[12px] mi:font-semibold mi:text-label2">Try</span>
-          <button v-for="ex in examples" :key="ex" type="button" class="spot__ex mi:h-6.5 mi:py-0 mi:px-[9px] mi:[border:0] mi:rounded-[7px] mi:[background:none] mi:cursor-pointer mi:text-label2 mi:whitespace-nowrap mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease)] mi:active:transform-[scale(.96)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" :aria-pressed="query === ex" @click="query = ex">{{ ex }}</button>
+        <div class="mi:flex mi:flex-wrap mi:items-center mi:gap-1 mi:py-2.5 mi:px-3.5 mi:border-t mi:border-t-mat-b">
+          <span class="mi:me-1 mi:text-[12px] mi:font-semibold mi:text-label2">Try</span>
+          <button v-for="ex in examples" :key="ex" type="button" class="mi:[font:inherit] mi:text-[12.5px] mi:tabular-nums mi:hover:[background:var(--mi-fill3)] mi:hover:text-label mi:aria-pressed:text-p-text! mi:aria-pressed:[background:var(--mi-p-tint)]! mi:h-6.5 mi:py-0 mi:px-[9px] mi:[border:0] mi:rounded-[7px] mi:[background:none] mi:cursor-pointer mi:text-label2 mi:whitespace-nowrap mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease)] mi:active:transform-[scale(.96)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" :aria-pressed="query === ex" @click="query = ex">{{ ex }}</button>
         </div>
 
-        <footer class="spot__foot mi:flex mi:flex-wrap mi:items-center mi:gap-y-2 mi:gap-x-3.5 mi:py-[9px] mi:px-4 mi:border-t mi:border-t-mat-b mi:text-[12px] mi:text-label2">
-          <span class="spot__key mi:inline-flex mi:items-center mi:gap-1.5"><MiKbdGroup><MiKbd>↑</MiKbd><MiKbd>↓</MiKbd></MiKbdGroup> select</span>
-          <span class="spot__key mi:inline-flex mi:items-center mi:gap-1.5"><MiKbd>↵</MiKbd> {{ activeId === 'spot-opt-answer' ? 'copy answer' : 'open' }}</span>
-          <span class="spot__key mi:inline-flex mi:items-center mi:gap-1.5"><MiKbd>esc</MiKbd> {{ query ? 'clear' : 'close' }}</span>
-          <span class="spot__status mi:ml-auto mi:font-medium mi:text-p-text" role="status" aria-live="polite">{{ status }}</span>
+        <footer class="mi:flex mi:flex-wrap mi:items-center mi:gap-y-2 mi:gap-x-3.5 mi:py-[9px] mi:px-4 mi:border-t mi:border-t-mat-b mi:text-[12px] mi:text-label2">
+          <span class="mi:inline-flex mi:items-center mi:gap-1.5"><MiKbdGroup><MiKbd>↑</MiKbd><MiKbd>↓</MiKbd></MiKbdGroup> select</span>
+          <span class="mi:inline-flex mi:items-center mi:gap-1.5"><MiKbd>↵</MiKbd> {{ activeId === 'spot-opt-answer' ? 'copy answer' : 'open' }}</span>
+          <span class="mi:inline-flex mi:items-center mi:gap-1.5"><MiKbd>esc</MiKbd> {{ query ? 'clear' : 'close' }}</span>
+          <span class="mi:ml-auto mi:font-medium mi:text-p-text" role="status" aria-live="polite">{{ status }}</span>
         </footer>
       </div>
     </div>
@@ -239,30 +239,3 @@ function onKey(e: KeyboardEvent) {
   else if (e.key === 'Escape' && query.value) { e.preventDefault(); query.value = '' }
 }
 </script>
-
-<style scoped>
-.spot__wall > i { width: 70%; border-radius: 50%; }
-.spot__wall > i:first-child { background: radial-gradient(closest-side, color-mix(in srgb, var(--mi-p) 60%, transparent), transparent); }
-.spot__wall > i:nth-child(2) { background: radial-gradient(closest-side, color-mix(in srgb, var(--mi-s) 55%, transparent), transparent); }
-.spot__dock b { width: 34px; border-radius: 9px; }
-.spot__dock b:nth-child(2) { background: color-mix(in srgb, var(--mi-p) 55%, transparent); }
-.spot__dock b:nth-child(5) { background: color-mix(in srgb, var(--mi-orange) 55%, transparent); }
-
-.spot__palette {
-  -webkit-backdrop-filter: blur(28px) saturate(1.6); backdrop-filter: blur(28px) saturate(1.6);
-}
-.spot__glass { flex: none; }
-.spot__input { font: inherit; font-size: 22px; font-weight: 400; }
-.spot__value small { font-size: 22px; font-weight: 500; color: var(--mi-label2); }
-.spot__working > :first-child { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12.5px; }
-.spot__clock b { font-size: 13px; font-weight: 600; color: var(--mi-label); }
-.spot__app[data-tint="s"] { background: var(--mi-s); color: var(--mi-s-on); }
-.spot__app[data-tint="orange"] { background: var(--mi-orange); color: var(--mi-p-on); }
-.spot__app[data-tint="green"] { background: var(--mi-green); color: var(--mi-p-on); }
-.spot__app[data-tint="n"] { background: var(--mi-ctl); color: var(--mi-p-on); }
-.spot__ex {
-  font: inherit; font-size: 12.5px; font-variant-numeric: tabular-nums;
-}
-.spot__ex:hover { background: var(--mi-fill3); color: var(--mi-label); }
-.spot__ex[aria-pressed="true"] { color: var(--mi-p-text); background: var(--mi-p-tint); }
-</style>

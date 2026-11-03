@@ -1,7 +1,7 @@
 <template>
-  <div class="eus mi:@container mi:font-mi mi:text-label">
-    <section class="eus__card mi:grid mi:gap-4.5 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:@[720px]:py-6 mi:@[720px]:px-7" aria-labelledby="eus-title">
-      <header class="eus__head mi:flex mi:flex-wrap mi:[align-items:flex-start] mi:justify-between mi:gap-y-3 mi:gap-x-4">
+  <div class="mi:@container mi:font-mi mi:text-label">
+    <section class="mi:grid mi:gap-4.5 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:@[720px]:py-6 mi:@[720px]:px-7" aria-labelledby="eus-title">
+      <header class="mi:flex mi:flex-wrap mi:[align-items:flex-start] mi:justify-between mi:gap-y-3 mi:gap-x-4">
         <div>
           <MiText id="eus-title" variant="title3" as="h2" weight="semibold">Home energy</MiText>
           <MiText variant="footnote" tone="label2">12 Rue des Lilas · smart meter synced 2 min ago</MiText>
@@ -9,18 +9,18 @@
         <MiSegmented v-model="unit" variant="tinted" label="Unit" :options="units" />
       </header>
 
-      <div class="eus__controls mi:grid mi:gap-2.5 mi:@[720px]:flex mi:@[720px]:flex-wrap mi:@[720px]:items-center mi:@[720px]:justify-between mi:@[720px]:gap-3">
+      <div class="mi:grid mi:gap-2.5 mi:@[720px]:flex mi:@[720px]:flex-wrap mi:@[720px]:items-center mi:@[720px]:justify-between mi:@[720px]:gap-3">
         <MiSegmented v-model="range" label="Period" :options="ranges" />
         <!-- Circuit filter: same segmented idea, as a button group for longer labels. -->
-        <div class="eus__scroll mi:overflow-x-auto mi:[scrollbar-width:none]">
+        <div class="mi:overflow-x-auto mi:[scrollbar-width:none]">
           <MiButtonGroup v-model="circuit" variant="segmented" label="Circuit" :options="circuits" />
         </div>
       </div>
 
-      <div class="eus__body mi:grid mi:gap-4 mi:@[720px]:grid-cols-[220px_minmax(0,_1fr)] mi:@[720px]:gap-7 mi:@[720px]:items-end">
-        <div class="eus__summary mi:grid mi:content-start mi:gap-1" aria-live="polite">
+      <div class="mi:grid mi:gap-4 mi:@[720px]:grid-cols-[220px_minmax(0,_1fr)] mi:@[720px]:gap-7 mi:@[720px]:items-end">
+        <div class="mi:grid mi:content-start mi:gap-1" aria-live="polite">
           <MiText variant="caption" tone="label2" weight="medium">{{ circuitLabel }} · {{ period.caption }}</MiText>
-          <p class="eus__big mi:my-0.5 mi:mx-0 mi:text-[clamp(34px,_8cqi,_48px)] mi:leading-none mi:font-bold mi:tracking-[-.04em] mi:tabular-nums">{{ format(total) }}</p>
+          <p class="mi:my-0.5 mi:mx-0 mi:text-[clamp(34px,_8cqi,_48px)] mi:leading-none mi:font-bold mi:tracking-[-.04em] mi:tabular-nums">{{ format(total) }}</p>
           <MiText variant="footnote" :tone="delta <= 0 ? 'green' : 'red'" weight="semibold">
             {{ delta <= 0 ? '▼' : '▲' }} {{ Math.abs(delta) }}% vs previous {{ range }}
           </MiText>
@@ -29,7 +29,7 @@
 
         <MiBarChart
           :data="bars" :card="false" :height="200" :max-bar-width="28" :format-value="v => format(v)"
-          :aria-label="`${circuitLabel} usage per ${period.step}, ${period.caption}`" class="eus__chart mi:min-w-0"
+          :aria-label="`${circuitLabel} usage per ${period.step}, ${period.caption}`" class="mi:min-w-0"
         />
       </div>
     </section>

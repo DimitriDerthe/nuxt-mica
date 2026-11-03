@@ -1,48 +1,48 @@
 <template>
-  <section class="qad mi:@container mi:font-mi mi:text-label" aria-labelledby="qad-title">
-    <MiText id="qad-title" variant="title3" as="h2" weight="semibold" class="qad__sr mi:absolute mi:w-px mi:h-px mi:[clip-path:inset(50%)]">Quick add event drawer</MiText>
+  <section class="mi:@container mi:font-mi mi:text-label" aria-labelledby="qad-title">
+    <MiText id="qad-title" variant="title3" as="h2" weight="semibold" class="mi:overflow-hidden mi:whitespace-nowrap mi:absolute mi:w-px mi:h-px mi:[clip-path:inset(50%)]">Quick add event drawer</MiText>
 
-    <div class="qad__stage mi:grid mi:gap-4 mi:@[820px]:grid-cols-[minmax(0,_1fr)_minmax(380px,_420px)] mi:@[820px]:items-start mi:@[820px]:gap-5">
+    <div class="mi:grid mi:gap-4 mi:@[820px]:grid-cols-[minmax(0,_1fr)_minmax(380px,_420px)] mi:@[820px]:items-start mi:@[820px]:gap-5">
       <!-- Faux day view behind the drawer: the draft shows up as a dashed ghost while you edit. -->
-      <div class="qad__page mi:relative mi:grid mi:gap-3 mi:p-4.5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:after:content-[''] mi:after:absolute mi:after:inset-0 mi:after:rounded-[inherit] mi:after:bg-scrim mi:after:opacity-30 mi:after:pointer-events-none" aria-hidden="true">
-        <div class="qad__page-head mi:grid">
-          <span class="qad__eyebrow mi:text-[12px] mi:font-semibold mi:uppercase mi:tracking-[.06em] mi:text-label2">{{ day.weekday }}</span>
-          <span class="qad__date mi:text-[22px] mi:font-bold mi:tracking-[-.02em]">November {{ day.date }}</span>
+      <div class="mi:relative mi:grid mi:gap-3 mi:p-4.5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:after:content-[''] mi:after:absolute mi:after:inset-0 mi:after:rounded-[inherit] mi:after:bg-scrim mi:after:opacity-30 mi:after:pointer-events-none" aria-hidden="true">
+        <div class="mi:grid">
+          <span class="mi:text-[12px] mi:font-semibold mi:uppercase mi:tracking-[.06em] mi:text-label2">{{ day.weekday }}</span>
+          <span class="mi:text-[22px] mi:font-bold mi:tracking-[-.02em]">November {{ day.date }}</span>
         </div>
-        <div class="qad__day mi:grid mi:grid-cols-[44px_minmax(0,_1fr)] mi:auto-rows-[9px] mi:gap-x-2.5">
-          <span v-for="h in hours" :key="h" class="qad__hour mi:col-[1] mi:text-[11px] mi:text-label3 mi:tabular-nums mi:border-t mi:border-t-sep mi:pt-0.5" :style="{ gridRow: `${(h - 8) * 4 + 1} / span 4` }">{{ h }}:00</span>
-          <span v-for="e in dayEvents" :key="e.title" class="qad__ev mi:col-[2] mi:z-1 mi:min-w-0 mi:my-px mi:mx-0 mi:py-[3px] mi:px-2 mi:overflow-hidden mi:rounded-sm mi:text-[12px] mi:font-semibold mi:whitespace-nowrap mi:text-ellipsis mi:bg-fill3 mi:text-label2" :style="slot(e.start, e.minutes)">{{ e.title }}</span>
-          <span class="qad__ev qad__ev--draft mi:col-[2] mi:z-1 mi:min-w-0 mi:my-px mi:mx-0 mi:py-[3px] mi:px-2 mi:overflow-hidden mi:rounded-sm mi:text-[12px] mi:font-semibold mi:whitespace-nowrap mi:text-ellipsis mi:bg-fill3 mi:text-label2 mi:z-2 mi:[border:1.5px_dashed_var(--mi-p)] mi:bg-p-tint mi:text-p-text mi:[&.is-clash]:border-orange mi:[&.is-clash]:[background:color-mix(in_srgb,_var(--mi-orange)_16%,_transparent)] mi:[&.is-clash]:text-orange-t" :class="{ 'is-clash': clash }" :style="slot(start, duration)">{{ title || 'New event' }}</span>
+        <div class="mi:grid mi:grid-cols-[44px_minmax(0,_1fr)] mi:auto-rows-[9px] mi:gap-x-2.5">
+          <span v-for="h in hours" :key="h" class="mi:col-[1] mi:text-[11px] mi:text-label3 mi:tabular-nums mi:border-t mi:border-t-sep mi:pt-0.5" :style="{ gridRow: `${(h - 8) * 4 + 1} / span 4` }">{{ h }}:00</span>
+          <span v-for="e in dayEvents" :key="e.title" class="mi:col-[2] mi:z-1 mi:min-w-0 mi:my-px mi:mx-0 mi:py-[3px] mi:px-2 mi:overflow-hidden mi:rounded-sm mi:text-[12px] mi:font-semibold mi:whitespace-nowrap mi:text-ellipsis mi:bg-fill3 mi:text-label2" :style="slot(e.start, e.minutes)">{{ e.title }}</span>
+          <span class="mi:col-[2] mi:min-w-0 mi:my-px mi:mx-0 mi:py-[3px] mi:px-2 mi:overflow-hidden mi:rounded-sm mi:text-[12px] mi:font-semibold mi:whitespace-nowrap mi:text-ellipsis mi:z-2 mi:[border:1.5px_dashed_var(--mi-p)]" :class="clash ? 'mi:border-orange mi:[background:color-mix(in_srgb,_var(--mi-orange)_16%,_transparent)] mi:text-orange-t' : 'mi:bg-p-tint mi:text-p-text'" :style="slot(start, duration)">{{ title || 'New event' }}</span>
         </div>
       </div>
 
-      <div class="qad__drawer">
+      <div>
         <MiDrawer :model-value="true" inline show-swipe-handle title="New event" :description="summary">
-          <div class="qad__body mi:grid mi:gap-4">
+          <div class="mi:grid mi:gap-4">
             <MiField label="Title" :error="touched && !title.trim() ? 'Give the event a name.' : undefined">
               <template #default="{ id, describedBy }">
                 <MiInput :id="id" v-model="title" :aria-describedby="describedBy" placeholder="Design review" />
               </template>
             </MiField>
 
-            <div class="qad__group mi:grid mi:gap-2 mi:min-w-0" role="group" aria-labelledby="qad-day-label">
+            <div class="mi:grid mi:gap-2 mi:min-w-0" role="group" aria-labelledby="qad-day-label">
               <MiText id="qad-day-label" variant="footnote" weight="semibold" tone="label2">Day</MiText>
-              <div class="qad__days mi:grid mi:grid-cols-5 mi:gap-1.5">
+              <div class="mi:grid mi:grid-cols-5 mi:gap-1.5">
                 <button
-                  v-for="d in week" :key="d.date" type="button" class="qad__daybtn mi:grid mi:justify-items-center mi:gap-0.5 mi:py-2 mi:px-0 mi:border mi:border-sep mi:rounded-md mi:bg-transparent mi:text-label2 mi:cursor-pointer mi:[&.is-on]:border-p mi:[&.is-on]:bg-p-tint mi:[&.is-on]:text-p-text mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]"
-                  :class="{ 'is-on': d.date === dayDate }" :aria-pressed="d.date === dayDate" @click="dayDate = d.date"
+                  v-for="d in week" :key="d.date" type="button" class="mi:[font:inherit] mi:text-[12px] mi:grid mi:justify-items-center mi:gap-0.5 mi:py-2 mi:px-0 mi:border mi:rounded-md mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]"
+                  :class="d.date === dayDate ? 'mi:border-p mi:bg-p-tint mi:text-p-text' : 'mi:border-sep mi:bg-transparent mi:text-label2'" :aria-pressed="d.date === dayDate" @click="dayDate = d.date"
                 >
-                  <span>{{ d.weekday.slice(0, 3) }}</span><strong class="mi:[.qad__daybtn_&]:text-[16px] mi:[.qad__daybtn_&]:text-label mi:[.qad__daybtn.is-on_&]:text-p-text">{{ d.date }}</strong>
+                  <span>{{ d.weekday.slice(0, 3) }}</span><strong class="mi:text-[16px]" :class="d.date === dayDate ? 'mi:text-p-text' : 'mi:text-label'">{{ d.date }}</strong>
                 </button>
               </div>
             </div>
 
-            <div class="qad__when mi:grid mi:gap-4 mi:@[520px]:grid-cols-[auto_minmax(0,_1fr)]">
-              <div class="qad__group mi:grid mi:gap-2 mi:min-w-0">
+            <div class="mi:grid mi:gap-4 mi:@[520px]:grid-cols-[auto_minmax(0,_1fr)]">
+              <div class="mi:grid mi:gap-2 mi:min-w-0">
                 <MiText variant="footnote" weight="semibold" tone="label2">Starts</MiText>
                 <MiTimePicker v-model="startText" :minute-step="15" min="08:00" max="18:00" label="Start time" />
               </div>
-              <div class="qad__group mi:grid mi:gap-2 mi:min-w-0">
+              <div class="mi:grid mi:gap-2 mi:min-w-0">
                 <MiText variant="footnote" weight="semibold" tone="label2">Duration</MiText>
                 <MiSegmented v-model="durationPick" label="Duration" :options="durations" />
               </div>
@@ -54,20 +54,20 @@
               :action-label="next !== null ? 'Move to ' + clock(next) : undefined" @action="moveToNext"
             />
 
-            <div class="qad__group mi:grid mi:gap-2 mi:min-w-0">
+            <div class="mi:grid mi:gap-2 mi:min-w-0">
               <MiText variant="footnote" weight="semibold" tone="label2">Calendar</MiText>
               <MiToggleGroup v-model="calendar" :options="calendars" label="Calendar" variant="outline" size="sm" />
             </div>
           </div>
 
           <template #footer>
-            <div class="qad__foot mi:grid mi:grid-cols-[1fr_1fr] mi:gap-2">
+            <div class="mi:grid mi:grid-cols-[1fr_1fr] mi:gap-2">
               <MiButton variant="gray" block @click="reset">Discard</MiButton>
               <MiButton block :disabled="!!clash" @click="save">Add to calendar</MiButton>
             </div>
           </template>
         </MiDrawer>
-        <p class="qad__live mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap" aria-live="polite">{{ saved }}</p>
+        <p class="mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap" aria-live="polite">{{ saved }}</p>
       </div>
     </div>
   </section>
@@ -146,8 +146,3 @@ function reset() {
 }
 </script>
 
-<style scoped>
-.qad__sr { overflow: hidden; white-space: nowrap; }
-.qad__daybtn { font: inherit; font-size: 12px;
-}
-</style>

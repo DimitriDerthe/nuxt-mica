@@ -1,6 +1,6 @@
 <template>
-  <section class="tm mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="tm-title">
-    <header class="tm__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="tm-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="tm-title" variant="title3" as="h2" weight="semibold">Where customers are</MiText>
         <MiText variant="footnote" tone="label2">Paying workspaces by market · October</MiText>
@@ -8,61 +8,61 @@
       <MiSegmented v-model="metricId" label="Metric" :options="metrics" />
     </header>
 
-    <div class="tm__grid mi:grid mi:gap-3 mi:grid-cols-[minmax(0,_1fr)] mi:@[900px]:grid-cols-[minmax(0,_1fr)_300px]">
-      <article class="tm__map mi:grid mi:gap-3.5 mi:min-w-0 mi:p-4.5 mi:rounded-xl mi:bg-card mi:shadow-1">
-        <div class="tm__map-top mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3 mi:items-center">
+    <div class="mi:grid mi:gap-3 mi:grid-cols-[minmax(0,_1fr)] mi:@[900px]:grid-cols-[minmax(0,_1fr)_300px]">
+      <article class="mi:grid mi:gap-3.5 mi:min-w-0 mi:p-4.5 mi:rounded-xl mi:bg-card mi:shadow-1">
+        <div class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3 mi:items-center">
           <MiSegmented v-model="region" label="Region" :options="regions" />
           <MiChartLegend variant="ramp" :items="ramp" less-label="Fewer" more-label="More" :aria-label="`${metric.label} scale, in fifths`" />
         </div>
 
         <!-- Tile map: one tile per market, odd rows nudged half a tile for a hex rhythm. No geodata needed. -->
-        <div class="tm__tiles mi:[--tm-gap:3px] mi:grid mi:grid-cols-15 mi:auto-rows-[auto] mi:gap-(--tm-gap) mi:py-1.5 mi:px-0 mi:@[520px]:[--tm-gap:5px]" role="group" :aria-label="`${metric.label} by market`">
+        <div class="mi:[--tm-gap:3px] mi:grid mi:grid-cols-15 mi:auto-rows-[auto] mi:gap-(--tm-gap) mi:py-1.5 mi:px-0 mi:@[520px]:[--tm-gap:5px]" role="group" :aria-label="`${metric.label} by market`">
           <button
-            v-for="t in tiles" :key="t.code" type="button" class="tm__tile mi:grid mi:place-items-center mi:aspect-[1] mi:min-w-0 mi:p-0 mi:[border:0] mi:rounded-[22%] mi:cursor-pointer mi:text-label mi:[font:600_9px/1_var(--mi-font)] mi:tracking-[.02em] mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease),_opacity_var(--mi-dur-2)_var(--mi-ease)] mi:@[520px]:text-[10px] mi:@[760px]:text-[11px] mi:[&.is-dark]:text-p-on mi:[&.is-dim]:opacity-22 mi:hover:shadow-[0_0_0_2px_var(--mi-card),_0_0_0_4px_var(--mi-label)] mi:hover:relative mi:hover:z-1 mi:[&.is-active]:shadow-[0_0_0_2px_var(--mi-card),_0_0_0_4px_var(--mi-label)] mi:[&.is-active]:relative mi:[&.is-active]:z-1 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:motion-reduce:[transition:none]"
-            :class="{ 'is-odd': t.row % 2 === 1, 'is-dim': !t.inRegion, 'is-active': active === t.code, 'is-dark': t.bin >= 3 }"
+            v-for="t in tiles" :key="t.code" type="button" class="mi:grid mi:place-items-center mi:aspect-[1] mi:min-w-0 mi:p-0 mi:[border:0] mi:rounded-[22%] mi:cursor-pointer mi:[font:600_9px/1_var(--mi-font)] mi:tracking-[.02em] mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease),_opacity_var(--mi-dur-2)_var(--mi-ease)] mi:@[520px]:text-[10px] mi:@[760px]:text-[11px] mi:hover:shadow-[0_0_0_2px_var(--mi-card),_0_0_0_4px_var(--mi-label)] mi:hover:relative mi:hover:z-1 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:motion-reduce:[transition:none]"
+            :class="[t.bin >= 3 ? 'mi:text-p-on' : 'mi:text-label', t.inRegion ? '' : 'mi:opacity-22', active === t.code ? 'mi:shadow-[0_0_0_2px_var(--mi-card),_0_0_0_4px_var(--mi-label)] mi:relative mi:z-1' : '', active === t.code ? (t.row % 2 === 1 ? 'mi:transform-[translateX(calc(50%_+_var(--tm-gap)_/_2))_scale(1.18)]' : 'mi:transform-[scale(1.18)]') : (t.row % 2 === 1 ? 'mi:transform-[translateX(calc(50%_+_var(--tm-gap)_/_2))] mi:hover:transform-[translateX(calc(50%_+_var(--tm-gap)_/_2))_scale(1.18)]' : 'mi:hover:transform-[scale(1.18)]')]"
             :style="{ gridColumn: t.col + 1, gridRow: t.row + 1, background: binColors[t.bin] }"
             :aria-label="`${t.name}, ${metric.format(t.value)}, rank ${t.rank} of ${tiles.length}`" :aria-pressed="pinned === t.code"
             @mouseenter="hover = t.code" @mouseleave="hover = ''" @focus="hover = t.code" @blur="hover = ''" @click="pin(t.code)"
           >
-            <span aria-hidden="true">{{ t.code }}</span>
+            <span class="mi:hidden mi:@[520px]:block" aria-hidden="true">{{ t.code }}</span>
           </button>
         </div>
         <MiText variant="caption" tone="label3">One tile per market, placed by rough geography. Tile size says nothing about country size.</MiText>
       </article>
 
-      <aside class="tm__side mi:grid mi:gap-3 mi:content-start mi:grid-cols-[minmax(0,_1fr)] mi:[@container_(min-width:_600px)_and_(max-width:_899px)]:grid-cols-2">
-        <article class="tm__readout mi:min-w-0 mi:py-4 mi:px-4.5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:grid mi:gap-3 mi:content-start mi:min-h-33" aria-live="polite">
+      <aside class="mi:grid mi:gap-3 mi:content-start mi:grid-cols-[minmax(0,_1fr)] mi:[@container_(min-width:_600px)_and_(max-width:_899px)]:grid-cols-2">
+        <article class="mi:min-w-0 mi:py-4 mi:px-4.5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:grid mi:gap-3 mi:content-start mi:min-h-33" aria-live="polite">
           <template v-if="focus">
-            <div class="tm__readout-top mi:flex mi:items-center mi:gap-2.5 mi:min-w-0">
-              <span class="tm__code mi:grid mi:place-items-center mi:flex-[none] mi:w-8.5 mi:h-8.5 mi:rounded-[9px] mi:bg-p mi:text-p-on mi:text-[12px] mi:font-bold">{{ focus.code }}</span>
-              <MiText class="mi:[.tm__readout-top>h3&]:flex-1 mi:[.tm__readout-top>h3&]:min-w-0 mi:[.tm__readout-top>h3&]:text-ellipsis" variant="headline" as="h3">{{ focus.name }}</MiText>
-              <MiText variant="caption" tone="label2" as="span" class="tm__rank mi:[.tm__readout-top>h3&]:flex-1 mi:[.tm__readout-top>h3&]:min-w-0 mi:[.tm__readout-top>h3&]:text-ellipsis mi:flex-[none]">#{{ focus.rank }}</MiText>
+            <div class="mi:flex mi:items-center mi:gap-2.5 mi:min-w-0">
+              <span class="mi:grid mi:place-items-center mi:flex-[none] mi:w-8.5 mi:h-8.5 mi:rounded-[9px] mi:bg-p mi:text-p-on mi:text-[12px] mi:font-bold">{{ focus.code }}</span>
+              <MiText class="mi:overflow-hidden mi:whitespace-nowrap mi:flex-1 mi:min-w-0 mi:text-ellipsis" variant="headline" as="h3">{{ focus.name }}</MiText>
+              <MiText variant="caption" tone="label2" as="span" class="mi:tabular-nums mi:flex-[none]">#{{ focus.rank }}</MiText>
             </div>
-            <dl class="tm__facts mi:grid mi:gap-0.5 mi:m-0">
-              <div class="mi:[.tm__facts>&]:items-baseline mi:[.tm__facts>&]:justify-between mi:[.tm__facts>&]:gap-3 mi:[.tm__facts>&]:py-[7px] mi:[.tm__facts>&]:px-2.5 mi:[.tm__facts>&]:rounded-md" v-for="f in focusFacts" :key="f.id" :class="{ 'is-on mi:[.tm__facts>&]:bg-p-tint': f.id === metricId }">
-                <dt class="mi:[.tm__facts_&]:text-[13px] mi:[.tm__facts_&]:text-label2 mi:[.tm__facts>div.is-on_&]:text-p-text mi:[.tm__facts>div.is-on_&]:font-semibold">{{ f.label }}</dt>
-                <dd class="mi:[.tm__facts_&]:m-0 mi:[.tm__facts_&]:text-[15px] mi:[.tm__facts_&]:font-bold">{{ f.text }}</dd>
+            <dl class="mi:grid mi:gap-0.5 mi:m-0">
+              <div class="mi:flex mi:items-baseline mi:justify-between mi:gap-3 mi:py-[7px] mi:px-2.5 mi:rounded-md" v-for="f in focusFacts" :key="f.id" :class="f.id === metricId ? 'mi:bg-p-tint' : ''">
+                <dt class="mi:text-[13px]" :class="f.id === metricId ? 'mi:text-p-text mi:font-semibold' : 'mi:text-label2'">{{ f.label }}</dt>
+                <dd class="mi:tabular-nums mi:m-0 mi:text-[15px] mi:font-bold">{{ f.text }}</dd>
               </div>
             </dl>
           </template>
           <MiText v-else variant="footnote" tone="label2">Hover, focus or tap a tile to compare a market on every metric.</MiText>
         </article>
 
-        <article class="tm__rank-card mi:min-w-0 mi:py-4 mi:px-4.5 mi:rounded-xl mi:bg-card mi:shadow-1">
-          <div class="tm__rank-head mi:flex mi:flex-wrap mi:items-baseline mi:justify-between mi:gap-y-1 mi:gap-x-2.5 mi:mb-1.5">
+        <article class="mi:min-w-0 mi:py-4 mi:px-4.5 mi:rounded-xl mi:bg-card mi:shadow-1">
+          <div class="mi:flex mi:flex-wrap mi:items-baseline mi:justify-between mi:gap-y-1 mi:gap-x-2.5 mi:mb-1.5">
             <MiText variant="subheadline" weight="semibold" as="h3">Top markets · {{ regionLabel }}</MiText>
             <MiText variant="caption" tone="label2" as="span">{{ topShare }}% of {{ regionLabel === 'World' ? 'total' : 'region' }}</MiText>
           </div>
-          <ol class="tm__list mi:grid mi:m-0 mi:p-0 mi:[list-style:none]">
+          <ol class="mi:grid mi:m-0 mi:p-0 mi:[list-style:none]">
             <li v-for="(t, i) in ranked" :key="t.code">
               <button
-                type="button" class="tm__row mi:grid mi:grid-cols-[18px_minmax(0,_1fr)_auto] mi:[grid-template-areas:'n_name_val'_'._bar_bar'] mi:items-center mi:gap-y-1 mi:gap-x-2.5 mi:w-full mi:py-[7px] mi:px-2 mi:[border:0] mi:rounded-md mi:bg-transparent mi:text-inherit mi:[font:inherit] mi:text-start mi:cursor-pointer mi:[transition:background-color_var(--mi-dur-2)_var(--mi-ease)] mi:hover:bg-fill4 mi:[&.is-active]:bg-fill4 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" :class="{ 'is-active': active === t.code }" :aria-pressed="pinned === t.code"
+                type="button" class="mi:grid mi:grid-cols-[18px_minmax(0,_1fr)_auto] mi:[grid-template-areas:'n_name_val'_'._bar_bar'] mi:items-center mi:gap-y-1 mi:gap-x-2.5 mi:w-full mi:py-[7px] mi:px-2 mi:[border:0] mi:rounded-md mi:text-inherit mi:[font:inherit] mi:text-start mi:cursor-pointer mi:[transition:background-color_var(--mi-dur-2)_var(--mi-ease)] mi:hover:bg-fill4 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" :class="active === t.code ? 'mi:bg-fill4' : 'mi:bg-transparent'" :aria-pressed="pinned === t.code"
                 @mouseenter="hover = t.code" @mouseleave="hover = ''" @focus="hover = t.code" @blur="hover = ''" @click="pin(t.code)"
               >
-                <span class="tm__row-n mi:[grid-area:n] mi:text-[12px] mi:font-semibold mi:text-label3 mi:tabular-nums">{{ i + 1 }}</span>
-                <span class="tm__row-name mi:[grid-area:name] mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:text-[14px] mi:font-medium">{{ t.name }}</span>
-                <span class="tm__row-val mi:[grid-area:val] mi:text-[13px] mi:font-semibold mi:tabular-nums">{{ metric.format(t.value) }}</span>
-                <span class="tm__row-bar mi:[grid-area:bar] mi:h-[3px] mi:rounded-[2px] mi:bg-fill3 mi:overflow-hidden" aria-hidden="true"><span class="mi:[.tm__row-bar_&]:h-full mi:[.tm__row-bar_&]:bg-p mi:[.tm__row-bar_&]:origin-left mi:[.tm__row-bar_&]:[transition:transform_var(--mi-dur-4)_var(--mi-spring)] mi:motion-reduce:[.tm__row-bar_&]:[transition:none]" :style="{ transform: `scaleX(${t.value / (ranked[0]?.value || 1)})` }" /></span>
+                <span class="mi:[grid-area:n] mi:text-[12px] mi:font-semibold mi:text-label3 mi:tabular-nums">{{ i + 1 }}</span>
+                <span class="mi:[grid-area:name] mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:text-[14px] mi:font-medium">{{ t.name }}</span>
+                <span class="mi:[grid-area:val] mi:text-[13px] mi:font-semibold mi:tabular-nums">{{ metric.format(t.value) }}</span>
+                <span class="mi:[grid-area:bar] mi:h-[3px] mi:rounded-[2px] mi:bg-fill3 mi:overflow-hidden" aria-hidden="true"><span class="mi:block mi:h-full mi:bg-p mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)] mi:motion-reduce:[transition:none]" :style="{ transform: `scaleX(${t.value / (ranked[0]?.value || 1)})` }" /></span>
               </button>
             </li>
           </ol>
@@ -143,16 +143,3 @@ const focusFacts = computed(() => {
 })
 function pin (code: string) { pinned.value = pinned.value === code ? '' : code }
 </script>
-
-<style scoped>
-.tm__tile span { display: none; }
-@container (min-width: 520px) { .tm__tile span { display: block; } }
-.tm__tile.is-odd { transform: translateX(calc(50% + var(--tm-gap) / 2)); }
-.tm__tile:hover, .tm__tile.is-active { transform: scale(1.18); }
-.tm__tile.is-odd:hover, .tm__tile.is-odd.is-active { transform: translateX(calc(50% + var(--tm-gap) / 2)) scale(1.18); }
-.tm__readout-top > h3 { overflow: hidden; white-space: nowrap; }
-.tm__rank { font-variant-numeric: tabular-nums; }
-.tm__facts > div { display: flex; }
-.tm__facts dd { font-variant-numeric: tabular-nums; }
-.tm__row-bar span { display: block; }
-</style>

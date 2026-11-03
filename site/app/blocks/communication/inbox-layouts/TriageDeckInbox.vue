@@ -1,8 +1,8 @@
 <template>
-  <section class="td mi:@container mi:relative mi:min-h-150 mi:font-mi mi:text-label mi:bg-page" aria-labelledby="td-title">
-    <div class="td__shell mi:grid mi:gap-5 mi:py-5 mi:px-4 mi:grid-cols-[minmax(0,_1fr)] mi:@[820px]:grid-cols-[minmax(0,_1fr)_280px] mi:@[820px]:p-7 mi:@[820px]:gap-7">
-      <div class="td__main mi:grid mi:content-start mi:gap-3.5 mi:min-w-0">
-        <header class="td__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
+  <section class="mi:@container mi:relative mi:min-h-150 mi:font-mi mi:text-label mi:bg-page" aria-labelledby="td-title">
+    <div class="mi:grid mi:gap-5 mi:py-5 mi:px-4 mi:grid-cols-[minmax(0,_1fr)] mi:@[820px]:grid-cols-[minmax(0,_1fr)_280px] mi:@[820px]:p-7 mi:@[820px]:gap-7">
+      <div class="mi:grid mi:content-start mi:gap-3.5 mi:min-w-0">
+        <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
           <div>
             <MiText id="td-title" as="h2" variant="title3" weight="semibold">Morning triage</MiText>
             <MiText variant="footnote" tone="label2">{{ done }} of {{ mails.length }} sorted · one decision per email</MiText>
@@ -12,25 +12,25 @@
             Undo
           </MiButton>
         </header>
-        <div class="td__bar mi:h-1 mi:rounded-[2px] mi:bg-fill3 mi:overflow-hidden" role="progressbar" aria-label="Triage progress" :aria-valuenow="done" aria-valuemin="0" :aria-valuemax="mails.length">
-          <span class="mi:[.td__bar_&]:block mi:[.td__bar_&]:h-full mi:[.td__bar_&]:bg-p mi:[.td__bar_&]:origin-left mi:[.td__bar_&]:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleX(${done / mails.length})` }" />
+        <div class="mi:h-1 mi:rounded-[2px] mi:bg-fill3 mi:overflow-hidden" role="progressbar" aria-label="Triage progress" :aria-valuenow="done" aria-valuemin="0" :aria-valuemax="mails.length">
+          <span class="mi:block mi:h-full mi:bg-p mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleX(${done / mails.length})` }" />
         </div>
 
-        <Transition name="td-card" mode="out-in">
+        <Transition mode="out-in" enter-active-class="mi:[transition:transform_var(--mi-dur-3)_var(--mi-ease),_opacity_var(--mi-dur-3)_var(--mi-ease)] mi:motion-reduce:[transition:none]" leave-active-class="mi:[transition:transform_var(--mi-dur-3)_var(--mi-ease),_opacity_var(--mi-dur-3)_var(--mi-ease)] mi:motion-reduce:[transition:none]" enter-from-class="mi:opacity-0 mi:transform-[translateY(12px)_scale(.98)]" leave-to-class="mi:opacity-0 mi:transform-[translateX(-24px)]">
           <article
-            v-if="current" :key="current.id" class="td__card mi:grid mi:gap-3 mi:min-h-65 mi:content-start mi:p-5.5 mi:rounded-xl mi:bg-card mi:shadow-2 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[3px]" tabindex="0"
+            v-if="current" :key="current.id" class="mi:grid mi:gap-3 mi:min-h-65 mi:content-start mi:p-5.5 mi:rounded-xl mi:bg-card mi:shadow-2 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[3px]" tabindex="0"
             :aria-label="'Email from ' + current.from + ': ' + current.subject" @keydown="onKey"
           >
-            <header class="td__from mi:flex mi:items-center mi:gap-3">
+            <header class="mi:flex mi:items-center mi:gap-3">
               <MiAvatar :name="current.from" size="md" tone="auto" decorative />
-              <div class="td__from-text mi:flex-1 mi:min-w-0">
+              <div class="mi:flex-1 mi:min-w-0">
                 <MiText as="h3" variant="headline" weight="semibold" :lines="1">{{ current.from }}</MiText>
                 <MiText variant="caption" tone="label2" :lines="1">{{ current.address }} · {{ current.time }}</MiText>
               </div>
               <MiBadge v-if="current.vip" tone="warning" label="Important" />
             </header>
-            <MiText variant="title3" weight="semibold" as="p" class="td__subject">{{ current.subject }}</MiText>
-            <p v-for="(p, i) in current.body" :key="i" class="td__p mi:m-0 mi:text-[15px] mi:leading-[1.6] mi:text-label2">{{ p }}</p>
+            <MiText variant="title3" weight="semibold" as="p" class="mi:mt-1!">{{ current.subject }}</MiText>
+            <p v-for="(p, i) in current.body" :key="i" class="mi:m-0 mi:text-[15px] mi:leading-[1.6] mi:text-label2">{{ p }}</p>
           </article>
           <MiEmptyState
             v-else key="empty" icon="inbox" title="Inbox sorted" card
@@ -39,8 +39,8 @@
           />
         </Transition>
 
-        <div v-if="current" class="td__acts mi:grid mi:grid-cols-3 mi:gap-2" role="group" aria-label="Decide">
-          <button v-for="a in actions" :key="a.id" type="button" class="td__act mi:flex mi:flex-col mi:items-center mi:gap-1.5 mi:py-3 mi:px-2 mi:border mi:border-sep mi:rounded-lg mi:bg-card mi:text-label mi:cursor-pointer mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:hover:transform-[translateY(-1px)] mi:active:transform-[scale(.97)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:[&.is-archive]:text-label2 mi:[&.is-later]:text-orange-t mi:[&.is-reply]:text-p-text mi:@[520px]:flex-row mi:@[520px]:justify-center" :class="'is-' + a.id" @click="decide(a.id)">
+        <div v-if="current" class="mi:grid mi:grid-cols-3 mi:gap-2" role="group" aria-label="Decide">
+          <button v-for="a in actions" :key="a.id" type="button" class="mi:[font:inherit] mi:text-[14px] mi:font-semibold mi:flex mi:flex-col mi:items-center mi:gap-1.5 mi:py-3 mi:px-2 mi:border mi:border-sep mi:rounded-lg mi:bg-card mi:cursor-pointer mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:hover:transform-[translateY(-1px)] mi:active:transform-[scale(.97)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:@[520px]:flex-row mi:@[520px]:justify-center" :class="a.id === 'archive' ? 'mi:text-label2' : a.id === 'later' ? 'mi:text-orange-t' : a.id === 'reply' ? 'mi:text-p-text' : 'mi:text-label'" @click="decide(a.id)">
             <MiIcon :name="a.icon" :size="18" />
             <span>{{ a.label }}</span>
             <MiKbd>{{ a.key }}</MiKbd>
@@ -48,21 +48,21 @@
         </div>
       </div>
 
-      <aside class="td__side mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:content-start mi:gap-2.5" aria-labelledby="td-next-title">
+      <aside class="mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:content-start mi:gap-2.5" aria-labelledby="td-next-title">
         <MiText id="td-next-title" as="h3" variant="subheadline" weight="semibold">Up next</MiText>
-        <ol class="td__queue mi:[list-style:none] mi:m-0 mi:p-0 mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:gap-1.5">
-          <li v-for="m in upcoming" :key="m.id" class="td__q mi:flex mi:items-center mi:gap-2.5 mi:py-2.5 mi:px-3 mi:rounded-md mi:bg-card">
+        <ol class="mi:[list-style:none] mi:m-0 mi:p-0 mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:gap-1.5">
+          <li v-for="m in upcoming" :key="m.id" class="mi:flex mi:items-center mi:gap-2.5 mi:py-2.5 mi:px-3 mi:rounded-md mi:bg-card">
             <MiAvatar :name="m.from" size="xs" tone="auto" decorative />
-            <span class="td__q-text mi:min-w-0 mi:text-[13px] mi:text-label2 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap"><strong>{{ m.from }}</strong> {{ m.subject }}</span>
+            <span class="mi:min-w-0 mi:text-[13px] mi:text-label2 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap"><strong class="mi:text-label mi:font-semibold mi:mr-1">{{ m.from }}</strong> {{ m.subject }}</span>
           </li>
         </ol>
-        <p v-if="!upcoming.length" class="td__none mi:m-0 mi:text-[13px] mi:text-label3">Nothing left after this one.</p>
-        <dl class="td__counts mi:grid mi:grid-cols-3 mi:gap-px mi:mt-2 mi:mx-0 mi:mb-0 mi:rounded-lg mi:bg-sep mi:overflow-hidden">
-          <div class="mi:[.td__counts_&]:py-2.5 mi:[.td__counts_&]:px-3 mi:[.td__counts_&]:bg-card" v-for="a in actions" :key="a.id"><dt class="mi:[.td__counts_&]:text-[12px]">{{ a.label }}</dt><dd class="mi:[.td__counts_&]:text-[20px] mi:[.td__counts_&]:tabular-nums">{{ counts[a.id] }}</dd></div>
+        <p v-if="!upcoming.length" class="mi:m-0 mi:text-[13px] mi:text-label3">Nothing left after this one.</p>
+        <dl class="mi:grid mi:grid-cols-3 mi:gap-px mi:mt-2 mi:mx-0 mi:mb-0 mi:rounded-lg mi:bg-sep mi:overflow-hidden">
+          <div class="mi:py-2.5 mi:px-3 mi:bg-card" v-for="a in actions" :key="a.id"><dt class="mi:text-label2 mi:text-[12px]">{{ a.label }}</dt><dd class="mi:mt-0.5 mi:mx-0 mi:mb-0 mi:font-bold mi:text-[20px] mi:tabular-nums">{{ counts[a.id] }}</dd></div>
         </dl>
       </aside>
     </div>
-    <p class="td__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap" role="status">{{ status }}</p>
+    <p class="mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap" role="status">{{ status }}</p>
   </section>
 </template>
 
@@ -130,16 +130,3 @@ function onKey(e: KeyboardEvent) {
 }
 </script>
 
-<style scoped>
-.td__subject { margin-top: 4px; }
-
-.td-card-enter-active, .td-card-leave-active { transition: transform var(--mi-dur-3) var(--mi-ease), opacity var(--mi-dur-3) var(--mi-ease); }
-.td-card-enter-from { transform: translateY(12px) scale(.98); opacity: 0; }
-.td-card-leave-to { transform: translateX(-24px); opacity: 0; }
-.td__act { font: inherit; font-size: 14px; font-weight: 600; }
-.td__q-text strong { color: var(--mi-label); font-weight: 600; margin-right: 4px; }
-.td__counts dt { color: var(--mi-label2); }
-.td__counts dd { margin: 2px 0 0; font-weight: 700; }
-
-@media (prefers-reduced-motion: reduce) { .td-card-enter-active, .td-card-leave-active { transition: none; } }
-</style>

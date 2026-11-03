@@ -1,8 +1,8 @@
 <template>
-  <section class="cag mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="cag-title">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="cag-title">
     <!-- Calendar header built from three groups: date pager, view switch, split create button. -->
-    <header class="cag__bar mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-3">
-      <div class="cag__nav mi:flex mi:flex-wrap mi:items-center mi:gap-y-2.5 mi:gap-x-3.5">
+    <header class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-3">
+      <div class="mi:flex mi:flex-wrap mi:items-center mi:gap-y-2.5 mi:gap-x-3.5">
         <MiButtonGroup label="Move through dates">
           <MiIconButton size="toolbar" variant="gray" :label="'Previous ' + view" @click="move(-1)"><MiIcon name="chevron-left" /></MiIconButton>
           <MiButton size="small" variant="gray" :disabled="isToday" @click="anchor = today">Today</MiButton>
@@ -10,7 +10,7 @@
         </MiButtonGroup>
         <MiText id="cag-title" variant="headline" as="h2" aria-live="polite">{{ title }}</MiText>
       </div>
-      <div class="cag__tools mi:flex mi:flex-wrap mi:items-center mi:gap-y-2.5 mi:gap-x-3.5">
+      <div class="mi:flex mi:flex-wrap mi:items-center mi:gap-y-2.5 mi:gap-x-3.5">
         <MiButtonGroup v-model="view" variant="segmented" label="Calendar view" :options="views" />
         <MiButtonGroup variant="split" label="Create event">
           <MiButton size="small" @click="create(template)">
@@ -26,19 +26,19 @@
       </div>
     </header>
 
-    <ol class="cag__grid mi:grid mi:gap-1.5 mi:m-0 mi:p-2 mi:[list-style:none] mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1" :class="'cag__grid--' + view" :aria-label="title">
-      <li v-for="d in days" :key="d.key" class="cag__day mi:grid mi:content-start mi:gap-1.5 mi:min-w-0 mi:p-2 mi:rounded-md mi:[background:var(--mi-fill4)] mi:[.cag__grid--month_&]:p-1 mi:[.cag__grid--month_&]:min-h-13 mi:[.cag__grid--month_&]:justify-items-center mi:[&.is-out]:opacity-45 mi:[&.is-anchor]:shadow-[inset_0_0_0_2px_var(--mi-p)]" :class="{ 'is-out': d.out, 'is-today': d.key === todayKey, 'is-anchor': d.key === anchorKey }">
-        <button type="button" class="cag__date mi:flex mi:items-baseline mi:gap-1.5 mi:p-0 mi:[border:0] mi:[background:none] mi:[font:inherit] mi:text-inherit mi:cursor-pointer mi:rounded-[6px] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:[.cag__grid--month_&]:flex-col mi:[.cag__grid--month_&]:items-center mi:[.cag__grid--month_&]:gap-0" :aria-label="d.long + ', ' + d.events.length + ' events'" :aria-pressed="d.key === anchorKey" @click="anchor = d.date">
-          <span class="cag__dow mi:[.cag__grid--month_&]:hidden mi:text-[12px] mi:font-semibold mi:text-label2 mi:uppercase mi:tracking-[.04em]">{{ d.dow }}</span><span class="cag__num mi:inline-grid mi:place-items-center mi:min-w-6.5 mi:h-6.5 mi:rounded-[13px] mi:font-bold mi:tabular-nums mi:[.cag__day.is-today_&]:[background:var(--mi-p)] mi:[.cag__day.is-today_&]:text-p-on">{{ d.num }}</span>
+    <ol class="mi:grid mi:m-0 mi:p-2 mi:[list-style:none] mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1" :class="view === 'month' ? 'mi:gap-1 mi:grid-cols-[repeat(7,minmax(0,1fr))]' : view === 'week' ? 'mi:gap-1.5 mi:@[720px]:grid-cols-[repeat(7,minmax(0,1fr))]' : 'mi:gap-1.5'" :aria-label="title">
+      <li v-for="d in days" :key="d.key" class="mi:grid mi:content-start mi:gap-1.5 mi:min-w-0 mi:rounded-md mi:[background:var(--mi-fill4)]" :class="[view === 'month' ? 'mi:p-1 mi:min-h-13 mi:justify-items-center' : 'mi:p-2', d.out ? 'mi:opacity-45' : '', d.key === anchorKey ? 'mi:shadow-[inset_0_0_0_2px_var(--mi-p)]' : '']">
+        <button type="button" class="mi:flex mi:p-0 mi:[border:0] mi:[background:none] mi:[font:inherit] mi:text-inherit mi:cursor-pointer mi:rounded-[6px] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" :class="view === 'month' ? 'mi:flex-col mi:items-center mi:gap-0' : 'mi:items-baseline mi:gap-1.5'" :aria-label="d.long + ', ' + d.events.length + ' events'" :aria-pressed="d.key === anchorKey" @click="anchor = d.date">
+          <span :class="view === 'month' ? 'mi:hidden' : ''" class="mi:text-[12px] mi:font-semibold mi:text-label2 mi:uppercase mi:tracking-[.04em]">{{ d.dow }}</span><span class="mi:inline-grid mi:place-items-center mi:min-w-6.5 mi:h-6.5 mi:rounded-[13px] mi:font-bold mi:tabular-nums" :class="d.key === todayKey ? 'mi:[background:var(--mi-p)] mi:text-p-on' : ''">{{ d.num }}</span>
         </button>
-        <ul v-if="view !== 'month'" class="cag__events mi:grid mi:gap-1 mi:m-0 mi:p-0 mi:[list-style:none]">
-          <li v-for="e in d.events" :key="e.id" class="cag__event mi:py-[5px] mi:px-[7px] mi:rounded-[6px] mi:text-[12px] mi:leading-[1.3] mi:wrap-anywhere mi:[background:var(--mi-p-tint)] mi:text-p-text mi:[border-inline-start:3px_solid_var(--mi-p)] mi:[&[data-kind='focus']]:[background:var(--mi-s-tint)] mi:[&[data-kind='focus']]:text-s-text mi:[&[data-kind='focus']]:border-(--mi-s) mi:[&[data-kind='one']]:[background:var(--mi-fill3)] mi:[&[data-kind='one']]:text-label mi:[&[data-kind='one']]:border-label3" :data-kind="e.kind"><b class="mi:[.cag__event_&]:font-bold mi:[.cag__event_&]:tabular-nums">{{ e.time }}</b> {{ e.title }}</li>
+        <ul v-if="view !== 'month'" class="mi:grid mi:gap-1 mi:m-0 mi:p-0 mi:[list-style:none]">
+          <li v-for="e in d.events" :key="e.id" class="mi:py-[5px] mi:px-[7px] mi:rounded-[6px] mi:text-[12px] mi:leading-[1.3] mi:wrap-anywhere mi:[background:var(--mi-p-tint)] mi:text-p-text mi:[border-inline-start:3px_solid_var(--mi-p)] mi:data-[kind=focus]:[background:var(--mi-s-tint)] mi:data-[kind=focus]:text-s-text mi:data-[kind=focus]:border-(--mi-s) mi:data-[kind=one]:[background:var(--mi-fill3)] mi:data-[kind=one]:text-label mi:data-[kind=one]:border-label3" :data-kind="e.kind"><b class="mi:font-bold mi:tabular-nums">{{ e.time }}</b> {{ e.title }}</li>
         </ul>
-        <span v-else class="cag__dots mi:flex mi:gap-[3px]" aria-hidden="true"><i class="mi:[.cag__dots_&]:w-[5px] mi:[.cag__dots_&]:h-[5px] mi:[.cag__dots_&]:rounded-[50%] mi:[.cag__dots_&]:[background:var(--mi-p)] mi:[.cag__dots_&[data-kind='focus']]:[background:var(--mi-s)] mi:[.cag__dots_&[data-kind='one']]:[background:var(--mi-label3)]" v-for="e in d.events.slice(0, 3)" :key="e.id" :data-kind="e.kind" /></span>
+        <span v-else class="mi:flex mi:gap-[3px]" aria-hidden="true"><i class="mi:w-[5px] mi:h-[5px] mi:rounded-[50%] mi:[background:var(--mi-p)] mi:data-[kind=focus]:[background:var(--mi-s)] mi:data-[kind=one]:[background:var(--mi-label3)]" v-for="e in d.events.slice(0, 3)" :key="e.id" :data-kind="e.kind" /></span>
       </li>
     </ol>
 
-    <p class="cag__log mi:m-0 mi:text-[13px] mi:text-label2" aria-live="polite">{{ log }}</p>
+    <p class="mi:m-0 mi:text-[13px] mi:text-label2" aria-live="polite">{{ log }}</p>
   </section>
 </template>
 
@@ -115,8 +115,3 @@ function create(kind: string | number | undefined) {
   log.value = `${presets[k].title} added on ${fmt(anchor.value, { weekday: 'long', month: 'short', day: 'numeric' })} at ${presets[k].time}.`
 }
 </script>
-
-<style scoped>
-.cag__grid--month { grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
-@container (min-width: 720px) { .cag__grid--week { grid-template-columns: repeat(7, minmax(0, 1fr)); } }
-</style>

@@ -1,48 +1,48 @@
 <template>
-  <section class="bv mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="bv-title">
-    <header class="bv__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="bv-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="bv-title" variant="title3" as="h2" weight="semibold">Spend against plan</MiText>
         <MiText variant="footnote" tone="label2">Operating budget by department · {{ quarterLabel }} FY25, USD</MiText>
       </div>
-      <div class="bv__controls mi:flex mi:flex-wrap mi:gap-2">
+      <div class="mi:flex mi:flex-wrap mi:gap-2">
         <MiSegmented v-model="quarter" label="Quarter" :options="quarters" />
         <MiSegmented v-model="sort" label="Sort departments by" :options="sorts" />
       </div>
     </header>
 
-    <div class="bv__body mi:grid mi:gap-3 mi:grid-cols-[minmax(0,_1fr)] mi:@[820px]:grid-cols-[minmax(0,_1fr)_300px]">
-      <div class="bv__chart mi:grid mi:gap-1.5 mi:content-start mi:min-w-0 mi:p-4.5 mi:rounded-xl mi:bg-card mi:shadow-1">
-        <div class="bv__axis mi:grid mi:grid-cols-[1fr_1fr] mi:py-0 mi:px-2.5 mi:text-[11px] mi:font-semibold mi:tracking-[.04em] mi:uppercase mi:text-label3" aria-hidden="true">
-          <span class="mi:[.bv__axis_&:last-child]:text-end">Under plan</span>
-          <span class="mi:[.bv__axis_&:last-child]:text-end">Over plan</span>
+    <div class="mi:grid mi:gap-3 mi:grid-cols-[minmax(0,_1fr)] mi:@[820px]:grid-cols-[minmax(0,_1fr)_300px]">
+      <div class="mi:grid mi:gap-1.5 mi:content-start mi:min-w-0 mi:p-4.5 mi:rounded-xl mi:bg-card mi:shadow-1">
+        <div class="mi:grid mi:grid-cols-[1fr_1fr] mi:py-0 mi:px-2.5 mi:text-[11px] mi:font-semibold mi:tracking-[.04em] mi:uppercase mi:text-label3" aria-hidden="true">
+          <span class="mi:[&:last-child]:text-end">Under plan</span>
+          <span class="mi:[&:last-child]:text-end">Over plan</span>
         </div>
         <!-- Diverging bars: each half of the track grows away from the plan line with scaleX. -->
-        <TransitionGroup tag="ul" name="bv-move" class="bv__rows mi:grid mi:gap-0.5 mi:m-0 mi:p-0 mi:[list-style:none]" aria-label="Variance by department">
+        <TransitionGroup tag="ul" move-class="mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" class="mi:grid mi:gap-0.5 mi:m-0 mi:p-0 mi:[list-style:none]" aria-label="Variance by department">
           <li v-for="r in rows" :key="r.name">
             <button
-              type="button" class="bv__row mi:grid mi:grid-cols-[minmax(0,_1fr)_auto] mi:[grid-template-areas:'name_val'_'track_track'] mi:items-center mi:gap-y-1.5 mi:gap-x-3 mi:w-full mi:p-2.5 mi:[border:0] mi:rounded-md mi:bg-transparent mi:text-inherit mi:[font:inherit] mi:text-start mi:cursor-pointer mi:[transition:background-color_var(--mi-dur-2)_var(--mi-ease)] mi:@[560px]:grid-cols-[140px_minmax(0,_1fr)_64px] mi:@[560px]:[grid-template-areas:'name_track_val'] mi:hover:bg-fill4 mi:[&.is-on]:bg-fill4 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" :class="{ 'is-on': picked === r.name }" :aria-pressed="picked === r.name"
+              type="button" class="mi:grid mi:grid-cols-[minmax(0,_1fr)_auto] mi:[grid-template-areas:'name_val'_'track_track'] mi:items-center mi:gap-y-1.5 mi:gap-x-3 mi:w-full mi:p-2.5 mi:[border:0] mi:rounded-md mi:text-inherit mi:[font:inherit] mi:text-start mi:cursor-pointer mi:[transition:background-color_var(--mi-dur-2)_var(--mi-ease)] mi:@[560px]:grid-cols-[140px_minmax(0,_1fr)_64px] mi:@[560px]:[grid-template-areas:'name_track_val'] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" :class="picked === r.name ? 'mi:bg-fill4' : 'mi:bg-transparent mi:hover:bg-fill4'" :aria-pressed="picked === r.name"
               :aria-label="`${r.name}, ${signedMoney(r.variance)}, ${signedPct(r.pct)} against plan`" @click="picked = r.name"
             >
-              <span class="bv__name mi:[grid-area:name] mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:text-[14px] mi:font-medium">{{ r.name }}</span>
-              <span class="bv__track mi:[grid-area:track] mi:relative mi:h-3 mi:rounded-[6px] mi:bg-fill4 mi:after:content-[''] mi:after:absolute mi:after:left-1/2 mi:after:top-[-3px] mi:after:bottom-[-3px] mi:after:w-0.5 mi:after:-ml-px mi:after:rounded-[1px] mi:after:bg-label3" aria-hidden="true">
-                <span class="bv__bar mi:absolute mi:top-0 mi:bottom-0 mi:w-1/2 mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)] mi:[&.is-over]:left-1/2 mi:[&.is-over]:rounded-[0_6px_6px_0] mi:[&.is-over]:origin-left mi:[&.is-under]:right-1/2 mi:[&.is-under]:rounded-[6px_0_0_6px] mi:[&.is-under]:origin-right" :class="r.over ? 'is-over' : 'is-under'" :style="{ transform: `scaleX(${r.scale})` }" />
+              <span class="mi:[grid-area:name] mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:text-[14px] mi:font-medium">{{ r.name }}</span>
+              <span class="mi:[grid-area:track] mi:relative mi:h-3 mi:rounded-[6px] mi:bg-fill4 mi:after:content-[''] mi:after:absolute mi:after:left-1/2 mi:after:top-[-3px] mi:after:bottom-[-3px] mi:after:w-0.5 mi:after:-ml-px mi:after:rounded-[1px] mi:after:bg-label3" aria-hidden="true">
+                <span class="mi:absolute mi:top-0 mi:bottom-0 mi:w-1/2 mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :class="r.over ? 'mi:left-1/2 mi:rounded-[0_6px_6px_0] mi:origin-left mi:bg-orange' : 'mi:right-1/2 mi:rounded-[6px_0_0_6px] mi:origin-right mi:[background:color-mix(in_srgb,_var(--mi-p)_70%,_var(--mi-card))]'" :style="{ transform: `scaleX(${r.scale})` }" />
               </span>
-              <span class="bv__val mi:[grid-area:val] mi:text-end mi:text-[13px] mi:font-semibold mi:tabular-nums mi:[&.is-over]:text-orange-t mi:[&.is-under]:text-p-text" :class="r.over ? 'is-over' : 'is-under'">{{ signedPct(r.pct) }}</span>
+              <span class="mi:[grid-area:val] mi:text-end mi:text-[13px] mi:font-semibold mi:tabular-nums" :class="r.over ? 'mi:text-orange-t' : 'mi:text-p-text'">{{ signedPct(r.pct) }}</span>
             </button>
           </li>
         </TransitionGroup>
       </div>
 
-      <aside class="bv__side mi:grid mi:gap-3 mi:content-start mi:[@container_(min-width:_560px)_and_(max-width:_819px)]:grid-cols-[minmax(0,_1fr)_minmax(0,_1.4fr)]" aria-labelledby="bv-side-title">
-        <article class="bv__total mi:grid mi:gap-2 mi:content-start mi:min-w-0 mi:p-4.5 mi:rounded-lg mi:bg-card mi:shadow-1">
+      <aside class="mi:grid mi:gap-3 mi:content-start mi:[@container_(min-width:_560px)_and_(max-width:_819px)]:grid-cols-[minmax(0,_1fr)_minmax(0,_1.4fr)]" aria-labelledby="bv-side-title">
+        <article class="mi:grid mi:gap-2 mi:content-start mi:min-w-0 mi:p-4.5 mi:rounded-lg mi:bg-card mi:shadow-1">
           <MiText variant="caption" tone="label2" weight="medium" as="h3">Company net</MiText>
-          <p class="bv__big mi:m-0 mi:text-[clamp(30px,_6cqi,_38px)] mi:leading-none mi:font-bold mi:tracking-[-.04em] mi:tabular-nums mi:[&.is-over]:text-orange-t" :class="net > 0 ? 'is-over' : 'is-under'">{{ signedMoney(net) }}</p>
+          <p class="mi:m-0 mi:text-[clamp(30px,_6cqi,_38px)] mi:leading-none mi:font-bold mi:tracking-[-.04em] mi:tabular-nums" :class="net > 0 ? 'mi:text-orange-t' : ''">{{ signedMoney(net) }}</p>
           <MiText variant="footnote" tone="label2">{{ money(totalActual) }} spent of {{ money(totalPlan) }} planned</MiText>
         </article>
 
-        <article class="bv__detail mi:grid mi:gap-2 mi:content-start mi:min-w-0 mi:p-4.5 mi:rounded-lg mi:bg-card mi:shadow-1" aria-live="polite">
-          <div class="bv__detail-top mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2">
+        <article class="mi:grid mi:gap-2 mi:content-start mi:min-w-0 mi:p-4.5 mi:rounded-lg mi:bg-card mi:shadow-1" aria-live="polite">
+          <div class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2">
             <MiText id="bv-side-title" variant="headline" as="h3">{{ current.name }}</MiText>
             <MiBadge :tone="current.over ? 'warning' : 'success'" :label="current.over ? 'Over plan' : 'Under plan'" dot />
           </div>
@@ -103,9 +103,3 @@ const signedMoney = (k: number) => (k > 0 ? '+' : k < 0 ? '−' : '') + money(Ma
 const signedPct = (p: number) => (p > 0 ? '+' : p < 0 ? '−' : '') + Math.abs(p).toFixed(1) + '%'
 </script>
 
-<style scoped>
-.bv__bar.is-over { background: var(--mi-orange); }
-.bv__bar.is-under { background: color-mix(in srgb, var(--mi-p) 70%, var(--mi-card)); }
-
-.bv-move-move { transition: transform var(--mi-dur-4) var(--mi-spring); }
-</style>

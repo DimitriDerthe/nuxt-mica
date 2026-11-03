@@ -1,48 +1,48 @@
 <template>
-  <section class="act mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="act-title">
-    <header class="act__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-y-3 mi:gap-x-5">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="act-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-y-3 mi:gap-x-5">
       <div>
         <MiText id="act-title" variant="title3" as="h2" weight="semibold">Activity</MiText>
         <MiText variant="footnote" tone="label2" aria-live="polite">{{ day === null ? 'Last 7 days' : week[day]?.long }} · {{ shownCount }} events</MiText>
       </div>
       <!-- Week density: one bar per day; picking a bar narrows the feed to that day. -->
-      <div class="act__week mi:flex mi:flex-row-reverse mi:gap-1" role="group" aria-label="Filter by day">
+      <div class="mi:flex mi:flex-row-reverse mi:gap-1" role="group" aria-label="Filter by day">
         <button
-          v-for="(d, i) in week" :key="d.short" type="button" class="act__day mi:grid mi:justify-items-center mi:gap-1 mi:w-8.5 mi:py-1 mi:px-0 mi:[border:0] mi:rounded-[8px] mi:[background:none] mi:[font:inherit] mi:text-label2 mi:cursor-pointer mi:hover:[background:var(--mi-fill2)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px] mi:[&.is-on]:text-p-text" :class="{ 'is-on': day === i }" :aria-pressed="day === i"
+          v-for="(d, i) in week" :key="d.short" type="button" class="mi:grid mi:justify-items-center mi:gap-1 mi:w-8.5 mi:py-1 mi:px-0 mi:[border:0] mi:rounded-[8px] mi:[background:none] mi:[font:inherit] mi:cursor-pointer mi:hover:[background:var(--mi-fill2)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" :class="day === i ? 'mi:text-p-text' : 'mi:text-label2'" :aria-pressed="day === i"
           :aria-label="`${d.long}, ${d.count} events`" @click="day = day === i ? null : i"
         >
-          <span class="act__day-bar mi:flex mi:[align-items:flex-end] mi:w-3.5 mi:h-10"><i class="mi:[.act__day-bar_&]:w-full mi:[.act__day-bar_&]:h-full mi:[.act__day-bar_&]:rounded-[4px] mi:[.act__day-bar_&]:[background:color-mix(in_srgb,_var(--mi-p)_35%,_var(--mi-fill3))] mi:[.act__day-bar_&]:origin-bottom mi:[.act__day-bar_&]:[transition:transform_var(--mi-dur-3)_var(--mi-spring)] mi:[.act__day.is-on_.act__day-bar_&]:[background:var(--mi-p)]" :style="{ transform: `scaleY(${Math.max(0.08, d.count / maxDay)})` }" /></span>
-          <span class="act__day-label mi:text-[10px] mi:font-semibold">{{ d.short }}</span>
+          <span class="mi:flex mi:[align-items:flex-end] mi:w-3.5 mi:h-10"><i class="mi:block mi:w-full mi:h-full mi:rounded-[4px] mi:origin-bottom mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring)]" :class="day === i ? 'mi:[background:var(--mi-p)]' : 'mi:[background:color-mix(in_srgb,_var(--mi-p)_35%,_var(--mi-fill3))]'" :style="{ transform: `scaleY(${Math.max(0.08, d.count / maxDay)})` }" /></span>
+          <span class="mi:text-[10px] mi:font-semibold">{{ d.short }}</span>
         </button>
       </div>
     </header>
 
-    <div class="act__chips mi:flex mi:flex-wrap mi:gap-1.5" role="group" aria-label="Event type">
+    <div class="mi:flex mi:flex-wrap mi:gap-1.5" role="group" aria-label="Event type">
       <MiChip v-for="t in types" :key="t.value" selectable size="small" tone="neutral" :label="t.label" :model-value="type === t.value" @update:model-value="type = t.value" />
     </div>
 
-    <div class="act__feed mi:grid mi:gap-4.5">
-      <section v-for="g in groups" :key="g.day" class="act__group mi:grid mi:gap-1.5" :aria-label="week[g.day]?.long">
-        <MiText as="h3" variant="caption" weight="semibold" tone="label2" class="act__group-title">{{ week[g.day]?.long }}</MiText>
-        <ol class="act__list mi:grid mi:m-0 mi:py-1.5 mi:px-0 mi:[list-style:none] mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1">
-          <li v-for="e in g.items" :key="e.id" class="act__row mi:grid mi:grid-cols-[auto_minmax(0,_1fr)_auto] mi:gap-3 mi:py-2.5 mi:px-3.5 mi:[.act__row+&]:border-t mi:[.act__row+&]:border-t-sep">
-            <span class="act__icon mi:grid mi:place-items-center mi:w-7.5 mi:h-7.5 mi:rounded-[9px] mi:text-label2 mi:[background:var(--mi-fill2)]" :class="'act__icon--' + (e.tone ?? e.type)" aria-hidden="true"><MiIcon :svg="glyphs[e.type]" :size="16" /></span>
-            <div class="act__body mi:grid mi:gap-1.5 mi:min-w-0 mi:pt-[5px]">
-              <p class="act__line mi:m-0 mi:text-[14px] mi:leading-[1.4] mi:text-label2">
-                <strong class="mi:[.act__line_&]:font-semibold">{{ e.who }}</strong> {{ e.verb }} <span class="act__target mi:font-medium mi:text-label mi:wrap-anywhere">{{ e.target }}</span>
+    <div class="mi:grid mi:gap-4.5">
+      <section v-for="g in groups" :key="g.day" class="mi:grid mi:gap-1.5" :aria-label="week[g.day]?.long">
+        <MiText as="h3" variant="caption" weight="semibold" tone="label2" class="mi:uppercase mi:tracking-[.06em]!">{{ week[g.day]?.long }}</MiText>
+        <ol class="mi:grid mi:m-0 mi:py-1.5 mi:px-0 mi:[list-style:none] mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1">
+          <li v-for="e in g.items" :key="e.id" class="mi:grid mi:grid-cols-[auto_minmax(0,_1fr)_auto] mi:gap-3 mi:py-2.5 mi:px-3.5 mi:not-first:border-t mi:not-first:border-t-sep">
+            <span class="mi:grid mi:place-items-center mi:w-7.5 mi:h-7.5 mi:rounded-[9px]" :class="[(e.tone ?? e.type) === 'deploy' ? 'mi:text-p-text mi:[background:var(--mi-p-tint)]' : (e.tone ?? e.type) === 'review' ? 'mi:text-green-t mi:[background:color-mix(in_srgb,_var(--mi-green)_14%,_transparent)]' : (e.tone ?? e.type) === 'billing' ? 'mi:text-s-text mi:[background:var(--mi-s-tint)]' : (e.tone ?? e.type) === 'danger' ? 'mi:text-red-t mi:[background:color-mix(in_srgb,_var(--mi-red)_14%,_transparent)]' : 'mi:text-label2 mi:[background:var(--mi-fill2)]']" aria-hidden="true"><MiIcon :svg="glyphs[e.type]" :size="16" /></span>
+            <div class="mi:grid mi:gap-1.5 mi:min-w-0 mi:pt-[5px]">
+              <p class="mi:m-0 mi:text-[14px] mi:leading-[1.4] mi:text-label2">
+                <strong class="mi:font-semibold mi:text-label">{{ e.who }}</strong> {{ e.verb }} <span class="mi:font-medium mi:text-label mi:wrap-anywhere">{{ e.target }}</span>
               </p>
-              <blockquote v-if="e.quote" class="act__quote mi:m-0 mi:py-2 mi:px-3 mi:rounded-[10px] mi:text-[13px] mi:leading-[1.45] mi:text-label mi:[background:var(--mi-fill)] mi:[border-inline-start:2px_solid_var(--mi-p)]">{{ e.quote }}</blockquote>
+              <blockquote v-if="e.quote" class="mi:m-0 mi:py-2 mi:px-3 mi:rounded-[10px] mi:text-[13px] mi:leading-[1.45] mi:text-label mi:[background:var(--mi-fill)] mi:[border-inline-start:2px_solid_var(--mi-p)]">{{ e.quote }}</blockquote>
               <template v-if="e.commits">
-                <button type="button" class="act__more mi:inline-flex mi:items-center mi:gap-1 mi:justify-self-start mi:py-0.5 mi:px-0 mi:[border:0] mi:[background:none] mi:text-p-text mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:focus-visible:rounded-[4px]" :aria-expanded="open.has(e.id)" @click="toggle(e.id)">
-                  <MiIcon name="chevron-right" :size="12" class="act__chev mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)]" />
+                <button type="button" class="mi:[font:inherit] mi:text-[12px] mi:font-semibold mi:inline-flex mi:items-center mi:gap-1 mi:justify-self-start mi:py-0.5 mi:px-0 mi:[border:0] mi:[background:none] mi:text-p-text mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:focus-visible:rounded-[4px]" :aria-expanded="open.has(e.id)" @click="toggle(e.id)">
+                  <MiIcon name="chevron-right" :size="12" class="mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)]" :class="open.has(e.id) ? 'mi:transform-[rotate(90deg)]' : ''" />
                   {{ open.has(e.id) ? 'Hide' : 'Show' }} {{ e.commits.length }} commits
                 </button>
-                <ul v-show="open.has(e.id)" class="act__commits mi:grid mi:gap-1 mi:m-0 mi:p-0 mi:[list-style:none]">
-                  <li class="mi:[.act__commits_&]:gap-2.5" v-for="c in e.commits" :key="c[0]"><code class="mi:[.act__commits_&]:flex-[none] mi:[.act__commits_&]:font-[ui-monospace,_SFMono-Regular,_Menlo,_monospace]">{{ c[0] }}</code><span class="mi:[.act__commits_&]:overflow-hidden mi:[.act__commits_&]:text-ellipsis mi:[.act__commits_&]:whitespace-nowrap">{{ c[1] }}</span></li>
+                <ul v-show="open.has(e.id)" class="mi:grid mi:gap-1 mi:m-0 mi:p-0 mi:[list-style:none]">
+                  <li class="mi:flex mi:min-w-0 mi:text-[12.5px] mi:text-label2 mi:gap-2.5" v-for="c in e.commits" :key="c[0]"><code class="mi:text-[11.5px] mi:text-p-text mi:flex-[none] mi:font-[ui-monospace,_SFMono-Regular,_Menlo,_monospace]">{{ c[0] }}</code><span class="mi:min-w-0 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ c[1] }}</span></li>
                 </ul>
               </template>
             </div>
-            <MiText as="time" variant="caption2" tone="label3" tabular class="act__time mi:pt-[7px]">{{ e.time }}</MiText>
+            <MiText as="time" variant="caption2" tone="label3" tabular class="mi:pt-[7px]">{{ e.time }}</MiText>
           </li>
         </ol>
       </section>
@@ -109,18 +109,3 @@ const toggle = (id: string) => {
   open.value = next
 }
 </script>
-
-<style scoped>
-.act__day-bar i { display: block; }
-.act__group-title { text-transform: uppercase; letter-spacing: .06em; }
-.act__icon--deploy { color: var(--mi-p-text); background: var(--mi-p-tint); }
-.act__icon--review { color: var(--mi-green-t); background: color-mix(in srgb, var(--mi-green) 14%, transparent); }
-.act__icon--billing { color: var(--mi-s-text); background: var(--mi-s-tint); }
-.act__icon--danger { color: var(--mi-red-t); background: color-mix(in srgb, var(--mi-red) 14%, transparent); }
-.act__line strong { color: var(--mi-label); }
-.act__more { font: inherit; font-size: 12px; font-weight: 600; }
-.act__more[aria-expanded="true"] .act__chev { transform: rotate(90deg); }
-.act__commits li { display: flex; min-width: 0; font-size: 12.5px; color: var(--mi-label2); }
-.act__commits code { font-size: 11.5px; color: var(--mi-p-text); }
-.act__commits span { min-width: 0; }
-</style>

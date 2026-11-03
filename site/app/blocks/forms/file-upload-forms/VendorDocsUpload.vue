@@ -1,18 +1,18 @@
 <template>
-  <section class="vdu mi:@container/vdu mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="vdu-title">
-    <header class="vdu__head mi:flex mi:items-center mi:justify-between mi:gap-3.5">
+  <section class="mi:@container/vdu mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="vdu-title">
+    <header class="mi:flex mi:items-center mi:justify-between mi:gap-3.5">
       <div>
         <MiText variant="caption" tone="label2" weight="medium">Supplier onboarding · step 3 of 4</MiText>
         <MiText id="vdu-title" as="h2" variant="title3" weight="semibold">Compliance documents</MiText>
         <MiText variant="footnote" tone="label2">Brightloom Textiles for Halden Retail procurement</MiText>
       </div>
       <MiProgressRing :value="doneCount" :max="required.length" :size="48" label="Required documents provided">
-        <span class="vdu__ring mi:text-[12px] mi:font-bold mi:tabular-nums">{{ doneCount }}/{{ required.length }}</span>
+        <span class="mi:text-[12px] mi:font-bold mi:tabular-nums">{{ doneCount }}/{{ required.length }}</span>
       </MiProgressRing>
     </header>
 
-    <div v-if="sentRef" class="vdu__card vdu__sent mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:grid mi:justify-items-center mi:gap-2.5 mi:py-10 mi:px-6 mi:text-center" role="status" aria-live="polite">
-      <span class="vdu__sent-mark mi:grid mi:place-items-center mi:w-13 mi:h-13 mi:rounded-[50%] mi:text-card mi:bg-green"><MiIcon name="check" :size="24" :weight="2.4" /></span>
+    <div v-if="sentRef" class="mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:grid mi:justify-items-center mi:gap-2.5 mi:py-10 mi:px-6 mi:text-center" role="status" aria-live="polite">
+      <span class="mi:grid mi:place-items-center mi:w-13 mi:h-13 mi:rounded-[50%] mi:text-card mi:bg-green"><MiIcon name="check" :size="24" :weight="2.4" /></span>
       <MiText as="h3" variant="title3" weight="semibold">Sent for review</MiText>
       <MiText variant="subheadline" tone="label2" align="center">
         {{ files.length }} files are with Halden procurement under reference {{ sentRef }}. Reviews usually take two business days.
@@ -20,8 +20,8 @@
       <MiButton variant="gray" @click="sentRef = ''">Back to documents</MiButton>
     </div>
 
-    <form v-else class="vdu__card vdu__grid mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:grid mi:gap-5.5 mi:grid-cols-[minmax(0,_1fr)] mi:items-start mi:@[820px]/vdu:grid-cols-[minmax(0,_1fr)_minmax(0,_1fr)] mi:@[820px]/vdu:gap-7" novalidate @submit.prevent="submit">
-      <div class="vdu__drop mi:grid mi:gap-3 mi:min-w-0">
+    <form v-else class="mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:grid mi:gap-5.5 mi:grid-cols-[minmax(0,_1fr)] mi:items-start mi:@[820px]/vdu:grid-cols-[minmax(0,_1fr)_minmax(0,_1fr)] mi:@[820px]/vdu:gap-7" novalidate @submit.prevent="submit">
+      <div class="mi:grid mi:gap-3 mi:min-w-0">
         <MiFileUpload
           v-model="files" multiple accept=".pdf,image/png,image/jpeg" :max-size="maxSize" :max-files="6" :progress="progress"
           label="Drop PDFs or scans here, or browse" hint="PDF, PNG or JPG · up to 10 MB each · 6 files max" @reject="onReject"
@@ -30,14 +30,14 @@
       </div>
 
       <!-- Checklist: every required document is matched to an uploaded file (auto-guessed from its name). -->
-      <div class="vdu__list mi:grid mi:gap-3.5 mi:min-w-0">
+      <div class="mi:grid mi:gap-3.5 mi:min-w-0">
         <MiText as="h3" variant="subheadline" weight="semibold">Required by Halden</MiText>
-        <ul class="vdu__docs mi:grid mi:m-0 mi:p-0 mi:[list-style:none]">
-          <li v-for="d in docs" :key="d.id" class="vdu__doc mi:grid mi:grid-cols-[22px_minmax(0,_1fr)] mi:gap-3 mi:py-3 mi:px-0 mi:[.vdu__doc+&]:border-t mi:[.vdu__doc+&]:border-t-sep" :class="{ 'is-ok': d.ok, 'is-err': err(d.id) }">
-            <span class="vdu__tick mi:grid mi:place-items-center mi:w-5 mi:h-5 mi:mt-px mi:rounded-[50%] mi:[border:1.5px_dashed_var(--mi-label3)] mi:text-p-on mi:[.vdu__doc.is-ok_&]:[border:0] mi:[.vdu__doc.is-ok_&]:bg-green mi:[.vdu__doc.is-ok_&]:text-card mi:[.vdu__doc.is-err_&]:border-red" aria-hidden="true"><MiIcon v-if="d.ok" name="check" :size="12" :weight="3" /></span>
-            <div class="vdu__doc-body mi:grid mi:gap-2 mi:min-w-0">
-              <div class="vdu__doc-top mi:flex mi:flex-wrap mi:items-baseline mi:justify-between mi:gap-y-1 mi:gap-x-2.5">
-                <span class="vdu__doc-name mi:text-[14px] mi:font-semibold">{{ d.label }}<span v-if="d.optional" class="vdu__opt mi:font-normal mi:text-label3"> · optional</span></span>
+        <ul class="mi:grid mi:m-0 mi:p-0 mi:[list-style:none]">
+          <li v-for="d in docs" :key="d.id" class="mi:grid mi:grid-cols-[22px_minmax(0,_1fr)] mi:gap-3 mi:py-3 mi:px-0 mi:not-first:border-t mi:not-first:border-t-sep">
+            <span class="mi:grid mi:place-items-center mi:w-5 mi:h-5 mi:mt-px mi:rounded-[50%] " :class="d.ok ? 'mi:[border:0] mi:bg-green mi:text-card' : err(d.id) ? 'mi:text-p-on mi:[border:1.5px_dashed_var(--mi-label3)] mi:border-red' : 'mi:text-p-on mi:[border:1.5px_dashed_var(--mi-label3)]'" aria-hidden="true"><MiIcon v-if="d.ok" name="check" :size="12" :weight="3" /></span>
+            <div class="mi:grid mi:gap-2 mi:min-w-0">
+              <div class="mi:flex mi:flex-wrap mi:items-baseline mi:justify-between mi:gap-y-1 mi:gap-x-2.5">
+                <span class="mi:text-[14px] mi:font-semibold">{{ d.label }}<span v-if="d.optional" class="mi:font-normal mi:text-label3"> · optional</span></span>
                 <MiText variant="caption2" tone="label3">{{ d.uploading ? 'Uploading…' : d.ok ? 'Matched' : 'Missing' }}</MiText>
               </div>
               <MiSelect
@@ -45,17 +45,17 @@
                 :disabled="!files.length" :aria-label="d.label + ' file'" :invalid="!!err(d.id)"
               />
               <MiText v-if="err(d.id)" variant="caption" tone="red">{{ err(d.id) }}</MiText>
-              <MiField v-if="d.id === 'coi' && assign.coi" label="Policy expires" required :error="err('expiry')" class="vdu__expiry mi:max-w-70">
+              <MiField v-if="d.id === 'coi' && assign.coi" label="Policy expires" required :error="err('expiry')" class="mi:max-w-70">
                 <MiDatePicker v-model="expiry" :min="today" date-style="medium" />
               </MiField>
             </div>
           </li>
         </ul>
 
-        <MiCheckbox v-model="attest" class="vdu__attest" label="I confirm these documents are current and belong to Brightloom Textiles Ltd." />
+        <MiCheckbox v-model="attest" class="mi:py-3! mi:px-3.5! mi:rounded-md! mi:bg-fill4!" label="I confirm these documents are current and belong to Brightloom Textiles Ltd." />
         <MiText v-if="err('attest')" variant="caption" tone="red" role="alert">{{ err('attest') }}</MiText>
 
-        <div class="vdu__actions mi:flex mi:flex-wrap mi:[justify-content:flex-end] mi:gap-2">
+        <div class="mi:flex mi:flex-wrap mi:[justify-content:flex-end] mi:gap-2">
           <MiButton variant="gray">Save for later</MiButton>
           <MiButton type="submit" :disabled="uploading" :loading="sending">Submit for review</MiButton>
         </div>
@@ -150,7 +150,3 @@ function submit() {
   setTimeout(() => { sentRef.value = 'HR-VND-20931'; sending.value = false; submitted.value = false }, 700)
 }
 </script>
-
-<style scoped>
-.vdu__attest { padding: 12px 14px; border-radius: var(--mi-radius-m); background: var(--mi-fill4); }
-</style>

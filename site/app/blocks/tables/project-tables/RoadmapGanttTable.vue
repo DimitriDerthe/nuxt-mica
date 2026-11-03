@@ -1,61 +1,61 @@
 <template>
-  <section class="rgt mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="rgt-title">
-    <header class="rgt__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="rgt-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="rgt-title" variant="title3" as="h2" weight="semibold">Delivery roadmap</MiText>
         <MiText variant="footnote" tone="label2">{{ rows.length }} projects · {{ money(spent) }} of {{ money(budget) }} spent</MiText>
       </div>
-      <div class="rgt__tools mi:flex mi:flex-wrap mi:gap-2">
+      <div class="mi:flex mi:flex-wrap mi:gap-2">
         <MiSegmented v-model="team" label="Team" :options="teams" />
         <MiSegmented v-model="range" label="Time range" :options="ranges" />
       </div>
     </header>
 
-    <div class="rgt__table mi:hidden mi:relative mi:min-w-0 mi:overflow-x-auto mi:@[820px]:block">
+    <div class="mi:hidden mi:relative mi:min-w-0 mi:overflow-x-auto mi:@[820px]:block">
       <MiTable :columns="columns" :rows="rows" caption="Projects with their schedule" density="relaxed" :zebra="false" empty-text="No project for this team.">
         <template #cell-name="{ row }">
-          <span class="rgt__proj mi:grid mi:min-w-0">
-            <span class="rgt__name mi:font-semibold mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ x(row).name }}</span>
-            <span class="rgt__team mi:inline-flex mi:items-center mi:gap-1 mi:text-[12px] mi:text-label2 mi:whitespace-nowrap">{{ x(row).team }} · <MiAvatar :name="x(row).lead" size="xs" tone="auto" decorative /> {{ x(row).lead.split(' ')[0] }}</span>
+          <span class="mi:grid mi:min-w-0">
+            <span class="mi:font-semibold mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ x(row).name }}</span>
+            <span class="mi:inline-flex mi:items-center mi:gap-1 mi:text-[12px] mi:text-label2 mi:whitespace-nowrap">{{ x(row).team }} · <MiAvatar :name="x(row).lead" size="xs" tone="auto" decorative /> {{ x(row).lead.split(' ')[0] }}</span>
           </span>
         </template>
         <template #cell-status="{ row }"><MiBadge :tone="tones[x(row).status]" :label="labels[x(row).status]" dot /></template>
         <template #cell-burn="{ row }">
-          <span class="rgt__burn mi:grid mi:gap-1">
-            <span class="rgt__burn-num mi:text-[12.5px] mi:font-semibold mi:tabular-nums mi:whitespace-nowrap">{{ money(x(row).spent) }} <small class="mi:[.rgt__burn-num_&]:text-[11px] mi:[.rgt__burn-num_&]:font-normal mi:[.rgt__burn-num_&]:text-label2">/ {{ money(x(row).budget) }}</small></span>
-            <span class="rgt__burn-bar mi:block mi:h-1 mi:rounded-[2px] mi:[background:var(--mi-fill3)] mi:overflow-hidden" :class="{ 'is-hot': x(row).spent / x(row).budget > 0.9 }"><i class="mi:[.rgt__burn-bar_&]:block mi:[.rgt__burn-bar_&]:h-full mi:[.rgt__burn-bar_&]:[background:var(--mi-label2)] mi:[.rgt__burn-bar_&]:origin-left mi:[.rgt__burn-bar.is-hot_&]:[background:var(--mi-red)]" :style="{ transform: `scaleX(${x(row).spent / x(row).budget})` }" /></span>
+          <span class="mi:grid mi:gap-1">
+            <span class="mi:text-[12.5px] mi:font-semibold mi:tabular-nums mi:whitespace-nowrap">{{ money(x(row).spent) }} <small class="mi:text-[11px] mi:font-normal mi:text-label2">/ {{ money(x(row).budget) }}</small></span>
+            <span class="mi:block mi:h-1 mi:rounded-[2px] mi:[background:var(--mi-fill3)] mi:overflow-hidden"><i class="mi:block mi:h-full mi:origin-left" :class="x(row).spent / x(row).budget > 0.9 ? 'mi:[background:var(--mi-red)]' : 'mi:[background:var(--mi-label2)]'" :style="{ transform: `scaleX(${x(row).spent / x(row).budget})` }" /></span>
           </span>
         </template>
         <template #cell-schedule="{ row, index }">
           <!-- Gantt cell: month lines and today's line repeat in every row, so they read as one chart; the first row carries the scale. -->
-          <span class="rgt__lane mi:relative mi:block mi:[&.has-scale]:pt-4" :class="{ 'has-scale': index === 0 }" :aria-label="`${x(row).name}: ${x(row).startLabel} to ${x(row).endLabel}`" role="img">
+          <span class="mi:min-w-55 mi:relative mi:block" :class="index === 0 ? 'mi:pt-4 mi:h-11.5' : 'mi:h-7.5'" :aria-label="`${x(row).name}: ${x(row).startLabel} to ${x(row).endLabel}`" role="img">
             <template v-for="m in frame.months" :key="m.label">
-              <i class="rgt__grid mi:absolute mi:-top-3 mi:-bottom-3 mi:w-px mi:[background:var(--mi-sep)] mi:[.rgt__lane--card_&]:top-0 mi:[.rgt__lane--card_&]:bottom-0 mi:[.rgt__lane.has-scale_&]:top-0.5" :style="{ insetInlineStart: m.at + '%' }" />
-              <span v-if="index === 0" class="rgt__month mi:absolute mi:top-0 mi:ps-1 mi:text-[10.5px] mi:font-semibold mi:text-label2 mi:whitespace-nowrap" :style="{ insetInlineStart: m.at + '%' }">{{ m.label }}</span>
+              <i class="mi:absolute mi:-bottom-3 mi:w-px mi:[background:var(--mi-sep)]" :class="index === 0 ? 'mi:top-0.5' : 'mi:-top-3'" :style="{ insetInlineStart: m.at + '%' }" />
+              <span v-if="index === 0" class="mi:absolute mi:top-0 mi:ps-1 mi:text-[10.5px] mi:font-semibold mi:text-label2 mi:whitespace-nowrap" :style="{ insetInlineStart: m.at + '%' }">{{ m.label }}</span>
             </template>
-            <b v-if="x(row).bar.show" class="rgt__bar mi:absolute mi:top-[7px] mi:bottom-[7px] mi:rounded-[6px] mi:[.rgt__lane--card_&]:top-[5px] mi:[.rgt__lane--card_&]:bottom-[5px] mi:[&.is-active]:[background:var(--mi-p)] mi:[&.is-risk]:[background:var(--mi-orange)] mi:[&.is-review]:[background:var(--mi-s)] mi:[&.is-planned]:shadow-[inset_0_0_0_1.5px_var(--mi-label3)] mi:[&.cut-start]:[border-start-start-radius:0] mi:[&.cut-start]:[border-end-start-radius:0] mi:[&.cut-end]:[border-start-end-radius:0] mi:[&.cut-end]:[border-end-end-radius:0] mi:[.rgt__lane.has-scale_&]:top-[23px] mi:[.rgt__lane.has-scale_&]:bottom-[7px]" :class="barClass(x(row))" :style="barStyle(x(row))" />
-            <span v-else class="rgt__off mi:absolute mi:inset-0 mi:flex mi:items-center mi:[justify-content:flex-end] mi:pe-1.5 mi:text-[11px] mi:text-label3">{{ x(row).start > frame.end ? 'Starts ' + x(row).startLabel : 'Ended ' + x(row).endLabel }}</span>
-            <i class="rgt__today mi:absolute mi:-top-3 mi:-bottom-3 mi:w-0.5 mi:-ms-px mi:[background:color-mix(in_srgb,_var(--mi-red)_70%,_transparent)] mi:[.rgt__lane--card_&]:top-[-3px] mi:[.rgt__lane--card_&]:bottom-[-3px] mi:[.rgt__lane.has-scale_&]:top-0.5" :style="{ insetInlineStart: frame.today + '%' }" />
+            <b v-if="x(row).bar.show" class="mi:absolute mi:bottom-[7px] mi:rounded-[6px]" :class="[index === 0 ? 'mi:top-[23px]' : 'mi:top-[7px]', ...barClass(x(row))]" :style="barStyle(x(row))" />
+            <span v-else class="mi:absolute mi:inset-0 mi:flex mi:items-center mi:[justify-content:flex-end] mi:pe-1.5 mi:text-[11px] mi:text-label3">{{ x(row).start > frame.end ? 'Starts ' + x(row).startLabel : 'Ended ' + x(row).endLabel }}</span>
+            <i class="mi:absolute mi:-bottom-3 mi:w-0.5 mi:-ms-px mi:[background:color-mix(in_srgb,_var(--mi-red)_70%,_transparent)]" :class="index === 0 ? 'mi:top-0.5' : 'mi:-top-3'" :style="{ insetInlineStart: frame.today + '%' }" />
           </span>
         </template>
-        <template #cell-end="{ row }"><span class="rgt__due mi:text-[13px] mi:tabular-nums mi:whitespace-nowrap">{{ x(row).endLabel }}</span></template>
+        <template #cell-end="{ row }"><span class="mi:text-[13px] mi:tabular-nums mi:whitespace-nowrap">{{ x(row).endLabel }}</span></template>
       </MiTable>
     </div>
 
-    <ul class="rgt__cards mi:grid mi:gap-2 mi:m-0 mi:p-0 mi:[list-style:none] mi:@[820px]:hidden">
-      <li v-for="p in rows" :key="p.id" class="rgt__card mi:grid mi:gap-2 mi:py-3 mi:px-3.5 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1">
-        <div class="rgt__card-top mi:flex mi:[align-items:flex-start] mi:justify-between mi:gap-2">
-          <span class="rgt__proj mi:grid mi:min-w-0"><span class="rgt__name mi:font-semibold mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ p.name }}</span><span class="rgt__team mi:inline-flex mi:items-center mi:gap-1 mi:text-[12px] mi:text-label2 mi:whitespace-nowrap">{{ p.team }} · {{ p.lead }}</span></span>
+    <ul class="mi:grid mi:gap-2 mi:m-0 mi:p-0 mi:[list-style:none] mi:@[820px]:hidden">
+      <li v-for="p in rows" :key="p.id" class="mi:grid mi:gap-2 mi:py-3 mi:px-3.5 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1">
+        <div class="mi:flex mi:[align-items:flex-start] mi:justify-between mi:gap-2">
+          <span class="mi:grid mi:min-w-0"><span class="mi:font-semibold mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ p.name }}</span><span class="mi:inline-flex mi:items-center mi:gap-1 mi:text-[12px] mi:text-label2 mi:whitespace-nowrap">{{ p.team }} · {{ p.lead }}</span></span>
           <MiBadge :tone="tones[p.status]" :label="labels[p.status]" dot />
         </div>
-        <span class="rgt__lane rgt__lane--card mi:relative mi:block mi:my-0.5 mi:mx-0 mi:[&.has-scale]:pt-4" aria-hidden="true">
-          <i v-for="m in frame.months" :key="m.label" class="rgt__grid mi:absolute mi:-top-3 mi:-bottom-3 mi:w-px mi:[background:var(--mi-sep)] mi:[.rgt__lane--card_&]:top-0 mi:[.rgt__lane--card_&]:bottom-0 mi:[.rgt__lane.has-scale_&]:top-0.5" :style="{ insetInlineStart: m.at + '%' }" />
-          <b v-if="p.bar.show" class="rgt__bar mi:absolute mi:top-[7px] mi:bottom-[7px] mi:rounded-[6px] mi:[.rgt__lane--card_&]:top-[5px] mi:[.rgt__lane--card_&]:bottom-[5px] mi:[&.is-active]:[background:var(--mi-p)] mi:[&.is-risk]:[background:var(--mi-orange)] mi:[&.is-review]:[background:var(--mi-s)] mi:[&.is-planned]:shadow-[inset_0_0_0_1.5px_var(--mi-label3)] mi:[&.cut-start]:[border-start-start-radius:0] mi:[&.cut-start]:[border-end-start-radius:0] mi:[&.cut-end]:[border-start-end-radius:0] mi:[&.cut-end]:[border-end-end-radius:0] mi:[.rgt__lane.has-scale_&]:top-[23px] mi:[.rgt__lane.has-scale_&]:bottom-[7px]" :class="barClass(p)" :style="barStyle(p)" />
-          <i class="rgt__today mi:absolute mi:-top-3 mi:-bottom-3 mi:w-0.5 mi:-ms-px mi:[background:color-mix(in_srgb,_var(--mi-red)_70%,_transparent)] mi:[.rgt__lane--card_&]:top-[-3px] mi:[.rgt__lane--card_&]:bottom-[-3px] mi:[.rgt__lane.has-scale_&]:top-0.5" :style="{ insetInlineStart: frame.today + '%' }" />
+        <span class="mi:h-5.5 mi:min-w-0 mi:relative mi:block mi:my-0.5 mi:mx-0" aria-hidden="true">
+          <i v-for="m in frame.months" :key="m.label" class="mi:absolute mi:top-0 mi:bottom-0 mi:w-px mi:[background:var(--mi-sep)]" :style="{ insetInlineStart: m.at + '%' }" />
+          <b v-if="p.bar.show" class="mi:absolute mi:top-[5px] mi:bottom-[5px] mi:rounded-[6px]" :class="barClass(p)" :style="barStyle(p)" />
+          <i class="mi:absolute mi:top-[-3px] mi:bottom-[-3px] mi:w-0.5 mi:-ms-px mi:[background:color-mix(in_srgb,_var(--mi-red)_70%,_transparent)]" :style="{ insetInlineStart: frame.today + '%' }" />
         </span>
         <MiText variant="caption" tone="label2" tabular>{{ p.startLabel }} → {{ p.endLabel }} · {{ money(p.spent) }} of {{ money(p.budget) }}</MiText>
       </li>
-      <li v-if="!rows.length" class="rgt__none mi:p-5 mi:text-center"><MiText variant="footnote" tone="label2">No project for this team.</MiText></li>
+      <li v-if="!rows.length" class="mi:p-5 mi:text-center"><MiText variant="footnote" tone="label2">No project for this team.</MiText></li>
     </ul>
   </section>
 </template>
@@ -114,7 +114,17 @@ const bar = (p: Project) => {
 }
 type Row = Project & { bar: ReturnType<typeof bar> }
 const x = (row: Record<string, unknown>) => row as unknown as Row
-const barClass = (p: Row) => ['is-' + p.status, { 'cut-start': p.bar.cutStart, 'cut-end': p.bar.cutEnd }]
+const BAR_STATUS: Record<Status, string> = {
+  active: 'mi:[background:var(--mi-p)]',
+  risk: 'mi:[background:var(--mi-orange)]',
+  review: 'mi:[background:var(--mi-s)]',
+  planned: 'mi:shadow-[inset_0_0_0_1.5px_var(--mi-label3)] mi:bg-transparent mi:[background-position:0_0] mi:bg-[image:repeating-linear-gradient(135deg,_var(--mi-fill3)_0_4px,_transparent_4px_8px)]'
+}
+const barClass = (p: Row) => [
+  BAR_STATUS[p.status],
+  p.bar.cutStart ? 'mi:[border-start-start-radius:0] mi:[border-end-start-radius:0]' : '',
+  p.bar.cutEnd ? 'mi:[border-start-end-radius:0] mi:[border-end-end-radius:0]' : ''
+]
 const barStyle = (p: Row) => ({ insetInlineStart: p.bar.left + '%', width: p.bar.width + '%' })
 
 const rows = computed<Row[]>(() => projects.filter(p => team.value === 'all' || p.team === team.value).map(p => ({ ...p, bar: bar(p) })))
@@ -130,12 +140,3 @@ const columns = [
   { key: 'end', label: 'Due', sortable: true, align: 'end' as const, width: '72px' }
 ]
 </script>
-
-<style scoped>
-/* Gantt lane */
-.rgt__lane { height: 30px; min-width: 220px; }
-.rgt__lane--card { height: 22px; min-width: 0; }
-.rgt__bar.is-planned { background: transparent; background-image: repeating-linear-gradient(135deg, var(--mi-fill3) 0 4px, transparent 4px 8px); }
-
-.rgt__lane.has-scale { height: 46px; }
-</style>

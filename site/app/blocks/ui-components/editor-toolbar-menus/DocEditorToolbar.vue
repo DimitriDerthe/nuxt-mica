@@ -1,18 +1,18 @@
 <template>
-  <section class="det mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="det-title">
-    <div class="det__toolbar mi:flex mi:flex-wrap mi:items-center mi:gap-2 mi:p-2 mi:rounded-lg mi:bg-card mi:shadow-2" role="toolbar" aria-label="Formatting">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="det-title">
+    <div class="mi:flex mi:flex-wrap mi:items-center mi:gap-2 mi:p-2 mi:rounded-lg mi:bg-card mi:shadow-2" role="toolbar" aria-label="Formatting">
       <MiMenu v-model="block" variant="popup" :items="blockItems" aria-label="Paragraph style" />
-      <span class="det__sep mi:w-px mi:h-5 mi:bg-sep" aria-hidden="true" />
-      <div class="det__marks mi:flex mi:gap-0.5">
+      <span class="mi:w-px mi:h-5 mi:bg-sep" aria-hidden="true" />
+      <div class="mi:flex mi:gap-0.5">
         <MiToggle v-for="m in marks" :key="m.key" v-model:pressed="active[m.key]" size="sm" :label="m.label">
-          <span :class="'det__glyph det__glyph--' + m.key" aria-hidden="true">{{ m.glyph }}</span>
+          <span class="mi:inline-block mi:min-w-3 mi:text-[14px] mi:text-center" :class="GLYPH_CLS[m.key]" aria-hidden="true">{{ m.glyph }}</span>
         </MiToggle>
       </div>
-      <span class="det__sep mi:w-px mi:h-5 mi:bg-sep" aria-hidden="true" />
+      <span class="mi:w-px mi:h-5 mi:bg-sep" aria-hidden="true" />
       <MiToggleGroup v-model="align" :options="alignOptions" size="sm" label="Alignment">
         <template #default="{ option }"><MiIcon :name="iconFor(option.value)" :size="16" /></template>
       </MiToggleGroup>
-      <span class="det__sep mi:w-px mi:h-5 mi:bg-sep" aria-hidden="true" />
+      <span class="mi:w-px mi:h-5 mi:bg-sep" aria-hidden="true" />
       <MiMenu :items="insertItems" aria-label="Insert" placement="bottom-end" @select="(i) => insert(String(i.value))">
         <template #trigger="{ props: tp }">
           <MiButton v-bind="tp" variant="tinted" size="small">
@@ -23,20 +23,20 @@
       </MiMenu>
     </div>
 
-    <article class="det__doc mi:grid mi:gap-2.5 mi:p-[clamp(18px,_5cqi,_40px)] mi:rounded-xl mi:bg-card mi:shadow-1">
+    <article class="mi:grid mi:gap-2.5 mi:p-[clamp(18px,_5cqi,_40px)] mi:rounded-xl mi:bg-card mi:shadow-1">
       <MiText id="det-title" variant="title2" as="h2" weight="bold">Field notes: Lisbon offsite</MiText>
       <MiText variant="caption" tone="label3">Edited by Clara Mendes · 3 min ago</MiText>
 
       <!-- The selected paragraph: the toolbar above formats it for real. -->
-      <component :is="tag" class="det__target" :class="['is-' + block, { 'is-b': active.bold, 'is-i': active.italic, 'is-u': active.underline, 'is-s': active.strike }]" :style="{ textAlign: alignValue }">
+      <component :is="tag" class="mi:mt-2 mi:mb-0 mi:-mx-1.5 mi:py-1 mi:px-1.5 mi:rounded-[6px] mi:max-w-[68ch]" :class="targetClass" :style="{ textAlign: alignValue }">
         Day two moves to the LX Factory loft: kickoff at 9:30, roadmap review before lunch, and the customer panel with Ana from Tasca Rodrigues at 15:00.
       </component>
 
-      <p v-for="(b, i) in inserted" :key="i" class="det__inserted mi:flex mi:items-center mi:gap-2 mi:m-0 mi:py-2 mi:px-2.5 mi:rounded-md mi:bg-fill4 mi:text-[14px]"><MiIcon :name="glyph[b.icon]" :size="16" />{{ b.text }}</p>
+      <p v-for="(b, i) in inserted" :key="i" class="mi:[--mi-in-y:6px] mi:animate-[in_var(--mi-dur-3)_var(--mi-spring)] mi:motion-reduce:animate-none mi:flex mi:items-center mi:gap-2 mi:m-0 mi:py-2 mi:px-2.5 mi:rounded-md mi:bg-fill4 mi:text-[14px]"><MiIcon :name="glyph[b.icon]" :size="16" class="mi:text-p-text" />{{ b.text }}</p>
 
       <!-- Slash command line with its menu open at the caret. -->
-      <div class="det__slash mi:grid mi:justify-items-start mi:gap-1.5">
-        <p class="det__cmd mi:flex mi:items-center mi:m-0 mi:text-[16px] mi:text-label2"><span>/ch</span><i class="det__caret mi:w-0.5 mi:h-5 mi:ms-px mi:bg-p" aria-hidden="true" /></p>
+      <div class="mi:[&>:last-child]:max-w-full! mi:grid mi:justify-items-start mi:gap-1.5">
+        <p class="mi:flex mi:items-center mi:m-0 mi:text-[16px] mi:text-label2"><span class="mi:px-0.5 mi:rounded-[4px] mi:bg-fill3">/ch</span><i class="mi:animate-[blink_1.1s_steps(1)_infinite] mi:motion-reduce:animate-none mi:w-0.5 mi:h-5 mi:ms-px mi:bg-p" aria-hidden="true" /></p>
         <MiContextMenu inline :items="slashItems" label="Insert block" :width="248" :highlighted="highlighted" @select="insert" />
       </div>
     </article>
@@ -65,6 +65,25 @@ const marks: { key: Mark, label: string, glyph: string }[] = [
   { key: 'strike', label: 'Strikethrough', glyph: 'S' }
 ]
 const active = reactive<Record<Mark, boolean>>({ bold: false, italic: true, underline: false, strike: false })
+const GLYPH_CLS: Record<Mark, string> = {
+  bold: 'mi:font-extrabold',
+  italic: 'mi:italic mi:font-[Georgia,serif]',
+  underline: 'mi:underline mi:underline-offset-2',
+  strike: 'mi:line-through'
+}
+// The paragraph being edited: block style first, then the marks on top of it.
+const targetClass = computed(() => {
+  const b = String(block.value)
+  const shape = b === 'title' ? 'mi:text-[26px] mi:leading-[1.25] mi:tracking-[-.02em] mi:bg-p/14 mi:shadow-[inset_2px_0_0_var(--mi-p)]'
+    : b === 'heading' ? 'mi:text-[19px] mi:leading-[1.35] mi:bg-p/14 mi:shadow-[inset_2px_0_0_var(--mi-p)]'
+      : b === 'quote' ? 'mi:ps-3.5 mi:text-[17px] mi:leading-[1.6] mi:text-label2 mi:bg-p/14 mi:shadow-[inset_3px_0_0_var(--mi-label3)]'
+        : b === 'code' ? 'mi:whitespace-pre-wrap mi:font-[ui-monospace,SFMono-Regular,Menlo,monospace] mi:text-[13px] mi:leading-[1.6] mi:bg-fill4 mi:shadow-[inset_2px_0_0_var(--mi-p)]'
+          : 'mi:text-[16px] mi:leading-[1.6] mi:bg-p/14 mi:shadow-[inset_2px_0_0_var(--mi-p)]'
+  const weight = active.bold || b === 'title' ? 'mi:font-bold' : b === 'heading' ? 'mi:font-semibold' : ''
+  const deco = active.underline && active.strike ? 'mi:[text-decoration-line:underline_line-through] mi:underline-offset-[3px]'
+    : active.underline ? 'mi:underline mi:underline-offset-[3px]' : active.strike ? 'mi:line-through' : ''
+  return [shape, weight, active.italic ? 'mi:italic' : '', deco]
+})
 
 const alignOptions = [{ value: 'left', ariaLabel: 'Align left' }, { value: 'center', ariaLabel: 'Align center' }, { value: 'right', ariaLabel: 'Align right' }]
 const align = ref<string | number | (string | number)[] | null>('left')
@@ -109,30 +128,3 @@ function insert(id: string) {
   inserted.value = [...inserted.value, { icon: entry.icon, text: entry.text }].slice(-3)
 }
 </script>
-
-<style scoped>
-.det__glyph { display: inline-block; min-width: 12px; font-size: 14px; text-align: center; }
-.det__glyph--bold { font-weight: 800; }
-.det__glyph--italic { font-style: italic; font-family: Georgia, serif; }
-.det__glyph--underline { text-decoration: underline; text-underline-offset: 2px; }
-.det__glyph--strike { text-decoration: line-through; }
-.det__target { margin: 8px 0 0; padding: 4px 6px; margin-inline: -6px; border-radius: 6px; background: color-mix(in srgb, var(--mi-p) 14%, transparent); box-shadow: inset 2px 0 0 var(--mi-p); font-size: 16px; line-height: 1.6; max-width: 68ch; }
-.det__target.is-title { font-size: 26px; line-height: 1.25; font-weight: 700; letter-spacing: -.02em; }
-.det__target.is-heading { font-size: 19px; line-height: 1.35; font-weight: 600; }
-.det__target.is-quote { padding-inline-start: 14px; font-size: 17px; color: var(--mi-label2); box-shadow: inset 3px 0 0 var(--mi-label3); }
-.det__target.is-code { white-space: pre-wrap; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; background: var(--mi-fill4); }
-.det__target.is-b { font-weight: 700; }
-.det__target.is-i { font-style: italic; }
-.det__target.is-u { text-decoration: underline; text-underline-offset: 3px; }
-.det__target.is-s { text-decoration: line-through; }
-.det__target.is-u.is-s { text-decoration: underline line-through; }
-
-.det__inserted { animation: det-in var(--mi-dur-3) var(--mi-spring); }
-.det__inserted :deep(svg) { flex: none; color: var(--mi-p-text); }
-@keyframes det-in { from { opacity: 0; transform: translateY(6px); } }
-.det__cmd span { padding: 0 2px; border-radius: 4px; background: var(--mi-fill3); }
-.det__caret { animation: det-blink 1.1s steps(1) infinite; }
-@keyframes det-blink { 50% { opacity: 0; } }
-@media (prefers-reduced-motion: reduce) { .det__caret, .det__inserted { animation: none; } }
-.det__slash > :last-child { max-width: 100%; }
-</style>

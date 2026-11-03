@@ -1,26 +1,26 @@
 <template>
-  <section class="acs mi:@container mi:flex mi:flex-col mi:h-170 mi:font-mi mi:text-label mi:[background:var(--mi-page)]" aria-labelledby="acs-title">
-    <header class="acs__top mi:flex mi:items-center mi:justify-between mi:gap-3 mi:py-3 mi:px-4 mi:border-b mi:border-b-sep">
+  <section class="mi:@container mi:flex mi:flex-col mi:h-170 mi:font-mi mi:text-label mi:[background:var(--mi-page)]" aria-labelledby="acs-title">
+    <header class="mi:flex mi:items-center mi:justify-between mi:gap-3 mi:py-3 mi:px-4 mi:border-b mi:border-b-sep">
       <MiText id="acs-title" as="h2" variant="headline" weight="semibold" :lines="1">Writing assistant</MiText>
-      <MiSegmented v-model="pane" label="Show pane" :options="panes" class="acs__switch" />
+      <MiSegmented v-model="pane" label="Show pane" :options="panes" class="mi:@[820px]:hidden!" />
     </header>
 
-    <div class="acs__shell mi:flex-1 mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:min-h-0 mi:@[820px]:grid-cols-[minmax(300px,_2fr)_3fr]" :class="'show-' + pane">
+    <div class="mi:flex-1 mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:min-h-0 mi:@[820px]:grid-cols-[minmax(300px,_2fr)_3fr]">
       <!-- Chat pane: requests on the left, the document they change on the right. -->
-      <div class="acs__chat mi:[.acs__shell.show-canvas_&]:hidden mi:@[820px]:[.acs__shell.show-canvas_&]:flex mi:flex mi:flex-col mi:min-w-0 mi:min-h-0">
-        <MiMessageScroller class="acs__log" label="Conversation about the draft">
+      <div class="mi:flex-col mi:min-w-0 mi:min-h-0 mi:@[820px]:flex" :class="pane === 'canvas' ? 'mi:hidden' : 'mi:flex'">
+        <MiMessageScroller class="mi:flex-1 mi:min-h-0" label="Conversation about the draft">
           <MiMessageScrollerItem v-for="m in messages" :key="m.id" :message-id="'acs-' + m.id" :scroll-anchor="m.role === 'user'">
             <MiMessage :align="m.role === 'user' ? 'end' : 'start'" :label="m.role === 'user' ? 'You' : 'Assistant'">
               <MiBubble :align="m.role === 'user' ? 'end' : 'start'" :variant="m.role === 'user' ? 'secondary' : 'muted'">{{ m.text }}</MiBubble>
               <template v-if="m.para !== undefined" #footer>
-                <button type="button" class="acs__jump mi:p-0 mi:[border:0] mi:[background:none] mi:text-p-text mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:focus-visible:rounded-[4px]" @click="jumpTo(m.para)">Edited paragraph {{ m.para + 1 }}</button>
+                <button type="button" class="mi:[font:inherit] mi:text-[12px] mi:p-0 mi:[border:0] mi:[background:none] mi:text-p-text mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:focus-visible:rounded-[4px]" @click="jumpTo(m.para)">Edited paragraph {{ m.para + 1 }}</button>
               </template>
             </MiMessage>
           </MiMessageScrollerItem>
         </MiMessageScroller>
 
-        <form class="acs__composer mi:grid mi:gap-2 mi:pt-3 mi:px-3.5 mi:pb-3.5 mi:border-t mi:border-t-sep mi:[background:var(--mi-card)]" @submit.prevent="send(draft)">
-          <div class="acs__quick mi:flex mi:flex-wrap mi:gap-1.5" role="group" aria-label="Quick edits">
+        <form class="mi:grid mi:gap-2 mi:pt-3 mi:px-3.5 mi:pb-3.5 mi:border-t mi:border-t-sep mi:[background:var(--mi-card)]" @submit.prevent="send(draft)">
+          <div class="mi:flex mi:flex-wrap mi:gap-1.5" role="group" aria-label="Quick edits">
             <MiButton v-for="q in quick" :key="q" variant="gray" size="mini" :disabled="!next" @click="send(q)">{{ q }}</MiButton>
           </div>
           <MiInputGroup v-model="draft" aria-label="Ask for an edit" placeholder="Ask for an edit…">
@@ -33,17 +33,17 @@
         </form>
       </div>
 
-      <article class="acs__canvas mi:[.acs__shell.show-chat_&]:hidden mi:@[820px]:[.acs__shell.show-chat_&]:flex mi:@[820px]:border-l mi:@[820px]:border-l-sep mi:flex mi:flex-col mi:min-w-0 mi:min-h-0 mi:[background:var(--mi-card)]" aria-labelledby="acs-doc">
-        <header class="acs__doc-head mi:flex mi:items-center mi:justify-between mi:gap-2 mi:pt-2 mi:pr-3 mi:pb-2 mi:pl-5 mi:border-b mi:border-b-sep">
+      <article class="mi:@[820px]:flex mi:@[820px]:border-l mi:@[820px]:border-l-sep mi:flex-col mi:min-w-0 mi:min-h-0 mi:[background:var(--mi-card)]" :class="pane === 'chat' ? 'mi:hidden' : 'mi:flex'" aria-labelledby="acs-doc">
+        <header class="mi:flex mi:items-center mi:justify-between mi:gap-2 mi:pt-2 mi:pr-3 mi:pb-2 mi:pl-5 mi:border-b mi:border-b-sep">
           <MiText variant="caption" tone="label2" weight="medium">Draft · version {{ history.length }}</MiText>
           <MiButton variant="plain" size="small" :disabled="history.length === 1" @click="undo">
             <template #leading><MiIcon name="arrow-left" :size="14" /></template>Undo
           </MiButton>
         </header>
-        <div class="acs__page mi:flex-1 mi:overflow-y-auto mi:grid mi:content-start mi:gap-3.5 mi:pt-6 mi:px-5 mi:pb-8 mi:@[820px]:py-9 mi:@[820px]:px-11">
+        <div class="mi:flex-1 mi:overflow-y-auto mi:grid mi:content-start mi:gap-3.5 mi:pt-6 mi:px-5 mi:pb-8 mi:@[820px]:py-9 mi:@[820px]:px-11">
           <MiText id="acs-doc" as="h3" variant="title2" weight="bold">Ledgerline now closes your books in a day</MiText>
           <p
-            v-for="(p, i) in current.paras" :id="'acs-p' + i" :key="i" class="acs__para mi:relative mi:m-0 mi:max-w-[62ch] mi:text-[15px] mi:leading-[1.65] mi:before:content-[''] mi:before:absolute mi:before:top-0.5 mi:before:right-auto mi:before:bottom-0.5 mi:before:-left-3 mi:before:w-[3px] mi:before:rounded-[2px] mi:before:[background:var(--mi-p)] mi:before:opacity-0 mi:before:transform-[scaleY(.4)] mi:before:[transition:opacity_var(--mi-dur-3)_var(--mi-ease),_transform_var(--mi-dur-3)_var(--mi-spring)] mi:[&.is-fresh]:before:opacity-100 mi:[&.is-fresh]:before:transform-none mi:[&.is-focus]:before:opacity-100 mi:[&.is-focus]:before:transform-none mi:[&.is-focus]:before:[background:var(--mi-s)]" :class="{ 'is-fresh': i === current.changed, 'is-focus': i === focus }"
+            v-for="(p, i) in current.paras" :id="'acs-p' + i" :key="i" class="mi:relative mi:m-0 mi:max-w-[62ch] mi:text-[15px] mi:leading-[1.65] mi:before:content-[''] mi:before:absolute mi:before:top-0.5 mi:before:right-auto mi:before:bottom-0.5 mi:before:-left-3 mi:before:w-[3px] mi:before:rounded-[2px] mi:before:[transition:opacity_var(--mi-dur-3)_var(--mi-ease),_transform_var(--mi-dur-3)_var(--mi-spring)]" :class="i === focus ? 'mi:before:opacity-100 mi:before:transform-none mi:before:[background:var(--mi-s)]' : i === current.changed ? 'mi:before:opacity-100 mi:before:transform-none mi:before:[background:var(--mi-p)]' : 'mi:before:opacity-0 mi:before:transform-[scaleY(.4)] mi:before:[background:var(--mi-p)]'"
           >
             {{ p }}
           </p>
@@ -112,11 +112,3 @@ async function jumpTo(i: number) {
   document.getElementById('acs-p' + i)?.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
 }
 </script>
-
-<style scoped>
-@container (min-width: 820px) {
-  .acs__switch { display: none; }
-}
-.acs__log { flex: 1; min-height: 0; }
-.acs__jump { font: inherit; font-size: 12px; }
-</style>

@@ -1,14 +1,14 @@
 <template>
-  <section class="dep mi:@container mi:flex mi:flex-col mi:gap-5 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:font-mi mi:text-label" aria-labelledby="dep-title">
-    <header class="dep__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3.5">
-      <div class="dep__id mi:grid mi:gap-0.5 mi:min-w-0">
+  <section class="mi:@container mi:flex mi:flex-col mi:gap-5 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:font-mi mi:text-label" aria-labelledby="dep-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3.5">
+      <div class="mi:grid mi:gap-0.5 mi:min-w-0">
         <MiText variant="caption" tone="label2" weight="medium">Dispute dp_7Hq2 · charge of 12 October · Mastercard •••• 8810</MiText>
         <MiText id="dep-title" as="h2" variant="title3" weight="bold">Product not received</MiText>
         <MiText variant="footnote" tone="label2">Customer: Elodie Varga · order #31877 · 2× Walnut desk shelf</MiText>
       </div>
-      <div class="dep__amount mi:grid mi:justify-items-start mi:gap-1 mi:@[620px]:justify-items-end">
+      <div class="mi:grid mi:justify-items-start mi:gap-1 mi:@[620px]:justify-items-end">
         <MiBadge :tone="status.tone" :label="status.label" dot />
-        <p class="dep__big mi:m-0 mi:text-[clamp(28px,_6cqi,_38px)] mi:font-bold mi:tracking-[-.035em] mi:tabular-nums">$1,240.00</p>
+        <p class="mi:m-0 mi:text-[clamp(28px,_6cqi,_38px)] mi:font-bold mi:tracking-[-.035em] mi:tabular-nums">$1,240.00</p>
         <MiText variant="caption" tone="label2">+ $15.00 dispute fee</MiText>
       </div>
     </header>
@@ -18,18 +18,18 @@
       :color="submitted ? 'var(--mi-green)' : 'var(--mi-orange)'" value-text="15 of 21 days used"
     />
 
-    <div class="dep__grid mi:grid mi:gap-5 mi:@[760px]:grid-cols-[minmax(0,_1fr)_minmax(0,_1fr)] mi:@[760px]:gap-7">
+    <div class="mi:grid mi:gap-5 mi:@[760px]:grid-cols-[minmax(0,_1fr)_minmax(0,_1fr)] mi:@[760px]:gap-7">
       <!-- Evidence checklist: the bank weighs these, so required items gate the submission. -->
-      <div class="dep__col mi:grid mi:content-start mi:gap-3 mi:min-w-0">
-        <div class="dep__col-head mi:flex mi:items-baseline mi:justify-between mi:gap-2.5">
+      <div class="mi:grid mi:content-start mi:gap-3 mi:min-w-0">
+        <div class="mi:flex mi:items-baseline mi:justify-between mi:gap-2.5">
           <MiText as="h3" variant="headline">Evidence</MiText>
           <MiText variant="caption" tone="label2">{{ attachedCount }} of {{ evidence.length }} attached</MiText>
         </div>
-        <ul class="dep__list mi:grid mi:m-0 mi:p-0 mi:[list-style:none] mi:border mi:border-sep mi:rounded-lg">
-          <li v-for="e in evidence" :key="e.id" class="dep__item mi:grid mi:grid-cols-[auto_minmax(0,_1fr)_auto] mi:items-center mi:gap-3 mi:py-3 mi:px-3.5 mi:[.dep__item+&]:border-t mi:[.dep__item+&]:border-t-sep">
-            <MiIcon :name="e.file ? 'check-circle-fill' : 'document'" :size="20" class="dep__icon mi:text-label3 mi:[&.is-on]:text-green" :class="{ 'is-on': e.file }" />
-            <div class="dep__text mi:min-w-0">
-              <MiText variant="subheadline" weight="medium">{{ e.label }} <span v-if="e.required" class="dep__req mi:ml-1 mi:text-[11px] mi:font-semibold mi:text-orange-t">Required</span></MiText>
+        <ul class="mi:grid mi:m-0 mi:p-0 mi:[list-style:none] mi:border mi:border-sep mi:rounded-lg">
+          <li v-for="e in evidence" :key="e.id" class="mi:grid mi:grid-cols-[auto_minmax(0,_1fr)_auto] mi:items-center mi:gap-3 mi:py-3 mi:px-3.5 mi:not-first:border-t mi:not-first:border-t-sep">
+            <MiIcon :name="e.file ? 'check-circle-fill' : 'document'" :size="20" " :class="e.file ? 'mi:text-green' : 'mi:text-label3'" />
+            <div class="mi:min-w-0">
+              <MiText variant="subheadline" weight="medium">{{ e.label }} <span v-if="e.required" class="mi:ml-1 mi:text-[11px] mi:font-semibold mi:text-orange-t">Required</span></MiText>
               <MiText variant="caption" tone="label2" :lines="1">{{ e.file || e.hint }}</MiText>
             </div>
             <MiButton v-if="!e.file" variant="tinted" size="small" :disabled="submitted" @click="e.file = e.sample">Attach</MiButton>
@@ -40,14 +40,14 @@
         </ul>
       </div>
 
-      <div class="dep__col mi:grid mi:content-start mi:gap-3 mi:min-w-0">
+      <div class="mi:grid mi:content-start mi:gap-3 mi:min-w-0">
         <MiText as="h3" variant="headline">Your response</MiText>
         <MiField label="Summary for the bank" :hint="rebuttal.trim().length < 80 ? `At least 80 characters (${rebuttal.trim().length} so far).` : 'Clear and factual reads best.'">
           <MiTextarea v-model="rebuttal" :rows="5" :maxlength="1000" counter :disabled="submitted" />
         </MiField>
         <MiAlert v-if="submitted" tone="success" title="Evidence submitted" message="The issuing bank usually decides within 60 to 75 days. We'll email you either way." />
         <MiAlert v-else-if="missing.length" tone="warning" :message="'Still needed: ' + missing.join(', ') + '.'" />
-        <div class="dep__actions mi:flex mi:flex-wrap mi:[justify-content:flex-end] mi:gap-2">
+        <div class="mi:flex mi:flex-wrap mi:[justify-content:flex-end] mi:gap-2">
           <MiButton variant="destructive" soft :disabled="submitted">Accept dispute</MiButton>
           <MiButton :disabled="!canSubmit" @click="submitted = true">Submit evidence</MiButton>
         </div>

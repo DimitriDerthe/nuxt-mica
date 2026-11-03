@@ -1,6 +1,6 @@
 <template>
-  <section class="sf mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="sf-title">
-    <header class="sf__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="sf-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="sf-title" variant="title3" as="h2" weight="semibold">Freight lanes</MiText>
         <MiText variant="footnote" tone="label2">European network · pallets per week, last 4 weeks</MiText>
@@ -8,42 +8,42 @@
       <MiSegmented v-model="direction" label="Lane direction" :options="directions" />
     </header>
 
-    <div class="sf__hubs mi:flex mi:flex-wrap mi:gap-1.5" role="group" aria-label="Hub">
+    <div class="mi:flex mi:flex-wrap mi:gap-1.5" role="group" aria-label="Hub">
       <MiChip
         v-for="h in hubs" :key="h.id" selectable size="small" tone="neutral" :label="h.name"
         :model-value="hub === h.id" @update:model-value="hub = h.id"
       />
     </div>
 
-    <div class="sf__body mi:grid mi:gap-3 mi:grid-cols-[minmax(0,_1fr)] mi:@[820px]:grid-cols-[minmax(0,_1fr)_300px]">
+    <div class="mi:grid mi:gap-3 mi:grid-cols-[minmax(0,_1fr)] mi:@[820px]:grid-cols-[minmax(0,_1fr)_300px]">
       <!-- Abstract map: hubs placed by rough position, lanes as arcs whose width follows volume. -->
-      <div class="sf__map mi:grid mi:gap-2 mi:min-w-0 mi:p-4 mi:rounded-xl mi:shadow-1 mi:[background:radial-gradient(circle,_var(--mi-fill3)_1px,_transparent_1.5px)_0_0_/_14px_14px,_var(--mi-card)]">
-        <svg viewBox="0 0 400 260" role="img" :aria-label="`Freight lanes map, ${connected.length} lanes highlighted for ${current.name}`">
+      <div class="mi:grid mi:gap-2 mi:min-w-0 mi:p-4 mi:rounded-xl mi:shadow-1 mi:[background:radial-gradient(circle,_var(--mi-fill3)_1px,_transparent_1.5px)_0_0_/_14px_14px,_var(--mi-card)]">
+        <svg viewBox="0 0 400 260" class="mi:block mi:w-full mi:h-auto mi:overflow-visible" role="img" :aria-label="`Freight lanes map, ${connected.length} lanes highlighted for ${current.name}`">
           <path
-            v-for="l in drawn" :key="l.id" :d="l.path" class="sf__lane mi:fill-[color:none] mi:stroke-label3 mi:[stroke-linecap:round] mi:opacity-14 mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)] mi:[&.is-on]:stroke-p mi:[&.is-on]:opacity-90 mi:[&.is-on.is-in]:stroke-s mi:[&.is-on.is-in]:[stroke-dasharray:6_5]" :class="{ 'is-on': l.on, 'is-in': l.inbound }"
+            v-for="l in drawn" :key="l.id" :d="l.path" class="mi:fill-[color:none] mi:[stroke-linecap:round] mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)]" :class="!l.on ? 'mi:stroke-label3 mi:opacity-14' : l.inbound ? 'mi:stroke-s mi:opacity-90 mi:[stroke-dasharray:6_5]' : 'mi:stroke-p mi:opacity-90'"
             :stroke-width="l.width"
           />
-          <g v-for="h in hubs" :key="h.id" class="sf__node mi:cursor-pointer" :class="{ 'is-on': h.id === hub }" @click="hub = h.id">
-            <circle class="mi:[.sf__node_&]:fill-card mi:[.sf__node_&]:[stroke-width:2] mi:[.sf__node.is-on_&]:stroke-p" :cx="h.x" :cy="h.y" :r="h.r" />
-            <text class="mi:[.sf__node_&]:text-[11px] mi:[.sf__node_&]:font-semibold mi:[.sf__node_&]:[text-anchor:middle] mi:[.sf__node_&]:fill-label2 mi:[.sf__node_&]:[paint-order:stroke] mi:[.sf__node_&]:[stroke-width:3px]" :x="h.x" :y="h.y - h.r - 6">{{ h.name }}</text>
+          <g v-for="h in hubs" :key="h.id" class="mi:cursor-pointer" @click="hub = h.id">
+            <circle class="mi:[stroke-width:2]" :class="h.id === hub ? 'mi:fill-p mi:stroke-p' : 'mi:fill-card mi:stroke-label2'" :cx="h.x" :cy="h.y" :r="h.r" />
+            <text class="mi:stroke-card mi:text-[11px] mi:font-semibold mi:[text-anchor:middle] mi:[paint-order:stroke] mi:[stroke-width:3px]" :class="h.id === hub ? 'mi:fill-label' : 'mi:fill-label2'" :x="h.x" :y="h.y - h.r - 6">{{ h.name }}</text>
           </g>
         </svg>
-        <MiChartLegend :items="legend" aria-label="Lane styles" class="sf__legend" />
+        <MiChartLegend :items="legend" aria-label="Lane styles" class="mi:justify-self-start" />
       </div>
 
-      <aside class="sf__side mi:grid mi:gap-3 mi:content-start mi:min-w-0 mi:p-4.5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1" aria-labelledby="sf-side-title" aria-live="polite">
-        <div class="sf__side-top mi:grid mi:gap-0.5">
+      <aside class="mi:grid mi:gap-3 mi:content-start mi:min-w-0 mi:p-4.5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1" aria-labelledby="sf-side-title" aria-live="polite">
+        <div class="mi:grid mi:gap-0.5">
           <MiText id="sf-side-title" variant="headline" as="h3">{{ current.name }}</MiText>
           <MiText variant="footnote" tone="label2">{{ totalOf(connected).toLocaleString('en-US') }} pallets a week on {{ connected.length }} lanes</MiText>
         </div>
-        <ol class="sf__lanes mi:grid mi:m-0 mi:p-0 mi:[list-style:none]">
-          <li class="mi:[.sf__lanes_li&]:gap-[5px] mi:[.sf__lanes_li&]:py-2.5 mi:[.sf__lanes_li&]:px-0 mi:[.sf__lanes_li&]:border-t mi:[.sf__lanes_li&]:border-t-sep" v-for="l in connected" :key="l.id">
-            <div class="sf__lane-top mi:flex mi:items-baseline mi:justify-between mi:gap-2.5 mi:min-w-0">
-              <MiText class="mi:[.sf__lanes_li&]:gap-[5px] mi:[.sf__lanes_li&]:py-2.5 mi:[.sf__lanes_li&]:px-0 mi:[.sf__lanes_li&]:border-t mi:[.sf__lanes_li&]:border-t-sep" variant="subheadline" weight="medium" :lines="1">{{ nameOf(l.from) }} → {{ nameOf(l.to) }}</MiText>
-              <span class="sf__lane-val mi:text-[14px] mi:font-semibold mi:tabular-nums">{{ l.pallets }}</span>
+        <ol class="mi:grid mi:m-0 mi:p-0 mi:[list-style:none]">
+          <li class="mi:grid mi:gap-[5px] mi:py-2.5 mi:px-0 mi:border-t mi:border-t-sep" v-for="l in connected" :key="l.id">
+            <div class="mi:flex mi:items-baseline mi:justify-between mi:gap-2.5 mi:min-w-0">
+              <MiText variant="subheadline" weight="medium" :lines="1">{{ nameOf(l.from) }} → {{ nameOf(l.to) }}</MiText>
+              <span class="mi:text-[14px] mi:font-semibold mi:tabular-nums">{{ l.pallets }}</span>
             </div>
-            <span class="sf__bar mi:block mi:h-[5px] mi:rounded-[3px] mi:[background:var(--mi-fill4)] mi:overflow-hidden" aria-hidden="true"><i class="mi:[.sf__bar_&]:rounded-[inherit] mi:[.sf__bar_&]:[background:var(--mi-p)] mi:[.sf__bar_&]:origin-left mi:[.sf__bar_&]:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :class="{ 'is-in': l.to === hub }" :style="{ transform: `scaleX(${l.pallets / maxPallets})` }" /></span>
-            <MiText class="mi:[.sf__lanes_li&]:gap-[5px] mi:[.sf__lanes_li&]:py-2.5 mi:[.sf__lanes_li&]:px-0 mi:[.sf__lanes_li&]:border-t mi:[.sf__lanes_li&]:border-t-sep" variant="caption" :tone="l.onTime < 0.9 ? 'orange' : 'label2'">
+            <span class="mi:block mi:h-[5px] mi:rounded-[3px] mi:[background:var(--mi-fill4)] mi:overflow-hidden" aria-hidden="true"><i class="mi:block mi:h-full mi:rounded-[inherit] mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :class="l.to === hub ? 'mi:[background:var(--mi-s)]' : 'mi:[background:var(--mi-p)]'" :style="{ transform: `scaleX(${l.pallets / maxPallets})` }" /></span>
+            <MiText variant="caption" :tone="l.onTime < 0.9 ? 'orange' : 'label2'">
               {{ l.days }}-day transit · {{ Math.round(l.onTime * 100) }}% on time
             </MiText>
           </li>
@@ -115,15 +115,3 @@ const legend = [
   { label: 'Inbound', color: 'var(--mi-s)', shape: 'line' as const }
 ]
 </script>
-
-<style scoped>
-.sf__map svg { display: block; width: 100%; height: auto; overflow: visible; }
-.sf__legend { justify-self: start; }
-.sf__node circle { stroke: var(--mi-label2); }
-.sf__node.is-on circle { fill: var(--mi-p); }
-.sf__node text { stroke: var(--mi-card); }
-.sf__node.is-on text { fill: var(--mi-label); }
-.sf__lanes li { display: grid; }
-.sf__bar i { display: block; height: 100%; }
-.sf__bar i.is-in { background: var(--mi-s); }
-</style>

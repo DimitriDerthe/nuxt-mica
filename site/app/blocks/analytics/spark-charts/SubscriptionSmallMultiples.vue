@@ -1,32 +1,32 @@
 <template>
-  <section class="ssm mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="ssm-title">
-    <header class="ssm__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-y-3 mi:gap-x-6">
-      <div class="mi:[.ssm__head>&:first-child]:flex-[1_1_280px] mi:[.ssm__head>&:first-child]:min-w-0">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="ssm-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-y-3 mi:gap-x-6">
+      <div class="mi:[&:first-child]:flex-[1_1_280px] mi:[&:first-child]:min-w-0">
         <MiText id="ssm-title" variant="title3" as="h2" weight="semibold">Subscription vitals</MiText>
         <MiText variant="footnote" tone="label2">October, daily · point at any chart or drag the scrubber to read every tile on the same day</MiText>
       </div>
-      <div class="ssm__scrub mi:[.ssm__head>&:first-child]:flex-[1_1_280px] mi:[.ssm__head>&:first-child]:min-w-0 mi:flex-[1_1_220px] mi:max-w-80">
+      <div class="mi:[&:first-child]:flex-[1_1_280px] mi:[&:first-child]:min-w-0 mi:flex-[1_1_220px] mi:max-w-80">
         <MiSlider v-model="day" :min="1" :max="N" label="Day" :format="(v) => 'Oct ' + v" />
       </div>
     </header>
 
     <!-- Small multiples share one cursor: the scrubbed day is marked on every sparkline. -->
-    <ul class="ssm__grid mi:grid mi:gap-3 mi:grid-cols-[minmax(0,_1fr)] mi:m-0 mi:p-0 mi:[list-style:none] mi:@[520px]:grid-cols-2 mi:@[860px]:grid-cols-3" aria-live="polite">
-      <li v-for="m in tiles" :key="m.label" class="ssm__tile mi:grid mi:gap-1 mi:min-w-0 mi:p-4 mi:rounded-lg mi:bg-card mi:shadow-1">
-        <div class="ssm__tile-top mi:flex mi:items-center mi:justify-between mi:gap-2">
+    <ul class="mi:grid mi:gap-3 mi:grid-cols-[minmax(0,_1fr)] mi:m-0 mi:p-0 mi:[list-style:none] mi:@[520px]:grid-cols-2 mi:@[860px]:grid-cols-3" aria-live="polite">
+      <li v-for="m in tiles" :key="m.label" class="mi:grid mi:gap-1 mi:min-w-0 mi:p-4 mi:rounded-lg mi:bg-card mi:shadow-1">
+        <div class="mi:flex mi:items-center mi:justify-between mi:gap-2">
           <MiText variant="footnote" weight="medium" tone="label2" as="h3">{{ m.label }}</MiText>
-          <span class="ssm__delta mi:text-[12px] mi:font-semibold mi:tabular-nums mi:text-label2" :class="m.tone">{{ m.delta }}</span>
+          <span class="mi:text-[12px] mi:font-semibold mi:tabular-nums" :class="m.tone">{{ m.delta }}</span>
         </div>
-        <p class="ssm__value mi:m-0 mi:text-[26px] mi:font-bold mi:tracking-[-.03em] mi:tabular-nums">{{ m.value }}</p>
-        <div class="ssm__spark mi:relative mi:h-12 mi:mt-1.5 mi:mx-0 mi:mb-0.5 mi:@container">
-          <svg class="mi:[.ssm__spark_&]:block mi:[.ssm__spark_&]:w-full mi:[.ssm__spark_&]:h-full mi:[.ssm__spark_&]:overflow-visible" :viewBox="`0 0 ${W} ${H}`" preserveAspectRatio="none" aria-hidden="true">
-            <path :d="m.area" class="ssm__area mi:fill-p/12" />
-            <path :d="m.line" class="ssm__line mi:fill-[color:none] mi:stroke-p mi:[stroke-width:2] mi:[stroke-linejoin:round] mi:[vector-effect:non-scaling-stroke]" />
-            <line :x1="m.x" :x2="m.x" y1="0" :y2="H" class="ssm__cursor mi:stroke-label3 mi:[stroke-width:1] mi:[stroke-dasharray:3_3] mi:[vector-effect:non-scaling-stroke]" />
+        <p class="mi:m-0 mi:text-[26px] mi:font-bold mi:tracking-[-.03em] mi:tabular-nums">{{ m.value }}</p>
+        <div class="mi:relative mi:h-12 mi:mt-1.5 mi:mx-0 mi:mb-0.5 mi:@container">
+          <svg class="mi:block mi:w-full mi:h-full mi:overflow-visible" :viewBox="`0 0 ${W} ${H}`" preserveAspectRatio="none" aria-hidden="true">
+            <path :d="m.area" class="mi:fill-p/12" />
+            <path :d="m.line" class="mi:fill-[color:none] mi:stroke-p mi:[stroke-width:2] mi:[stroke-linejoin:round] mi:[vector-effect:non-scaling-stroke]" />
+            <line :x1="m.x" :x2="m.x" y1="0" :y2="H" class="mi:stroke-label3 mi:[stroke-width:1] mi:[stroke-dasharray:3_3] mi:[vector-effect:non-scaling-stroke]" />
           </svg>
-          <span class="ssm__dot mi:absolute mi:-left-1 mi:-top-1 mi:w-2 mi:h-full mi:pointer-events-none mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:before:content-[''] mi:before:absolute mi:before:left-0 mi:before:top-0 mi:before:w-2 mi:before:h-2 mi:before:rounded-[50%] mi:before:bg-p mi:before:shadow-[0_0_0_2px_var(--mi-card)]" :style="{ transform: `translate(${m.xPct}cqi, ${m.yPct}%)` }" aria-hidden="true" />
+          <span class="mi:absolute mi:-left-1 mi:-top-1 mi:w-2 mi:h-full mi:pointer-events-none mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:before:content-[''] mi:before:absolute mi:before:left-0 mi:before:top-0 mi:before:w-2 mi:before:h-2 mi:before:rounded-[50%] mi:before:bg-p mi:before:shadow-[0_0_0_2px_var(--mi-card)]" :style="{ transform: `translate(${m.xPct}cqi, ${m.yPct}%)` }" aria-hidden="true" />
           <!-- Invisible hover zones, one per day: no pointer maths, no layout reads. -->
-          <div class="ssm__zones mi:absolute mi:inset-0 mi:grid mi:grid-cols-30" aria-hidden="true">
+          <div class="mi:absolute mi:inset-0 mi:grid mi:grid-cols-30" aria-hidden="true">
             <span v-for="d in N" :key="d" @mouseenter="day = d" />
           </div>
         </div>
@@ -78,7 +78,7 @@ const tiles = computed(() => shapes.map((s) => {
   const [x, y] = s.pts[i]!
   const change = s.values[i]! - s.values[0]!
   const pct = (change / s.values[0]!) * 100
-  const good = change === 0 ? 'is-flat' : (change > 0) === s.goodUp ? 'is-good' : 'is-bad'
+  const good = change === 0 ? 'mi:text-label2' : (change > 0) === s.goodUp ? 'mi:text-green-t' : 'mi:text-orange-t'
   return {
     label: s.label, line: s.line, area: s.area, x, xPct: (x / W) * 100, yPct: (y / H) * 100,
     value: s.format(s.values[i]!), tone: good, delta: `${pct >= 0 ? '+' : '−'}${Math.abs(pct).toFixed(1)}%`,
@@ -87,7 +87,3 @@ const tiles = computed(() => shapes.map((s) => {
 }))
 </script>
 
-<style scoped>
-.ssm__delta.is-good { color: var(--mi-green-t); }
-.ssm__delta.is-bad { color: var(--mi-orange-t); }
-</style>

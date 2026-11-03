@@ -1,20 +1,20 @@
 <template>
-  <section class="cmp mi:@container/cmp mi:font-mi mi:text-label" aria-labelledby="cmp-title">
-    <form class="cmp__card mi:grid mi:gap-4.5 mi:max-w-140 mi:mx-auto mi:p-5.5 mi:rounded-xl mi:bg-card mi:shadow-1" novalidate @submit.prevent="pay">
-      <header class="cmp__head mi:grid mi:gap-1">
+  <section class="mi:@container/cmp mi:font-mi mi:text-label" aria-labelledby="cmp-title">
+    <form class="mi:grid mi:gap-4.5 mi:max-w-140 mi:mx-auto mi:p-5.5 mi:rounded-xl mi:bg-card mi:shadow-1" novalidate @submit.prevent="pay">
+      <header class="mi:grid mi:gap-1">
         <MiText id="cmp-title" as="h2" variant="title3" weight="semibold">How would you like to pay?</MiText>
         <MiText variant="footnote" tone="label2">Order #SG-20931 · Linen duvet set and two pillowcases · <strong>{{ money(total) }}</strong></MiText>
       </header>
 
       <!-- Radio cards: each method reveals only the fields it needs. -->
-      <MiRadioGroup v-model="method" label="Payment method" class="cmp__methods">
-        <div v-for="m in methods" :key="m.id" class="cmp__method mi:rounded-lg mi:bg-fill4 mi:[outline:1px_solid_transparent] mi:[&.is-on]:bg-p-tint mi:[&.is-on]:outline-p/45" :class="{ 'is-on': method === m.id }">
-          <div class="cmp__row mi:flex mi:[align-items:flex-start] mi:justify-between mi:gap-2.5 mi:py-3.5 mi:px-4">
+      <MiRadioGroup v-model="method" label="Payment method" class="mi:grid! mi:gap-2.5!">
+        <div v-for="m in methods" :key="m.id" class="mi:rounded-lg mi:[outline:1px_solid_transparent]" :class="method === m.id ? 'mi:bg-p-tint mi:outline-p/45' : 'mi:bg-fill4'">
+          <div class="mi:flex mi:[align-items:flex-start] mi:justify-between mi:gap-2.5 mi:py-3.5 mi:px-4">
             <MiRadio :value="m.id" :label="m.label" :description="m.hint" />
             <MiBadge v-if="m.badge" tone="success" :label="m.badge" />
           </div>
 
-          <div v-if="method === m.id && m.id === 'card'" class="cmp__panel mi:gap-3 mi:pt-0 mi:px-4 mi:pb-4 mi:@[420px]/cmp:ps-12">
+          <div v-if="method === m.id && m.id === 'card'" class="mi:grid mi:[--mi-in-y:-4px] mi:animate-[in_var(--mi-dur-3)_var(--mi-ease)] mi:motion-reduce:animate-none mi:gap-3 mi:pt-0 mi:px-4 mi:pb-4 mi:@[420px]/cmp:ps-12">
             <MiField label="Saved card">
               <MiSelect v-model="card" :options="cards" />
             </MiField>
@@ -25,10 +25,10 @@
             </MiField>
           </div>
 
-          <div v-else-if="method === m.id && m.id === 'split'" class="cmp__panel mi:gap-3 mi:pt-0 mi:px-4 mi:pb-4 mi:@[420px]/cmp:ps-12">
-            <ol class="cmp__plan mi:grid mi:grid-cols-2 mi:gap-3 mi:m-0 mi:p-0 mi:[list-style:none] mi:@[480px]/cmp:grid-cols-4" aria-label="Payment schedule">
-              <li v-for="(p, i) in schedule" :key="p.date" class="cmp__step mi:grid mi:gap-0.5">
-                <span class="cmp__dot mi:w-2.5 mi:h-2.5 mi:mb-1 mi:rounded-[50%] mi:border-2 mi:border-p mi:[&.is-now]:bg-p" :class="{ 'is-now': i === 0 }" aria-hidden="true" />
+          <div v-else-if="method === m.id && m.id === 'split'" class="mi:grid mi:[--mi-in-y:-4px] mi:animate-[in_var(--mi-dur-3)_var(--mi-ease)] mi:motion-reduce:animate-none mi:gap-3 mi:pt-0 mi:px-4 mi:pb-4 mi:@[420px]/cmp:ps-12">
+            <ol class="mi:grid mi:grid-cols-2 mi:gap-3 mi:m-0 mi:p-0 mi:[list-style:none] mi:@[480px]/cmp:grid-cols-4" aria-label="Payment schedule">
+              <li v-for="(p, i) in schedule" :key="p.date" class="mi:grid mi:gap-0.5">
+                <span class="mi:w-2.5 mi:h-2.5 mi:mb-1 mi:rounded-[50%] mi:border-2 mi:border-p" :class="i === 0 ? 'mi:bg-p' : ''" aria-hidden="true" />
                 <MiText variant="caption" tone="label2">{{ p.date }}</MiText>
                 <MiText variant="subheadline" weight="semibold" tabular>{{ money(p.amount) }}</MiText>
               </li>
@@ -36,22 +36,22 @@
             <MiText variant="caption" tone="label3">0% interest, no fees when paid on time. A soft credit check does not affect your score.</MiText>
           </div>
 
-          <div v-else-if="method === m.id && m.id === 'bank'" class="cmp__panel mi:gap-3 mi:pt-0 mi:px-4 mi:pb-4 mi:@[420px]/cmp:ps-12">
+          <div v-else-if="method === m.id && m.id === 'bank'" class="mi:grid mi:[--mi-in-y:-4px] mi:animate-[in_var(--mi-dur-3)_var(--mi-ease)] mi:motion-reduce:animate-none mi:gap-3 mi:pt-0 mi:px-4 mi:pb-4 mi:@[420px]/cmp:ps-12">
             <MiDetails :items="bankDetails" label-width="110px" />
-            <div class="cmp__ref mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2">
+            <div class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2">
               <MiText variant="caption" tone="label2">Use this reference so we can match your transfer.</MiText>
               <MiCopyButton :value="reference" label="Copy reference" variant="outline" />
             </div>
           </div>
 
-          <MiText v-else-if="method === m.id && m.id === 'wallet'" variant="caption" tone="label2" class="cmp__panel mi:gap-3 mi:pt-0 mi:px-4 mi:pb-4 mi:@[420px]/cmp:ps-12">
+          <MiText v-else-if="method === m.id && m.id === 'wallet'" variant="caption" tone="label2" class="mi:grid mi:[--mi-in-y:-4px] mi:animate-[in_var(--mi-dur-3)_var(--mi-ease)] mi:motion-reduce:animate-none mi:gap-3 mi:pt-0 mi:px-4 mi:pb-4 mi:@[420px]/cmp:ps-12">
             You confirm on your phone with Face ID or your passcode. Your card number is never shared with us.
           </MiText>
         </div>
       </MiRadioGroup>
 
-      <footer class="cmp__foot mi:grid mi:gap-2.5">
-        <p class="cmp__status mi:min-h-4.5 mi:m-0 mi:text-[13px] mi:text-green-t" role="status" aria-live="polite">{{ status }}</p>
+      <footer class="mi:grid mi:gap-2.5">
+        <p class="mi:min-h-4.5 mi:m-0 mi:text-[13px] mi:text-green-t" role="status" aria-live="polite">{{ status }}</p>
         <MiButton type="submit" size="large" block>{{ cta }}</MiButton>
         <MiText variant="caption" tone="label3" align="center">
           <MiIcon name="lock" :size="12" /> Payments are encrypted. Sample data only, nothing is charged.
@@ -113,10 +113,3 @@ function pay() {
     : 'Payment authorised. A receipt is on its way to your inbox.'
 }
 </script>
-
-<style scoped>
-.cmp__methods { display: grid; gap: 10px; }
-.cmp__panel { display: grid; animation: cmp-in var(--mi-dur-3) var(--mi-ease); }
-@keyframes cmp-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) { .cmp__panel { animation: none; } }
-</style>

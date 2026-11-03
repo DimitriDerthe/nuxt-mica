@@ -1,50 +1,50 @@
 <template>
-  <div class="ssf mi:@container mi:grid mi:content-start mi:gap-0 mi:font-mi mi:text-label mi:rounded-xl mi:overflow-hidden mi:bg-page mi:shadow-[0_0_0_1px_var(--mi-sep)]">
+  <div class="mi:@container mi:grid mi:content-start mi:gap-0 mi:font-mi mi:text-label mi:rounded-xl mi:overflow-hidden mi:bg-page mi:shadow-[0_0_0_1px_var(--mi-sep)]">
     <!-- Faux end of a dashboard page, so the footer is seen in place. -->
-    <div class="ssf__page mi:grid mi:grid-cols-2 mi:gap-3 mi:p-4.5 mi:@[760px]:grid-cols-3 mi:@[760px]:p-6" aria-hidden="true">
-      <span class="ssf__ghost mi:h-18 mi:rounded-lg mi:bg-card mi:shadow-1 mi:[&.is-wide]:col-span-full mi:[&.is-wide]:h-11 mi:[&.is-wide]:opacity-60 mi:@[760px]:[&.is-wide]:col-[auto] mi:@[760px]:[&.is-wide]:h-18 mi:@[760px]:[&.is-wide]:opacity-100" /><span class="ssf__ghost mi:h-18 mi:rounded-lg mi:bg-card mi:shadow-1 mi:[&.is-wide]:col-span-full mi:[&.is-wide]:h-11 mi:[&.is-wide]:opacity-60 mi:@[760px]:[&.is-wide]:col-[auto] mi:@[760px]:[&.is-wide]:h-18 mi:@[760px]:[&.is-wide]:opacity-100" /><span class="ssf__ghost is-wide mi:h-18 mi:rounded-lg mi:bg-card mi:shadow-1 mi:[&.is-wide]:col-span-full mi:[&.is-wide]:h-11 mi:[&.is-wide]:opacity-60 mi:@[760px]:[&.is-wide]:col-[auto] mi:@[760px]:[&.is-wide]:h-18 mi:@[760px]:[&.is-wide]:opacity-100" />
+    <div class="mi:grid mi:grid-cols-2 mi:gap-3 mi:p-4.5 mi:@[760px]:grid-cols-3 mi:@[760px]:p-6" aria-hidden="true">
+      <span class="mi:h-18 mi:rounded-lg mi:bg-card mi:shadow-1" /><span class="mi:h-18 mi:rounded-lg mi:bg-card mi:shadow-1" /><span class="mi:rounded-lg mi:bg-card mi:shadow-1 mi:col-span-full mi:h-11 mi:opacity-60 mi:@[760px]:col-[auto] mi:@[760px]:h-18 mi:@[760px]:opacity-100" />
     </div>
 
-    <footer class="ssf__foot mi:grid mi:gap-4.5 mi:p-4.5 mi:bg-card mi:border-t mi:border-t-sep mi:@[760px]:grid-cols-[minmax(0,_1fr)_auto] mi:@[760px]:gap-x-12 mi:@[760px]:py-5 mi:@[760px]:px-6" aria-labelledby="ssf-title">
-      <h2 id="ssf-title" class="ssf__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">Service status and app information</h2>
+    <footer class="mi:grid mi:gap-4.5 mi:p-4.5 mi:bg-card mi:border-t mi:border-t-sep mi:@[760px]:grid-cols-[minmax(0,_1fr)_auto] mi:@[760px]:gap-x-12 mi:@[760px]:py-5 mi:@[760px]:px-6" aria-labelledby="ssf-title">
+      <h2 id="ssf-title" class="mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">Service status and app information</h2>
 
-      <section class="ssf__status mi:grid mi:gap-2.5 mi:min-w-0" aria-label="Uptime">
-        <div class="ssf__status-head mi:flex mi:flex-wrap mi:items-center mi:gap-y-1 mi:gap-x-2.5">
-          <span class="ssf__beacon mi:relative mi:w-2.5 mi:h-2.5 mi:rounded-[50%] mi:bg-green mi:after:content-[''] mi:after:absolute mi:after:inset-0 mi:after:rounded-[50%] mi:after:bg-inherit" :class="'is-' + overall.tone" aria-hidden="true" />
+      <section class="mi:grid mi:gap-2.5 mi:min-w-0" aria-label="Uptime">
+        <div class="mi:flex mi:flex-wrap mi:items-center mi:gap-y-1 mi:gap-x-2.5">
+          <span class="mi:relative mi:w-2.5 mi:h-2.5 mi:rounded-[50%] mi:bg-green mi:after:content-[''] mi:after:absolute mi:after:inset-0 mi:after:rounded-[50%] mi:after:bg-inherit mi:after:opacity-60 mi:after:[--mi-out-s:2.6] mi:after:animate-[out_2.4s_var(--mi-ease)_infinite] mi:motion-reduce:after:animate-none mi:motion-reduce:after:opacity-100" aria-hidden="true" />
           <MiText variant="subheadline" weight="semibold">{{ overall.label }}</MiText>
-          <MiText variant="caption" tone="label2" tabular class="ssf__avg">{{ average }}% over 60 days</MiText>
+          <MiText variant="caption" tone="label2" tabular class="mi:ml-auto!">{{ average }}% over 60 days</MiText>
         </div>
         <!-- Uptime strip: one bar per day, roving focus with the arrow keys. -->
-        <div class="ssf__strip mi:flex mi:items-stretch mi:gap-0.5 mi:h-7" role="group" aria-label="Daily uptime, last 60 days" @keydown.left.prevent="move(-1)" @keydown.right.prevent="move(1)">
+        <div class="mi:flex mi:items-stretch mi:gap-0.5 mi:h-7" role="group" aria-label="Daily uptime, last 60 days" @keydown.left.prevent="move(-1)" @keydown.right.prevent="move(1)">
           <button
-            v-for="(d, i) in days" :key="i" :ref="el => setBar(el, i)" type="button" class="ssf__bar mi:flex-[1_1_0] mi:min-w-0 mi:p-0 mi:[border:0] mi:rounded-[2px] mi:bg-green mi:opacity-75 mi:cursor-pointer mi:origin-bottom mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring),_opacity_var(--mi-dur-1)_linear] mi:[&.is-on]:transform-[scaleY(1.18)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]"
-            :class="['is-' + d.tone, { 'is-on': i === pick }]" :tabindex="i === pick ? 0 : -1" :aria-label="`${d.date}: ${d.uptime}% uptime`"
+            v-for="(d, i) in days" :key="i" :ref="el => setBar(el, i)" type="button" class="mi:flex-[1_1_0] mi:min-w-0 mi:p-0 mi:[border:0] mi:rounded-[2px] mi:cursor-pointer mi:origin-bottom mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring),_opacity_var(--mi-dur-1)_linear] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]"
+            :class="[d.tone === 'minor' ? 'mi:bg-orange' : d.tone === 'major' ? 'mi:bg-red' : 'mi:bg-green', i === pick ? 'mi:opacity-100 mi:transform-[scaleY(1.18)]' : d.tone === 'ok' ? 'mi:opacity-75 mi:hover:opacity-100' : 'mi:opacity-90 mi:hover:opacity-100']" :tabindex="i === pick ? 0 : -1" :aria-label="`${d.date}: ${d.uptime}% uptime`"
             :aria-pressed="i === pick" @click="pick = i"
           />
         </div>
-        <p class="ssf__detail mi:m-0 mi:text-[13px] mi:leading-[1.4] mi:text-label2" aria-live="polite">
-          <b class="mi:[.ssf__detail_&]:text-label mi:[.ssf__detail_&]:font-semibold">{{ day.date }}</b> · <span class="ssf__num mi:tabular-nums">{{ day.uptime }}%</span> · {{ day.note }}
+        <p class="mi:m-0 mi:text-[13px] mi:leading-[1.4] mi:text-label2" aria-live="polite">
+          <b class="mi:text-label mi:font-semibold">{{ day.date }}</b> · <span class="mi:tabular-nums">{{ day.uptime }}%</span> · {{ day.note }}
         </p>
       </section>
 
-      <section class="ssf__meta mi:grid mi:gap-3 mi:@[760px]:content-start" aria-label="Build and region">
-        <div class="ssf__build mi:flex mi:flex-wrap mi:items-center mi:gap-2">
-          <MiText variant="caption" tone="label2">Version</MiText>
-          <code class="ssf__code mi:py-[3px] mi:px-2 mi:rounded-[6px] mi:bg-fill4 mi:[font:500_12px/1.4_ui-monospace,_SFMono-Regular,_Menlo,_monospace]">v4.12.0 · 8f3c21e</code>
+      <section class="mi:grid mi:gap-3 mi:@[760px]:content-start" aria-label="Build and region">
+        <div class="mi:flex mi:flex-wrap mi:items-center mi:gap-2">
+          <MiText variant="caption" tone="label2" class="mi:w-14!">Version</MiText>
+          <code class="mi:py-[3px] mi:px-2 mi:rounded-[6px] mi:bg-fill4 mi:[font:500_12px/1.4_ui-monospace,_SFMono-Regular,_Menlo,_monospace]">v4.12.0 · 8f3c21e</code>
           <MiCopyButton value="4.12.0+8f3c21e" icon-only variant="ghost" label="Copy build id" copied-label="Build id copied" />
         </div>
-        <div class="ssf__region mi:flex mi:flex-wrap mi:items-center mi:gap-2">
-          <MiText id="ssf-region" variant="caption" tone="label2">Region</MiText>
+        <div class="mi:[&_select]:max-w-55! mi:flex mi:flex-wrap mi:items-center mi:gap-2">
+          <MiText id="ssf-region" variant="caption" tone="label2" class="mi:w-14!">Region</MiText>
           <MiNativeSelect v-model="region" size="sm" :options="regions.map(r => ({ value: r.id, label: r.label }))" aria-labelledby="ssf-region" />
-          <MiText variant="caption" tone="label2" tabular class="ssf__latency mi:min-w-12">{{ latency }} ms</MiText>
+          <MiText variant="caption" tone="label2" tabular class="mi:min-w-12">{{ latency }} ms</MiText>
         </div>
       </section>
 
-      <div class="ssf__bottom mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-2.5 mi:gap-x-5 mi:pt-3.5 mi:border-t mi:border-t-sep mi:@[760px]:col-span-full">
-        <nav class="ssf__links mi:flex mi:flex-wrap mi:gap-y-1.5 mi:gap-x-4.5" aria-label="Footer">
-          <a class="mi:[.ssf__links_&]:text-label2 mi:[.ssf__links_&]:text-[13px] mi:[.ssf__links_&]:font-medium mi:[.ssf__links_&]:[text-decoration:none] mi:[.ssf__links_&:hover]:text-label mi:[.ssf__links_&:focus-visible]:[outline:2px_solid_var(--mi-p)] mi:[.ssf__links_&:focus-visible]:outline-offset-[2px] mi:[.ssf__links_&:focus-visible]:rounded-[4px]" href="#">Docs</a><a class="mi:[.ssf__links_&]:text-label2 mi:[.ssf__links_&]:text-[13px] mi:[.ssf__links_&]:font-medium mi:[.ssf__links_&]:[text-decoration:none] mi:[.ssf__links_&:hover]:text-label mi:[.ssf__links_&:focus-visible]:[outline:2px_solid_var(--mi-p)] mi:[.ssf__links_&:focus-visible]:outline-offset-[2px] mi:[.ssf__links_&:focus-visible]:rounded-[4px]" href="#">API reference</a><a class="mi:[.ssf__links_&]:text-label2 mi:[.ssf__links_&]:text-[13px] mi:[.ssf__links_&]:font-medium mi:[.ssf__links_&]:[text-decoration:none] mi:[.ssf__links_&:hover]:text-label mi:[.ssf__links_&:focus-visible]:[outline:2px_solid_var(--mi-p)] mi:[.ssf__links_&:focus-visible]:outline-offset-[2px] mi:[.ssf__links_&:focus-visible]:rounded-[4px]" href="#">Changelog</a><a class="mi:[.ssf__links_&]:text-label2 mi:[.ssf__links_&]:text-[13px] mi:[.ssf__links_&]:font-medium mi:[.ssf__links_&]:[text-decoration:none] mi:[.ssf__links_&:hover]:text-label mi:[.ssf__links_&:focus-visible]:[outline:2px_solid_var(--mi-p)] mi:[.ssf__links_&:focus-visible]:outline-offset-[2px] mi:[.ssf__links_&:focus-visible]:rounded-[4px]" href="#">Support</a>
+      <div class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-2.5 mi:gap-x-5 mi:pt-3.5 mi:border-t mi:border-t-sep mi:@[760px]:col-span-full">
+        <nav class="mi:flex mi:flex-wrap mi:gap-y-1.5 mi:gap-x-4.5" aria-label="Footer">
+          <a class="mi:text-label2 mi:text-[13px] mi:font-medium mi:[text-decoration:none] mi:hover:text-label mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:focus-visible:rounded-[4px]" href="#">Docs</a><a class="mi:text-label2 mi:text-[13px] mi:font-medium mi:[text-decoration:none] mi:hover:text-label mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:focus-visible:rounded-[4px]" href="#">API reference</a><a class="mi:text-label2 mi:text-[13px] mi:font-medium mi:[text-decoration:none] mi:hover:text-label mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:focus-visible:rounded-[4px]" href="#">Changelog</a><a class="mi:text-label2 mi:text-[13px] mi:font-medium mi:[text-decoration:none] mi:hover:text-label mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:focus-visible:rounded-[4px]" href="#">Support</a>
         </nav>
-        <MiText variant="caption" tone="label2" class="ssf__legal mi:flex-wrap mi:items-center mi:gap-1">
+        <MiText variant="caption" tone="label2" class="mi:inline-flex! mi:flex-wrap mi:items-center mi:gap-1">
           Press <MiKbd>?</MiKbd> for shortcuts · © 2027 Parcelwise Ltd.
         </MiText>
       </div>
@@ -92,17 +92,3 @@ const regions = [
 const region = ref<string | number | null>('eu-west-3')
 const latency = computed(() => regions.find(r => r.id === region.value)?.ms ?? 0)
 </script>
-
-<style scoped>
-.ssf__avg { margin-left: auto; }
-.ssf__beacon::after { animation: ssf-ping 2.4s var(--mi-ease) infinite; }
-@keyframes ssf-ping { 0% { transform: scale(1); opacity: .6; } 70%, 100% { transform: scale(2.6); opacity: 0; } }
-@media (prefers-reduced-motion: reduce) { .ssf__beacon::after { animation: none; } }
-.ssf__bar.is-minor { background: var(--mi-orange); opacity: .9; }
-.ssf__bar.is-major { background: var(--mi-red); opacity: .9; }
-.ssf__bar:hover { opacity: 1; }
-.ssf__bar.is-on { opacity: 1; }
-.ssf__build > :first-child, .ssf__region > :first-child { width: 56px; }
-.ssf__region :deep(select) { max-width: 220px; }
-.ssf__legal { display: inline-flex; }
-</style>

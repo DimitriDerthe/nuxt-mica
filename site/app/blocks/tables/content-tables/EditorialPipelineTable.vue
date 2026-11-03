@@ -1,6 +1,6 @@
 <template>
-  <section class="edp mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="edp-title">
-    <header class="edp__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="edp-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="edp-title" variant="title3" as="h2" weight="semibold">Halden Journal</MiText>
         <MiText variant="footnote" tone="label2">{{ readyCount }} drafts ready to schedule · next slot Thu, Nov 5</MiText>
@@ -11,62 +11,62 @@
       </MiButton>
     </header>
 
-    <div class="edp__toolbar mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2.5">
+    <div class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2.5">
       <MiSegmented v-model="status" label="Status" :options="statusOptions" />
-      <MiSearch v-model="query" size="compact" placeholder="Title or author" aria-label="Search articles" class="edp__search" />
+      <MiSearch v-model="query" size="compact" placeholder="Title or author" aria-label="Search articles" class="mi:flex-[0_1_240px]! mi:min-w-0!" />
     </div>
 
-    <div class="edp__table mi:hidden mi:min-w-0 mi:overflow-x-auto mi:@[760px]:block">
+    <div class="mi:hidden mi:min-w-0 mi:overflow-x-auto mi:@[760px]:block">
       <MiDataTable :columns="columns" :rows="rows" :filterable="false" :page-size="6" caption="Articles" empty-text="No article matches.">
         <template #cell-title="{ row }">
-          <span class="edp__title mi:grid mi:gap-0.5 mi:py-1 mi:px-0 mi:min-w-0">
-            <span class="edp__headline mi:font-semibold mi:leading-[1.3]">{{ a(row).title }}</span>
-            <span class="edp__section mi:inline-flex mi:items-center mi:gap-1.5 mi:text-[12px] mi:text-label2"><i class="mi:[.edp__section_&]:w-1.5 mi:[.edp__section_&]:h-1.5 mi:[.edp__section_&]:rounded-[2px]" :style="{ background: sections[a(row).section] }" aria-hidden="true" />{{ a(row).section }} · {{ a(row).words.toLocaleString('en-US') }} words</span>
+          <span class="mi:grid mi:gap-0.5 mi:py-1 mi:px-0 mi:min-w-0">
+            <span class="mi:font-semibold mi:leading-[1.3]">{{ a(row).title }}</span>
+            <span class="mi:inline-flex mi:items-center mi:gap-1.5 mi:text-[12px] mi:text-label2"><i class="mi:w-1.5 mi:h-1.5 mi:rounded-[2px]" :style="{ background: sections[a(row).section] }" aria-hidden="true" />{{ a(row).section }} · {{ a(row).words.toLocaleString('en-US') }} words</span>
           </span>
         </template>
         <template #cell-author="{ row }">
-          <span class="edp__author mi:inline-flex mi:items-center mi:gap-1.5 mi:text-[13px] mi:whitespace-nowrap"><MiAvatar :name="a(row).author" size="xs" tone="auto" decorative />{{ a(row).author.split(' ')[0] }}</span>
+          <span class="mi:inline-flex mi:items-center mi:gap-1.5 mi:text-[13px] mi:whitespace-nowrap"><MiAvatar :name="a(row).author" size="xs" tone="auto" decorative />{{ a(row).author.split(' ')[0] }}</span>
         </template>
         <template #cell-status="{ row }"><MiBadge :tone="statusTone[a(row).status]" :label="statusName[a(row).status]" /></template>
         <template #cell-checks="{ row }">
           <!-- Readiness: four checks an editor ticks off in place; when all pass, the draft can be scheduled. -->
-          <span class="edp__checks mi:inline-flex mi:gap-1" role="group" :aria-label="a(row).title + ' readiness'">
+          <span class="mi:inline-flex mi:gap-1" role="group" :aria-label="a(row).title + ' readiness'">
             <button
-              v-for="k in checkKeys" :key="k" type="button" class="edp__check mi:grid mi:place-items-center mi:w-5.5 mi:h-5.5 mi:p-0 mi:[border:0] mi:rounded-[6px] mi:text-label3 mi:bg-fill2 mi:shadow-[inset_0_0_0_1px_var(--mi-sep)] mi:cursor-pointer mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease)] mi:active:transform-[scale(.9)] mi:[&.is-on]:text-green-t mi:[&.is-on]:[background:color-mix(in_srgb,_var(--mi-green)_18%,_transparent)] mi:[&.is-on]:shadow-none mi:disabled:cursor-default mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" :class="{ 'is-on': a(row).checks[k] }"
+              v-for="k in checkKeys" :key="k" type="button" class="mi:[font:inherit] mi:text-[10.5px] mi:font-bold mi:grid mi:place-items-center mi:w-5.5 mi:h-5.5 mi:p-0 mi:[border:0] mi:rounded-[6px] mi:cursor-pointer mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease)] mi:active:transform-[scale(.9)] mi:disabled:cursor-default mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" :class="a(row).checks[k] ? 'mi:text-green-t mi:[background:color-mix(in_srgb,_var(--mi-green)_18%,_transparent)] mi:shadow-none' : 'mi:text-label3 mi:bg-fill2 mi:shadow-[inset_0_0_0_1px_var(--mi-sep)]'"
               :aria-pressed="a(row).checks[k]" :aria-label="checkName[k]" :title="checkName[k]" :disabled="a(row).status === 'published'"
               @click="flip(a(row).id, k)"
             >{{ checkName[k][0] }}</button>
           </span>
         </template>
         <template #cell-when="{ row }">
-          <span class="edp__when mi:grid mi:justify-items-end mi:gap-0.5 mi:text-[13px] mi:whitespace-nowrap">
+          <span class="mi:grid mi:justify-items-end mi:gap-0.5 mi:text-[13px] mi:whitespace-nowrap">
             <span>{{ a(row).when }}</span>
-            <span v-if="a(row).views" class="edp__views mi:text-[11.5px] mi:text-label2 mi:tabular-nums">{{ a(row).views }} views</span>
+            <span v-if="a(row).views" class="mi:text-[11.5px] mi:text-label2 mi:tabular-nums">{{ a(row).views }} views</span>
             <MiButton v-else-if="isReady(a(row))" size="mini" variant="tinted" @click="schedule(a(row).id)">Schedule</MiButton>
           </span>
         </template>
       </MiDataTable>
     </div>
 
-    <ul class="edp__cards mi:grid mi:gap-2 mi:m-0 mi:p-0 mi:[list-style:none] mi:@[760px]:hidden">
-      <li v-for="art in rows" :key="art.id" class="edp__card mi:grid mi:gap-2 mi:py-3 mi:px-3.5 mi:rounded-lg mi:bg-card mi:shadow-1">
-        <div class="edp__card-top mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-1.5 mi:gap-x-2.5">
+    <ul class="mi:grid mi:gap-2 mi:m-0 mi:p-0 mi:[list-style:none] mi:@[760px]:hidden">
+      <li v-for="art in rows" :key="art.id" class="mi:grid mi:gap-2 mi:py-3 mi:px-3.5 mi:rounded-lg mi:bg-card mi:shadow-1">
+        <div class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-1.5 mi:gap-x-2.5">
           <MiBadge :tone="statusTone[art.status]" :label="statusName[art.status]" />
           <MiText as="span" variant="caption" tone="label2">{{ art.when }}</MiText>
         </div>
         <MiText as="h3" variant="subheadline" weight="semibold">{{ art.title }}</MiText>
-        <div class="edp__card-foot mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-1.5 mi:gap-x-2.5">
-          <span class="edp__author mi:inline-flex mi:items-center mi:gap-1.5 mi:text-[13px] mi:whitespace-nowrap"><MiAvatar :name="art.author" size="xs" tone="auto" decorative />{{ art.author }}</span>
-          <span class="edp__checks mi:inline-flex mi:gap-1" role="group" :aria-label="art.title + ' readiness'">
+        <div class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-1.5 mi:gap-x-2.5">
+          <span class="mi:inline-flex mi:items-center mi:gap-1.5 mi:text-[13px] mi:whitespace-nowrap"><MiAvatar :name="art.author" size="xs" tone="auto" decorative />{{ art.author }}</span>
+          <span class="mi:inline-flex mi:gap-1" role="group" :aria-label="art.title + ' readiness'">
             <button
-              v-for="k in checkKeys" :key="k" type="button" class="edp__check mi:grid mi:place-items-center mi:w-5.5 mi:h-5.5 mi:p-0 mi:[border:0] mi:rounded-[6px] mi:text-label3 mi:bg-fill2 mi:shadow-[inset_0_0_0_1px_var(--mi-sep)] mi:cursor-pointer mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease)] mi:active:transform-[scale(.9)] mi:[&.is-on]:text-green-t mi:[&.is-on]:[background:color-mix(in_srgb,_var(--mi-green)_18%,_transparent)] mi:[&.is-on]:shadow-none mi:disabled:cursor-default mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" :class="{ 'is-on': art.checks[k] }"
+              v-for="k in checkKeys" :key="k" type="button" class="mi:[font:inherit] mi:text-[10.5px] mi:font-bold mi:grid mi:place-items-center mi:w-5.5 mi:h-5.5 mi:p-0 mi:[border:0] mi:rounded-[6px] mi:cursor-pointer mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease)] mi:active:transform-[scale(.9)] mi:disabled:cursor-default mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" :class="art.checks[k] ? 'mi:text-green-t mi:[background:color-mix(in_srgb,_var(--mi-green)_18%,_transparent)] mi:shadow-none' : 'mi:text-label3 mi:bg-fill2 mi:shadow-[inset_0_0_0_1px_var(--mi-sep)]'"
               :aria-pressed="art.checks[k]" :aria-label="checkName[k]" :disabled="art.status === 'published'" @click="flip(art.id, k)"
             >{{ checkName[k][0] }}</button>
           </span>
         </div>
         <MiButton v-if="isReady(art)" size="small" variant="tinted" block @click="schedule(art.id)">Schedule for Thu, Nov 5</MiButton>
       </li>
-      <li v-if="!rows.length" class="edp__none mi:p-5 mi:text-center"><MiText variant="footnote" tone="label2">No article matches.</MiText></li>
+      <li v-if="!rows.length" class="mi:p-5 mi:text-center"><MiText variant="footnote" tone="label2">No article matches.</MiText></li>
     </ul>
   </section>
 </template>
@@ -127,9 +127,3 @@ const columns = [
   { key: 'when', label: 'Date', align: 'end' as const, width: '130px' }
 ]
 </script>
-
-<style scoped>
-.edp__search { flex: 0 1 240px; min-width: 0; }
-.edp__check { font: inherit; font-size: 10.5px; font-weight: 700;
-}
-</style>

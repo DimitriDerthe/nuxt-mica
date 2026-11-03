@@ -1,22 +1,22 @@
 <template>
-  <section class="bss mi:@container/bss mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="bss-title">
-    <header class="bss__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
+  <section class="mi:@container/bss mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="bss-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="bss-title" as="h2" variant="title3" weight="semibold">December ad budget</MiText>
         <MiText variant="footnote" tone="label2">Fernway Outdoor · {{ money(budget) }} to spread across channels</MiText>
       </div>
-      <div class="bss__presets mi:flex mi:flex-wrap mi:gap-1.5" role="group" aria-label="Budget presets">
+      <div class="mi:flex mi:flex-wrap mi:gap-1.5" role="group" aria-label="Budget presets">
         <MiButton v-for="p in presets" :key="p.label" variant="gray" size="small" @click="apply(p.split)">{{ p.label }}</MiButton>
       </div>
     </header>
 
-    <div class="bss__body mi:grid mi:gap-3.5 mi:@[780px]/bss:grid-cols-[minmax(0,_1fr)_300px] mi:@[780px]/bss:items-start">
-      <ul class="bss__channels mi:grid mi:m-0 mi:py-1 mi:px-4.5 mi:[list-style:none] mi:rounded-xl mi:bg-card mi:shadow-1">
-        <li v-for="c in channels" :key="c.id" class="bss__channel mi:grid mi:gap-2 mi:py-3.5 mi:px-0 mi:[.bss__channel+&]:border-t mi:[.bss__channel+&]:border-t-sep">
-          <div class="bss__line mi:flex mi:items-center mi:gap-2.5">
-            <span class="bss__swatch mi:flex-[none] mi:w-2.5 mi:h-2.5 mi:rounded-[3px]" :style="{ background: c.color }" aria-hidden="true" />
+    <div class="mi:grid mi:gap-3.5 mi:@[780px]/bss:grid-cols-[minmax(0,_1fr)_300px] mi:@[780px]/bss:items-start">
+      <ul class="mi:grid mi:m-0 mi:py-1 mi:px-4.5 mi:[list-style:none] mi:rounded-xl mi:bg-card mi:shadow-1">
+        <li v-for="c in channels" :key="c.id" class="mi:grid mi:gap-2 mi:py-3.5 mi:px-0 mi:not-first:border-t mi:not-first:border-t-sep">
+          <div class="mi:flex mi:items-center mi:gap-2.5">
+            <span class="mi:flex-[none] mi:w-2.5 mi:h-2.5 mi:rounded-[3px]" :style="{ background: c.color }" aria-hidden="true" />
             <MiText as="h3" variant="subheadline" weight="semibold">{{ c.label }}</MiText>
-            <MiText variant="caption" tone="label2" tabular class="bss__leads">≈ {{ leadsOf(c) }} leads</MiText>
+            <MiText variant="caption" tone="label2" tabular class="mi:ms-auto! mi:whitespace-nowrap">≈ {{ leadsOf(c) }} leads</MiText>
           </div>
           <MiSlider
             :model-value="c.spend" :min="0" :max="8000" :step="250" :aria-label="`${c.label} spend`"
@@ -26,15 +26,15 @@
       </ul>
 
       <!-- Summary: the split as one bar, with whatever is left or over shown as its own slice. -->
-      <aside class="bss__summary mi:grid mi:gap-3.5 mi:p-4.5 mi:rounded-xl mi:bg-card mi:shadow-1" aria-labelledby="bss-sum">
+      <aside class="mi:grid mi:gap-3.5 mi:p-4.5 mi:rounded-xl mi:bg-card mi:shadow-1" aria-labelledby="bss-sum">
         <MiText id="bss-sum" as="h3" variant="subheadline" weight="semibold">Allocation</MiText>
         <MiStackedBar :segments="segments" :height="18" :legend-columns="1" :animate="false" :format-share="(pct: number) => `${Math.round(pct)}%`" />
-        <dl class="bss__totals mi:grid mi:gap-2 mi:m-0">
-          <div class="mi:[.bss__totals_&]:flex mi:[.bss__totals_&]:justify-between mi:[.bss__totals_&]:gap-2 mi:[.bss__totals_&]:text-[14px]"><dt class="mi:[.bss__totals_&]:text-label2">Allocated</dt><dd class="mi:[.bss__totals_&]:font-semibold mi:[.bss__totals_&]:tabular-nums">{{ money(allocated) }}</dd></div>
-          <div class="mi:[.bss__totals_&]:flex mi:[.bss__totals_&]:justify-between mi:[.bss__totals_&]:gap-2 mi:[.bss__totals_&]:text-[14px]"><dt class="mi:[.bss__totals_&]:text-label2">Projected leads</dt><dd class="mi:[.bss__totals_&]:font-semibold mi:[.bss__totals_&]:tabular-nums">{{ totalLeads.toLocaleString('en-US') }}</dd></div>
-          <div class="mi:[.bss__totals_&]:flex mi:[.bss__totals_&]:justify-between mi:[.bss__totals_&]:gap-2 mi:[.bss__totals_&]:text-[14px]"><dt class="mi:[.bss__totals_&]:text-label2">Cost per lead</dt><dd class="mi:[.bss__totals_&]:font-semibold mi:[.bss__totals_&]:tabular-nums">{{ totalLeads ? money(allocated / totalLeads) : '–' }}</dd></div>
+        <dl class="mi:grid mi:gap-2 mi:m-0">
+          <div class="mi:flex mi:justify-between mi:gap-2 mi:text-[14px]"><dt class="mi:text-label2">Allocated</dt><dd class="mi:m-0 mi:font-semibold mi:tabular-nums">{{ money(allocated) }}</dd></div>
+          <div class="mi:flex mi:justify-between mi:gap-2 mi:text-[14px]"><dt class="mi:text-label2">Projected leads</dt><dd class="mi:m-0 mi:font-semibold mi:tabular-nums">{{ totalLeads.toLocaleString('en-US') }}</dd></div>
+          <div class="mi:flex mi:justify-between mi:gap-2 mi:text-[14px]"><dt class="mi:text-label2">Cost per lead</dt><dd class="mi:m-0 mi:font-semibold mi:tabular-nums">{{ totalLeads ? money(allocated / totalLeads) : '–' }}</dd></div>
         </dl>
-        <p class="bss__state mi:m-0 mi:text-[13px] mi:text-label2 mi:[&.is-over]:font-semibold mi:[&.is-over]:text-red-t" :class="{ 'is-over': left < 0 }" role="status" aria-live="polite">
+        <p class="mi:m-0 mi:text-[13px]" :class="left < 0 ? 'mi:font-semibold mi:text-red-t' : 'mi:text-label2'" role="status" aria-live="polite">
           {{ left < 0 ? `${money(-left)} over budget. Trim a channel to save.` : left > 0 ? `${money(left)} still unallocated.` : 'Every dollar is assigned.' }}
         </p>
         <MiButton block :disabled="left < 0">Save split</MiButton>
@@ -76,8 +76,3 @@ const segments = computed(() => [
 function set(c: Channel, v: number | [number, number]) { c.spend = Array.isArray(v) ? v[1] : v }
 function apply(split: Record<ChannelId, number>) { for (const c of channels) c.spend = split[c.id] }
 </script>
-
-<style scoped>
-.bss__leads { margin-inline-start: auto; white-space: nowrap; }
-.bss__totals dd { margin: 0; }
-</style>

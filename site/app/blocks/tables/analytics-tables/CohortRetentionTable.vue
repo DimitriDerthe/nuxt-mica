@@ -1,35 +1,35 @@
 <template>
-  <section class="crt mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="crt-title">
-    <header class="crt__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="crt-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="crt-title" variant="title3" as="h2" weight="semibold">Weekly signup retention</MiText>
         <MiText variant="footnote" tone="label2">Ledgerly · cohorts by signup week · {{ plan === 'all' ? 'all plans' : planName + ' plan' }}</MiText>
       </div>
-      <div class="crt__controls mi:flex mi:flex-wrap mi:gap-2">
+      <div class="mi:flex mi:flex-wrap mi:gap-2">
         <MiSegmented v-model="plan" label="Plan" :options="plans" />
         <MiSegmented v-model="metric" label="Show" :options="metrics" />
       </div>
     </header>
 
     <!-- Retention triangle: each row is a cohort, each column the weeks since signup. -->
-    <div class="crt__scroll mi:min-w-0 mi:overflow-x-auto mi:rounded-xl mi:bg-card mi:shadow-1">
-      <table class="crt__table mi:w-full mi:min-w-150 mi:border-separate mi:[border-spacing:3px] mi:p-2 mi:text-[12px] mi:tabular-nums mi:@[720px]:text-[13px]">
-        <caption class="crt__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">Share of each signup cohort still active, by week since signup</caption>
+    <div class="mi:min-w-0 mi:overflow-x-auto mi:rounded-xl mi:bg-card mi:shadow-1">
+      <table class="mi:w-full mi:min-w-150 mi:border-separate mi:[border-spacing:3px] mi:p-2 mi:text-[12px] mi:tabular-nums mi:@[720px]:text-[13px]">
+        <caption class="mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">Share of each signup cohort still active, by week since signup</caption>
         <thead>
           <tr>
-            <th scope="col" class="crt__cohort mi:[.crt__table_&]:font-semibold mi:[.crt__table_&]:text-center mi:[.crt__table_&]:text-start mi:[.crt__table_&]:whitespace-nowrap">Cohort</th>
-            <th scope="col" class="crt__size mi:[.crt__table_&]:font-semibold mi:[.crt__table_&]:text-center mi:text-end mi:pe-2.5 mi:text-label2">Signups</th>
-            <th class="mi:[.crt__table_&]:font-semibold mi:[.crt__table_&]:text-center" v-for="w in weeks" :key="w" scope="col" :class="{ 'is-col': active?.week === w }">W{{ w }}</th>
+            <th scope="col" class="mi:pt-1.5 mi:pb-1.5 mi:ps-2 mi:pe-1 mi:text-label mi:font-semibold mi:text-start mi:whitespace-nowrap">Cohort</th>
+            <th scope="col" class="mi:py-1.5 mi:px-0.5 mi:font-semibold mi:text-center mi:text-label2">Signups</th>
+            <th class="mi:py-1.5 mi:px-0.5 mi:font-semibold mi:text-center" v-for="w in weeks" :key="w" scope="col" :class="active?.week === w ? 'mi:text-p-text' : 'mi:text-label2'">W{{ w }}</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(row, c) in rows" :key="row.label">
-            <th scope="row" class="crt__cohort mi:[.crt__table_&]:font-semibold mi:[.crt__table_&]:text-center mi:[.crt__table_&]:text-start mi:[.crt__table_&]:whitespace-nowrap">{{ row.label }}</th>
-            <td class="crt__size mi:text-end mi:pe-2.5 mi:text-label2">{{ row.size.toLocaleString('en-US') }}</td>
-            <td v-for="(v, w) in row.cells" :key="w" :class="{ 'is-col': active?.week === w }">
+            <th scope="row" class="mi:pt-1.5 mi:pb-1.5 mi:ps-2 mi:pe-1 mi:text-label mi:font-semibold mi:text-start mi:whitespace-nowrap">{{ row.label }}</th>
+            <td class="mi:p-0 mi:text-end mi:text-label2">{{ row.size.toLocaleString('en-US') }}</td>
+            <td v-for="(v, w) in row.cells" :key="w" class="mi:p-0">
               <button
-                v-if="v !== null" type="button" class="crt__cell mi:block mi:w-full mi:min-w-12 mi:py-[9px] mi:px-1 mi:[border:0] mi:rounded-[7px] mi:cursor-default mi:text-label mi:[background:color-mix(in_srgb,_var(--mi-p)_var(--heat),_var(--mi-card))] mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:[&.is-dark]:text-p-on mi:[&.is-on]:transform-[scale(1.08)] mi:[&.is-on]:shadow-[0_0_0_2px_var(--mi-card),_0_0_0_4px_var(--mi-p)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]"
-                :class="{ 'is-on': active?.cohort === c && active?.week === w, 'is-dark': v > 52 }"
+                v-if="v !== null" type="button" class="mi:[font:inherit] mi:font-semibold mi:block mi:w-full mi:min-w-12 mi:py-[9px] mi:px-1 mi:[border:0] mi:rounded-[7px] mi:cursor-default mi:[background:color-mix(in_srgb,_var(--mi-p)_var(--heat),_var(--mi-card))] mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]"
+                :class="[v > 52 ? 'mi:text-p-on' : 'mi:text-label', active?.cohort === c && active?.week === w ? 'mi:transform-[scale(1.08)] mi:shadow-[0_0_0_2px_var(--mi-card),_0_0_0_4px_var(--mi-p)]' : '']"
                 :style="{ '--heat': Math.round(v * 0.8) + '%' }"
                 :aria-label="describe(c, w)" @mouseenter="active = { cohort: c, week: w }" @focus="active = { cohort: c, week: w }"
               >
@@ -40,16 +40,16 @@
         </tbody>
         <tfoot>
           <tr>
-            <th scope="row" class="crt__cohort mi:[.crt__table_&]:font-semibold mi:[.crt__table_&]:text-center mi:[.crt__table_&]:text-start mi:[.crt__table_&]:whitespace-nowrap">Average</th>
-            <td class="crt__size mi:text-end mi:pe-2.5 mi:text-label2">{{ totalSignups.toLocaleString('en-US') }}</td>
-            <td v-for="w in weeks" :key="w" class="crt__avg mi:[&.is-col]:text-p-text mi:text-center mi:py-2 mi:font-semibold mi:text-label2 mi:border-t mi:border-t-sep" :class="{ 'is-col': active?.week === w }">{{ averages[w]?.toFixed(1) }}%</td>
+            <th scope="row" class="mi:pt-1.5 mi:pb-1.5 mi:ps-2 mi:pe-1 mi:text-label mi:font-semibold mi:text-start mi:whitespace-nowrap">Average</th>
+            <td class="mi:p-0 mi:text-end mi:text-label2">{{ totalSignups.toLocaleString('en-US') }}</td>
+            <td v-for="w in weeks" :key="w" class="mi:p-0 mi:text-center mi:font-semibold mi:border-t mi:border-t-sep" :class="active?.week === w ? 'mi:text-p-text' : 'mi:text-label2'">{{ averages[w]?.toFixed(1) }}%</td>
           </tr>
         </tfoot>
       </table>
     </div>
 
-    <p class="crt__readout mi:flex mi:[align-items:flex-start] mi:gap-2 mi:m-0 mi:min-h-10 mi:text-[13px] mi:text-label2" aria-live="polite">
-      <MiIcon name="info-circle" :size="16" class="crt__readout-icon mi:mt-px mi:text-p" />
+    <p class="mi:flex mi:[align-items:flex-start] mi:gap-2 mi:m-0 mi:min-h-10 mi:text-[13px] mi:text-label2" aria-live="polite">
+      <MiIcon name="info-circle" :size="16" class="mi:flex-none mi:mt-px mi:text-p" />
       {{ active ? describe(active.cohort, active.week) : 'Point at a cell to read its cohort. Later cohorts hold on longer since the new onboarding checklist shipped on Sep 22.' }}
     </p>
   </section>
@@ -104,13 +104,3 @@ function describe(c: number, w: number) {
 }
 </script>
 
-<style scoped>
-.crt__table th { color: var(--mi-label2); padding: 6px 2px; }
-.crt__table th.is-col { color: var(--mi-p-text); }
-.crt__table .crt__cohort { padding-inline: 8px 4px; color: var(--mi-label); }
-.crt__table td { padding: 0; }
-
-.crt__cell { font: inherit; font-weight: 600;
-}
-.crt__readout-icon { flex: none; }
-</style>

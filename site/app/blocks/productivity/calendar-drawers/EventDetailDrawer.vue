@@ -1,25 +1,25 @@
 <template>
-  <section class="cd mi:@container mi:font-mi mi:text-label" aria-labelledby="event-drawer-title">
-    <MiText id="event-drawer-title" variant="title3" as="h2" weight="semibold" class="cd__sr mi:absolute mi:w-px mi:h-px mi:[clip-path:inset(50%)]">Event details drawer</MiText>
+  <section class="mi:@container mi:font-mi mi:text-label" aria-labelledby="event-drawer-title">
+    <MiText id="event-drawer-title" variant="title3" as="h2" weight="semibold" class="mi:overflow-hidden mi:whitespace-nowrap mi:absolute mi:w-px mi:h-px mi:[clip-path:inset(50%)]">Event details drawer</MiText>
 
-    <div class="cd__stage mi:grid mi:gap-3.5 mi:grid-cols-[minmax(0,_1fr)] mi:@[760px]:grid-cols-[minmax(0,_1fr)_minmax(340px,_380px)] mi:@[760px]:items-start mi:@[760px]:gap-5">
+    <div class="mi:grid mi:gap-3.5 mi:grid-cols-[minmax(0,_1fr)] mi:@[760px]:grid-cols-[minmax(0,_1fr)_minmax(340px,_380px)] mi:@[760px]:items-start mi:@[760px]:gap-5">
       <!-- Faux calendar page behind the drawer; still clickable, so picking a row swaps the drawer content. -->
-      <div class="cd__page mi:relative mi:grid mi:gap-3.5 mi:p-4.5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:after:content-[''] mi:after:absolute mi:after:inset-0 mi:after:rounded-[inherit] mi:after:[background:var(--mi-scrim)] mi:after:opacity-35 mi:after:pointer-events-none">
-        <div class="cd__page-head mi:flex mi:[align-items:flex-end] mi:justify-between mi:gap-3">
+      <div class="mi:relative mi:grid mi:gap-3.5 mi:p-4.5 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1 mi:after:content-[''] mi:after:absolute mi:after:inset-0 mi:after:rounded-[inherit] mi:after:[background:var(--mi-scrim)] mi:after:opacity-35 mi:after:pointer-events-none">
+        <div class="mi:flex mi:[align-items:flex-end] mi:justify-between mi:gap-3">
           <div>
-            <MiText variant="caption" tone="label2" weight="semibold" as="p" class="cd__eyebrow">Thursday</MiText>
+            <MiText variant="caption" tone="label2" weight="semibold" as="p" class="mi:m-0 mi:uppercase mi:tracking-[.06em]!">Thursday</MiText>
             <MiText variant="title2" as="h3" weight="bold">November 5</MiText>
           </div>
           <MiBadge tone="neutral" :label="agenda.length + ' events'" />
         </div>
-        <ol class="cd__agenda mi:grid mi:gap-1 mi:m-0 mi:p-0 mi:[list-style:none]">
+        <ol class="mi:grid mi:gap-1 mi:m-0 mi:p-0 mi:[list-style:none]">
           <li v-for="e in agenda" :key="e.id">
-            <button type="button" class="cd__row mi:grid mi:grid-cols-[44px_3px_minmax(0,_1fr)_auto] mi:items-center mi:gap-3 mi:w-full mi:py-2.5 mi:px-3 mi:[border:0] mi:rounded-md mi:[background:transparent] mi:[font:inherit] mi:text-inherit mi:text-start mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" :class="{ 'is-on': e.id === openId }" :aria-current="e.id === openId ? 'true' : undefined" @click="openId = e.id">
-              <span class="cd__row-time mi:text-[13px] mi:font-semibold mi:tabular-nums mi:text-label2">{{ e.start }}</span>
-              <span class="cd__row-bar mi:self-stretch mi:rounded-[2px] mi:[background:var(--c)]" :style="{ '--c': e.kind === 'video' ? 'var(--mi-s)' : 'var(--mi-p)' }" aria-hidden="true" />
-              <span class="cd__row-text mi:grid mi:min-w-0">
-                <span class="cd__row-title mi:text-[15px] mi:font-semibold mi:whitespace-nowrap mi:overflow-hidden mi:text-ellipsis">{{ e.title }}</span>
-                <span class="cd__row-where mi:text-[13px] mi:text-label2 mi:whitespace-nowrap mi:overflow-hidden mi:text-ellipsis">{{ e.kind === 'video' ? 'Video call' : e.where }}</span>
+            <button type="button" class="mi:grid mi:grid-cols-[44px_3px_minmax(0,_1fr)_auto] mi:items-center mi:gap-3 mi:w-full mi:py-2.5 mi:px-3 mi:[border:0] mi:rounded-md mi:[font:inherit] mi:text-inherit mi:text-start mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" :class="e.id === openId ? 'mi:bg-p-tint' : 'mi:[background:transparent] mi:hover:bg-fill4'" :aria-current="e.id === openId ? 'true' : undefined" @click="openId = e.id">
+              <span class="mi:text-[13px] mi:font-semibold mi:tabular-nums mi:text-label2">{{ e.start }}</span>
+              <span class="mi:self-stretch mi:rounded-[2px] mi:[background:var(--c)]" :style="{ '--c': e.kind === 'video' ? 'var(--mi-s)' : 'var(--mi-p)' }" aria-hidden="true" />
+              <span class="mi:grid mi:min-w-0">
+                <span class="mi:text-[15px] mi:font-semibold mi:whitespace-nowrap mi:overflow-hidden mi:text-ellipsis">{{ e.title }}</span>
+                <span class="mi:text-[13px] mi:text-label2 mi:whitespace-nowrap mi:overflow-hidden mi:text-ellipsis">{{ e.kind === 'video' ? 'Video call' : e.where }}</span>
               </span>
               <MiBadge v-if="rsvp[e.id] !== 'going'" :tone="rsvp[e.id] === 'maybe' ? 'warning' : 'danger'" :label="rsvp[e.id] === 'maybe' ? 'Maybe' : 'Declined'" variant="outline" />
             </button>
@@ -27,53 +27,53 @@
         </ol>
       </div>
 
-      <div class="cd__drawer">
+      <div>
         <MiDrawer :model-value="true" inline swipe-direction="right" :title="ev.title" :description="ev.start + ' – ' + ev.end + ' · ' + ev.where">
-          <div class="cd__body mi:grid mi:gap-4.5">
+          <div class="mi:grid mi:gap-4.5">
             <!-- The one idea: work back from the start time to when you should leave. -->
-            <div v-if="ev.travel" class="cd__trip mi:grid mi:gap-2.5 mi:p-3.5 mi:rounded-lg mi:[background:var(--mi-p-tint)]" role="group" aria-label="Getting there">
-              <div class="cd__trip-top mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-2">
+            <div v-if="ev.travel" class="mi:grid mi:gap-2.5 mi:p-3.5 mi:rounded-lg mi:[background:var(--mi-p-tint)]" role="group" aria-label="Getting there">
+              <div class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-2">
                 <div>
                   <MiText variant="caption" tone="label2" weight="medium">Leave by</MiText>
-                  <p class="cd__leave mi:m-0 mi:text-[34px] mi:leading-none mi:font-bold mi:tracking-[-.04em] mi:tabular-nums mi:text-p-text">{{ leaveBy }}</p>
+                  <p class="mi:m-0 mi:text-[34px] mi:leading-none mi:font-bold mi:tracking-[-.04em] mi:tabular-nums mi:text-p-text">{{ leaveBy }}</p>
                 </div>
-                <div class="cd__trip-mode mi:flex mi:items-center mi:gap-1.5 mi:text-[13px] mi:font-medium mi:text-label2">
+                <div class="mi:flex mi:items-center mi:gap-1.5 mi:text-[13px] mi:font-medium mi:text-label2">
                   <MiIcon :svg="modeIcon[ev.travel.mode]" :size="18" />
                   <span>{{ ev.travel.line }} · {{ ev.travel.minutes }} min</span>
                 </div>
               </div>
-              <div class="cd__track mi:grid mi:gap-[3px] mi:h-2" :style="{ gridTemplateColumns: `${slack}fr ${ev.travel.minutes}fr 5fr` }" aria-hidden="true">
-                <span class="cd__seg cd__seg--free mi:rounded-[4px] mi:[background:var(--mi-fill2)]" /><span class="cd__seg cd__seg--go mi:rounded-[4px] mi:[background:var(--mi-p)]" /><span class="cd__seg cd__seg--buf mi:rounded-[4px] mi:[background:var(--mi-orange)]" />
+              <div class="mi:grid mi:gap-[3px] mi:h-2" :style="{ gridTemplateColumns: `${slack}fr ${ev.travel.minutes}fr 5fr` }" aria-hidden="true">
+                <span class="mi:rounded-[4px] mi:[background:var(--mi-fill2)]" /><span class="mi:rounded-[4px] mi:[background:var(--mi-p)]" /><span class="mi:rounded-[4px] mi:[background:var(--mi-orange)]" />
               </div>
-              <div class="cd__track-legend mi:flex mi:justify-between mi:gap-2 mi:-mt-1">
+              <div class="mi:flex mi:justify-between mi:gap-2 mi:-mt-1">
                 <MiText variant="caption2" tone="label2">{{ ev.prev }} {{ ev.prevLabel }} ends</MiText>
                 <MiText variant="caption2" tone="label2">{{ ev.start }} start</MiText>
               </div>
               <MiText variant="footnote" tone="label2">{{ slack }} min free after {{ ev.prevLabel }}, plus a 5 minute buffer at the door.</MiText>
             </div>
-            <div v-else class="cd__trip cd__trip--call mi:grid mi:gap-2.5 mi:p-3.5 mi:rounded-lg mi:[background:var(--mi-p-tint)] mi:grid-cols-[auto_minmax(0,_1fr)] mi:items-start mi:gap-3 mi:text-p-text">
+            <div v-else class="mi:grid mi:p-3.5 mi:rounded-lg mi:[background:var(--mi-p-tint)] mi:grid-cols-[auto_minmax(0,_1fr)] mi:items-start mi:gap-3 mi:text-p-text">
               <MiIcon :svg="modeIcon.video" :size="20" />
               <div>
-                <MiText variant="subheadline" weight="semibold">{{ ev.where }}</MiText>
-                <MiText variant="footnote" tone="label2">The join link unlocks 5 minutes before the start.</MiText>
+                <MiText variant="subheadline" weight="semibold" class="mi:text-label!">{{ ev.where }}</MiText>
+                <MiText variant="footnote" tone="label2" class="mi:text-label!">The join link unlocks 5 minutes before the start.</MiText>
               </div>
             </div>
 
-            <div class="cd__section mi:grid mi:gap-2">
-              <MiText variant="footnote" weight="semibold" tone="label2" as="h4">Your answer</MiText>
+            <div class="mi:grid mi:gap-2">
+              <MiText variant="footnote" weight="semibold" tone="label2" as="h4" class="mi:m-0 mi:uppercase mi:tracking-[.05em]! mi:text-[11px]!">Your answer</MiText>
               <MiSegmented :model-value="rsvp[ev.id]" label="Your answer" :options="answers" @update:model-value="setRsvp" />
             </div>
 
-            <MiList :header="ev.guests.length + 1 + ' guests'" class="cd__guests">
+            <MiList :header="ev.guests.length + 1 + ' guests'">
               <MiListItem v-for="g in guestsWithYou" :key="g.name" :title="g.name" :subtitle="g.role">
                 <template #leading><MiAvatar :name="g.name" tone="auto" size="sm" decorative /></template>
                 <template #trailing>
-                  <span class="cd__status mi:text-[12px] mi:font-semibold mi:py-0.5 mi:px-2 mi:rounded-[999px] mi:[background:var(--mi-fill3)] mi:text-label2 mi:[&.is-going]:[background:color-mix(in_srgb,_var(--mi-green)_16%,_transparent)] mi:[&.is-maybe]:[background:color-mix(in_srgb,_var(--mi-orange)_16%,_transparent)] mi:[&.is-no]:[background:color-mix(in_srgb,_var(--mi-red)_14%,_transparent)]" :class="'is-' + g.status">{{ statusText[g.status] }}</span>
+                  <span class="mi:text-[12px] mi:font-semibold mi:py-0.5 mi:px-2 mi:rounded-[999px]" :class="g.status === 'going' ? 'mi:[background:color-mix(in_srgb,_var(--mi-green)_16%,_transparent)] mi:text-green-t' : g.status === 'maybe' ? 'mi:[background:color-mix(in_srgb,_var(--mi-orange)_16%,_transparent)] mi:text-orange-t' : g.status === 'no' ? 'mi:[background:color-mix(in_srgb,_var(--mi-red)_14%,_transparent)] mi:text-red-t' : 'mi:[background:var(--mi-fill3)] mi:text-label2'">{{ statusText[g.status] }}</span>
                 </template>
               </MiListItem>
             </MiList>
 
-            <div class="cd__remind mi:flex mi:items-center mi:justify-between mi:gap-3">
+            <div class="mi:flex mi:items-center mi:justify-between mi:gap-3">
               <div>
                 <MiText id="event-drawer-remind" variant="subheadline" weight="medium">{{ ev.travel ? 'Ping me when it is time to leave' : 'Ping me 5 minutes before' }}</MiText>
                 <MiText variant="footnote" tone="label2">{{ remind ? 'On · ' + (ev.travel ? leaveBy : minus(ev.start, 5)) : 'Off' }}</MiText>
@@ -81,14 +81,14 @@
               <MiSwitch v-model="remind" aria-labelledby="event-drawer-remind" />
             </div>
 
-            <div class="cd__notes mi:grid mi:gap-1.5 mi:py-3 mi:px-3.5 mi:rounded-md mi:[background:var(--mi-fill4)]">
-              <MiText variant="footnote" weight="semibold" tone="label2" as="h4">Notes</MiText>
+            <div class="mi:grid mi:gap-1.5 mi:py-3 mi:px-3.5 mi:rounded-md mi:[background:var(--mi-fill4)]">
+              <MiText variant="footnote" weight="semibold" tone="label2" as="h4" class="mi:m-0 mi:uppercase mi:tracking-[.05em]! mi:text-[11px]!">Notes</MiText>
               <MiText variant="subheadline">{{ ev.notes }}</MiText>
             </div>
           </div>
 
           <template #footer>
-            <div class="cd__foot mi:grid mi:grid-cols-[1fr_1fr] mi:gap-2">
+            <div class="mi:grid mi:grid-cols-[1fr_1fr] mi:gap-2">
               <MiButton variant="gray" block>Message guests</MiButton>
               <MiButton block>{{ ev.kind === 'video' ? 'Join call' : 'Open in Maps' }}</MiButton>
             </div>
@@ -142,14 +142,3 @@ const modeIcon = {
 }
 </script>
 
-<style scoped>
-.cd__sr { overflow: hidden; white-space: nowrap; }
-.cd__eyebrow { margin: 0; text-transform: uppercase; letter-spacing: .06em; }
-.cd__row:hover { background: var(--mi-fill4); }
-.cd__row.is-on { background: var(--mi-p-tint); }
-.cd__trip--call :deep(p) { color: var(--mi-label); }
-.cd__section h4, .cd__notes h4 { margin: 0; text-transform: uppercase; letter-spacing: .05em; font-size: 11px; }
-.cd__status.is-going { color: var(--mi-green-t); }
-.cd__status.is-maybe { color: var(--mi-orange-t); }
-.cd__status.is-no { color: var(--mi-red-t); }
-</style>

@@ -1,68 +1,68 @@
 <template>
-  <div class="jfp-cq mi:@container">
-    <section class="jfp mi:grid mi:gap-4 mi:grid-cols-[minmax(0,_1fr)] mi:font-mi mi:text-label mi:@[760px]:grid-cols-[280px_minmax(0,_1fr)] mi:@[760px]:items-start mi:@[760px]:gap-5" aria-labelledby="jfp-title">
-      <aside class="jfp__panel mi:grid mi:gap-3 mi:py-4 mi:px-4.5 mi:rounded-xl mi:bg-card mi:shadow-1" aria-labelledby="jfp-filters">
-        <div class="jfp__panel-head mi:flex mi:items-center mi:justify-between mi:gap-2">
+  <div class="mi:@container">
+    <section class="mi:grid mi:gap-4 mi:grid-cols-[minmax(0,_1fr)] mi:font-mi mi:text-label mi:@[760px]:grid-cols-[280px_minmax(0,_1fr)] mi:@[760px]:items-start mi:@[760px]:gap-5" aria-labelledby="jfp-title">
+      <aside class="mi:grid mi:gap-3 mi:py-4 mi:px-4.5 mi:rounded-xl mi:bg-card mi:shadow-1" aria-labelledby="jfp-filters">
+        <div class="mi:flex mi:items-center mi:justify-between mi:gap-2">
           <MiText id="jfp-filters" variant="headline" as="h3">Filters</MiText>
-          <div class="jfp__panel-tools mi:flex mi:gap-1">
+          <div class="mi:flex mi:gap-1">
             <MiButton variant="plain" size="small" :disabled="!active.length" @click="clearAll">Clear all</MiButton>
-            <MiButton class="jfp__toggle" variant="gray" size="small" :aria-expanded="showPanel" aria-controls="jfp-body" @click="showPanel = !showPanel">
+            <MiButton class="mi:@[760px]:hidden!" variant="gray" size="small" :aria-expanded="showPanel" aria-controls="jfp-body" @click="showPanel = !showPanel">
               {{ showPanel ? 'Hide' : 'Show' }}
             </MiButton>
           </div>
         </div>
 
-        <div v-show="showPanel" id="jfp-body" class="jfp__body mi:grid mi:gap-5 mi:@[760px]:grid! mi:[@container_(min-width:_520px)_and_(max-width:_759px)]:grid-cols-2">
-          <fieldset class="jfp__facet mi:grid mi:gap-2 mi:m-0 mi:p-0 mi:[border:0] mi:min-w-0">
-            <legend>Team</legend>
-            <div v-for="t in TEAMS" :key="t" class="jfp__check mi:flex mi:items-center mi:justify-between mi:gap-2" :class="{ 'is-empty': !counts.team[t] && !teams.includes(t) }">
+        <div v-show="showPanel" id="jfp-body" class="mi:grid mi:gap-5 mi:@[760px]:grid! mi:[@container_(min-width:_520px)_and_(max-width:_759px)]:grid-cols-2">
+          <fieldset class="mi:grid mi:gap-2 mi:m-0 mi:p-0 mi:[border:0] mi:min-w-0">
+            <legend class="mi:mb-2 mi:p-0 mi:text-[15px] mi:font-semibold">Team</legend>
+            <div v-for="t in TEAMS" :key="t" class="mi:flex mi:items-center mi:justify-between mi:gap-2">
               <MiCheckbox :model-value="teams.includes(t)" :disabled="!counts.team[t] && !teams.includes(t)" :label="t" @update:model-value="toggle(teams, t)" />
-              <span class="jfp__n mi:min-w-6.5 mi:py-px mi:px-[7px] mi:rounded-[999px] mi:bg-fill4 mi:text-label2 mi:text-[12px] mi:text-center mi:tabular-nums mi:[.jfp__check.is-empty_&]:opacity-50">{{ counts.team[t] ?? 0 }}</span>
+              <span class="mi:min-w-6.5 mi:py-px mi:px-[7px] mi:rounded-[999px] mi:bg-fill4 mi:text-label2 mi:text-[12px] mi:text-center mi:tabular-nums" :class="!counts.team[t] && !teams.includes(t) ? 'mi:opacity-50' : ''">{{ counts.team[t] ?? 0 }}</span>
             </div>
           </fieldset>
 
-          <div class="jfp__facet mi:grid mi:gap-2 mi:m-0 mi:p-0 mi:[border:0] mi:min-w-0">
+          <div class="mi:grid mi:gap-2 mi:m-0 mi:p-0 mi:[border:0] mi:min-w-0">
             <MiText variant="subheadline" weight="semibold" aria-hidden="true">Work style</MiText>
             <MiSegmented v-model="mode" label="Work style" :options="MODES.map(m => ({ value: m.value, label: m.label }))" />
             <MiText variant="caption" tone="label3">{{ counts.mode.remote ?? 0 }} remote · {{ counts.mode.hybrid ?? 0 }} hybrid · {{ counts.mode.onsite ?? 0 }} on-site</MiText>
           </div>
 
-          <div class="jfp__facet mi:grid mi:gap-2 mi:m-0 mi:p-0 mi:[border:0] mi:min-w-0">
+          <div class="mi:grid mi:gap-2 mi:m-0 mi:p-0 mi:[border:0] mi:min-w-0">
             <MiText variant="subheadline" weight="semibold" aria-hidden="true">Level</MiText>
             <MiToggleGroup v-model="levels" multiple variant="outline" size="sm" label="Level" :options="LEVELS.map(l => ({ value: l, label: l + ' ' + (counts.level[l] ?? 0) }))" />
           </div>
 
-          <div class="jfp__facet mi:grid mi:gap-2 mi:m-0 mi:p-0 mi:[border:0] mi:min-w-0">
+          <div class="mi:grid mi:gap-2 mi:m-0 mi:p-0 mi:[border:0] mi:min-w-0">
             <MiSlider v-model="salary" label="Minimum salary" :min="40" :max="180" :step="10" :format="v => (v <= 40 ? 'Any' : '$' + v + 'k+')" />
           </div>
 
-          <div class="jfp__facet mi:grid mi:gap-2 mi:m-0 mi:p-0 mi:[border:0] mi:min-w-0">
+          <div class="mi:grid mi:gap-2 mi:m-0 mi:p-0 mi:[border:0] mi:min-w-0">
             <MiText variant="subheadline" weight="semibold" aria-hidden="true">Posted</MiText>
             <MiRadioGroup v-model="posted" label="Posted" :options="POSTED.map(p => ({ value: p.days, label: p.label + ' (' + (counts.posted[p.days] ?? 0) + ')' }))" />
           </div>
         </div>
       </aside>
 
-      <div class="jfp__results mi:grid mi:gap-3 mi:content-start mi:min-w-0">
-        <header class="jfp__results-head mi:flex mi:[align-items:flex-end] mi:justify-between mi:gap-3">
+      <div class="mi:grid mi:gap-3 mi:content-start mi:min-w-0">
+        <header class="mi:flex mi:[align-items:flex-end] mi:justify-between mi:gap-3">
           <div>
             <MiText id="jfp-title" variant="title3" as="h2" weight="semibold">Open roles</MiText>
             <MiText variant="footnote" tone="label2" aria-live="polite">{{ results.length }} of {{ JOBS.length }} roles at Fieldwork</MiText>
           </div>
         </header>
 
-        <div v-if="active.length" class="jfp__chips mi:flex mi:flex-wrap mi:gap-1.5" aria-label="Active filters" role="group">
+        <div v-if="active.length" class="mi:flex mi:flex-wrap mi:gap-1.5" aria-label="Active filters" role="group">
           <MiChip v-for="c in active" :key="c.id" removable size="small" :label="c.label" :remove-label="'Remove ' + c.label" @remove="c.clear()" />
         </div>
 
-        <ul v-if="results.length" class="jfp__list mi:grid mi:m-0 mi:p-0 mi:[list-style:none] mi:rounded-xl mi:bg-card mi:shadow-1 mi:overflow-hidden">
-          <li v-for="j in results" :key="j.id" class="jfp__job mi:grid mi:gap-1.5 mi:py-3.5 mi:px-4 mi:[.jfp__job+&]:border-t mi:[.jfp__job+&]:border-t-sep mi:hover:bg-fill4 mi:@[560px]:grid-cols-[minmax(0,_1fr)_auto] mi:@[560px]:items-center">
-            <div class="jfp__job-main mi:grid mi:gap-0.5 mi:min-w-0">
+        <ul v-if="results.length" class="mi:grid mi:m-0 mi:p-0 mi:[list-style:none] mi:rounded-xl mi:bg-card mi:shadow-1 mi:overflow-hidden">
+          <li v-for="j in results" :key="j.id" class="mi:grid mi:gap-1.5 mi:py-3.5 mi:px-4 mi:[li+&]:border-t mi:[li+&]:border-t-sep mi:hover:bg-fill4 mi:@[560px]:grid-cols-[minmax(0,_1fr)_auto] mi:@[560px]:items-center">
+            <div class="mi:grid mi:gap-0.5 mi:min-w-0">
               <MiText variant="headline" as="h3" :lines="1">{{ j.title }}</MiText>
               <MiText variant="footnote" tone="label2">{{ j.team }} · {{ j.city }} · {{ MODES.find(m => m.value === j.mode)?.label }}</MiText>
             </div>
-            <div class="jfp__job-meta mi:flex mi:items-baseline mi:gap-2.5 mi:@[560px]:grid mi:@[560px]:justify-items-end mi:@[560px]:gap-0.5">
-              <span class="jfp__salary mi:text-[14px] mi:font-semibold mi:tabular-nums">${{ j.salary }}k–{{ j.salary + 30 }}k</span>
+            <div class="mi:flex mi:items-baseline mi:gap-2.5 mi:@[560px]:grid mi:@[560px]:justify-items-end mi:@[560px]:gap-0.5">
+              <span class="mi:text-[14px] mi:font-semibold mi:tabular-nums">${{ j.salary }}k–{{ j.salary + 30 }}k</span>
               <MiText variant="caption" tone="label3">{{ j.days === 0 ? 'Today' : j.days + 'd ago' }}</MiText>
             </div>
           </li>
@@ -156,8 +156,3 @@ function clearAll() {
   posted.value = 99
 }
 </script>
-
-<style scoped>
-@container (min-width: 760px) { .jfp__toggle { display: none; } }
-.jfp__facet legend { margin-bottom: 8px; padding: 0; font-size: 15px; font-weight: 600; }
-</style>

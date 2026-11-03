@@ -1,94 +1,99 @@
 <template>
-  <section class="npal mi:[--npal-t3:color-mix(in_srgb,_var(--mi-label2)_78%,_transparent)] mi:@container mi:grid mi:content-start mi:font-mi mi:text-label" aria-labelledby="npal-title">
-    <h2 id="npal-title" class="npal__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">Issue command palette</h2>
+  <section class="mi:[--npal-t3:color-mix(in_srgb,_var(--mi-label2)_78%,_transparent)] mi:@container mi:grid mi:content-start mi:font-mi mi:text-label" aria-labelledby="npal-title">
+    <h2 id="npal-title" class="mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">Issue command palette</h2>
 
-    <div class="npal__stage mi:relative mi:grid mi:[place-items:start_center] mi:min-h-130 mi:pt-11 mi:px-3 mi:pb-6 mi:rounded-xl mi:overflow-hidden mi:isolate mi:[background:var(--mi-page)] mi:@[560px]:pt-16 mi:@[560px]:px-8 mi:@[560px]:pb-8">
+    <div class="mi:relative mi:grid mi:[place-items:start_center] mi:min-h-130 mi:pt-11 mi:px-3 mi:pb-6 mi:rounded-xl mi:overflow-hidden mi:isolate mi:[background:var(--mi-page)] mi:@[560px]:pt-16 mi:@[560px]:px-8 mi:@[560px]:pb-8">
       <!-- Faux issue tracker behind the palette: token shapes only, blurred once, never animated. -->
-      <div class="npal__app mi:absolute mi:inset-0 mi:-z-2 mi:grid mi:content-start mi:gap-0.5 mi:p-4.5 mi:[filter:blur(2.5px)]" aria-hidden="true">
-        <div class="npal__app-bar mi:flex mi:gap-2.5 mi:mb-3.5"><i class="mi:[.npal__app-bar_&]:h-6 mi:[.npal__app-bar_&]:w-[18%] mi:[.npal__app-bar_&]:rounded-md mi:[.npal__app-bar_&]:[background:var(--mi-fill3)] mi:[.npal__app-bar_&:last-child]:ml-auto mi:[.npal__app-bar_&:last-child]:w-[10%] mi:[.npal__app-bar_&:last-child]:opacity-45" /><i class="mi:[.npal__app-bar_&]:h-6 mi:[.npal__app-bar_&]:w-[18%] mi:[.npal__app-bar_&]:rounded-md mi:[.npal__app-bar_&]:[background:var(--mi-fill3)] mi:[.npal__app-bar_&:last-child]:ml-auto mi:[.npal__app-bar_&:last-child]:w-[10%] mi:[.npal__app-bar_&:last-child]:opacity-45" /><i class="mi:[.npal__app-bar_&]:h-6 mi:[.npal__app-bar_&]:w-[18%] mi:[.npal__app-bar_&]:rounded-md mi:[.npal__app-bar_&]:[background:var(--mi-fill3)] mi:[.npal__app-bar_&:last-child]:ml-auto mi:[.npal__app-bar_&:last-child]:w-[10%] mi:[.npal__app-bar_&:last-child]:opacity-45" /></div>
-        <div v-for="n in 9" :key="n" class="npal__app-row mi:grid mi:grid-cols-[14px_64px_1fr_80px] mi:items-center mi:gap-3.5 mi:h-10 mi:py-0 mi:px-3 mi:rounded-md mi:[background:var(--mi-card)] mi:[&.is-hit]:shadow-[inset_0_0_0_1.5px_color-mix(in_srgb,_var(--mi-p)_60%,_transparent)]" :class="{ 'is-hit': n === 3 }"><b class="mi:[.npal__app-row_&]:w-3.5 mi:[.npal__app-row_&]:rounded-[50%] mi:[.npal__app-row_&]:border-2 mi:[.npal__app-row_&]:border-label3" /><i class="mi:[.npal__app-row_&]:rounded-[5px] mi:[.npal__app-row_&]:[background:var(--mi-fill2)]" /><i class="mi:[.npal__app-row_&]:rounded-[5px] mi:[.npal__app-row_&]:[background:var(--mi-fill2)]" /><s class="mi:[.npal__app-row_&]:rounded-[9px] mi:[.npal__app-row_&]:[background:var(--mi-fill3)]" /></div>
+      <div class="mi:absolute mi:inset-0 mi:-z-2 mi:grid mi:content-start mi:gap-0.5 mi:p-4.5 mi:[filter:blur(2.5px)]" aria-hidden="true">
+        <div class="mi:flex mi:gap-2.5 mi:mb-3.5"><i class="mi:h-6 mi:w-[18%] mi:rounded-md mi:bg-fill3" /><i class="mi:h-6 mi:w-[18%] mi:rounded-md mi:bg-fill3" /><i class="mi:h-6 mi:w-[10%] mi:ml-auto mi:opacity-45 mi:rounded-md mi:bg-p" /></div>
+        <div v-for="n in 9" :key="n" class="mi:grid mi:grid-cols-[14px_64px_1fr_80px] mi:items-center mi:gap-3.5 mi:h-10 mi:py-0 mi:px-3 mi:rounded-md mi:[background:var(--mi-card)]" :class="n === 3 ? 'mi:shadow-[inset_0_0_0_1.5px_color-mix(in_srgb,_var(--mi-p)_60%,_transparent)]' : ''"><b class="mi:w-3.5 mi:h-3.5 mi:rounded-[50%] mi:border-2 mi:border-label3" /><i class="mi:h-2.5 mi:rounded-[5px] mi:bg-fill2" /><i class="mi:h-2.5 mi:w-[70%] mi:rounded-[5px] mi:bg-fill2" /><s class="mi:h-4.5 mi:rounded-[9px] mi:bg-fill3" /></div>
       </div>
-      <div class="npal__scrim mi:absolute mi:inset-0 mi:-z-1 mi:[background:color-mix(in_srgb,_var(--mi-page)_50%,_transparent)]" aria-hidden="true" />
+      <div class="mi:absolute mi:inset-0 mi:-z-1 mi:[background:color-mix(in_srgb,_var(--mi-page)_50%,_transparent)]" aria-hidden="true" />
 
-      <div v-if="open" class="npal__wrap mi:relative mi:w-full mi:max-w-150">
+      <div v-if="open" class="mi:relative mi:w-full mi:max-w-150">
         <!-- One faint sheet per page pushed, peeking above the palette: depth you can see. -->
-        <TransitionGroup name="npal-layer" tag="div" class="npal__stack mi:absolute mi:inset-0 mi:z-0 mi:pointer-events-none" aria-hidden="true">
-          <i class="mi:[.npal__stack_&]:absolute mi:[.npal__stack_&]:inset-0 mi:[.npal__stack_&]:border mi:[.npal__stack_&]:border-sep mi:[.npal__stack_&]:shadow-2 mi:[.npal__stack_&]:transform-[translateY(calc(var(--d)_*_-11px))_scale(calc(1_-_var(--d)_*_.05))] mi:[.npal__stack_&]:opacity-[calc(1_-_var(--d)_*_.25)] mi:[.npal__stack_&]:origin-[50%_0] mi:[.npal__stack_&]:[transition:transform_var(--mi-dur-3)_var(--mi-spring),_opacity_var(--mi-dur-2)_var(--mi-ease)]" v-for="d in stack.length - 1" :key="d" :style="{ '--d': stack.length - d }" />
+        <TransitionGroup enter-from-class="mi:opacity-0! mi:transform-[translateY(0)_scale(1)]!" leave-to-class="mi:opacity-0! mi:transform-[translateY(0)_scale(1)]!" tag="div" class="mi:absolute mi:inset-0 mi:z-0 mi:pointer-events-none" aria-hidden="true">
+          <i class="mi:absolute mi:inset-0 mi:rounded-xl mi:[background:color-mix(in_srgb,_var(--mi-label)_4%,_var(--mi-elev))] mi:border mi:border-sep mi:shadow-2 mi:transform-[translateY(calc(var(--d)_*_-11px))_scale(calc(1_-_var(--d)_*_.05))] mi:opacity-[calc(1_-_var(--d)_*_.25)] mi:origin-[50%_0] mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring),_opacity_var(--mi-dur-2)_var(--mi-ease)]" v-for="d in stack.length - 1" :key="d" :style="{ '--d': stack.length - d }" />
         </TransitionGroup>
 
-        <div class="npal__palette mi:relative mi:z-1 mi:grid mi:rounded-xl mi:overflow-hidden mi:[background:var(--mi-elev)] mi:border mi:border-sep mi:shadow-3" role="dialog" aria-modal="false" aria-labelledby="npal-title">
-          <div class="npal__search mi:flex mi:flex-wrap mi:items-center mi:gap-y-2 mi:gap-x-1.5 mi:py-3 mi:px-3.5 mi:border-b mi:border-b-sep">
-            <ol class="npal__crumbs mi:flex mi:flex-wrap mi:items-center mi:gap-1 mi:m-0 mi:p-0 mi:[list-style:none]" aria-label="Palette path">
-              <li class="mi:[.npal__crumbs_&]:items-center mi:[.npal__crumbs_&]:gap-1" v-for="(f, i) in stack" :key="i">
+        <div class="mi:relative mi:z-1 mi:grid mi:rounded-xl mi:overflow-hidden mi:[background:var(--mi-elev)] mi:border mi:border-sep mi:shadow-3" role="dialog" aria-modal="false" aria-labelledby="npal-title">
+          <div class="mi:flex mi:flex-wrap mi:items-center mi:gap-y-2 mi:gap-x-1.5 mi:py-3 mi:px-3.5 mi:border-b mi:border-b-sep">
+            <ol class="mi:flex mi:flex-wrap mi:items-center mi:gap-1 mi:m-0 mi:p-0 mi:[list-style:none]" aria-label="Palette path">
+              <li class="mi:inline-flex mi:items-center mi:gap-1 mi:[li+&]:before:content-['›'] mi:[li+&]:before:text-(--npal-t3) mi:[li+&]:before:text-[13px]" v-for="(f, i) in stack" :key="i">
                 <button
-                  v-if="i < stack.length - 1" type="button" class="npal__crumb mi:inline-flex mi:items-center mi:h-6 mi:py-0 mi:px-[9px] mi:[border:0] mi:rounded-[7px] mi:text-label2 mi:[background:var(--mi-fill3)] mi:whitespace-nowrap mi:cursor-pointer mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px] mi:[&.is-root]:tracking-[.01em] mi:[&.is-current]:text-p-text mi:[&.is-current]:[background:var(--mi-p-tint)] mi:[&.is-current]:cursor-default" :class="{ 'is-root': i === 0 }"
+                  v-if="i < stack.length - 1" type="button" class="mi:[font:inherit] mi:text-[12px] mi:hover:text-label mi:hover:[background:var(--mi-fill2)] mi:active:transform-[scale(.96)] mi:inline-flex mi:items-center mi:h-6 mi:py-0 mi:px-[9px] mi:[border:0] mi:rounded-[7px] mi:text-label2 mi:[background:var(--mi-fill3)] mi:whitespace-nowrap mi:cursor-pointer mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px] " :class="i === 0 ? 'mi:tabular-nums mi:font-semibold mi:tracking-[.01em]' : 'mi:font-medium'"
                   :aria-label="i === 0 ? `Back to all actions for ${issue.key}` : `Back to ${f.title}`" @click="popTo(i)"
                 >
                   {{ i === 0 ? issue.key : f.title }}
                 </button>
-                <span v-else class="npal__crumb is-current mi:inline-flex mi:items-center mi:h-6 mi:py-0 mi:px-[9px] mi:[border:0] mi:rounded-[7px] mi:text-label2 mi:[background:var(--mi-fill3)] mi:whitespace-nowrap mi:cursor-pointer mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px] mi:[&.is-root]:tracking-[.01em] mi:[&.is-current]:text-p-text mi:[&.is-current]:[background:var(--mi-p-tint)] mi:[&.is-current]:cursor-default" :class="{ 'is-root': i === 0 }" aria-current="page">{{ i === 0 ? issue.key : f.title }}</span>
+                <span v-else class="mi:[font:inherit] mi:text-[12px] mi:inline-flex mi:items-center mi:h-6 mi:py-0 mi:px-[9px] mi:[border:0] mi:rounded-[7px] mi:text-p-text mi:[background:var(--mi-p-tint)] mi:whitespace-nowrap mi:cursor-default mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" :class="i === 0 ? 'mi:tabular-nums mi:font-semibold mi:tracking-[.01em]' : 'mi:font-medium'" aria-current="page">{{ i === 0 ? issue.key : f.title }}</span>
               </li>
             </ol>
-            <div class="npal__field mi:flex mi:flex-[1_1_200px] mi:items-center mi:gap-2 mi:min-w-0">
-              <MiIcon name="search" :size="17" class="npal__glass mi:text-(--npal-t3)" />
+            <div class="mi:flex mi:flex-[1_1_200px] mi:items-center mi:gap-2 mi:min-w-0">
+              <MiIcon name="search" :size="17" class="mi:text-(--npal-t3)" />
               <input
-                ref="input" v-model="query" class="npal__input mi:flex-1 mi:min-w-0 mi:h-7 mi:p-0 mi:[border:0] mi:[outline:none] mi:[background:none] mi:text-label mi:placeholder:text-(--npal-t3)" type="text" role="combobox" aria-expanded="true" aria-autocomplete="list"
+                ref="input" v-model="query" class="mi:[font:inherit] mi:text-[15px] mi:flex-1 mi:min-w-0 mi:h-7 mi:p-0 mi:[border:0] mi:[outline:none] mi:[background:none] mi:text-label mi:placeholder:text-(--npal-t3)" type="text" role="combobox" aria-expanded="true" aria-autocomplete="list"
                 aria-controls="npal-list" :aria-activedescendant="activeId" :aria-label="`${top.title}: type to filter`"
                 :placeholder="top.placeholder" autocomplete="off" spellcheck="false" @keydown="onKey"
               >
             </div>
           </div>
 
-          <Transition :name="`npal-${dir}`" mode="out-in">
-            <div id="npal-list" :key="stack.length + top.page" class="npal__list mi:h-75 mi:overflow-y-auto mi:overscroll-contain mi:p-1.5" role="listbox" :aria-label="top.title">
+          <Transition
+            mode="out-in"
+            enter-active-class="mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease),_opacity_var(--mi-dur-2)_var(--mi-ease)]" leave-active-class="mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease),_opacity_var(--mi-dur-2)_var(--mi-ease)]"
+            :enter-from-class="dir === 'push' ? 'mi:transform-[translateX(14px)] mi:opacity-0' : 'mi:transform-[translateX(-14px)] mi:opacity-0'"
+            :leave-to-class="dir === 'push' ? 'mi:transform-[translateX(-14px)] mi:opacity-0' : 'mi:transform-[translateX(14px)] mi:opacity-0'"
+          >
+            <div id="npal-list" :key="stack.length + top.page" class="mi:h-75 mi:overflow-y-auto mi:overscroll-contain mi:p-1.5" role="listbox" :aria-label="top.title">
               <template v-for="g in groups" :key="g.label">
-                <div role="group" :aria-labelledby="`npal-g-${slug(g.label)}`" class="npal__group mi:[.npal__group+&]:mt-1.5 mi:[.npal__group+&]:pt-1.5 mi:[.npal__group+&]:border-t mi:[.npal__group+&]:border-t-sep">
-                  <div :id="`npal-g-${slug(g.label)}`" class="npal__group-label mi:pt-2 mi:px-2.5 mi:pb-1.5 mi:text-[11px] mi:font-semibold mi:tracking-[.04em] mi:uppercase mi:text-(--npal-t3) mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ g.label }}</div>
+                <div role="group" :aria-labelledby="`npal-g-${slug(g.label)}`" class="mi:not-first:mt-1.5 mi:not-first:pt-1.5 mi:not-first:border-t mi:not-first:border-t-sep">
+                  <div :id="`npal-g-${slug(g.label)}`" class="mi:pt-2 mi:px-2.5 mi:pb-1.5 mi:text-[11px] mi:font-semibold mi:tracking-[.04em] mi:uppercase mi:text-(--npal-t3) mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap">{{ g.label }}</div>
                   <div
-                    v-for="o in g.items" :id="`npal-opt-${o.id}`" :key="o.id" role="option" class="npal__opt mi:flex mi:items-center mi:gap-2.5 mi:min-h-10 mi:py-1.5 mi:px-2.5 mi:rounded-md mi:text-[14px] mi:cursor-pointer mi:[scroll-margin:6px] mi:[&.is-active]:[background:var(--mi-fill3)] mi:[&.is-active]:shadow-[inset_2px_0_0_var(--mi-p)]"
-                    :class="{ 'is-active': o.id === active?.id }" :aria-selected="o.id === active?.id" @mousemove="hover(o.id)" @click="choose(o)"
+                    v-for="o in g.items" :id="`npal-opt-${o.id}`" :key="o.id" role="option" class="mi:group mi:flex mi:items-center mi:gap-2.5 mi:min-h-10 mi:py-1.5 mi:px-2.5 mi:rounded-md mi:text-[14px] mi:cursor-pointer mi:[scroll-margin:6px] mi:aria-selected:[background:var(--mi-fill3)] mi:aria-selected:shadow-[inset_2px_0_0_var(--mi-p)]"
+                    :aria-selected="o.id === active?.id" @mousemove="hover(o.id)" @click="choose(o)"
                   >
-                    <span class="npal__ico mi:grid mi:place-items-center mi:flex-[none] mi:w-6.5 mi:h-6.5 mi:rounded-[7px] mi:text-label2 mi:[background:var(--mi-fill4)] mi:[&[data-kind='person']]:[background:none] mi:[.npal__opt.is-active_&[data-kind='mi']]:text-p-text mi:[.npal__opt.is-active_&[data-kind='mi']]:[background:var(--mi-p-tint)]" :data-kind="o.icon.kind" :data-v="o.icon.v">
-                      <MiAvatar class="mi:[.npal__ico[data-v='progress']_i&]:p-0.5 mi:[.npal__ico[data-v='review']_i&]:p-0.5" v-if="o.icon.kind === 'person'" :name="o.icon.v" size="xs" tone="auto" decorative />
-                      <MiIcon class="mi:[.npal__ico[data-v='progress']_i&]:p-0.5 mi:[.npal__ico[data-v='review']_i&]:p-0.5" v-else-if="o.icon.kind === 'mi'" :name="o.icon.name" :size="16" />
-                      <span v-else-if="o.icon.kind === 'prio'" class="npal__bars mi:inline-flex mi:[align-items:flex-end] mi:gap-0.5 mi:h-3"><i class="mi:[.npal__ico[data-v='progress']_i&]:p-0.5 mi:[.npal__ico[data-v='review']_i&]:p-0.5 mi:[.npal__bars_&]:w-[3px]" v-for="n in 3" :key="n" :class="{ on: n <= Number(o.icon.v) }" /></span>
-                      <i class="mi:[.npal__ico[data-v='progress']_i&]:p-0.5 mi:[.npal__ico[data-v='review']_i&]:p-0.5" v-else />
+                    <span class="mi:group mi:grid mi:place-items-center mi:flex-[none] mi:w-6.5 mi:h-6.5 mi:rounded-[7px] mi:text-label2 mi:[background:var(--mi-fill4)] mi:[&[data-kind='person']]:[background:none] mi:group-aria-selected:data-[kind=mi]:text-p-text mi:group-aria-selected:data-[kind=mi]:[background:var(--mi-p-tint)]" :data-kind="o.icon.kind" :data-v="o.icon.v">
+                      <MiAvatar v-if="o.icon.kind === 'person'" :name="o.icon.v" size="xs" tone="auto" decorative />
+                      <MiIcon v-else-if="o.icon.kind === 'mi'" :name="o.icon.name" :size="16" />
+                      <span v-else-if="o.icon.kind === 'prio'" class="mi:inline-flex mi:[align-items:flex-end] mi:gap-0.5 mi:h-3"><i class="mi:w-[3px] mi:rounded-[1px] mi:[&:nth-child(1)]:h-[5px] mi:[&:nth-child(2)]:h-2 mi:[&:nth-child(3)]:h-3" v-for="n in 3" :key="n" :class="n <= Number(o.icon.v) ? 'mi:bg-label2' : 'mi:bg-fill2'" /></span>
+                      <i class="mi:group-data-[v=progress]:p-0.5 mi:group-data-[v=review]:p-0.5 mi:group-data-[kind=project]:w-3 mi:group-data-[kind=project]:h-3 mi:group-data-[kind=project]:rounded-[4px] mi:group-data-[v=p]:bg-p mi:group-data-[v=s]:bg-s mi:group-data-[v=green]:bg-green mi:group-data-[v=orange]:bg-orange mi:group-data-[v=pink]:bg-pink mi:group-data-[v=purple]:bg-purple mi:group-data-[kind=status]:w-3.5 mi:group-data-[kind=status]:h-3.5 mi:group-data-[kind=status]:rounded-[50%] mi:group-data-[kind=status]:[border:2px_solid_var(--mi-label2)] mi:group-data-[v=backlog]:border-dashed mi:group-data-[v=progress]:border-orange mi:group-data-[v=progress]:[background:conic-gradient(var(--mi-orange)_0_50%,_transparent_0)_content-box] mi:group-data-[v=review]:border-green mi:group-data-[v=review]:[background:conic-gradient(var(--mi-green)_0_75%,_transparent_0)_content-box] mi:group-data-[v=done]:border-p mi:group-data-[v=done]:bg-p mi:group-data-[v=canceled]:border-(--npal-t3) mi:group-data-[v=canceled]:bg-(--npal-t3)" v-else />
                     </span>
-                    <span class="npal__label mi:flex mi:flex-1 mi:items-baseline mi:gap-2 mi:min-w-0 mi:overflow-hidden mi:whitespace-nowrap mi:text-ellipsis">{{ o.label }}<small class="mi:[.npal__label_&]:overflow-hidden mi:[.npal__label_&]:text-ellipsis mi:[.npal__label_&]:text-[12px] mi:[.npal__label_&]:text-(--npal-t3) mi:[.npal__label_&]:tabular-nums" v-if="o.hint">{{ o.hint }}</small></span>
-                    <span v-if="o.current" class="npal__now mi:inline-flex mi:flex-[none] mi:items-center mi:text-p-text">
+                    <span class="mi:flex mi:flex-1 mi:items-baseline mi:gap-2 mi:min-w-0 mi:overflow-hidden mi:whitespace-nowrap mi:text-ellipsis">{{ o.label }}<small class="mi:overflow-hidden mi:text-ellipsis mi:text-[12px] mi:text-(--npal-t3) mi:tabular-nums" v-if="o.hint">{{ o.hint }}</small></span>
+                    <span v-if="o.current" class="mi:inline-flex mi:flex-[none] mi:items-center mi:text-p-text">
                       <MiIcon name="check" :size="14" />
-                      <span class="npal__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">current</span>
+                      <span class="mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">current</span>
                     </span>
-                    <span v-if="o.value" class="npal__value mi:flex-[none] mi:max-w-[40%] mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:text-[12px] mi:text-label2">{{ o.value }}</span>
-                    <MiKbdGroup v-if="o.kbd" class="npal__kbd mi:@[560px]:flex-[none]"><MiKbd v-for="k in o.kbd" :key="k">{{ k }}</MiKbd></MiKbdGroup>
-                    <MiIcon v-if="o.push" name="chevron-right" :size="15" class="npal__push mi:text-(--npal-t3) mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease)] mi:[.npal__opt.is-active_&]:text-label" />
+                    <span v-if="o.value" class="mi:flex-[none] mi:max-w-[40%] mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:text-[12px] mi:text-label2">{{ o.value }}</span>
+                    <MiKbdGroup v-if="o.kbd" class="mi:hidden! mi:@[560px]:inline-flex! mi:@[560px]:flex-[none]"><MiKbd v-for="k in o.kbd" :key="k">{{ k }}</MiKbd></MiKbdGroup>
+                    <MiIcon v-if="o.push" name="chevron-right" :size="15" class="mi:group-aria-selected:transform-[translateX(2px)] mi:text-(--npal-t3) mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease)] mi:group-aria-selected:text-label" />
                   </div>
                 </div>
               </template>
-              <p v-if="!groups.length" class="npal__empty mi:m-0 mi:py-10 mi:px-4 mi:text-center mi:text-[13px] mi:text-label2">Nothing matches “{{ query }}”.</p>
+              <p v-if="!groups.length" class="mi:m-0 mi:py-10 mi:px-4 mi:text-center mi:text-[13px] mi:text-label2">Nothing matches “{{ query }}”.</p>
             </div>
           </Transition>
 
-          <footer class="npal__foot mi:flex mi:flex-wrap mi:items-center mi:gap-y-2 mi:gap-x-3.5 mi:min-h-10.5 mi:py-2 mi:px-3.5 mi:border-t mi:border-t-sep mi:text-[12px] mi:text-label2 mi:[background:color-mix(in_srgb,_var(--mi-fill4)_50%,_transparent)]">
-            <span class="npal__hint mi:inline-flex mi:items-center mi:gap-1.5"><MiKbdGroup><MiKbd>↑</MiKbd><MiKbd>↓</MiKbd></MiKbdGroup> move</span>
-            <span class="npal__hint mi:inline-flex mi:items-center mi:gap-1.5"><MiKbd>↵</MiKbd> {{ active?.push ? 'open' : 'select' }}</span>
-            <span v-if="stack.length > 1" class="npal__hint mi:inline-flex mi:items-center mi:gap-1.5"><MiKbd>⌫</MiKbd> back</span>
-            <span class="npal__hint mi:inline-flex mi:items-center mi:gap-1.5"><MiKbd>esc</MiKbd> {{ stack.length > 1 ? 'up' : 'close' }}</span>
-            <Transition name="npal-done">
-              <span v-if="done" :key="done" class="npal__done mi:inline-flex mi:items-center mi:gap-1.5 mi:ml-auto mi:font-medium mi:text-green-t"><MiIcon name="check-circle-fill" :size="14" />{{ done }}</span>
+          <footer class="mi:flex mi:flex-wrap mi:items-center mi:gap-y-2 mi:gap-x-3.5 mi:min-h-10.5 mi:py-2 mi:px-3.5 mi:border-t mi:border-t-sep mi:text-[12px] mi:text-label2 mi:[background:color-mix(in_srgb,_var(--mi-fill4)_50%,_transparent)]">
+            <span class="mi:inline-flex mi:items-center mi:gap-1.5"><MiKbdGroup><MiKbd>↑</MiKbd><MiKbd>↓</MiKbd></MiKbdGroup> move</span>
+            <span class="mi:inline-flex mi:items-center mi:gap-1.5"><MiKbd>↵</MiKbd> {{ active?.push ? 'open' : 'select' }}</span>
+            <span v-if="stack.length > 1" class="mi:inline-flex mi:items-center mi:gap-1.5"><MiKbd>⌫</MiKbd> back</span>
+            <span class="mi:inline-flex mi:items-center mi:gap-1.5"><MiKbd>esc</MiKbd> {{ stack.length > 1 ? 'up' : 'close' }}</span>
+            <Transition enter-active-class="mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring),_opacity_var(--mi-dur-2)_var(--mi-ease)]" enter-from-class="mi:transform-[translateY(4px)] mi:opacity-0">
+              <span v-if="done" :key="done" class="mi:inline-flex mi:items-center mi:gap-1.5 mi:ml-auto mi:font-medium mi:text-green-t"><MiIcon name="check-circle-fill" :size="14" />{{ done }}</span>
             </Transition>
           </footer>
         </div>
       </div>
 
-      <div v-else class="npal__closed mi:grid mi:place-items-center mi:min-h-110">
+      <div v-else class="mi:grid mi:place-items-center mi:min-h-110">
         <MiButton variant="gray" size="small" @click="reopen">
           Reopen palette
           <template #trailing><MiKbdGroup><MiKbd>⌘</MiKbd><MiKbd>K</MiKbd></MiKbdGroup></template>
         </MiButton>
       </div>
     </div>
-    <p class="npal__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap" role="status" aria-live="polite">{{ announce }}</p>
+    <p class="mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap" role="status" aria-live="polite">{{ announce }}</p>
   </section>
 </template>
 
@@ -270,59 +275,3 @@ function reopen() {
   nextTick(() => input.value?.focus())
 }
 </script>
-
-<style scoped>
-.npal__app-bar i:last-child { background: var(--mi-p); }
-.npal__app-row b { height: 14px; }
-.npal__app-row i { height: 10px; }
-.npal__app-row i + i { width: 70%; }
-.npal__app-row s { height: 18px; }
-.npal__stack i { border-radius: var(--mi-radius-xl);
-  background: color-mix(in srgb, var(--mi-label) 4%, var(--mi-elev));
-}
-.npal-layer-enter-from, .npal-layer-leave-to { transform: translateY(0) scale(1); opacity: 0; }
-.npal__crumbs li { display: inline-flex; }
-.npal__crumbs li + li::before { content: "›"; color: var(--npal-t3); font-size: 13px; }
-.npal__crumb {
-  font: inherit; font-size: 12px; font-weight: 500;
-}
-button.npal__crumb:hover { color: var(--mi-label); background: var(--mi-fill2); }
-button.npal__crumb:active { transform: scale(.96); }
-.npal__crumb.is-root { font-variant-numeric: tabular-nums; font-weight: 600; }
-.npal__glass { flex: none; }
-.npal__input { font: inherit; font-size: 15px; }
-.npal__push { flex: none; }
-.npal__opt.is-active .npal__push { transform: translateX(2px); }
-.npal__kbd { display: none; }
-
-/* Project swatches, status rings and priority bars: tiny glyphs drawn from tokens. */
-.npal__ico[data-kind="project"] i { width: 12px; height: 12px; border-radius: 4px; background: var(--mi-p); }
-.npal__ico[data-v="s"] i { background: var(--mi-s); }
-.npal__ico[data-v="green"] i { background: var(--mi-green); }
-.npal__ico[data-v="orange"] i { background: var(--mi-orange); }
-.npal__ico[data-v="pink"] i { background: var(--mi-pink); }
-.npal__ico[data-v="purple"] i { background: var(--mi-purple); }
-.npal__ico[data-kind="status"] i { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--mi-label2); }
-.npal__ico[data-v="backlog"] i { border-style: dashed; }
-.npal__ico[data-v="todo"] i { border-color: var(--mi-label2); }
-.npal__ico[data-v="progress"] i { border-color: var(--mi-orange); background: conic-gradient(var(--mi-orange) 0 50%, transparent 0) content-box; }
-.npal__ico[data-v="review"] i { border-color: var(--mi-green); background: conic-gradient(var(--mi-green) 0 75%, transparent 0) content-box; }
-.npal__ico[data-v="done"] i { border-color: var(--mi-p); background: var(--mi-p); }
-.npal__ico[data-v="canceled"] i { border-color: var(--npal-t3); background: var(--npal-t3); }
-.npal__bars i { border-radius: 1px; background: var(--mi-fill2); }
-.npal__bars i:nth-child(1) { height: 5px; }
-.npal__bars i:nth-child(2) { height: 8px; }
-.npal__bars i:nth-child(3) { height: 12px; }
-.npal__bars i.on { background: var(--mi-label2); }
-
-/* Page transitions: pushing slides in from the trailing edge, popping from the leading edge. */
-.npal-push-enter-active, .npal-push-leave-active, .npal-pop-enter-active, .npal-pop-leave-active { transition: transform var(--mi-dur-2) var(--mi-ease), opacity var(--mi-dur-2) var(--mi-ease); }
-.npal-push-enter-from, .npal-pop-leave-to { transform: translateX(14px); opacity: 0; }
-.npal-push-leave-to, .npal-pop-enter-from { transform: translateX(-14px); opacity: 0; }
-.npal-done-enter-active { transition: transform var(--mi-dur-3) var(--mi-spring), opacity var(--mi-dur-2) var(--mi-ease); }
-.npal-done-enter-from { transform: translateY(4px); opacity: 0; }
-
-@container (min-width: 560px) {
-  .npal__kbd { display: inline-flex; }
-}
-</style>

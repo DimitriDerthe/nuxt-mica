@@ -1,43 +1,43 @@
 <template>
-  <section class="pfm mi:@container/pfm mi:grid mi:content-start mi:gap-4.5 mi:font-mi mi:text-label" aria-labelledby="pfm-title">
-    <header class="pfm__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-y-3 mi:gap-x-5">
-      <div class="pfm__intro mi:grid mi:gap-1.5 mi:max-w-135">
+  <section class="mi:@container/pfm mi:grid mi:content-start mi:gap-4.5 mi:font-mi mi:text-label" aria-labelledby="pfm-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-y-3 mi:gap-x-5">
+      <div class="mi:grid mi:gap-1.5 mi:max-w-135">
         <MiText id="pfm-title" as="h2" variant="title2" weight="bold" balance>Compare Cutline plans</MiText>
         <MiText variant="subheadline" tone="label2">Pick a feature to see where it starts. Prices per editor, billed monthly, excl. VAT.</MiText>
       </div>
-      <div class="pfm__tools mi:flex mi:items-center mi:gap-2.5">
+      <div class="mi:flex mi:items-center mi:gap-2.5">
         <MiSwitch v-model="diffOnly" size="compact" aria-labelledby="pfm-diff-label" />
         <MiText id="pfm-diff-label" as="span" variant="footnote" weight="medium">Only differences</MiText>
       </div>
     </header>
 
-    <div class="pfm__switch mi:grid mi:@[640px]/pfm:hidden">
+    <div class="mi:grid mi:@[640px]/pfm:hidden">
       <MiSegmented v-model="focus" label="Plan to show" :options="plans.map(p => ({ value: p.id, label: p.name }))" />
     </div>
 
-    <div class="pfm__scroll mi:max-h-125 mi:overflow-auto mi:overscroll-contain mi:rounded-xl mi:bg-card mi:shadow-[var(--mi-sh1),_inset_0_0_0_1px_var(--mi-sep)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" tabindex="0" aria-label="Feature comparison">
-      <table class="pfm__table mi:w-full mi:border-separate mi:[border-spacing:0] mi:table-fixed" :class="{ 'has-pick': !!picked }">
+    <div class="mi:max-h-125 mi:overflow-auto mi:overscroll-contain mi:rounded-xl mi:bg-card mi:shadow-[var(--mi-sh1),_inset_0_0_0_1px_var(--mi-sep)] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" tabindex="0" aria-label="Feature comparison">
+      <table class="mi:w-full mi:border-separate mi:[border-spacing:0] mi:table-fixed">
         <thead>
           <tr>
-            <th scope="col" class="pfm__corner mi:[.pfm__table_thead_&]:w-[52%] mi:@[640px]/pfm:[.pfm__table_thead_&]:w-[34%]">
-              <p class="pfm__status mi:grid mi:gap-[3px] mi:m-0 mi:text-[12px] mi:font-normal mi:leading-[1.35] mi:text-label2" aria-live="polite">
+            <th scope="col" class="mi:sticky mi:top-0 mi:z-2 mi:pt-4 mi:px-3 mi:pb-3.5 mi:pl-4.5 mi:align-bottom mi:text-start mi:bg-card/92 mi:border-b mi:border-b-sep mi:w-[52%] mi:@[640px]/pfm:w-[34%]">
+              <p class="mi:grid mi:gap-[3px] mi:m-0 mi:text-[12px] mi:font-normal mi:leading-[1.35] mi:text-label2" aria-live="polite">
                 <template v-if="pickedRow">
-                  <span class="pfm__status-k mi:text-[14px] mi:font-650 mi:text-label">{{ pickedRow.label }}</span>
+                  <span class="mi:text-[14px] mi:font-650 mi:text-label">{{ pickedRow.label }}</span>
                   <span>{{ availability(pickedRow) }}</span>
                 </template>
                 <template v-else>
-                  <span class="pfm__status-k mi:text-[14px] mi:font-650 mi:text-label">{{ shownCount }} features</span>
+                  <span class="mi:text-[14px] mi:font-650 mi:text-label">{{ shownCount }} features</span>
                   <span>{{ diffOnly ? `${hiddenCount} shared by every plan are hidden` : 'Select one to trace it across plans' }}</span>
                 </template>
               </p>
             </th>
             <th
-              v-for="p in plans" :key="p.id" scope="col" class="pfm__plan"
-              :class="{ 'is-other mi:[.pfm__table_&]:hidden mi:@[640px]/pfm:[.pfm__table_&]:table-cell': p.id !== focus, 'is-hit': pickedRow && has(pickedRow, p.id), 'is-miss': pickedRow && !has(pickedRow, p.id) }"
+              v-for="p in plans" :key="p.id" scope="col" class="mi:sticky mi:top-0 mi:z-2 mi:pt-4 mi:px-3 mi:pb-3.5 mi:align-bottom mi:text-start mi:bg-card/92 mi:border-b mi:border-b-sep"
+              :class="p.id !== focus ? 'mi:hidden mi:@[640px]/pfm:table-cell' : ''"
             >
-              <div class="pfm__plan-card mi:grid mi:gap-2 mi:p-3 mi:rounded-lg mi:shadow-[inset_0_0_0_1px_transparent] mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease),_transform_var(--mi-dur-3)_var(--mi-spring)] mi:[.pfm__plan.is-hit_&]:shadow-[inset_0_0_0_1.5px_var(--mi-p)] mi:[.pfm__plan.is-hit_&]:bg-p-tint mi:[.pfm__plan.is-miss_&]:opacity-42 mi:[.pfm__plan.is-miss_&]:transform-[scale(.98)] mi:motion-reduce:[transition:none]">
-                <span class="pfm__plan-name mi:min-h-5.5 mi:flex mi:flex-wrap mi:items-center mi:gap-1.5 mi:text-[15px] mi:font-bold mi:tracking-[-.01em]">{{ p.name }}<MiBadge v-if="p.popular" tone="primary" label="Popular" /></span>
-                <span class="pfm__price mi:flex mi:flex-wrap mi:items-baseline mi:gap-1"><span class="pfm__amount mi:text-[26px] mi:font-750 mi:leading-[1.1] mi:tracking-[-.035em] mi:tabular-nums">{{ p.price ? `€${p.price}` : 'Free' }}</span><span v-if="p.price" class="pfm__per mi:text-[11px] mi:font-medium mi:text-label2">/ editor / mo</span></span>
+              <div class="mi:grid mi:gap-2 mi:p-3 mi:rounded-lg mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease),_transform_var(--mi-dur-3)_var(--mi-spring)] mi:motion-reduce:[transition:none]" :class="pickedRow && has(pickedRow, p.id) ? 'mi:shadow-[inset_0_0_0_1.5px_var(--mi-p)] mi:bg-p-tint' : pickedRow ? 'mi:shadow-[inset_0_0_0_1px_transparent] mi:opacity-42 mi:transform-[scale(.98)]' : 'mi:shadow-[inset_0_0_0_1px_transparent]'">
+                <span class="mi:min-h-5.5 mi:flex mi:flex-wrap mi:items-center mi:gap-1.5 mi:text-[15px] mi:font-bold mi:tracking-[-.01em]">{{ p.name }}<MiBadge v-if="p.popular" tone="primary" label="Popular" /></span>
+                <span class="mi:flex mi:flex-wrap mi:items-baseline mi:gap-1"><span class="mi:text-[26px] mi:font-750 mi:leading-[1.1] mi:tracking-[-.035em] mi:tabular-nums">{{ p.price ? `€${p.price}` : 'Free' }}</span><span v-if="p.price" class="mi:text-[11px] mi:font-medium mi:text-label2">/ editor / mo</span></span>
                 <MiButton v-if="p.id === current" size="small" variant="gray" disabled block>Current plan</MiButton>
                 <MiButton v-else size="small" :variant="p.popular ? 'filled' : 'tinted'" block>Choose {{ p.name }}</MiButton>
               </div>
@@ -45,24 +45,24 @@
           </tr>
         </thead>
         <tbody v-for="g in visibleGroups" :key="g.label">
-          <tr class="pfm__group">
-            <th class="mi:[.pfm__group_&]:pt-4.5 mi:[.pfm__group_&]:px-4.5 mi:[.pfm__group_&]:pb-1.5 mi:[.pfm__group_&]:text-start mi:[.pfm__group_&]:text-[11px] mi:[.pfm__group_&]:font-650 mi:[.pfm__group_&]:tracking-[.07em] mi:[.pfm__group_&]:uppercase mi:[.pfm__group_&]:text-label3" scope="rowgroup">{{ g.label }}</th>
-            <td v-for="p in plans" :key="p.id" :class="{ 'is-other mi:[.pfm__table_&]:hidden mi:@[640px]/pfm:[.pfm__table_&]:table-cell': p.id !== focus }" />
+          <tr>
+            <th class="mi:pt-4.5 mi:px-4.5 mi:pb-1.5 mi:text-start mi:text-[11px] mi:font-650 mi:tracking-[.07em] mi:uppercase mi:text-label3" scope="rowgroup">{{ g.label }}</th>
+            <td v-for="p in plans" :key="p.id" :class="p.id !== focus ? 'mi:hidden mi:@[640px]/pfm:table-cell' : ''" />
           </tr>
-          <tr v-for="r in g.rows" :key="r.id" class="pfm__row" :class="{ 'is-picked': picked === r.id }">
-            <th scope="row" class="pfm__feature mi:[.pfm__row_th&]:border-t mi:[.pfm__row_th&]:border-t-sep mi:[.pfm__group+.pfm__row_th&]:[border-top:0] mi:pt-0 mi:pr-1 mi:pb-0 mi:pl-1.5 mi:text-start mi:[font-weight:inherit]">
-              <button type="button" class="pfm__feature-btn mi:grid mi:gap-px mi:w-full mi:py-2.5 mi:px-3 mi:[border:0] mi:rounded-[10px] mi:text-start mi:text-label mi:bg-transparent mi:cursor-pointer mi:hover:bg-fill4 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px] mi:[.pfm__row.is-picked_&]:text-p-text mi:[.pfm__row.is-picked_&]:bg-p-tint mi:[.pfm__row.is-picked_&]:font-semibold" :aria-pressed="picked === r.id" @click="picked = picked === r.id ? null : r.id">
+          <tr v-for="r in g.rows" :key="r.id">
+            <th scope="row" class="mi:border-t mi:border-t-sep mi:[tr:nth-child(2)>&]:[border-top:0] mi:pt-0 mi:pr-1 mi:pb-0 mi:pl-1.5 mi:text-start mi:[font-weight:inherit]">
+              <button type="button" class="mi:[font:inherit] mi:text-[14px] mi:grid mi:gap-px mi:w-full mi:py-2.5 mi:px-3 mi:[border:0] mi:rounded-[10px] mi:text-start mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px]" :class="picked === r.id ? 'mi:text-p-text mi:bg-p-tint mi:font-semibold' : 'mi:font-medium mi:text-label mi:bg-transparent mi:hover:bg-fill4'" :aria-pressed="picked === r.id" @click="picked = picked === r.id ? null : r.id">
                 <span>{{ r.label }}</span>
-                <span v-if="r.note" class="pfm__note mi:text-[12px] mi:font-normal mi:text-label2">{{ r.note }}</span>
+                <span v-if="r.note" class="mi:text-[12px] mi:font-normal mi:text-label2">{{ r.note }}</span>
               </button>
             </th>
             <td
-              v-for="(v, i) in r.values" :key="plans[i]!.id" class="pfm__cell mi:[.pfm__row_td&]:border-t mi:[.pfm__row_td&]:border-t-sep mi:[.pfm__group+.pfm__row_td&]:[border-top:0] mi:relative mi:py-2.5 mi:px-3 mi:text-start mi:text-[13px] mi:tabular-nums mi:@[640px]/pfm:pl-6 mi:before:content-[''] mi:before:absolute mi:before:inset-y-[3px] mi:before:inset-x-1.5 mi:before:z-0 mi:before:rounded-[10px] mi:before:bg-p-tint mi:before:opacity-0 mi:before:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)] mi:[&.is-hit]:before:opacity-100 mi:motion-reduce:before:[transition:none]"
-              :class="{ 'is-other mi:[.pfm__table_&]:hidden mi:@[640px]/pfm:[.pfm__table_&]:table-cell': plans[i]!.id !== focus, 'is-hit': picked === r.id && v !== false }"
+              v-for="(v, i) in r.values" :key="plans[i]!.id" class="mi:border-t mi:border-t-sep mi:[tr:nth-child(2)>&]:[border-top:0] mi:relative mi:py-2.5 mi:px-3 mi:text-start mi:text-[13px] mi:tabular-nums mi:@[640px]/pfm:pl-6 mi:before:content-[''] mi:before:absolute mi:before:inset-y-[3px] mi:before:inset-x-1.5 mi:before:z-0 mi:before:rounded-[10px] mi:before:bg-p-tint mi:before:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)] mi:motion-reduce:before:[transition:none]"
+              :class="[plans[i]!.id !== focus ? 'mi:hidden mi:@[640px]/pfm:table-cell' : '', picked === r.id && v !== false ? 'mi:before:opacity-100' : 'mi:before:opacity-0']"
             >
-              <span v-if="v === true" class="pfm__yes mi:[.pfm__cell>&]:relative mi:inline-grid mi:place-items-center mi:w-5.5 mi:h-5.5 mi:rounded-[50%] mi:text-p-on mi:bg-p mi:[.has-pick_.pfm__row:not(.is-picked)_.pfm__cell>&]:opacity-50 mi:[.has-pick_.pfm__row:not(.is-picked)_.pfm__cell>&]:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)] mi:motion-reduce:[.has-pick_.pfm__row_.pfm__cell>&]:[transition:none]"><MiIcon class="mi:[.pfm__row_th&]:border-t mi:[.pfm__row_th&]:border-t-sep mi:[.pfm__row_td&]:border-t mi:[.pfm__row_td&]:border-t-sep mi:[.pfm__group+.pfm__row_th&]:[border-top:0] mi:[.pfm__group+.pfm__row_td&]:[border-top:0]" name="check" :size="13" :weight="2.8" label="Included" /></span>
-              <span v-else-if="v === false" class="pfm__no mi:[.pfm__cell>&]:relative mi:inline-grid mi:place-items-center mi:w-5.5 mi:h-5.5 mi:text-label3 mi:[.has-pick_.pfm__row:not(.is-picked)_.pfm__cell>&]:opacity-50 mi:[.has-pick_.pfm__row:not(.is-picked)_.pfm__cell>&]:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)] mi:motion-reduce:[.has-pick_.pfm__row_.pfm__cell>&]:[transition:none]"><MiIcon class="mi:[.pfm__row_th&]:border-t mi:[.pfm__row_th&]:border-t-sep mi:[.pfm__row_td&]:border-t mi:[.pfm__row_td&]:border-t-sep mi:[.pfm__group+.pfm__row_th&]:[border-top:0] mi:[.pfm__group+.pfm__row_td&]:[border-top:0]" name="dash" :size="14" label="Not included" /></span>
-              <span v-else class="pfm__val mi:[.pfm__cell>&]:relative mi:font-550 mi:[.has-pick_.pfm__row:not(.is-picked)_.pfm__cell>&]:opacity-50 mi:[.has-pick_.pfm__row:not(.is-picked)_.pfm__cell>&]:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)] mi:motion-reduce:[.has-pick_.pfm__row_.pfm__cell>&]:[transition:none]">{{ v }}</span>
+              <span v-if="v === true" class="mi:relative mi:inline-grid mi:place-items-center mi:w-5.5 mi:h-5.5 mi:rounded-[50%] mi:text-p-on mi:bg-p" :class="picked && picked !== r.id ? 'mi:opacity-50 mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)] mi:motion-reduce:[transition:none]' : ''"><MiIcon name="check" :size="13" :weight="2.8" label="Included" /></span>
+              <span v-else-if="v === false" class="mi:relative mi:inline-grid mi:place-items-center mi:w-5.5 mi:h-5.5 mi:text-label3" :class="picked && picked !== r.id ? 'mi:opacity-50 mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)] mi:motion-reduce:[transition:none]' : ''"><MiIcon name="dash" :size="14" label="Not included" /></span>
+              <span v-else class="mi:relative mi:font-550" :class="picked && picked !== r.id ? 'mi:opacity-50 mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)] mi:motion-reduce:[transition:none]' : ''">{{ v }}</span>
             </td>
           </tr>
         </tbody>
@@ -138,15 +138,3 @@ function availability(r: Row) {
 }
 </script>
 
-<style scoped>
-/* Sticky plan headers inside the scroll area. */
-.pfm__table thead th {
-  position: sticky; top: 0; z-index: 2; padding: 16px 12px 14px; vertical-align: bottom; text-align: start;
-  background: color-mix(in srgb, var(--mi-card) 92%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--mi-sep);
-}
-.pfm__table thead th.pfm__corner { padding-left: 18px; }
-.pfm__feature-btn {
-  font: inherit; font-size: 14px; font-weight: 500;
-}
-</style>

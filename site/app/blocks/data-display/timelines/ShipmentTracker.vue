@@ -1,6 +1,6 @@
 <template>
-  <section class="shp mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="shp-title">
-    <header class="shp__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="shp-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="shp-title" variant="title3" as="h2" weight="semibold">Order #40318</MiText>
         <MiText variant="footnote" tone="label2">Placed 2 Jun · shipped in {{ PARCELS.length }} parcels to Glasgow G12</MiText>
@@ -8,30 +8,30 @@
       <MiSegmented v-model="parcelId" label="Parcel" :options="parcelOptions" />
     </header>
 
-    <article class="shp__card mi:grid mi:gap-5.5 mi:p-5 mi:rounded-lg mi:bg-card mi:shadow-1">
-      <div class="shp__eta mi:flex mi:flex-wrap mi:[align-items:flex-start] mi:justify-between mi:gap-3">
+    <article class="mi:grid mi:gap-5.5 mi:p-5 mi:rounded-lg mi:bg-card mi:shadow-1">
+      <div class="mi:flex mi:flex-wrap mi:[align-items:flex-start] mi:justify-between mi:gap-3">
         <div>
           <MiText variant="caption" tone="label2" weight="medium">{{ parcel.delivered ? 'Delivered' : 'Estimated delivery' }}</MiText>
-          <p class="shp__day mi:mt-0.5 mi:mx-0 mi:mb-1 mi:text-[clamp(20px,_5cqi,_28px)] mi:font-bold mi:tracking-[-.025em]">{{ parcel.eta }}</p>
+          <p class="mi:mt-0.5 mi:mx-0 mi:mb-1 mi:text-[clamp(20px,_5cqi,_28px)] mi:font-bold mi:tracking-[-.025em]">{{ parcel.eta }}</p>
           <MiText variant="footnote" tone="label2">{{ parcel.items }} · {{ parcel.carrier }}</MiText>
         </div>
         <MiCopyButton :value="parcel.tracking" :label="parcel.tracking" copied-label="Tracking number copied" variant="outline" />
       </div>
 
       <!-- Milestone track: the fill is one scaleX, stops are evenly spaced. -->
-      <div class="shp__track mi:relative">
-        <span class="shp__line mi:absolute mi:top-[9px] mi:right-[10%] mi:bottom-auto mi:left-[10%] mi:h-[3px] mi:rounded-[2px] mi:bg-fill3 mi:overflow-hidden" aria-hidden="true"><i class="mi:[.shp__line_&]:block mi:[.shp__line_&]:h-full mi:[.shp__line_&]:bg-p mi:[.shp__line_&]:origin-left mi:[.shp__line_&]:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleX(${parcel.stage / (MILESTONES.length - 1)})` }" /></span>
-        <ol class="shp__stops mi:relative mi:grid mi:grid-cols-5 mi:m-0 mi:p-0 mi:[list-style:none]" aria-label="Delivery progress">
-          <li v-for="(m, i) in MILESTONES" :key="m" class="shp__stop mi:relative mi:grid mi:justify-items-center mi:gap-2 mi:text-center" :class="{ 'is-done': i <= parcel.stage, 'is-now': i === parcel.stage }" :aria-current="i === parcel.stage ? 'step' : undefined">
-            <span class="shp__dot mi:grid mi:place-items-center mi:w-5 mi:h-5 mi:rounded-[50%] mi:bg-card mi:shadow-[inset_0_0_0_2px_var(--mi-fill2)] mi:text-p-on mi:[.shp__stop.is-done_&]:bg-p mi:[.shp__stop.is-done_&]:shadow-none mi:[.shp__stop.is-now:not(:last-child)_&]:bg-card mi:[.shp__stop.is-now:not(:last-child)_&]:shadow-[inset_0_0_0_6px_var(--mi-p)]" aria-hidden="true"><MiIcon v-if="i < parcel.stage || parcel.delivered" name="check" :size="10" /></span>
-            <span class="shp__label mi:text-[11px] mi:leading-tight mi:text-label3 mi:[.shp__stop.is-done_&]:text-label2 mi:[.shp__stop.is-now_&]:text-label mi:[.shp__stop.is-now_&]:font-semibold mi:@[560px]:text-[13px]">{{ m }}</span>
+      <div class="mi:relative">
+        <span class="mi:absolute mi:top-[9px] mi:right-[10%] mi:bottom-auto mi:left-[10%] mi:h-[3px] mi:rounded-[2px] mi:bg-fill3 mi:overflow-hidden" aria-hidden="true"><i class="mi:block mi:h-full mi:bg-p mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleX(${parcel.stage / (MILESTONES.length - 1)})` }" /></span>
+        <ol class="mi:relative mi:grid mi:grid-cols-5 mi:m-0 mi:p-0 mi:[list-style:none]" aria-label="Delivery progress">
+          <li v-for="(m, i) in MILESTONES" :key="m" class="mi:relative mi:grid mi:justify-items-center mi:gap-2 mi:text-center" :aria-current="i === parcel.stage ? 'step' : undefined">
+            <span class="mi:grid mi:place-items-center mi:w-5 mi:h-5 mi:rounded-[50%] mi:text-p-on" :class="i === parcel.stage && i < MILESTONES.length - 1 ? 'mi:bg-card mi:shadow-[inset_0_0_0_6px_var(--mi-p)]' : i <= parcel.stage ? 'mi:bg-p mi:shadow-none' : 'mi:bg-card mi:shadow-[inset_0_0_0_2px_var(--mi-fill2)]'" aria-hidden="true"><MiIcon v-if="i < parcel.stage || parcel.delivered" name="check" :size="10" /></span>
+            <span class="mi:text-[11px] mi:leading-tight mi:@[560px]:text-[13px]" :class="i === parcel.stage ? 'mi:text-label mi:font-semibold' : i <= parcel.stage ? 'mi:text-label2' : 'mi:text-label3'">{{ m }}</span>
           </li>
         </ol>
       </div>
     </article>
 
-    <div class="shp__log mi:grid mi:p-5 mi:rounded-lg mi:bg-card mi:shadow-1">
-      <div class="shp__log-head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
+    <div class="mi:grid mi:gap-3.5 mi:p-5 mi:rounded-lg mi:bg-card mi:shadow-1">
+      <div class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
         <MiText variant="headline" as="h3">Tracking history</MiText>
         <MiSegmented v-model="detail" label="History detail" :options="[{ value: 'key', label: 'Milestones' }, { value: 'all', label: 'All scans' }]" />
       </div>
@@ -83,8 +83,3 @@ const events = computed(() => parcel.value.scans
   .filter(s => detail.value === 'all' || s.key)
   .map((s, i) => ({ title: s.title, description: s.description, time: s.time, status: i === 0 && !parcel.value.delivered ? 'current' as const : 'done' as const, tone: i === 0 ? 'primary' as const : 'neutral' as const })))
 </script>
-
-<style scoped>
-.shp__log { gap: 22px; }
-.shp__log { gap: 14px; }
-</style>

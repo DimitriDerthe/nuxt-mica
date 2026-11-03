@@ -1,55 +1,55 @@
 <template>
-  <section class="cts mi:@container mi:font-mi mi:text-label" aria-labelledby="cts-title">
-    <div class="cts__in mi:grid mi:gap-5 mi:[grid-template-areas:'head'_'meter'_'grid'_'foot'] mi:@[900px]:grid-cols-[minmax(0,_1fr)_290px] mi:@[900px]:[grid-template-areas:'head_head'_'grid_meter'_'foot_foot'] mi:@[900px]:gap-x-6 mi:@[900px]:gap-y-5.5 mi:@[1100px]:grid-cols-[minmax(0,_1fr)_320px] mi:@[1100px]:gap-x-8">
-      <header class="cts__head mi:[grid-area:head] mi:grid mi:gap-1.5 mi:max-w-155">
-        <MiText variant="caption" weight="semibold" tone="primary" class="cts__kicker">Step 3 of 4 · Integrations</MiText>
+  <section class="mi:@container mi:font-mi mi:text-label" aria-labelledby="cts-title">
+    <div class="mi:grid mi:gap-5 mi:[grid-template-areas:'head'_'meter'_'grid'_'foot'] mi:@[900px]:grid-cols-[minmax(0,_1fr)_290px] mi:@[900px]:[grid-template-areas:'head_head'_'grid_meter'_'foot_foot'] mi:@[900px]:gap-x-6 mi:@[900px]:gap-y-5.5 mi:@[1100px]:grid-cols-[minmax(0,_1fr)_320px] mi:@[1100px]:gap-x-8">
+      <header class="mi:[grid-area:head] mi:grid mi:gap-1.5 mi:max-w-155">
+        <MiText variant="caption" weight="semibold" tone="primary" class="mi:tracking-[.02em]!">Step 3 of 4 · Integrations</MiText>
         <MiText id="cts-title" as="h2" variant="title1" weight="bold" balance>Bring your tools along</MiText>
         <MiText variant="subheadline" tone="label2">Connect what Kestrel Labs already uses. Fernway only reads what each project needs, and you can disconnect any time.</MiText>
       </header>
 
       <!-- Hours meter: each connection adds its own segment, measured against a full workday. -->
-      <aside class="cts__meter mi:[grid-area:meter] mi:grid mi:content-start mi:gap-3 mi:p-4.5 mi:rounded-xl mi:[background:radial-gradient(100%_90%_at_100%_0%,_var(--mi-p-tint),_transparent_65%),_var(--mi-card)] mi:shadow-[0_0_0_1px_var(--mi-sep),_var(--mi-sh1)] mi:@[560px]:py-5 mi:@[560px]:px-5.5 mi:@[900px]:self-stretch mi:@[900px]:grid-rows-[auto_auto_auto_auto_1fr_auto] mi:@[900px]:p-5.5 mi:@[900px]:gap-3.5" aria-labelledby="cts-meter-title">
-        <div class="cts__meter-top mi:flex mi:flex-wrap mi:items-baseline mi:justify-between mi:gap-y-1 mi:gap-x-3">
+      <aside class="mi:[grid-area:meter] mi:grid mi:content-start mi:gap-3 mi:p-4.5 mi:rounded-xl mi:[background:radial-gradient(100%_90%_at_100%_0%,_var(--mi-p-tint),_transparent_65%),_var(--mi-card)] mi:shadow-[0_0_0_1px_var(--mi-sep),_var(--mi-sh1)] mi:@[560px]:py-5 mi:@[560px]:px-5.5 mi:@[900px]:self-stretch mi:@[900px]:grid-rows-[auto_auto_auto_auto_1fr_auto] mi:@[900px]:p-5.5 mi:@[900px]:gap-3.5" aria-labelledby="cts-meter-title">
+        <div class="mi:flex mi:flex-wrap mi:items-baseline mi:justify-between mi:gap-y-1 mi:gap-x-3">
           <MiText id="cts-meter-title" as="h3" variant="footnote" weight="semibold" tone="label2">Estimated time saved</MiText>
-          <p class="cts__hours mi:flex mi:items-baseline mi:gap-1.5 mi:m-0 mi:@[900px]:basis-full" aria-live="polite"><span class="cts__hours-num mi:text-[34px] mi:leading-none mi:font-bold mi:tracking-[-.04em] mi:tabular-nums mi:@[900px]:text-[44px]">{{ hours.toFixed(1) }}</span><span class="cts__hours-unit mi:text-[13px] mi:font-medium mi:text-label2">h / week</span></p>
+          <p class="mi:flex mi:items-baseline mi:gap-1.5 mi:m-0 mi:@[900px]:basis-full" aria-live="polite"><span class="mi:text-[34px] mi:leading-none mi:font-bold mi:tracking-[-.04em] mi:tabular-nums mi:@[900px]:text-[44px]">{{ hours.toFixed(1) }}</span><span class="mi:text-[13px] mi:font-medium mi:text-label2">h / week</span></p>
         </div>
         <div
-          class="cts__track mi:relative mi:h-3 mi:rounded-[6px] mi:overflow-hidden mi:[background:var(--mi-fill3)]" role="meter" aria-label="Hours saved per week" :aria-valuenow="+hours.toFixed(1)" aria-valuemin="0" :aria-valuemax="MAX"
+          class="mi:relative mi:h-3 mi:rounded-[6px] mi:overflow-hidden mi:[background:var(--mi-fill3)]" role="meter" aria-label="Hours saved per week" :aria-valuenow="+hours.toFixed(1)" aria-valuemin="0" :aria-valuemax="MAX"
           :aria-valuetext="`${hours.toFixed(1)} hours a week`"
         >
           <span
-            v-for="(t, i) in tools" :key="t.id" class="cts__seg mi:absolute mi:inset-0 mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]"
+            v-for="(t, i) in tools" :key="t.id" class="mi:absolute mi:inset-0 mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]"
             :style="{ transform: `scaleX(${ends[i]! / MAX})`, zIndex: tools.length - i, background: t.color }"
           />
-          <span v-for="(t, i) in tools" :key="'cut-' + t.id" class="cts__cut mi:absolute mi:inset-0 mi:pointer-events-none mi:z-20 mi:opacity-0 mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring),_opacity_var(--mi-dur-2)_var(--mi-ease)] mi:[&.is-on]:opacity-100 mi:before:content-[''] mi:before:absolute mi:before:top-0 mi:before:bottom-0 mi:before:-left-px mi:before:w-0.5 mi:before:[background:var(--mi-card)]" :class="{ 'is-on': t.on }" :style="{ transform: `translateX(${ends[i]! / MAX * 100}%)` }" />
-          <span class="cts__day mi:absolute mi:inset-0 mi:z-21 mi:pointer-events-none mi:before:content-[''] mi:before:absolute mi:before:top-0.5 mi:before:bottom-0.5 mi:before:-left-px mi:before:w-0.5 mi:before:rounded-[1px] mi:before:[background:var(--mi-label)] mi:before:opacity-55" :style="{ transform: `translateX(${8 / MAX * 100}%)` }" />
+          <span v-for="(t, i) in tools" :key="'cut-' + t.id" class="mi:absolute mi:inset-0 mi:pointer-events-none mi:z-20 mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring),_opacity_var(--mi-dur-2)_var(--mi-ease)] mi:before:content-[''] mi:before:absolute mi:before:top-0 mi:before:bottom-0 mi:before:-left-px mi:before:w-0.5 mi:before:[background:var(--mi-card)]" :class="t.on ? 'mi:opacity-100' : 'mi:opacity-0'" :style="{ transform: `translateX(${ends[i]! / MAX * 100}%)` }" />
+          <span class="mi:absolute mi:inset-0 mi:z-21 mi:pointer-events-none mi:before:content-[''] mi:before:absolute mi:before:top-0.5 mi:before:bottom-0.5 mi:before:-left-px mi:before:w-0.5 mi:before:rounded-[1px] mi:before:[background:var(--mi-label)] mi:before:opacity-55" :style="{ transform: `translateX(${8 / MAX * 100}%)` }" />
         </div>
-        <div class="cts__scale mi:relative mi:flex mi:h-4 mi:overflow-hidden mi:-mt-1 mi:text-[11px] mi:text-label3" aria-hidden="true">
+        <div class="mi:relative mi:flex mi:h-4 mi:overflow-hidden mi:-mt-1 mi:text-[11px] mi:text-label3" aria-hidden="true">
           <span>0 h</span>
-          <span class="cts__day-label mi:absolute mi:inset-0 mi:pointer-events-none" :style="{ transform: `translateX(${8 / MAX * 100}%)` }"><span class="mi:[.cts__day-label_&]:absolute mi:[.cts__day-label_&]:right-full mi:[.cts__day-label_&]:-mr-px mi:[.cts__day-label_&]:pr-0 mi:[.cts__day-label_&]:whitespace-nowrap mi:[.cts__day-label_&]:transform-[translateX(50%)]">a full workday</span></span>
+          <span class="mi:absolute mi:inset-0 mi:pointer-events-none" :style="{ transform: `translateX(${8 / MAX * 100}%)` }"><span class="mi:absolute mi:right-full mi:-mr-px mi:pr-0 mi:whitespace-nowrap mi:transform-[translateX(50%)]">a full workday</span></span>
         </div>
-        <ul v-if="connected.length" class="cts__legend mi:flex mi:flex-wrap mi:gap-y-1.5 mi:gap-x-3.5 mi:m-0 mi:p-0 mi:[list-style:none] mi:text-[12px] mi:text-label2">
-          <li class="mi:[.cts__legend_&]:inline-flex mi:[.cts__legend_&]:items-center mi:[.cts__legend_&]:gap-1.5" v-for="t in connected" :key="t.id"><i :style="{ background: t.color }" />{{ t.name }}<b class="mi:[.cts__legend_&]:tabular-nums">{{ t.hours.toFixed(1) }} h</b></li>
+        <ul v-if="connected.length" class="mi:flex mi:flex-wrap mi:gap-y-1.5 mi:gap-x-3.5 mi:m-0 mi:p-0 mi:[list-style:none] mi:text-[12px] mi:text-label2">
+          <li class="mi:inline-flex mi:items-center mi:gap-1.5" v-for="t in connected" :key="t.id"><i class="mi:w-2 mi:h-2 mi:rounded-[2px]" :style="{ background: t.color }" />{{ t.name }}<b class="mi:tabular-nums mi:font-semibold mi:text-label">{{ t.hours.toFixed(1) }} h</b></li>
         </ul>
         <MiText v-else variant="caption" tone="label3">Turn on a tool to see what it gives back.</MiText>
-        <div v-if="best" class="cts__best mi:grid mi:grid-cols-[auto_minmax(0,_1fr)_auto] mi:items-center mi:gap-2.5 mi:pt-2.5 mi:pr-2.5 mi:pb-2.5 mi:pl-2.5 mi:rounded-md mi:[background:var(--mi-fill4)] mi:@[900px]:self-end">
-          <span class="cts__mark cts__mark--sm mi:w-6.5 mi:h-6.5 mi:text-[11px] mi:grid mi:place-items-center mi:w-9.5 mi:h-9.5 mi:text-[14px] mi:font-bold mi:tracking-[-.02em] mi:text-(--tint) mi:[background:color-mix(in_srgb,_var(--tint)_14%,_transparent)] mi:shadow-[inset_0_0_0_1px_color-mix(in_srgb,_var(--tint)_22%,_transparent)]" :style="{ '--tint': best.color }" aria-hidden="true">{{ best.mark }}</span>
-          <MiText as="span" variant="footnote" tone="label2" class="cts__best-copy">Biggest gain left: <strong>{{ best.name }}</strong>, +{{ best.hours.toFixed(1) }} h</MiText>
+        <div v-if="best" class="mi:grid mi:grid-cols-[auto_minmax(0,_1fr)_auto] mi:items-center mi:gap-2.5 mi:pt-2.5 mi:pr-2.5 mi:pb-2.5 mi:pl-2.5 mi:rounded-md mi:[background:var(--mi-fill4)] mi:@[900px]:self-end">
+          <span class="mi:rounded-[11px] mi:grid mi:place-items-center mi:w-9.5 mi:h-9.5 mi:text-[14px] mi:font-bold mi:tracking-[-.02em] mi:text-(--tint) mi:[background:color-mix(in_srgb,_var(--tint)_14%,_transparent)] mi:shadow-[inset_0_0_0_1px_color-mix(in_srgb,_var(--tint)_22%,_transparent)]" :style="{ '--tint': best.color }" aria-hidden="true">{{ best.mark }}</span>
+          <MiText as="span" variant="footnote" tone="label2">Biggest gain left: <strong class="mi:text-label mi:font-semibold">{{ best.name }}</strong>, +{{ best.hours.toFixed(1) }} h</MiText>
           <MiButton variant="tinted" size="small" :disabled="!!busy" @click="toggle(best.id, true)">Connect</MiButton>
         </div>
-        <MiText variant="caption" tone="label3" class="cts__basis mi:pt-2.5 mi:border-t mi:border-t-sep">Median for 2,400 teams of 2–10 people in their first month.</MiText>
+        <MiText variant="caption" tone="label3" class="mi:pt-2.5 mi:border-t mi:border-t-sep">Median for 2,400 teams of 2–10 people in their first month.</MiText>
       </aside>
 
-      <ul class="cts__grid mi:[grid-area:grid] mi:grid mi:gap-2.5 mi:m-0 mi:p-0 mi:[list-style:none] mi:content-start mi:@[560px]:grid-cols-2" aria-label="Integrations">
-        <li v-for="t in tools" :key="t.id" class="cts__tool mi:relative mi:grid mi:grid-cols-[auto_minmax(0,_1fr)_auto] mi:items-start mi:gap-3 mi:p-3.5 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-[0_0_0_1px_var(--mi-sep)] mi:after:content-[''] mi:after:absolute mi:after:inset-0 mi:after:rounded-[inherit] mi:after:pointer-events-none mi:after:opacity-0 mi:after:shadow-[inset_0_0_0_1.5px_color-mix(in_srgb,_var(--mi-green)_55%,_transparent)] mi:after:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)] mi:[&.is-on]:after:opacity-100" :class="{ 'is-on': t.on }">
-          <span class="cts__mark mi:grid mi:place-items-center mi:w-9.5 mi:h-9.5 mi:text-[14px] mi:font-bold mi:tracking-[-.02em] mi:text-(--tint) mi:[background:color-mix(in_srgb,_var(--tint)_14%,_transparent)] mi:shadow-[inset_0_0_0_1px_color-mix(in_srgb,_var(--tint)_22%,_transparent)]" :style="{ '--tint': t.color }" aria-hidden="true">{{ t.mark }}</span>
-          <div class="cts__tool-copy mi:grid mi:gap-[3px] mi:min-w-0">
-            <span :id="'cts-n-' + t.id" class="cts__tool-name mi:text-[15px] mi:font-semibold mi:tracking-[-.01em]">{{ t.name }}</span>
-            <span class="cts__tool-desc mi:text-[13px] mi:leading-[1.4] mi:text-label2">{{ t.desc }}</span>
-            <span class="cts__status mi:inline-flex mi:items-center mi:gap-1.5 mi:min-h-4.5 mi:mt-1 mi:text-[12px] mi:font-medium mi:text-[color:var(--mi-green-t,_var(--mi-green))]" aria-live="polite">
+      <ul class="mi:[grid-area:grid] mi:grid mi:gap-2.5 mi:m-0 mi:p-0 mi:[list-style:none] mi:content-start mi:@[560px]:grid-cols-2" aria-label="Integrations">
+        <li v-for="t in tools" :key="t.id" class="mi:relative mi:grid mi:grid-cols-[auto_minmax(0,_1fr)_auto] mi:items-start mi:gap-3 mi:p-3.5 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-[0_0_0_1px_var(--mi-sep)] mi:after:content-[''] mi:after:absolute mi:after:inset-0 mi:after:rounded-[inherit] mi:after:pointer-events-none mi:after:shadow-[inset_0_0_0_1.5px_color-mix(in_srgb,_var(--mi-green)_55%,_transparent)] mi:after:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)] " :class="t.on ? 'mi:after:opacity-100' : 'mi:after:opacity-0'">
+          <span class="mi:rounded-[11px] mi:grid mi:place-items-center mi:w-9.5 mi:h-9.5 mi:text-[14px] mi:font-bold mi:tracking-[-.02em] mi:text-(--tint) mi:[background:color-mix(in_srgb,_var(--tint)_14%,_transparent)] mi:shadow-[inset_0_0_0_1px_color-mix(in_srgb,_var(--tint)_22%,_transparent)]" :style="{ '--tint': t.color }" aria-hidden="true">{{ t.mark }}</span>
+          <div class="mi:grid mi:gap-[3px] mi:min-w-0">
+            <span :id="'cts-n-' + t.id" class="mi:text-[15px] mi:font-semibold mi:tracking-[-.01em]">{{ t.name }}</span>
+            <span class="mi:text-[13px] mi:leading-[1.4] mi:text-label2">{{ t.desc }}</span>
+            <span class="mi:inline-flex mi:items-center mi:gap-1.5 mi:min-h-4.5 mi:mt-1 mi:text-[12px] mi:font-medium mi:text-[color:var(--mi-green-t,_var(--mi-green))]" aria-live="polite">
               <template v-if="busy === t.id"><MiSpinner size="sm" label="" /> Connecting…</template>
-              <template v-else-if="t.on"><i class="cts__ok mi:w-1.5 mi:h-1.5 mi:rounded-[50%] mi:[background:var(--mi-green)]" />{{ t.detail }}</template>
-              <template v-else><span class="cts__gain mi:text-label3 mi:tabular-nums">+{{ t.hours.toFixed(1) }} h a week</span></template>
+              <template v-else-if="t.on"><i class="mi:w-1.5 mi:h-1.5 mi:rounded-[50%] mi:[background:var(--mi-green)]" />{{ t.detail }}</template>
+              <template v-else><span class="mi:text-label3 mi:tabular-nums">+{{ t.hours.toFixed(1) }} h a week</span></template>
             </span>
           </div>
           <MiSwitch
@@ -59,14 +59,14 @@
         </li>
       </ul>
 
-      <footer class="cts__foot mi:[grid-area:foot] mi:grid mi:grid-cols-[auto_1fr_auto] mi:items-center mi:gap-3 mi:pt-4 mi:border-t mi:border-t-sep">
+      <footer class="mi:[grid-area:foot] mi:grid mi:grid-cols-[auto_1fr_auto] mi:items-center mi:gap-3 mi:pt-4 mi:border-t mi:border-t-sep">
         <MiButton variant="plain" @click="step = Math.max(0, step - 1)">
           <template #leading><MiIcon name="arrow-left" :size="15" /></template>
           Back
         </MiButton>
-        <ol class="cts__dots mi:flex mi:justify-center mi:gap-1.5 mi:m-0 mi:p-0 mi:[list-style:none]" aria-label="Onboarding progress">
-          <li class="mi:[.cts__dots_&]:[transition:transform_var(--mi-dur-3)_var(--mi-spring)]" v-for="n in 4" :key="n" :class="{ 'is-on': n - 1 === step, 'is-done': n - 1 < step }" :aria-current="n - 1 === step ? 'step' : undefined">
-            <span class="sr-only mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip:rect(0_0_0_0)] mi:whitespace-nowrap">Step {{ n }} of 4</span>
+        <ol class="mi:flex mi:justify-center mi:gap-1.5 mi:m-0 mi:p-0 mi:[list-style:none]" aria-label="Onboarding progress">
+          <li class="mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring)] mi:h-[7px] mi:rounded-[4px]" v-for="n in 4" :key="n" :class="[n - 1 === step ? 'mi:w-5.5 mi:[background:var(--mi-p)]' : n - 1 < step ? 'mi:w-[7px] mi:[background:color-mix(in_srgb,_var(--mi-p)_45%,_var(--mi-fill))]' : 'mi:w-[7px] mi:[background:var(--mi-fill)]']" :aria-current="n - 1 === step ? 'step' : undefined">
+            <span class="mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip:rect(0_0_0_0)] mi:whitespace-nowrap">Step {{ n }} of 4</span>
           </li>
         </ol>
         <MiButton :variant="connected.length ? 'filled' : 'gray'" @click="step = Math.min(3, step + 1)">
@@ -116,16 +116,3 @@ function toggle(id: string, on: boolean) {
 
 onBeforeUnmount(() => clearTimeout(timer))
 </script>
-
-<style scoped>
-.cts__kicker { letter-spacing: .02em; }
-.cts__legend i { width: 8px; height: 8px; border-radius: 2px; }
-.cts__legend b { font-weight: 600; color: var(--mi-label); }
-.cts__best-copy strong { color: var(--mi-label); font-weight: 600; }
-.cts__mark--sm { border-radius: 8px; }
-.cts__mark { border-radius: 11px;
-}
-.cts__dots li { width: 7px; height: 7px; border-radius: 4px; background: var(--mi-fill); }
-.cts__dots li.is-done { background: color-mix(in srgb, var(--mi-p) 45%, var(--mi-fill)); }
-.cts__dots li.is-on { width: 22px; background: var(--mi-p); }
-</style>

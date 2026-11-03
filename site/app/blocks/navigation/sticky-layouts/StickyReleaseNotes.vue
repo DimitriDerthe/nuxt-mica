@@ -1,9 +1,9 @@
 <template>
-  <div class="srn mi:@container mi:font-mi mi:text-label">
+  <div class="mi:@container mi:font-mi mi:text-label">
     <!-- The block scrolls inside its own box so every sticky layer is visible in the preview. -->
-    <div ref="scroller" class="srn__scroller mi:[--srn-head:60px] mi:[--srn-toc:48px] mi:relative mi:h-160 mi:overflow-y-auto mi:overscroll-contain mi:[background:var(--mi-page)] mi:[scrollbar-width:thin] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px] mi:@[760px]:[--srn-toc:0px]" tabindex="0" aria-label="Release notes, scrollable">
-      <header class="srn__head mi:sticky mi:top-0 mi:z-4 mi:flex mi:items-center mi:gap-3 mi:h-(--srn-head) mi:py-0 mi:px-4 mi:box-border mi:[background:var(--mi-mat)] mi:border-b mi:border-b-sep mi:@[760px]:py-0 mi:@[760px]:px-7">
-        <div class="srn__head-text mi:grid mi:flex-1 mi:min-w-0">
+    <div ref="scroller" class="mi:[--srn-head:60px] mi:[--srn-toc:48px] mi:relative mi:h-160 mi:overflow-y-auto mi:overscroll-contain mi:[background:var(--mi-page)] mi:[scrollbar-width:thin] mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[-2px] mi:@[760px]:[--srn-toc:0px]" tabindex="0" aria-label="Release notes, scrollable">
+      <header class="mi:sticky mi:top-0 mi:z-4 mi:flex mi:items-center mi:gap-3 mi:h-(--srn-head) mi:py-0 mi:px-4 mi:box-border mi:[background:var(--mi-mat)] mi:border-b mi:border-b-sep mi:@[760px]:py-0 mi:@[760px]:px-7">
+        <div class="mi:grid mi:flex-1 mi:min-w-0">
           <MiText variant="caption" tone="label2" weight="medium">Tessera CMS</MiText>
           <MiText id="srn-title" variant="headline" as="h2">Release notes</MiText>
         </div>
@@ -11,46 +11,46 @@
           <template #leading><MiIcon :name="subscribed ? 'check' : 'bell'" :size="15" /></template>
           {{ subscribed ? 'Subscribed' : 'Subscribe' }}
         </MiButton>
-        <span class="srn__progress mi:absolute mi:left-0 mi:right-0 mi:-bottom-px mi:h-0.5 mi:hidden mi:supports-[animation-timeline:_scroll()]:block" aria-hidden="true"><span class="mi:[.srn__progress_&]:h-full mi:[.srn__progress_&]:origin-left mi:[.srn__progress_&]:transform-[scaleX(0)]" /></span>
+        <span class="mi:absolute mi:left-0 mi:right-0 mi:-bottom-px mi:h-0.5 mi:hidden mi:supports-[animation-timeline:_scroll()]:block" aria-hidden="true"><span class="mi:h-full mi:origin-left mi:transform-[scaleX(0)] mi:block mi:[background:linear-gradient(90deg,_var(--mi-p),_var(--mi-s))] mi:supports-[animation-timeline:_scroll()]:animate-[grow_linear_both] mi:supports-[animation-timeline:_scroll()]:[animation-timeline:scroll(nearest_block)]" /></span>
       </header>
 
-      <div class="srn__layout mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:@[760px]:grid-cols-[220px_minmax(0,_1fr)] mi:@[760px]:gap-3 mi:@[760px]:py-0 mi:@[760px]:px-7">
-        <nav class="srn__toc mi:sticky mi:top-(--srn-head) mi:z-3 mi:h-(--srn-toc) mi:box-border mi:flex mi:items-center mi:py-0 mi:px-3 mi:[background:var(--mi-page)] mi:border-b mi:border-b-sep mi:overflow-x-auto mi:[scrollbar-width:none] mi:@[760px]:top-[calc(var(--srn-head)_+_20px)] mi:@[760px]:self-start mi:@[760px]:h-auto mi:@[760px]:grid mi:@[760px]:gap-2 mi:@[760px]:items-start mi:@[760px]:p-0 mi:@[760px]:mt-5 mi:@[760px]:[background:none] mi:@[760px]:[border:0] mi:@[760px]:overflow-visible" aria-label="Versions">
-          <MiText variant="caption2" tone="label2" weight="semibold" class="srn__toc-label mi:[.srn__toc_ul&]:gap-1.5 mi:[.srn__toc_ul&]:p-0 mi:[.srn__toc_ul&]:[list-style:none] mi:@[760px]:pl-3.5 mi:@[760px]:[.srn__toc_ul&]:gap-0.5 mi:@[760px]:[.srn__toc_ul&]:border-l mi:@[760px]:[.srn__toc_ul&]:border-l-sep">Versions</MiText>
-          <ul class="mi:[.srn__toc_ul&]:gap-1.5 mi:[.srn__toc_ul&]:p-0 mi:[.srn__toc_ul&]:[list-style:none] mi:@[760px]:[.srn__toc_ul&]:gap-0.5 mi:@[760px]:[.srn__toc_ul&]:border-l mi:@[760px]:[.srn__toc_ul&]:border-l-sep">
+      <div class="mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:@[760px]:grid-cols-[220px_minmax(0,_1fr)] mi:@[760px]:gap-3 mi:@[760px]:py-0 mi:@[760px]:px-7">
+        <nav class="mi:sticky mi:top-(--srn-head) mi:z-3 mi:h-(--srn-toc) mi:box-border mi:flex mi:items-center mi:py-0 mi:px-3 mi:[background:var(--mi-page)] mi:border-b mi:border-b-sep mi:overflow-x-auto mi:[scrollbar-width:none] mi:@[760px]:top-[calc(var(--srn-head)_+_20px)] mi:@[760px]:self-start mi:@[760px]:h-auto mi:@[760px]:grid mi:@[760px]:gap-2 mi:@[760px]:items-start mi:@[760px]:p-0 mi:@[760px]:mt-5 mi:@[760px]:[background:none] mi:@[760px]:[border:0] mi:@[760px]:overflow-visible" aria-label="Versions">
+          <MiText variant="caption2" tone="label2" weight="semibold" class="mi:hidden! mi:@[760px]:block! mi:@[760px]:tracking-[.08em]! mi:@[760px]:uppercase!    mi:@[760px]:pl-3.5   ">Versions</MiText>
+          <ul class="mi:flex mi:m-0 mi:@[760px]:grid mi:gap-1.5 mi:p-0 mi:[list-style:none] mi:@[760px]:gap-0.5 mi:@[760px]:border-l mi:@[760px]:border-l-sep">
             <li v-for="r in releases" :key="r.id">
-              <a :href="'#srn-' + r.id" class="srn__toc-link mi:inline-flex mi:items-center mi:gap-1.5 mi:py-1.5 mi:px-3 mi:rounded-[99px] mi:text-label2 mi:text-[13px] mi:[text-decoration:none] mi:whitespace-nowrap mi:[&.is-active]:[background:var(--mi-p-tint)] mi:[&.is-active]:text-p-text mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px] mi:@[760px]:relative mi:@[760px]:grid mi:@[760px]:gap-px mi:@[760px]:pt-1.5 mi:@[760px]:pr-3 mi:@[760px]:pb-1.5 mi:@[760px]:pl-3.5 mi:@[760px]:rounded-[0_var(--mi-radius-s)_var(--mi-radius-s)_0] mi:@[760px]:whitespace-normal mi:@[760px]:[&.is-active]:[background:none] mi:@[760px]:[&.is-active]:text-label mi:@[760px]:before:content-[''] mi:@[760px]:before:absolute mi:@[760px]:before:-left-px mi:@[760px]:before:top-1.5 mi:@[760px]:before:bottom-1.5 mi:@[760px]:before:w-0.5 mi:@[760px]:before:[background:var(--mi-p)] mi:@[760px]:before:transform-[scaleY(0)] mi:@[760px]:before:[transition:transform_var(--mi-dur-2)_var(--mi-spring)] mi:@[760px]:[&.is-active]:before:transform-[scaleY(1)]" :class="{ 'is-active': r.id === active }" :aria-current="r.id === active ? 'location' : undefined" @click.prevent="jump(r.id)">
-                <b class="mi:[.srn__toc-link_&]:font-bold mi:[.srn__toc-link_&]:tabular-nums">{{ r.version }}</b><span class="mi:@[760px]:[.srn__toc-link_&]:text-[12px]">{{ r.title }}</span>
+              <a :href="'#srn-' + r.id" class="mi:inline-flex mi:items-center mi:gap-1.5 mi:py-1.5 mi:px-3 mi:rounded-[99px] mi:text-[13px] mi:[text-decoration:none] mi:whitespace-nowrap mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px] mi:@[760px]:relative mi:@[760px]:grid mi:@[760px]:gap-px mi:@[760px]:pt-1.5 mi:@[760px]:pr-3 mi:@[760px]:pb-1.5 mi:@[760px]:pl-3.5 mi:@[760px]:rounded-[0_var(--mi-radius-s)_var(--mi-radius-s)_0] mi:@[760px]:whitespace-normal mi:@[760px]:before:content-[''] mi:@[760px]:before:absolute mi:@[760px]:before:-left-px mi:@[760px]:before:top-1.5 mi:@[760px]:before:bottom-1.5 mi:@[760px]:before:w-0.5 mi:@[760px]:before:[background:var(--mi-p)] mi:@[760px]:before:[transition:transform_var(--mi-dur-2)_var(--mi-spring)]" :class="r.id === active ? 'mi:[background:var(--mi-p-tint)] mi:text-p-text mi:@[760px]:[background:none] mi:@[760px]:text-label mi:@[760px]:before:transform-[scaleY(1)]' : 'mi:text-label2 mi:@[760px]:before:transform-[scaleY(0)]'" :aria-current="r.id === active ? 'location' : undefined" @click.prevent="jump(r.id)">
+                <b class="mi:font-bold mi:tabular-nums">{{ r.version }}</b><span class="mi:hidden mi:@[760px]:block mi:@[760px]:text-label2 mi:@[760px]:text-[12px]">{{ r.title }}</span>
               </a>
             </li>
           </ul>
         </nav>
 
-        <div class="srn__content mi:min-w-0 mi:pt-0 mi:px-4 mi:pb-6 mi:@[760px]:pt-1 mi:@[760px]:px-0 mi:@[760px]:pb-8">
-          <section v-for="r in releases" :id="'srn-' + r.id" :key="r.id" :ref="el => track(el)" class="srn__release mi:[scroll-margin-top:calc(var(--srn-head)_+_var(--srn-toc))] mi:pb-2" :data-id="r.id" :aria-labelledby="'srn-h-' + r.id">
-            <div class="srn__release-head mi:sticky mi:top-[calc(var(--srn-head)_+_var(--srn-toc))] mi:z-2 mi:flex mi:flex-wrap mi:items-baseline mi:gap-y-1 mi:gap-x-2.5 mi:my-0 mi:-mx-4 mi:pt-3.5 mi:px-4 mi:pb-2.5 mi:[background:color-mix(in_srgb,_var(--mi-page)_92%,_transparent)] mi:@[760px]:m-0 mi:@[760px]:pt-4.5 mi:@[760px]:px-0 mi:@[760px]:pb-2.5">
+        <div class="mi:min-w-0 mi:pt-0 mi:px-4 mi:pb-6 mi:@[760px]:pt-1 mi:@[760px]:px-0 mi:@[760px]:pb-8">
+          <section v-for="r in releases" :id="'srn-' + r.id" :key="r.id" :ref="el => track(el)" class="mi:[scroll-margin-top:calc(var(--srn-head)_+_var(--srn-toc))] mi:pb-2" :data-id="r.id" :aria-labelledby="'srn-h-' + r.id">
+            <div class="mi:sticky mi:top-[calc(var(--srn-head)_+_var(--srn-toc))] mi:z-2 mi:flex mi:flex-wrap mi:items-baseline mi:gap-y-1 mi:gap-x-2.5 mi:my-0 mi:-mx-4 mi:pt-3.5 mi:px-4 mi:pb-2.5 mi:[background:color-mix(in_srgb,_var(--mi-page)_92%,_transparent)] mi:@[760px]:m-0 mi:@[760px]:pt-4.5 mi:@[760px]:px-0 mi:@[760px]:pb-2.5">
               <MiText :id="'srn-h-' + r.id" variant="title3" as="h3" weight="bold">{{ r.version }} · {{ r.title }}</MiText>
               <MiText variant="caption" tone="label2">{{ r.date }}</MiText>
               <MiBadge v-if="r.latest" label="Latest" tone="success" variant="tint" dot />
             </div>
-            <div v-for="g in r.groups" :key="g.kind" class="srn__group mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:gap-2 mi:py-3 mi:px-4 mi:mt-2 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1 mi:@[760px]:grid-cols-[96px_minmax(0,_1fr)] mi:@[760px]:items-start mi:@[760px]:py-3.5 mi:@[760px]:px-4.5">
-              <span class="srn__kind mi:justify-self-start mi:py-0.5 mi:px-2 mi:rounded-[6px] mi:text-[11px] mi:font-bold mi:tracking-[.04em] mi:uppercase mi:@[760px]:mt-0.5" :class="'is-' + g.kind.toLowerCase()">{{ g.kind }}</span>
-              <ul class="srn__items mi:grid mi:gap-1.5 mi:m-0 mi:pl-4.5 mi:text-[14px] mi:leading-normal">
-                <li class="mi:[.srn__items_&]:marker:text-label3" v-for="item in g.items" :key="item">{{ item }}</li>
+            <div v-for="g in r.groups" :key="g.kind" class="mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:gap-2 mi:py-3 mi:px-4 mi:mt-2 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1 mi:@[760px]:grid-cols-[96px_minmax(0,_1fr)] mi:@[760px]:items-start mi:@[760px]:py-3.5 mi:@[760px]:px-4.5">
+              <span class="mi:justify-self-start mi:py-0.5 mi:px-2 mi:rounded-[6px] mi:text-[11px] mi:font-bold mi:tracking-[.04em] mi:uppercase mi:@[760px]:mt-0.5" :class="g.kind === 'Added' ? 'mi:bg-green/15 mi:text-green-t' : g.kind === 'Improved' ? 'mi:bg-p-tint mi:text-p-text' : g.kind === 'Fixed' ? 'mi:bg-orange/16 mi:text-orange-t' : g.kind === 'Changed' ? 'mi:bg-purple/15 mi:text-purple' : 'mi:bg-red/14 mi:text-red-t'">{{ g.kind }}</span>
+              <ul class="mi:grid mi:gap-1.5 mi:m-0 mi:pl-4.5 mi:text-[14px] mi:leading-normal">
+                <li class="mi:marker:text-label3" v-for="item in g.items" :key="item">{{ item }}</li>
               </ul>
             </div>
           </section>
 
-          <div class="srn__end mi:pt-6 mi:px-0 mi:pb-2 mi:text-center">
+          <div class="mi:pt-6 mi:px-0 mi:pb-2 mi:text-center">
             <MiText variant="footnote" tone="label2">That's everything since 5.0. Older notes live in the archive.</MiText>
           </div>
         </div>
       </div>
 
       <!-- Sticky feedback bar pinned to the bottom of the scroll box. -->
-      <div class="srn__feedback mi:sticky mi:bottom-0 mi:z-4 mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-2 mi:gap-x-3 mi:py-2.5 mi:px-4 mi:[background:var(--mi-mat)] mi:border-t mi:border-t-sep mi:@[760px]:py-3 mi:@[760px]:px-7" role="group" aria-label="Feedback on these notes">
+      <div class="mi:sticky mi:bottom-0 mi:z-4 mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-2 mi:gap-x-3 mi:py-2.5 mi:px-4 mi:[background:var(--mi-mat)] mi:border-t mi:border-t-sep mi:@[760px]:py-3 mi:@[760px]:px-7" role="group" aria-label="Feedback on these notes">
         <MiText variant="footnote" weight="medium" aria-live="polite">{{ vote ? 'Thanks, noted for the next release.' : 'Were these notes useful?' }}</MiText>
-        <div v-if="!vote" class="srn__votes mi:flex mi:gap-1.5">
+        <div v-if="!vote" class="mi:flex mi:gap-1.5">
           <MiButton variant="gray" size="small" @click="vote = 'yes'">Yes</MiButton>
           <MiButton variant="gray" size="small" @click="vote = 'no'">Not really</MiButton>
         </div>
@@ -132,32 +132,3 @@ function jump(id: string) {
   active.value = id
 }
 </script>
-
-<style scoped>
-/* Layer 1: header */
-.srn__head { backdrop-filter: saturate(1.6) blur(18px); -webkit-backdrop-filter: saturate(1.6) blur(18px);
-}
-.srn__progress span { display: block; background: linear-gradient(90deg, var(--mi-p), var(--mi-s)); }
-@supports (animation-timeline: scroll()) {
-  .srn__progress span { animation: srn-progress linear both; animation-timeline: scroll(nearest block); }
-}
-@keyframes srn-progress { to { transform: scaleX(1); } }
-.srn__toc-label { display: none; }
-.srn__toc ul { display: flex; margin: 0; }
-.srn__toc-link span { display: none; }
-.srn__kind.is-added { background: color-mix(in srgb, var(--mi-green) 15%, transparent); color: var(--mi-green-t); }
-.srn__kind.is-improved { background: var(--mi-p-tint); color: var(--mi-p-text); }
-.srn__kind.is-fixed { background: color-mix(in srgb, var(--mi-orange) 16%, transparent); color: var(--mi-orange-t); }
-.srn__kind.is-changed { background: color-mix(in srgb, var(--mi-purple) 15%, transparent); color: var(--mi-purple); }
-.srn__kind.is-removed { background: color-mix(in srgb, var(--mi-red) 14%, transparent); color: var(--mi-red-t); }
-
-/* Layer 4: feedback bar sticks to the bottom */
-.srn__feedback { backdrop-filter: saturate(1.6) blur(18px); -webkit-backdrop-filter: saturate(1.6) blur(18px);
-}
-
-@container (min-width: 760px) {
-  .srn__toc-label { display: block; letter-spacing: .08em; text-transform: uppercase; }
-  .srn__toc ul { display: grid; }
-  .srn__toc-link span { display: block; color: var(--mi-label2); }
-}
-</style>

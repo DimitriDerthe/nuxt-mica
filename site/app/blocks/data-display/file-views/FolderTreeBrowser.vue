@@ -1,21 +1,21 @@
 <template>
-  <section class="ftb mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="ftb-title">
-    <header class="ftb__head mi:grid mi:gap-0.5">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="ftb-title">
+    <header class="mi:grid mi:gap-0.5">
       <MiText id="ftb-title" variant="title3" as="h2" weight="semibold">Brand refresh 2025</MiText>
       <MiText variant="footnote" tone="label2">Shared drive · {{ fmtSize(sizeOf(ROOT)) }} · 3 collaborators</MiText>
     </header>
 
-    <div class="ftb__layout mi:grid mi:gap-3 mi:@[640px]:grid-cols-[minmax(220px,_280px)_minmax(0,_1fr)] mi:@[640px]:items-start">
-      <nav class="ftb__tree mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1 mi:min-w-0 mi:p-2" aria-label="Folders">
+    <div class="mi:grid mi:gap-3 mi:@[640px]:grid-cols-[minmax(220px,_280px)_minmax(0,_1fr)] mi:@[640px]:items-start">
+      <nav class="mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1 mi:min-w-0 mi:p-2" aria-label="Folders">
         <MiTree v-model:selected="selected" v-model:expanded="expanded" :items="treeItems" aria-label="Brand refresh files" />
       </nav>
 
-      <article class="ftb__pane mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1 mi:min-w-0 mi:grid mi:content-start mi:gap-3.5 mi:p-4.5" aria-live="polite">
-        <p class="ftb__path mi:m-0 mi:text-[12px] mi:text-label3 mi:wrap-anywhere">{{ path.map(n => n.label).join(' / ') }}</p>
+      <article class="mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1 mi:min-w-0 mi:grid mi:content-start mi:gap-3.5 mi:p-4.5" aria-live="polite">
+        <p class="mi:m-0 mi:text-[12px] mi:text-label3 mi:wrap-anywhere">{{ path.map(n => n.label).join(' / ') }}</p>
 
-        <div class="ftb__hero mi:flex mi:items-center mi:gap-3.5 mi:min-w-0">
-          <span class="ftb__art mi:grid mi:place-items-center mi:flex-[none] mi:w-14 mi:h-14 mi:rounded-md mi:text-p-text mi:[background:linear-gradient(145deg,_var(--mi-p-tint),_color-mix(in_srgb,_var(--mi-p)_26%,_transparent))]" :class="'is-' + node.kind" aria-hidden="true"><MiIcon :name="ICON[node.kind]" :size="26" /></span>
-          <div class="ftb__hero-text mi:grid mi:min-w-0">
+        <div class="mi:flex mi:items-center mi:gap-3.5 mi:min-w-0">
+          <span class="mi:grid mi:place-items-center mi:flex-[none] mi:w-14 mi:h-14 mi:rounded-md" :class="[({ image: 'mi:text-s-text mi:[background:linear-gradient(145deg,var(--mi-s-tint),color-mix(in_srgb,var(--mi-s)_30%,transparent))]', sheet: 'mi:text-green-t mi:[background:color-mix(in_srgb,var(--mi-green)_16%,transparent)]', folder: 'mi:text-label2 mi:[background:var(--mi-fill3)]' } as Record<string, string>)[node.kind] ?? 'mi:text-p-text mi:[background:linear-gradient(145deg,_var(--mi-p-tint),_color-mix(in_srgb,_var(--mi-p)_26%,_transparent))]']" aria-hidden="true"><MiIcon :name="ICON[node.kind]" :size="26" /></span>
+          <div class="mi:grid mi:min-w-0">
             <MiText variant="headline" as="h3" :lines="1">{{ node.label }}</MiText>
             <MiText variant="footnote" tone="label2">
               {{ node.children ? countFiles(node) + ' files · ' : '' }}{{ fmtSize(sizeOf(node)) }}{{ node.owner ? ' · ' + node.owner : '' }}
@@ -30,11 +30,11 @@
         />
         <template v-else>
           <MiText variant="footnote" weight="semibold" as="h4">Versions</MiText>
-          <ol class="ftb__versions mi:grid mi:m-0 mi:p-0 mi:[list-style:none]">
-            <li v-for="(v, i) in node.versions" :key="v.id" class="ftb__version mi:flex mi:items-center mi:gap-2.5 mi:py-2.5 mi:px-0 mi:[.ftb__version+&]:border-t mi:[.ftb__version+&]:border-t-sep">
+          <ol class="mi:grid mi:m-0 mi:p-0 mi:[list-style:none]">
+            <li v-for="(v, i) in node.versions" :key="v.id" class="mi:flex mi:items-center mi:gap-2.5 mi:py-2.5 mi:px-0 mi:not-first:border-t mi:not-first:border-t-sep">
               <MiAvatar :name="v.by" size="xs" tone="auto" decorative />
-              <div class="ftb__version-text mi:grid mi:flex-1 mi:min-w-0 mi:text-[13px]">
-                <span><b>{{ v.by }}</b> · {{ v.when }}</span>
+              <div class="mi:grid mi:flex-1 mi:min-w-0 mi:text-[13px]">
+                <span><b class="mi:font-semibold">{{ v.by }}</b> · {{ v.when }}</span>
                 <MiText variant="caption" tone="label2">{{ v.note }}</MiText>
               </div>
               <MiBadge v-if="i === 0" tone="primary" label="Current" />
@@ -106,10 +106,3 @@ function restore(id: string) {
   list.unshift({ id: id + '-r' + list.length, by: 'You', when: 'Just now', note: 'Restored the version from ' + old.when })
 }
 </script>
-
-<style scoped>
-.ftb__art.is-image { color: var(--mi-s-text); background: linear-gradient(145deg, var(--mi-s-tint), color-mix(in srgb, var(--mi-s) 30%, transparent)); }
-.ftb__art.is-sheet { color: var(--mi-green-t); background: color-mix(in srgb, var(--mi-green) 16%, transparent); }
-.ftb__art.is-folder { color: var(--mi-label2); background: var(--mi-fill3); }
-.ftb__version-text b { font-weight: 600; }
-</style>

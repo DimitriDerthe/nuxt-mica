@@ -1,11 +1,11 @@
 <template>
-  <section class="tz mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="tz-title">
-    <header class="tz__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="tz-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="tz-title" variant="title3" as="h2" weight="semibold">Product team</MiText>
         <MiText variant="footnote" tone="label2">{{ team.length }} people across {{ zones }} time zones</MiText>
       </div>
-      <div class="tz__chips mi:flex mi:flex-wrap mi:gap-1.5" role="group" aria-label="Department">
+      <div class="mi:flex mi:flex-wrap mi:gap-1.5" role="group" aria-label="Department">
         <MiChip
           v-for="d in depts" :key="d" selectable size="small" tone="neutral" :label="d"
           :model-value="dept === d" @update:model-value="dept = d"
@@ -14,8 +14,8 @@
     </header>
 
     <!-- Overlap ribbon: one bar per UTC hour, as tall as the number of people at work then. -->
-    <div class="tz__ribbon-card mi:grid mi:gap-3 mi:p-4 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1">
-      <div class="tz__ribbon-head mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-2 mi:gap-x-3">
+    <div class="mi:grid mi:gap-3 mi:p-4 mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-1">
+      <div class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-y-2 mi:gap-x-3">
         <div>
           <MiText as="h3" variant="subheadline" weight="semibold">Meeting at {{ clock(hour * 60) }} UTC</MiText>
           <MiText variant="caption" tone="label2" aria-live="polite" tabular>{{ workingNow }} of {{ shown.length }} in working hours</MiText>
@@ -25,35 +25,35 @@
           Best overlap
         </MiButton>
       </div>
-      <div class="tz__ribbon mi:grid mi:grid-cols-24 mi:items-end mi:gap-[3px] mi:h-16" role="group" aria-label="Pick a meeting hour (UTC)">
+      <div class="mi:grid mi:grid-cols-24 mi:items-end mi:gap-[3px] mi:h-16" role="group" aria-label="Pick a meeting hour (UTC)">
         <button
-          v-for="(n, h) in overlap" :key="h" type="button" class="tz__hour mi:flex mi:[align-items:flex-end] mi:h-full mi:p-0 mi:[border:0] mi:rounded-[4px] mi:[background:none] mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" :class="{ 'is-on': h === hour }"
+          v-for="(n, h) in overlap" :key="h" type="button" class="mi:group mi:flex mi:[align-items:flex-end] mi:h-full mi:p-0 mi:[border:0] mi:rounded-[4px] mi:[background:none] mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]"
           :aria-pressed="h === hour" :aria-label="`${clock(h * 60)} UTC, ${n} available`" @click="hour = h"
         >
-          <span class="mi:[.tz__hour_&]:block mi:[.tz__hour_&]:w-full mi:[.tz__hour_&]:origin-bottom mi:[.tz__hour_&]:[transition:transform_var(--mi-dur-3)_var(--mi-spring)]" :style="{ transform: `scaleY(${Math.max(n, 0.25) / maxOverlap})` }" />
+          <span class="mi:h-full mi:rounded-[4px] mi:block mi:w-full mi:origin-bottom mi:[transition:transform_var(--mi-dur-3)_var(--mi-spring)]" :class="h === hour ? 'mi:bg-p' : 'mi:bg-[color-mix(in_srgb,_var(--mi-p)_28%,_var(--mi-fill2))] mi:group-hover:bg-[color-mix(in_srgb,_var(--mi-p)_45%,_var(--mi-fill2))]'" :style="{ transform: `scaleY(${Math.max(n, 0.25) / maxOverlap})` }" />
         </button>
       </div>
-      <div class="tz__axis mi:flex mi:justify-between mi:text-[10px] mi:tabular-nums mi:text-label3" aria-hidden="true"><span v-for="h in [0, 6, 12, 18, 23]" :key="h">{{ String(h).padStart(2, '0') }}</span></div>
+      <div class="mi:flex mi:justify-between mi:text-[10px] mi:tabular-nums mi:text-label3" aria-hidden="true"><span v-for="h in [0, 6, 12, 18, 23]" :key="h">{{ String(h).padStart(2, '0') }}</span></div>
     </div>
 
-    <ul class="tz__grid mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:gap-2.5 mi:m-0 mi:p-0 mi:[list-style:none] mi:@[560px]:grid-cols-2 mi:@[900px]:grid-cols-3">
-      <li v-for="p in shown" :key="p.name" class="tz__card mi:grid mi:gap-2.5 mi:p-3.5 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1 mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)]" :class="'tz__card--' + p.state">
-        <div class="tz__who mi:grid mi:grid-cols-[auto_minmax(0,_1fr)_auto] mi:items-center mi:gap-2.5">
+    <ul class="mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:gap-2.5 mi:m-0 mi:p-0 mi:[list-style:none] mi:@[560px]:grid-cols-2 mi:@[900px]:grid-cols-3">
+      <li v-for="p in shown" :key="p.name" class="mi:grid mi:gap-2.5 mi:p-3.5 mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1 mi:[transition:opacity_var(--mi-dur-3)_var(--mi-ease)]" :class="p.state === 'sleep' ? 'mi:opacity-62' : ''">
+        <div class="mi:grid mi:grid-cols-[auto_minmax(0,_1fr)_auto] mi:items-center mi:gap-2.5">
           <MiBadge dot-only :tone="p.state === 'work' ? 'success' : p.state === 'off' ? 'warning' : 'neutral'" placement="bottom-right" :aria-label="stateLabel[p.state]">
             <template #target><MiAvatar :name="p.name" size="sm" tone="auto" decorative /></template>
           </MiBadge>
-          <div class="tz__name mi:min-w-0">
+          <div class="mi:min-w-0">
             <MiText as="h3" variant="subheadline" weight="semibold" :lines="1">{{ p.name }}</MiText>
             <MiText variant="caption" tone="label2" :lines="1">{{ p.role }} · {{ p.city }}</MiText>
           </div>
-          <div class="tz__time mi:grid mi:justify-items-end mi:leading-[1.1]">
-            <span class="tz__clock mi:text-[20px] mi:font-650 mi:tracking-[-.02em] mi:tabular-nums">{{ clock(p.local) }}</span>
+          <div class="mi:grid mi:justify-items-end mi:leading-[1.1]">
+            <span class="mi:text-[20px] mi:font-650 mi:tracking-[-.02em] mi:tabular-nums">{{ clock(p.local) }}</span>
             <MiText as="span" variant="caption" tone="label2">{{ p.day }}</MiText>
           </div>
         </div>
         <!-- 24-hour strip in the person's own day: working hours tinted, the meeting slot outlined. -->
-        <div class="tz__day mi:grid mi:grid-cols-24 mi:gap-0.5" aria-hidden="true">
-          <i v-for="h in 24" :key="h" :class="{ w: p.works(h - 1), 'now mi:[.tz__day_&]:transform-[scaleY(1.6)]': h - 1 === Math.floor(p.local / 60) }" />
+        <div class="mi:grid mi:grid-cols-24 mi:gap-0.5" aria-hidden="true">
+          <i v-for="h in 24" :key="h" class="mi:h-2 mi:rounded-[2px]" :class="[h - 1 === Math.floor(p.local / 60) ? (p.state === 'work' ? 'mi:transform-[scaleY(1.6)] mi:bg-green' : 'mi:transform-[scaleY(1.6)] mi:bg-label') : p.works(h - 1) ? 'mi:bg-[color-mix(in_srgb,_var(--mi-green)_55%,_var(--mi-fill3))]' : 'mi:bg-fill3']" />
         </div>
         <MiText variant="caption" tone="label2">{{ stateLabel[p.state] }} · works {{ clock(p.start * 60) }}–{{ clock(p.end * 60) }}</MiText>
       </li>
@@ -108,15 +108,3 @@ const maxOverlap = computed(() => Math.max(1, ...overlap.value))
 const best = computed(() => overlap.value.indexOf(maxOverlap.value))
 const workingNow = computed(() => shown.value.filter(p => p.state === 'work').length)
 </script>
-
-<style scoped>
-.tz__hour span { height: 100%; border-radius: 4px; background: color-mix(in srgb, var(--mi-p) 28%, var(--mi-fill2));
-}
-.tz__hour:hover span { background: color-mix(in srgb, var(--mi-p) 45%, var(--mi-fill2)); }
-.tz__hour.is-on span { background: var(--mi-p); }
-.tz__card--sleep { opacity: .62; }
-.tz__day i { height: 8px; border-radius: 2px; background: var(--mi-fill3); }
-.tz__day i.w { background: color-mix(in srgb, var(--mi-green) 55%, var(--mi-fill3)); }
-.tz__day i.now { background: var(--mi-label); }
-.tz__card--work .tz__day i.now { background: var(--mi-green); }
-</style>

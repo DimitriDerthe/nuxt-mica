@@ -1,19 +1,19 @@
 <template>
-  <div class="mpp-cq mi:@container">
-    <section class="mpp mi:grid mi:gap-5.5 mi:grid-cols-[minmax(0,_1fr)] mi:items-start mi:font-mi mi:text-label mi:@[760px]:grid-cols-[minmax(0,_1fr)_296px] mi:@[760px]:gap-8" aria-labelledby="mpp-title">
-      <div class="mpp__thread mi:grid mi:gap-3.5 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:min-w-0">
+  <div class="mi:@container">
+    <section class="mi:grid mi:gap-5.5 mi:grid-cols-[minmax(0,_1fr)] mi:items-start mi:font-mi mi:text-label mi:@[760px]:grid-cols-[minmax(0,_1fr)_296px] mi:@[760px]:gap-8" aria-labelledby="mpp-title">
+      <div class="mi:grid mi:gap-3.5 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:min-w-0">
         <MiText id="mpp-title" variant="headline" as="h2">PAY-1187 · Retry budget for card captures</MiText>
-        <article v-for="c in comments" :key="c.id" class="mpp__comment mi:grid mi:grid-cols-[auto_minmax(0,_1fr)] mi:gap-3 mi:pt-3.5 mi:[border-top:.5px_solid_var(--mi-sep)]">
+        <article v-for="c in comments" :key="c.id" class="mi:grid mi:grid-cols-[auto_minmax(0,_1fr)] mi:gap-3 mi:pt-3.5 mi:[border-top:.5px_solid_var(--mi-sep)]">
           <MiAvatar :name="c.author" size="sm" tone="auto" decorative />
-          <div class="mpp__comment-body mi:grid mi:gap-0.5 mi:min-w-0">
-            <p class="mpp__meta mi:m-0 mi:text-[14px]"><strong>{{ c.author }}</strong> <span class="mi:[.mpp__meta_&]:text-[12px] mi:[.mpp__meta_&]:text-label3">{{ c.time }}</span></p>
-            <p class="mpp__text mi:m-0 mi:text-[15px] mi:leading-[1.6] mi:text-label">
+          <div class="mi:grid mi:gap-0.5 mi:min-w-0">
+            <p class="mi:m-0 mi:text-[14px]"><strong>{{ c.author }}</strong> <span class="mi:ms-1.5 mi:text-[12px] mi:text-label3">{{ c.time }}</span></p>
+            <p class="mi:[&_.mi-pop-anchor]:inline! mi:m-0 mi:text-[15px] mi:leading-[1.6] mi:text-label">
               <template v-for="(part, i) in c.parts" :key="i">
                 <MiPopover v-if="part.person" placement="top-start" :width="260" :label="who(part).name" @update:model-value="(o) => o && pin(who(part).key)">
                   <template #trigger="{ attrs }">
-                    <button v-bind="attrs" type="button" class="mpp__mention mi:inline mi:[border:0] mi:rounded-[6px] mi:bg-p-tint mi:text-p-text mi:cursor-pointer mi:hover:bg-p-tint2 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]">@{{ who(part).handle }}</button>
+                    <button v-bind="attrs" type="button" class="mi:py-px mi:px-[5px] mi:[font:inherit] mi:font-semibold mi:inline mi:[border:0] mi:rounded-[6px] mi:bg-p-tint mi:text-p-text mi:cursor-pointer mi:hover:bg-p-tint2 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]">@{{ who(part).handle }}</button>
                   </template>
-                  <div class="mpp__mini mi:flex mi:items-center mi:gap-2.5">
+                  <div class="mi:flex mi:items-center mi:gap-2.5">
                     <MiAvatar :name="who(part).name" size="sm" tone="auto" decorative />
                     <div>
                       <MiText variant="subheadline" weight="semibold">{{ who(part).name }}</MiText>
@@ -30,17 +30,17 @@
       </div>
 
       <!-- Full profile card, open in place under its mention. -->
-      <MiPopover v-model="open" inline trigger="manual" :width="280" :arrow-offset="34" :label="person.name + ' profile'" class="mpp__pop">
+      <MiPopover v-model="open" inline trigger="manual" :width="280" :arrow-offset="34" :label="person.name + ' profile'">
         <template #trigger="{ attrs, toggle }">
-          <button v-bind="attrs" type="button" class="mpp__mention mpp__mention--pinned mi:inline mi:[border:0] mi:rounded-[6px] mi:bg-p-tint mi:text-p-text mi:cursor-pointer mi:hover:bg-p-tint2 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" @click="toggle">@{{ person.handle }}</button>
+          <button v-bind="attrs" type="button" class="mi:py-1 mi:px-2.5 mi:[font:inherit] mi:font-semibold mi:text-[15px] mi:inline mi:[border:0] mi:rounded-[6px] mi:bg-p-tint mi:text-p-text mi:cursor-pointer mi:hover:bg-p-tint2 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[1px]" @click="toggle">@{{ person.handle }}</button>
         </template>
 
-        <div class="mpp__card mi:grid mi:gap-4">
-          <div class="mpp__who mi:flex mi:items-center mi:gap-3.5">
+        <div class="mi:grid mi:gap-4">
+          <div class="mi:flex mi:items-center mi:gap-3.5">
             <MiBadge dot-only :tone="person.available ? 'success' : 'warning'" placement="bottom-right" :dot-size="12" :aria-label="person.available ? 'Available' : 'Busy'">
               <template #target><MiAvatar :name="person.name" size="lg" tone="auto" decorative /></template>
             </MiBadge>
-            <div class="mpp__id mi:grid mi:gap-px mi:min-w-0">
+            <div class="mi:grid mi:gap-px mi:min-w-0">
               <MiText variant="headline" as="h3">{{ person.name }}</MiText>
               <MiText variant="footnote" tone="label2">{{ person.role }}</MiText>
               <MiText variant="caption" :tone="person.available ? 'green' : 'orange'" weight="medium">{{ person.status }}</MiText>
@@ -48,25 +48,25 @@
           </div>
 
           <!-- Their day on one track: working hours band and a "now" tick. -->
-          <div class="mpp__day mi:grid mi:gap-1.5 mi:p-3 mi:rounded-md mi:bg-fill4">
-            <div class="mpp__day-row mi:flex mi:justify-between mi:gap-2">
+          <div class="mi:grid mi:gap-1.5 mi:p-3 mi:rounded-md mi:bg-fill4">
+            <div class="mi:flex mi:justify-between mi:gap-2">
               <MiText variant="caption" weight="semibold" tabular>{{ localTime(person.offset) }} in {{ person.city }}</MiText>
               <MiText variant="caption" tone="label2">{{ gap(person.offset) }}</MiText>
             </div>
-            <div class="mpp__track mi:relative mi:h-2 mi:rounded-[4px] mi:bg-fill3" role="img" :aria-label="dayLabel">
-              <span class="mpp__band mi:absolute mi:top-0 mi:bottom-0 mi:rounded-[inherit] mi:[background:color-mix(in_srgb,_var(--mi-p)_45%,_transparent)]" :style="{ left: '37.5%', width: '37.5%' }" />
-              <span class="mpp__now mi:absolute mi:-top-1 mi:w-0.5 mi:h-4 mi:-ml-px mi:rounded-[1px] mi:bg-label" :style="{ left: (hour(person.offset) / 24) * 100 + '%' }" />
+            <div class="mi:relative mi:h-2 mi:rounded-[4px] mi:bg-fill3" role="img" :aria-label="dayLabel">
+              <span class="mi:absolute mi:top-0 mi:bottom-0 mi:rounded-[inherit] mi:[background:color-mix(in_srgb,_var(--mi-p)_45%,_transparent)]" :style="{ left: '37.5%', width: '37.5%' }" />
+              <span class="mi:absolute mi:-top-1 mi:w-0.5 mi:h-4 mi:-ml-px mi:rounded-[1px] mi:bg-label" :style="{ left: (hour(person.offset) / 24) * 100 + '%' }" />
             </div>
             <MiText variant="caption2" tone="label3">{{ advice }}</MiText>
           </div>
 
-          <dl class="mpp__stats mi:grid mi:grid-cols-3 mi:gap-2 mi:m-0">
-            <div class="mi:[.mpp__stats_&]:grid mi:[.mpp__stats_&]:gap-0.5"><dt class="mi:[.mpp__stats_&]:text-[11px] mi:[.mpp__stats_&]:text-label2">Reviews</dt><dd class="mi:[.mpp__stats_&]:text-[14px] mi:[.mpp__stats_&]:font-semibold mi:[.mpp__stats_&]:tabular-nums">{{ person.reviews }}</dd></div>
-            <div class="mi:[.mpp__stats_&]:grid mi:[.mpp__stats_&]:gap-0.5"><dt class="mi:[.mpp__stats_&]:text-[11px] mi:[.mpp__stats_&]:text-label2">Replies in</dt><dd class="mi:[.mpp__stats_&]:text-[14px] mi:[.mpp__stats_&]:font-semibold mi:[.mpp__stats_&]:tabular-nums">{{ person.reply }}</dd></div>
-            <div class="mi:[.mpp__stats_&]:grid mi:[.mpp__stats_&]:gap-0.5"><dt class="mi:[.mpp__stats_&]:text-[11px] mi:[.mpp__stats_&]:text-label2">Shared</dt><dd class="mi:[.mpp__stats_&]:text-[14px] mi:[.mpp__stats_&]:font-semibold mi:[.mpp__stats_&]:tabular-nums">{{ person.shared }} channels</dd></div>
+          <dl class="mi:grid mi:grid-cols-3 mi:gap-2 mi:m-0">
+            <div class="mi:grid mi:gap-0.5"><dt class="mi:text-[11px] mi:text-label2">Reviews</dt><dd class="mi:m-0 mi:text-[14px] mi:font-semibold mi:tabular-nums">{{ person.reviews }}</dd></div>
+            <div class="mi:grid mi:gap-0.5"><dt class="mi:text-[11px] mi:text-label2">Replies in</dt><dd class="mi:m-0 mi:text-[14px] mi:font-semibold mi:tabular-nums">{{ person.reply }}</dd></div>
+            <div class="mi:grid mi:gap-0.5"><dt class="mi:text-[11px] mi:text-label2">Shared</dt><dd class="mi:m-0 mi:text-[14px] mi:font-semibold mi:tabular-nums">{{ person.shared }} channels</dd></div>
           </dl>
 
-          <div class="mpp__actions mi:grid mi:grid-cols-[1fr_1fr] mi:gap-2">
+          <div class="mi:grid mi:grid-cols-[1fr_1fr] mi:gap-2">
             <MiButton size="small" block>Message</MiButton>
             <MiButton size="small" variant="gray" block :pressed="following[person.key]" @click="following[person.key] = !following[person.key]">
               {{ following[person.key] ? 'Following' : 'Follow' }}
@@ -119,12 +119,3 @@ const advice = computed(() => {
   return 'Inside working hours'
 })
 </script>
-
-<style scoped>
-.mpp__meta span { margin-inline-start: 6px; }
-.mpp__text :deep(.mi-pop-anchor) { display: inline; }
-
-.mpp__mention { padding: 1px 5px; font: inherit; font-weight: 600; }
-.mpp__mention--pinned { padding: 4px 10px; font-size: 15px; }
-.mpp__stats dd { margin: 0; }
-</style>

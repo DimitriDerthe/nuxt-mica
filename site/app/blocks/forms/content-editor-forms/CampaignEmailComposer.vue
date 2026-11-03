@@ -1,8 +1,8 @@
 <template>
-  <section class="cec mi:@container mi:font-mi mi:text-label" aria-labelledby="cec-title">
-    <div class="cec__grid mi:grid mi:gap-4 mi:grid-cols-[minmax(0,_1fr)] mi:@[900px]:grid-cols-[minmax(0,_1fr)_340px] mi:@[900px]:items-start">
-      <form class="cec__form mi:grid mi:gap-4 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:min-w-0" novalidate @submit.prevent="sendTest">
-        <header class="cec__head mi:flex mi:flex-wrap mi:[align-items:flex-start] mi:justify-between mi:gap-2.5">
+  <section class="mi:@container mi:font-mi mi:text-label" aria-labelledby="cec-title">
+    <div class="mi:grid mi:gap-4 mi:grid-cols-[minmax(0,_1fr)] mi:@[900px]:grid-cols-[minmax(0,_1fr)_340px] mi:@[900px]:items-start">
+      <form class="mi:grid mi:gap-4 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1 mi:min-w-0" novalidate @submit.prevent="sendTest">
+        <header class="mi:flex mi:flex-wrap mi:[align-items:flex-start] mi:justify-between mi:gap-2.5">
           <div>
             <MiText id="cec-title" variant="title3" as="h2" weight="semibold">November product email</MiText>
             <MiText variant="footnote" tone="label2">Campaign · 18,402 subscribers · draft saved 2 min ago</MiText>
@@ -14,8 +14,8 @@
 
         <MiField label="Subject line" :hint="`${subject.length} characters · ${device === 'phone' ? 'phones show about 35' : 'desktop shows about 60'}`">
           <template #label-end>
-            <span class="cec__tags mi:inline-flex mi:flex-wrap mi:gap-1.5" role="group" aria-label="Insert a merge tag">
-              <button v-for="t in TAGS" :key="t.key" type="button" class="cec__tag mi:py-0.5 mi:px-2 mi:[border:0] mi:rounded-[999px] mi:bg-p-tint mi:text-p-text mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" @click="insert(t.key)">+ {{ t.label }}</button>
+            <span class="mi:inline-flex mi:flex-wrap mi:gap-1.5" role="group" aria-label="Insert a merge tag">
+              <button v-for="t in TAGS" :key="t.key" type="button" class="mi:[font:inherit] mi:text-[12px] mi:font-semibold mi:py-0.5 mi:px-2 mi:[border:0] mi:rounded-[999px] mi:bg-p-tint mi:text-p-text mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" @click="insert(t.key)">+ {{ t.label }}</button>
             </span>
           </template>
           <MiInput v-model="subject" />
@@ -27,37 +27,37 @@
 
         <MiEditor v-model="body" label="Email body" :min-height="180" />
 
-        <footer class="cec__foot mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2.5">
+        <footer class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2.5">
           <MiText variant="caption" :tone="sent ? 'green' : 'label2'" aria-live="polite">{{ sent ? 'Test sent to marketing@fernhill.co' : `${passed} of ${checks.length} checks pass` }}</MiText>
-          <div class="cec__btns mi:flex mi:gap-2">
+          <div class="mi:flex mi:gap-2">
             <MiButton type="submit" variant="gray">Send test</MiButton>
             <MiButton :disabled="passed < checks.length">Schedule</MiButton>
           </div>
         </footer>
       </form>
 
-      <aside class="cec__side mi:grid mi:gap-3 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1" aria-labelledby="cec-inbox-title">
-        <div class="cec__side-head mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2">
+      <aside class="mi:grid mi:gap-3 mi:p-5 mi:rounded-xl mi:bg-card mi:shadow-1" aria-labelledby="cec-inbox-title">
+        <div class="mi:flex mi:flex-wrap mi:items-center mi:justify-between mi:gap-2">
           <MiText id="cec-inbox-title" variant="headline" as="h3">In the inbox</MiText>
           <MiSegmented v-model="device" label="Preview size" :options="[{ value: 'desktop', label: 'Desktop' }, { value: 'phone', label: 'Phone' }]" />
         </div>
         <MiSegmented v-model="who" label="Preview as" :options="RECIPIENTS.map((r, i) => ({ value: i, label: r.label }))" />
 
         <!-- A faux inbox: our email sits between two real-looking neighbours. -->
-        <ul class="cec__inbox mi:grid mi:m-0 mi:p-0 mi:[list-style:none] mi:rounded-lg mi:border mi:border-sep mi:overflow-hidden mi:[&[data-device='phone']]:max-w-75 mi:[&[data-device='phone']]:justify-self-center mi:[&[data-device='phone']]:w-full" :data-device="device">
-          <li class="mi:[.cec__inbox_&]:grid mi:[.cec__inbox_&]:grid-cols-[8px_minmax(0,_1fr)] mi:[.cec__inbox_&]:gap-2.5 mi:[.cec__inbox_&]:p-3 mi:[.cec__inbox_&]:bg-card" v-for="m in inbox" :key="m.id" :class="{ 'is-ours mi:[.cec__inbox_&]:bg-p-tint': m.ours }">
-            <span class="cec__dot mi:w-2 mi:h-2 mi:mt-[5px] mi:rounded-[50%] mi:bg-blue" aria-hidden="true" />
-            <div class="cec__mail mi:min-w-0">
-              <div class="cec__mail-top mi:flex mi:justify-between mi:gap-2 mi:text-[13px]"><b>{{ m.from }}</b><span class="mi:[.cec__mail-top_&]:text-label3 mi:[.cec__mail-top_&]:text-[12px]">{{ m.time }}</span></div>
-              <p class="cec__subj mi:m-0 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:text-[13px]">{{ m.subject }}</p>
-              <p class="cec__pre mi:m-0 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:text-[13px] mi:text-label2">{{ m.pre }}</p>
+        <ul class="mi:grid mi:m-0 mi:p-0 mi:[list-style:none] mi:rounded-lg mi:border mi:border-sep mi:overflow-hidden mi:[&[data-device='phone']]:max-w-75 mi:[&[data-device='phone']]:justify-self-center mi:[&[data-device='phone']]:w-full" :data-device="device">
+          <li class="mi:not-first:border-t mi:not-first:border-t-sep mi:grid mi:grid-cols-[8px_minmax(0,_1fr)] mi:gap-2.5 mi:p-3" v-for="m in inbox" :key="m.id" :class="m.ours ? 'mi:bg-p-tint' : 'mi:bg-card'">
+            <span class="mi:w-2 mi:h-2 mi:mt-[5px] mi:rounded-[50%] mi:bg-blue" aria-hidden="true" />
+            <div class="mi:min-w-0">
+              <div class="mi:flex mi:justify-between mi:gap-2 mi:text-[13px]"><b>{{ m.from }}</b><span class="mi:text-label3 mi:text-[12px]">{{ m.time }}</span></div>
+              <p class="mi:m-0 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:text-[13px]">{{ m.subject }}</p>
+              <p class="mi:m-0 mi:overflow-hidden mi:text-ellipsis mi:whitespace-nowrap mi:text-[13px] mi:text-label2">{{ m.pre }}</p>
             </div>
           </li>
         </ul>
 
-        <ul class="cec__checks mi:grid mi:gap-1.5 mi:m-0 mi:p-0 mi:[list-style:none] mi:text-[13px]">
-          <li class="mi:[.cec__checks_li&]:items-center mi:[.cec__checks_li&]:gap-2" v-for="c in checks" :key="c.label" :class="{ 'is-ok': c.ok }">
-            <MiIcon class="mi:[.cec__checks_li&]:items-center mi:[.cec__checks_li&]:gap-2" :name="c.ok ? 'check-circle-fill' : 'exclamation-circle'" :size="16" />{{ c.label }}
+        <ul class="mi:grid mi:gap-1.5 mi:m-0 mi:p-0 mi:[list-style:none] mi:text-[13px]">
+          <li class="mi:flex mi:items-center mi:gap-2" v-for="c in checks" :key="c.label" :class="c.ok ? 'mi:text-label' : 'mi:text-label2'">
+            <MiIcon class="mi:flex-[none]" :class="c.ok ? 'mi:text-green' : 'mi:text-orange'" :name="c.ok ? 'check-circle-fill' : 'exclamation-circle'" :size="16" />{{ c.label }}
           </li>
         </ul>
       </aside>
@@ -109,12 +109,3 @@ function insert(tag: string) {
 watch([subject, preheader, body, from], () => { sent.value = false })
 function sendTest() { sent.value = true }
 </script>
-
-<style scoped>
-.cec__tag { font: inherit; font-size: 12px; font-weight: 600; }
-.cec__inbox li + li { border-top: 1px solid var(--mi-sep); }
-.cec__checks li { display: flex; color: var(--mi-label2); }
-.cec__checks li :deep(svg) { flex: none; color: var(--mi-orange); }
-.cec__checks li.is-ok { color: var(--mi-label); }
-.cec__checks li.is-ok :deep(svg) { color: var(--mi-green); }
-</style>

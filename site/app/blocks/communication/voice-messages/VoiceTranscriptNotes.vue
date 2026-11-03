@@ -1,61 +1,61 @@
 <template>
-  <section class="vn mi:@container mi:font-mi mi:text-label" aria-labelledby="vn-title">
-    <div class="vn__card mi:flex mi:flex-col mi:h-145 mi:max-w-155 mi:mx-auto mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-2 mi:overflow-hidden">
-      <header class="vn__head mi:flex mi:items-center mi:gap-3 mi:py-3.5 mi:px-4 mi:border-b mi:border-b-sep">
+  <section class="mi:@container mi:font-mi mi:text-label" aria-labelledby="vn-title">
+    <div class="mi:flex mi:flex-col mi:h-145 mi:max-w-155 mi:mx-auto mi:rounded-xl mi:[background:var(--mi-card)] mi:shadow-2 mi:overflow-hidden">
+      <header class="mi:flex mi:items-center mi:gap-3 mi:py-3.5 mi:px-4 mi:border-b mi:border-b-sep">
         <MiAvatar name="Tobias Lund" size="sm" tone="blue" decorative />
-        <div class="vn__head-text mi:min-w-0">
+        <div class="mi:min-w-0">
           <MiText id="vn-title" as="h2" variant="headline" weight="semibold">Tobias Lund</MiText>
           <MiText variant="caption" tone="label2">Site lead · Malmö warehouse</MiText>
         </div>
       </header>
 
-      <div class="vn__log mi:flex-1 mi:min-h-0 mi:overflow-y-auto mi:flex mi:flex-col mi:gap-3.5 mi:p-4 mi:[background:var(--mi-page)]" role="log" aria-label="Voice messages with Tobias Lund">
+      <div class="mi:flex-1 mi:min-h-0 mi:overflow-y-auto mi:flex mi:flex-col mi:gap-3.5 mi:p-4 mi:[background:var(--mi-page)]" role="log" aria-label="Voice messages with Tobias Lund">
         <MiMarker variant="separator">Today</MiMarker>
         <MiMessage
           v-for="n in notes" :key="n.id" :align="n.me ? 'end' : 'start'" :label="n.me ? 'You' : 'Tobias Lund'"
-          class="vn__msg mi:[&.is-end]:ms-auto" :class="{ 'is-end': n.me }"
+          class="mi:max-w-full!" :class="n.me ? 'mi:ms-auto!' : ''"
         >
           <template v-if="!n.me" #avatar><MiAvatar name="Tobias Lund" size="xs" tone="blue" decorative /></template>
-          <div class="vn__note mi:[--tone:var(--mi-p)] mi:grid mi:gap-1.5 mi:w-[min(20rem,_76cqi)] mi:box-border mi:py-2.5 mi:px-3 mi:rounded-[20px_20px_20px_6px] mi:[background:var(--mi-fill2)] mi:[&.is-mine]:[--tone:var(--mi-p-on)] mi:[&.is-mine]:rounded-[20px_20px_6px_20px] mi:[&.is-mine]:[background:var(--mi-p)] mi:[&.is-mine]:text-p-on" :class="{ 'is-mine': n.me, 'is-playing': playing === n.id }">
-            <div class="vn__player mi:flex mi:items-center mi:gap-2.5">
-              <button type="button" class="vn__play mi:grid mi:place-items-center mi:flex-[none] mi:w-9.5 mi:h-9.5 mi:p-0 mi:[border:0] mi:rounded-[50%] mi:[background:var(--tone)] mi:text-p-on mi:cursor-pointer mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease)] mi:[.vn__note.is-mine_&]:text-p mi:active:transform-[scale(.92)] mi:focus-visible:[outline:2px_solid_currentColor] mi:focus-visible:outline-offset-[2px]" :aria-label="(playing === n.id ? 'Pause' : 'Play') + ' voice message, ' + fmt(n.dur)" @click="toggle(n)">
+          <div class="mi:grid mi:gap-1.5 mi:w-[min(20rem,_76cqi)] mi:box-border mi:py-2.5 mi:px-3" :class="n.me ? 'mi:[--tone:var(--mi-p-on)] mi:rounded-[20px_20px_6px_20px] mi:[background:var(--mi-p)] mi:text-p-on' : 'mi:[--tone:var(--mi-p)] mi:rounded-[20px_20px_20px_6px] mi:[background:var(--mi-fill2)]'">
+            <div class="mi:flex mi:items-center mi:gap-2.5">
+              <button type="button" class="mi:grid mi:place-items-center mi:flex-[none] mi:w-9.5 mi:h-9.5 mi:p-0 mi:[border:0] mi:rounded-[50%] mi:[background:var(--tone)] mi:cursor-pointer mi:[transition:transform_var(--mi-dur-1)_var(--mi-ease)] mi:active:transform-[scale(.92)] mi:focus-visible:[outline:2px_solid_currentColor] mi:focus-visible:outline-offset-[2px]" :class="n.me ? 'mi:text-p' : 'mi:text-p-on'" :aria-label="(playing === n.id ? 'Pause' : 'Play') + ' voice message, ' + fmt(n.dur)" @click="toggle(n)">
                 <MiIcon :svg="playing === n.id ? icons.pause : icons.play" :size="18" :filled="playing !== n.id" />
               </button>
               <!-- Waveform: the played layer is revealed with a counter-translated mask (transform only). -->
-              <div class="vn__wave mi:relative mi:flex-1 mi:min-w-0 mi:h-8 mi:overflow-hidden" :style="{ '--p': progress(n) }">
-                <span class="vn__bars mi:absolute mi:inset-0 mi:flex mi:items-center mi:gap-0.5" aria-hidden="true"><span class="mi:[.vn__bars_&]:flex-1 mi:[.vn__bars_&]:h-full mi:[.vn__bars_&]:rounded-[2px]" v-for="(h, i) in n.bars" :key="i" :style="{ transform: `scaleY(${h})` }" /></span>
-                <span class="vn__mask mi:absolute mi:inset-0 mi:overflow-hidden mi:[transition:transform_100ms_linear] mi:pointer-events-none mi:transform-[translateX(calc((var(--p)_-_1)_*_100%))]" aria-hidden="true"><span class="vn__mask-in mi:absolute mi:inset-0 mi:overflow-hidden mi:[transition:transform_100ms_linear] mi:transform-[translateX(calc((1_-_var(--p))_*_100%))]"><span class="vn__bars vn__bars--on mi:absolute mi:inset-0 mi:flex mi:items-center mi:gap-0.5"><span class="mi:[.vn__bars_&]:flex-1 mi:[.vn__bars_&]:h-full mi:[.vn__bars_&]:rounded-[2px]" v-for="(h, i) in n.bars" :key="i" :style="{ transform: `scaleY(${h})` }" /></span></span></span>
+              <div class="mi:relative mi:flex-1 mi:min-w-0 mi:h-8 mi:overflow-hidden" :style="{ '--p': progress(n) }">
+                <span class="mi:absolute mi:inset-0 mi:flex mi:items-center mi:gap-0.5" aria-hidden="true"><span class="mi:[background:color-mix(in_srgb,_currentColor_30%,_transparent)] mi:flex-1 mi:h-full mi:rounded-[2px]" v-for="(h, i) in n.bars" :key="i" :style="{ transform: `scaleY(${h})` }" /></span>
+                <span class="mi:absolute mi:inset-0 mi:overflow-hidden mi:[transition:transform_100ms_linear] mi:pointer-events-none mi:transform-[translateX(calc((var(--p)_-_1)_*_100%))]" aria-hidden="true"><span class="mi:absolute mi:inset-0 mi:overflow-hidden mi:[transition:transform_100ms_linear] mi:transform-[translateX(calc((1_-_var(--p))_*_100%))]"><span class="mi:absolute mi:inset-0 mi:flex mi:items-center mi:gap-0.5"><span class="mi:[background:var(--tone)] mi:flex-1 mi:h-full mi:rounded-[2px]" v-for="(h, i) in n.bars" :key="i" :style="{ transform: `scaleY(${h})` }" /></span></span></span>
                 <input
-                  v-model.number="pos[n.id]" class="vn__seek mi:absolute mi:inset-0 mi:w-full mi:h-full mi:m-0 mi:opacity-0 mi:cursor-pointer mi:focus-visible:opacity-100 mi:focus-visible:accent-p" type="range" min="0" :max="n.dur" step="0.1"
+                  v-model.number="pos[n.id]" class="mi:absolute mi:inset-0 mi:w-full mi:h-full mi:m-0 mi:opacity-0 mi:cursor-pointer mi:focus-visible:opacity-100 mi:focus-visible:accent-p" type="range" min="0" :max="n.dur" step="0.1"
                   :aria-label="'Seek in voice message'" :aria-valuetext="fmt(pos[n.id] ?? 0) + ' of ' + fmt(n.dur)"
                 >
               </div>
-              <button type="button" class="vn__speed mi:focus-visible:[outline:2px_solid_currentColor] mi:focus-visible:outline-offset-[2px] mi:flex-[none] mi:min-w-10 mi:py-1 mi:px-2 mi:[border:0] mi:rounded-[999px] mi:[background:color-mix(in_srgb,_currentColor_14%,_transparent)] mi:text-inherit mi:cursor-pointer" :aria-label="'Playback speed ' + n.speed + 'x'" @click="n.speed = n.speed === 2 ? 1 : n.speed + 0.5">{{ n.speed }}×</button>
+              <button type="button" class="mi:[font:inherit] mi:text-[12px] mi:font-bold mi:tabular-nums mi:focus-visible:[outline:2px_solid_currentColor] mi:focus-visible:outline-offset-[2px] mi:flex-[none] mi:min-w-10 mi:py-1 mi:px-2 mi:[border:0] mi:rounded-[999px] mi:[background:color-mix(in_srgb,_currentColor_14%,_transparent)] mi:text-inherit mi:cursor-pointer" :aria-label="'Playback speed ' + n.speed + 'x'" @click="n.speed = n.speed === 2 ? 1 : n.speed + 0.5">{{ n.speed }}×</button>
             </div>
-            <div class="vn__meta mi:flex mi:items-center mi:gap-2 mi:pl-12 mi:text-[12px]">
-              <span class="vn__time mi:tabular-nums mi:opacity-75">{{ fmt(playing === n.id || (pos[n.id] ?? 0) > 0 ? pos[n.id] ?? 0 : n.dur) }}</span>
-              <span v-if="!n.me && !n.heard" class="vn__new mi:w-[7px] mi:h-[7px] mi:rounded-[50%] mi:[background:var(--mi-p)]" aria-label="not played yet" />
-              <button type="button" class="vn__tx-btn mi:focus-visible:[outline:2px_solid_currentColor] mi:focus-visible:outline-offset-[2px] mi:p-0 mi:[border:0] mi:[background:none] mi:text-inherit mi:underline-offset-[2px] mi:cursor-pointer" :aria-expanded="n.showText" @click="n.showText = !n.showText">{{ n.showText ? 'Hide transcript' : 'Transcript' }}</button>
-              <span class="vn__clock mi:ml-auto mi:opacity-60">{{ n.time }}</span>
+            <div class="mi:flex mi:items-center mi:gap-2 mi:pl-12 mi:text-[12px]">
+              <span class="mi:tabular-nums mi:opacity-75">{{ fmt(playing === n.id || (pos[n.id] ?? 0) > 0 ? pos[n.id] ?? 0 : n.dur) }}</span>
+              <span v-if="!n.me && !n.heard" class="mi:w-[7px] mi:h-[7px] mi:rounded-[50%] mi:[background:var(--mi-p)]" aria-label="not played yet" />
+              <button type="button" class="mi:[font:inherit] mi:font-semibold mi:underline mi:[text-decoration-color:color-mix(in_srgb,_currentColor_40%,_transparent)] mi:focus-visible:[outline:2px_solid_currentColor] mi:focus-visible:outline-offset-[2px] mi:p-0 mi:[border:0] mi:[background:none] mi:text-inherit mi:underline-offset-[2px] mi:cursor-pointer" :aria-expanded="n.showText" @click="n.showText = !n.showText">{{ n.showText ? 'Hide transcript' : 'Transcript' }}</button>
+              <span class="mi:ml-auto mi:opacity-60">{{ n.time }}</span>
             </div>
             <!-- Transcript follows playback word by word. -->
-            <p v-if="n.showText" class="vn__tx mi:mt-1 mi:mx-0 mi:mb-0.5 mi:pt-2 mi:border-t mi:border-t-[color:color-mix(in_srgb,_currentColor_14%,_transparent)] mi:text-[14px] mi:leading-[1.55]">
-              <span class="mi:[.vn__tx_&]:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)]" v-for="(w, i) in n.words" :key="i" :class="{ 'is-said': i < spoken(n), 'is-now mi:[.vn__tx_&]:underline-offset-[3px]': i === spoken(n) - 1 && playing === n.id }">{{ w + ' ' }}</span>
+            <p v-if="n.showText" class="mi:mt-1 mi:mx-0 mi:mb-0.5 mi:pt-2 mi:border-t mi:border-t-[color:color-mix(in_srgb,_currentColor_14%,_transparent)] mi:text-[14px] mi:leading-[1.55]">
+              <span class="mi:[transition:opacity_var(--mi-dur-2)_var(--mi-ease)]" v-for="(w, i) in n.words" :key="i" :class="[i < spoken(n) ? 'mi:opacity-100' : 'mi:opacity-50', i === spoken(n) - 1 && playing === n.id ? 'mi:underline-offset-[3px] mi:underline mi:[text-decoration-thickness:2px]' : '']">{{ w + ' ' }}</span>
             </p>
           </div>
         </MiMessage>
       </div>
 
-      <div class="vn__composer mi:flex mi:items-center mi:gap-2.5 mi:min-h-16 mi:py-2.5 mi:px-3.5 mi:border-t mi:border-t-sep mi:box-border" :class="{ 'is-rec': recording }">
+      <div class="mi:flex mi:items-center mi:gap-2.5 mi:min-h-16 mi:py-2.5 mi:px-3.5 mi:border-t mi:border-t-sep mi:box-border">
         <template v-if="recording">
           <MiIconButton label="Discard recording" variant="gray" size="regular" @click="stopRec(false)"><MiIcon name="trash" :size="18" /></MiIconButton>
-          <span class="vn__rec-dot mi:flex-[none] mi:w-2.5 mi:h-2.5 mi:rounded-[50%] mi:[background:var(--mi-red)]" aria-hidden="true" />
-          <span class="vn__rec-time mi:flex-[none] mi:min-w-9 mi:text-[14px] mi:font-semibold mi:tabular-nums" role="timer" aria-live="off">{{ fmt(recSecs) }}</span>
-          <span class="vn__rec-bars mi:flex-1 mi:min-w-0 mi:flex mi:items-center mi:gap-0.5 mi:h-7 mi:overflow-hidden" aria-hidden="true"><span class="mi:[.vn__rec-bars_&]:flex-1 mi:[.vn__rec-bars_&]:min-w-0.5 mi:[.vn__rec-bars_&]:h-full mi:[.vn__rec-bars_&]:rounded-[2px] mi:[.vn__rec-bars_&]:origin-center" v-for="i in 24" :key="i" :style="{ animationDelay: (i * 83 % 500) + 'ms' }" /></span>
+          <span class="mi:flex-[none] mi:w-2.5 mi:h-2.5 mi:rounded-[50%] mi:[background:var(--mi-red)] mi:[--mi-blink:.2] mi:animate-[blink_1s_steps(2,_start)_infinite] mi:motion-reduce:animate-none" aria-hidden="true" />
+          <span class="mi:flex-[none] mi:min-w-9 mi:text-[14px] mi:font-semibold mi:tabular-nums" role="timer" aria-live="off">{{ fmt(recSecs) }}</span>
+          <span class="mi:flex-1 mi:min-w-0 mi:flex mi:items-center mi:gap-0.5 mi:h-7 mi:overflow-hidden" aria-hidden="true"><span class="mi:bg-red mi:[--mi-grow-x:1] mi:[--mi-grow-y:.15] mi:[--mi-grow-y-to:.9] mi:animate-[grow_640ms_ease-in-out_infinite_alternate] mi:motion-reduce:animate-none mi:flex-1 mi:min-w-0.5 mi:h-full mi:rounded-[2px] mi:origin-center" v-for="i in 24" :key="i" :style="{ animationDelay: (i * 83 % 500) + 'ms' }" /></span>
           <MiIconButton label="Send voice message" size="regular" @click="stopRec(true)"><MiIcon name="arrow-up" :size="18" /></MiIconButton>
         </template>
         <template v-else>
-          <MiText variant="footnote" tone="label2" class="vn__hint mi:flex-1">Reply with your voice</MiText>
+          <MiText variant="footnote" tone="label2" class="mi:flex-1">Reply with your voice</MiText>
           <MiButton size="small" @click="startRec">
             <template #leading><MiIcon :svg="icons.mic" :size="16" /></template>Record
           </MiButton>
@@ -142,19 +142,3 @@ function stopRec(send: boolean) {
 
 onBeforeUnmount(() => clearInterval(timer))
 </script>
-
-<style scoped>
-.vn__msg { max-width: 100%; }
-.vn__bars span { background: color-mix(in srgb, currentColor 30%, transparent); }
-.vn__bars--on span { background: var(--tone); }
-.vn__speed { font: inherit; font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; }
-.vn__tx-btn { font: inherit; font-weight: 600; text-decoration: underline; text-decoration-color: color-mix(in srgb, currentColor 40%, transparent); }
-.vn__tx span { opacity: .5; }
-.vn__tx span.is-said { opacity: 1; }
-.vn__tx span.is-now { text-decoration: underline; text-decoration-thickness: 2px; }
-.vn__rec-dot { animation: vn-blink 1s steps(2, start) infinite; }
-@keyframes vn-blink { to { opacity: .2; } }
-.vn__rec-bars span { background: var(--mi-red); animation: vn-rec 640ms ease-in-out infinite alternate; }
-@keyframes vn-rec { from { transform: scaleY(.15); } to { transform: scaleY(.9); } }
-@media (prefers-reduced-motion: reduce) { .vn__rec-bars span, .vn__rec-dot { animation: none; } }
-</style>

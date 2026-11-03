@@ -1,38 +1,38 @@
 <template>
-  <header class="rb mi:@container mi:font-mi mi:text-label" aria-labelledby="rb-title">
-    <div class="rb__inner mi:grid mi:gap-5.5 mi:pt-4.5 mi:px-4 mi:pb-3.5 mi:rounded-[22px] mi:bg-card mi:shadow-2 mi:@[620px]:pt-5.5 mi:@[620px]:px-6 mi:@[620px]:pb-4 mi:@[960px]:pt-6.5 mi:@[960px]:px-7.5 mi:@[960px]:pb-4.5">
-      <div class="rb__top mi:grid mi:gap-3.5 mi:@[620px]:grid-cols-[minmax(0,_1fr)_auto] mi:@[620px]:items-end">
-        <div class="rb__heading mi:grid mi:gap-0.5 mi:min-w-0">
-          <MiText as="p" variant="caption" tone="label2" weight="medium" class="rb__eyebrow">Storefront · Checkout</MiText>
+  <header class="mi:@container mi:font-mi mi:text-label" aria-labelledby="rb-title">
+    <div class="mi:grid mi:gap-5.5 mi:pt-4.5 mi:px-4 mi:pb-3.5 mi:rounded-[22px] mi:bg-card mi:shadow-2 mi:@[620px]:pt-5.5 mi:@[620px]:px-6 mi:@[620px]:pb-4 mi:@[960px]:pt-6.5 mi:@[960px]:px-7.5 mi:@[960px]:pb-4.5">
+      <div class="mi:grid mi:gap-3.5 mi:@[620px]:grid-cols-[minmax(0,_1fr)_auto] mi:@[620px]:items-end">
+        <div class="mi:grid mi:gap-0.5 mi:min-w-0">
+          <MiText as="p" variant="caption" tone="label2" weight="medium" class="mi:tracking-[.02em]!">Storefront · Checkout</MiText>
           <MiText id="rb-title" as="h2" variant="title2" weight="bold">Revenue</MiText>
-          <MiText as="p" variant="footnote" tone="label2" tabular class="rb__range" aria-live="polite">
-            {{ dateLabel(a) }} – {{ dateLabel(b) }}, 2026 <span class="mi:[.rb__range_&]:py-0 mi:[.rb__range_&]:px-[3px]" aria-hidden="true">·</span> {{ len }} days{{ preset === null ? ' · custom' : '' }}
+          <MiText as="p" variant="footnote" tone="label2" tabular class="mi:mt-0.5!" aria-live="polite">
+            {{ dateLabel(a) }} – {{ dateLabel(b) }}, 2026 <span class="mi:py-0 mi:px-[3px] mi:text-label3" aria-hidden="true">·</span> {{ len }} days{{ preset === null ? ' · custom' : '' }}
           </MiText>
         </div>
-        <div class="rb__actions mi:flex mi:items-center mi:justify-between mi:gap-2 mi:@[620px]:[justify-content:flex-end]">
+        <div class="mi:flex mi:items-center mi:justify-between mi:gap-2 mi:@[620px]:[justify-content:flex-end]">
           <MiSegmented :model-value="preset" label="Range preset" :options="presets" @update:model-value="applyPreset" />
           <MiIconButton size="toolbar" variant="plain" label="Export range"><MiIcon name="share" :size="17" /></MiIconButton>
         </div>
       </div>
 
       <!-- Figures follow the brushed range and compare with the period just before it. -->
-      <dl class="rb__figs mi:grid mi:grid-cols-2 mi:gap-0 mi:m-0 mi:rounded-[16px] mi:shadow-[inset_0_0_0_1px_var(--mi-sep)] mi:@[620px]:grid-cols-4">
-        <div v-for="f in figures" :key="f.label" class="rb__fig mi:grid mi:gap-1.5 mi:min-w-0 mi:py-3 mi:px-3.5 mi:[&:nth-child(n+3)]:border-t mi:[&:nth-child(n+3)]:border-t-sep mi:even:border-l mi:even:border-l-sep mi:@[620px]:[&:nth-child(n+3)]:[border-top:0] mi:@[620px]:[.rb__fig+&]:border-l mi:@[620px]:[.rb__fig+&]:border-l-sep mi:@[620px]:py-3.5 mi:@[620px]:px-4.5">
-          <dt class="mi:[.rb__fig_dt&]:font-medium">{{ f.label }}</dt>
-          <dd class="mi:[.rb__fig_dd&]:gap-1 mi:[.rb__fig_dd&]:m-0 mi:@[960px]:[.rb__fig_dd&]:grid-flow-col mi:@[960px]:[.rb__fig_dd&]:justify-start mi:@[960px]:[.rb__fig_dd&]:items-baseline mi:@[960px]:[.rb__fig_dd&]:gap-2.5">
-            <span class="rb__val mi:text-[22px] mi:font-bold mi:leading-[1.1] mi:tracking-[-.03em] mi:tabular-nums mi:whitespace-nowrap mi:@[960px]:text-[26px]">{{ f.value }}</span>
-            <span v-if="f.delta" class="rb__delta mi:inline-flex mi:items-center mi:gap-0.5 mi:text-[12px] mi:font-semibold mi:tabular-nums mi:[&.is-none]:font-medium" :class="f.good ? 'is-good' : 'is-bad'">
-              <MiIcon class="mi:[.rb__fig_dt&]:font-medium mi:[.rb__fig_dd&]:gap-1 mi:[.rb__fig_dd&]:m-0 mi:@[960px]:[.rb__fig_dd&]:grid-flow-col mi:@[960px]:[.rb__fig_dd&]:justify-start mi:@[960px]:[.rb__fig_dd&]:items-baseline mi:@[960px]:[.rb__fig_dd&]:gap-2.5" :name="f.up ? 'arrow-up' : 'arrow-down'" :size="11" :weight="2.4" />{{ f.delta }}
+      <dl class="mi:grid mi:grid-cols-2 mi:gap-0 mi:m-0 mi:rounded-[16px] mi:shadow-[inset_0_0_0_1px_var(--mi-sep)] mi:@[620px]:grid-cols-4">
+        <div v-for="f in figures" :key="f.label" class="mi:grid mi:gap-1.5 mi:min-w-0 mi:py-3 mi:px-3.5 mi:[&:nth-child(n+3)]:border-t mi:[&:nth-child(n+3)]:border-t-sep mi:even:border-l mi:even:border-l-sep mi:@[620px]:[&:nth-child(n+3)]:[border-top:0] mi:@[620px]:not-first:border-l mi:@[620px]:not-first:border-l-sep mi:@[620px]:py-3.5 mi:@[620px]:px-4.5">
+          <dt class="mi:font-medium mi:text-[12px] mi:text-label2">{{ f.label }}</dt>
+          <dd class="mi:grid mi:gap-1 mi:m-0 mi:@[960px]:grid-flow-col mi:@[960px]:justify-start mi:@[960px]:items-baseline mi:@[960px]:gap-2.5">
+            <span class="mi:text-[22px] mi:font-bold mi:leading-[1.1] mi:tracking-[-.03em] mi:tabular-nums mi:whitespace-nowrap mi:@[960px]:text-[26px]">{{ f.value }}</span>
+            <span v-if="f.delta" class="mi:inline-flex mi:items-center mi:gap-0.5 mi:text-[12px] mi:font-semibold mi:tabular-nums" :class="f.good ? 'mi:text-green-t' : 'mi:text-red-t'">
+              <MiIcon class="" :name="f.up ? 'arrow-up' : 'arrow-down'" :size="11" :weight="2.4" />{{ f.delta }}
             </span>
-            <span v-else class="rb__delta is-none mi:inline-flex mi:items-center mi:gap-0.5 mi:text-[12px] mi:font-semibold mi:tabular-nums mi:[&.is-none]:font-medium">no prior period</span>
+            <span v-else class="mi:text-label3 mi:inline-flex mi:items-center mi:gap-0.5 mi:text-[12px] mi:font-medium mi:tabular-nums">no prior period</span>
           </dd>
         </div>
       </dl>
 
       <!-- Brush: drag the handles or the window; arrows nudge by a day, Page keys by a week. -->
-      <div class="rb__brush mi:grid mi:gap-1.5 mi:pt-0.5 mi:px-1.5 mi:pb-0">
-        <div ref="trackEl" class="rb__track mi:relative mi:h-18 mi:touch-none mi:@[620px]:h-21">
-          <svg class="rb__chart mi:absolute mi:inset-0 mi:w-full mi:h-full mi:overflow-visible" :viewBox="`0 0 ${N - 1} 100`" preserveAspectRatio="none" aria-hidden="true">
+      <div class="mi:grid mi:gap-1.5 mi:pt-0.5 mi:px-1.5 mi:pb-0">
+        <div ref="trackEl" class="mi:relative mi:h-18 mi:touch-none mi:@[620px]:h-21">
+          <svg class="mi:absolute mi:inset-0 mi:w-full mi:h-full mi:overflow-visible" :viewBox="`0 0 ${N - 1} 100`" preserveAspectRatio="none" aria-hidden="true">
             <defs>
               <clipPath id="rb-clip"><rect :x="a" y="0" :width="Math.max(b - a, 0.01)" height="100" /></clipPath>
               <linearGradient id="rb-fill" x1="0" x2="0" y1="0" y2="1">
@@ -40,29 +40,29 @@
                 <stop offset="1" style="stop-color: var(--mi-p); stop-opacity: 0" />
               </linearGradient>
             </defs>
-            <path :d="areaPath" class="rb__area-muted mi:fill-fill4" />
-            <path :d="linePath" class="rb__line-muted mi:fill-[color:none] mi:stroke-label3 mi:[stroke-width:1.25] mi:[vector-effect:non-scaling-stroke] mi:[stroke-linejoin:round]" />
+            <path :d="areaPath" class="mi:fill-fill4" />
+            <path :d="linePath" class="mi:fill-[color:none] mi:stroke-label3 mi:[stroke-width:1.25] mi:[vector-effect:non-scaling-stroke] mi:[stroke-linejoin:round]" />
             <g clip-path="url(#rb-clip)">
               <path :d="areaPath" fill="url(#rb-fill)" />
-              <path :d="linePath" class="rb__line mi:fill-[color:none] mi:stroke-p mi:[stroke-width:2] mi:[vector-effect:non-scaling-stroke] mi:[stroke-linejoin:round]" />
+              <path :d="linePath" class="mi:fill-[color:none] mi:stroke-p mi:[stroke-width:2] mi:[vector-effect:non-scaling-stroke] mi:[stroke-linejoin:round]" />
             </g>
           </svg>
 
           <div
-            class="rb__win mi:absolute mi:-inset-y-1 mi:inset-x-0 mi:origin-left mi:cursor-grab mi:[outline:none] mi:[background:color-mix(in_srgb,_var(--mi-p)_7%,_transparent)] mi:[border-block:1px_solid_color-mix(in_srgb,_var(--mi-p)_35%,_transparent)] mi:active:cursor-grabbing mi:focus-visible:[background:color-mix(in_srgb,_var(--mi-p)_14%,_transparent)]" :style="{ transform: `translateX(${(a / (N - 1)) * 100}%) scaleX(${(b - a) / (N - 1)})` }"
+            class="mi:absolute mi:-inset-y-1 mi:inset-x-0 mi:origin-left mi:cursor-grab mi:[outline:none] mi:[background:color-mix(in_srgb,_var(--mi-p)_7%,_transparent)] mi:[border-block:1px_solid_color-mix(in_srgb,_var(--mi-p)_35%,_transparent)] mi:active:cursor-grabbing mi:focus-visible:[background:color-mix(in_srgb,_var(--mi-p)_14%,_transparent)]" :style="{ transform: `translateX(${(a / (N - 1)) * 100}%) scaleX(${(b - a) / (N - 1)})` }"
             role="slider" tabindex="0" aria-label="Move the whole range" :aria-valuemin="0" :aria-valuemax="N - 1 - (b - a)" :aria-valuenow="a"
             :aria-valuetext="`${dateLabel(a)} to ${dateLabel(b)}`" @pointerdown="start($event, 'win')" @keydown="nudge($event, 'win')"
           />
-          <div v-for="h in (['a', 'b'] as const)" :key="h" class="rb__hpos mi:absolute mi:-top-1 mi:-bottom-1 mi:left-0 mi:w-0 mi:pointer-events-none" :style="{ transform: `translateX(${((h === 'a' ? a : b) / (N - 1)) * width}px)` }">
+          <div v-for="h in (['a', 'b'] as const)" :key="h" class="mi:absolute mi:-top-1 mi:-bottom-1 mi:left-0 mi:w-0 mi:pointer-events-none" :style="{ transform: `translateX(${((h === 'a' ? a : b) / (N - 1)) * width}px)` }">
             <span
-              class="rb__handle mi:absolute mi:top-1/2 mi:left-0 mi:flex mi:items-center mi:justify-center mi:gap-0.5 mi:w-3 mi:h-8.5 mi:mt-[-17px] mi:mr-0 mi:mb-0 mi:-ml-1.5 mi:rounded-[6px] mi:pointer-events-auto mi:cursor-ew-resize mi:touch-none mi:bg-elev mi:shadow-[var(--mi-sh2),_inset_0_0_0_1px_color-mix(in_srgb,_var(--mi-p)_45%,_transparent)] mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring)] mi:before:content-[''] mi:before:absolute mi:before:-inset-y-2.5 mi:before:-inset-x-1.5 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" role="slider" tabindex="0" :aria-label="h === 'a' ? 'Range start' : 'Range end'"
+              class="mi:hover:transform-[scaleY(1.1)] mi:active:transform-[scaleY(1.1)] mi:absolute mi:top-1/2 mi:left-0 mi:flex mi:items-center mi:justify-center mi:gap-0.5 mi:w-3 mi:h-8.5 mi:mt-[-17px] mi:mr-0 mi:mb-0 mi:-ml-1.5 mi:rounded-[6px] mi:pointer-events-auto mi:cursor-ew-resize mi:touch-none mi:bg-elev mi:shadow-[var(--mi-sh2),_inset_0_0_0_1px_color-mix(in_srgb,_var(--mi-p)_45%,_transparent)] mi:[transition:transform_var(--mi-dur-2)_var(--mi-spring)] mi:before:content-[''] mi:before:absolute mi:before:-inset-y-2.5 mi:before:-inset-x-1.5 mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px]" role="slider" tabindex="0" :aria-label="h === 'a' ? 'Range start' : 'Range end'"
               :aria-valuemin="h === 'a' ? 0 : a + MIN - 1" :aria-valuemax="h === 'a' ? b - MIN + 1 : N - 1" :aria-valuenow="h === 'a' ? a : b"
               :aria-valuetext="dateLabel(h === 'a' ? a : b)" @pointerdown="start($event, h)" @keydown="nudge($event, h)"
-            ><i class="mi:[.rb__handle_&]:w-[1.5px] mi:[.rb__handle_&]:h-3 mi:[.rb__handle_&]:rounded-[1px] mi:[.rb__handle_&]:bg-label3" /><i class="mi:[.rb__handle_&]:w-[1.5px] mi:[.rb__handle_&]:h-3 mi:[.rb__handle_&]:rounded-[1px] mi:[.rb__handle_&]:bg-label3" /></span>
+            ><i class="mi:w-[1.5px] mi:h-3 mi:rounded-[1px] mi:bg-label3" /><i class="mi:w-[1.5px] mi:h-3 mi:rounded-[1px] mi:bg-label3" /></span>
           </div>
         </div>
-        <ol class="rb__ticks mi:relative mi:h-4 mi:m-0 mi:p-0 mi:[list-style:none]" aria-hidden="true">
-          <li class="mi:[.rb__ticks_&]:absolute mi:[.rb__ticks_&]:top-0 mi:[.rb__ticks_&]:pl-[5px] mi:[.rb__ticks_&]:border-l mi:[.rb__ticks_&]:border-l-sep mi:[.rb__ticks_&]:leading-4" v-for="t in ticks" :key="t.i" :style="{ left: (t.i / (N - 1)) * 100 + '%' }">{{ t.label }}</li>
+        <ol class="mi:relative mi:h-4 mi:m-0 mi:p-0 mi:[list-style:none]" aria-hidden="true">
+          <li class="mi:text-[11px] mi:text-label3 mi:absolute mi:top-0 mi:pl-[5px] mi:border-l mi:border-l-sep mi:leading-4" v-for="t in ticks" :key="t.i" :style="{ left: (t.i / (N - 1)) * 100 + '%' }">{{ t.label }}</li>
         </ol>
       </div>
     </div>
@@ -176,16 +176,3 @@ function nudge(e: KeyboardEvent, which: 'a' | 'b' | 'win') {
   set(which, (which === 'b' ? b.value : a.value) + step)
 }
 </script>
-
-<style scoped>
-.rb__eyebrow { letter-spacing: .02em; }
-.rb__range { margin-top: 2px; }
-.rb__range span { color: var(--mi-label3); }
-.rb__fig dt { font-size: 12px; color: var(--mi-label2); }
-.rb__fig dd { display: grid; }
-.rb__delta.is-good { color: var(--mi-green-t); }
-.rb__delta.is-bad { color: var(--mi-red-t); }
-.rb__delta.is-none { color: var(--mi-label3); }
-.rb__handle:hover, .rb__handle:active { transform: scaleY(1.1); }
-.rb__ticks li { font-size: 11px; color: var(--mi-label3); }
-</style>

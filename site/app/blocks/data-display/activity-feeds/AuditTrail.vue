@@ -1,11 +1,11 @@
 <template>
-  <section class="aud mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="aud-title">
-    <header class="aud__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-3.5 mi:font-mi mi:text-label" aria-labelledby="aud-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="aud-title" variant="title3" as="h2" weight="semibold">Audit log</MiText>
         <MiText variant="footnote" tone="label2">Northwind workspace · kept for 400 days</MiText>
       </div>
-      <div class="aud__filters mi:flex mi:flex-wrap mi:items-center mi:gap-2">
+      <div class="mi:flex mi:flex-wrap mi:items-center mi:gap-2">
         <MiSegmented v-model="scope" label="Risk level" :options="SCOPES" />
         <MiNativeSelect v-model="actor" size="sm" aria-label="Actor" :options="actors" />
       </div>
@@ -15,40 +15,42 @@
       {{ shown.length }} of {{ ENTRIES.length }} events{{ sensitive ? ' · ' + sensitive + ' sensitive' : '' }}
     </MiText>
 
-    <ol v-if="shown.length" class="aud__list mi:grid mi:m-0 mi:p-0 mi:[list-style:none] mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1 mi:overflow-hidden">
-      <li v-for="e in shown" :key="e.id" class="aud__row mi:relative mi:grid mi:grid-cols-[auto_minmax(0,_1fr)] mi:gap-3 mi:py-3.5 mi:px-4 mi:[.aud__row+&]:border-t mi:[.aud__row+&]:border-t-sep mi:[&.is-high]:before:content-[''] mi:[&.is-high]:before:absolute mi:[&.is-high]:before:top-2.5 mi:[&.is-high]:before:right-auto mi:[&.is-high]:before:bottom-2.5 mi:[&.is-high]:before:left-0 mi:[&.is-high]:before:w-[3px] mi:[&.is-high]:before:rounded-[0_2px_2px_0] mi:[&.is-high]:before:[background:var(--mi-red)] mi:@[620px]:grid-cols-[auto_minmax(0,_1fr)_auto] mi:@[620px]:items-start" :class="{ 'is-high': e.risk === 'high' }">
+    <ol v-if="shown.length" class="mi:grid mi:m-0 mi:p-0 mi:[list-style:none] mi:rounded-lg mi:[background:var(--mi-card)] mi:shadow-1 mi:overflow-hidden">
+      <li v-for="e in shown" :key="e.id" class="mi:relative mi:grid mi:grid-cols-[auto_minmax(0,_1fr)] mi:gap-3 mi:py-3.5 mi:px-4 mi:not-first:border-t mi:not-first:border-t-sep mi:@[620px]:grid-cols-[auto_minmax(0,_1fr)_auto] mi:@[620px]:items-start" :class="e.risk === 'high' ? HIGH_RAIL : ''">
         <MiAvatar :name="e.actor" size="sm" tone="auto" decorative />
-        <div class="aud__main mi:grid mi:gap-1.5 mi:min-w-0">
-          <p class="aud__line mi:m-0 mi:text-[14px] mi:leading-[1.45]"><b class="mi:[.aud__line_&]:font-semibold">{{ e.actor }}</b> {{ e.verb }} <b class="mi:[.aud__line_&]:font-semibold">{{ e.target }}</b></p>
-          <div class="aud__meta mi:flex mi:flex-wrap mi:items-center mi:gap-2 mi:text-[12px] mi:text-label2">
+        <div class="mi:grid mi:gap-1.5 mi:min-w-0">
+          <p class="mi:m-0 mi:text-[14px] mi:leading-[1.45]"><b class="mi:font-semibold">{{ e.actor }}</b> {{ e.verb }} <b class="mi:font-semibold">{{ e.target }}</b></p>
+          <div class="mi:flex mi:flex-wrap mi:items-center mi:gap-2 mi:text-[12px] mi:text-label2">
             <MiBadge variant="outline" :tone="KIND_TONE[e.kind]" :label="e.kind" />
-            <span>{{ e.time }} · {{ e.place }} · <code>{{ e.ip }}</code></span>
+            <span>{{ e.time }} · {{ e.place }} · <code class="mi:font-[ui-monospace,_SFMono-Regular,_Menlo,_monospace] mi:text-[11px]">{{ e.ip }}</code></span>
           </div>
 
           <!-- Before/after values: the part an auditor actually needs, folded by default. -->
           <button
-            v-if="e.changes.length" type="button" class="aud__toggle mi:inline-flex mi:items-center mi:gap-1 mi:justify-self-start mi:py-0.5 mi:px-0 mi:[border:0] mi:[background:none] mi:text-p-text mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:focus-visible:rounded-[4px]" :aria-expanded="openId === e.id"
+            v-if="e.changes.length" type="button" class="mi:[font:inherit] mi:text-[12px] mi:font-semibold mi:inline-flex mi:items-center mi:gap-1 mi:justify-self-start mi:py-0.5 mi:px-0 mi:[border:0] mi:[background:none] mi:text-p-text mi:cursor-pointer mi:focus-visible:[outline:2px_solid_var(--mi-p)] mi:focus-visible:outline-offset-[2px] mi:focus-visible:rounded-[4px]" :aria-expanded="openId === e.id"
             :aria-controls="'aud-diff-' + e.id" @click="openId = openId === e.id ? null : e.id"
           >
-            <MiIcon name="chevron-right" :size="12" class="aud__chev mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)]" />
+            <MiIcon name="chevron-right" :size="12" class="mi:[transition:transform_var(--mi-dur-2)_var(--mi-ease)]" :class="openId === e.id ? 'mi:transform-[rotate(90deg)]' : ''" />
             {{ e.changes.length }} {{ e.changes.length > 1 ? 'changes' : 'change' }}
           </button>
-          <dl v-if="openId === e.id" :id="'aud-diff-' + e.id" class="aud__diff mi:grid mi:gap-1.5 mi:mt-0.5 mi:mx-0 mi:mb-0 mi:py-2.5 mi:px-3 mi:rounded-md mi:[background:var(--mi-fill4)] mi:text-[12px]">
-            <div v-for="c in e.changes" :key="c.field" class="aud__diff-row mi:grid mi:gap-0.5 mi:@[620px]:grid-cols-[120px_minmax(0,_1fr)]">
-              <dt class="mi:[.aud__diff_dt&]:font-semibold">{{ c.field }}</dt>
-              <dd class="mi:[.aud__diff_dd&]:flex-wrap mi:[.aud__diff_dd&]:items-center mi:[.aud__diff_dd&]:gap-1.5 mi:[.aud__diff_dd&]:m-0"><del class="mi:[.aud__diff_del&]:[text-decoration:line-through]">{{ c.before }}</del><MiIcon class="mi:[.aud__diff_dt&]:font-semibold mi:[.aud__diff_dd&]:flex-wrap mi:[.aud__diff_dd&]:items-center mi:[.aud__diff_dd&]:gap-1.5 mi:[.aud__diff_dd&]:m-0 mi:[.aud__diff_del&]:[text-decoration:line-through] mi:[.aud__diff_ins&]:[text-decoration:none] mi:[.aud__diff_ins&]:font-semibold" name="arrow-right" :size="12" /><ins class="mi:[.aud__diff_ins&]:[text-decoration:none] mi:[.aud__diff_ins&]:font-semibold">{{ c.after }}</ins></dd>
+          <dl v-if="openId === e.id" :id="'aud-diff-' + e.id" class="mi:grid mi:gap-1.5 mi:mt-0.5 mi:mx-0 mi:mb-0 mi:py-2.5 mi:px-3 mi:rounded-md mi:[background:var(--mi-fill4)] mi:text-[12px]">
+            <div v-for="c in e.changes" :key="c.field" class="mi:grid mi:gap-0.5 mi:@[620px]:grid-cols-[120px_minmax(0,_1fr)]">
+              <dt class="mi:text-label2 mi:font-semibold">{{ c.field }}</dt>
+              <dd class="mi:flex mi:flex-wrap mi:items-center mi:gap-1.5 mi:m-0"><del class="mi:text-red-t mi:[text-decoration:line-through]">{{ c.before }}</del><MiIcon name="arrow-right" :size="12" /><ins class="mi:text-green-t mi:[text-decoration:none] mi:font-semibold">{{ c.after }}</ins></dd>
             </div>
           </dl>
         </div>
-        <MiBadge v-if="e.risk === 'high'" tone="danger" label="Sensitive" dot class="aud__risk" />
+        <MiBadge v-if="e.risk === 'high'" tone="danger" label="Sensitive" dot class="mi:col-start-2 mi:justify-self-start mi:@[620px]:[grid-column:auto]" />
       </li>
     </ol>
-    <MiText v-else variant="footnote" tone="label2" class="aud__empty mi:p-7 mi:text-center mi:rounded-lg mi:[background:var(--mi-card)]">No events match these filters.</MiText>
+    <MiText v-else variant="footnote" tone="label2" class="mi:p-7 mi:text-center mi:rounded-lg mi:[background:var(--mi-card)]">No events match these filters.</MiText>
   </section>
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+
+const HIGH_RAIL = "mi:before:content-[''] mi:before:absolute mi:before:top-2.5 mi:before:right-auto mi:before:bottom-2.5 mi:before:left-0 mi:before:w-[3px] mi:before:rounded-[0_2px_2px_0] mi:before:[background:var(--mi-red)]"
 
 type Kind = 'access' | 'security' | 'billing' | 'content'
 interface Change { field: string, before: string, after: string }
@@ -75,18 +77,3 @@ const actors = [{ value: 'all', label: 'Everyone' }, ...[...new Set(ENTRIES.map(
 const shown = computed(() => ENTRIES.filter(e => (scope.value !== 'high' || e.risk === 'high') && (actor.value === 'all' || e.actor === actor.value)))
 const sensitive = computed(() => shown.value.filter(e => e.risk === 'high').length)
 </script>
-
-<style scoped>
-.aud__meta code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; }
-.aud__risk { grid-column: 2; justify-self: start; }
-.aud__toggle { font: inherit; font-size: 12px; font-weight: 600; }
-.aud__toggle[aria-expanded="true"] .aud__chev { transform: rotate(90deg); }
-.aud__diff dt { color: var(--mi-label2); }
-.aud__diff dd { display: flex; }
-.aud__diff del { color: var(--mi-red-t); }
-.aud__diff ins { color: var(--mi-green-t); }
-
-@container (min-width: 620px) {
-  .aud__risk { grid-column: auto; }
-}
-</style>

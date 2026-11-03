@@ -1,17 +1,17 @@
 <template>
-  <div class="rb-cq mi:@container">
-    <section class="rb mi:grid mi:gap-4.5 mi:p-5 mi:rounded-xl mi:font-mi mi:text-label mi:[background:var(--mi-card)] mi:shadow-1 mi:@[640px]:py-6 mi:@[640px]:px-6.5 mi:@[640px]:gap-5" aria-labelledby="rb-title">
-      <header class="rb__top mi:flex mi:[align-items:flex-start] mi:justify-between mi:gap-3">
-        <div class="rb__id mi:flex mi:items-center mi:gap-3 mi:min-w-0">
-          <span class="rb__tile mi:grid mi:place-items-center mi:flex-[none] mi:w-11 mi:h-11 mi:rounded-[12px] mi:text-p-text mi:[background:linear-gradient(145deg,_var(--mi-p-tint2),_var(--mi-p-tint))] mi:shadow-[inset_0_0_0_1px_color-mix(in_srgb,_var(--mi-p)_22%,_transparent)]" aria-hidden="true"><MiIcon :svg="icons.box" :size="22" /></span>
-          <div class="rb__name mi:grid mi:gap-0.5 mi:min-w-0">
+  <div class="mi:@container">
+    <section class="mi:grid mi:gap-4.5 mi:p-5 mi:rounded-xl mi:font-mi mi:text-label mi:[background:var(--mi-card)] mi:shadow-1 mi:@[640px]:py-6 mi:@[640px]:px-6.5 mi:@[640px]:gap-5" aria-labelledby="rb-title">
+      <header class="mi:flex mi:[align-items:flex-start] mi:justify-between mi:gap-3">
+        <div class="mi:flex mi:items-center mi:gap-3 mi:min-w-0">
+          <span class="mi:grid mi:place-items-center mi:flex-[none] mi:w-11 mi:h-11 mi:rounded-[12px] mi:text-p-text mi:[background:linear-gradient(145deg,_var(--mi-p-tint2),_var(--mi-p-tint))] mi:shadow-[inset_0_0_0_1px_color-mix(in_srgb,_var(--mi-p)_22%,_transparent)]" aria-hidden="true"><MiIcon :svg="icons.box" :size="22" /></span>
+          <div class="mi:grid mi:gap-0.5 mi:min-w-0">
             <MiText variant="caption" tone="label2" weight="medium">Release candidate · payments squad</MiText>
-            <MiText id="rb-title" variant="title3" as="h2" weight="semibold">checkout-api <span class="rb__ver mi:[font:600_.82em/1_ui-monospace,_'SF_Mono',_Menlo,_monospace] mi:text-label2 mi:tracking-[0]">v2.14.0</span></MiText>
+            <MiText id="rb-title" variant="title3" as="h2" weight="semibold">checkout-api <span class="mi:[font:600_.82em/1_ui-monospace,_'SF_Mono',_Menlo,_monospace] mi:text-label2 mi:tracking-[0]">v2.14.0</span></MiText>
           </div>
         </div>
 
         <!-- Icon-only buttons: one pressed toggle, one copy, one menu. -->
-        <div class="rb__tools mi:flex mi:items-center mi:gap-0.5 mi:flex-[none]">
+        <div class="mi:flex mi:items-center mi:gap-0.5 mi:flex-[none]">
           <MiIconButton
             size="toolbar" variant="plain" :label="watching ? 'Stop watching release' : 'Watch release'" :pressed="watching" @click="watching = !watching"
           >
@@ -31,16 +31,16 @@
         </div>
       </header>
 
-      <div class="rb__meta mi:flex mi:flex-wrap mi:items-center mi:gap-1.5">
+      <div class="mi:flex mi:flex-wrap mi:items-center mi:gap-1.5">
         <MiBadge :tone="phase.tone" :label="phase.label" dot />
-        <span class="rb__pill mi:inline-flex mi:items-center mi:gap-[5px] mi:h-6 mi:py-0 mi:px-[9px] mi:rounded-[999px] mi:text-[12px] mi:font-medium mi:text-label2 mi:[background:var(--mi-fill3)]"><MiIcon :svg="icons.branch" :size="14" /> main</span>
-        <span class="rb__pill rb__mono mi:inline-flex mi:items-center mi:gap-[5px] mi:h-6 mi:py-0 mi:px-[9px] mi:rounded-[999px] mi:text-[12px] mi:font-medium mi:text-label2 mi:[background:var(--mi-fill3)] mi:font-[ui-monospace,_'SF_Mono',_Menlo,_monospace]">{{ sha.slice(0, 7) }}</span>
-        <span class="rb__pill mi:inline-flex mi:items-center mi:gap-[5px] mi:h-6 mi:py-0 mi:px-[9px] mi:rounded-[999px] mi:text-[12px] mi:font-medium mi:text-label2 mi:[background:var(--mi-fill3)]">14 commits · 2 migrations</span>
+        <span class="mi:inline-flex mi:items-center mi:gap-[5px] mi:h-6 mi:py-0 mi:px-[9px] mi:rounded-[999px] mi:text-[12px] mi:font-medium mi:text-label2 mi:[background:var(--mi-fill3)]"><MiIcon :svg="icons.branch" :size="14" /> main</span>
+        <span class="mi:inline-flex mi:items-center mi:gap-[5px] mi:h-6 mi:py-0 mi:px-[9px] mi:rounded-[999px] mi:text-[12px] mi:font-medium mi:text-label2 mi:[background:var(--mi-fill3)] mi:font-[ui-monospace,_'SF_Mono',_Menlo,_monospace]">{{ sha.slice(0, 7) }}</span>
+        <span class="mi:inline-flex mi:items-center mi:gap-[5px] mi:h-6 mi:py-0 mi:px-[9px] mi:rounded-[999px] mi:text-[12px] mi:font-medium mi:text-label2 mi:[background:var(--mi-fill3)]">14 commits · 2 migrations</span>
       </div>
 
-      <ol class="rb__checks mi:grid mi:gap-2.5 mi:m-0 mi:p-3.5 mi:[list-style:none] mi:rounded-lg mi:[background:var(--mi-fill4)] mi:@[640px]:grid-cols-3" aria-label="Release checks">
-        <li v-for="c in checks" :key="c.label" class="rb__check mi:flex mi:gap-2.5 mi:[align-items:flex-start]">
-          <span class="rb__ok mi:grid mi:place-items-center mi:flex-[none] mi:w-5.5 mi:h-5.5 mi:mt-px mi:rounded-[50%] mi:text-green-t mi:[background:color-mix(in_srgb,_var(--mi-green)_16%,_transparent)]" aria-hidden="true"><MiIcon name="check" :size="14" :weight="2.6" /></span>
+      <ol class="mi:grid mi:gap-2.5 mi:m-0 mi:p-3.5 mi:[list-style:none] mi:rounded-lg mi:[background:var(--mi-fill4)] mi:@[640px]:grid-cols-3" aria-label="Release checks">
+        <li v-for="c in checks" :key="c.label" class="mi:flex mi:gap-2.5 mi:[align-items:flex-start]">
+          <span class="mi:grid mi:place-items-center mi:flex-[none] mi:w-5.5 mi:h-5.5 mi:mt-px mi:rounded-[50%] mi:text-green-t mi:[background:color-mix(in_srgb,_var(--mi-green)_16%,_transparent)]" aria-hidden="true"><MiIcon name="check" :size="14" :weight="2.6" /></span>
           <div>
             <MiText variant="subheadline" weight="semibold">{{ c.label }}</MiText>
             <MiText variant="footnote" tone="label2">{{ c.detail }}</MiText>
@@ -49,21 +49,21 @@
       </ol>
 
       <!-- The action ladder: tertiary on the left, emphasis grows to the right. -->
-      <footer class="rb__actions mi:grid mi:gap-2.5 mi:pt-4 mi:border-t mi:border-t-sep mi:@[640px]:flex mi:@[640px]:flex-wrap mi:@[640px]:items-center mi:@[640px]:justify-between">
-        <div class="rb__quiet mi:grid mi:gap-2 mi:@[640px]:flex mi:@[640px]:flex-wrap mi:@[640px]:items-center">
+      <footer class="mi:grid mi:gap-2.5 mi:pt-4 mi:border-t mi:border-t-sep mi:@[640px]:flex mi:@[640px]:flex-wrap mi:@[640px]:items-center mi:@[640px]:justify-between">
+        <div class="mi:grid mi:gap-2 mi:@[640px]:flex mi:@[640px]:flex-wrap mi:@[640px]:items-center">
           <MiButton variant="plain">View changelog</MiButton>
           <MiButton variant="bordered">
             <template #leading><MiIcon :svg="icons.download" :size="18" /></template>
             Build artifacts
           </MiButton>
         </div>
-        <div class="rb__loud mi:grid mi:gap-2 mi:@[640px]:flex mi:@[640px]:flex-wrap mi:@[640px]:items-center">
+        <div class="mi:grid mi:gap-2 mi:@[640px]:flex mi:@[640px]:flex-wrap mi:@[640px]:items-center">
           <MiButton variant="gray">Compare with v2.13.4</MiButton>
           <MiButton variant="tinted" brand="secondary">
             <template #leading><MiIcon name="chat" :size="18" /></template>
             Notify #payments-eng
           </MiButton>
-          <MiButton size="large" :loading="promoting" :disabled="shipped" @click="promote">
+          <MiButton size="large" :loading="promoting" :disabled="shipped" class="mi:-order-1 mi:@[640px]:order-0" @click="promote">
             <template v-if="!promoting" #leading><MiIcon :svg="shipped ? icons.checkCircle : icons.rocket" :size="18" /></template>
             {{ shipped ? 'Live on production' : promoting ? 'Promoting…' : 'Promote to production' }}
           </MiButton>
@@ -71,30 +71,30 @@
       </footer>
 
       <!-- Danger zone: the destructive action asks for a deliberate press-and-hold. -->
-      <div class="rb__danger mi:grid mi:gap-3 mi:py-3.5 mi:px-4 mi:rounded-lg mi:[border:1px_dashed_color-mix(in_srgb,_var(--mi-red)_45%,_transparent)] mi:[background:color-mix(in_srgb,_var(--mi-red)_5%,_transparent)] mi:@[640px]:grid-cols-[minmax(0,_1fr)_auto] mi:@[640px]:items-center">
-        <div class="rb__danger-text mi:grid mi:gap-0.5">
+      <div class="mi:grid mi:gap-3 mi:py-3.5 mi:px-4 mi:rounded-lg mi:[border:1px_dashed_color-mix(in_srgb,_var(--mi-red)_45%,_transparent)] mi:[background:color-mix(in_srgb,_var(--mi-red)_5%,_transparent)] mi:@[640px]:grid-cols-[minmax(0,_1fr)_auto] mi:@[640px]:items-center">
+        <div class="mi:grid mi:gap-0.5">
           <MiText as="h3" variant="headline">Roll back to v2.13.4</MiText>
           <MiText variant="footnote" tone="label2">Restores the previous image on all 6 pods. Database migrations stay applied.</MiText>
         </div>
-        <div class="rb__danger-actions mi:flex mi:flex-wrap mi:gap-2">
+        <div class="mi:flex mi:flex-wrap mi:gap-2">
           <MiButton variant="destructive" size="small" disabled>Delete release</MiButton>
           <div
-            class="rb__hold mi:inline-flex mi:touch-none" :class="{ 'is-holding': holding }"
+            class="mi:select-none mi:[-webkit-user-select:none] mi:inline-flex mi:touch-none""
             @pointerdown="startHold" @pointerup="cancelHold" @pointerleave="cancelHold" @pointercancel="cancelHold"
             @keydown.space.prevent="startHold" @keydown.enter.prevent="startHold" @keyup.space="cancelHold" @keyup.enter="cancelHold"
           >
             <MiButton variant="destructive" soft size="small" :disabled="!shipped" :aria-describedby="'rb-hold-hint'">
               <template #leading><MiIcon :svg="icons.undo" :size="16" /></template>
-              <span class="rb__hold-label mi:relative mi:inline-block">Hold to roll back<span class="rb__hold-fill mi:absolute mi:left-0 mi:right-0 mi:bottom-[-3px] mi:h-0.5 mi:rounded-[1px] mi:[background:currentColor] mi:transform-[scaleX(0)] mi:origin-left mi:[transition:transform_180ms_var(--mi-ease)] mi:[.rb__hold.is-holding_&]:transform-[scaleX(1)] mi:[.rb__hold.is-holding_&]:[transition:transform_1500ms_linear]" aria-hidden="true" /></span>
+              <span class="mi:relative mi:inline-block">Hold to roll back<span class="mi:absolute mi:left-0 mi:right-0 mi:bottom-[-3px] mi:h-0.5 mi:rounded-[1px] mi:[background:currentColor] mi:origin-left" :class="holding ? 'mi:transform-[scaleX(1)] mi:[transition:transform_1500ms_linear]' : 'mi:transform-[scaleX(0)] mi:[transition:transform_180ms_var(--mi-ease)]'" aria-hidden="true" /></span>
             </MiButton>
           </div>
         </div>
-        <MiText id="rb-hold-hint" variant="caption" tone="label3" class="rb__hint mi:@[640px]:col-span-full">
+        <MiText id="rb-hold-hint" variant="caption" tone="label3" class="mi:-mt-1.5! mi:@[640px]:col-span-full">
           {{ shipped ? 'Press and hold for 1.5 seconds.' : 'Available once the release is live.' }}
         </MiText>
       </div>
 
-      <p class="rb__sr mi:absolute mi:w-px mi:h-px mi:-m-px mi:overflow-hidden mi:[clip:rect(0_0_0_0)] mi:whitespace-nowrap" aria-live="polite">{{ announce }}</p>
+      <p class="mi:absolute mi:w-px mi:h-px mi:-m-px mi:overflow-hidden mi:[clip:rect(0_0_0_0)] mi:whitespace-nowrap" aria-live="polite">{{ announce }}</p>
     </section>
   </div>
 </template>
@@ -171,12 +171,3 @@ function onMore(item: { label?: string }) {
 onBeforeUnmount(() => { clearTimeout(promoteTimer); clearTimeout(holdTimer) })
 </script>
 
-<style scoped>
-.rb__loud > :last-child { order: -1; }
-.rb__hint { margin-top: -6px; }
-.rb__hold { user-select: none; -webkit-user-select: none; }
-
-@container (min-width: 640px) {
-  .rb__loud > :last-child { order: 0; }
-}
-</style>

@@ -1,6 +1,6 @@
 <template>
-  <section class="rc mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="rc-title">
-    <header class="rc__head mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
+  <section class="mi:@container mi:grid mi:content-start mi:gap-4 mi:font-mi mi:text-label" aria-labelledby="rc-title">
+    <header class="mi:flex mi:flex-wrap mi:[align-items:flex-end] mi:justify-between mi:gap-3">
       <div>
         <MiText id="rc-title" variant="title3" as="h2" weight="semibold">Release 4.2 checklist</MiText>
         <MiText variant="footnote" tone="label2" tabular aria-live="polite">{{ doneCount }} of {{ total }} done · store submission Thursday</MiText>
@@ -9,18 +9,18 @@
     </header>
 
     <!-- One segment per group, each filling with its own progress: the release reads like a fuel gauge. -->
-    <div class="rc__gauge mi:flex mi:gap-1 mi:h-2" role="img" :aria-label="`${doneCount} of ${total} tasks done`">
-      <span v-for="g in groups" :key="g.id" class="rc__gauge-seg mi:basis-0 mi:rounded-[4px] mi:bg-fill3 mi:overflow-hidden" :style="{ flexGrow: g.items.length }">
-        <i class="mi:[.rc__gauge-seg_&]:block mi:[.rc__gauge-seg_&]:h-full mi:[.rc__gauge-seg_&]:bg-p mi:[.rc__gauge-seg_&]:origin-left mi:[.rc__gauge-seg_&]:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleX(${ratio(g)})` }" :class="{ 'is-full': ratio(g) === 1 }" />
+    <div class="mi:flex mi:gap-1 mi:h-2" role="img" :aria-label="`${doneCount} of ${total} tasks done`">
+      <span v-for="g in groups" :key="g.id" class="mi:basis-0 mi:rounded-[4px] mi:bg-fill3 mi:overflow-hidden" :style="{ flexGrow: g.items.length }">
+        <i class="mi:block mi:h-full mi:origin-left mi:[transition:transform_var(--mi-dur-4)_var(--mi-spring)]" :style="{ transform: `scaleX(${ratio(g)})` }" :class="ratio(g) === 1 ? 'mi:bg-green' : 'mi:bg-p'" />
       </span>
     </div>
 
-    <div class="rc__groups mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:gap-y-1 mi:gap-x-4 mi:items-start mi:@[760px]:grid-cols-2">
-      <MiList v-for="g in visibleGroups" :key="g.id" class="rc__group" :label="g.title">
+    <div class="mi:grid mi:grid-cols-[minmax(0,_1fr)] mi:gap-y-1 mi:gap-x-4 mi:items-start mi:@[760px]:grid-cols-2">
+      <MiList v-for="g in visibleGroups" :key="g.id" class="mi:min-w-0!" :label="g.title">
         <template #header>
-          <span class="rc__group-head mi:flex mi:items-center mi:justify-between mi:gap-2 mi:w-full">
+          <span class="mi:flex mi:items-center mi:justify-between mi:gap-2 mi:w-full">
             <span>{{ g.title }}</span>
-            <span class="rc__count mi:py-px mi:px-[7px] mi:rounded-[99px] mi:tabular-nums mi:tracking-[0] mi:bg-fill2 mi:[&.is-full]:text-green-t mi:[&.is-full]:[background:color-mix(in_srgb,_var(--mi-green)_14%,_transparent)]" :class="{ 'is-full': ratio(g) === 1 }">{{ g.items.filter(i => i.done).length }}/{{ g.items.length }}</span>
+            <span class="mi:py-px mi:px-[7px] mi:rounded-[99px] mi:tabular-nums mi:tracking-[0] " :class="ratio(g) === 1 ? 'mi:text-green-t mi:[background:color-mix(in_srgb,_var(--mi-green)_14%,_transparent)]' : 'mi:bg-fill2'">{{ g.items.filter(i => i.done).length }}/{{ g.items.length }}</span>
           </span>
         </template>
 
@@ -32,15 +32,15 @@
           <template #leading><MiIcon name="check" :size="16" /></template>
         </MiListItem>
         <template v-else>
-          <MiListItem v-for="item in rows(g)" :key="item.id" class="rc__row" :class="{ 'is-done': item.done }">
-            <template #title><span class="rc__task mi:[.is-done_&]:text-label2">{{ item.title }}</span></template>
+          <MiListItem v-for="item in rows(g)" :key="item.id">
+            <template #title><span :class="item.done ? 'mi:text-label2 mi:line-through mi:decoration-label3' : ''">{{ item.title }}</span></template>
             <template #leading>
-              <MiCheckbox v-model="item.done"><span class="rc__sr mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">{{ item.title }}</span></MiCheckbox>
+              <MiCheckbox v-model="item.done"><span class="mi:absolute mi:w-px mi:h-px mi:overflow-hidden mi:[clip-path:inset(50%)] mi:whitespace-nowrap">{{ item.title }}</span></MiCheckbox>
             </template>
             <template #subtitle>
-              <span class="rc__meta mi:inline-flex mi:flex-wrap mi:gap-1">
+              <span class="mi:inline-flex mi:flex-wrap mi:gap-1">
                 <span>{{ item.owner === ME ? 'You' : item.owner }}</span>
-                <span v-if="!item.done" :class="{ 'rc__late mi:text-orange-t mi:font-semibold': item.due === 'Today' }">· {{ item.due }}</span>
+                <span v-if="!item.done" :class="item.due === 'Today' ? 'mi:text-orange-t mi:font-semibold' : ''">· {{ item.due }}</span>
               </span>
             </template>
             <template #trailing>
@@ -104,9 +104,3 @@ const visibleGroups = computed(() => groups.filter(g => (scope.value === 'all' ?
 const opened = ref(new Set<string>())
 const reopen = (id: string) => { opened.value = new Set(opened.value).add(id) }
 </script>
-
-<style scoped>
-.rc__gauge-seg i.is-full { background: var(--mi-green); }
-.rc__group { min-width: 0; }
-.is-done .rc__task { text-decoration: line-through; text-decoration-color: var(--mi-label3); }
-</style>
